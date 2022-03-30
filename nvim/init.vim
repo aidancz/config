@@ -25,6 +25,8 @@ set list
 set listchars=tab:\|\ ,trail:▫
 "set conceallevel=0
 
+set scrolloff=4
+
 
 
 " ===
@@ -37,7 +39,7 @@ let mapleader=" "
 noremap <LEADER>vi :e $HOME/.config/nvim/init.vim<CR>
 
 " Press <Space> twice to jump to the next '<-->' and edit it
-noremap <LEADER><LEADER> <Esc>/<--><CR>:noh<CR>c4l
+noremap <LEADER><LEADER> <Esc>/<--><CR>:noh<CR>"_c4l
 
 " Search
 noremap <LEADER><CR> :noh<CR>
@@ -66,6 +68,9 @@ noremap <C-n> zz
 noremap <C-h> H
 noremap <C-l> L
 noremap <C-m> M
+
+noremap <A-j> 5<C-e>
+noremap <A-k> 5<C-y>
 
 
 
