@@ -132,7 +132,7 @@ Plug 'vimwiki/vimwiki'
 
 " Markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown' }
-Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
+"Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
 Plug 'dhruvasagar/vim-table-mode'
 
 call plug#end()
@@ -173,21 +173,25 @@ noremap <C-Space> :History<CR>
 " ===
 " === markdown-preview.nvim
 " ===
+function! g:Open_browser(url)
+	silent exec "!google-chrome-stable --new-window " . a:url . " &"
+endfunction
+
 let g:mkdp_auto_start = 0
 let g:mkdp_auto_close = 1
 let g:mkdp_refresh_slow = 0
 let g:mkdp_command_for_global = 0
 let g:mkdp_open_to_the_world = 0
 let g:mkdp_open_ip = ''
-let g:mkdp_browser = 'google-chrome-stable --new-window'
+let g:mkdp_browser = ''
 let g:mkdp_echo_preview_url = 0
-let g:mkdp_browserfunc = ''
+let g:mkdp_browserfunc = 'g:Open_browser'
 let g:mkdp_preview_options = {
-    \ 'mkit': {},
+    \ 'mkit': {'breaks': 'true'},
     \ 'katex': {},
     \ 'uml': {},
     \ 'maid': {},
-    \ 'disable_sync_scroll': 0,
+    \ 'disable_sync_scroll': 1,
     \ 'sync_scroll_type': 'middle',
     \ 'hide_yaml_meta': 1,
     \ 'sequence_diagrams': {},
@@ -195,7 +199,7 @@ let g:mkdp_preview_options = {
     \ 'content_editable': v:false,
     \ 'disable_filename': 1
     \ }
-let g:mkdp_markdown_css = '~/.config/nvim/pie.css'
+let g:mkdp_markdown_css = ''
 let g:mkdp_highlight_css = ''
 let g:mkdp_port = ''
 let g:mkdp_page_title = '${name}'
