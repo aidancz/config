@@ -65,6 +65,9 @@ noremap L $
 noremap <C-j> 5<C-e>
 noremap <C-k> 5<C-y>
 
+noremap <A-j> <C-d>
+noremap <A-k> <C-u>
+
 
 
 " ===
