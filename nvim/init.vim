@@ -25,7 +25,7 @@ set list
 set listchars=tab:\|\ ,trail:▫
 "set conceallevel=0
 
-set scrolloff=4
+set scrolloff=2
 
 
 
@@ -62,15 +62,8 @@ noremap K 5k
 noremap H 0
 noremap L $
 
-noremap <C-j> zt
-noremap <C-k> zb
-noremap <C-n> zz
-noremap <C-h> H
-noremap <C-l> L
-noremap <C-m> M
-
-noremap <A-j> 5<C-e>
-noremap <A-k> 5<C-y>
+noremap <C-j> 5<C-e>
+noremap <C-k> 5<C-y>
 
 
 
