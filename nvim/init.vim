@@ -41,6 +41,10 @@ noremap <LEADER>vi :e $HOME/.config/nvim/init.vim<CR>
 " Press <Space> twice to jump to the next '<-->' and edit it
 noremap <LEADER><LEADER> <Esc>/<--><CR>:noh<CR>"_c4l
 
+" Insert newline without entering insert mode
+nnoremap <CR> o<Esc>
+nnoremap <S-CR> O<Esc>
+
 " Search
 noremap <LEADER><CR> :noh<CR>
 
