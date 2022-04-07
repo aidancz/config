@@ -1,8 +1,9 @@
 source ~/Aidan/FD/config/zsh/env.zsh
+
 source $AIDAN_CONFIG/zsh/alias.zsh
-source $AIDAN_CONFIG/zsh/plg.zsh
 source $AIDAN_CONFIG/zsh/vi.zsh
 source $AIDAN_CONFIG/zsh/fzf.zsh
+
 source $AIDAN_CONFIG/zsh/completion.zsh
 source $AIDAN_CONFIG/zsh/key-bindings.zsh
 
