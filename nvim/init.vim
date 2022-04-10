@@ -209,9 +209,9 @@ let g:mkdp_filetypes = ['markdown']
 " ===
 " === vim-instant-markdown
 " ===
-filetype plugin on
-let g:instant_markdown_autostart = 0
-let g:instant_markdown_browser = "google-chrome-stable --new-window"
+"filetype plugin on
+"let g:instant_markdown_autostart = 0
+"let g:instant_markdown_browser = "google-chrome-stable --new-window"
 
 
 
