@@ -1,3 +1,5 @@
+bindkey '^o' edit-command-line
+
 bindkey -v
 
 #bindkey -M vicmd "j" down-line-or-history
