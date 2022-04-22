@@ -71,6 +71,8 @@ noremap <C-k> 5<C-y>
 noremap <C-h> <C-u>
 noremap <C-l> <C-d>
 
+inoremap <C-l> <ESC>A
+
 
 
 " ===
