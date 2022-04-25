@@ -1,22 +1,16 @@
 #!/bin/bash
 
 export AIDAN=$HOME/Aidan
-export AIDAN_CONFIG=$AIDAN/FD/config
-
-if [[ ! -d $HOME/.zim ]]
-then
-	curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh
-	#https://github.com/zimfw/zimfw
-fi
+export AIDAN_FD=$AIDAN/FD
 
 rm -rf ~/.zshrc
-ln -s $AIDAN_CONFIG/zsh/zshrc ~/.zshrc
+ln -s $AIDAN_FD/config/zsh/zshrc ~/.zshrc
 
 rm -rf ~/.zimrc
-ln -s $AIDAN_CONFIG/zsh/zimrc ~/.zimrc
+ln -s $AIDAN_FD/config/zsh/zimrc ~/.zimrc
 
 rm -rf ~/.config/nvim
-ln -s $AIDAN_CONFIG/nvim ~/.config/nvim
+ln -s $AIDAN_FD/config/nvim ~/.config/nvim
 
 rm -rf ~/.config/ranger
-ln -s $AIDAN_CONFIG/ranger ~/.config/ranger
+ln -s $AIDAN_FD/config/ranger ~/.config/ranger
