@@ -1,11 +1,11 @@
 source ~/Aidan/FD/config/zsh/env.zsh
 
-source $AIDAN_CONFIG/zsh/alias.zsh
-source $AIDAN_CONFIG/zsh/vi.zsh
-source $AIDAN_CONFIG/zsh/fzf.zsh
+source $AIDAN_FD/config/zsh/alias.zsh
+source $AIDAN_FD/config/zsh/vi.zsh
+source $AIDAN_FD/config/zsh/fzf.zsh
 
-source $AIDAN_CONFIG/zsh/completion.zsh
-source $AIDAN_CONFIG/zsh/key-bindings.zsh
+source $AIDAN_FD/config/zsh/completion.zsh
+source $AIDAN_FD/config/zsh/key-bindings.zsh
 
 
 
@@ -139,6 +139,3 @@ for key ('k') bindkey -M vicmd ${key} history-substring-search-up
 for key ('j') bindkey -M vicmd ${key} history-substring-search-down
 unset key
 # }}} End configuration added by Zim install
-
-
-
