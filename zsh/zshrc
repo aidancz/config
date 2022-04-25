@@ -7,6 +7,9 @@ source $AIDAN_FD/config/zsh/fzf.zsh
 source $AIDAN_FD/config/zsh/completion.zsh
 source $AIDAN_FD/config/zsh/key-bindings.zsh
 
+setopt auto_cd
+cdpath=($HOME $AIDAN $AIDAN/doc $AIDAN/AC $AIDAN/FD)
+
 
 
 # Start configuration added by Zim install {{{
