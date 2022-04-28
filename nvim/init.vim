@@ -78,10 +78,11 @@ inoremap <C-l> <ESC>A
 " ===
 " === Window Management
 " ===
-map <LEADER>J :set sb<CR>:sp<CR>
-map <LEADER>K :set nosb<CR>:sp<CR>
-map <LEADER>H :set nospr<CR>:vs<CR>
-map <LEADER>L :set spr<CR>:vs<CR>
+noremap s <nop>
+map sj :set sb<CR>:sp<CR>
+map sk :set nosb<CR>:sp<CR>
+map sh :set nospr<CR>:vs<CR>
+map sl :set spr<CR>:vs<CR>
 
 map <LEADER>j <C-w>j
 map <LEADER>k <C-w>k
@@ -227,7 +228,7 @@ noremap <LEADER>tm :TableModeToggle<CR>
 " ===
 " === vimwiki
 " ===
-let g:vimwiki_list = [{'path': '$AIDAN/Vw',
+let g:vimwiki_list = [{'path': '$AIDAN_AC/Vw',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
 
 let g:vimwiki_global_ext = 0
