@@ -154,7 +154,7 @@ call plug#end()
 " ===
 " === coc
 " ===
-let g:coc_global_extensions = ['coc-marketplace', 'coc-vimlsp']
+let g:coc_global_extensions = ['coc-marketplace', 'coc-vimlsp', 'coc-json']
 
 set hidden
 set updatetime=100
@@ -170,10 +170,9 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr> <c-o> coc#refresh()
 
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
