@@ -123,6 +123,11 @@ noremap M :MarkdownPreviewToggle<CR>
 " ===
 call plug#begin(stdpath('data') . '/plugged')
 
+
+
+" COC
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 " Color
 Plug 'overcache/NeoSolarized'
 
@@ -137,6 +142,8 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for':
 "Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
 Plug 'dhruvasagar/vim-table-mode'
 
+
+
 call plug#end()
 
 
@@ -144,6 +151,13 @@ call plug#end()
 " ===========================================================
 " ==================== Vim-Plug Settings ====================
 " ===========================================================
+" ===
+" === coc
+" ===
+let g:coc_global_extensions = ['coc-marketplace', 'coc-vimlsp']
+
+
+
 " ===
 " === NeoSolarized
 " ===
