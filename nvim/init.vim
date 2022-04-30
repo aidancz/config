@@ -283,4 +283,7 @@ let g:vimwiki_list = [{'path': '$AIDAN_AC/Vw',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
 
 let g:vimwiki_global_ext = 0
-"let g:vimwiki_conceallevel = 0
+let g:vimwiki_conceallevel = 0
+
+nnoremap <LEADER>wl <Plug>VimwikiFollowLink
+nnoremap <LEADER>wj <Plug>VimwikiSplitLink
