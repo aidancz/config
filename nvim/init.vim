@@ -27,6 +27,9 @@ set listchars=tab:\|\ ,trail:▫
 
 set scrolloff=2
 
+set notimeout
+set ttimeoutlen=0
+
 
 
 " ===
