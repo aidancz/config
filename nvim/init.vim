@@ -55,8 +55,8 @@ noremap <LEADER><CR> :noh<CR>
 vnoremap Y "+y
 
 " Undo
-nnoremap \ :e!<CR>
-nnoremap U :ea 1f<CR>
+nnoremap U :e!<CR>
+nnoremap \ :ea 1f<CR>
 
 " Save & Quit
 map S :w<CR>
