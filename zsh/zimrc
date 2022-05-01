@@ -3,7 +3,7 @@ zmodule input
 
 zmodule git
 zmodule termtitle
-zmodule utility
+#zmodule utility
 
 zmodule duration-info
 zmodule git-info
