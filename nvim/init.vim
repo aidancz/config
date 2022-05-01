@@ -54,6 +54,10 @@ noremap <LEADER><CR> :noh<CR>
 " Yank & Put
 vnoremap Y "+y
 
+" Undo
+nnoremap \ :e!<CR>
+nnoremap U :ea 1f<CR>
+
 " Save & Quit
 map S :w<CR>
 map q :q<CR>
