@@ -151,6 +151,9 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for':
 "Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
 Plug 'dhruvasagar/vim-table-mode'
 
+" Editor Enhancement
+Plug 'jiangmiao/auto-pairs'
+
 
 
 call plug#end()
