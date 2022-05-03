@@ -53,6 +53,8 @@ noremap <LEADER><CR> :noh<CR>
 
 " Yank & Put
 vnoremap Y "+y
+nnoremap <A-p> "+p
+nnoremap <A-P> "+P
 
 " Undo
 nnoremap M :e!<CR>
