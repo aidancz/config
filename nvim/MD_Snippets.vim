@@ -17,5 +17,4 @@ autocmd Filetype markdown inoremap <buffer> ,p ![](<-->) <--><Esc>F[a
 autocmd Filetype markdown inoremap <buffer> ,h ---<Enter><Enter>
 
 autocmd Filetype markdown inoremap <buffer> ,f <Esc>/<--><CR>:noh<CR>"_c4l
-autocmd Filetype markdown inoremap <buffer> ,n <Esc>/ <--><CR>:noh<CR>"_c5l<CR>
-"Newline
+autocmd Filetype markdown inoremap <buffer> ,x <Esc>/ <--><CR>:noh<CR>"_c5l
