@@ -55,8 +55,8 @@ noremap <LEADER><CR> :noh<CR>
 vnoremap Y "+y
 
 " Undo
-nnoremap U :e!<CR>
-nnoremap \ :ea 1f<CR>
+nnoremap M :e!<CR>
+nnoremap U :ea 1f<CR>
 
 " Save & Quit
 map S :w<CR>
@@ -75,8 +75,8 @@ noremap L $
 
 noremap <C-j> 5<C-e>
 noremap <C-k> 5<C-y>
-noremap <C-h> <C-u>
-noremap <C-l> <C-d>
+"noremap <C-h> <C-u>
+"noremap <C-l> <C-d>
 
 inoremap <C-l> <ESC>A
 
@@ -107,8 +107,8 @@ map <right> :vert res +5<CR>
 " === Markdown Settings
 " ===
 source ~/.config/nvim/MD_Snippets.vim
-noremap M :MarkdownPreviewToggle<CR>
-"noremap M :InstantMarkdownPreview<CR>
+noremap <LEADER>m :MarkdownPreviewToggle<CR>
+"noremap <LEADER>m :InstantMarkdownPreview<CR>
 
 
 
