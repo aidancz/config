@@ -7,6 +7,8 @@ alias gccs="git config credential.helper store"
 
 alias ls="ls -A -v --group-directories-first --color=auto"
 alias ll="ls -l"
+alias le="tree"
+alias ld="tree -d"
 
 alias chmod="chmod --preserve-root -v"
 alias chown="chown --preserve-root -v"
