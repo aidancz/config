@@ -10,7 +10,7 @@ source $AIDAN_FD/config/zsh/completion.zsh
 source $AIDAN_FD/config/zsh/key-bindings.zsh
 
 setopt auto_cd
-cdpath=($HOME $AIDAN $AIDAN/- $AIDAN_AC $AIDAN_ED $AIDAN_FD)
+cdpath=($HOME $AIDAN $AIDAN/_ $AIDAN_AC $AIDAN_ED $AIDAN_FD)
 setopt HIST_IGNORE_ALL_DUPS
 
 WORDCHARS=${WORDCHARS//[\/]}
