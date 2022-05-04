@@ -2,7 +2,7 @@ alias c="clear"
 alias q="exit"
 
 alias ra="ranger"
-alias now="nvim $AIDAN_AC/Vw/index.md"
+alias wi="nvim $AIDAN_KL/Wi/index.md"
 alias gccs="git config credential.helper store"
 
 alias ls="ls -A -v --group-directories-first --color=auto"
