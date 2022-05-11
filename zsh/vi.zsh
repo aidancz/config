@@ -1,4 +1,4 @@
-bindkey '^o' edit-command-line
+bindkey '^f' edit-command-line
 
 bindkey -v
 
