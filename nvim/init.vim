@@ -292,10 +292,9 @@ noremap <LEADER>tm :TableModeToggle<CR>
 " ===
 " === vimwiki
 " ===
-let g:vimwiki_list = [{'path': '$AIDAN_KL/Wi', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{'path': '$AIDAN_KL/Ww', 'syntax': 'markdown', 'ext': '.md'}]
 let g:vimwiki_global_ext = 0
 let g:vimwiki_conceallevel = 0
 
-nnoremap <LEADER>wi <Plug>VimwikiIndex
-nnoremap \ <Plug>VimwikiFollowLink
-nnoremap <LEADER>wj <Plug>VimwikiSplitLink
+nmap \ <Plug>VimwikiFollowLink
+nmap <LEADER>wj <Plug>VimwikiSplitLink
