@@ -2,8 +2,8 @@ alias c="clear"
 alias q="exit"
 
 alias ra="ranger"
-alias ww="nvim $AIDAN_KL/Ww/index.md"
-alias wi="nvim $AIDAN_KL/Ww/diary/diary.md"
+alias di="nvim $AIDAN_KL/Di/diary.md"
+alias wi="nvim $AIDAN_KL/Wi/index.md"
 alias gccs="git config credential.helper store"
 
 alias ls="ls -A -v --group-directories-first --color=auto"

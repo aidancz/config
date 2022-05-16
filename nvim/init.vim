@@ -292,7 +292,11 @@ noremap <LEADER>tm :TableModeToggle<CR>
 " ===
 " === vimwiki
 " ===
-let g:vimwiki_list = [{'path': '$AIDAN_KL/Ww', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [
+\ {'name': 'Di', 'path': '$AIDAN_KL/Di', 'syntax': 'markdown', 'ext': '.md', 'diary_rel_path': '', 'auto_diary_index': 1},
+\ {'name': 'Wi', 'path': '$AIDAN_KL/Wi', 'syntax': 'markdown', 'ext': '.md'}
+\ ]
+
 let g:vimwiki_global_ext = 0
 let g:vimwiki_conceallevel = 0
 
