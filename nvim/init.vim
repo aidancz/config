@@ -147,8 +147,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'vimwiki/vimwiki'
 
 " Markdown
-Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown' }
-"Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
+"Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown' }
+Plug 'wjaelee/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown' }
 Plug 'dhruvasagar/vim-table-mode'
 
 " Editor Enhancement
@@ -270,15 +270,6 @@ let g:mkdp_highlight_css = ''
 let g:mkdp_port = ''
 let g:mkdp_page_title = '${name}'
 let g:mkdp_filetypes = ['markdown']
-
-
-
-" ===
-" === vim-instant-markdown
-" ===
-"filetype plugin on
-"let g:instant_markdown_autostart = 0
-"let g:instant_markdown_browser = "google-chrome-stable --new-window"
 
 
 
