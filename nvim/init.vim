@@ -1,12 +1,12 @@
 " ===
-" === System
+" === system
 " ===
 "set clipboard=unnamedplus
 
 
 
 " ===
-" === Editor behavior
+" === editor behavior
 " ===
 set ignorecase
 set smartcase
@@ -33,34 +33,34 @@ set ttimeoutlen=0
 
 
 " ===
-" === Basic Mappings
+" === basic mappings
 " ===
-" Set <LEADER> as <Space>
+" set <LEADER> as <Space>
 let mapleader=" "
 
-" Open init.vim anytime
+" open init.vim anytime
 noremap <LEADER>vi :e $HOME/.config/nvim/init.vim<CR>
 
-" Press <Space> twice to jump to the next '<-->' and edit it
+" press <Space> twice to jump to the next '<-->' and edit it
 noremap <LEADER><LEADER> <Esc>/<--><CR>:noh<CR>"_c4l
 
-" Insert newline without entering insert mode
+" insert newline without entering insert mode
 nnoremap <CR> o<Esc>
 nnoremap <S-CR> O<Esc>
 
-" Search
+" search
 noremap <LEADER><CR> :noh<CR>
 
-" Yank & Put
+" yank & put
 vnoremap Y "+y
 nnoremap <A-p> "+p
 nnoremap <A-P> "+P
 
-" Undo
+" undo
 nnoremap M :e!<CR>
 nnoremap U :ea 1f<CR>
 
-" Save & Quit
+" save & quit
 map S :w<CR>
 map q :q<CR>
 map Q :qa!<CR>
@@ -68,7 +68,7 @@ map Q :qa!<CR>
 
 
 " ===
-" === Cursor Movement
+" === cursor movement
 " ===
 noremap J 5j
 noremap K 5k
@@ -85,7 +85,7 @@ inoremap <C-l> <ESC>A
 
 
 " ===
-" === Window Management
+" === window management
 " ===
 noremap s <nop>
 map sj :set sb<CR>:sp<CR>
@@ -106,7 +106,7 @@ map <right> :vert res +5<CR>
 
 
 " ===
-" === Markdown Settings
+" === markdown settings
 " ===
 source ~/.config/nvim/MD_Snippets.vim
 noremap <LEADER>m :MarkdownPreviewToggle<CR>
@@ -115,7 +115,7 @@ noremap <LEADER>m :MarkdownPreviewToggle<CR>
 
 
 " ===
-" === Compile Function
+" === compile function
 " ===
 "noremap <LEADER>l :call CompileRunGcc()<CR>
 "func! CompileRunGcc()
@@ -128,30 +128,30 @@ noremap <LEADER>m :MarkdownPreviewToggle<CR>
 
 
 " ===
-" === Install Plugins with Vim-Plug
+" === install plugins with vim-plug
 " ===
 call plug#begin(stdpath('data') . '/plugged')
 
 
 
-" COC
+" coc
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-" Color
+" color
 Plug 'overcache/NeoSolarized'
 
-" FileNavigation
+" fileNavigation
 Plug 'preservim/nerdtree'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'vimwiki/vimwiki'
 
-" Markdown
+" markdown
 "Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown' }
 Plug 'wjaelee/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown' }
 Plug 'dhruvasagar/vim-table-mode'
 
-" Editor Enhancement
+" editor enhancement
 Plug 'jiangmiao/auto-pairs'
 "Plug 'rlue/vim-barbaric'
 
@@ -162,7 +162,7 @@ call plug#end()
 
 
 " ===========================================================
-" ==================== Vim-Plug Settings ====================
+" ==================== vim-plug settings ====================
 " ===========================================================
 " ===
 " === coc
@@ -237,7 +237,7 @@ noremap <C-Space> :History<CR>
 
 
 " ===
-" === markdown-preview.nvim
+" === markdown-preview
 " ===
 function! g:Open_browser(url)
 	silent exec "!google-chrome-stable --new-window " . a:url . " &"
