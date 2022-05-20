@@ -138,7 +138,7 @@ call plug#begin(stdpath('data') . '/plugged')
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " color
-Plug 'overcache/NeoSolarized'
+Plug 'lifepillar/vim-solarized8'
 
 " fileNavigation
 Plug 'preservim/nerdtree'
@@ -209,21 +209,22 @@ endfunction
 
 
 " ===
-" === NeoSolarized
+" === vim-solarized8
 " ===
 set termguicolors
-"set background=dark
 set background=light
 
-let g:neosolarized_contrast = "normal"
-let g:neosolarized_visibility = "normal"
-let g:neosolarized_vertSplitBgTrans = 1
-let g:neosolarized_bold = 1
-let g:neosolarized_underline = 1
-let g:neosolarized_italic = 0
-let g:neosolarized_termBoldAsBright = 1
+let g:solarized_visibility = "normal"
+let g:solarized_diffmode = "normal"
+let g:solarized_termtrans = 0
 
-colorscheme NeoSolarized
+let g:solarized_statusline = "normal"
+let g:solarized_italics = 0
+let g:solarized_old_cursor_style = 0
+let g:solarized_use16 = 0
+let g:solarized_extra_hi_groups = 0
+
+colorscheme solarized8
 
 
 
@@ -283,6 +284,9 @@ noremap <LEADER>tm :TableModeToggle<CR>
 " ===
 " === vimwiki
 " ===
+au filetype vimwiki silent! iunmap <buffer> <Tab>
+" https://github.com/vimwiki/vimwiki/issues/845
+
 let g:vimwiki_list = [
 \ {'name': 'Di', 'path': '$AIDAN_KL/Di', 'syntax': 'markdown', 'ext': '.md', 'diary_rel_path': '', 'auto_diary_index': 1},
 \ {'name': 'Wi', 'path': '$AIDAN_KL/Wi', 'syntax': 'markdown', 'ext': '.md'}
