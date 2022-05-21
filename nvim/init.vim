@@ -11,19 +11,22 @@
 set ignorecase
 set smartcase
 
+set noexpandtab
+set tabstop=4      " ? column of whitespace \t worth
+set nosmarttab
+set softtabstop=0  " ? column of whitespace <Tab>/<Bs> worth
+set shiftwidth=4   " ? column of whitespace indentation worth
+" https://arisweedler.medium.com/tab-settings-in-vim-1ea0863c5990
+
 set autoindent
 set copyindent
-"set preserveindent
-set tabstop=8
-set softtabstop=0
-set shiftwidth=8
-set noexpandtab
+set preserveindent
 
 "set relativenumber
 "set cursorline
 set list
 set listchars=tab:\|\ ,trail:▫
-"set conceallevel=0
+set conceallevel=0
 
 set scrolloff=2
 
