@@ -21,6 +21,10 @@ set shiftwidth=4   " ? column of whitespace indentation worth
 set autoindent
 set copyindent
 set preserveindent
+set nosmartindent
+
+au BufEnter * set fo-=c fo-=r fo-=o
+" https://vi.stackexchange.com/questions/1983/how-can-i-get-vim-to-stop-putting-comments-in-front-of-new-lines
 
 "set relativenumber
 "set cursorline
