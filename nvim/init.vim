@@ -220,6 +220,7 @@ endfunction
 " ===
 set termguicolors
 set background=light
+"set background=dark
 
 let g:solarized_visibility = "normal"
 let g:solarized_diffmode = "normal"
