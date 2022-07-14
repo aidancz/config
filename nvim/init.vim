@@ -87,6 +87,9 @@ noremap <C-k> 5<C-y>
 "noremap <C-h> <C-u>
 "noremap <C-l> <C-d>
 
+inoremap <C-j> <ESC>o
+inoremap <C-k> <ESC>O
+inoremap <C-h> <ESC>I " not working, conflicts with auto-pairs
 inoremap <C-l> <ESC>A
 
 
