@@ -157,8 +157,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'vimwiki/vimwiki'
 
 " markdown
-"Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown' }
-Plug 'wjaelee/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown' }
+Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown' }
+"Plug 'wjaelee/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown' }
 Plug 'dhruvasagar/vim-table-mode'
 
 " editor enhancement
