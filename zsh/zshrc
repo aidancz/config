@@ -1,16 +1,16 @@
-source ~/Aidan/FD/config/zsh/env.zsh
+source ~/a_sr/config/zsh/env.zsh
 
-source $AIDAN_FD/config/zsh/zim.zsh
+source $a_sr/config/zsh/zim.zsh
 
-source $AIDAN_FD/config/zsh/alias.zsh
-source $AIDAN_FD/config/zsh/vi.zsh
-source $AIDAN_FD/config/zsh/fzf.zsh
+source $a_sr/config/zsh/alias.zsh
+source $a_sr/config/zsh/vi.zsh
+source $a_sr/config/zsh/fzf.zsh
 
-source $AIDAN_FD/config/zsh/completion.zsh
-source $AIDAN_FD/config/zsh/key-bindings.zsh
+source $a_sr/config/zsh/completion.zsh
+source $a_sr/config/zsh/key-bindings.zsh
 
 setopt auto_cd
-cdpath=($HOME $AIDAN $AIDAN/_ $AIDAN_AC $AIDAN_DK $AIDAN_ED $AIDAN_FD $AIDAN_GA $AIDAN_GO $AIDAN_KL $AIDAN_LM $AIDAN_SD)
+cdpath=($HOME $a $a_co $a_cs $a_io $a_ll)
 setopt HIST_IGNORE_ALL_DUPS
 
 WORDCHARS=${WORDCHARS//[\/]}

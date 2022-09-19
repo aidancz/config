@@ -1,13 +1,9 @@
-export AIDAN=$HOME/Aidan
-export AIDAN_AC=$AIDAN/_/AC
-export AIDAN_DK=$AIDAN/_/DK
-export AIDAN_ED=$AIDAN/_/ED
-export AIDAN_KL=$AIDAN/_/KL
-export AIDAN_LM=$AIDAN/_/LM
-export AIDAN_SD=$AIDAN/_/SD
-export AIDAN_FD=$AIDAN/FD
-export AIDAN_GA=$AIDAN/GA
-export AIDAN_GO=$AIDAN/GO
+export a=$HOME/a
+export a_co=$a/co
+export a_cs=$a/cs
+export a_io=$a/io
+export a_ll=$a/ll
+export a_sr=$HOME/a_sr
 
 export http_proxy="http://127.0.0.1:8889/"
 export https_proxy=$http_proxy

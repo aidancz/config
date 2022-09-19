@@ -118,7 +118,7 @@ map <right> :vert res +5<CR>
 " ===
 " === markdown settings
 " ===
-source ~/.config/nvim/MD_Snippets.vim
+source ~/.config/nvim/md_snippets.vim
 noremap <LEADER>m :MarkdownPreviewToggle<CR>
 "noremap <LEADER>m :InstantMarkdownPreview<CR>
 
@@ -299,8 +299,8 @@ au filetype vimwiki silent! iunmap <buffer> <Tab>
 " https://github.com/vimwiki/vimwiki/issues/845
 
 let g:vimwiki_list = [
-\ {'name': 'Di', 'path': '$AIDAN_KL/Di', 'syntax': 'markdown', 'ext': '.md', 'diary_rel_path': '', 'auto_diary_index': 1},
-\ {'name': 'Wi', 'path': '$AIDAN_KL/Wi', 'syntax': 'markdown', 'ext': '.md'}
+\ {'name': 'dia', 'path': '$a_io/dia', 'syntax': 'markdown', 'ext': '.md', 'diary_rel_path': '', 'auto_diary_index': 1},
+\ {'name': 'wis', 'path': '$a_io/wis', 'syntax': 'markdown', 'ext': '.md'}
 \ ]
 
 let g:vimwiki_global_ext = 0
