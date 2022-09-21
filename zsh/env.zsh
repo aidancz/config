@@ -1,9 +1,9 @@
 export a=$HOME/a
-export a_co=$a/co
-export a_cs=$a/cs
-export a_io=$a/io
-export a_ll=$a/ll
 export a_sr=$HOME/a_sr
+for i in $(ls $a)
+do
+	export a_$i=$a/$i
+done
 
 export http_proxy="http://127.0.0.1:8889/"
 export https_proxy=$http_proxy

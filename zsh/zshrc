@@ -10,7 +10,17 @@ source $a_sr/config/zsh/completion.zsh
 source $a_sr/config/zsh/key-bindings.zsh
 
 setopt auto_cd
-cdpath=($HOME $a $a_co $a_cs $a_io $a_ll)
+cdpath=($HOME $a)
+a_xx=$(typeset +m 'a_*')
+#a_xx_dollar=$(awk '{print "$"$0}' <<< $a_xx)
+#a_xx_dollar_space=$(tr '\n' ' ' <<< $a_xx_dollar)
+for i in $(echo $a_xx)
+do
+	eval y='$'$i
+	cdpath+=($y)
+done
+# https://stackoverflow.com/questions/59008514/zsh-equivalent-of-bash-name-or-name
+# https://stackoverflow.com/questions/3862868/zsh-give-file-argument-without-creating-a-file-syntax
 setopt HIST_IGNORE_ALL_DUPS
 
 WORDCHARS=${WORDCHARS//[\/]}
