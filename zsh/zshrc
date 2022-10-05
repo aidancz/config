@@ -25,3 +25,8 @@ setopt HIST_IGNORE_ALL_DUPS
 
 WORDCHARS=${WORDCHARS//[\/]}
 # Remove path separator from WORDCHARS.
+
+#export PYENV_ROOT="$HOME/.pyenv"
+#command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+#eval "$(pyenv init -)"
+# pyenv init
