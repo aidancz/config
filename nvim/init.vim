@@ -253,6 +253,25 @@ noremap <C-Space> :History<CR>
 
 
 " ===
+" === vimwiki
+" ===
+au filetype vimwiki silent! iunmap <buffer> <Tab>
+" https://github.com/vimwiki/vimwiki/issues/845
+
+let g:vimwiki_list = [
+\ {'name': 'dia', 'path': '$a_io/dia', 'syntax': 'markdown', 'ext': '.md', 'diary_rel_path': '', 'auto_diary_index': 1},
+\ {'name': 'wis', 'path': '$a_io/wis', 'syntax': 'markdown', 'ext': '.md'}
+\ ]
+
+let g:vimwiki_global_ext = 0
+let g:vimwiki_conceallevel = 0
+
+nmap \ <Plug>VimwikiFollowLink
+nmap <LEADER>wj <Plug>VimwikiSplitLink
+
+
+
+" ===
 " === markdown-preview
 " ===
 function! g:Open_browser(url)
@@ -297,18 +316,7 @@ noremap <LEADER>tm :TableModeToggle<CR>
 
 
 " ===
-" === vimwiki
+" === auto-pairs
 " ===
-au filetype vimwiki silent! iunmap <buffer> <Tab>
-" https://github.com/vimwiki/vimwiki/issues/845
-
-let g:vimwiki_list = [
-\ {'name': 'dia', 'path': '$a_io/dia', 'syntax': 'markdown', 'ext': '.md', 'diary_rel_path': '', 'auto_diary_index': 1},
-\ {'name': 'wis', 'path': '$a_io/wis', 'syntax': 'markdown', 'ext': '.md'}
-\ ]
-
-let g:vimwiki_global_ext = 0
-let g:vimwiki_conceallevel = 0
-
-nmap \ <Plug>VimwikiFollowLink
-nmap <LEADER>wj <Plug>VimwikiSplitLink
+let g:AutoPairsShortcutToggle = '<C-p>'
+let g:AutoPairsShortcutFastWrap = '<C-e>'
