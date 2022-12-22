@@ -1,9 +1,10 @@
-export a=$HOME/a
-export a_sr=$HOME/a_sr
-for i in $(ls $a)
+export ai=/home/ai
+export a=/home/ai/a
+for i in $(ls -d $a/*/ | cut -f5 -d'/')
 do
 	export a_$i=$a/$i
 done
+export a_gi=/home/ai/a_gi
 
 export http_proxy="http://127.0.0.1:8889/"
 export https_proxy=$http_proxy

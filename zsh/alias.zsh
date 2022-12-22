@@ -1,10 +1,10 @@
+alias ra="ranger"
+alias gccs="git config credential.helper store"
+alias id="nvim $a_id/diary.md"
+alias in="nvim $a_in/index.md"
+
 alias c="clear"
 alias q="exit"
-
-alias ra="ranger"
-alias dia="nvim $a_io/dia/diary.md"
-alias wis="nvim $a_io/wis/index.md"
-alias gccs="git config credential.helper store"
 
 alias ls="ls -A -v --group-directories-first --color=auto"
 alias ll="ls -l"

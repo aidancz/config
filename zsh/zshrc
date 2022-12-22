@@ -1,16 +1,16 @@
-source ~/a_sr/config/zsh/env.zsh
+source /home/ai/a_gi/config/zsh/env.zsh
 
-source $a_sr/config/zsh/zim.zsh
+source $a_gi/config/zsh/zim.zsh
 
-source $a_sr/config/zsh/alias.zsh
-source $a_sr/config/zsh/vi.zsh
-source $a_sr/config/zsh/fzf.zsh
+source $a_gi/config/zsh/alias.zsh
+source $a_gi/config/zsh/vi.zsh
+source $a_gi/config/zsh/fzf.zsh
 
-source $a_sr/config/zsh/completion.zsh
-source $a_sr/config/zsh/key-bindings.zsh
+source $a_gi/config/zsh/completion.zsh
+source $a_gi/config/zsh/key-bindings.zsh
 
 setopt auto_cd
-cdpath=($HOME $a)
+cdpath=(/home $ai $a)
 a_xx=$(typeset +m 'a_*')
 #a_xx_dollar=$(awk '{print "$"$0}' <<< $a_xx)
 #a_xx_dollar_space=$(tr '\n' ' ' <<< $a_xx_dollar)
@@ -30,3 +30,8 @@ WORDCHARS=${WORDCHARS//[\/]}
 #command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 #eval "$(pyenv init -)"
 # pyenv init
+
+if [[ $PWD == $HOME ]]
+then
+	cd $ai
+fi
