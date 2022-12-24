@@ -119,7 +119,7 @@ map <right> :vert res +5<CR>
 " === markdown settings
 " ===
 source ~/.config/nvim/md_snippets.vim
-noremap <LEADER>m :MarkdownPreviewToggle<CR>
+noremap <LEADER>m :MarkdownPreview<CR>
 "noremap <LEADER>m :InstantMarkdownPreview<CR>
 
 
@@ -163,7 +163,7 @@ Plug 'dhruvasagar/vim-table-mode'
 
 " editor enhancement
 Plug 'jiangmiao/auto-pairs'
-"Plug 'rlue/vim-barbaric'
+Plug 'AidanUnhappy/vim-barbaric'
 
 
 
