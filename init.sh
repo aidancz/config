@@ -13,3 +13,6 @@ ln -s $a_gi/config/nvim ~/.config/nvim
 
 rm -rf ~/.config/ranger
 ln -s $a_gi/config/ranger ~/.config/ranger
+
+rm -rf ~/.config/feh
+ln -s $a_gi/config/feh ~/.config/feh
