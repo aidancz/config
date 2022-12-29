@@ -8,6 +8,13 @@
 " ===
 " === editor behavior
 " ===
+set guicursor=
+"set cursorline
+"set relativenumber
+set list
+set listchars=tab:\|\ ,trail:▫
+set conceallevel=0
+
 set ignorecase
 set smartcase
 
@@ -17,25 +24,16 @@ set tabstop=8      " ? column of whitespace \t worth
 set softtabstop=0  " ? column of whitespace <Tab>/<Bs> worth
 set shiftwidth=8   " ? column of whitespace indentation worth
 " https://arisweedler.medium.com/tab-settings-in-vim-1ea0863c5990
-
 set autoindent
 set copyindent
 set preserveindent
 set nosmartindent
 
-au BufEnter * set fo-=c fo-=r fo-=o
-" https://vi.stackexchange.com/questions/1983/how-can-i-get-vim-to-stop-putting-comments-in-front-of-new-lines
-
-"set relativenumber
-"set cursorline
-set list
-set listchars=tab:\|\ ,trail:▫
-set conceallevel=0
-
-set scrolloff=2
-
 set notimeout
 set ttimeoutlen=0
+set scrolloff=2
+au BufEnter * set fo-=c fo-=r fo-=o
+" https://vi.stackexchange.com/questions/1983/how-can-i-get-vim-to-stop-putting-comments-in-front-of-new-lines
 
 
 
@@ -45,32 +43,35 @@ set ttimeoutlen=0
 " set <LEADER> as <Space>
 let mapleader=" "
 
-" open init.vim anytime
-noremap <LEADER>vi :e $HOME/.config/nvim/init.vim<CR>
+" edit & source init.vim anytime
+noremap <LEADER>vi :e $MYVIMRC<CR>
+noremap S :source $MYVIMRC<CR>
 
-" press <Space> twice to jump to the next '<-->' and edit it
-noremap <LEADER><LEADER> <Esc>/<--><CR>:noh<CR>"_c4l
+" jump to the next '<-->' and edit it
+noremap <LEADER>n <Esc>/<--><CR>:noh<CR>"_c4l
 
 " insert newline without entering insert mode
 nnoremap <CR> o<Esc>
 nnoremap <S-CR> O<Esc>
 
-" search
-noremap <LEADER><CR> :noh<CR>
-
-" yank & put
-vnoremap Y "+y
-nnoremap <A-p> "+p
-nnoremap <A-P> "+P
-
 " undo
 nnoremap M :e!<CR>
 nnoremap U :ea 1f<CR>
+nnoremap <C-u> :lat 1f<CR>
+
+" search
+noremap s ;
+noremap <LEADER><LEADER> :noh<CR>
+
+" yank & put
+vnoremap Y "+y
+"nnoremap <A-p> "+p
+"nnoremap <A-P> "+P
 
 " save & quit
-map S :w<CR>
-map q :q<CR>
-map Q :qa!<CR>
+nnoremap ; :w<CR>
+nnoremap q :q<CR>
+nnoremap Q :qa!<CR>
 
 
 
@@ -89,7 +90,7 @@ noremap <C-k> 5<C-y>
 
 inoremap <C-j> <ESC>o
 inoremap <C-k> <ESC>O
-inoremap <C-h> <ESC>I " not working, conflicts with auto-pairs
+inoremap <C-h> <ESC>I
 inoremap <C-l> <ESC>A
 
 
@@ -97,21 +98,21 @@ inoremap <C-l> <ESC>A
 " ===
 " === window management
 " ===
-noremap s <nop>
-map sj :set sb<CR>:sp<CR>
-map sk :set nosb<CR>:sp<CR>
-map sh :set nospr<CR>:vs<CR>
-map sl :set spr<CR>:vs<CR>
-
-map <LEADER>j <C-w>j
-map <LEADER>k <C-w>k
-map <LEADER>h <C-w>h
-map <LEADER>l <C-w>l
-
-map <down> :res -5<CR>
-map <up> :res +5<CR>
-map <left> :vert res -5<CR>
-map <right> :vert res +5<CR>
+"noremap s <nop>
+"map sj :set sb<CR>:sp<CR>
+"map sk :set nosb<CR>:sp<CR>
+"map sh :set nospr<CR>:vs<CR>
+"map sl :set spr<CR>:vs<CR>
+"
+"map <LEADER>j <C-w>j
+"map <LEADER>k <C-w>k
+"map <LEADER>h <C-w>h
+"map <LEADER>l <C-w>l
+"
+"map <down> :res -5<CR>
+"map <up> :res +5<CR>
+"map <left> :vert res -5<CR>
+"map <right> :vert res +5<CR>
 
 
 
@@ -318,5 +319,8 @@ noremap <LEADER>tm :TableModeToggle<CR>
 " ===
 " === auto-pairs
 " ===
-let g:AutoPairsShortcutToggle = '<C-p>'
-let g:AutoPairsShortcutFastWrap = '<C-e>'
+let g:AutoPairsMapCh = 0
+let g:AutoPairsShortcutToggle = '<M-p>'
+let g:AutoPairsShortcutFastWrap = '<M-e>'
+let g:AutoPairsShortcutJump = '<M-n>'
+let g:AutoPairsShortcutBackInsert = '<M-b>'
