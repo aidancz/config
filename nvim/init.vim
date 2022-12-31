@@ -223,8 +223,11 @@ call plug#end()
 " === vim-solarized8
 " ===
 set termguicolors
-set background=light
-"set background=dark
+
+let hour = strftime("%H")
+let dark_start = str2nr($dark_start)
+let dark_end = str2nr($dark_end)
+exe "set background=" . ((hour >= dark_start || hour <= dark_end)? "dark" : "light")
 
 let g:solarized_visibility = "normal"
 let g:solarized_diffmode = "normal"

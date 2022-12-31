@@ -14,3 +14,6 @@ export no_proxy="localhost, 127.0.0.1, ::1"
 export VISUAL=nvim
 export EDITOR=nvim
 export RANGER_LOAD_DEFAULT_RC="false"
+
+export dark_start=18
+export dark_end=8
