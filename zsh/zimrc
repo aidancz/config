@@ -1,7 +1,13 @@
+# https://zimfw.sh/docs/themes/
+
+zmodule magicmace
+
+# https://zimfw.sh/docs/modules/
+
 zmodule environment
 zmodule input
 
-zmodule git
+#zmodule git
 zmodule termtitle
 zmodule utility
 
@@ -9,12 +15,10 @@ zmodule duration-info
 zmodule git-info
 zmodule prompt-pwd
 
-zmodule magicmace
-
-
+# https://github.com/zsh-users
 
 zmodule zsh-users/zsh-completions
-zmodule completion
+zmodule completion # completion is a zim module, initialize this module after all modules that add completion definitions, so put it here
 zmodule zsh-users/zsh-autosuggestions
 zmodule zsh-users/zsh-history-substring-search
 

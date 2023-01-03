@@ -1,3 +1,5 @@
+# https://github.com/zimfw/zimfw
+
 # ===
 # === zim_module
 # ===
@@ -31,7 +33,7 @@ source ${ZIM_HOME}/init.zsh
 
 
 # ===
-# === zim_module(post-init)
+# === zim_module (post-init)
 # ===
 # zsh-history-substring-search
 zmodload -F zsh/terminfo +p:terminfo
