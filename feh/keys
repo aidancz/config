@@ -6,14 +6,14 @@ zoom_fill		s
 zoom_in			plus
 zoom_out		minus
 
-scroll_left		h
 scroll_down		j
 scroll_up		k
+scroll_left		h
 scroll_right		l
-scroll_left_page	H
-scroll_down_page	J
-scroll_up_page		K
-scroll_right_page	L
+scroll_down_page	C-j
+scroll_up_page		C-k
+scroll_left_page	C-h
+scroll_right_page	C-l
 
 toggle_aliasing		A
 orient_3		less
