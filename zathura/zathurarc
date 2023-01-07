@@ -1,0 +1,4 @@
+# man zathura zathurarc
+
+map <C-j> navigate next
+map <C-k> navigate previous
