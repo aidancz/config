@@ -1,0 +1,17 @@
+# man less lesskey
+
+#command
+h	left-scroll
+l	right-scroll
+e	undo-hilite
+
+^j	forw-scroll
+^k	back-scroll
+^h	left-scroll
+^l	right-scroll
+
+\e	noaction
+:h	help
+
+#line-edit
+\e	abort
