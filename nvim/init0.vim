@@ -38,7 +38,7 @@ au BufEnter * set fo-=c fo-=r fo-=o
 
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
-inoremap kj <esc>
+"inoremap kj <esc>
 
 noremap <c-j> 5<c-e>
 noremap <c-k> 5<c-y>

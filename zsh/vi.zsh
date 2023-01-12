@@ -4,8 +4,8 @@ bindkey -v
 
 #bindkey -s "^[[91;5u" "^[" # bind ctrl-[ to esc
 
-export KEYTIMEOUT=20 # if use "kj" or relavant, this value should be set >=20, other =1
-bindkey -M viins "kj" vi-cmd-mode
+export KEYTIMEOUT=1 # if use "kj" or relavant, this value should be set >=20, other =1
+#bindkey -M viins "kj" vi-cmd-mode
 
 # vicmd
 

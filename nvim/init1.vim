@@ -15,6 +15,8 @@ Plug 'dhruvasagar/vim-table-mode'
 
 " editor enhancement
 Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
 Plug 'aidancz/vim-barbaric'
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
