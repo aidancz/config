@@ -1,18 +1,11 @@
-#!/bin/bash
+#!/bin/sh
 
-export a_gi=/home/ai/a_gi
+cd config_home
 
-rm -rf ~/.zshrc
-ln -s $a_gi/config/zsh/zshrc ~/.zshrc
+ln -sf "$PWD"/shell/profile "$HOME/.zprofile"
+ln -sf "$PWD"/x11/xprofile "$HOME/.xprofile"
 
-rm -rf ~/.zimrc
-ln -s $a_gi/config/zsh/zimrc ~/.zimrc
-
-rm -rf ~/.config/nvim
-ln -s $a_gi/config/nvim ~/.config/nvim
-
-rm -rf ~/.config/ranger
-ln -s $a_gi/config/ranger ~/.config/ranger
-
-rm -rf ~/.config/feh
-ln -s $a_gi/config/feh ~/.config/feh
+for i in *; do
+	rm -rf			"${XDG_CONFIG_HOME:-$HOME/.config}"/"$i"
+	ln -s "$PWD"/"$i"	"${XDG_CONFIG_HOME:-$HOME/.config}"/"$i"
+done
