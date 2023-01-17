@@ -1,5 +1,7 @@
 #!/bin/sh
 
+mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+
 cd config_home
 
 ln -sf "$PWD"/shell/profile "$HOME/.zprofile"
