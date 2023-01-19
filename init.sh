@@ -2,7 +2,7 @@
 
 mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 
-cd config_home
+cd .config
 
 ln -sf "$PWD"/shell/profile "$HOME/.zprofile"
 ln -sf "$PWD"/x11/xprofile "$HOME/.xprofile"
