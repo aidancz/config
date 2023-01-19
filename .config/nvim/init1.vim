@@ -1,12 +1,13 @@
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-plug
 call plug#begin(stdpath('data') . '/plugged')
 
-" color
+" visual
 Plug 'lifepillar/vim-solarized8'
+Plug 'ap/vim-css-color'
 
 " file navigation
 Plug 'preservim/nerdtree'
-Plug 'junegunn/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 " markdown
@@ -14,10 +15,13 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for':
 Plug 'dhruvasagar/vim-table-mode'
 
 " editor enhancement
+	" general
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
+	" chinese
 Plug 'aidancz/vim-barbaric'
+	" complete
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()

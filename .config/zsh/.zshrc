@@ -6,6 +6,9 @@ then
 	cd $home
 fi
 
+# option
+setopt HIST_IGNORE_ALL_DUPS
+
 # zshzle vi mode
 bindkey -v
 export KEYTIMEOUT=1 # if use "kj" or relavant, this value should be set >=20, other =1
