@@ -9,11 +9,14 @@ fi
 # option
 setopt HIST_IGNORE_ALL_DUPS
 
-# zshzle vi mode
+
+
+# zshzle
+
 bindkey -v
-export KEYTIMEOUT=1 # if use "kj" or relavant, this value should be set >=20, other =1
-#bindkey -M viins "kj" vi-cmd-mode
-#bindkey -s "^[[91;5u" "^[" # bind ctrl-[ to esc
+export KEYTIMEOUT=1			# if use "kj" or relavant, this value should be set >=20, other =1
+#bindkey -s "^[[91;5u" "^["		# bind ctrl-[ to esc
+
 # vicmd
 #bindkey -M vicmd "j" down-line-or-history
 #bindkey -M vicmd "k" up-line-or-history
@@ -21,12 +24,25 @@ export KEYTIMEOUT=1 # if use "kj" or relavant, this value should be set >=20, ot
 #bindkey -M vicmd "l" vi-forward-char
 bindkey -M vicmd "^h" vi-beginning-of-line
 bindkey -M vicmd "^l" vi-end-of-line
-bindkey -M vicmd "^e" edit-command-line
+
 # viins
+#bindkey -M viins "kj" vi-cmd-mode
 bindkey "^h" beginning-of-line
-bindkey "^l" end-of-line
-bindkey "^w" forward-word
-# https://github.com/zsh-users/zsh-autosuggestions#usage
+bindkey "^l" end-of-line		# https://github.com/zsh-users/zsh-autosuggestions#usage
+bindkey "^w" backward-kill-word		# in viins, ^w defaults to "vi-backward-kill-word", which won't delete past the point where insert mode was last entered
+bindkey "^u" backward-kill-line		# same reason as above
+bindkey "^n" forward-word
+
+# edit command via editor
+autoload edit-command-line; zle -N edit-command-line
+bindkey -M vicmd "^e" edit-command-line
+bindkey '^e' edit-command-line
+
+# clear-screen ^l -> ^j
+bindkey -M vicmd "^j" clear-screen
+bindkey '^j' clear-screen
+
+
 
 # source .zsh file in $ZDOTDIR
 for i in "$ZDOTDIR"/*(.N)
@@ -46,12 +62,18 @@ if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
   source ${ZIM_HOME}/zimfw.zsh init -q
 fi
 # module config
+	# zsh-completions
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=10"
 ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+	# completion
+zstyle ':zim:completion' dumpfile		${XDG_CACHE_HOME}/zsh/zcompdump
+zstyle ':completion::complete:*' cache-path	${XDG_CACHE_HOME}/zsh/zcompcache
 # Initialize modules.
 source ${ZIM_HOME}/init.zsh
-_zsh_autosuggest_bind_widgets
-# https://github.com/zsh-users/zsh-autosuggestions#disabling-automatic-widget-re-binding
+_zsh_autosuggest_bind_widgets		# https://github.com/zsh-users/zsh-autosuggestions#disabling-automatic-widget-re-binding
+
+
+
 
 
 
@@ -126,12 +148,12 @@ bindkey -s '^f' '^ucd "$(dirname "$(fzf)")"\n'
 
 bindkey '^[[P' delete-char
 
-# Edit line in vim with ctrl-e:
-autoload edit-command-line; zle -N edit-command-line
-bindkey '^e' edit-command-line
-bindkey -M vicmd '^[[P' vi-delete-char
-bindkey -M vicmd '^e' edit-command-line
-bindkey -M visual '^[[P' vi-delete
+## Edit line in vim with ctrl-e:
+#autoload edit-command-line; zle -N edit-command-line
+#bindkey '^e' edit-command-line
+#bindkey -M vicmd '^[[P' vi-delete-char
+#bindkey -M vicmd '^e' edit-command-line
+#bindkey -M visual '^[[P' vi-delete
 
 ## Load syntax highlighting; should be last.
 #source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
