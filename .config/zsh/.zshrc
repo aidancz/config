@@ -22,16 +22,15 @@ export KEYTIMEOUT=1			# if use "kj" or relavant, this value should be set >=20, 
 #bindkey -M vicmd "k" up-line-or-history
 #bindkey -M vicmd "h" vi-backward-char
 #bindkey -M vicmd "l" vi-forward-char
-bindkey -M vicmd "^h" vi-beginning-of-line
-bindkey -M vicmd "^l" vi-end-of-line
 
 # viins
 #bindkey -M viins "kj" vi-cmd-mode
 bindkey "^h" beginning-of-line
 bindkey "^l" end-of-line		# https://github.com/zsh-users/zsh-autosuggestions#usage
-bindkey "^w" backward-kill-word		# in viins, ^w defaults to "vi-backward-kill-word", which won't delete past the point where insert mode was last entered
-bindkey "^u" backward-kill-line		# same reason as above
 bindkey "^n" forward-word
+bindkey "^?" backward-delete-char	# in viins, ^? defaults to "vi-backward-delete-char", which won't delete past the point where insert mode was last entered
+bindkey "^w" backward-kill-word		# same reason as above
+bindkey "^u" backward-kill-line		# same reason as above
 
 # edit command via editor
 autoload edit-command-line; zle -N edit-command-line

@@ -1,8 +1,8 @@
-!! Transparency (0-1):
-*.alpha: 0.8
+! Transparency (0-1):
+*.alpha: 1
 
-!! Set a default font and font size as below:
-*.font: monospace:size=10
+! Set a default font and font size as below:
+*.font: monospace:size=14
 
 /* name		dark	light */
 /* black	0	8 */
@@ -14,7 +14,53 @@
 /* cyan		6	14 */
 /* white	7	15 */
 
-/* !! gruvbox: */
+! solarized
+#define s_base03	#002b36
+#define s_base02	#073642
+#define s_base01	#586e75
+#define s_base00	#657b83
+#define s_base0		#839496
+#define s_base1		#93a1a1
+#define s_base2		#eee8d5
+#define s_base3		#fdf6e3
+#define s_yellow	#b58900
+#define s_orange	#cb4b16
+#define s_red		#dc322f
+#define s_magenta	#d33682
+#define s_violet	#6c71c4
+#define s_blue		#268bd2
+#define s_cyan		#2aa198
+#define s_green		#859900
+*.color0:		s_base02
+*.color8:		s_base03
+*.color1:		s_red
+*.color9:		s_orange
+*.color2:		s_green
+*.color10:		s_base01
+*.color3:		s_yellow
+*.color11:		s_base00
+*.color4:		s_blue
+*.color12:		s_base0
+*.color5:		s_magenta
+*.color13:		s_violet
+*.color6:		s_cyan
+*.color14:		s_base1
+*.color7:		s_base2
+*.color15:		s_base3
+
+! solarized light
+*.background:		s_base3
+*.foreground:		s_base00
+*.cursorColor:		s_base00
+! https://man.archlinux.org/man/xterm.1
+
+/* ! solarized dark */
+/* *.background:		s_base03 */
+/* *.foreground:		s_base0 */
+/* *.cursorColor:		s_base0 */
+/* ! https://man.archlinux.org/man/xterm.1 */
+
+/* ! gruvbox: */
 /* *.color0: #1d2021 */
 /* *.color1: #cc241d */
 /* *.color2: #98971a */
@@ -34,7 +80,7 @@
 /* *.color256: #1d2021 */
 /* *.color257: #ebdbb2 */
 
-/* !! gruvbox light: */
+/* ! gruvbox light: */
 /* *.color0: #fbf1c7 */
 /* *.color1: #cc241d */
 /* *.color2: #98971a */
@@ -55,7 +101,7 @@
 /* *.foreground: #282828 */
 /* st.alpha: 0.9 */
 
-/* !! brogrammer: */
+/* ! brogrammer: */
 /* *.foreground:  #d6dbe5 */
 /* *.background:  #131313 */
 /* *.color0:      #1f1f1f */
@@ -94,7 +140,7 @@
 /* *.color14:      #86c1b9 */
 /* *.color15:      #f8f8f8 */
 
-/* !! solarized */
+/* ! solarized */
 /* *.color0:	#073642 */
 /* *.color1:	#dc322f */
 /* *.color2:	#859900 */
@@ -112,7 +158,7 @@
 /* *.color14:	#93a1a1 */
 /* *.color15:	#fdf6e3 */
 
-/* !! xterm */
+/* ! xterm */
 /* *.color0:   #000000 */
 /* *.color1:   #cd0000 */
 /* *.color2:   #00cd00 */

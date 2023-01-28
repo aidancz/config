@@ -1,19 +1,25 @@
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ option
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ default / unwanted option will be comment out
-"set clipboard+=unnamedplus
+set clipboard^=unnamedplus
 
 set guicursor=
 "set cursorline
-"set relativenumber
+set number
+set relativenumber
 set list
-set listchars=tab:\·\ ,				"u+00b7, middle dot
+set listchars=eol:\ ,
+au InsertLeave * :norm `^
+set virtualedit=onemore,block
+set listchars+=tab:\·\ ,			"u+00b7, middle dot
 set listchars+=multispace:▫,lead:▫,trail:▫,	"u+25ab, white small square
 "set conceallevel=0
 "set concealcursor=""
 
 set nohlsearch
+"set incsearch
 set ignorecase
 set smartcase
+"set magic
 
 "set noexpandtab
 set nosmarttab
@@ -26,35 +32,39 @@ set copyindent
 set preserveindent
 "set nosmartindent
 
-set notimeout
+set notimeout			" ex: zz
 "set timeoutlen=1000
-set ttimeout
+set ttimeout			" <esc>
 set ttimeoutlen=0
-set scrolloff=2
+"set scrolloff=0
 au BufEnter * set fo-=c fo-=r fo-=o
 " disable automatic comment on newline
 " https://vi.stackexchange.com/questions/1983/how-can-i-get-vim-to-stop-putting-comments-in-front-of-new-lines
+
+"set hidden
 
 
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
 "inoremap kj <esc>
-
-noremap <c-j> 5<c-e>
-noremap <c-k> 5<c-y>
-noremap <c-h> 0
-noremap <c-l> $
-inoremap <c-j> <c-o>5<c-e>
-inoremap <c-k> <c-o>5<c-y>
 inoremap <c-h> <c-o>0
 inoremap <c-l> <c-o>$
-
-nnoremap <silent> <cr> :call append(line("."), "")<cr>j
-nnoremap <silent> <s-cr> :call append(line(".")-1, "")<cr>k
+inoremap <c-w> <c-g>u<c-w>
+inoremap <c-u> <c-g>u<c-u>
 
 nnoremap s :w<cr>
 nnoremap q :q<cr>
-nnoremap Q :qa!<cr>
+nnoremap <silent> J :m +1<cr>
+nnoremap <silent> K :m -2<cr>
+nnoremap <expr> zh 'zt' . winheight(0)/4 . '<c-y>'
+nnoremap <expr> zl 'zb' . winheight(0)/4 . '<c-e>'
+
+nnoremap <c-q> q
+nnoremap <c-j> <c-d>
+nnoremap <c-k> <c-u>
+
+nnoremap <silent> <a-j> :put _<cr>
+nnoremap <silent> <a-k> :put! _<cr>
 
 
 
@@ -63,11 +73,8 @@ let mapleader=" "
 nnoremap <leader>e :e!<cr>
 nnoremap <leader>u :ea 1f<cr>
 nnoremap <leader>r :lat 1f<cr>
-nnoremap <leader>y :let @+=@0<cr>
-nnoremap <leader>q q
-nnoremap <leader><leader> :keepp /<--><cr>"_ca<
-nnoremap <leader>vs :source $MYVIMRC<cr>
 nnoremap <leader>l :call CompileRunGcc()<cr>
+nnoremap <leader><leader> :keepp /<--><cr>"_ca<
 
 
 

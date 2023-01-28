@@ -6,7 +6,8 @@
 # to clean up.
 
 # Adds `~/.local/bin` to $PATH
-export PATH="$PATH:${$(find ~/.local/bin -type d -printf %p:)%%:}"
+export PATH="$PATH:${$(find -L ~/.local/bin -type d -printf %p:)%%:}"
+# the -L option is critical, it tells "find" to find the linked files, not the link itself
 
 unsetopt PROMPT_SP
 
