@@ -68,5 +68,5 @@ alias df="df -h"
 alias du="du -h"
 alias grep="grep -E --color=auto"
 
-alias ra="ranger"
+#alias ra="ranger"
 alias gccs="git config credential.helper store"
