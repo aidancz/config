@@ -31,6 +31,9 @@ bindkey "^n" forward-word
 bindkey "^?" backward-delete-char	# in viins, ^? defaults to "vi-backward-delete-char", which won't delete past the point where insert mode was last entered
 bindkey "^w" backward-kill-word		# same reason as above
 bindkey "^u" backward-kill-line		# same reason as above
+WORDCHARS="${WORDCHARS/\//}"
+# WORDCHARS parameter is used by "forward-word" etc to specify which character should be considered as part of a "word", run `echo $WORDCHARS` to view its content
+# here the syntax is ${name/pattern/repl}, which replace the slash with nothing, see `man zshexpn` in the "parameter expansion" section for more details
 
 # edit command via editor
 autoload edit-command-line; zle -N edit-command-line

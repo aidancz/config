@@ -2,7 +2,7 @@
 call plug#begin(stdpath('data') . '/plugged')
 
 " visual
-Plug 'lifepillar/vim-solarized8'
+Plug 'altercation/vim-colors-solarized'
 Plug 'ap/vim-css-color'
 
 " file navigation
@@ -28,29 +28,18 @@ call plug#end()
 
 
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-solarized8
-set termguicolors
-
-let hour = strftime("%H")
-let dark_start = str2nr($dark_start)
-let dark_end = str2nr($dark_end)
-exe "set background=" . ((hour >= dark_start || hour <= dark_end)? "dark" : "light")
-
-let g:solarized_visibility = "normal"
-let g:solarized_diffmode = "normal"
-let g:solarized_termtrans = 0
-
-let g:solarized_statusline = "normal"
-let g:solarized_italics = 0
-let g:solarized_old_cursor_style = 0
-let g:solarized_use16 = 0
-let g:solarized_extra_hi_groups = 0
-
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-
-autocmd vimenter * ++nested colorscheme solarized8
-"colorscheme solarized8
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ solarized
+"let g:solarized_termcolors=16
+"let g:solarized_termtrans=0
+"let g:solarized_degrade=0
+"let g:solarized_bold=1
+"let g:solarized_underline=1
+"let g:solarized_italic=1
+"let g:solarized_contrast="normal"
+"let g:solarized_visibility="normal"
+set background=dark
+colorscheme solarized
+call togglebg#map("<F5>")
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ fzf
 "nnoremap <leader>ff :Files<cr>
