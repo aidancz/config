@@ -40,9 +40,9 @@ autoload edit-command-line; zle -N edit-command-line
 bindkey -M vicmd "^e" edit-command-line
 bindkey '^e' edit-command-line
 
-# clear-screen ^l -> ^j
-bindkey -M vicmd "^j" clear-screen
-bindkey '^j' clear-screen
+# clear-screen ^l -> ^r
+bindkey -M vicmd "^r" clear-screen
+bindkey '^r' clear-screen
 
 
 

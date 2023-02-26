@@ -49,9 +49,14 @@
 
 
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ specific
-st.fontalt0: NotoColorEmoji:pixelsize=15:antialias=true:autohint=true
+st.font: monospace:size=15:antialias=true:autohint=true
+st.font2_0: Noto Sans CJK SC:pixelsize=18:antialias=true:autohint=true
+st.font2_1: Twemoji:pixelsize=15:antialias=true:autohint=true
 st.borderpx: 0
 
+dwm.fonts_0: monospace:size=15
+dwm.fonts_1: Noto Sans CJK SC:pixelsize=18
+dwm.fonts_2: Twemoji:pixelsize=15
 dwm.showbar: 1
 dwm.borderpx: 3
 dwm.normbordercolor:	s_base02

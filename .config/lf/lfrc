@@ -110,8 +110,12 @@ map gh
 map <c-e>
 
 map <c-f> $lf -remote "send $id select \"$(fzf)\""
-map <c-l> $lf -remote "send $id cd $(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf)"
-# doesn't work for now, check this issue: https://github.com/LukeSmithxyz/voidrice/issues/831
+#map J $lf -remote "send $id cd $(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf)"
+# doesn't work for now, check this issue: https://github.com/LukeSmithxyz/voidrice/issues/831, my solution:
+map <tab> ${{
+eval lf_dir=$(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf)
+lf -remote "send $id cd $lf_dir"
+}}
 
 map g top
 map <c-j> half-down

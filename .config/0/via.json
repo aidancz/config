@@ -1,6 +1,6 @@
 {
 	"name": "ortho c48c",
-	"vendorId": "0xfeed",
+	"vendorId": "feed",
 	"productId": "0x6060",
 	"lighting": "qmk_rgblight",
 	"matrix": { "rows": 4, "cols": 12 },
