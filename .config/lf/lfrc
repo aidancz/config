@@ -46,12 +46,14 @@ cmd open ${{
 	video/*) setsid -f mpv $f -quiet >/dev/null 2>&1 ;;
 	application/pdf|application/vnd.djvu|application/epub*) setsid -f zathura $fx >/dev/null 2>&1 ;;
 	application/pgp-encrypted) $EDITOR $fx ;;
-	application/vnd.openxmlformats-officedocument.wordprocessingml.document|application/vnd.oasis.opendocument.text) setsid -f lowriter $fx >/dev/null 2>&1 ;;
-	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/octet-stream|application/vnd.oasis.opendocument.spreadsheet|application/vnd.oasis.opendocument.spreadsheet-template) setsid -f localc $fx >/dev/null 2>&1 ;;
-	application/vnd.openxmlformats-officedocument.presentationml.presentation|application/vnd.oasis.opendocument.presentation-template|application/vnd.oasis.opendocument.presentation|application/vnd.ms-powerpoint) setsid -f loimpress $fx >/dev/null 2>&1 ;;
-	application/vnd.oasis.opendocument.graphics|application/vnd.oasis.opendocument.graphics-template) setsid -f lodraw $fx >/dev/null 2>&1 ;;
-	application/vnd.oasis.opendocument.formula) setsid -f lomath $fx >/dev/null 2>&1 ;;
-	application/vnd.oasis.opendocument.database) setsid -f lobase $fx >/dev/null 2>&1 ;;
+
+	application/vnd.openxmlformats-officedocument.wordprocessingml.document|application/vnd.oasis.opendocument.text) setsid -f zaread $fx >/dev/null 2>&1 ;;
+	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/octet-stream|application/vnd.oasis.opendocument.spreadsheet|application/vnd.oasis.opendocument.spreadsheet-template) setsid -f zaread $fx >/dev/null 2>&1 ;;
+	application/vnd.openxmlformats-officedocument.presentationml.presentation|application/vnd.oasis.opendocument.presentation-template|application/vnd.oasis.opendocument.presentation|application/vnd.ms-powerpoint) setsid -f zaread $fx >/dev/null 2>&1 ;;
+	application/vnd.oasis.opendocument.graphics|application/vnd.oasis.opendocument.graphics-template) setsid -f zaread $fx >/dev/null 2>&1 ;;
+	application/vnd.oasis.opendocument.formula) setsid -f zaread $fx >/dev/null 2>&1 ;;
+	application/vnd.oasis.opendocument.database) setsid -f zaread $fx >/dev/null 2>&1 ;;
+
         *) for f in $fx; do setsid -f $OPENER $f >/dev/null 2>&1; done;;
     esac
 }}
@@ -59,21 +61,13 @@ cmd open ${{
 cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
 
 cmd extract ${{
-	clear; tput cup $(($(tput lines)/3)); tput bold
-	set -f
-	printf "%s\n\t" "$fx"
-	printf "extract?[y/N]"
-	read ans
-	[ $ans = "y" ] && aunpack $fx
+	clear
+	aunpack $fx
 }}
 
 cmd delete ${{
-	clear; tput cup $(($(tput lines)/3)); tput bold
-	set -f
-	printf "%s\n\t" "$fx"
-	printf "delete?[y/N]"
-	read ans
-	[ $ans = "y" ] && rm -rf -- $fx
+	clear
+	trash-put $fx
 }}
 
 cmd moveto ${{
@@ -105,14 +99,14 @@ cmd bulkrename $vidir
 
 # bindings
 # unmap default
-map c
-map gh
-map <c-e>
+map c					# clear
+map gh					# cd ~
+map <c-e>				# scroll-down
 
 map <c-f> $lf -remote "send $id select \"$(fzf)\""
 #map J $lf -remote "send $id cd $(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf)"
 # doesn't work for now, check this issue: https://github.com/LukeSmithxyz/voidrice/issues/831, my solution:
-map <tab> ${{
+map <c-d> ${{
 eval lf_dir=$(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/shell/bm-dirs | fzf)
 lf -remote "send $id cd $lf_dir"
 }}
@@ -122,11 +116,11 @@ map <c-j> half-down
 map <c-k> half-up
 
 map <esc> unselect
-map r clear				# default: r -> rename, c -> clear
-map D delete
-map E extract
-map C copyto
-map M moveto
+map r clear
+map <a-d> delete
+map <a-e> extract
+map <a-c> copyto
+map <a-m> moveto
 
 #map <c-s> set hidden!
 map <c-n> push :mkdir<space>
@@ -134,20 +128,21 @@ map <c-n> push :mkdir<space>
 map A rename				# at the very end
 map I push A<c-a>			# at the very beginning
 map a push A<a-b>			# after extension
-map i push A<a-b><a-b><a-f>		# before extension
+map i push A<a-b><c-b>			# before extension
 map cc push A<c-u>			# new rename
-map cw push A<a-b><a-b><a-f><c-u>	# new rename (with extension)
+map cw push A<a-b><c-b><c-u>		# new rename (with extension)
 map ci bulkrename
+# https://github.com/gokcehan/lf/issues/279
 
-map <enter> shell
+map <enter>	shell
 map x		$$f
 map <c-x>	!$f
 map o		&mimeopen "$f"
 map <c-o>	$mimeopen --ask "$f"
-map <c-b>	$setbg $f
-map <c-v>	push :!nvim<space>
-map <c-w>	$setsid -f $TERMINAL >/dev/null 2>&1
-map <c-y>	$printf "%s" "$fx" | xclip -selection clipboard
+map <a-b>	$setbg $f
+map <a-v>	push :!nvim<space>
+map <a-w>	$setsid -f $TERMINAL >/dev/null 2>&1
+map <a-y>	$printf "%s" "$fx" | xclip -selection clipboard
 
 
 

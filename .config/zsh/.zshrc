@@ -142,13 +142,14 @@ lfcd () {
         [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
     fi
 }
-bindkey -s '^o' '^ulfcd\n'
-
-bindkey -s '^a' '^ubc -lq\n'
+bindkey -s '^d' '^ulfcd\n'
 
 bindkey -s '^f' '^ucd "$(dirname "$(fzf)")"\n'
 
-bindkey '^[[P' delete-char
+#bindkey -s '^a' '^ubc -lq\n'
+
+#bindkey '^[[P' delete-char
+#'^[[P' is <del> key's keycode
 
 ## Edit line in vim with ctrl-e:
 #autoload edit-command-line; zle -N edit-command-line
