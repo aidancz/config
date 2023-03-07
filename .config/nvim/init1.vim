@@ -75,8 +75,12 @@ let g:mkdp_port = ''
 let g:mkdp_page_title = '${name}'
 let g:mkdp_filetypes = ['markdown']
 
+function! g:Open_browser(url)
+	silent exec "!google-chrome-stable --new-window " . a:url . " &"
+endfunction
+
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-table-mode
-"nnoremap <leader>tm :TableModeToggle<cr>
+nnoremap <leader>tm :TableModeToggle<cr>
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ auto-pairs
 let g:AutoPairsMapCh = 0
