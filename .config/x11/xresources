@@ -49,34 +49,32 @@
 
 
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ specific
-st.font: monospace:size=15:antialias=true:autohint=true
-st.font2_0: Noto Sans CJK SC:pixelsize=18:antialias=true:autohint=true
-st.font2_1: Twemoji:pixelsize=15:antialias=true:autohint=true
 st.borderpx: 0
 
-dwm.fonts_0: monospace:size=15
-dwm.fonts_1: Noto Sans CJK SC:pixelsize=18
-dwm.fonts_2: Twemoji:pixelsize=15
-dwm.showbar: 1
-dwm.borderpx: 3
 dwm.normbordercolor:	s_base02
 dwm.selbordercolor:	s_base01
 dwm.normbgcolor:	s_base03
 dwm.normfgcolor:	s_base01
 dwm.selbgcolor:		s_base01
 dwm.selfgcolor:		s_base03
+dwm.showbar: 1
+dwm.borderpx: 3
 
 dmenu.normbgcolor:	s_base02
 dmenu.normfgcolor:	s_flavor
 dmenu.selbgcolor:	s_flavor
 dmenu.selfgcolor:	s_base02
 
+!https://www.gnu.org/software/emacs/manual/html_node/emacs/Table-of-Resources.html
+!emacs.
+
 
 
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ common
-*background:              s_base03
-*foreground:              s_base0
-*cursorColor:             s_base1
+*font: monospace:size=15
+*fonta: Noto Sans CJK SC:pixelsize=18
+*fontb: Twemoji:pixelsize=15
+*alpha: 1
 *color0:                  s_base02
 *color8:                  s_base03
 *color1:                  s_red
@@ -93,10 +91,11 @@ dmenu.selfgcolor:	s_base02
 *color14:                 s_base1
 *color7:                  s_base2
 *color15:                 s_base3
+*background:              s_base03
+*foreground:              s_base0
+*cursorColor:             s_base1
 !*fading:                  40
 !*fadeColor:               s_base03
 !*pointerColorBackground:  s_base01
 !*pointerColorForeground:  s_base1
-
-*alpha: 1
-*font: monospace:size=15
+*cursorBlink:		  0
