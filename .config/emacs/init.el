@@ -11,6 +11,10 @@
 
 
 
+;; orgmode
+(global-set-key (kbd "C-c l") #'org-store-link)
+(global-set-key (kbd "C-c a") #'org-agenda)
+(global-set-key (kbd "C-c c") #'org-capture)
 
 
 
@@ -19,10 +23,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(blink-cursor-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "CodeNewRoman Nerd Font" :foundry "CNR " :slant normal :weight normal :height 150 :width normal)))))
+ '(default ((t (:family "CodeNewRoman Nerd Font Mono" :foundry "CNR " :slant normal :weight normal :height 150 :width normal)))))
