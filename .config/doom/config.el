@@ -4,11 +4,21 @@
 (setq user-full-name "Aidan Zhai"
       user-mail-address "aidanczhai@gmail.com")
 
-(setq doom-font (font-spec :size 20))
+(setq doom-font (font-spec :size 20)
+      doom-theme 'doom-solarized-dark
+      display-line-numbers-type 'relative)
 
-(setq doom-theme 'doom-solarized-dark)
+(setq-default tab-width 8)
 
-(setq display-line-numbers-type 'relative)
+(setq evil-move-cursor-back nil
+      evil-move-beyond-eol t
+      evil-start-of-line t
+      evil-normal-state-cursor '(box "#93a1a1")
+      evil-insert-state-cursor '(box "#859900")
+      evil-operator-state-cursor '(box "#b58900")
+      evil-replace-state-cursor '(box "#6c71c4")
+      evil-visual-state-cursor '(box "#268bd2")
+      evil-motion-state-cursor '(box "#dc322f"))
 
 (setq org-directory "/home/ai/a/dow/")
 
