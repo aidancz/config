@@ -4,11 +4,24 @@
 (setq user-full-name "Aidan Zhai"
       user-mail-address "aidanczhai@gmail.com")
 
-(setq doom-font (font-spec :size 20)
-      doom-theme 'doom-solarized-dark
+(setq doom-font (font-spec :size 20))
+(add-hook 'after-init-hook (lambda ()
+                             ;; emoji: 😄, 🤦, 🏴󠁧󠁢󠁳󠁣󠁴󠁿
+                             (set-fontset-font "fontset-default" 'symbol "Twemoji" nil 'prepend)
+                             ;; east asia: 你好, 早晨, こんにちは, 안녕하세요
+                             (set-fontset-font "fontset-default" 'han "Noto Sans CJK SC" nil 'prepend)
+                             ))
+;; https://github.com/VitalyAnkh/config/blob/master/doom/config.org#visual-settings
+
+(setq doom-theme 'doom-solarized-dark
       display-line-numbers-type 'relative)
 
-(setq-default tab-width 8)
+
+
+(setq-default tab-width 8                       ; http://xahlee.info/emacs/emacs/emacs_tabs_space_indentation_setup.html
+              delete-by-moving-to-trash t       ; the trash dir is specified by "trash-directory", default: $XDG_DATA_HOME/Trash
+              )
+
 
 (setq evil-move-cursor-back nil
       evil-move-beyond-eol t
