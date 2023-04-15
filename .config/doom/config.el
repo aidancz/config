@@ -2,19 +2,31 @@
 
 ;;; aidan
 (setq user-full-name "Aidan Zhai"
-      user-mail-address "aidanczhai@gmail.com")
+      user-mail-address "aidanczhai@gmail.com"
+      )
 
-(setq doom-font (font-spec :size 20))
-(add-hook 'after-init-hook (lambda ()
-                             ;; emoji: 😄, 🤦, 🏴󠁧󠁢󠁳󠁣󠁴󠁿
-                             (set-fontset-font "fontset-default" 'symbol "Twemoji" nil 'prepend)
-                             ;; east asia: 你好, 早晨, こんにちは, 안녕하세요
-                             (set-fontset-font "fontset-default" 'han "Noto Sans CJK SC" nil 'prepend)
-                             ))
 ;; https://github.com/VitalyAnkh/config/blob/master/doom/config.org#visual-settings
+;; https://emacs-china.org/t/topic/13710
+(setq doom-font (font-spec :family "CodeNewRoman Nerd Font Mono" :size 20)
+      )
+(add-hook 'after-init-hook (lambda ()
+                             (set-fontset-font "fontset-default" 'emoji "Twemoji" nil 'prepend)
+                             ;; emoji: 😄, 🤦, 🏴󠁧󠁢󠁳󠁣󠁴󠁿
+                             (set-fontset-font "fontset-default" 'han "Sarasa Mono SC" nil 'prepend)
+                             (set-fontset-font "fontset-default" 'kana "Sarasa Mono SC" nil 'prepend)
+                             (set-fontset-font "fontset-default" 'hangul "Sarasa Mono SC" nil 'prepend)
+                             ;; east asia: 你好, 早晨, こんにちは, 안녕하세요
+                             ))
+(setq use-default-font-for-symbols nil
+      face-font-rescale-alist '(("Twemoji" . 0.9) ("Sarasa Mono SC" . 1.1))
+      )
+;; https://emacs.stackexchange.com/questions/62049/override-the-default-font-for-emoji-characters
+;; https://emacs-china.org/t/emacs/15676
+;; https://emacs-china.org/t/doom-emacs/23513
 
 (setq doom-theme 'doom-solarized-dark
-      display-line-numbers-type 'relative)
+      display-line-numbers-type 'relative
+      )
 
 
 
@@ -31,9 +43,11 @@
       evil-operator-state-cursor '(box "#b58900")
       evil-replace-state-cursor '(box "#6c71c4")
       evil-visual-state-cursor '(box "#268bd2")
-      evil-motion-state-cursor '(box "#dc322f"))
+      evil-motion-state-cursor '(box "#dc322f")
+      )
 
-(setq org-directory "/home/ai/a/dow/")
+(setq org-directory "/home/ai/a/dow/"
+      )
 
 
 
