@@ -53,6 +53,7 @@ cmd open ${{
 	application/vnd.oasis.opendocument.graphics|application/vnd.oasis.opendocument.graphics-template) setsid -f zaread $fx >/dev/null 2>&1 ;;
 	application/vnd.oasis.opendocument.formula) setsid -f zaread $fx >/dev/null 2>&1 ;;
 	application/vnd.oasis.opendocument.database) setsid -f zaread $fx >/dev/null 2>&1 ;;
+	application/msword) setsid -f zaread $fx >/dev/null 2>&1 ;;
 
         *) for f in $fx; do setsid -f $OPENER $f >/dev/null 2>&1; done;;
     esac
