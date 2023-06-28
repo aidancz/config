@@ -1,12 +1,26 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-;;; aidan
+;;; user info
 (setq user-full-name "Aidan Zhai"
       user-mail-address "aidanczhai@gmail.com"
       )
 
-;; https://github.com/VitalyAnkh/config/blob/master/doom/config.org#visual-settings
-;; https://emacs-china.org/t/topic/13710
+
+
+;;; path
+(setq default-directory "/home/ai"
+      org-directory "/home/ai/a/fj"
+      )
+
+
+
+;;; behavior
+(setq-default delete-by-moving-to-trash t       ; the trash dir is specified by "trash-directory", default: $XDG_DATA_HOME/Trash
+              )
+
+
+
+;;; appearance
 (setq doom-font (font-spec :family "CodeNewRoman Nerd Font Mono" :size 20)
       )
 (add-hook 'after-init-hook (lambda ()
@@ -20,21 +34,20 @@
 (setq use-default-font-for-symbols nil
       face-font-rescale-alist '(("Twemoji" . 0.9) ("Sarasa Mono SC" . 1.1))
       )
+;; https://github.com/VitalyAnkh/config/blob/master/doom/config.org#visual-settings
+;; https://emacs-china.org/t/topic/13710
 ;; https://emacs.stackexchange.com/questions/62049/override-the-default-font-for-emoji-characters
 ;; https://emacs-china.org/t/emacs/15676
 ;; https://emacs-china.org/t/doom-emacs/23513
-
 (setq doom-theme 'doom-solarized-dark
       display-line-numbers-type 'relative
       )
-
-
-
 (setq-default tab-width 8                       ; http://xahlee.info/emacs/emacs/emacs_tabs_space_indentation_setup.html
-              delete-by-moving-to-trash t       ; the trash dir is specified by "trash-directory", default: $XDG_DATA_HOME/Trash
               )
 
 
+
+;;; evil
 (setq evil-move-cursor-back nil
       evil-move-beyond-eol t
       evil-start-of-line t
@@ -46,8 +59,8 @@
       evil-motion-state-cursor '(box "#dc322f")
       )
 
-(setq org-directory "/home/ai/a/dow/"
-      )
+
+
 
 
 

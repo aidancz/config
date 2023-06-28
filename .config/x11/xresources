@@ -1,4 +1,4 @@
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ color
+! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ variable (color name -> color hex code)
 ! name		dark	light
 !
 ! black		0	8
@@ -48,28 +48,6 @@
 
 
 
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ specific
-st.borderpx: 0
-
-dwm.normbordercolor:	s_base02
-dwm.selbordercolor:	s_base01
-dwm.normbgcolor:	s_base03
-dwm.normfgcolor:	s_base01
-dwm.selbgcolor:		s_base01
-dwm.selfgcolor:		s_base03
-dwm.showbar: 1
-dwm.borderpx: 3
-
-dmenu.normbgcolor:	s_base02
-dmenu.normfgcolor:	s_flavor
-dmenu.selbgcolor:	s_flavor
-dmenu.selfgcolor:	s_base02
-
-!https://www.gnu.org/software/emacs/manual/html_node/emacs/Table-of-Resources.html
-!emacs.
-
-
-
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ common
 *font: monospace:size=15
 *fonta: Noto Sans CJK SC:pixelsize=18
@@ -99,3 +77,23 @@ dmenu.selfgcolor:	s_base02
 !*pointerColorBackground:  s_base01
 !*pointerColorForeground:  s_base1
 *cursorBlink:		  0
+
+! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ specific
+st.borderpx: 0
+
+dwm.normbordercolor:	s_base02
+dwm.selbordercolor:	s_base01
+dwm.normbgcolor:	s_base03
+dwm.normfgcolor:	s_base01
+dwm.selbgcolor:		s_base01
+dwm.selfgcolor:		s_base03
+dwm.showbar: 1
+dwm.borderpx: 3
+
+dmenu.normbgcolor:	s_base02
+dmenu.normfgcolor:	s_flavor
+dmenu.selbgcolor:	s_flavor
+dmenu.selfgcolor:	s_base02
+
+!https://www.gnu.org/software/emacs/manual/html_node/emacs/Table-of-Resources.html
+!emacs.
