@@ -21,24 +21,21 @@
 
 
 ;;; appearance
-(setq doom-font (font-spec :family "CodeNewRoman Nerd Font Mono" :size 20)
+(setq doom-font (font-spec :family "monospace" :size 15.0)
       )
 (add-hook 'after-init-hook (lambda ()
                              (set-fontset-font "fontset-default" 'emoji "Twemoji" nil 'prepend)
-                             ;; emoji: 😄, 🤦, 🏴󠁧󠁢󠁳󠁣󠁴󠁿
                              (set-fontset-font "fontset-default" 'han "Sarasa Mono SC" nil 'prepend)
                              (set-fontset-font "fontset-default" 'kana "Sarasa Mono SC" nil 'prepend)
                              (set-fontset-font "fontset-default" 'hangul "Sarasa Mono SC" nil 'prepend)
-                             ;; east asia: 你好, 早晨, こんにちは, 안녕하세요
                              ))
 (setq use-default-font-for-symbols nil
       face-font-rescale-alist '(("Twemoji" . 0.9) ("Sarasa Mono SC" . 1.1))
       )
+;; emoji: 😄, 🤦, 🏴󠁧󠁢󠁳󠁣󠁴󠁿
+;; east asia: 你好中言, こんにちは, 안녕하세요
 ;; https://github.com/VitalyAnkh/config/blob/master/doom/config.org#visual-settings
-;; https://emacs-china.org/t/topic/13710
 ;; https://emacs.stackexchange.com/questions/62049/override-the-default-font-for-emoji-characters
-;; https://emacs-china.org/t/emacs/15676
-;; https://emacs-china.org/t/doom-emacs/23513
 (setq doom-theme 'doom-solarized-dark
       display-line-numbers-type 'relative
       )
