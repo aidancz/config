@@ -14,32 +14,31 @@
 
 
 
-;;; behavior
-(setq-default delete-by-moving-to-trash t       ; the trash dir is specified by "trash-directory", default: $XDG_DATA_HOME/Trash
-              )
-
-
-
 ;;; appearance
-(setq doom-font (font-spec :family "monospace" :size 15.0)
-      )
-(add-hook 'after-init-hook (lambda ()
-                             (set-fontset-font "fontset-default" 'emoji "Twemoji" nil 'prepend)
-                             (set-fontset-font "fontset-default" 'han "Sarasa Mono SC" nil 'prepend)
-                             (set-fontset-font "fontset-default" 'kana "Sarasa Mono SC" nil 'prepend)
-                             (set-fontset-font "fontset-default" 'hangul "Sarasa Mono SC" nil 'prepend)
-                             ))
-(setq use-default-font-for-symbols nil
-      face-font-rescale-alist '(("Twemoji" . 0.9) ("Sarasa Mono SC" . 1.1))
-      )
-;; emoji: 😄, 🤦, 🏴󠁧󠁢󠁳󠁣󠁴󠁿
-;; east asia: 你好中言, こんにちは, 안녕하세요
-;; https://github.com/VitalyAnkh/config/blob/master/doom/config.org#visual-settings
-;; https://emacs.stackexchange.com/questions/62049/override-the-default-font-for-emoji-characters
 (setq doom-theme 'doom-solarized-dark
       display-line-numbers-type 'relative
       )
 (setq-default tab-width 8                       ; http://xahlee.info/emacs/emacs/emacs_tabs_space_indentation_setup.html
+              )
+
+(setq doom-font (font-spec :family "monospace" :size 15.0)
+      doom-unicode-font (font-spec :family "Twemoji")
+      use-default-font-for-symbols nil
+      )
+(defun my-cjk-font()
+  (dolist (charset '(han kana hangul cjk-misc))
+    (set-fontset-font t charset (font-spec :family "Sarasa Mono SC"))))
+;; (setq face-font-rescale-alist '(("Sarasa Mono SC" . 1.1)))
+(add-hook 'after-setting-font-hook #'my-cjk-font)
+;; emoji: 😄, 🤦, 🏴󠁧󠁢󠁳󠁣󠁴󠁿
+;; east asia: 你好中言, こんにちは, 안녕하세요
+;; https://github.com/VitalyAnkh/config/blob/master/doom/config.org#visual-settings
+;; https://emacs.stackexchange.com/questions/62049/override-the-default-font-for-emoji-characters
+
+
+
+;;; vanilla
+(setq-default delete-by-moving-to-trash t       ; the trash dir is specified by "trash-directory", default: $XDG_DATA_HOME/Trash
               )
 
 
