@@ -18,8 +18,16 @@
 (setq doom-theme 'doom-solarized-dark
       display-line-numbers-type 'relative
       )
+
 (setq-default tab-width 8                       ; http://xahlee.info/emacs/emacs/emacs_tabs_space_indentation_setup.html
               )
+;; http://xahlee.info/emacs/emacs/emacs_tabs_space_indentation_setup.html
+
+(setq whitespace-style '(face trailing tabs tab-mark))
+(global-whitespace-mode t)
+;; http://xahlee.info/emacs/emacs/whitespace-mode.html
+
+
 
 (setq doom-font (font-spec :family "monospace" :size 15.0)
       doom-unicode-font (font-spec :family "Twemoji")

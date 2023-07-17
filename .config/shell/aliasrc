@@ -72,3 +72,5 @@ alias ad="id" # conflict between "id" command & my "id" directory
 
 #alias ra="ranger"
 alias gccs="git config credential.helper store"
+alias gsl='find . -maxdepth 1 -mindepth 1 -type d -exec sh -c "echo {}; cd {}; git status -s; echo" \;'
+# https://stackoverflow.com/a/65970494
