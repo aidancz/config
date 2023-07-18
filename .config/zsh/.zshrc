@@ -14,7 +14,10 @@ HISTSIZE=10000000
 SAVEHIST=10000000
 HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
 
-# # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle_emacs
+bindkey -e
+
+# # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle_vi
 # bindkey -v
 # #bindkey -s "^[[91;5u" "^["		# bind ctrl-[ to esc
 # export KEYTIMEOUT=1			# if use "kj" or relavant, this value should be set >=20, other =1
@@ -88,6 +91,9 @@ source ${ZIM_HOME}/init.zsh
 _zsh_autosuggest_bind_widgets		# https://github.com/zsh-users/zsh-autosuggestions#disabling-automatic-widget-re-binding
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ quick cd
+stty stop undef		# prevent ctrl-s to freeze terminal
+bindkey -s '^s' '^ucd "$(dirname "$(fzf)")"\n'
+
 lfcd () {
     tmp="$(mktemp -uq)"
     trap 'rm -f $tmp >/dev/null 2>&1 && trap - HUP INT QUIT TERM PWR EXIT' HUP INT QUIT TERM PWR EXIT
@@ -97,7 +103,4 @@ lfcd () {
         [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
     fi
 }
-bindkey -s '^d' '^ulfcd\n'
-
-stty stop undef		# prevent ctrl-s to freeze terminal
-bindkey -s '^s' '^ucd "$(dirname "$(fzf)")"\n'
+bindkey -s '^[s' '^ulfcd\n'	# bind alt-s

@@ -14,6 +14,7 @@ for i in *; do
 done
 ln -sf "${XDG_CONFIG_HOME:-$HOME/.config}/shell/profile"	"$HOME/.zprofile"
 ln -sf "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xprofile"		"$HOME/.xprofile"
+ln -sf "${XDG_CONFIG_HOME:-$HOME/.config}/vim/.vimrc"		"$HOME/.vimrc"
 
 cd $CON/.local/bin
 for i in *; do

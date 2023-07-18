@@ -16,7 +16,8 @@ export PATH="$PATH:$XDG_CONFIG_HOME/emacs/bin"
 
 # default program
 export TERMINAL="st"
-export EDITOR="emacs"
+export EDITOR="vim" # if contains "vi", zsh keymap will be "viins", otherwise it will be "emacs". this behaviour can be changed, see "man zshzle"
+export PAGER="vimpager"
 export BROWSER="google-chrome-stable"
 
 # program setting
