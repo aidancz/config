@@ -1,0 +1,16 @@
+# "a <- b" means a is linked by b
+# "a << b" means a is sourced by b
+
+.config/foo <- ~/.config/foo
+# foo position is used by foo
+
+.config/.foo <- ~/.config/.foo
+# .foo position is not used by foo
+
+	.x11
+	xinitrc <- $XINITRC
+	xprofile <- ~/.xprofile
+	xresources << xprofile
+
+	.sh
+	profile <- ~/.zprofile

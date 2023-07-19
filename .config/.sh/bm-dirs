@@ -5,12 +5,9 @@
 #	${XDG_PICTURES_DIR:-$HOME/Pictures}
 #	${XDG_VIDEOS_DIR:-$HOME/Videos}
 
-ca	${XDG_CACHE_HOME:-$HOME/.cache}
-co	${XDG_CONFIG_HOME:-$HOME/.config}
-da	${XDG_DATA_HOME:-$HOME/.local/share}
-sr	$HOME/.local/src
-bi	$HOME/.local/bin
-h	$HOME
-m	/mnt
+xco	${XDG_CONFIG_HOME:-$HOME/.config}
+xca	${XDG_CACHE_HOME:-$HOME/.cache}
+xda	${XDG_DATA_HOME:-$HOME/.local/share}
 
+gc	$a_gi/conf
 id	$a_id		# i diary

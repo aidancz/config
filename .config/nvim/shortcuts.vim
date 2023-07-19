@@ -1,10 +1,7 @@
-cmap ;ca /home/aidan/.cache
-cmap ;co /home/aidan/.config
-cmap ;da /home/aidan/.local/share
-cmap ;sr /home/aidan/.local/src
-cmap ;bi /home/aidan/.local/bin
-cmap ;h /home/aidan
-cmap ;m /mnt
+cmap ;xco /home/aidan/.config
+cmap ;xca /home/aidan/.cache
+cmap ;xda /home/aidan/.local/share
+cmap ;gc /home/ai/a_gi/conf
 cmap ;id /home/ai/a/id
 cmap ;bf /home/aidan/.config/shell/bm-files
 cmap ;bd /home/aidan/.config/shell/bm-dirs

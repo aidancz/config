@@ -1,10 +1,7 @@
-hash -d ca=/home/aidan/.cache 
-hash -d co=/home/aidan/.config 
-hash -d da=/home/aidan/.local/share 
-hash -d sr=/home/aidan/.local/src 
-hash -d bi=/home/aidan/.local/bin 
-hash -d h=/home/aidan 
-hash -d m=/mnt 
+hash -d xco=/home/aidan/.config 
+hash -d xca=/home/aidan/.cache 
+hash -d xda=/home/aidan/.local/share 
+hash -d gc=/home/ai/a_gi/conf 
 hash -d id=/home/ai/a/id 
 hash -d bf=/home/aidan/.config/shell/bm-files 
 hash -d bd=/home/aidan/.config/shell/bm-dirs 

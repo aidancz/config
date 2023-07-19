@@ -4,6 +4,9 @@
 # ueberzug. This works in concert with the lf configuration file and the
 # lf-cleaner script.
 
+GOTRACEBACK=crash
+# https://github.com/gokcehan/lf/issues/674
+
 set -e
 
 cleanup() {

@@ -52,10 +52,10 @@ WORDCHARS="${WORDCHARS/\//}"
 # WORDCHARS parameter is used by "forward-word" etc to specify which character should be considered as part of a "word", run `echo $WORDCHARS` to view its content
 # here the syntax is ${name/pattern/repl}, which replace the slash with nothing, see `man zshexpn` in the "parameter expansion" section for more details
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ luke smith "~/.config/shell/..." files
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc"
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc"
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc"
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ luke smith "~/.config/.sh/..." files
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/.sh/shortcutrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/.sh/shortcutrc"
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/.sh/aliasrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/.sh/aliasrc"
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/.sh/zshnameddirrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/.sh/zshnameddirrc"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zimfw (https://github.com/zimfw/zimfw)
 # source .zsh file in $ZDOTDIR

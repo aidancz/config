@@ -1,11 +1,8 @@
 # vim: filetype=sh
-alias ca="cd /home/aidan/.cache && ls -a" \
-co="cd /home/aidan/.config && ls -a" \
-da="cd /home/aidan/.local/share && ls -a" \
-sr="cd /home/aidan/.local/src && ls -a" \
-bi="cd /home/aidan/.local/bin && ls -a" \
-h="cd /home/aidan && ls -a" \
-m="cd /mnt && ls -a" \
+alias xco="cd /home/aidan/.config && ls -a" \
+xca="cd /home/aidan/.cache && ls -a" \
+xda="cd /home/aidan/.local/share && ls -a" \
+gc="cd /home/ai/a_gi/conf && ls -a" \
 id="cd /home/ai/a/id && ls -a" \
 bf="$EDITOR /home/aidan/.config/shell/bm-files" \
 bd="$EDITOR /home/aidan/.config/shell/bm-dirs" \

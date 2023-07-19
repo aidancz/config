@@ -7,14 +7,17 @@ SCRIPT=$(readlink -f "$0")
 CON=$(dirname "$SCRIPT")
 # absolute path this script is in
 
+shopt -s dotglob
+# loop hidden files
+
 cd $CON/.config
 for i in *; do
 	rm -rf			"${XDG_CONFIG_HOME:-$HOME/.config}/$i"
 	ln -s "$PWD/$i"		"${XDG_CONFIG_HOME:-$HOME/.config}/$i"
 done
-ln -sf "${XDG_CONFIG_HOME:-$HOME/.config}/shell/profile"	"$HOME/.zprofile"
-ln -sf "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xprofile"		"$HOME/.xprofile"
-ln -sf "${XDG_CONFIG_HOME:-$HOME/.config}/vim/.vimrc"		"$HOME/.vimrc"
+ln -sf "${XDG_CONFIG_HOME:-$HOME/.config}/.sh/profile"		"$HOME/.zprofile"
+ln -sf "${XDG_CONFIG_HOME:-$HOME/.config}/.x11/xprofile"	"$HOME/.xprofile"
+ln -sf "${XDG_CONFIG_HOME:-$HOME/.config}/.vim/.vimrc"		"$HOME/.vimrc"
 
 cd $CON/.local/bin
 for i in *; do
