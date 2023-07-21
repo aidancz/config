@@ -6,8 +6,15 @@ set listchars=eol:\ ,
 set virtualedit=onemore,block
 au InsertLeave * :norm `^
 set listchars+=tab:\·\ ,			"u+00b7, middle dot
-set listchars+=multispace:▫,lead:▫,trail:▫,	"u+25ab, white small square
+"set listchars+=multispace:▫,lead:▫,trail:▫,	"u+25ab, white small square
 set shortmess-=S
+
+highlight ExtraWhitespace ctermbg=red guibg=red
+au ColorScheme * highlight ExtraWhitespace guibg=red
+au BufEnter * match ExtraWhitespace /\s\+$/
+au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+au InsertLeave * match ExtraWhiteSpace /\s\+$/
+" https://gist.github.com/pironim/3722006
 
 set ignorecase
 set smartcase
@@ -28,7 +35,21 @@ set hidden
 
 nnoremap <silent> <c-j> :put _<cr>
 nnoremap <silent> <c-k> :put! _<cr>
+nnoremap <silent> <esc>j :m +1<cr>
+nnoremap <silent> <esc>k :m -2<cr>
 
-let g:less = { 'scrolloff': 1024 }
+map Y y$
+
+let mapleader=" "
+
+
+
+let g:less = {}
+let g:vimpager = {}
+let g:less.scrolloff = 1024
 " https://github.com/rkitover/vimpager/issues/212
 
+
+
+autocmd BufWritePost bm-files,bm-dirs !shortcuts %
+autocmd BufWritePost xresources !xrdb % 2> /dev/null

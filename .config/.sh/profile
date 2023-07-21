@@ -19,6 +19,7 @@ export TERMINAL="st"
 export EDITOR="vim" # if contains "vi", zsh keymap will be "viins", otherwise it will be "emacs". this behaviour can be changed, see "man zshzle"
 export PAGER="vimpager"
 export BROWSER="google-chrome-stable"
+# https://unix.stackexchange.com/questions/4859/visual-vs-editor-what-s-the-difference
 
 # program setting
 export DICS="/usr/share/stardict/dic/"
@@ -77,13 +78,8 @@ export no_proxy="localhost, 127.0.0.1, ::1"
 
 export RANGER_LOAD_DEFAULT_RC="false"
 
-export dark_start=17
-export dark_end=8
-
+# if doesn't exist shortcutrc, run shortcuts script
 [ ! -f ${XDG_CONFIG_HOME:-$HOME/.config}/.sh/shortcutrc ] && setsid shortcuts >/dev/null 2>&1
 
-# Start graphical server on user's current tty if not already running.
+# start graphical server on user's current tty if not already running.
 [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
-
-# Switch escape and caps if tty and no passwd required:
-# sudo -n loadkeys ${XDG_DATA_HOME:-$HOME/.local/share}/larbs/ttymaps.kmap 2>/dev/null

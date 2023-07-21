@@ -54,8 +54,6 @@ alias \
 	weath="less -S ${XDG_CACHE_HOME:-$HOME/.cache}/weatherreport" \
 
 # aidan
-alias c="clear"
-alias q="exit"
 
 alias ls="ls -Ahv --group-directories-first --color=auto"
 alias ll="ls -l"
@@ -70,7 +68,6 @@ alias grep="grep -E --color=auto"
 
 alias ad="id" # conflict between "id" command & my "id" directory
 
-#alias ra="ranger"
 alias gccs="git config credential.helper store"
 alias gsl='find . -maxdepth 1 -mindepth 1 -type d -exec sh -c "echo {}; cd {}; git status -s; echo" \;'
 # https://stackoverflow.com/a/65970494

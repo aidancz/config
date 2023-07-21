@@ -110,15 +110,16 @@ map g top
 map <a-j> :updir; set dironly true; down; set dironly false; open
 map <a-k> :updir; set dironly true; up; set dironly false; open
 
-map A rename				# at the very end
-map I push A<c-a>			# at the very beginning
-map a push A<a-b>			# after extension
-map i push A<a-b><c-b>			# before extension
+map i rename				# before extension
+map a push i<c-f>			# after extension
+map I push i<c-a>			# at the very beginning
+map A push i<c-e>			# at the very end
 map c					# default: c -> clear, unmap it to use key sequence start with "c"
-map cc push A<c-u>			# new rename
-map cw push A<a-b><c-b><c-u>		# new rename (with extension)
+map cc push i<c-e><c-u>			# new rename
+map cw push i<c-u>			# new rename (with extension)
 map ci bulkrename
 # https://github.com/gokcehan/lf/issues/279
+# https://github.com/gokcehan/lf/wiki/Tips#enhancing-the-rename-command
 
 map <enter>	$setsid -f $TERMINAL >/dev/null 2>&1
 map x		$$f
@@ -143,4 +144,5 @@ lf -remote "send $id cd $lf_dir"
 # doesn't work for now, check this issue: https://github.com/LukeSmithxyz/voidrice/issues/831, my solution as above
 
 # source
+map e
 source "~/.config/lf/shortcutrc"
