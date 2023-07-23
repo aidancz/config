@@ -46,25 +46,13 @@ au BufEnter * set fo-=c fo-=r fo-=o
 
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
-"inoremap kj <esc>
-inoremap <c-h> <c-o>0
-inoremap <c-l> <c-o>$
-inoremap <c-w> <c-g>u<c-w>
-inoremap <c-u> <c-g>u<c-u>
-
-nnoremap s :w<cr>
-nnoremap q :q<cr>
-nnoremap <silent> J :m +1<cr>
-nnoremap <silent> K :m -2<cr>
 nnoremap <expr> zh 'zt' . winheight(0)/4 . '<c-y>'
 nnoremap <expr> zl 'zb' . winheight(0)/4 . '<c-e>'
 
-nnoremap <c-q> q
-nnoremap <c-j> <c-d>
-nnoremap <c-k> <c-u>
-
-nnoremap <silent> <a-j> :put _<cr>
-nnoremap <silent> <a-k> :put! _<cr>
+nnoremap <silent> <c-j> :put _<cr>
+nnoremap <silent> <c-k> :put! _<cr>
+nnoremap <silent> <a-j> :m +1<cr>
+nnoremap <silent> <a-k> :m -2<cr>
 
 
 

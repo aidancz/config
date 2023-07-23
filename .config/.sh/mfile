@@ -1,9 +1,10 @@
 # effective when writed in vim
-f	$XDG_CONFIG_HOME/.sh/bm-files
-d	$XDG_CONFIG_HOME/.sh/bm-dirs
+d	$XDG_CONFIG_HOME/.sh/mdir
+f	$XDG_CONFIG_HOME/.sh/mfile
 x	$XDG_CONFIG_HOME/.x11/xresources
 
 # effective when restart
+p	$XDG_CONFIG_HOME/.sh/profile
 z	$XDG_CONFIG_HOME/zsh/.zshrc
 v	$XDG_CONFIG_HOME/.vim/.vimrc
 l	$XDG_CONFIG_HOME/lf/lfrc

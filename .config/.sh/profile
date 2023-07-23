@@ -1,82 +1,8 @@
 #!/bin/zsh
-# profile file. runs on login. environmental variables are set here.
-# if you don't plan on reverting to bash, you can remove the link in ~/.profile
-# to clean up.
+# profile file, runs on login
 
-unsetopt PROMPT_SP
-
-# xdg variable
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_CACHE_HOME="$HOME/.cache"
-
-# expand $PATH
-export PATH="$PATH:${$(find -L ~/.local/bin -type d -printf %p:)%%:}" # the -L option is critical, it tells "find" to find the linked files, not the link itself
-export PATH="$PATH:$XDG_CONFIG_HOME/emacs/bin"
-
-# default program
-export TERMINAL="st"
-export EDITOR="vim" # if contains "vi", zsh keymap will be "viins", otherwise it will be "emacs". this behaviour can be changed, see "man zshzle"
-export PAGER="vimpager"
-export BROWSER="google-chrome-stable"
-# https://unix.stackexchange.com/questions/4859/visual-vs-editor-what-s-the-difference
-
-# program setting
-export DICS="/usr/share/stardict/dic/"
-export SUDO_ASKPASS="$HOME/.local/bin/dmenupass"
-export FZF_DEFAULT_OPTS="--layout=reverse --height 40%"
-export LESS=-R
-export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"
-export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"
-export LESS_TERMCAP_me="$(printf '%b' '[0m')"
-export LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')"
-export LESS_TERMCAP_se="$(printf '%b' '[0m')"
-export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
-export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
-export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
-export QT_QPA_PLATFORMTHEME="gtk2" # Have QT use gtk2 theme.
-export MOZ_USE_XINPUT2="1" # Mozilla smooth scrolling/touchpads.
-export AWT_TOOLKIT="MToolkit wmname LG3D" # May have to install wmname
-export _JAVA_AWT_WM_NONREPARENTING=1 # Fix for Java applications in dwm
-
-# clean $HOME
-export DOOMDIR="$XDG_CONFIG_HOME/doom"
-export XINITRC="$XDG_CONFIG_HOME/.x11/xinitrc"
-#export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority" # This line will break some DMs.
-export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch-config"
-export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
-export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
-export INPUTRC="$XDG_CONFIG_HOME/.sh/inputrc"
-export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-#export GNUPGHOME="$XDG_DATA_HOME/gnupg"
-export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
-export KODI_DATA="$XDG_DATA_HOME/kodi"
-export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
-export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
-export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/android"
-export CARGO_HOME="$XDG_DATA_HOME/cargo"
-export GOPATH="$XDG_DATA_HOME/go"
-export ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible/ansible.cfg"
-export UNISON="$XDG_DATA_HOME/unison"
-export HISTFILE="$XDG_DATA_HOME/history"
-export MBSYNCRC="$XDG_CONFIG_HOME/mbsync/config"
-export ELECTRUMDIR="$XDG_DATA_HOME/electrum"
-
-# aidan
-export home=/home/ai
-export a=$home/a
-for i in $(ls -d $a/*/ | cut -f5 -d'/')
-do
-	export a_$i=$a/$i
-done
-export a_gi=$home/a_gi
-
-export http_proxy="http://127.0.0.1:8889/"
-export https_proxy=$http_proxy
-export all_proxy=$http_proxy
-export no_proxy="localhost, 127.0.0.1, ::1"
-
-export RANGER_LOAD_DEFAULT_RC="false"
+# var
+source $HOME/.config/.sh/var
 
 # if doesn't exist shortcutrc, run shortcuts script
 [ ! -f ${XDG_CONFIG_HOME:-$HOME/.config}/.sh/shortcutrc ] && setsid shortcuts >/dev/null 2>&1

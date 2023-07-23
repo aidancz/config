@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# give command better default
+alias ls="ls -Ahv1 --group-directories-first --color=auto"
+alias chmod="chmod --preserve-root -v"
+alias chown="chown --preserve-root -v"
+alias df="df -h"
+alias du="du -h"
+alias mkdir="mkdir -p"
+alias grep="grep -E --color=auto"
+
+# abbreviate long command
+alias lf="lfub"
+alias ll="ls -l"
+alias gccs="git config credential.helper store"
+alias gsl='find . -maxdepth 1 -mindepth 1 -type d -exec sh -c "echo {}; cd {}; git status -s; echo" \;'
+# https://stackoverflow.com/a/65970494

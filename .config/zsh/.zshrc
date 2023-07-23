@@ -1,3 +1,9 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ source
+source $XDG_CONFIG_HOME/.sh/var
+source $XDG_CONFIG_HOME/.sh/alias
+source $XDG_CONFIG_HOME/.sh/m_sh
+source $XDG_CONFIG_HOME/zsh/m_zsh
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ cd $home
 if [[ $PWD == $HOME ]]
 then
@@ -12,7 +18,6 @@ PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magent
 setopt HIST_IGNORE_ALL_DUPS
 HISTSIZE=10000000
 SAVEHIST=10000000
-HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle_emacs
 bindkey -e
@@ -51,11 +56,6 @@ setopt interactive_comments
 WORDCHARS="${WORDCHARS/\//}"
 # WORDCHARS parameter is used by "forward-word" etc to specify which character should be considered as part of a "word", run `echo $WORDCHARS` to view its content
 # here the syntax is ${name/pattern/repl}, which replace the slash with nothing, see `man zshexpn` in the "parameter expansion" section for more details
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ luke smith "~/.config/.sh/..." files
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/.sh/shortcutrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/.sh/shortcutrc"
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/.sh/aliasrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/.sh/aliasrc"
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/.sh/zshnameddirrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/.sh/zshnameddirrc"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zimfw (https://github.com/zimfw/zimfw)
 # source .zsh file in $ZDOTDIR

@@ -1,9 +1,11 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ set
-set shellopts '-eu'
-set ifs "\n"
+# set number
+# set relativenumber
 # set icons
+
+set shellopts '-eu'	# see "man zshoptions"
+set ifs "\n"		# internal field separater
 set period 1
-set hiddenfiles ".*:*.aux:*.log:*.bbl:*.bcf:*.blg:*.run.xml"
 set hidden
 set cleaner '~/.config/lf/cleaner'
 set previewer '~/.config/lf/scope'
@@ -144,5 +146,4 @@ lf -remote "send $id cd $lf_dir"
 # doesn't work for now, check this issue: https://github.com/LukeSmithxyz/voidrice/issues/831, my solution as above
 
 # source
-map e
-source "~/.config/lf/shortcutrc"
+source "~/.config/lf/m_lf"

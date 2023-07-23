@@ -51,5 +51,5 @@ let g:less.scrolloff = 1024
 
 
 
-autocmd BufWritePost bm-files,bm-dirs !shortcuts %
+autocmd BufWritePost mdir,mfile !mdir-mfile %
 autocmd BufWritePost xresources !xrdb % 2> /dev/null

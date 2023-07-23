@@ -1,0 +1,54 @@
+#!/bin/sh
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ xdg
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ aidan
+export home=/home/ai
+export a=$home/a
+for i in $(ls -d $a/*/ | xargs -n1 basename)
+do
+	export a_$i=$a/$i
+done
+export a_gi=$home/a_gi
+
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ path
+export PATH="$PATH:${$(find -L ~/.local/bin -type d -printf %p:)%%:}"
+# the -L option is critical, it tells "find" to find the linked files, not the link itself
+export PATH="$PATH:$XDG_CONFIG_HOME/emacs/bin"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ proxy
+export http_proxy="http://127.0.0.1:8889/"
+export https_proxy=$http_proxy
+export all_proxy=$http_proxy
+export no_proxy="localhost, 127.0.0.1, ::1"
+
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ default program
+export TERMINAL="st"
+
+export EDITOR="vim"
+export VISUAL="vim"
+# if contains "vi", zsh keymap will be "viins", otherwise it will be "emacs". this behaviour can be changed, see "man zshzle"
+# https://unix.stackexchange.com/questions/4859/visual-vs-editor-what-s-the-difference
+
+export PAGER="vimpager"
+export BROWSER="google-chrome-stable"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ program_path
+export INPUTRC="$XDG_CONFIG_HOME/.sh/inputrc"
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export HISTFILE="$a/history"
+export XINITRC="$XDG_CONFIG_HOME/.x11/xinitrc"
+export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
+export DOOMDIR="$XDG_CONFIG_HOME/doom"
+export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
+export GOPATH="$XDG_DATA_HOME/go"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ program_config
+export RANGER_LOAD_DEFAULT_RC="false"

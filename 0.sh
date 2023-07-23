@@ -30,6 +30,7 @@ for i in $(ls | grep -v "^applications$"); do
 	rm -rf			"${XDG_DATA_HOME:-$HOME/.local/share}/$i"
 	ln -s "$PWD/$i"		"${XDG_DATA_HOME:-$HOME/.local/share}/$i"
 done
+# create link except "applications"
 
 cd $CON/.local/share/applications
 for i in *; do
