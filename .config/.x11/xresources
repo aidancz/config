@@ -81,12 +81,12 @@
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ specific
 st.borderpx: 0
 
-dwm.normbordercolor:	s_base02
-dwm.selbordercolor:	s_base01
 dwm.normbgcolor:	s_base03
 dwm.normfgcolor:	s_base01
 dwm.selbgcolor:		s_base01
 dwm.selfgcolor:		s_base03
+dwm.normbordercolor:	s_base02
+dwm.selbordercolor:	s_base1
 dwm.showbar: 1
 dwm.borderpx: 3
 
