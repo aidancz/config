@@ -52,3 +52,4 @@ export GOPATH="$XDG_DATA_HOME/go"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ program_config
 export RANGER_LOAD_DEFAULT_RC="false"
+export FZF_DEFAULT_COMMAND="find -L"

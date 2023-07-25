@@ -1,11 +1,13 @@
+ut	/tmp
+
 xco	$XDG_CONFIG_HOME
 xca	$XDG_CACHE_HOME
 xda	$XDG_DATA_HOME
 
 h	$home
-dow	$home/dow
+hd	$home/dow
 
 a	$home/a
-c	$a_gi/conf
 aid	$a_id
 agi	$a_gi
+j	$a_gi/conf

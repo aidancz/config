@@ -1,13 +1,6 @@
-# effective when writed in vim
+v	$XDG_CONFIG_HOME/.sh/var
 d	$XDG_CONFIG_HOME/.sh/mdir
 f	$XDG_CONFIG_HOME/.sh/mfile
 x	$XDG_CONFIG_HOME/.x11/xresources
 
-# effective when restart
-p	$XDG_CONFIG_HOME/.sh/profile
-z	$XDG_CONFIG_HOME/zsh/.zshrc
-v	$XDG_CONFIG_HOME/.vim/.vimrc
-l	$XDG_CONFIG_HOME/lf/lfrc
-
-# not config
 n	$a_in/0.md
