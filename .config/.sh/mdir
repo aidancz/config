@@ -5,7 +5,7 @@ xca	$XDG_CACHE_HOME
 xda	$XDG_DATA_HOME
 
 h	$home
-hd	$home/dow
+hs	$home/s
 
 a	$home/a
 aid	$a_id

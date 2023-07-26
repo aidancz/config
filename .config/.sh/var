@@ -32,12 +32,12 @@ export no_proxy="localhost, 127.0.0.1, ::1"
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ default program
 export TERMINAL="st"
 
-export EDITOR="vim"
-export VISUAL="vim"
+export EDITOR="nvim"
+export VISUAL="nvim"
 # if contains "vi", zsh keymap will be "viins", otherwise it will be "emacs". this behaviour can be changed, see "man zshzle"
 # https://unix.stackexchange.com/questions/4859/visual-vs-editor-what-s-the-difference
 
-export PAGER="vimpager"
+export PAGER="nvimpager"
 export BROWSER="google-chrome-stable"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ program_path

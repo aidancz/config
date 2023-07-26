@@ -11,7 +11,7 @@ set relativenumber
 set guicursor=
 "set cursorline
 set wildmenu
-set wildoptions="pum,tagfile"
+set wildoptions=pum,tagfile
 set shortmess-=S
 set showcmd
 
@@ -33,10 +33,12 @@ au InsertLeave * match ExtraWhiteSpace /\s\+$/
 set concealcursor=""
 set conceallevel=0
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ keypress time
-set notimeout			" eg: zz
-set timeoutlen=100		" based on "timeout", has no effect if "notimeout"
-set ttimeout			" <esc>
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ timeout
+" in terminal, press "<a-j>" / "<esc>j" send the same keycode "^[j" to program
+" if you are vim, when you receive keycode "^[", you can choose wait or not
+set notimeout			" timeout: whether "^[j and zz" timeout
+set ttimeout			" ttimeout: whether "^[j" timeout, t means terminal
+set timeoutlen=100
 set ttimeoutlen=0
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ search
@@ -89,5 +91,14 @@ nnoremap Y y$
 
 nnoremap <silent> <c-j> :put _<cr>
 nnoremap <silent> <c-k> :put! _<cr>
-nnoremap <silent> <esc>j :m +1<cr>
-nnoremap <silent> <esc>k :m -2<cr>
+nnoremap <silent> <s-j> :m +1<cr>
+nnoremap <silent> <s-k> :m -2<cr>
+" for now the "<a-j>" mapping only works in nvim, so map <s-j> instead
+
+
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vimpager
+let g:less = {}
+let g:vimpager = {}
+let g:less.scrolloff = 1024
+" https://github.com/rkitover/vimpager/issues/212
