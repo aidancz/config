@@ -7,10 +7,11 @@
 .config/.foo <- ~/.config/.foo
 # .foo position is not used by foo
 
-	.x11
-	xinitrc <- $XINITRC
-	xprofile <- ~/.xprofile
-	xresources << xprofile
-
 	.sh
 	profile <- ~/.zprofile
+
+	.x11
+	xprofile <- ~/.xprofile
+	xresources << xprofile
+	xinitrc <- $XINITRC
+

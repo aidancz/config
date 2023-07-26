@@ -83,8 +83,8 @@ fi
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=10"
 ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 	# completion
-zstyle ':zim:completion' dumpfile		${XDG_CACHE_HOME}/zsh/zcompdump
-zstyle ':completion::complete:*' cache-path	${XDG_CACHE_HOME}/zsh/zcompcache
+zstyle ':zim:completion' dumpfile		$ZIM_HOME/zcompdump
+zstyle ':completion::complete:*' cache-path	$ZIM_HOME/zcompcache
 
 # initialize modules
 source ${ZIM_HOME}/init.zsh

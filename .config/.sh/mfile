@@ -1,6 +1,6 @@
-v	$XDG_CONFIG_HOME/.sh/var
-d	$XDG_CONFIG_HOME/.sh/mdir
-f	$XDG_CONFIG_HOME/.sh/mfile
-x	$XDG_CONFIG_HOME/.x11/xresources
+f	$a_in/0.md
 
-n	$a_in/0.md
+fv	$XDG_CONFIG_HOME/.sh/var
+fd	$XDG_CONFIG_HOME/.sh/mdir
+ff	$XDG_CONFIG_HOME/.sh/mfile
+fx	$XDG_CONFIG_HOME/.x11/xresources

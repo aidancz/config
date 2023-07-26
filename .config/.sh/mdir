@@ -10,4 +10,7 @@ hd	$home/dow
 a	$home/a
 aid	$a_id
 agi	$a_gi
-j	$a_gi/conf
+
+d	$a_gi/d
+dc	$a_gi/d/.config
+dl	$a_gi/d/.local

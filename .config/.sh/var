@@ -6,7 +6,7 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ aidan
-export home=/home/ai
+export home=/home/h
 export a=$home/a
 for i in $(ls -d $a/*/ | xargs -n1 basename)
 do
