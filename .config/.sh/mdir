@@ -6,6 +6,7 @@ xda	$XDG_DATA_HOME
 
 h	$home
 hs	$home/s
+hg	$home/gi
 
 a	$home/a
 aid	$a_id

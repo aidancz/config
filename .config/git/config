@@ -1,0 +1,14 @@
+# https://git-scm.com/docs/git-config#_variables
+
+[user]
+	name = aidancz
+	email = aidanczhai@gmail.com
+[http]
+	proxy = http://127.0.0.1:8889
+[https]
+	proxy = http://127.0.0.1:8889
+
+[color]
+	ui = auto
+[advice]
+	statusHints = false
