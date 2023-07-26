@@ -14,8 +14,9 @@ alias lf="lfub"
 alias ll="ls -l"
 
 # abbreviate git command
+alias gccs="git config credential.helper store"
 alias gs="git status -s"
 alias gsl="find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && git status -s && echo)' \;"
 # https://stackoverflow.com/a/65970494
 alias gl="git log --all --oneline --graph"
-alias gccs="git config credential.helper store"
+alias ga="git add --all"

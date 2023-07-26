@@ -37,7 +37,7 @@ export VISUAL="nvim"
 # if contains "vi", zsh keymap will be "viins", otherwise it will be "emacs". this behaviour can be changed, see "man zshzle"
 # https://unix.stackexchange.com/questions/4859/visual-vs-editor-what-s-the-difference
 
-export PAGER="nvimpager"
+export PAGER="vimpager"
 export BROWSER="google-chrome-stable"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ program_path

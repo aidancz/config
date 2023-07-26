@@ -106,6 +106,8 @@ cmd setbg "$1"
 cmd bulkrename $vidir
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
+map t
+
 map <esc> :unselect; clear
 
 map g top
@@ -126,8 +128,7 @@ map ci bulkrename
 map <enter>	$setsid -f $TERMINAL >/dev/null 2>&1
 map x		$$f
 map <c-x>	!$f
-map o		&mimeopen "$f"
-map <c-o>	$mimeopen --ask "$f"
+map <a-x>	$chmod +x $f
 
 map <a-y>	$printf "%s" "$fx" | xclip -selection clipboard
 map <a-b>	$setbg $f

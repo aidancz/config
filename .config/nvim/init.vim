@@ -144,8 +144,8 @@ let mapleader=" "
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ autocmd
 autocmd BufWritePost mdir,mfile !mdir-mfile
-autocmd BufRead,BufNewFile xresources set filetype=xdefaults
-autocmd BufWritePost xresources !xrdb % 2> /dev/null
+autocmd BufRead,BufNewFile xresources* set filetype=xdefaults
+autocmd BufWritePost xresources* !xrdb % 2> /dev/null
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ compile function
 func! CompileRunGcc()
