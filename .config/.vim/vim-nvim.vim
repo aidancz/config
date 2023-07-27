@@ -71,7 +71,11 @@ set preserveindent		" preserveindent: at line start, when use >>/<<, preserve cu
 " let's say we have "▫▫▫·alice and bob"
 " "preserveindent": "▫▫▫·▫▫▫·alice and bob"
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ formatoptions (automatic formatting)
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ auto linebreak
+set textwidth=0
+set wrapmargin=0
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ formatoptions
 "au BufEnter * set fo-=c fo-=r fo-=o
 " disable automatic comment on newline
 " https://vi.stackexchange.com/questions/1983/how-can-i-get-vim-to-stop-putting-comments-in-front-of-new-lines

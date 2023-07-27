@@ -1,4 +1,6 @@
 ut	/tmp
+uu	/usr
+uus	/usr/share
 
 xco	$XDG_CONFIG_HOME
 xca	$XDG_CACHE_HOME
@@ -13,6 +15,3 @@ aid	$a_id
 agi	$a_gi
 
 d	$a_gi/d
-dc	$a_gi/d/.config
-db	$a_gi/d/.local/bin
-ds	$a_gi/d/.local/share

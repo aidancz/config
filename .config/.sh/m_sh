@@ -1,5 +1,7 @@
 # vim: filetype=sh
 alias ut="cd /tmp && ls -a" \
+uu="cd /usr && ls -a" \
+uus="cd /usr/share && ls -a" \
 xco="cd /home/aidan/.config && ls -a" \
 xca="cd /home/aidan/.cache && ls -a" \
 xda="cd /home/aidan/.local/share && ls -a" \
@@ -10,9 +12,6 @@ a="cd /home/h/a && ls -a" \
 aid="cd /home/h/a/id && ls -a" \
 agi="cd /home/h/a_gi && ls -a" \
 d="cd /home/h/a_gi/d && ls -a" \
-dc="cd /home/h/a_gi/d/.config && ls -a" \
-db="cd /home/h/a_gi/d/.local/bin && ls -a" \
-ds="cd /home/h/a_gi/d/.local/share && ls -a" \
 f="$EDITOR /home/h/a/in/0.md" \
 fv="$EDITOR /home/aidan/.config/.sh/var" \
 fd="$EDITOR /home/aidan/.config/.sh/mdir" \

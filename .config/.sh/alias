@@ -20,3 +20,5 @@ alias gsl="find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {}
 # https://stackoverflow.com/a/65970494
 alias gl="git log --all --oneline --graph"
 alias ga="git add --all"
+alias gc="git commit -m -"
+alias gp="git push"
