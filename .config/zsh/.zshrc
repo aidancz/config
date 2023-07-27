@@ -1,8 +1,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ source
 source $XDG_CONFIG_HOME/.sh/var
 source $XDG_CONFIG_HOME/.sh/alias
-source $XDG_CONFIG_HOME/.sh/m_sh
-source $XDG_CONFIG_HOME/zsh/m_zsh
+source $XDG_CONFIG_HOME/mdf/m_sh
+source $XDG_CONFIG_HOME/mdf/m_zsh
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ cd $home
 if [[ $PWD == $HOME ]]

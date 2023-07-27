@@ -1,13 +1,15 @@
 #!/bin/sh
 
+# mdir mfile parse
+
 mdir="$XDG_CONFIG_HOME/.sh/mdir"
 mfile="$XDG_CONFIG_HOME/.sh/mfile"
 
 # output locations. unactivated progs should go to /dev/null
-m_sh="$XDG_CONFIG_HOME/.sh/m_sh"
-# i use "mdir-mfile_sh" originally, but shell variable name can't contain -
-m_zsh="$XDG_CONFIG_HOME/zsh/m_zsh"
-m_lf="$XDG_CONFIG_HOME/lf/m_lf"
+mkdir -p $XDG_CONFIG_HOME/mdf
+m_sh="$XDG_CONFIG_HOME/mdf/m_sh"
+m_zsh="$XDG_CONFIG_HOME/mdf/m_zsh"
+m_lf="$XDG_CONFIG_HOME/mdf/m_lf"
 
 # remove, prepare files
 rm -f "$m_zsh" "$m_lf" 2>/dev/null
@@ -17,7 +19,7 @@ printf "# vim: filetype=sh\\nalias " > "$m_sh"
 eval "echo \"$(cat "$mdir")\"" | \
 awk "!/^\s*#/ && !/^\s*\$/ {gsub(\"\\\s*#.*$\",\"\");
 
-	printf(\"%s=\42cd %s && ls -a\42 \\\\\n\",\$1,\$2)   >> \"$m_sh\" ;
+	printf(\"%s=\42cd %s && ls\42 \\\\\n\",\$1,\$2)   >> \"$m_sh\" ;
 	printf(\"hash -d %s=%s \n\",\$1,\$2)                 >> \"$m_zsh\"  ;
 	printf(\"cmd %s cd \42%s\42 \n\",\$1,\$2)           >> \"$m_lf\" ;
 

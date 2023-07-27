@@ -147,4 +147,4 @@ lf -remote "send $id cd $lf_dir"
 # doesn't work for now, check this issue: https://github.com/LukeSmithxyz/voidrice/issues/831, my solution as above
 
 # source
-source "~/.config/lf/m_lf"
+source "~/.config/mdf/m_lf"
