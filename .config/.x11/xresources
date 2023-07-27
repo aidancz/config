@@ -49,9 +49,10 @@
 
 
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ common
-*font: monospace:size=15
-*fonta: Sarasa Mono SC:size=14
-*fontb: Twemoji:size=12
+*font: monospace:size=14.7
+*fonta: Twemoji
+*fontb: Noto Color Emoji
+! 4 pixel = 3 point
 *alpha: 1
 *color0:                  s_base02
 *color8:                  s_base03

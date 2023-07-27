@@ -106,8 +106,6 @@ cmd setbg "$1"
 cmd bulkrename $vidir
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
-map t
-
 map <esc> :unselect; clear
 
 map g top
@@ -145,6 +143,10 @@ lf -remote "send $id cd $lf_dir"
 }}
 #map J $lf -remote "send $id cd $(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/.sh/bm-dirs | fzf)"
 # doesn't work for now, check this issue: https://github.com/LukeSmithxyz/voidrice/issues/831, my solution as above
+
+map t
+map v $nvim $fx
+map e $emacs -nw $fx
 
 # source
 source "~/.config/mdf/m_lf"

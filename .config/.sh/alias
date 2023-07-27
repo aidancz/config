@@ -10,15 +10,20 @@ alias mkdir="mkdir -p"
 alias grep="grep -E --color=auto"
 
 # abbreviate long command
+alias v="nvim"
+alias e="emacs -nw"
 alias lf="lfub"
 alias ll="ls -l"
 
 # abbreviate git command
-alias gccs="git config credential.helper store"
 alias gs="git status -s"
-alias gsl="find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && git status -s && echo)' \;"
-# https://stackoverflow.com/a/65970494
+alias gd="git diff"
 alias gl="git log --all --oneline --graph"
+
 alias ga="git add --all"
 alias gc="git commit -m -"
 alias gp="git push"
+
+alias gccs="git config credential.helper store"
+alias gsl="find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && git status -s && echo)' \;"
+# https://stackoverflow.com/a/65970494
