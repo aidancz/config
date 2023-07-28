@@ -152,7 +152,7 @@ nnoremap <leader>tm :TableModeToggle<cr>
 let mapleader=" "
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ autocmd
-autocmd BufWritePost mdir,mfile !mdir-mfile
+autocmd BufWritePost mdir,mfile !mdf
 autocmd BufRead,BufNewFile xresources* set filetype=xdefaults
 autocmd BufWritePost xresources* !xrdb % 2> /dev/null
 

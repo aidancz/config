@@ -1,18 +1,18 @@
 #!/bin/sh
 
-#def="
-##define s_base03        #fdf6e3
-##define s_base02        #eee8d5
-##define s_base01        #93a1a1
-##define s_base00        #839496
-##define s_base0         #657b83
-##define s_base1         #586e75
-##define s_base2         #073642
-##define s_base3         #002b36
-#"
-#echo "$def"
+def="\
+#define s_base03        #fdf6e3
+#define s_base02        #eee8d5
+#define s_base01        #93a1a1
+#define s_base00        #839496
+#define s_base0         #657b83
+#define s_base1         #586e75
+#define s_base2         #073642
+#define s_base3         #002b36
+"
+echo "$def" > /tmp/xl_def
 
-xrdb ~/.config/.x11/xresources_light 2> /dev/null
+sed '46 r /tmp/xl_def' ~/.config/.x11/xresources | xrdb 2> /dev/null
 
 
 

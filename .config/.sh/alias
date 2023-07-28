@@ -22,6 +22,7 @@ alias gl="git log --all --oneline --graph"
 
 alias ga="git add --all"
 alias gc="git commit -m -"
+alias gca="git commit --amend"
 alias gp="git push"
 
 alias gccs="git config credential.helper store"

@@ -48,7 +48,7 @@ set ignorecase
 set smartcase
 set magic
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ copy
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ copy & paste
 set clipboard^=unnamedplus
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ indent

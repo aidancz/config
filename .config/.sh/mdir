@@ -8,10 +8,17 @@ xda	$XDG_DATA_HOME
 
 h	$home
 hs	$home/s
-hg	$home/gi
+hg	$home/g
 
 a	$home/a
+aic	$a_ic
 aid	$a_id
 agi	$a_gi
 
 d	$a_gi/d
+db	$a_gi/d/.local/bin
+ds	$a_gi/d/.config/.sh
+dx	$a_gi/d/.config/.x11
+dv	$a_gi/d/.config/.vim
+dn	$a_gi/d/.config/nvim
+dl	$a_gi/d/.config/lf

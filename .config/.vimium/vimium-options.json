@@ -12,7 +12,7 @@
   "keyMappings": "map a focusInput\nmap j scrollPageDown\nmap k scrollPageUp\nmap g scrollToTop\n\nmap h previousTab\nmap l nextTab\nmap s Vomnibar.activateTabSelection\nmap < moveTabLeft\nmap > moveTabRight\n\nmap : Vomnibar.activateBookmarksInNewTab\nmap o Vomnibar.activateInNewTab\nmap f LinkHints.activateMode\nmap t LinkHints.activateModeToOpenInNewForegroundTab\nmap p openCopiedUrlInNewTab\nmap u restoreTab",
   "linkHintCharacters": "sadfjklewcmpgh",
   "linkHintNumbers": "0123456789",
-  "newTabUrl": "file:///home/ai/a/blank.html",
+  "newTabUrl": "about:newtab",
   "nextPatterns": "next,more,newer,>,›,→,»,≫,>>",
   "previousPatterns": "prev,previous,back,older,<,‹,←,«,≪,<<",
   "regexFindMode": false,

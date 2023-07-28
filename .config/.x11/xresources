@@ -49,7 +49,7 @@
 
 
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ common
-*font: monospace:size=14.7
+*font: monospace:size=15.5
 *fonta: Twemoji
 *fontb: Noto Color Emoji
 ! 4 pixel = 3 point
@@ -97,4 +97,4 @@ dmenu.selbgcolor:	s_flavor
 dmenu.selfgcolor:	s_base02
 
 !https://www.gnu.org/software/emacs/manual/html_node/emacs/Table-of-Resources.html
-!emacs.
+emacs.font: monospace-15
