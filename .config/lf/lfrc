@@ -106,28 +106,32 @@ cmd setbg "$1"
 cmd bulkrename $vidir
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
+map c					# default: c -> clear, unmap it to use key sequence start with "c"
+map t
 map <esc> :unselect; clear
 
 map g top
-map <a-j> :updir; set dironly true; down; set dironly false; open
-map <a-k> :updir; set dironly true; up; set dironly false; open
+map <c-j> :updir; set dironly true; down; set dironly false; open
+map <c-k> :updir; set dironly true; up; set dironly false; open
+map <c-o> jump-prev
+map <tab> jump-next			# <tab> & <c-i>
 
 map i rename				# before extension
 map a push i<c-f>			# after extension
 map I push i<c-a>			# at the very beginning
 map A push i<c-e>			# at the very end
-map c					# default: c -> clear, unmap it to use key sequence start with "c"
 map cc push i<c-e><c-u>			# new rename
 map cw push i<c-u>			# new rename (with extension)
 map ci bulkrename
 # https://github.com/gokcehan/lf/issues/279
 # https://github.com/gokcehan/lf/wiki/Tips#enhancing-the-rename-command
 
-map <enter>	$setsid -f $TERMINAL >/dev/null 2>&1
-map x		$$f
-map <c-x>	!$f
-map <a-x>	$chmod +x $f
+map v $nvim $fx
+map e $emacs -nw $fx
 
+map <enter>	$setsid -f $TERMINAL >/dev/null 2>&1
+map x		!$f
+map <a-x>	$chmod +x $f
 map <a-y>	$printf "%s" "$fx" | xclip -selection clipboard
 map <a-b>	$setbg $f
 map <a-g>	!find . -maxdepth 1 -mindepth 1 -type d -exec sh -c "echo {}; cd {}; git status -s; echo" \;
@@ -143,10 +147,6 @@ lf -remote "send $id cd $lf_dir"
 }}
 #map J $lf -remote "send $id cd $(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/.sh/bm-dirs | fzf)"
 # doesn't work for now, check this issue: https://github.com/LukeSmithxyz/voidrice/issues/831, my solution as above
-
-map t
-map v $nvim $fx
-map e $emacs -nw $fx
 
 # source
 source "~/.config/mdf/m_lf"

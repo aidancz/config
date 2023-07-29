@@ -11,9 +11,10 @@ hs	$home/s
 hg	$home/g
 
 a	$home/a
+agi	$a_gi
 aic	$a_ic
 aid	$a_id
-agi	$a_gi
+ajc	$a_jc
 
 d	$a_gi/d
 db	$a_gi/d/.local/bin

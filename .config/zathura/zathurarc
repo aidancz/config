@@ -1,1 +1,9 @@
 # man zathura zathurarc
+
+map g goto top
+map d scroll half-down
+map u scroll half-up
+map f navigate next
+map b navigate previous
+
+map <C-a> toggle_page_mode
