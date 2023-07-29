@@ -15,6 +15,7 @@ agi	$a_gi
 aic	$a_ic
 aid	$a_id
 ajc	$a_jc
+as	$a_s
 
 d	$a_gi/d
 db	$a_gi/d/.local/bin

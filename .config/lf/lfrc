@@ -35,12 +35,27 @@ set autoquit
 
 cmd open ${{
     case $(file --mime-type "$(readlink -f $f)" -b) in
-	image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) setsid -f zathura $fx >/dev/null 2>&1 ;;
-        text/*|application/json|inode/x-empty|application/x-subrip) $EDITOR $fx;;
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	text/html) setsid -f $BROWSER --new-window $fx;;
+
+	application/msword) setsid -f zaread $fx >/dev/null 2>&1 ;;
+	application/vnd.ms-excel) setsid -f zaread $fx >/dev/null 2>&1 ;;
+	application/vnd.ms-powerpoint) setsid -f zaread $fx >/dev/null 2>&1 ;;
+	application/vnd.openxmlformats-officedocument.wordprocessingml.document) setsid -f zaread $fx >/dev/null 2>&1 ;;
+	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet) setsid -f zaread $fx >/dev/null 2>&1 ;;
+	application/vnd.openxmlformats-officedocument.presentationml.presentation) setsid -f zaread $fx >/dev/null 2>&1 ;;
+	# .doc .xls .ppt .docx .xlsx .pptx
+
+	application/pdf) setsid -f zathura $fx >/dev/null 2>&1 ;;
+
+	inode/x-empty | text/* | application/*) $EDITOR $fx;;
+
+
+
 	image/x-xcf) setsid -f gimp $f >/dev/null 2>&1 ;;
 	image/svg+xml) display -- $f ;;
-	image/*) rotdir $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|tif\|ico\)\(_large\)*$" |
-		setsid -f sxiv -aio 2>/dev/null | while read -r file; do
+	image/*) rotdir $f | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|avif\|tif\|ico\)\(_large\)*$" |
+		setsid -f nsxiv -aio 2>/dev/null | while read -r file; do
 			[ -z "$file" ] && continue
 			lf -remote "send select \"$file\""
 			lf -remote "send toggle"
@@ -48,22 +63,7 @@ cmd open ${{
 		;;
 	audio/*|video/x-ms-asf) mpv --audio-display=no $f ;;
 	video/*) setsid -f mpv $f -quiet >/dev/null 2>&1 ;;
-	application/pdf|application/vnd.djvu|application/epub*) setsid -f zathura $fx >/dev/null 2>&1 ;;
-	application/pgp-encrypted) $EDITOR $fx ;;
-
-	application/msword) setsid -f zaread $fx >/dev/null 2>&1 ;;
-	# .doc
-	application/vnd.ms-excel) setsid -f zaread $fx >/dev/null 2>&1 ;;
-	# .xls
-	application/vnd.ms-powerpoint) setsid -f zaread $fx >/dev/null 2>&1 ;;
-	# .ppt
-	application/vnd.openxmlformats-officedocument.wordprocessingml.document) setsid -f zaread $fx >/dev/null 2>&1 ;;
-	# .docx
-	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet) setsid -f zaread $fx >/dev/null 2>&1 ;;
-	# .xlsx
-	application/vnd.openxmlformats-officedocument.presentationml.presentation) setsid -f zaread $fx >/dev/null 2>&1 ;;
-	# .pptx
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         *) for f in $fx; do setsid -f $OPENER $f >/dev/null 2>&1; done;;
     esac
 }}
@@ -108,6 +108,7 @@ cmd bulkrename $vidir
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
 map c					# default: c -> clear, unmap it to use key sequence start with "c"
 map t
+map <c-space> invert
 map <esc> :unselect; clear
 
 map g top
