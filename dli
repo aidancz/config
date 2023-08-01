@@ -19,12 +19,14 @@ ln -sf "${XDG_CONFIG_HOME:-$HOME/.config}/.sh/profile"		"$HOME/.zprofile"
 ln -sf "${XDG_CONFIG_HOME:-$HOME/.config}/.x11/xprofile"	"$HOME/.xprofile"
 ln -sf "${XDG_CONFIG_HOME:-$HOME/.config}/.vim/.vimrc"		"$HOME/.vimrc"
 
+mkdir -p "$HOME/.local/bin"
 cd $dir/.local/bin
 for i in *; do
 	rm -rf			"$HOME/.local/bin/$i"
 	ln -s "$PWD/$i"		"$HOME/.local/bin/$i"
 done
 
+mkdir -p "$HOME/.local/share"
 cd $dir/.local/share
 for i in $(ls | grep -v "^applications$"); do
 	rm -rf			"${XDG_DATA_HOME:-$HOME/.local/share}/$i"
@@ -32,6 +34,7 @@ for i in $(ls | grep -v "^applications$"); do
 done
 # create link except "applications"
 
+mkdir -p "$HOME/.local/share/applications"
 cd $dir/.local/share/applications
 for i in *; do
 	rm -rf			"${XDG_DATA_HOME:-$HOME/.local/share}/applications/$i"

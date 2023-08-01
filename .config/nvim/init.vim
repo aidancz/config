@@ -12,6 +12,8 @@ augroup END
 " sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
 " https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
+" run ":PlugInstall" inside nvim to install the plugs
+" https://github.com/junegunn/vim-plug#commands
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-plug_config
 call plug#begin(stdpath('data') . '/plugged')
@@ -65,6 +67,10 @@ let g:AutoPairsMapCh = 0
 " }}}
 
 " {{{ coc
+
+"" curl -sL install-node.vercel.app/lts | bash
+"" https://github.com/neoclide/coc.nvim#quick-start
+
 "let g:coc_global_extensions = ['coc-marketplace', 'coc-vimlsp', 'coc-json']
 
 "set hidden

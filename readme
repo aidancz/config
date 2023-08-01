@@ -1,20 +1,13 @@
 # "a <- b" means a is linked by b
-# "a << b" means a is sourced by b
+# "a << b" means a is referenced by b
 
 
 
+# foo's config is effective at ~/.config/foo
 .config/foo <- ~/.config/foo
-# foo position is used by foo
 
+# foo's config is not effective at ~/.config/foo
 .config/.foo <- ~/.config/.foo
-# .foo position is not used by foo
 
-	.sh
-	profile <- ~/.zprofile
-
-	.x11
-	xprofile <- ~/.xprofile
-	xresources << xprofile
-	xinitrc <- $XINITRC
-
-.local/bin <- ~/.local/bin
+~/.zprofile -> .config/.sh/profile >> .config/.x11/xinitrc >> ~/.xprofile -> .config/.x11/xprofile
+                                                           >> dwm
