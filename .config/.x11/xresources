@@ -49,9 +49,9 @@
 
 
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ common
-*font: monospace:size=15.5
+*font: monospace:size=15
 *fonta: Twemoji
-*fontb: Noto Color Emoji
+*fontb: Twemoji
 ! 4 pixel = 3 point
 *alpha: 1
 *color0:                  s_base02
