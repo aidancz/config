@@ -53,5 +53,6 @@ export GNUPGHOME="$a/u/gnupg"
 export PASSWORD_STORE_DIR="$a/u/password-store"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ program_config
+export QT_QPA_PLATFORMTHEME="gtk2"
 export RANGER_LOAD_DEFAULT_RC="false"
 export FZF_DEFAULT_COMMAND="find -L"
