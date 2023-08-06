@@ -10,7 +10,7 @@ def="\
 #define s_base2         #073642\\
 #define s_base3         #002b36\\
 "
-sed "46a $def" ~/.config/.x11/xresources | xrdb 2> /dev/null
+sed "46a $def" "$XDG_CONFIG_HOME/.x11/xresources" | xrdb 2> /dev/null
 
 
 

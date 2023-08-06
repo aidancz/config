@@ -1,0 +1,26 @@
+ue	/etc
+ut	/tmp
+uu	/usr
+uus	/usr/share
+
+xbi	$XDG_BIN_HOME
+xco	$XDG_CONFIG_HOME
+xda	$XDG_DATA_HOME
+xca	$XDG_CACHE_HOME
+xst	$XDG_STATE_HOME
+
+h	$home
+hs	$home/s
+hg	$home/g
+
+a	$home/a
+agi	$a_gi
+aic	$a_ic
+aid	$a_id
+ajc	$a_jc
+as	$a_s
+
+l	$a_gi/.local
+lb	$a_gi/.local/bin
+le	$a_gi/.local/etc
+lsh	$a_gi/.local/share

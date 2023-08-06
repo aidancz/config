@@ -7,8 +7,11 @@ set shellopts '-eu'	# see "man zshoptions"
 set ifs "\n"		# internal field separater
 set period 1
 set hidden
-set cleaner '~/.config/lf/cleaner'
-set previewer '~/.config/lf/scope'
+&lf -remote "send $id set cleaner \"$XDG_CONFIG_HOME/lf/cleaner\""
+# set cleaner "$XDG_CONFIG_HOME/lf/cleaner"
+# https://github.com/gokcehan/lf/issues/786
+&lf -remote "send $id set previewer \"$XDG_CONFIG_HOME/lf/scope\""
+# set previewer "$XDG_CONFIG_HOME/lf/scope"
 set autoquit
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ cmd
@@ -150,4 +153,5 @@ lf -remote "send $id cd $lf_dir"
 # doesn't work for now, check this issue: https://github.com/LukeSmithxyz/voidrice/issues/831, my solution as above
 
 # source
-source "~/.config/mdf/m_lf"
+source "~/.local/etc/mdf/m_lf"
+# source "$XDG_CONFIG_HOME/mdf/m_lf"

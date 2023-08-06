@@ -1,2 +1,2 @@
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ source
-source ~/.config/.vim/vim-nvim.vim
+source $XDG_CONFIG_HOME/.vim/vim-nvim.vim
