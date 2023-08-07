@@ -7,10 +7,9 @@ set shellopts '-eu'	# see "man zshoptions"
 set ifs "\n"		# internal field separater
 set period 1
 set hidden
-&lf -remote "send $id set cleaner \"$XDG_CONFIG_HOME/lf/cleaner\""
+set cleaner "~/.local/etc/lf/cleaner"
 # set cleaner "$XDG_CONFIG_HOME/lf/cleaner"
-# https://github.com/gokcehan/lf/issues/786
-&lf -remote "send $id set previewer \"$XDG_CONFIG_HOME/lf/scope\""
+set previewer "~/.local/etc/lf/scope"
 # set previewer "$XDG_CONFIG_HOME/lf/scope"
 set autoquit
 
