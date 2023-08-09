@@ -81,8 +81,9 @@ set wrapmargin=0
 " https://vi.stackexchange.com/questions/1983/how-can-i-get-vim-to-stop-putting-comments-in-front-of-new-lines
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buffer window tab
-set scrolloff=0
 set hidden
+set scrolloff=0
+set foldmethod=marker
 
 
 

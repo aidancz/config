@@ -11,27 +11,20 @@ then
 fi
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ prompt
-autoload -U colors && colors	# Load colors
+autoload -U colors && colors
+# Load colors
 PS1="%B(%{$fg[red]%}$ %{$fg[yellow]%}%n %{$fg[green]%}%M %{$fg[blue]%}%~%{$reset_color%})%b "
 # man zshmisc -> expansion of prompt sequences
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ history
-setopt HIST_IGNORE_ALL_DUPS
+setopt hist_ignore_all_dups
 HISTSIZE=10000000
 SAVEHIST=10000000
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle_emacs
-bindkey -e
-bindkey '\ef' emacs-forward-word
-bindkey '\eb' emacs-backward-word
-bindkey '^u' backward-kill-line
-# https://unix.stackexchange.com/questions/106375/make-zsh-alt-f-behave-like-emacs-alt-f
-# https://stackoverflow.com/questions/3483604/which-shortcut-in-zsh-does-the-same-as-ctrl-u-in-bash
-
-# # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle_vi
+# # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle_vi{{{
 # bindkey -v
-# #bindkey -s "^[[91;5u" "^["		# bind ctrl-[ to esc
-# export KEYTIMEOUT=1			# if use "kj" or relavant, this value should be set >=20, other =1
+# #bindkey -s "^[[91;5u" "^["			# bind ctrl-[ to esc
+# export KEYTIMEOUT=1				# if use "kj" or relavant, this value should be set >=20, other =1
 
 # # vicmd
 # #bindkey -M vicmd "j" down-line-or-history
@@ -42,9 +35,9 @@ bindkey '^u' backward-kill-line
 # # viins
 # #bindkey -M viins "kj" vi-cmd-mode
 # bindkey "^h" beginning-of-line
-# bindkey "^l" end-of-line		# https://github.com/zsh-users/zsh-autosuggestions#usage
+# bindkey "^l" end-of-line			# https://github.com/zsh-users/zsh-autosuggestions#usage
 # bindkey "^n" forward-word
-# bindkey "^?" backward-delete-char	# in viins, ^? defaults to "vi-backward-delete-char", which won't delete past the point where insert mode was last entered
+# bindkey "^?" backward-delete-char		# in viins, ^? defaults to "vi-backward-delete-char", which won't delete past the point where insert mode was last entered
 # bindkey "^w" backward-kill-word		# same reason as above
 # bindkey "^u" backward-kill-line		# same reason as above
 
@@ -56,49 +49,27 @@ bindkey '^u' backward-kill-line
 # # clear-screen ^l -> ^r
 # bindkey -M vicmd "^r" clear-screen
 # bindkey '^r' clear-screen
+# #}}}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle_emacs
+bindkey -e
+bindkey '\ef' emacs-forward-word
+bindkey '\eb' emacs-backward-word
+bindkey '^u' backward-kill-line
+# https://unix.stackexchange.com/questions/106375/make-zsh-alt-f-behave-like-emacs-alt-f
+# https://stackoverflow.com/questions/3483604/which-shortcut-in-zsh-does-the-same-as-ctrl-u-in-bash
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ option & variable
 setopt interactive_comments
 WORDCHARS="${WORDCHARS/\//}"
-# WORDCHARS parameter is used by "forward-word" etc to specify which character should be considered as part of a "word", run `echo $WORDCHARS` to view its content
-# here the syntax is ${name/pattern/repl}, which replace the slash with nothing, see `man zshexpn` in the "parameter expansion" section for more details
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zimfw (https://github.com/zimfw/zimfw)
-# source .zsh file in $ZDOTDIR
-for i in "$ZDOTDIR"/*(.N)
-do
-	source $i
-done
-
-# zim_home
-ZIM_HOME="${XDG_CACHE_HOME:-$HOME/.cache}/zim"
-
-# download zimfw plugin manager if missing
-if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
-  curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
-      https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
-fi
-
-# install missing modules, and update ${ZIM_HOME}/init.zsh if missing or outdated
-if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
-  source ${ZIM_HOME}/zimfw.zsh init -q
-fi
-
-# module config
-	# zsh-completions
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=10"
-ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-	# completion
-zstyle ':zim:completion' dumpfile		$ZIM_HOME/zcompdump
-zstyle ':completion::complete:*' cache-path	$ZIM_HOME/zcompcache
-
-# initialize modules
-source ${ZIM_HOME}/init.zsh
-_zsh_autosuggest_bind_widgets		# https://github.com/zsh-users/zsh-autosuggestions#disabling-automatic-widget-re-binding
+# WORDCHARS parameter is used by "forward-word" etc to specify which character should be considered as part of a "word", run "echo $WORDCHARS" to view its content
+# here the syntax is ${name/pattern/repl}, which replace the slash with nothing, see "man zshexpn" in the "parameter expansion" section for more details
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ quick cd
-stty stop undef		# prevent ctrl-s to freeze terminal
+stty stop undef
+# prevent ctrl-s to freeze terminal
 bindkey -s '^s' '^ucd "$(dirname "$(fzf)")"\n'
+# bind ctrl-s
 
 lfcd () {
     tmp="$(mktemp -uq)"
@@ -109,4 +80,37 @@ lfcd () {
         [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
     fi
 }
-bindkey -s '^[s' '^ulfcd\n'	# bind alt-s
+bindkey -s '^[s' '^ulfcd\n'
+# bind alt-s
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zimfw (https://github.com/zimfw/zimfw){{{
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zim_home
+ZIM_HOME="${XDG_CACHE_HOME:-$HOME/.cache}/zim"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ download zimfw plugin manager if missing
+if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
+  curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
+      https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+fi
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ install missing modules, and update ${ZIM_HOME}/init.zsh if missing or outdated
+if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
+  source ${ZIM_HOME}/zimfw.zsh init -q
+fi
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ config_zsh-autosuggestions
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=10"
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+# https://github.com/zsh-users/zsh-autosuggestions#disabling-automatic-widget-re-binding
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ config_completion
+zstyle ':zim:completion' dumpfile		$ZIM_HOME/zcompdump
+zstyle ':completion::complete:*' cache-path	$ZIM_HOME/zcompcache
+# https://github.com/zimfw/completion#settings
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ initialize modules
+source ${ZIM_HOME}/init.zsh
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ after init
+# _zsh_autosuggest_bind_widgets
+# https://github.com/zsh-users/zsh-autosuggestions#disabling-automatic-widget-re-binding
+#}}}

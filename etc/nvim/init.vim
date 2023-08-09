@@ -1,10 +1,10 @@
-" setup folds {{{
+" setup folds{{{
 augroup filetype_vim
   autocmd!
   autocmd FileType vim setlocal foldmethod=marker
 augroup END
 " https://github.com/iggredible/Learn-Vim/blob/master/ch22_vimrc.md#keeping-one-vimrc-file
-" }}}
+"}}}
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-plug_install
 
@@ -43,7 +43,7 @@ call plug#end()
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ plug_config
 
-" solarized {{{
+" solarized{{{
 "let g:solarized_termcolors=16
 "let g:solarized_termtrans=0
 "let g:solarized_degrade=0
@@ -56,17 +56,17 @@ set background=dark
 " always set this option to "dark", let the terminal decide dark or light
 colorscheme solarized
 call togglebg#map("<F2>")
-" }}}
+"}}}
 
-" {{{ auto-pairs
+" auto-pairs{{{
 let g:AutoPairsMapCh = 0
 "let g:AutoPairsShortcutToggle = '<M-p>'
 "let g:AutoPairsShortcutFastWrap = '<M-e>'
 "let g:AutoPairsShortcutJump = '<M-n>'
 "let g:AutoPairsShortcutBackInsert = '<M-b>'
-" }}}
+"}}}
 
-" {{{ coc
+" coc{{{
 
 "" curl -sL install-node.vercel.app/lts | bash
 "" https://github.com/neoclide/coc.nvim#quick-start
@@ -108,15 +108,15 @@ let g:AutoPairsMapCh = 0
 "	endif
 "endfunction
 ""autocmd CursorHold * silent call CocActionAsync('highlight')
-" }}}
+"}}}
 
-" {{{ fzf
+" fzf{{{
 "nnoremap <leader>ff :Files<cr>
 "nnoremap <leader>fb :Buffers<cr>
 "nnoremap <leader>fh :History<cr>
-" }}}
+"}}}
 
-" {{{ markdown-preview
+" markdown-preview{{{
 let g:mkdp_auto_start = 0
 let g:mkdp_auto_close = 1
 let g:mkdp_refresh_slow = 0
@@ -148,11 +148,11 @@ let g:mkdp_filetypes = ['markdown']
 function! g:Open_browser(url)
 	silent exec "!google-chrome-stable --new-window " . a:url . " &"
 endfunction
-" }}}
+"}}}
 
-" {{{ vim-table-mode
+" vim-table-mode{{{
 nnoremap <leader>tm :TableModeToggle<cr>
-" }}}
+"}}}
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
 let mapleader=" "

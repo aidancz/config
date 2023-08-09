@@ -1,4 +1,11 @@
-zmodule zsh-users/zsh-completions --fpath src
-zmodule completion
-zmodule zsh-users/zsh-syntax-highlighting
 zmodule zsh-users/zsh-autosuggestions
+
+# zmodule zsh-users/zsh-completions --fpath src
+# zmodule completion
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ syntax highlighting should be last
+# https://github.com/zimfw/zimfw#usage
+# https://github.com/zsh-users/zsh-syntax-highlighting#why-must-zsh-syntax-highlightingzsh-be-sourced-at-the-end-of-the-zshrc-file
+
+# zmodule zsh-users/zsh-syntax-highlighting
+zmodule zdharma-continuum/fast-syntax-highlighting
