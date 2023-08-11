@@ -8,11 +8,6 @@
 (setq x-select-enable-clipboard t)
 (setq x-select-enable-primary t)
 
-;; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ orgmode
-(global-set-key (kbd "C-c l") #'org-store-link)
-(global-set-key (kbd "C-c a") #'org-agenda)
-(global-set-key (kbd "C-c c") #'org-capture)
-
 ;; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ extra files
 (setq make-backup-files nil)
 ;; stop creating <filename>~
@@ -22,5 +17,7 @@
 ;; stop creating .#<filename>
 (setq auto-save-list-file-prefix nil)
 ;; stop creating auto-save-list dir
-(setq url-configuration-directory "~/.cache/emacs/url")
+(setq url-configuration-directory
+(concat (getenv "XDG_CACHE_HOME") "/emacs/url")
+)
 ;; move url dir

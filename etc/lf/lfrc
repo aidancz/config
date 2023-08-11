@@ -50,7 +50,7 @@ cmd open ${{
 
 	application/pdf) setsid -f zathura $fx >/dev/null 2>&1 ;;
 
-	inode/x-empty | text/* | application/*) $EDITOR $fx;;
+	inode/x-empty | text/* | application/*) emacs -nw $fx;;
 
 
 
@@ -152,5 +152,5 @@ lf -remote "send $id cd $lf_dir"
 # doesn't work for now, check this issue: https://github.com/LukeSmithxyz/voidrice/issues/831, my solution as above
 
 # source
-source "~/.local/etc/mdf/m_lf"
-# source "$XDG_CONFIG_HOME/mdf/m_lf"
+source "~/.local/var/cache/mdf/m_lf"
+# source "$XDG_CACHE_HOME/mdf/m_lf"

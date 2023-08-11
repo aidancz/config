@@ -1,13 +1,7 @@
 # man less lesskey
 
 #command
-j	forw-scroll
-k	back-scroll
-h	left-scroll
-l	right-scroll
-
-\e\e    undo-hilite
-:h	help
 
 #line-edit
-\e\e	abort
+
+#env

@@ -1,12 +1,12 @@
 #!/bin/sh
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ xdg
-export XDG_BIN_HOME="$HOME/.local/bin"
+export XDG_EXE_HOME="$HOME/.local/bin"
 export XDG_CONFIG_HOME="$HOME/.local/etc"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.local/var/cache"
 export XDG_STATE_HOME="$HOME/.local/var/log"
-# XDG_BIN_HOME is not an actual xdg variable, set it for convenience
+# XDG_EXE_HOME is not an actual xdg variable, set it for convenience
 # https://gist.github.com/Earnestly/84cf9670b7e11ae2eac6f753910efebe
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ aidan
@@ -21,7 +21,7 @@ export a_gi=$home/a_gi
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ path
-export PATH="$PATH:${$(find -L ~/.local/bin -type d -printf %p:)%%:}"
+export PATH="$PATH:$(find -L ~/.local/bin -type d | tr '\n' ':' | sed 's/:$//')"
 # the -L option is critical, it tells "find" to find the linked files, not the link itself
 export PATH="$PATH:$XDG_CONFIG_HOME/emacs/bin"
 
@@ -35,13 +35,11 @@ export no_proxy="localhost, 127.0.0.1, ::1"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ default program
 export TERMINAL="st"
-
-export EDITOR="nvim"
-export VISUAL="nvim"
-# if contains "vi", zsh keymap will be "viins", otherwise it will be "emacs". this behaviour can be changed, see "man zshzle"
+export EDITOR="emacs -nw"
+export VISUAL="$EDITOR"
+# if EDITOR or VISUAL contains "vi", zsh keymap will be "viins", otherwise it will be "emacs". this behaviour can be changed, see "man zshzle"
 # https://unix.stackexchange.com/questions/4859/visual-vs-editor-what-s-the-difference
-
-export PAGER="vimpager"
+export PAGER="less"
 export BROWSER="google-chrome-stable"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ program_path
@@ -57,6 +55,13 @@ export GNUPGHOME="$a/u/gnupg"
 export PASSWORD_STORE_DIR="$a/u/password-store"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ program_config
+export HISTSIZE=10000000
+export HISTFILESIZE=10000001
+export HISTCONTROL=ignoredups
+export SAVEHIST=10000001
+# bash: HISTFILE, HISTSIZE, HISTFILESIZE, HISTCONTROL
+# zsh:  HISTFILE, HISTSIZE, SAVEHIST
+# https://kevinjalbert.com/more-shell-history/
 export QT_QPA_PLATFORMTHEME="gtk2"
 export RANGER_LOAD_DEFAULT_RC="false"
 export FZF_DEFAULT_COMMAND="find -L"

@@ -1,9 +1,11 @@
-#!/bin/zsh
+#!/bin/sh
 # profile file, runs on login
 
-# var
+# env
 XDG_CONFIG_HOME="$HOME/.local/etc"
-source "$XDG_CONFIG_HOME/.sh/var"
+source "$XDG_CONFIG_HOME/.sh/env"
 
-# start graphical server on user's current tty if not already running.
+# startx only if:
+# 1. tty1
+# 2. xorg not exist
 [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"

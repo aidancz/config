@@ -3,7 +3,7 @@ ut	/tmp
 uu	/usr
 uus	/usr/share
 
-xbi	$XDG_BIN_HOME
+xex	$XDG_EXE_HOME
 xco	$XDG_CONFIG_HOME
 xda	$XDG_DATA_HOME
 xca	$XDG_CACHE_HOME

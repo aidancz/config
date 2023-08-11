@@ -1,25 +1,18 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ source
-source $XDG_CONFIG_HOME/.sh/var
-source $XDG_CONFIG_HOME/.sh/alias
-source $XDG_CONFIG_HOME/mdf/m_sh
-source $XDG_CONFIG_HOME/mdf/m_zsh
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ cd $home
-if [[ $PWD == $HOME ]]
-then
-	cd $home
-fi
+source "$XDG_CONFIG_HOME/.sh/shrc"
+source "$XDG_CACHE_HOME/mdf/m_zshnameddir"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ prompt
 autoload -U colors && colors
-# Load colors
-PS1="%B(%{$fg[red]%}$ %{$fg[yellow]%}%n %{$fg[green]%}%M %{$fg[blue]%}%~%{$reset_color%})%b "
+# load colors
+PS1="(%{$fg[red]%}$ %{$fg[yellow]%}%n %{$fg[green]%}%M %{$fg[blue]%}%~%{$reset_color%}) "
 # man zshmisc -> expansion of prompt sequences
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ history
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ variable & option
+WORDCHARS="${WORDCHARS/\//}"
+# WORDCHARS parameter is used by "forward-word" etc to specify which character should be considered as part of a "word", run "echo $WORDCHARS" to view its content
+# here the syntax is ${name/pattern/repl}, which replace the slash with nothing, see "man zshexpn" in the "parameter expansion" section for more details
 setopt hist_ignore_all_dups
-HISTSIZE=10000000
-SAVEHIST=10000000
 
 # # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle_vi{{{
 # bindkey -v
@@ -59,15 +52,7 @@ bindkey '^u' backward-kill-line
 # https://unix.stackexchange.com/questions/106375/make-zsh-alt-f-behave-like-emacs-alt-f
 # https://stackoverflow.com/questions/3483604/which-shortcut-in-zsh-does-the-same-as-ctrl-u-in-bash
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ option & variable
-setopt interactive_comments
-WORDCHARS="${WORDCHARS/\//}"
-# WORDCHARS parameter is used by "forward-word" etc to specify which character should be considered as part of a "word", run "echo $WORDCHARS" to view its content
-# here the syntax is ${name/pattern/repl}, which replace the slash with nothing, see "man zshexpn" in the "parameter expansion" section for more details
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ quick cd
-stty stop undef
-# prevent ctrl-s to freeze terminal
 bindkey -s '^s' '^ucd "$(dirname "$(fzf)")"\n'
 # bind ctrl-s
 
@@ -102,6 +87,7 @@ fi
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=10"
 ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 # https://github.com/zsh-users/zsh-autosuggestions#disabling-automatic-widget-re-binding
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ config_completion
 zstyle ':zim:completion' dumpfile		$ZIM_HOME/zcompdump
 zstyle ':completion::complete:*' cache-path	$ZIM_HOME/zcompcache

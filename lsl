@@ -2,7 +2,7 @@
 # lsl: local symbolic link
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ xdg
-XDG_BIN_HOME="$HOME/.local/bin"
+XDG_EXE_HOME="$HOME/.local/bin"
 XDG_CONFIG_HOME="$HOME/.local/etc"
 XDG_DATA_HOME="$HOME/.local/share"
 XDG_CACHE_HOME="$HOME/.local/var/cache"
@@ -18,12 +18,12 @@ dir=$(dirname "$path")
 shopt -s dotglob
 # loop hidden files
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_BIN_HOME
-mkdir -p "$XDG_BIN_HOME"
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_EXE_HOME
+mkdir -p "$XDG_EXE_HOME"
 cd $dir/bin
 for i in *; do
-	rm -rf			"$XDG_BIN_HOME/$i"
-	ln -s "$PWD/$i"		"$XDG_BIN_HOME/$i"
+	rm -rf			"$XDG_EXE_HOME/$i"
+	ln -s "$PWD/$i"		"$XDG_EXE_HOME/$i"
 done
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_CONFIG_HOME
@@ -33,7 +33,9 @@ for i in *; do
 	rm -rf			"$XDG_CONFIG_HOME/$i"
 	ln -s "$PWD/$i"		"$XDG_CONFIG_HOME/$i"
 done
+ln -sf "$XDG_CONFIG_HOME/.sh/profile"		"$HOME/.profile"
 ln -sf "$XDG_CONFIG_HOME/.sh/profile"		"$HOME/.zprofile"
+ln -sf "$XDG_CONFIG_HOME/.bash/.bashrc"		"$HOME/.bashrc"
 ln -sf "$XDG_CONFIG_HOME/.x11/xprofile"		"$HOME/.xprofile"
 ln -sf "$XDG_CONFIG_HOME/.vim/.vimrc"		"$HOME/.vimrc"
 

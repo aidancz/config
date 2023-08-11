@@ -36,7 +36,7 @@ export XDG_STATE_HOME="$HOME/.local/var/log"
 
 these vaviables are set at:
 
-- .local/etc/.sh/var
+- .local/etc/.sh/env
 - .local/etc/.sh/profile
 - .local/lsl
 
@@ -59,6 +59,6 @@ appointment:
 "a <- b" means a is symlinked by b
 "a << b" means a is referenced by b
 
-~/.zprofile -> .local/etc/.sh/profile >> .local/etc/.x11/xinitrc >> ~/.xprofile -> .local/etc/.x11/xprofile
+~/.profile -> .local/etc/.sh/profile >> .local/etc/.x11/xinitrc >> ~/.xprofile -> .local/etc/.x11/xprofile
                                                                  >> dwm
 ```

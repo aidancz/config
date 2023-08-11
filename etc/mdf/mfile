@@ -1,12 +1,12 @@
-ff	$XDG_CONFIG_HOME/.sh/mfile
-fd	$XDG_CONFIG_HOME/.sh/mdir
+ff	$XDG_CONFIG_HOME/mdf/mfile
+fd	$XDG_CONFIG_HOME/mdf/mdir
 
 f	$a_in/0.md
 
-fv	$XDG_CONFIG_HOME/.sh/var
+fe	$XDG_CONFIG_HOME/.sh/env
 fa	$XDG_CONFIG_HOME/.sh/alias
 fx	$XDG_CONFIG_HOME/.x11/xresources
-fvn	$XDG_CONFIG_HOME/.vim/vim-nvim.vim
+fv	$XDG_CONFIG_HOME/.vim/.vimrc
 fl	$XDG_CONFIG_HOME/lf/lfrc
 fn	$XDG_CONFIG_HOME/nvim/init.vim
 fz	$XDG_CONFIG_HOME/zsh/.zshrc
