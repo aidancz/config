@@ -1,0 +1,131 @@
+#+property: header-args:emacs-lisp :tangle (concat (getenv "XDG_CONFIG_HOME") "/emacs/init.el")
+
+* init.org -> init.el
+
+https://leanpub.com/lit-config/read#leanpub-auto-emacs-and-org-mode
+
+#+begin_src emacs-lisp
+  (add-hook 'org-mode-hook
+	    (lambda () (add-hook 'after-save-hook #'org-babel-tangle
+			    :append :local)))
+  ;; run "org-babel-tangle" when saving any org buffer
+  ;; manually: C-c C-v t
+#+end_src
+
+* xresources
+
+#+begin_src emacs-lisp
+  ;; (setq inhibit-x-resources t)
+#+end_src
+
+* appearance
+
+#+begin_src emacs-lisp
+  (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+  (blink-cursor-mode 0)
+#+end_src
+
+* copy & paste & undo
+
+#+begin_src emacs-lisp
+  (setq x-select-enable-clipboard t)
+  (setq x-select-enable-primary t)
+  (setq undo-no-redo t)
+#+end_src
+
+* extra files
+
+#+begin_src emacs-lisp
+  (setq make-backup-files nil)
+  ;; stop creating <filename>~
+  (setq auto-save-default nil)
+  ;; stop creating #<filename>#
+  (setq create-lockfiles nil)
+  ;; stop creating .#<filename>
+  (setq auto-save-list-file-prefix nil)
+  ;; stop creating auto-save-list dir
+  ;; (setq url-configuration-directory (concat (getenv "XDG_CACHE_HOME") "/emacs/url"))
+  ;; move url dir
+#+end_src
+
+* load
+
+#+begin_src emacs-lisp
+  (setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/lisp") load-path))
+  ;; add "$XDG_CONFIG_HOME/emacs" to load-path
+  (load "dl.el")
+#+end_src
+
+* package
+
+emacs has a built-in package manager called "package.el"
+it installs packages from "elpa"
+elpa: emacs lisp package archive
+
+gnuelpa: gnu elpa
+nongnuelpa: non gnu elpa
+melpa: milkypostman’s elpa
+
+| elpa name  | official | enabled by default |
+|------------+----------+--------------------|
+| gnuelpa    |        1 |                  1 |
+| nongnuelpa |        1 |                  1 |
+| melpa      |        0 |                  0 |
+
+https://www.emacswiki.org/emacs/InstallingPackages
+https://melpa.org/#/getting-started
+
+#+begin_src emacs-lisp
+  (require 'package)
+  ;; (setq package-user-dir (concat (getenv "XDG_CACHE_HOME") "/emacs/elpa"))
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  ;; (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+  (package-initialize)
+#+end_src
+
+** evil
+
+https://evil.readthedocs.io/en/latest/index.html
+
+#+begin_src emacs-lisp
+  ;; keybindings and other behaviour
+  (setq evil-want-C-u-delete t)
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-Y-yank-to-eol t)
+  ;; (setq evil-disable-insert-state-bindings t)
+
+  ;; search
+  (setq evil-flash-delay 0)
+
+  ;; indentation
+  (setq evil-shift-width 8)
+
+  ;; cursor movement
+  (setq evil-move-cursor-back nil)
+  (setq evil-move-beyond-eol t)
+  (setq evil-cross-lines t)
+  (setq evil-start-of-line t)
+
+  ;; cursor display
+  (setq evil-normal-state-cursor t)
+  (setq evil-insert-state-cursor t)
+  (setq evil-visual-state-cursor t)
+  (setq evil-replace-state-cursor t)
+  (setq evil-operator-state-cursor t)
+  (setq evil-motion-state-cursor t)
+  (setq evil-emacs-state-cursor t)
+
+  ;; miscellaneous
+  (setq evil-undo-system 'undo-redo)
+
+  (require 'evil)
+  (evil-mode 1)
+#+end_src
+
+** evil plugin
+
+#+begin_src emacs-lisp
+  (evil-commentary-mode)
+#+end_src

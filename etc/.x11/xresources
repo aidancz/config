@@ -14,14 +14,7 @@
 
 ! solarized
 ! https://github.com/altercation/solarized/blob/master/xresources/solarized
-#define s_base03        #002b36
-#define s_base02        #073642
-#define s_base01        #586e75
-#define s_base00        #657b83
-#define s_base0         #839496
-#define s_base1         #93a1a1
-#define s_base2         #eee8d5
-#define s_base3         #fdf6e3
+
 #define s_yellow        #b58900
 #define s_orange        #cb4b16
 #define s_red           #dc322f
@@ -31,18 +24,31 @@
 #define s_cyan          #2aa198
 #define s_green         #859900
 
-/* ! light */
-/* #define s_base03        #fdf6e3 */
-/* #define s_base02        #eee8d5 */
-/* #define s_base01        #93a1a1 */
-/* #define s_base00        #839496 */
-/* #define s_base0         #657b83 */
-/* #define s_base1         #586e75 */
-/* #define s_base2         #073642 */
-/* #define s_base3         #002b36 */
-/* ! solarized base03 is always #002b36 (not #fdf6e3) */
-/* ! however dark theme background is base03, light theme background is base3 */
-/* ! for convenience of setting colors (such as always set "background" as base03), we here redefine base03 as base3 */
+! ! dark
+! #define s_base03        #002b36
+! #define s_base02        #073642
+! #define s_base01        #586e75
+! #define s_base00        #657b83
+! #define s_base0         #839496
+! #define s_base1         #93a1a1
+! #define s_base2         #eee8d5
+! #define s_base3         #fdf6e3
+! ! dark
+
+! ! light
+! #define s_base03        #fdf6e3
+! #define s_base02        #eee8d5
+! #define s_base01        #93a1a1
+! #define s_base00        #839496
+! #define s_base0         #657b83
+! #define s_base1         #586e75
+! #define s_base2         #073642
+! #define s_base3         #002b36
+! ! light
+
+! solarized base03 is always #002b36 (not #fdf6e3)
+! however dark theme background is base03, light theme background is base3
+! for convenience of setting colors (such as always set "background" as base03), we here redefine base03 as base3
 
 #define s_flavor	s_base1
 
@@ -97,4 +103,4 @@ dmenu.selbgcolor:	s_flavor
 dmenu.selfgcolor:	s_base02
 
 !https://www.gnu.org/software/emacs/manual/html_node/emacs/Table-of-Resources.html
-emacs.font: monospace-15
+!emacs.font: monospace-15

@@ -158,9 +158,9 @@ nnoremap <leader>tm :TableModeToggle<cr>
 let mapleader=" "
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ autocmd
-autocmd BufWritePost mdir,mfile !mdf
-autocmd BufRead,BufNewFile xresources* set filetype=xdefaults
-autocmd BufWritePost xresources* !xrdb % 2> /dev/null
+" autocmd BufWritePost mdir,mfile !mdf
+" autocmd BufRead,BufNewFile xresources* set filetype=xdefaults
+" autocmd BufWritePost xresources* !xrdb % 2> /dev/null
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ compile function
 func! CompileRunGcc()

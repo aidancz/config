@@ -25,5 +25,5 @@ fcitx5 -d
 
 remaps &
 setbg &
-xrdb $XDG_CONFIG_HOME/.x11/xresources & xrdbpid=$!
+dl & xrdbpid=$!
 [ -n "$xrdbpid" ] && wait "$xrdbpid"

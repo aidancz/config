@@ -39,6 +39,9 @@ ln -sf "$XDG_CONFIG_HOME/.bash/.bashrc"		"$HOME/.bashrc"
 ln -sf "$XDG_CONFIG_HOME/.x11/xprofile"		"$HOME/.xprofile"
 ln -sf "$XDG_CONFIG_HOME/.vim/.vimrc"		"$HOME/.vimrc"
 
+mkdir -p "$XDG_CONFIG_HOME/emacs"
+mkdir -p "$XDG_CONFIG_HOME/emacs/lisp"
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_DATA_HOME
 mkdir -p "$XDG_DATA_HOME"
 cd $dir/share
