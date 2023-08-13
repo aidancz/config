@@ -15,7 +15,7 @@ https://leanpub.com/lit-config/read#leanpub-auto-emacs-and-org-mode
 * xresources
 
 #+begin_src emacs-lisp
-  ;; (setq inhibit-x-resources t)
+  (setq inhibit-x-resources t)
 #+end_src
 
 * appearance
