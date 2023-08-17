@@ -22,21 +22,22 @@ shopt -s dotglob
 mkdir -p "$XDG_EXE_HOME"
 cd $dir/bin
 for i in *; do
-	rm -rf			"$XDG_EXE_HOME/$i"
-	ln -s "$PWD/$i"		"$XDG_EXE_HOME/$i"
+	rm -rf					"$XDG_EXE_HOME/$i"
+	ln -s "$PWD/$i"			"$XDG_EXE_HOME/$i"
 done
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_CONFIG_HOME
 mkdir -p "$XDG_CONFIG_HOME"
 cd $dir/etc
 for i in *; do
-	rm -rf			"$XDG_CONFIG_HOME/$i"
-	ln -s "$PWD/$i"		"$XDG_CONFIG_HOME/$i"
+	rm -rf					"$XDG_CONFIG_HOME/$i"
+	ln -s "$PWD/$i"			"$XDG_CONFIG_HOME/$i"
 done
 ln -sf "$XDG_CONFIG_HOME/.sh/profile"		"$HOME/.profile"
 ln -sf "$XDG_CONFIG_HOME/.sh/profile"		"$HOME/.zprofile"
-ln -sf "$XDG_CONFIG_HOME/.bash/.bashrc"		"$HOME/.bashrc"
-ln -sf "$XDG_CONFIG_HOME/.x11/xprofile"		"$HOME/.xprofile"
+ln -sf "$XDG_CONFIG_HOME/.bash/.bashrc"	"$HOME/.bashrc"
+# ln -sf "$XDG_CONFIG_HOME/.bash/.inputrc"	"$HOME/.inputrc"
+ln -sf "$XDG_CONFIG_HOME/.x11/xprofile"	"$HOME/.xprofile"
 ln -sf "$XDG_CONFIG_HOME/.vim/.vimrc"		"$HOME/.vimrc"
 
 mkdir -p "$XDG_CONFIG_HOME/emacs"
@@ -46,8 +47,8 @@ mkdir -p "$XDG_CONFIG_HOME/emacs/lisp"
 mkdir -p "$XDG_DATA_HOME"
 cd $dir/share
 for i in *; do
-	rm -rf			"$XDG_DATA_HOME/$i"
-	ln -s "$PWD/$i"		"$XDG_DATA_HOME/$i"
+	rm -rf					"$XDG_DATA_HOME/$i"
+	ln -s "$PWD/$i"			"$XDG_DATA_HOME/$i"
 done
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_CACHE_HOME

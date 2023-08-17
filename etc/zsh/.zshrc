@@ -17,7 +17,7 @@ setopt hist_ignore_all_dups
 # # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle_vi{{{
 # bindkey -v
 # #bindkey -s "^[[91;5u" "^["			# bind ctrl-[ to esc
-# export KEYTIMEOUT=1				# if use "kj" or relavant, this value should be set >=20, other =1
+# export KEYTIMEOUT=1				# wait ? hundredths of seconds (? 0.01s)
 
 # # vicmd
 # #bindkey -M vicmd "j" down-line-or-history

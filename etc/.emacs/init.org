@@ -1,61 +1,83 @@
 #+property: header-args:emacs-lisp :tangle (concat (getenv "XDG_CONFIG_HOME") "/emacs/init.el")
 
+#+begin_src emacs-lisp
+#+end_src
+
 * init.org -> init.el
 
 https://leanpub.com/lit-config/read#leanpub-auto-emacs-and-org-mode
 
 #+begin_src emacs-lisp
-  (add-hook 'org-mode-hook
-	    (lambda () (add-hook 'after-save-hook #'org-babel-tangle
-			    :append :local)))
-  ;; run "org-babel-tangle" when saving any org buffer
-  ;; manually: C-c C-v t
+(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle :append :local)))
+;; run "org-babel-tangle" when saving any org buffer
+;; manually: C-c C-v t
 #+end_src
 
 * xresources
 
 #+begin_src emacs-lisp
-  (setq inhibit-x-resources t)
+(setq inhibit-x-resources t)
 #+end_src
 
 * appearance
 
 #+begin_src emacs-lisp
-  (menu-bar-mode -1)
-  (scroll-bar-mode -1)
-  (tool-bar-mode -1)
-  (blink-cursor-mode 0)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+
+(global-display-line-numbers-mode 1)
+(setq display-line-numbers-type 'relative)
+
+(blink-cursor-mode 0)
+(global-whitespace-mode 1)
+(setq whitespace-style '(face trailing tabs tab-mark))
+;; http://xahlee.info/emacs/emacs/whitespace-mode.html
+(global-visual-line-mode 1)
+
+;; (line-number-mode 1)
+(column-number-mode 1)
+
+(setq completions-format 'vertical)
 #+end_src
 
 * copy & paste & undo
 
 #+begin_src emacs-lisp
-  (setq x-select-enable-clipboard t)
-  (setq x-select-enable-primary t)
-  (setq undo-no-redo t)
+(setq x-select-enable-clipboard t)
+(setq x-select-enable-primary t)
+(setq undo-no-redo t)
+#+end_src
+
+* indent
+
+#+begin_src emacs-lisp
+;; (setq-default tab-width 8)
+
+;; (electric-indent-mode -1)
 #+end_src
 
 * extra files
 
 #+begin_src emacs-lisp
-  (setq make-backup-files nil)
-  ;; stop creating <filename>~
-  (setq auto-save-default nil)
-  ;; stop creating #<filename>#
-  (setq create-lockfiles nil)
-  ;; stop creating .#<filename>
-  (setq auto-save-list-file-prefix nil)
-  ;; stop creating auto-save-list dir
-  ;; (setq url-configuration-directory (concat (getenv "XDG_CACHE_HOME") "/emacs/url"))
-  ;; move url dir
+(setq make-backup-files nil)
+;; stop creating <filename>~
+(setq auto-save-default nil)
+;; stop creating #<filename>#
+(setq create-lockfiles nil)
+;; stop creating .#<filename>
+(setq auto-save-list-file-prefix nil)
+;; stop creating auto-save-list dir
+;; (setq url-configuration-directory (concat (getenv "XDG_CACHE_HOME") "/emacs/url"))
+;; move url dir
 #+end_src
 
 * load
 
 #+begin_src emacs-lisp
-  (setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/lisp") load-path))
-  ;; add "$XDG_CONFIG_HOME/emacs" to load-path
-  (load "dl.el")
+(setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/lisp") load-path))
+;; add "$XDG_CONFIG_HOME/emacs" to load-path
+(load "dl.el")
 #+end_src
 
 * package
@@ -78,54 +100,88 @@ https://www.emacswiki.org/emacs/InstallingPackages
 https://melpa.org/#/getting-started
 
 #+begin_src emacs-lisp
-  (require 'package)
-  ;; (setq package-user-dir (concat (getenv "XDG_CACHE_HOME") "/emacs/elpa"))
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-  ;; (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-  (package-initialize)
+(require 'package)
+;; (setq package-user-dir (concat (getenv "XDG_CACHE_HOME") "/emacs/elpa"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;; (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
 #+end_src
 
-** evil
+installed package list
+
+#+begin_comment
+evil
+evil-commentary
+color-theme-sanityinc-solarized
+xclip
+#+end_comment
+
+* org
+
+#+begin_src emacs-lisp
+(setq org-link-descriptive nil)
+
+(setq org-M-RET-may-split-line nil)
+
+;; (setq org-adapt-indentation nil)
+;; (setq org-list-indent-offset 5)
+;; 8 - 3 = 5
+
+(setq org-src-preserve-indentation t)
+;; if t, org-src-preserve-indentation override org-edit-src-content-indentation and set it to 0
+;; (setq org-edit-src-content-indentation 0)
+(setq org-src-window-setup 'current-window)
+#+end_src
+
+* evil
 
 https://evil.readthedocs.io/en/latest/index.html
 
 #+begin_src emacs-lisp
-  ;; keybindings and other behaviour
-  (setq evil-want-C-u-delete t)
-  (setq evil-want-C-u-scroll t)
-  (setq evil-want-Y-yank-to-eol t)
-  ;; (setq evil-disable-insert-state-bindings t)
+;; keybindings and other behaviour
+(setq evil-want-C-u-delete t)
+(setq evil-want-C-u-scroll t)
+(setq evil-want-Y-yank-to-eol t)
+;; (setq evil-disable-insert-state-bindings t)
 
-  ;; search
-  (setq evil-flash-delay 0)
+;; search
+;; (setq evil-search-module 'evil-search)
+(setq evil-flash-delay 0)
+;; (setq evil-ex-search-incremental t)
 
-  ;; indentation
-  (setq evil-shift-width 8)
+;; indentation
+(setq evil-shift-width 8)
 
-  ;; cursor movement
-  (setq evil-move-cursor-back nil)
-  (setq evil-move-beyond-eol t)
-  (setq evil-cross-lines t)
-  (setq evil-start-of-line t)
+;; cursor movement
+(setq evil-move-cursor-back nil)
+(setq evil-move-beyond-eol t)
+(setq evil-cross-lines t)
+(setq evil-start-of-line t)
 
-  ;; cursor display
-  (setq evil-normal-state-cursor t)
-  (setq evil-insert-state-cursor t)
-  (setq evil-visual-state-cursor t)
-  (setq evil-replace-state-cursor t)
-  (setq evil-operator-state-cursor t)
-  (setq evil-motion-state-cursor t)
-  (setq evil-emacs-state-cursor t)
+;; cursor display
+(setq evil-normal-state-cursor t)
+(setq evil-insert-state-cursor t)
+(setq evil-visual-state-cursor t)
+(setq evil-replace-state-cursor t)
+(setq evil-operator-state-cursor t)
+(setq evil-motion-state-cursor t)
+(setq evil-emacs-state-cursor t)
 
-  ;; miscellaneous
-  (setq evil-undo-system 'undo-redo)
+;; miscellaneous
+(setq evil-undo-system 'undo-redo)
 
-  (require 'evil)
-  (evil-mode 1)
+(require 'evil)
+(evil-mode 1)
 #+end_src
 
-** evil plugin
+* evil plugin
 
 #+begin_src emacs-lisp
-  (evil-commentary-mode)
+(evil-commentary-mode)
+#+end_src
+
+* misc
+
+#+begin_src emacs-lisp
+(xclip-mode 1)
 #+end_src

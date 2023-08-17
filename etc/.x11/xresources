@@ -95,7 +95,7 @@ dwm.selfgcolor:		s_base03
 dwm.normbordercolor:	s_base02
 dwm.selbordercolor:	s_base1
 dwm.showbar: 1
-dwm.borderpx: 3
+dwm.borderpx: 0
 
 dmenu.normbgcolor:	s_base02
 dmenu.normfgcolor:	s_flavor

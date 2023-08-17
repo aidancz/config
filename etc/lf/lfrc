@@ -50,7 +50,7 @@ cmd open ${{
 
 	application/pdf) setsid -f zathura $fx >/dev/null 2>&1 ;;
 
-	inode/x-empty | text/* | application/*) emacs -nw $fx;;
+	inode/x-empty | text/* | application/*) emacsclient -nw -a "" $fx;;
 
 
 
@@ -70,48 +70,34 @@ cmd open ${{
     esac
 }}
 
-cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
-
-cmd extract ${{
-	clear
-	aunpack $fx
-}}
-
-cmd delete ${{
-	clear
-	trash-put $fx
-}}
+# cmd cdto ${{
+# 	eval dest="$(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' $XDG_CONFIG_HOME/mdf/mdir | fzf)" &&
+# 	lf -remote "send $id cd $dest"
+# }}
+# https://github.com/LukeSmithxyz/voidrice/issues/831
 
 cmd moveto ${{
-	clear; tput cup $(($(tput lines)/3)); tput bold
-	set -f
-	clear; echo "Move to where?"
-	dest="$(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/.sh/bm-dirs | fzf | sed 's|~|$HOME|')" &&
+	eval dest="$(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' $XDG_CONFIG_HOME/mdf/mdir | fzf)" &&
 	for x in $fx; do
-		eval mv -iv \"$x\" \"$dest\"
-	done &&
-	notify-send "🚚 File(s) moved." "File(s) moved to $dest."
+		mv -iv "$x" "$dest"
+	done
 }}
 
 cmd copyto ${{
-	clear; tput cup $(($(tput lines)/3)); tput bold
-	set -f
-	clear; echo "Copy to where?"
-	dest="$(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/.sh/bm-dirs | fzf | sed 's|~|$HOME|')" &&
+	eval dest="$(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' $XDG_CONFIG_HOME/mdf/mdir | fzf)" &&
 	for x in $fx; do
-		eval cp -ivr \"$x\" \"$dest\"
-	done &&
-	notify-send "📋 File(s) copied." "File(s) copies to $dest."
+		eval cp -ivr "$x" "$dest"
+	done
 }}
 
-cmd setbg "$1"
-cmd bulkrename $vidir
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
+cmap <c-g> cmd-escape
+
 map c					# default: c -> clear, unmap it to use key sequence start with "c"
 map t
 map <c-space> invert
 map <esc> :unselect; clear
+map <c-g> :unselect; clear
 
 map g top
 map <c-j> :updir; set dironly true; down; set dironly false; open
@@ -123,9 +109,9 @@ map i rename				# before extension
 map a push i<c-f>			# after extension
 map I push i<c-a>			# at the very beginning
 map A push i<c-e>			# at the very end
-map cc push i<c-e><c-u>			# new rename
+map cc push i<c-e><c-u>		# new rename
 map cw push i<c-u>			# new rename (with extension)
-map ci bulkrename
+map ci $vidir
 # https://github.com/gokcehan/lf/issues/279
 # https://github.com/gokcehan/lf/wiki/Tips#enhancing-the-rename-command
 
@@ -138,18 +124,15 @@ map <a-x>	$chmod +x $f
 map <a-y>	$printf "%s" "$fx" | xclip -selection clipboard
 map <a-b>	$setbg $f
 map <a-g>	!find . -maxdepth 1 -mindepth 1 -type d -exec sh -c "echo {}; cd {}; git status -s; echo" \;
-map <a-d> delete
-map <a-e> extract
+map <a-d>	$trash-put $fx
+map <a-e>	$aunpack $fx
 map <a-c> copyto
 map <a-m> moveto
-
-map <c-s> $lf -remote "send $id select \"$(fzf)\""
-map <a-s> ${{
-eval lf_dir=$(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/.sh/bm-dirs | fzf)
-lf -remote "send $id cd $lf_dir"
-}}
-#map J $lf -remote "send $id cd $(sed -e 's/\s*#.*//' -e '/^$/d' -e 's/^\S*\s*//' ${XDG_CONFIG_HOME:-$HOME/.config}/.sh/bm-dirs | fzf)"
-# doesn't work for now, check this issue: https://github.com/LukeSmithxyz/voidrice/issues/831, my solution as above
+map <a-s>	$lf -remote "send $id select \"$(fzf)\""
+map <a-a>	!clear; git diff $fx $f
+map <a-q>	$pandoc --wrap=preserve -f markdown -t org -o $(basename -s .md $f).org $f
+map <a-i>	$sed -Ezi 's/(:[^\n]+\n){3}/\n/g' $f; sed -Ei 's/^ {4}/\t/g' $f
+map <a-p>	$sed -e '0,/mixed-port/s/7890/8889/' -e '/external-controller/aexternal-ui: clash-dashboard' $f > ~/.config/clash/config.yaml
 
 # source
 source "~/.local/var/cache/mdf/m_lf"
