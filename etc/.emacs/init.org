@@ -72,15 +72,24 @@ https://leanpub.com/lit-config/read#leanpub-auto-emacs-and-org-mode
 ;; move url dir
 #+end_src
 
-* load
+* org
 
 #+begin_src emacs-lisp
-(setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/lisp") load-path))
-;; add "$XDG_CONFIG_HOME/emacs" to load-path
-(load "dl.el")
+(setq org-link-descriptive nil)
+
+(setq org-M-RET-may-split-line nil)
+
+;; (setq org-adapt-indentation nil)
+;; (setq org-list-indent-offset 5)
+;; 8 - 3 = 5
+
+(setq org-src-preserve-indentation t)
+;; if t, org-src-preserve-indentation override org-edit-src-content-indentation and set it to 0
+;; (setq org-edit-src-content-indentation 0)
+(setq org-src-window-setup 'current-window)
 #+end_src
 
-* package
+* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ package
 
 emacs has a built-in package manager called "package.el"
 it installs packages from "elpa"
@@ -100,37 +109,39 @@ https://www.emacswiki.org/emacs/InstallingPackages
 https://melpa.org/#/getting-started
 
 #+begin_src emacs-lisp
-(require 'package)
-;; (setq package-user-dir (concat (getenv "XDG_CACHE_HOME") "/emacs/elpa"))
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-;; (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(package-initialize)
-#+end_src
-
-installed package list
-
-#+begin_comment
+(setq package-selected-packages '(
 evil
 evil-commentary
 color-theme-sanityinc-solarized
 xclip
-#+end_comment
+))
+;; M-x package-refresh-contents
+;; M-x package-install-selected-packages
+;; M-x package-autoremove
+;; https://stackoverflow.com/a/39891192/18034992
+;; https://emacs.stackexchange.com/a/48928/41253
 
-* org
+;; (setq package-user-dir (concat (getenv "XDG_CACHE_HOME") "/emacs/elpa"))
+
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;; (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
+
+(defun my-every (@list) "return t if all elements are true" (eval `(and ,@ @list)))
+(if (not (my-every (mapcar 'package-installed-p package-selected-packages))) (error "Package missing"))
+;; https://stackoverflow.com/questions/10092322/how-to-automatically-install-emacs-packages-by-specifying-a-list-of-package-name
+;; http://xahlee.info/emacs/emacs/elisp_mapcar_loop.html
+;; http://xahlee.info/emacs/misc/emacs_lisp_some_and_every.html
+;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Errors.html
+#+end_src
+
+* load
 
 #+begin_src emacs-lisp
-(setq org-link-descriptive nil)
-
-(setq org-M-RET-may-split-line nil)
-
-;; (setq org-adapt-indentation nil)
-;; (setq org-list-indent-offset 5)
-;; 8 - 3 = 5
-
-(setq org-src-preserve-indentation t)
-;; if t, org-src-preserve-indentation override org-edit-src-content-indentation and set it to 0
-;; (setq org-edit-src-content-indentation 0)
-(setq org-src-window-setup 'current-window)
+(setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/lisp") load-path))
+;; add "$XDG_CONFIG_HOME/emacs" to load-path
+(load "dl.el")
 #+end_src
 
 * evil
@@ -177,7 +188,7 @@ https://evil.readthedocs.io/en/latest/index.html
 * evil plugin
 
 #+begin_src emacs-lisp
-(evil-commentary-mode)
+(evil-commentary-mode 1)
 #+end_src
 
 * misc
