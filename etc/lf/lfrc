@@ -117,7 +117,7 @@ map ci $vidir
 
 map v $nvim $fx
 map e $emacsclient -nw -a "" $fx
-map E $emacs -nw
+map E $emacs -nw $fx
 
 map <enter>	$setsid -f $TERMINAL >/dev/null 2>&1
 map x		!$f

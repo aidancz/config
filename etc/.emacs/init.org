@@ -109,6 +109,13 @@ https://www.emacswiki.org/emacs/InstallingPackages
 https://melpa.org/#/getting-started
 
 #+begin_src emacs-lisp
+(require 'package)
+
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;; (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+
+;; (setq package-user-dir (concat (getenv "XDG_CACHE_HOME") "/emacs/elpa"))
+
 (setq package-selected-packages '(
 evil
 evil-commentary
@@ -118,22 +125,20 @@ xclip
 ;; M-x package-refresh-contents
 ;; M-x package-install-selected-packages
 ;; M-x package-autoremove
-;; https://stackoverflow.com/a/39891192/18034992
-;; https://emacs.stackexchange.com/a/48928/41253
 
-;; (setq package-user-dir (concat (getenv "XDG_CACHE_HOME") "/emacs/elpa"))
-
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-;; (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
 
 (defun my-every (@list) "return t if all elements are true" (eval `(and ,@ @list)))
 (if (not (my-every (mapcar 'package-installed-p package-selected-packages))) (error "Package missing"))
+;; need to be put after (package-initialize), don't know why for now
+
+
+
 ;; https://stackoverflow.com/questions/10092322/how-to-automatically-install-emacs-packages-by-specifying-a-list-of-package-name
+;; https://emacs.stackexchange.com/questions/28932/how-to-automate-installation-of-packages-with-emacs-file
+;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Errors.html
 ;; http://xahlee.info/emacs/emacs/elisp_mapcar_loop.html
 ;; http://xahlee.info/emacs/misc/emacs_lisp_some_and_every.html
-;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Errors.html
 #+end_src
 
 * load
@@ -141,7 +146,12 @@ xclip
 #+begin_src emacs-lisp
 (setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/lisp") load-path))
 ;; add "$XDG_CONFIG_HOME/emacs" to load-path
+
 (load "dl.el")
+
+
+
+;; http://xahlee.info/emacs/emacs/elisp_library_system.html
 #+end_src
 
 * evil
@@ -153,7 +163,7 @@ https://evil.readthedocs.io/en/latest/index.html
 (setq evil-want-C-u-delete t)
 (setq evil-want-C-u-scroll t)
 (setq evil-want-Y-yank-to-eol t)
-;; (setq evil-disable-insert-state-bindings t)
+(setq evil-disable-insert-state-bindings t)
 
 ;; search
 ;; (setq evil-search-module 'evil-search)
@@ -181,7 +191,23 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; miscellaneous
 (setq evil-undo-system 'undo-redo)
 
+;; require evil
 (require 'evil)
+;; some variables need to be set before evil is loaded, keymap need to be set after evil is loaded, so put this line here
+
+;; keymaps
+(define-key evil-insert-state-map (kbd "C-w") 'evil-delete-backward-word)
+(define-key evil-insert-state-map (kbd "C-u") 'evil-delete-back-to-indentation)
+(define-key evil-insert-state-map (kbd "M-p") 'evil-complete-previous)
+(define-key evil-insert-state-map (kbd "M-n") 'evil-complete-next)
+
+(define-key evil-normal-state-map (kbd "C-j") (lambda () (interactive) (evil-ex-execute "put _")))
+(define-key evil-normal-state-map (kbd "C-k") (lambda () (interactive) (evil-ex-execute "put! _")))
+;; (define-key evil-normal-state-map (kbd "C-j") (kbd ":put SPC _"))
+;; http://xahlee.info/emacs/emacs/keyboard_shortcuts_examples.html
+;; https://stackoverflow.com/questions/20438900/key-map-for-ex-command-in-emacs-evil-mode
+
+;; enable evil
 (evil-mode 1)
 #+end_src
 

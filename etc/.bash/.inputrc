@@ -2,7 +2,7 @@ set keyseq-timeout 10
 # wait 10 milliseconds
 # works in "vi" keymap, doesn't work in "emacs" keymap (can't figure it now)
 
-"\C-p":history-search-backward
-"\C-n":history-search-forward
+"\ep":history-search-backward
+"\en":history-search-forward
 # bind "\C-p":history-search-backward
 # bind -p
