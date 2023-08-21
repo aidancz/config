@@ -23,29 +23,79 @@ https://leanpub.com/lit-config/read#leanpub-auto-emacs-and-org-mode
 
 #+begin_src emacs-lisp
 (menu-bar-mode -1)
+
 (tool-bar-mode -1)
+
 (scroll-bar-mode -1)
 
+(setq display-line-numbers-type 'visual)
+;; https://emacs.stackexchange.com/questions/78532/mixed-display-line-numbers-type-for-evil-users
+(setq display-line-numbers-current-absolute nil)
+;; so that the line number width will not change, current absolute line number can be found in mode line
 (global-display-line-numbers-mode 1)
-(setq display-line-numbers-type 'relative)
 
 (blink-cursor-mode 0)
-(global-whitespace-mode 1)
+
+(setq show-paren-delay 0)
+(show-paren-mode 1)
+
 (setq whitespace-style '(face trailing tabs tab-mark))
+(global-whitespace-mode 1)
 ;; http://xahlee.info/emacs/emacs/whitespace-mode.html
-(global-visual-line-mode 1)
+
+;; (global-visual-line-mode 1)
+;; https://emacs.stackexchange.com/questions/78532/mixed-display-line-numbers-type-for-evil-users
 
 ;; (line-number-mode 1)
+
+(setq column-number-indicator-zero-based nil)
 (column-number-mode 1)
+
+(setq echo-keystrokes 0.01)
 
 (setq completions-format 'vertical)
 #+end_src
 
-* copy & paste & undo
+* scroll
+
+#+begin_src emacs-lisp
+;; vertical scrolling
+
+;; (setq scroll-margin 0)
+;; (setq scroll-step 0)
+;; when point moves off the screen, move window this line to make point visible, if failed, center the point
+(setq scroll-conservatively most-positive-fixnum)
+;; when point moves off the screen, move window up to this line to make point visible, if failed, center the point
+;; https://www.gnu.org/software/emacs/manual/html_node/efaq/Scrolling-only-one-line.html
+;; (setq scroll-down-aggressively 0.5)
+;; (setq scroll-up-aggressively 0.5)
+
+;; horizontal scrolling
+(setq hscroll-margin 0)
+(setq hscroll-step 2)
+;; there is no "hscroll-conservatively", but (setq hscroll-step 2) does exactly what i want
+
+#+end_src
+
+* search
+
+#+begin_src emacs-lisp
+(setq isearch-lazy-count t)
+;; (setq isearch-lazy-highlight t)
+;; (setq lazy-highlight-initial-delay 0)
+(setq lazy-highlight-no-delay-length 1)
+#+end_src
+
+* copy & paste
 
 #+begin_src emacs-lisp
 (setq x-select-enable-clipboard t)
 (setq x-select-enable-primary t)
+#+end_src
+
+* undo
+
+#+begin_src emacs-lisp
 (setq undo-no-redo t)
 #+end_src
 
@@ -117,9 +167,15 @@ https://melpa.org/#/getting-started
 ;; (setq package-user-dir (concat (getenv "XDG_CACHE_HOME") "/emacs/elpa"))
 
 (setq package-selected-packages '(
-evil
-evil-commentary
 color-theme-sanityinc-solarized
+evil
+;; evil-anzu
+evil-collection
+evil-commentary
+evil-surround
+magit
+rainbow-mode
+fcitx
 xclip
 ))
 ;; M-x package-refresh-contents
@@ -166,9 +222,19 @@ https://evil.readthedocs.io/en/latest/index.html
 (setq evil-disable-insert-state-bindings t)
 
 ;; search
-;; (setq evil-search-module 'evil-search)
-(setq evil-flash-delay 0)
+;; (setq evil-search-module 'isearch)
+(setq evil-search-module 'evil-search)
+
+;; isearch
+;; (setq evil-flash-delay 0)
+
+;; evil-search
+;; (setq evil-ex-search-case 'smart)
+;; (setq evil-ex-search-vim-style-regexp nil)
+;; (setq evil-ex-search-interactive nil)
 ;; (setq evil-ex-search-incremental t)
+(setq evil-ex-search-highlight-all nil)
+;; (setq evil-ex-search-persistent-highlight nil)
 
 ;; indentation
 (setq evil-shift-width 8)
@@ -191,6 +257,11 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; miscellaneous
 (setq evil-undo-system 'undo-redo)
 
+;; evil-collection
+(setq evil-want-integration t)
+(setq evil-want-keybinding nil)
+;; https://github.com/emacs-evil/evil-collection#installation
+
 ;; require evil
 (require 'evil)
 ;; some variables need to be set before evil is loaded, keymap need to be set after evil is loaded, so put this line here
@@ -198,11 +269,15 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; keymaps
 (define-key evil-insert-state-map (kbd "C-w") 'evil-delete-backward-word)
 (define-key evil-insert-state-map (kbd "C-u") 'evil-delete-back-to-indentation)
-(define-key evil-insert-state-map (kbd "M-p") 'evil-complete-previous)
-(define-key evil-insert-state-map (kbd "M-n") 'evil-complete-next)
+(define-key evil-insert-state-map (kbd "C-p") 'evil-complete-previous)
+(define-key evil-insert-state-map (kbd "C-n") 'evil-complete-next)
+;; (define-key evil-insert-state-map (kbd "C-s") nil)
+(define-key evil-insert-state-map (kbd "C-r") 'evil-paste-from-register)
+(define-key evil-insert-state-map (kbd "C-o") 'evil-execute-in-normal-state)
 
-(define-key evil-normal-state-map (kbd "C-j") (lambda () (interactive) (evil-ex-execute "put _")))
-(define-key evil-normal-state-map (kbd "C-k") (lambda () (interactive) (evil-ex-execute "put! _")))
+;; (define-key evil-normal-state-map (kbd "C-s") nil)
+(define-key evil-normal-state-map (kbd "J") (lambda () (interactive) (evil-ex-execute "put _")))
+(define-key evil-normal-state-map (kbd "K") (lambda () (interactive) (evil-ex-execute "put! _")))
 ;; (define-key evil-normal-state-map (kbd "C-j") (kbd ":put SPC _"))
 ;; http://xahlee.info/emacs/emacs/keyboard_shortcuts_examples.html
 ;; https://stackoverflow.com/questions/20438900/key-map-for-ex-command-in-emacs-evil-mode
@@ -214,11 +289,33 @@ https://evil.readthedocs.io/en/latest/index.html
 * evil plugin
 
 #+begin_src emacs-lisp
+(require 'evil-anzu)
+(global-anzu-mode +1)
+
+;; (evil-collection-translate-key nil 'evil-normal-state-map
+;; "a" "b"
+;; )
+;; (setq evil-collection-mode-list '())
+(setq evil-collection-setup-minibuffer t)
+(evil-collection-init)
+;; https://www.emacswiki.org/emacs/PrefixKey
+;; https://emacs.stackexchange.com/questions/6037/emacs-bind-key-to-prefix
+
 (evil-commentary-mode 1)
+
+(global-evil-surround-mode 1)
 #+end_src
 
 * misc
 
 #+begin_src emacs-lisp
+(define-globalized-minor-mode global-rainbow-mode rainbow-mode (lambda () (rainbow-mode 1)))
+(global-rainbow-mode 1)
+
 (xclip-mode 1)
+
+(setq fcitx-remote-command "fcitx5-remote")
+(fcitx-aggressive-setup)
+;; https://github.com/cute-jumper/fcitx.el/issues?q=fcitx5
+;; https://kisaragi-hiu.com/why-fcitx5
 #+end_src
