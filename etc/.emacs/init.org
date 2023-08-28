@@ -34,26 +34,30 @@ https://leanpub.com/lit-config/read#leanpub-auto-emacs-and-org-mode
 ;; so that the line number width will not change, current absolute line number can be found in mode line
 (global-display-line-numbers-mode 1)
 
-(blink-cursor-mode 0)
-
-(setq show-paren-delay 0)
-(show-paren-mode 1)
-
-(setq whitespace-style '(face trailing tabs tab-mark))
-(global-whitespace-mode 1)
-;; http://xahlee.info/emacs/emacs/whitespace-mode.html
-
-;; (global-visual-line-mode 1)
-;; https://emacs.stackexchange.com/questions/78532/mixed-display-line-numbers-type-for-evil-users
-
 ;; (line-number-mode 1)
-
 (setq column-number-indicator-zero-based nil)
 (column-number-mode 1)
 
 (setq echo-keystrokes 0.01)
 
 (setq completions-format 'vertical)
+
+;; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(add-to-list 'default-frame-alist
+             '(font . "monospace-15"))
+
+;; (global-visual-line-mode 1)
+;; https://emacs.stackexchange.com/questions/78532/mixed-display-line-numbers-type-for-evil-users
+
+(setq whitespace-style '(face trailing tabs tab-mark))
+(global-whitespace-mode 1)
+;; http://xahlee.info/emacs/emacs/whitespace-mode.html
+
+(setq show-paren-delay 0)
+(show-paren-mode 1)
+
+(blink-cursor-mode 0)
 #+end_src
 
 * scroll
@@ -309,9 +313,6 @@ https://evil.readthedocs.io/en/latest/index.html
 * misc
 
 #+begin_src emacs-lisp
-(define-globalized-minor-mode global-rainbow-mode rainbow-mode (lambda () (rainbow-mode 1)))
-(global-rainbow-mode 1)
-
 (xclip-mode 1)
 
 (setq fcitx-remote-command "fcitx5-remote")
