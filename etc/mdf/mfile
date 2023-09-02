@@ -1,8 +1,6 @@
 ff	$XDG_CONFIG_HOME/mdf/mfile
 fd	$XDG_CONFIG_HOME/mdf/mdir
 
-f	$a_in/0.md
-
 fse	$XDG_CONFIG_HOME/.sh/env
 fsa	$XDG_CONFIG_HOME/.sh/alias
 fx	$XDG_CONFIG_HOME/.x11/xresources

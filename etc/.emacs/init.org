@@ -173,13 +173,16 @@ https://melpa.org/#/getting-started
 (setq package-selected-packages '(
 color-theme-sanityinc-solarized
 evil
-;; evil-anzu
+evil-anzu
+evil-cleverparens
 evil-collection
 evil-commentary
 evil-surround
-magit
-rainbow-mode
 fcitx
+magit
+minions
+rainbow-mode
+sudo-edit
 xclip
 ))
 ;; M-x package-refresh-contents
@@ -220,6 +223,7 @@ https://evil.readthedocs.io/en/latest/index.html
 
 #+begin_src emacs-lisp
 ;; keybindings and other behaviour
+(setq evil-want-C-i-jump nil)
 (setq evil-want-C-u-delete t)
 (setq evil-want-C-u-scroll t)
 (setq evil-want-Y-yank-to-eol t)
@@ -313,7 +317,11 @@ https://evil.readthedocs.io/en/latest/index.html
 * misc
 
 #+begin_src emacs-lisp
+(minions-mode 1)
+
 (xclip-mode 1)
+
+(require 'sudo-edit)
 
 (setq fcitx-remote-command "fcitx5-remote")
 (fcitx-aggressive-setup)

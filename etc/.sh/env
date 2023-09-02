@@ -10,13 +10,12 @@ export XDG_STATE_HOME="$HOME/.local/var/log"
 # https://gist.github.com/Earnestly/84cf9670b7e11ae2eac6f753910efebe
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ aidan
-export home=/home/h
-export a=$home/a
+export a=$HOME/a
 for i in $(ls -d $a/*/ | xargs -n1 basename)
 do
 	export a_$i=$a/$i
 done
-export a_gi=$home/a_gi
+export a_gi=$HOME/a_gi
 
 
 

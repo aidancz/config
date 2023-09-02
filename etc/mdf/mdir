@@ -1,4 +1,5 @@
 ue	/etc
+uo	/opt
 ut	/tmp
 uu	/usr
 uus	/usr/share
@@ -9,11 +10,9 @@ xda	$XDG_DATA_HOME
 xca	$XDG_CACHE_HOME
 xst	$XDG_STATE_HOME
 
-h	$home
-hs	$home/s
-hg	$home/g
+d	$HOME/d
 
-a	$home/a
+a	$HOME/a
 agi	$a_gi
 aic	$a_ic
 aid	$a_id
