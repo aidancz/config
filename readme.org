@@ -1,8 +1,8 @@
 config repo
 
-# .local dir hierarchy
+* .local dir hierarchy
 
-```
+#+begin_example
 $HOME/.local
 |- bin
 |- include
@@ -13,7 +13,7 @@ $HOME/.local
 `- var
    |- cache
    `- log
-```
+#+end_example
 
 stole the idea from:
 https://gist.github.com/Earnestly/84cf9670b7e11ae2eac6f753910efebe
@@ -21,18 +21,20 @@ https://gist.github.com/Earnestly/84cf9670b7e11ae2eac6f753910efebe
 this repo is a pseudo $HOME/.local dir
 
 this repo effect when symlinked by $HOME/.local dir:
-```
+
+#+begin_example
 .local/*  <-  $HOME/.local/*
-```
+#+end_example
+
 this can be done via the .local/lsl shell script
 
-# xdg variable
+* xdg variable
 
-```sh
+#+begin_src sh
 export XDG_CONFIG_HOME="$HOME/.local/etc"
 export XDG_CACHE_HOME="$HOME/.local/var/cache"
 export XDG_STATE_HOME="$HOME/.local/var/log"
-```
+#+end_src
 
 these vaviables are set at:
 
@@ -45,20 +47,20 @@ i have to hard code the file path, they are:
 
 - lfrc
 
-# name convention
+* name convention
 
-`.local/etc/.vim`
+=.local/etc/.vim=
 
 Q: why prepend a dot to "vim"?
 A: vim doesn't respect xdg variable, so use a dot to denote it must be symlinked
 
-# logic behind login
+* logic behind login
 
-```
+#+begin_example
 appointment:
 "a <- b" means a is symlinked by b
 "a << b" means a is referenced by b
 
 ~/.profile -> .local/etc/.sh/profile >> .local/etc/.x11/xinitrc >> ~/.xprofile -> .local/etc/.x11/xprofile
-                                                                 >> dwm
-```
+                                                                >> dwm
+#+end_example
