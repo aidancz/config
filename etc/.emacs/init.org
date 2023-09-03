@@ -131,16 +131,18 @@ https://leanpub.com/lit-config/read#leanpub-auto-emacs-and-org-mode
 #+begin_src emacs-lisp
 (setq org-link-descriptive nil)
 
-(setq org-M-RET-may-split-line nil)
-
 ;; (setq org-adapt-indentation nil)
 ;; (setq org-list-indent-offset 5)
 ;; 8 - 3 = 5
+
+(setq org-M-RET-may-split-line nil)
 
 (setq org-src-preserve-indentation t)
 ;; if t, org-src-preserve-indentation override org-edit-src-content-indentation and set it to 0
 ;; (setq org-edit-src-content-indentation 0)
 (setq org-src-window-setup 'current-window)
+
+(require 'org-tempo)
 #+end_src
 
 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ package

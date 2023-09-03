@@ -13,6 +13,10 @@ set previewer "~/.local/etc/lf/scope"
 # set previewer "$XDG_CONFIG_HOME/lf/scope"
 set autoquit
 
+# setlocal ~ hidden
+# https://github.com/gokcehan/lf/issues/1403
+# https://github.com/gokcehan/lf/pull/1381
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ cmd
 
 # cmd on-cd &{{
