@@ -5,12 +5,18 @@
 
 * init.org -> init.el
 
-https://leanpub.com/lit-config/read#leanpub-auto-emacs-and-org-mode
-
 #+begin_src emacs-lisp
-(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle :append :local)))
+;; (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle :append :local)))
 ;; run "org-babel-tangle" when saving any org buffer
 ;; manually: C-c C-v t
+;; https://leanpub.com/lit-config/read#leanpub-auto-emacs-and-org-mode
+
+(defun org-babel-tangle-config ()
+  (when (string-equal (buffer-file-name) (concat (getenv "a_gi") "/.local/etc/.emacs/init.org"))
+    (org-babel-tangle)
+  )
+)
+(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle-config)))
 #+end_src
 
 * xresources
@@ -48,6 +54,8 @@ https://leanpub.com/lit-config/read#leanpub-auto-emacs-and-org-mode
              '(font . "monospace-15"))
 
 ;; (global-visual-line-mode 1)
+(set-default 'truncate-lines t)
+;; https://www.emacswiki.org/emacs/TruncateLines
 ;; https://emacs.stackexchange.com/questions/78532/mixed-display-line-numbers-type-for-evil-users
 
 (setq whitespace-style '(face trailing tabs tab-mark))
@@ -129,6 +137,13 @@ https://leanpub.com/lit-config/read#leanpub-auto-emacs-and-org-mode
 * org
 
 #+begin_src emacs-lisp
+(global-set-key (kbd "C-c l") #'org-store-link)
+(global-set-key (kbd "C-c a") #'org-agenda)
+(global-set-key (kbd "C-c c") #'org-capture)
+;; https://orgmode.org/manual/Activation.html
+
+
+
 (setq org-link-descriptive nil)
 
 ;; (setq org-adapt-indentation nil)
@@ -143,6 +158,61 @@ https://leanpub.com/lit-config/read#leanpub-auto-emacs-and-org-mode
 (setq org-src-window-setup 'current-window)
 
 (require 'org-tempo)
+
+
+
+(setq org-capture-templates `(
+("i" "" entry (file ,(concat (getenv "a_fn") "/_inbox.org")) "* %i%?")
+))
+
+(define-key global-map (kbd "C-c i")
+  (lambda () (interactive) (org-capture nil "i")))
+
+(setq org-todo-keywords '((sequence "CALE(c)" "NEXT(n)" "PROJ(p)" "|" "DROP(d)")))
+
+(setq org-refile-use-outline-path 'file)
+;; https://emacs.stackexchange.com/questions/13353/how-to-use-org-refile-to-move-a-headline-to-a-file-as-a-toplevel-headline
+(setq org-refile-targets `(
+(,(concat (getenv "a_fn") "/_inbox.org") :maxlevel . 2)
+(,(concat (getenv "a_fn") "/calendar.org") :maxlevel . 2)
+(,(concat (getenv "a_fn") "/next.org") :maxlevel . 2)
+(,(concat (getenv "a_fn") "/project.org") :maxlevel . 2)
+))
+
+;; (defun org-refile-inbox ()
+;;   (interactive)
+;;   (org-map-entries
+;;     (lambda ()
+;;       (let ((state (org-get-todo-state)) (org-map-continue-from (point-min)))
+;;         (cond
+;;           ((string= state "CALE")
+;;            (org-refile nil nil (list nil (concat (getenv "a_fn") "/calendar.org")))
+;;           )
+;;           ((string= state "NEXT")
+;;            (org-refile nil nil (list nil (concat (getenv "a_fn") "/next.org")))
+;;           )
+;;           ((string= state "PROJ")
+;;            (org-refile nil nil (list nil (concat (getenv "a_fn") "/project.org")))
+;;           )
+;;           ((string= state "DROP")
+;;            (org-cut-subtree)
+;;           )
+;;           (t
+;;            (org-refile nil nil (list nil (concat (getenv "a_fn") "/_inbox.org")))
+;;           )
+;;         )
+;;       )
+;;     )
+;;   )
+;; )
+
+(global-set-key (kbd "C-c r") 'org-refile-inbox)
+
+(setq org-agenda-files `(
+,(concat (getenv "a_fn") "/calendar.org")
+,(concat (getenv "a_fn") "/next.org")
+,(concat (getenv "a_fn") "/project.org")
+))
 #+end_src
 
 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ package

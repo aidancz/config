@@ -12,6 +12,7 @@ set cleaner "~/.local/etc/lf/cleaner"
 set previewer "~/.local/etc/lf/scope"
 # set previewer "$XDG_CONFIG_HOME/lf/scope"
 set autoquit
+# set sortby "ext"
 
 # setlocal ~ hidden
 # https://github.com/gokcehan/lf/issues/1403

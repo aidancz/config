@@ -13,13 +13,14 @@ xst	$XDG_STATE_HOME
 d	$HOME/d
 
 a	$HOME/a
+afj	$a_fj
+afn	$a_fn
 agi	$a_gi
+aia	$a_ia
 aic	$a_ic
 aid	$a_id
 ajc	$a_jc
-as	$a_s
+asc	$a_scut
 
 l	$a_gi/.local
-lb	$a_gi/.local/bin
-le	$a_gi/.local/etc
-lsh	$a_gi/.local/share
+le	$a_gi/.local/etc/.emacs

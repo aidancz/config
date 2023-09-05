@@ -44,14 +44,14 @@ export BROWSER="google-chrome-stable"
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ program_path
 export INPUTRC="$XDG_CONFIG_HOME/.bash/.inputrc"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-export HISTFILE="$a/u/history"
+export HISTFILE="$a_gi/arch_var/history"
 export XINITRC="$XDG_CONFIG_HOME/.x11/xinitrc"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc-2.0"
 export DOOMDIR="$XDG_CONFIG_HOME/doom"
 export WGETRC="$XDG_CONFIG_HOME/wget/wgetrc"
 export GOPATH="$XDG_DATA_HOME/go"
-export GNUPGHOME="$a/u/gnupg"
-export PASSWORD_STORE_DIR="$a/u/password-store"
+export GNUPGHOME="$a_fk/gnupg"
+export PASSWORD_STORE_DIR="$a_fk/password-store"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ program_config
 export HISTSIZE=10000000

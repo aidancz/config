@@ -7,7 +7,7 @@ alias chown="chown --preserve-root -v"
 alias df="df -h"
 alias du="du -h"
 alias mkdir="mkdir -p"
-alias grep="grep --color=auto -E"
+alias grep="grep --color=auto"
 alias diff="diff --color=auto"
 
 # abbreviate long command
