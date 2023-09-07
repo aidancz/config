@@ -40,6 +40,9 @@
 ;; so that the line number width will not change, current absolute line number can be found in mode line
 (global-display-line-numbers-mode 1)
 
+(setq mode-line-client "")
+;; https://emacs.stackexchange.com/questions/4018/reduce-the-space-between-elements-in-modeline
+;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Mode-Line-Variables.html#Mode-Line-Variables
 ;; (line-number-mode 1)
 (setq column-number-indicator-zero-based nil)
 (column-number-mode 1)
@@ -144,7 +147,7 @@
 
 
 
-(setq org-link-descriptive nil)
+;; (setq org-link-descriptive nil)
 
 ;; (setq org-adapt-indentation nil)
 ;; (setq org-list-indent-offset 5)
@@ -244,18 +247,29 @@ https://melpa.org/#/getting-started
 
 (setq package-selected-packages '(
 color-theme-sanityinc-solarized
+solarized-theme
+minions
+rainbow-mode
+
+xclip
+
 evil
 evil-anzu
 evil-cleverparens
 evil-collection
 evil-commentary
 evil-surround
+
+uuidgen
+org-journal
+org-roam
+org-roam-ui
+
+dirvish
+vterm
 fcitx
 magit
-minions
-rainbow-mode
 sudo-edit
-xclip
 ))
 ;; M-x package-refresh-contents
 ;; M-x package-install-selected-packages
@@ -276,17 +290,18 @@ xclip
 ;; http://xahlee.info/emacs/misc/emacs_lisp_some_and_every.html
 #+end_src
 
-* load
-
 #+begin_src emacs-lisp
 (setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/lisp") load-path))
 ;; add "$XDG_CONFIG_HOME/emacs" to load-path
+;; http://xahlee.info/emacs/emacs/elisp_library_system.html
+#+end_src
 
+* appearance
+
+#+begin_src emacs-lisp
 (load "dl.el")
 
-
-
-;; http://xahlee.info/emacs/emacs/elisp_library_system.html
+(minions-mode 1)
 #+end_src
 
 * evil
@@ -313,7 +328,7 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; (setq evil-ex-search-vim-style-regexp nil)
 ;; (setq evil-ex-search-interactive nil)
 ;; (setq evil-ex-search-incremental t)
-(setq evil-ex-search-highlight-all nil)
+;; (setq evil-ex-search-highlight-all nil)
 ;; (setq evil-ex-search-persistent-highlight nil)
 
 ;; indentation
@@ -347,6 +362,8 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; some variables need to be set before evil is loaded, keymap need to be set after evil is loaded, so put this line here
 
 ;; keymaps
+(evil-set-leader '(normal motion) (kbd "RET"))
+
 (define-key evil-insert-state-map (kbd "C-w") 'evil-delete-backward-word)
 (define-key evil-insert-state-map (kbd "C-u") 'evil-delete-back-to-indentation)
 (define-key evil-insert-state-map (kbd "C-p") 'evil-complete-previous)
@@ -355,10 +372,16 @@ https://evil.readthedocs.io/en/latest/index.html
 (define-key evil-insert-state-map (kbd "C-r") 'evil-paste-from-register)
 (define-key evil-insert-state-map (kbd "C-o") 'evil-execute-in-normal-state)
 
+(define-key evil-normal-state-map (kbd "z o") 'evil-open-fold-rec)
+(define-key evil-normal-state-map (kbd "J") 'evil-collection-unimpaired-insert-newline-below)
+(define-key evil-normal-state-map (kbd "K") 'evil-collection-unimpaired-insert-newline-above)
+;; (define-key evil-normal-state-map (kbd "J") (lambda () (interactive) (evil-ex-execute "put _")))
+;; (define-key evil-normal-state-map (kbd "K") (lambda () (interactive) (evil-ex-execute "put! _")))
+;; (define-key evil-normal-state-map (kbd "J") (kbd ":put SPC _"))
+;; (define-key evil-normal-state-map (kbd "K") (kbd ":put! SPC _"))
 ;; (define-key evil-normal-state-map (kbd "C-s") nil)
-(define-key evil-normal-state-map (kbd "J") (lambda () (interactive) (evil-ex-execute "put _")))
-(define-key evil-normal-state-map (kbd "K") (lambda () (interactive) (evil-ex-execute "put! _")))
-;; (define-key evil-normal-state-map (kbd "C-j") (kbd ":put SPC _"))
+(define-key evil-normal-state-map (kbd "M-c") 'calendar)
+
 ;; http://xahlee.info/emacs/emacs/keyboard_shortcuts_examples.html
 ;; https://stackoverflow.com/questions/20438900/key-map-for-ex-command-in-emacs-evil-mode
 
@@ -370,7 +393,7 @@ https://evil.readthedocs.io/en/latest/index.html
 
 #+begin_src emacs-lisp
 (require 'evil-anzu)
-(global-anzu-mode +1)
+(global-anzu-mode 1)
 
 ;; (evil-collection-translate-key nil 'evil-normal-state-map
 ;; "a" "b"
@@ -386,11 +409,92 @@ https://evil.readthedocs.io/en/latest/index.html
 (global-evil-surround-mode 1)
 #+end_src
 
+* org journal
+
+#+begin_src emacs-lisp
+(setq org-journal-dir (getenv "a_id"))
+(setq org-journal-file-format "%F")
+(setq org-journal-date-prefix "#+title ")
+(setq org-journal-date-format "%F")
+(setq org-journal-time-prefix "* ")
+(setq org-journal-time-format "%F %a %H:%M%n")
+(setq org-journal-hide-entries-p nil)
+
+(require 'org-journal)
+
+(evil-define-key 'normal calendar-mode-map (kbd "<leader> a") 'org-journal-new-date-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "<leader> j") 'org-journal-read-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "<leader> k") 'org-journal-display-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "<leader> h") 'org-journal-previous-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "<leader> l") 'org-journal-next-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "<leader> m") 'org-journal-mark-entries)
+;; (global-set-key (kbd "C-c j a") 'org-journal-new-entry)
+#+end_src
+
+* org roam
+
+#+begin_src emacs-lisp
+;; (setq org-property-format "%-10s %s")
+(setq org-property-format "%-15s %s")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; (setq org-id-ts-format "%Y%m%dT%H%M%S.%6N")
+(setq org-id-ts-format "%Y-%m-%d-%H%M%S-%6N")
+(setq org-id-method 'ts)
+(global-set-key (kbd "C-c n a") #'org-id-get-create)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; https://www.orgroam.com/manual.html
+;; https://github.com/org-roam/org-roam/issues/2031
+
+;; (setq org-roam-directory (file-truename "~/org-roam"))
+(setq org-roam-directory (getenv "a_id"))
+;; (setq org-roam-capture-templates '(
+;; ("d" "default" plain "%?"
+;;      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+;;                         "#+title: ${title}\n")
+;;      :unnarrowed t)
+;; ))
+(require 'uuidgen)
+(setq org-roam-capture-templates '(
+("d" "default" plain "%?"
+     :target (file+head "%(uuidgen-1).org"
+                        "#+title: ${title}\n")
+     :unnarrowed t)
+))
+
+(global-set-key (kbd "C-c n f") #'org-roam-node-find)
+(global-set-key (kbd "C-c n i") #'org-roam-node-insert)
+(global-set-key (kbd "C-c n c") #'org-roam-capture)
+
+(global-set-key (kbd "C-c n b") #'org-roam-buffer-toggle)
+(global-set-key (kbd "C-c n g") #'org-roam-graph)
+
+
+
+;; (setq org-roam-dailies-directory "")
+
+;; (global-set-key (kbd "C-c n h") #'org-roam-dailies-goto-yesterday)
+;; (global-set-key (kbd "C-c n j") #'org-roam-dailies-goto-today)
+;; (global-set-key (kbd "C-c n l") #'org-roam-dailies-goto-tomorrow)
+;; (global-set-key (kbd "C-c n k") #'org-roam-dailies-goto-date)
+
+
+
+(org-roam-db-autosync-mode)
+#+end_src
+
+* dirvish
+
+#+begin_src emacs-lisp
+(dirvish-override-dired-mode)
+#+end_src
+
 * misc
 
 #+begin_src emacs-lisp
-(minions-mode 1)
-
 (xclip-mode 1)
 
 (require 'sudo-edit)
