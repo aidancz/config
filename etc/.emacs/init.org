@@ -140,81 +140,52 @@
 * org
 
 #+begin_src emacs-lisp
-(global-set-key (kbd "C-c l") #'org-store-link)
-(global-set-key (kbd "C-c a") #'org-agenda)
-(global-set-key (kbd "C-c c") #'org-capture)
+(global-set-key (kbd "C-c o l") #'org-store-link)
+(global-set-key (kbd "C-c o a") #'org-agenda)
+(global-set-key (kbd "C-c o c") #'org-capture)
 ;; https://orgmode.org/manual/Activation.html
 
 
 
-;; (setq org-link-descriptive nil)
-
 ;; (setq org-adapt-indentation nil)
-;; (setq org-list-indent-offset 5)
-;; 8 - 3 = 5
-
-(setq org-M-RET-may-split-line nil)
+;; * level 1
+;;   * level 2
+;; (setq org-list-indent-offset 6)
+;; 9 - 3 = 6
+;; (setq org-property-format "%-10s %s")
+(setq org-property-format "%-15s %s")
 
 (setq org-src-preserve-indentation t)
 ;; if t, org-src-preserve-indentation override org-edit-src-content-indentation and set it to 0
 ;; (setq org-edit-src-content-indentation 0)
 (setq org-src-window-setup 'current-window)
 
+;; (setq org-link-descriptive nil)
+
+
+
+(setq org-M-RET-may-split-line nil)
+
 (require 'org-tempo)
+#+end_src
 
+* org gtd
 
-
+#+begin_src emacs-lisp
 (setq org-capture-templates `(
-("i" "" entry (file ,(concat (getenv "a_fn") "/_inbox.org")) "* %i%?")
+("a" "inbox" entry (file ,(concat (getenv "a_fn") "/inbox.org")) "* %i%?")
 ))
 
-(define-key global-map (kbd "C-c i")
-  (lambda () (interactive) (org-capture nil "i")))
+(define-key global-map (kbd "C-c n a")
+  (lambda () (interactive) (org-capture nil "a")))
 
-(setq org-todo-keywords '((sequence "CALE(c)" "NEXT(n)" "PROJ(p)" "|" "DROP(d)")))
+;; (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAIT(w)" "CANC(c)" "|" "DONE(d)")))
+;; https://orgmode.org/manual/Workflow-states.html
 
 (setq org-refile-use-outline-path 'file)
 ;; https://emacs.stackexchange.com/questions/13353/how-to-use-org-refile-to-move-a-headline-to-a-file-as-a-toplevel-headline
 (setq org-refile-targets `(
-(,(concat (getenv "a_fn") "/_inbox.org") :maxlevel . 2)
-(,(concat (getenv "a_fn") "/calendar.org") :maxlevel . 2)
-(,(concat (getenv "a_fn") "/next.org") :maxlevel . 2)
-(,(concat (getenv "a_fn") "/project.org") :maxlevel . 2)
-))
-
-;; (defun org-refile-inbox ()
-;;   (interactive)
-;;   (org-map-entries
-;;     (lambda ()
-;;       (let ((state (org-get-todo-state)) (org-map-continue-from (point-min)))
-;;         (cond
-;;           ((string= state "CALE")
-;;            (org-refile nil nil (list nil (concat (getenv "a_fn") "/calendar.org")))
-;;           )
-;;           ((string= state "NEXT")
-;;            (org-refile nil nil (list nil (concat (getenv "a_fn") "/next.org")))
-;;           )
-;;           ((string= state "PROJ")
-;;            (org-refile nil nil (list nil (concat (getenv "a_fn") "/project.org")))
-;;           )
-;;           ((string= state "DROP")
-;;            (org-cut-subtree)
-;;           )
-;;           (t
-;;            (org-refile nil nil (list nil (concat (getenv "a_fn") "/_inbox.org")))
-;;           )
-;;         )
-;;       )
-;;     )
-;;   )
-;; )
-
-(global-set-key (kbd "C-c r") 'org-refile-inbox)
-
-(setq org-agenda-files `(
-,(concat (getenv "a_fn") "/calendar.org")
-,(concat (getenv "a_fn") "/next.org")
-,(concat (getenv "a_fn") "/project.org")
+(,(concat (getenv "a_fn") "/inbox.org") :maxlevel . 2)
 ))
 #+end_src
 
@@ -259,8 +230,10 @@ evil-cleverparens
 evil-collection
 evil-commentary
 evil-surround
+evil-org
 
 uuidgen
+org-gtd
 org-journal
 org-roam
 org-roam-ui
@@ -407,6 +380,34 @@ https://evil.readthedocs.io/en/latest/index.html
 (evil-commentary-mode 1)
 
 (global-evil-surround-mode 1)
+
+;; (require 'evil-org)
+;; (add-hook 'org-mode-hook 'evil-org-mode)
+;; (setq evil-org-key-theme '(navigation textobjects additional calendar))
+;; (evil-org-set-key-theme)
+(require 'evil-org-agenda)
+(evil-org-agenda-set-keys)
+#+end_src
+
+* COMMENT org gtd
+
+#+begin_src emacs-lisp
+(setq org-edna-use-inheritance t)
+(org-edna-mode 1)
+;; https://github.com/Trevoke/org-gtd.el/blob/master/doc/org-gtd.org#required-configuration-of-sub-packages
+
+
+
+(setq org-gtd-update-ack "3.0.0")
+(setq org-gtd-directory (getenv "a_fn"))
+(setq org-gtd-capture-templates '(
+("i" "" entry (file org-gtd-inbox-path) "* %i%?")
+))
+
+(require 'org-gtd)
+
+(global-set-key (kbd "C-c n c") #'org-gtd-capture)
+(define-key org-gtd-clarify-map (kbd "RET") #'org-gtd-organize)
 #+end_src
 
 * org journal
@@ -422,27 +423,23 @@ https://evil.readthedocs.io/en/latest/index.html
 
 (require 'org-journal)
 
-(evil-define-key 'normal calendar-mode-map (kbd "<leader> a") 'org-journal-new-date-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "<leader> j") 'org-journal-read-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "<leader> k") 'org-journal-display-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "<leader> h") 'org-journal-previous-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "<leader> l") 'org-journal-next-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "<leader> m") 'org-journal-mark-entries)
+(evil-define-key 'normal calendar-mode-map (kbd "d") nil)
+(evil-define-key 'normal calendar-mode-map (kbd "d a") 'org-journal-new-date-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "d j") 'org-journal-read-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "d k") 'org-journal-display-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "d h") 'org-journal-previous-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "d l") 'org-journal-next-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "d m") 'org-journal-mark-entries)
 ;; (global-set-key (kbd "C-c j a") 'org-journal-new-entry)
 #+end_src
 
 * org roam
 
 #+begin_src emacs-lisp
-;; (setq org-property-format "%-10s %s")
-(setq org-property-format "%-15s %s")
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ;; (setq org-id-ts-format "%Y%m%dT%H%M%S.%6N")
 (setq org-id-ts-format "%Y-%m-%d-%H%M%S-%6N")
 (setq org-id-method 'ts)
-(global-set-key (kbd "C-c n a") #'org-id-get-create)
+(global-set-key (kbd "C-c a a") #'org-id-get-create)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -450,7 +447,7 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; https://github.com/org-roam/org-roam/issues/2031
 
 ;; (setq org-roam-directory (file-truename "~/org-roam"))
-(setq org-roam-directory (getenv "a_id"))
+(setq org-roam-directory (getenv "a_ia"))
 ;; (setq org-roam-capture-templates '(
 ;; ("d" "default" plain "%?"
 ;;      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
@@ -465,12 +462,12 @@ https://evil.readthedocs.io/en/latest/index.html
      :unnarrowed t)
 ))
 
-(global-set-key (kbd "C-c n f") #'org-roam-node-find)
-(global-set-key (kbd "C-c n i") #'org-roam-node-insert)
-(global-set-key (kbd "C-c n c") #'org-roam-capture)
+(global-set-key (kbd "C-c a f") #'org-roam-node-find)
+(global-set-key (kbd "C-c a i") #'org-roam-node-insert)
+(global-set-key (kbd "C-c a c") #'org-roam-capture)
 
-(global-set-key (kbd "C-c n b") #'org-roam-buffer-toggle)
-(global-set-key (kbd "C-c n g") #'org-roam-graph)
+(global-set-key (kbd "C-c a b") #'org-roam-buffer-toggle)
+(global-set-key (kbd "C-c a g") #'org-roam-graph)
 
 
 
