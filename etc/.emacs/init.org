@@ -97,10 +97,14 @@
 ;; (setq scroll-up-aggressively 0.5)
 
 ;; horizontal scrolling
+
 (setq hscroll-margin 0)
 (setq hscroll-step 2)
 ;; there is no "hscroll-conservatively", but (setq hscroll-step 2) does exactly what i want
 
+;; scroll & cursor
+(setq next-screen-context-lines 0)
+(setq scroll-preserve-screen-position t)
 #+end_src
 
 * search
@@ -201,7 +205,8 @@
 (setq org-refile-use-outline-path 'file)
 ;; https://emacs.stackexchange.com/questions/13353/how-to-use-org-refile-to-move-a-headline-to-a-file-as-a-toplevel-headline
 (setq org-refile-targets `(
-(,(concat (getenv "a_fn") "/inbox.org") :maxlevel . 2)
+;; (,(concat (getenv "a_fn") "/inbox.org") :maxlevel . 2)
+(,(directory-files-recursively (getenv "a_fn") "\.org$") :maxlevel . 2)
 ))
 #+end_src
 
@@ -315,15 +320,15 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; (setq evil-search-module 'isearch)
 (setq evil-search-module 'evil-search)
 
-;; isearch
+;; search_isearch
 ;; (setq evil-flash-delay 0)
 
-;; evil-search
+;; search_evil-search
 ;; (setq evil-ex-search-case 'smart)
 ;; (setq evil-ex-search-vim-style-regexp nil)
 ;; (setq evil-ex-search-interactive nil)
 ;; (setq evil-ex-search-incremental t)
-;; (setq evil-ex-search-highlight-all nil)
+(setq evil-ex-search-highlight-all nil)
 ;; (setq evil-ex-search-persistent-highlight nil)
 
 ;; indentation
@@ -332,6 +337,7 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; cursor movement
 (setq evil-move-cursor-back nil)
 (setq evil-move-beyond-eol t)
+(setq evil-v$-excludes-newline t)
 (setq evil-cross-lines t)
 (setq evil-start-of-line t)
 
@@ -347,9 +353,13 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; miscellaneous
 (setq evil-undo-system 'undo-redo)
 
-;; evil-collection
+;; undocumented evil settings
+(setq evil-want-change-word-to-end nil)
+(setq evil-want-minibuffer t)
+
 (setq evil-want-integration t)
 (setq evil-want-keybinding nil)
+;; these two variables are required by evil-collection
 ;; https://github.com/emacs-evil/evil-collection#installation
 
 ;; require evil
@@ -387,17 +397,20 @@ https://evil.readthedocs.io/en/latest/index.html
 * evil plugin
 
 #+begin_src emacs-lisp
+(setq anzu-cons-mode-line-p nil)
+;; https://github.com/emacsorphanage/anzu#anzu-cons-mode-line-pdefault-is-t
 (require 'evil-anzu)
+(setq global-mode-string '(:eval (anzu--update-mode-line)))
+;; https://emacs.stackexchange.com/questions/13855/how-to-append-string-that-gets-updated-to-mode-line
 (global-anzu-mode 1)
 
 ;; (evil-collection-translate-key nil 'evil-normal-state-map
 ;; "a" "b"
 ;; )
 ;; (setq evil-collection-mode-list '())
-(setq evil-collection-setup-minibuffer t)
+;; (setq evil-collection-setup-minibuffer t)
+;; use (setq evil-want-minibuffer t) instead of (setq evil-collection-setup-minibuffer t)
 (evil-collection-init)
-;; https://www.emacswiki.org/emacs/PrefixKey
-;; https://emacs.stackexchange.com/questions/6037/emacs-bind-key-to-prefix
 
 (evil-commentary-mode 1)
 
