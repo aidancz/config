@@ -1,6 +1,6 @@
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ variable (color name -> color hex code)
+! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ terminal color
+
 ! name		dark	light
-!
 ! black		0	8
 ! red		1	9
 ! green		2	10
@@ -9,22 +9,20 @@
 ! purple	5	13
 ! cyan		6	14
 ! white		7	15
-!
+
 ! e.g. brred (bright red) is color9
 
-! solarized
+! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ solarized
+
 ! https://github.com/altercation/solarized/blob/master/xresources/solarized
 
-#define s_yellow        #b58900
-#define s_orange        #cb4b16
-#define s_red           #dc322f
-#define s_magenta       #d33682
-#define s_violet        #6c71c4
-#define s_blue          #268bd2
-#define s_cyan          #2aa198
-#define s_green         #859900
+! solarized base03 is always #002b36 (not #fdf6e3)
+! however dark theme background is base03, light theme background is base3
+! for convenience of setting colors (such as always set "background" as base03), in light theme we redefine base03 as #fdf6e3
 
-! ! dark
+
+
+! ! solarized-dark
 ! #define s_base03        #002b36
 ! #define s_base02        #073642
 ! #define s_base01        #586e75
@@ -33,9 +31,20 @@
 ! #define s_base1         #93a1a1
 ! #define s_base2         #eee8d5
 ! #define s_base3         #fdf6e3
-! ! dark
 
-! ! light
+! #define s_yellow        #b58900
+! #define s_orange        #cb4b16
+! #define s_red           #dc322f
+! #define s_magenta       #d33682
+! #define s_violet        #6c71c4
+! #define s_blue          #268bd2
+! #define s_cyan          #2aa198
+! #define s_green         #859900
+! ! solarized-dark
+
+
+
+! ! solarized-light
 ! #define s_base03        #fdf6e3
 ! #define s_base02        #eee8d5
 ! #define s_base01        #93a1a1
@@ -44,63 +53,131 @@
 ! #define s_base1         #586e75
 ! #define s_base2         #073642
 ! #define s_base3         #002b36
-! ! light
 
-! solarized base03 is always #002b36 (not #fdf6e3)
-! however dark theme background is base03, light theme background is base3
-! for convenience of setting colors (such as always set "background" as base03), we here redefine base03 as base3
+! #define s_yellow        #b58900
+! #define s_orange        #cb4b16
+! #define s_red           #dc322f
+! #define s_magenta       #d33682
+! #define s_violet        #6c71c4
+! #define s_blue          #268bd2
+! #define s_cyan          #2aa198
+! #define s_green         #859900
+! ! solarized-light
 
-#define s_flavor	s_base1
 
 
+! ! solarized-set
+! *color0:                  s_base02
+! *color8:                  s_base03
+! *color1:                  s_red
+! *color9:                  s_orange
+! *color2:                  s_green
+! *color10:                 s_base01
+! *color3:                  s_yellow
+! *color11:                 s_base00
+! *color4:                  s_blue
+! *color12:                 s_base0
+! *color5:                  s_magenta
+! *color13:                 s_violet
+! *color6:                  s_cyan
+! *color14:                 s_base1
+! *color7:                  s_base2
+! *color15:                 s_base3
 
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ common
+! *background:              s_base03
+! *foreground:              s_base0
+! *cursorColor:             s_base1
+! !*fading:                  40
+! !*fadeColor:               s_base03
+! !*pointerColorBackground:  s_base01
+! !*pointerColorForeground:  s_base1
+
+dwm.normbgcolor:	s_base03
+dwm.normfgcolor:	s_base0
+dwm.selbgcolor:		s_base02
+dwm.selfgcolor:		s_base1
+dwm.normbordercolor:	s_base02
+dwm.selbordercolor:	s_base1
+
+dmenu.normbgcolor:	s_base03
+dmenu.normfgcolor:	s_base0
+dmenu.selbgcolor:	s_base02
+dmenu.selfgcolor:	s_base1
+! ! solarized-set
+
+! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nord
+
+! https://github.com/nordtheme/xresources/blob/develop/src/nord
+
+! ! nord-dark
+! #define nord0 #2e3440
+! #define nord1 #3b4252
+! #define nord2 #434c5e
+! #define nord3 #4c566a
+! #define nord4 #d8dee9
+! #define nord5 #e5e9f0
+! #define nord6 #eceff4
+! #define nord7 #8fbcbb
+! #define nord8 #88c0d0
+! #define nord9 #81a1c1
+! #define nord10 #5e81ac
+! #define nord11 #bf616a
+! #define nord12 #d08770
+! #define nord13 #ebcb8b
+! #define nord14 #a3be8c
+! #define nord15 #b48ead
+! ! nord-dark
+
+! ! nord-set
+! *color0: nord1
+! *color1: nord11
+! *color2: nord14
+! *color3: nord13
+! *color4: nord9
+! *color5: nord15
+! *color6: nord8
+! *color7: nord5
+! *color8: nord3
+! *color9: nord11
+! *color10: nord14
+! *color11: nord13
+! *color12: nord9
+! *color13: nord15
+! *color14: nord7
+! *color15: nord6
+
+! *background:   nord0
+! *foreground:   nord4
+! *cursorColor:  nord4
+! *fading:       35
+! *fadeColor:    nord3
+
+! dwm.normbgcolor:	nord1
+! dwm.normfgcolor:	nord5
+! dwm.selbgcolor:		nord3
+! dwm.selfgcolor:		nord5
+! dwm.normbordercolor:	nord1
+! dwm.selbordercolor:	nord5
+
+! dmenu.normbgcolor:	nord1
+! dmenu.normfgcolor:	nord5
+! dmenu.selbgcolor:	nord3
+! dmenu.selfgcolor:	nord5
+! ! nord-set
+
+! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ misc
 *font: monospace:size=15
 *fonta: Twemoji
 *fontb: Twemoji
 ! 4 pixel = 3 point
+
 *alpha: 1
-*color0:                  s_base02
-*color8:                  s_base03
-*color1:                  s_red
-*color9:                  s_orange
-*color2:                  s_green
-*color10:                 s_base01
-*color3:                  s_yellow
-*color11:                 s_base00
-*color4:                  s_blue
-*color12:                 s_base0
-*color5:                  s_magenta
-*color13:                 s_violet
-*color6:                  s_cyan
-*color14:                 s_base1
-*color7:                  s_base2
-*color15:                 s_base3
-*background:              s_base03
-*foreground:              s_base0
-*cursorColor:             s_base1
-!*fading:                  40
-!*fadeColor:               s_base03
-!*pointerColorBackground:  s_base01
-!*pointerColorForeground:  s_base1
 *cursorBlink:		  0
 
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ specific
 st.borderpx: 0
 
-dwm.normbgcolor:	s_base03
-dwm.normfgcolor:	s_base01
-dwm.selbgcolor:		s_base01
-dwm.selfgcolor:		s_base03
-dwm.normbordercolor:	s_base02
-dwm.selbordercolor:	s_base1
 dwm.showbar: 1
 dwm.borderpx: 0
 
-dmenu.normbgcolor:	s_base02
-dmenu.normfgcolor:	s_flavor
-dmenu.selbgcolor:	s_flavor
-dmenu.selfgcolor:	s_base02
-
-!https://www.gnu.org/software/emacs/manual/html_node/emacs/Table-of-Resources.html
 !emacs.font: monospace-15
+!https://www.gnu.org/software/emacs/manual/html_node/emacs/Table-of-Resources.html

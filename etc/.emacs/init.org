@@ -1,9 +1,16 @@
 #+property: header-args:emacs-lisp :tangle (concat (getenv "XDG_CONFIG_HOME") "/emacs/init.el")
 
+* lexical binding
+
 #+begin_src emacs-lisp
+;; -*- lexical-binding: t -*-
+;; https://github.com/nordtheme/emacs/issues/59#issuecomment-414882071
+;; https://www.emacswiki.org/emacs/LexicalBinding
+;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Lexical-Binding.html
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Specifying-File-Variables.html
 #+end_src
 
-* init.org -> init.el
+* tangle when saving
 
 #+begin_src emacs-lisp
 ;; (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle :append :local)))
@@ -61,9 +68,13 @@
 ;; https://www.emacswiki.org/emacs/TruncateLines
 ;; https://emacs.stackexchange.com/questions/78532/mixed-display-line-numbers-type-for-evil-users
 
-(setq whitespace-style '(face trailing tabs tab-mark))
+;; (setq whitespace-style '(face trailing tabs tab-mark))
+(setq whitespace-style '(face trailing tabs))
+(setq whitespace-display-mappings '(
+))
 (global-whitespace-mode 1)
 ;; http://xahlee.info/emacs/emacs/whitespace-mode.html
+;; http://xahlee.info/emacs/emacs/emacs_init_whitespace_mode.html
 
 (setq show-paren-delay 0)
 (show-paren-mode 1)
@@ -118,8 +129,13 @@
 
 #+begin_src emacs-lisp
 ;; (setq-default tab-width 8)
+;; (defvaralias 'c-basic-offset 'tab-width)
+;; (defvaralias 'cperl-indent-level 'tab-width)
+;; https://www.emacswiki.org/emacs/IndentationBasics
 
 ;; (electric-indent-mode -1)
+
+(setq sh-basic-offset 8)
 #+end_src
 
 * extra files
@@ -217,8 +233,10 @@ https://melpa.org/#/getting-started
 ;; (setq package-user-dir (concat (getenv "XDG_CACHE_HOME") "/emacs/elpa"))
 
 (setq package-selected-packages '(
-color-theme-sanityinc-solarized
 solarized-theme
+color-theme-sanityinc-solarized
+nord-theme
+color-theme-sanityinc-tomorrow
 minions
 rainbow-mode
 
@@ -269,14 +287,18 @@ sudo-edit
 ;; http://xahlee.info/emacs/emacs/elisp_library_system.html
 #+end_src
 
-* appearance
+* misc
 
 #+begin_src emacs-lisp
-(load "dl.el")
+(xclip-mode 1)
 
-(minions-mode 1)
+(require 'sudo-edit)
+
+(setq fcitx-remote-command "fcitx5-remote")
+(fcitx-aggressive-setup)
+;; https://github.com/cute-jumper/fcitx.el/issues?q=fcitx5
+;; https://kisaragi-hiu.com/why-fcitx5
 #+end_src
-
 * evil
 
 https://evil.readthedocs.io/en/latest/index.html
@@ -389,6 +411,15 @@ https://evil.readthedocs.io/en/latest/index.html
 (evil-org-agenda-set-keys)
 #+end_src
 
+* appearance
+
+#+begin_src emacs-lisp
+(load "dl.el")
+;; https://github.com/nordtheme/emacs/issues/59#issuecomment-414882071
+
+(minions-mode 1)
+#+end_src
+
 * COMMENT org gtd
 
 #+begin_src emacs-lisp
@@ -489,15 +520,3 @@ https://evil.readthedocs.io/en/latest/index.html
 (dirvish-override-dired-mode)
 #+end_src
 
-* misc
-
-#+begin_src emacs-lisp
-(xclip-mode 1)
-
-(require 'sudo-edit)
-
-(setq fcitx-remote-command "fcitx5-remote")
-(fcitx-aggressive-setup)
-;; https://github.com/cute-jumper/fcitx.el/issues?q=fcitx5
-;; https://kisaragi-hiu.com/why-fcitx5
-#+end_src
