@@ -39,6 +39,9 @@
 
 (tool-bar-mode -1)
 
+(set-fringe-mode 0)
+;; https://stackoverflow.com/questions/11373826/how-to-disable-fringe-in-emacs
+
 (scroll-bar-mode -1)
 
 (setq display-line-numbers-type 'visual)
@@ -51,7 +54,8 @@
 ;; https://emacs.stackexchange.com/questions/4018/reduce-the-space-between-elements-in-modeline
 ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Mode-Line-Variables.html#Mode-Line-Variables
 ;; (line-number-mode 1)
-(setq column-number-indicator-zero-based nil)
+;; (setq column-number-indicator-zero-based nil)
+;; better not (setq column-number-indicator-zero-based nil), because this is different from assumption
 (column-number-mode 1)
 
 (setq echo-keystrokes 0.01)
@@ -60,13 +64,15 @@
 
 ;; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-(add-to-list 'default-frame-alist
-             '(font . "monospace-15"))
-
 ;; (global-visual-line-mode 1)
 (set-default 'truncate-lines t)
 ;; https://www.emacswiki.org/emacs/TruncateLines
 ;; https://emacs.stackexchange.com/questions/78532/mixed-display-line-numbers-type-for-evil-users
+
+;; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(add-to-list 'default-frame-alist
+             '(font . "monospace-15"))
 
 ;; (setq whitespace-style '(face trailing tabs tab-mark))
 (setq whitespace-style '(face trailing tabs))
@@ -78,6 +84,15 @@
 
 (setq show-paren-delay 0)
 (show-paren-mode 1)
+
+;; (defun set-prettify-symbols-alist ()
+;; (setq prettify-symbols-alist '(
+;; ("lambda" . "λ")
+;; ("circle" . "○")
+;; ))
+;; )
+;; (add-hook 'prog-mode-hook 'set-prettify-symbols-alist)
+;; (global-prettify-symbols-mode 1)
 
 (blink-cursor-mode 0)
 #+end_src
@@ -99,8 +114,10 @@
 ;; horizontal scrolling
 
 (setq hscroll-margin 0)
-(setq hscroll-step 2)
-;; there is no "hscroll-conservatively", but (setq hscroll-step 2) does exactly what i want
+;; (setq hscroll-conservatively nil)
+;; "hscroll-conservatively" doesn't exist in emacs
+;; (setq hscroll-step 2)
+;; the behaviour of "hscroll-step" is strange
 
 ;; scroll & cursor
 (setq next-screen-context-lines 0)
@@ -142,6 +159,14 @@
 (setq sh-basic-offset 8)
 #+end_src
 
+* save
+
+#+begin_src emacs-lisp
+;; (setq require-final-newline nil)
+;; (setq mode-require-final-newline nil)
+;; https://stackoverflow.com/questions/13574564/emacs-automatically-adding-a-newline-even-after-changing-emacs
+#+end_src
+
 * extra files
 
 #+begin_src emacs-lisp
@@ -160,9 +185,9 @@
 * org
 
 #+begin_src emacs-lisp
-(global-set-key (kbd "C-c o l") #'org-store-link)
-(global-set-key (kbd "C-c o a") #'org-agenda)
-(global-set-key (kbd "C-c o c") #'org-capture)
+(global-set-key (kbd "C-c s") #'org-store-link)
+(global-set-key (kbd "C-c a") #'org-agenda)
+(global-set-key (kbd "C-c c") #'org-capture)
 ;; https://orgmode.org/manual/Activation.html
 
 
@@ -193,11 +218,11 @@
 
 #+begin_src emacs-lisp
 (setq org-capture-templates `(
-("a" "inbox" entry (file ,(concat (getenv "a_fn") "/inbox.org")) "* %i%?")
+("a" "inbox" entry (file ,(concat (getenv "a_aj") "/inbox.org")) "* %i%?")
 ))
 
-(define-key global-map (kbd "C-c n a")
-  (lambda () (interactive) (org-capture nil "a")))
+;; (define-key global-map (kbd "C-c j a")
+;;   (lambda () (interactive) (org-capture nil "a")))
 
 ;; (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAIT(w)" "CANC(c)" "|" "DONE(d)")))
 ;; https://orgmode.org/manual/Workflow-states.html
@@ -205,8 +230,8 @@
 (setq org-refile-use-outline-path 'file)
 ;; https://emacs.stackexchange.com/questions/13353/how-to-use-org-refile-to-move-a-headline-to-a-file-as-a-toplevel-headline
 (setq org-refile-targets `(
-;; (,(concat (getenv "a_fn") "/inbox.org") :maxlevel . 2)
-(,(directory-files-recursively (getenv "a_fn") "\.org$") :maxlevel . 2)
+;; (,(concat (getenv "a_aj") "/inbox.org") :maxlevel . 2)
+(,(directory-files-recursively (getenv "a_aj") "\.org$") :maxlevel . 2)
 ))
 #+end_src
 
@@ -367,6 +392,8 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; some variables need to be set before evil is loaded, keymap need to be set after evil is loaded, so put this line here
 
 ;; keymaps
+;; http://xahlee.info/emacs/emacs/keyboard_shortcuts_examples.html
+;; https://stackoverflow.com/questions/20438900/key-map-for-ex-command-in-emacs-evil-mode
 (evil-set-leader '(normal motion) (kbd "RET"))
 
 (define-key evil-insert-state-map (kbd "C-w") 'evil-delete-backward-word)
@@ -385,10 +412,13 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; (define-key evil-normal-state-map (kbd "J") (kbd ":put SPC _"))
 ;; (define-key evil-normal-state-map (kbd "K") (kbd ":put! SPC _"))
 ;; (define-key evil-normal-state-map (kbd "C-s") nil)
-(define-key evil-normal-state-map (kbd "M-c") 'calendar)
 
-;; http://xahlee.info/emacs/emacs/keyboard_shortcuts_examples.html
-;; https://stackoverflow.com/questions/20438900/key-map-for-ex-command-in-emacs-evil-mode
+
+
+(evil-define-key 'normal 'global (kbd "<leader>ja") (lambda () (interactive) (org-capture nil "a")))
+(evil-define-key 'normal 'global (kbd "<leader>l") 'calendar)
+
+
 
 ;; enable evil
 (evil-mode 1)
@@ -428,6 +458,8 @@ https://evil.readthedocs.io/en/latest/index.html
 
 #+begin_src emacs-lisp
 (load "dl.el")
+
+;; (load-theme 'nord t)
 ;; https://github.com/nordtheme/emacs/issues/59#issuecomment-414882071
 
 (minions-mode 1)
@@ -443,7 +475,7 @@ https://evil.readthedocs.io/en/latest/index.html
 
 
 (setq org-gtd-update-ack "3.0.0")
-(setq org-gtd-directory (getenv "a_fn"))
+(setq org-gtd-directory (getenv "a_aj"))
 (setq org-gtd-capture-templates '(
 ("i" "" entry (file org-gtd-inbox-path) "* %i%?")
 ))
@@ -457,7 +489,7 @@ https://evil.readthedocs.io/en/latest/index.html
 * org journal
 
 #+begin_src emacs-lisp
-(setq org-journal-dir (getenv "a_id"))
+(setq org-journal-dir (getenv "a_al"))
 (setq org-journal-file-format "%F")
 (setq org-journal-date-prefix "#+title ")
 (setq org-journal-date-format "%F")
@@ -467,14 +499,16 @@ https://evil.readthedocs.io/en/latest/index.html
 
 (require 'org-journal)
 
-(evil-define-key 'normal calendar-mode-map (kbd "d") nil)
-(evil-define-key 'normal calendar-mode-map (kbd "d a") 'org-journal-new-date-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "d j") 'org-journal-read-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "d k") 'org-journal-display-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "d h") 'org-journal-previous-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "d l") 'org-journal-next-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "d m") 'org-journal-mark-entries)
 ;; (global-set-key (kbd "C-c j a") 'org-journal-new-entry)
+
+;; (evil-define-key 'normal calendar-mode-map (kbd "d") nil)
+;; (evil-define-key 'normal calendar-mode-map (kbd "d a") 'org-journal-new-date-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "<leader>a") 'org-journal-new-date-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "<leader>j") 'org-journal-read-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "<leader>k") 'org-journal-display-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "<leader>h") 'org-journal-previous-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "<leader>l") 'org-journal-next-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "<leader>m") 'org-journal-mark-entries)
 #+end_src
 
 * org roam
@@ -483,7 +517,8 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; (setq org-id-ts-format "%Y%m%dT%H%M%S.%6N")
 (setq org-id-ts-format "%Y-%m-%d-%H%M%S-%6N")
 (setq org-id-method 'ts)
-(global-set-key (kbd "C-c a a") #'org-id-get-create)
+;; (global-set-key (kbd "C-c k a") #'org-id-get-create)
+(evil-define-key 'normal 'global (kbd "<leader>ka") 'org-id-get-create)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -491,7 +526,7 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; https://github.com/org-roam/org-roam/issues/2031
 
 ;; (setq org-roam-directory (file-truename "~/org-roam"))
-(setq org-roam-directory (getenv "a_ia"))
+(setq org-roam-directory (getenv "a_ak"))
 ;; (setq org-roam-capture-templates '(
 ;; ("d" "default" plain "%?"
 ;;      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
@@ -506,12 +541,17 @@ https://evil.readthedocs.io/en/latest/index.html
      :unnarrowed t)
 ))
 
-(global-set-key (kbd "C-c a f") #'org-roam-node-find)
-(global-set-key (kbd "C-c a i") #'org-roam-node-insert)
-(global-set-key (kbd "C-c a c") #'org-roam-capture)
+;; (global-set-key (kbd "C-c k f") #'org-roam-node-find)
+;; (global-set-key (kbd "C-c k i") #'org-roam-node-insert)
+;; (global-set-key (kbd "C-c k c") #'org-roam-capture)
+;; (global-set-key (kbd "C-c k b") #'org-roam-buffer-toggle)
+;; (global-set-key (kbd "C-c k g") #'org-roam-graph)
 
-(global-set-key (kbd "C-c a b") #'org-roam-buffer-toggle)
-(global-set-key (kbd "C-c a g") #'org-roam-graph)
+(evil-define-key 'normal 'global (kbd "<leader>kf") 'org-roam-node-find)
+(evil-define-key 'normal 'global (kbd "<leader>ki") 'org-roam-node-insert)
+(evil-define-key 'normal 'global (kbd "<leader>kc") 'org-roam-capture)
+(evil-define-key 'normal 'global (kbd "<leader>kb") 'org-roam-buffer-toggle)
+(evil-define-key 'normal 'global (kbd "<leader>kg") 'org-roam-graph)
 
 
 
@@ -527,9 +567,8 @@ https://evil.readthedocs.io/en/latest/index.html
 (org-roam-db-autosync-mode)
 #+end_src
 
-* dirvish
+* COMMENT dirvish
 
 #+begin_src emacs-lisp
 (dirvish-override-dired-mode)
 #+end_src
-

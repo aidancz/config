@@ -13,12 +13,12 @@ xst	$XDG_STATE_HOME
 d	$HOME/d
 
 a	$HOME/a
-afj	$a_fj
-afn	$a_fn
+aj	$a_aj
+ak	$a_ak
+al	$a_al
+afk	$a_fk
+aft	$a_ft
 agi	$a_gi
-aia	$a_ia
-aic	$a_ic
-aid	$a_id
 ajc	$a_jc
 asc	$a_scut
 

@@ -49,7 +49,7 @@ set smartcase
 set magic
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ copy & paste
-set clipboard^=unnamedplus
+set clipboard^=unnamed,unnamedplus
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ indent
 set tabstop=8			" ? column of whitespace \t		worth
