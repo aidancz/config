@@ -150,11 +150,11 @@
 
 #+begin_src emacs-lisp
 ;; (setq-default tab-width 8)
-;; (defvaralias 'c-basic-offset 'tab-width)
-;; (defvaralias 'cperl-indent-level 'tab-width)
-;; https://www.emacswiki.org/emacs/IndentationBasics
-
+(setq-default indent-tabs-mode nil)
+;; (setq-default tab-always-indent t)
 ;; (electric-indent-mode -1)
+;; electric-indent-mode is a global minor mode that automatically indents the line after every RET you type, enabled by default
+;; http://xahlee.info/emacs/emacs/emacs_tabs_space_indentation_setup.html
 
 (setq sh-basic-offset 8)
 #+end_src
@@ -182,6 +182,17 @@
 ;; move url dir
 #+end_src
 
+* dired
+
+#+begin_src emacs-lisp
+;; http://xahlee.info/emacs/emacs/file_management.html
+
+(setq dired-listing-switches "-Ahv --group-directories-first -l")
+
+;; (setq dired-kill-when-opening-new-dired-buffer t)
+;; https://emacs-china.org/t/emacs-28-dired-kill-when-opening-new-dired-buffer/20655
+#+end_src
+
 * org
 
 #+begin_src emacs-lisp
@@ -189,6 +200,12 @@
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
 ;; https://orgmode.org/manual/Activation.html
+
+;; (global-set-key (kbd "S-<return>") #'org-insert-subheading)
+(with-eval-after-load "org"
+(define-key org-mode-map (kbd "S-<return>") #'org-insert-subheading)
+)
+;; https://emacs.stackexchange.com/a/66683/41253
 
 
 
@@ -277,8 +294,9 @@ evil-anzu
 evil-cleverparens
 evil-collection
 evil-commentary
-evil-surround
 evil-org
+evil-rsi
+evil-surround
 
 uuidgen
 org-gtd
@@ -321,6 +339,7 @@ sudo-edit
 
 #+begin_src emacs-lisp
 (xclip-mode 1)
+;; copy between *terminal* emacs and x clipboard
 
 (require 'sudo-edit)
 
@@ -338,8 +357,9 @@ https://evil.readthedocs.io/en/latest/index.html
 (setq evil-want-C-i-jump nil)
 (setq evil-want-C-u-delete t)
 (setq evil-want-C-u-scroll t)
+;; https://www.reddit.com/r/emacs/comments/9j34bf/evil_and_the_universal_argument/
 (setq evil-want-Y-yank-to-eol t)
-(setq evil-disable-insert-state-bindings t)
+;; (setq evil-disable-insert-state-bindings t)
 
 ;; search
 ;; (setq evil-search-module 'isearch)
@@ -384,49 +404,47 @@ https://evil.readthedocs.io/en/latest/index.html
 
 (setq evil-want-integration t)
 (setq evil-want-keybinding nil)
-;; these two variables are required by evil-collection
-;; https://github.com/emacs-evil/evil-collection#installation
+;; whether to load evil-keybindings.el, which provides a set of keybindings for other emacs modes (dired etc)
+;; these two variables are required by evil-collection (https://github.com/emacs-evil/evil-collection#installation)
 
 ;; require evil
 (require 'evil)
-;; some variables need to be set before evil is loaded, keymap need to be set after evil is loaded, so put this line here
-
-;; keymaps
-;; http://xahlee.info/emacs/emacs/keyboard_shortcuts_examples.html
-;; https://stackoverflow.com/questions/20438900/key-map-for-ex-command-in-emacs-evil-mode
-(evil-set-leader '(normal motion) (kbd "RET"))
-
-(define-key evil-insert-state-map (kbd "C-w") 'evil-delete-backward-word)
-(define-key evil-insert-state-map (kbd "C-u") 'evil-delete-back-to-indentation)
-(define-key evil-insert-state-map (kbd "C-p") 'evil-complete-previous)
-(define-key evil-insert-state-map (kbd "C-n") 'evil-complete-next)
-;; (define-key evil-insert-state-map (kbd "C-s") nil)
-(define-key evil-insert-state-map (kbd "C-r") 'evil-paste-from-register)
-(define-key evil-insert-state-map (kbd "C-o") 'evil-execute-in-normal-state)
-
-(define-key evil-normal-state-map (kbd "z o") 'evil-open-fold-rec)
-(define-key evil-normal-state-map (kbd "J") 'evil-collection-unimpaired-insert-newline-below)
-(define-key evil-normal-state-map (kbd "K") 'evil-collection-unimpaired-insert-newline-above)
-;; (define-key evil-normal-state-map (kbd "J") (lambda () (interactive) (evil-ex-execute "put _")))
-;; (define-key evil-normal-state-map (kbd "K") (lambda () (interactive) (evil-ex-execute "put! _")))
-;; (define-key evil-normal-state-map (kbd "J") (kbd ":put SPC _"))
-;; (define-key evil-normal-state-map (kbd "K") (kbd ":put! SPC _"))
-;; (define-key evil-normal-state-map (kbd "C-s") nil)
-
-
-
-(evil-define-key 'normal 'global (kbd "<leader>ja") (lambda () (interactive) (org-capture nil "a")))
-(evil-define-key 'normal 'global (kbd "<leader>l") 'calendar)
-
-
+;; some variables need to be set before evil is loaded, keymaps need to be set after evil is loaded, so put this line here
 
 ;; enable evil
 (evil-mode 1)
 #+end_src
 
+* evil keymaps
+
+#+begin_src emacs-lisp
+;; http://xahlee.info/emacs/emacs/keyboard_shortcuts_examples.html
+
+(global-set-key (kbd "<f12>") 'universal-argument)
+
+(define-key evil-normal-state-map (kbd "z o") 'evil-open-fold-rec)
+(define-key evil-normal-state-map (kbd "J") (lambda () (interactive) (evil-ex-execute "put _")))
+(define-key evil-normal-state-map (kbd "K") (lambda () (interactive) (evil-ex-execute "put! _")))
+;; https://stackoverflow.com/questions/20438900/key-map-for-ex-command-in-emacs-evil-mode
+;; (define-key evil-normal-state-map (kbd "J") (kbd ":put SPC _"))
+;; (define-key evil-normal-state-map (kbd "K") (kbd ":put! SPC _"))
+;; (define-key evil-normal-state-map (kbd "J") 'evil-collection-unimpaired-insert-newline-below)
+;; (define-key evil-normal-state-map (kbd "K") 'evil-collection-unimpaired-insert-newline-above)
+;; (define-key evil-normal-state-map (kbd "C-s") nil)
+
+
+
+(evil-set-leader '(normal motion) (kbd "RET"))
+
+(evil-define-key 'normal 'global (kbd "<leader>ja") (lambda () (interactive) (org-capture nil "a")))
+(evil-define-key 'normal 'global (kbd "<leader>jw") 'org-refile)
+(evil-define-key 'normal 'global (kbd "<leader>l") 'calendar)
+#+end_src
+
 * evil plugin
 
 #+begin_src emacs-lisp
+;; evil-anzu
 (setq anzu-cons-mode-line-p nil)
 ;; https://github.com/emacsorphanage/anzu#anzu-cons-mode-line-pdefault-is-t
 (require 'evil-anzu)
@@ -434,6 +452,9 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; https://emacs.stackexchange.com/questions/13855/how-to-append-string-that-gets-updated-to-mode-line
 (global-anzu-mode 1)
 
+
+
+;; evil-collection
 ;; (evil-collection-translate-key nil 'evil-normal-state-map
 ;; "a" "b"
 ;; )
@@ -442,16 +463,37 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; use (setq evil-want-minibuffer t) instead of (setq evil-collection-setup-minibuffer t)
 (evil-collection-init)
 
+
+
+;; evil-commentary
 (evil-commentary-mode 1)
 
-(global-evil-surround-mode 1)
 
+
+;; evil-org
 ;; (require 'evil-org)
 ;; (add-hook 'org-mode-hook 'evil-org-mode)
 ;; (setq evil-org-key-theme '(navigation textobjects additional calendar))
 ;; (evil-org-set-key-theme)
 (require 'evil-org-agenda)
 (evil-org-agenda-set-keys)
+
+
+
+;; evil-rsi
+(evil-rsi-mode)
+;; (define-key evil-insert-state-map (kbd "C-w") 'evil-delete-backward-word)
+(define-key evil-insert-state-map (kbd "C-u") 'evil-delete-back-to-indentation)
+(define-key evil-insert-state-map (kbd "C-p") 'evil-complete-previous)
+(define-key evil-insert-state-map (kbd "C-n") 'evil-complete-next)
+;; (define-key evil-insert-state-map (kbd "C-s") nil)
+;; (define-key evil-insert-state-map (kbd "C-r") 'evil-paste-from-register)
+;; (define-key evil-insert-state-map (kbd "C-o") 'evil-execute-in-normal-state)
+
+
+
+;; evil-surround
+(global-evil-surround-mode 1)
 #+end_src
 
 * appearance
@@ -571,4 +613,5 @@ https://evil.readthedocs.io/en/latest/index.html
 
 #+begin_src emacs-lisp
 (dirvish-override-dired-mode)
+;; https://emacs-china.org/t/dirvish-dired/20189/60
 #+end_src
