@@ -71,8 +71,23 @@
 
 ;; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-(add-to-list 'default-frame-alist
-             '(font . "monospace-15"))
+;; (add-to-list 'default-frame-alist
+;;              '(font . "monospace-15"))
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Fonts.html
+
+(defun centaur-setup-fonts ()
+(when (display-graphic-p)
+(set-face-attribute 'default nil :family "monospace" :height 150)
+(set-fontset-font t 'symbol (font-spec :family "Symbola") nil 'prepend)
+(set-fontset-font t 'emoji (font-spec :family "Twemoji") nil 'prepend)
+(set-fontset-font t 'han (font-spec :family "Sarasa Term SC"))
+(setq face-font-rescale-alist '(("Twemoji" . 0.9) ("Sarasa Term SC" . 1.1)))
+))
+(centaur-setup-fonts)
+;; (add-hook 'window-setup-hook #'centaur-setup-fonts)
+(add-hook 'server-after-make-frame-hook #'centaur-setup-fonts)
+;; https://github.com/seagle0128/.emacs.d/blob/master/custom-example.el
+;; https://github.com/VitalyAnkh/config/blob/master/doom/config.org#font-face
 
 ;; (setq whitespace-style '(face trailing tabs tab-mark))
 (setq whitespace-style '(face trailing tabs))
@@ -280,10 +295,10 @@ https://melpa.org/#/getting-started
 ;; (setq package-user-dir (concat (getenv "XDG_CACHE_HOME") "/emacs/elpa"))
 
 (setq package-selected-packages '(
-solarized-theme
-color-theme-sanityinc-solarized
+;; solarized-theme
+;; color-theme-sanityinc-solarized
 nord-theme
-color-theme-sanityinc-tomorrow
+;; color-theme-sanityinc-tomorrow
 minions
 rainbow-mode
 
@@ -298,8 +313,9 @@ evil-org
 evil-rsi
 evil-surround
 
+;; valign
 uuidgen
-org-gtd
+;; org-gtd
 org-journal
 org-roam
 org-roam-ui
@@ -421,6 +437,8 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; http://xahlee.info/emacs/emacs/keyboard_shortcuts_examples.html
 
 (global-set-key (kbd "<f12>") 'universal-argument)
+(define-key universal-argument-map (kbd "<f12>") 'universal-argument-more)
+;; https://emacs.stackexchange.com/questions/58319/how-to-rebind-special-meaning-of-c-u-to-a-different-key
 
 (define-key evil-normal-state-map (kbd "z o") 'evil-open-fold-rec)
 (define-key evil-normal-state-map (kbd "J") (lambda () (interactive) (evil-ex-execute "put _")))
@@ -438,6 +456,7 @@ https://evil.readthedocs.io/en/latest/index.html
 
 (evil-define-key 'normal 'global (kbd "<leader>ja") (lambda () (interactive) (org-capture nil "a")))
 (evil-define-key 'normal 'global (kbd "<leader>jw") 'org-refile)
+(evil-define-key 'normal 'global (kbd "<leader>jl") 'org-time-stamp)
 (evil-define-key 'normal 'global (kbd "<leader>l") 'calendar)
 #+end_src
 
@@ -505,6 +524,12 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; https://github.com/nordtheme/emacs/issues/59#issuecomment-414882071
 
 (minions-mode 1)
+#+end_src
+
+* org plugin
+
+#+begin_src emacs-lisp
+;; (add-hook 'org-mode-hook #'valign-mode)
 #+end_src
 
 * COMMENT org gtd
