@@ -211,6 +211,34 @@
 * org
 
 #+begin_src emacs-lisp
+(setq org-startup-folded nil)
+
+;; (setq org-adapt-indentation nil)
+;; * level 1
+;;   * level 2
+
+;; (setq org-list-indent-offset 6)
+;; - fruit
+;;         - apple
+;;         - banana
+;; 8 - 2 = 6
+
+;; (setq org-link-descriptive nil)
+
+;; (setq org-property-format "%-10s %s")
+(setq org-property-format "%-15s %s")
+
+;; (setq org-edit-src-content-indentation 0)
+(setq org-src-preserve-indentation t)
+;; (setq org-src-preserve-indentation t) force (setq org-edit-src-content-indentation 0)
+(setq org-src-window-setup 'current-window)
+
+
+
+(setq org-agenda-files `(,(getenv "a_aj")))
+
+
+
 (global-set-key (kbd "C-c s") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
@@ -221,25 +249,6 @@
 (define-key org-mode-map (kbd "S-<return>") #'org-insert-subheading)
 )
 ;; https://emacs.stackexchange.com/a/66683/41253
-
-
-
-;; (setq org-adapt-indentation nil)
-;; * level 1
-;;   * level 2
-;; (setq org-list-indent-offset 6)
-;; 9 - 3 = 6
-;; (setq org-property-format "%-10s %s")
-(setq org-property-format "%-15s %s")
-
-(setq org-src-preserve-indentation t)
-;; if t, org-src-preserve-indentation override org-edit-src-content-indentation and set it to 0
-;; (setq org-edit-src-content-indentation 0)
-(setq org-src-window-setup 'current-window)
-
-;; (setq org-link-descriptive nil)
-
-
 
 (setq org-M-RET-may-split-line nil)
 
