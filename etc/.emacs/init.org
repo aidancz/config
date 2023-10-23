@@ -177,9 +177,27 @@
 * save
 
 #+begin_src emacs-lisp
+(setq save-silently t)
+
 ;; (setq require-final-newline nil)
 ;; (setq mode-require-final-newline nil)
 ;; https://stackoverflow.com/questions/13574564/emacs-automatically-adding-a-newline-even-after-changing-emacs
+
+(setq auto-save-visited-interval 1)
+(auto-save-visited-mode 1)
+;; http://xahlee.info/emacs/emacs/emacs_auto_save.html
+
+
+
+(setq confirm-kill-processes nil)
+
+(global-set-key (kbd "C-x C-c")
+(lambda () (interactive)
+(let ((current-prefix-arg '(4)))
+     (call-interactively #'save-buffers-kill-terminal))
+))
+;; https://emacs.stackexchange.com/questions/50672/how-to-save-all-modified-buffers-and-kill-emacs
+;; https://emacs.stackexchange.com/questions/48753/how-to-bind-c-u-m-x-shell-to-c-c-s
 #+end_src
 
 * extra files
@@ -226,7 +244,8 @@
 ;; (setq org-link-descriptive nil)
 
 ;; (setq org-property-format "%-10s %s")
-(setq org-property-format "%-15s %s")
+;; (setq org-property-format "%-15s %s")
+(setq org-property-format "%s %s")
 
 ;; (setq org-edit-src-content-indentation 0)
 (setq org-src-preserve-indentation t)
@@ -356,7 +375,6 @@ sudo-edit
 
 #+begin_src emacs-lisp
 (setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/lisp") load-path))
-;; add "$XDG_CONFIG_HOME/emacs" to load-path
 ;; http://xahlee.info/emacs/emacs/elisp_library_system.html
 #+end_src
 
@@ -648,4 +666,15 @@ https://evil.readthedocs.io/en/latest/index.html
 #+begin_src emacs-lisp
 (dirvish-override-dired-mode)
 ;; https://emacs-china.org/t/dirvish-dired/20189/60
+#+end_src
+
+* COMMENT eaf
+
+#+begin_src emacs-lisp
+(setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/eaf") load-path))
+(require 'eaf)
+(require 'eaf-demo)
+(require 'eaf-file-manager)
+(require 'eaf-pdf-viewer)
+(require 'eaf-browser)
 #+end_src
