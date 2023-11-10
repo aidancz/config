@@ -53,6 +53,7 @@
 (setq mode-line-client "")
 ;; https://emacs.stackexchange.com/questions/4018/reduce-the-space-between-elements-in-modeline
 ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Mode-Line-Variables.html#Mode-Line-Variables
+
 ;; (line-number-mode 1)
 ;; (setq column-number-indicator-zero-based nil)
 ;; better not (setq column-number-indicator-zero-based nil), because this is different from assumption
@@ -174,7 +175,7 @@
 (setq sh-basic-offset 8)
 #+end_src
 
-* save
+* save & quit
 
 #+begin_src emacs-lisp
 (setq save-silently t)
@@ -190,6 +191,8 @@
 
 
 (setq confirm-kill-processes nil)
+
+
 
 (global-set-key (kbd "C-x C-c")
 (lambda () (interactive)
@@ -243,20 +246,42 @@
 
 ;; (setq org-link-descriptive nil)
 
-;; (setq org-property-format "%-10s %s")
-;; (setq org-property-format "%-15s %s")
-(setq org-property-format "%s %s")
-
 ;; (setq org-edit-src-content-indentation 0)
 (setq org-src-preserve-indentation t)
 ;; (setq org-src-preserve-indentation t) force (setq org-edit-src-content-indentation 0)
 (setq org-src-window-setup 'current-window)
 
+;; (setq org-property-format "%-10s %s")
+;; (setq org-property-format "%-15s %s")
+(setq org-property-format "%s %s")
 
+
+
+;; (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAIT(w)" "CANC(c)" "|" "DONE(d)")))
+;; https://orgmode.org/manual/Workflow-states.html
 
 (setq org-agenda-files `(,(getenv "a_aj")))
 
+(setq org-capture-templates `(
+("a" "inbox" entry (file ,(concat (getenv "a_aj") "/inbox.org")) "* %i%?")
+))
 
+(setq org-refile-use-outline-path 'file)
+;; https://emacs.stackexchange.com/questions/13353/how-to-use-org-refile-to-move-a-headline-to-a-file-as-a-toplevel-headline
+(setq org-refile-targets `(
+;; (,(concat (getenv "a_aj") "/inbox.org") :maxlevel . 2)
+(,(directory-files-recursively (getenv "a_aj") "\.org$") :maxlevel . 2)
+))
+
+;; (setq org-id-ts-format "%Y%m%dT%H%M%S.%6N")
+(setq org-id-ts-format "%Y-%m-%d-%H%M%S-%6N")
+(setq org-id-method 'ts)
+
+
+
+(setq org-M-RET-may-split-line nil)
+
+(require 'org-tempo)
 
 (global-set-key (kbd "C-c s") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
@@ -269,30 +294,20 @@
 )
 ;; https://emacs.stackexchange.com/a/66683/41253
 
-(setq org-M-RET-may-split-line nil)
-
-(require 'org-tempo)
-#+end_src
-
-* org gtd
-
-#+begin_src emacs-lisp
-(setq org-capture-templates `(
-("a" "inbox" entry (file ,(concat (getenv "a_aj") "/inbox.org")) "* %i%?")
-))
-
 ;; (define-key global-map (kbd "C-c j a")
 ;;   (lambda () (interactive) (org-capture nil "a")))
 
-;; (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAIT(w)" "CANC(c)" "|" "DONE(d)")))
-;; https://orgmode.org/manual/Workflow-states.html
+(with-eval-after-load "evil"
+(evil-define-key 'normal 'global (kbd "<leader>ja") (lambda () (interactive) (org-capture nil "a")))
+(evil-define-key 'normal 'global (kbd "<leader>jw") 'org-refile)
+(evil-define-key 'normal 'global (kbd "<leader>jl") 'org-time-stamp)
+(evil-define-key 'normal 'global (kbd "<leader>l") 'calendar)
+)
 
-(setq org-refile-use-outline-path 'file)
-;; https://emacs.stackexchange.com/questions/13353/how-to-use-org-refile-to-move-a-headline-to-a-file-as-a-toplevel-headline
-(setq org-refile-targets `(
-;; (,(concat (getenv "a_aj") "/inbox.org") :maxlevel . 2)
-(,(directory-files-recursively (getenv "a_aj") "\.org$") :maxlevel . 2)
-))
+;; (global-set-key (kbd "C-c k a") #'org-id-get-create)
+(with-eval-after-load "evil"
+(evil-define-key 'normal 'global (kbd "<leader>ka") 'org-id-get-create)
+)
 #+end_src
 
 * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ package
@@ -378,7 +393,7 @@ sudo-edit
 ;; http://xahlee.info/emacs/emacs/elisp_library_system.html
 #+end_src
 
-* misc
+* basic
 
 #+begin_src emacs-lisp
 (xclip-mode 1)
@@ -391,6 +406,7 @@ sudo-edit
 ;; https://github.com/cute-jumper/fcitx.el/issues?q=fcitx5
 ;; https://kisaragi-hiu.com/why-fcitx5
 #+end_src
+
 * evil
 
 https://evil.readthedocs.io/en/latest/index.html
@@ -456,18 +472,15 @@ https://evil.readthedocs.io/en/latest/index.html
 
 ;; enable evil
 (evil-mode 1)
-#+end_src
 
-* evil keymaps
 
-#+begin_src emacs-lisp
-;; http://xahlee.info/emacs/emacs/keyboard_shortcuts_examples.html
 
 (global-set-key (kbd "<f12>") 'universal-argument)
 (define-key universal-argument-map (kbd "<f12>") 'universal-argument-more)
 ;; https://emacs.stackexchange.com/questions/58319/how-to-rebind-special-meaning-of-c-u-to-a-different-key
 
 (define-key evil-normal-state-map (kbd "z o") 'evil-open-fold-rec)
+
 (define-key evil-normal-state-map (kbd "J") (lambda () (interactive) (evil-ex-execute "put _")))
 (define-key evil-normal-state-map (kbd "K") (lambda () (interactive) (evil-ex-execute "put! _")))
 ;; https://stackoverflow.com/questions/20438900/key-map-for-ex-command-in-emacs-evil-mode
@@ -477,30 +490,25 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; (define-key evil-normal-state-map (kbd "K") 'evil-collection-unimpaired-insert-newline-above)
 ;; (define-key evil-normal-state-map (kbd "C-s") nil)
 
-
-
 (evil-set-leader '(normal motion) (kbd "RET"))
-
-(evil-define-key 'normal 'global (kbd "<leader>ja") (lambda () (interactive) (org-capture nil "a")))
-(evil-define-key 'normal 'global (kbd "<leader>jw") 'org-refile)
-(evil-define-key 'normal 'global (kbd "<leader>jl") 'org-time-stamp)
-(evil-define-key 'normal 'global (kbd "<leader>l") 'calendar)
 #+end_src
 
 * evil plugin
 
+** evil-anzu
+
 #+begin_src emacs-lisp
-;; evil-anzu
 (setq anzu-cons-mode-line-p nil)
 ;; https://github.com/emacsorphanage/anzu#anzu-cons-mode-line-pdefault-is-t
 (require 'evil-anzu)
 (setq global-mode-string '(:eval (anzu--update-mode-line)))
 ;; https://emacs.stackexchange.com/questions/13855/how-to-append-string-that-gets-updated-to-mode-line
 (global-anzu-mode 1)
+#+end_src
 
+** evil-collection
 
-
-;; evil-collection
+#+begin_src emacs-lisp
 ;; (evil-collection-translate-key nil 'evil-normal-state-map
 ;; "a" "b"
 ;; )
@@ -508,26 +516,32 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; (setq evil-collection-setup-minibuffer t)
 ;; use (setq evil-want-minibuffer t) instead of (setq evil-collection-setup-minibuffer t)
 (evil-collection-init)
+#+end_src
 
+** evil-commentary
 
-
-;; evil-commentary
+#+begin_src emacs-lisp
 (evil-commentary-mode 1)
+#+end_src
 
+** evil-org
 
-
-;; evil-org
+#+begin_src emacs-lisp
 ;; (require 'evil-org)
 ;; (add-hook 'org-mode-hook 'evil-org-mode)
 ;; (setq evil-org-key-theme '(navigation textobjects additional calendar))
 ;; (evil-org-set-key-theme)
 (require 'evil-org-agenda)
 (evil-org-agenda-set-keys)
+#+end_src
 
+** evil-rsi
 
-
-;; evil-rsi
+#+begin_src emacs-lisp
 (evil-rsi-mode)
+
+
+
 ;; (define-key evil-insert-state-map (kbd "C-w") 'evil-delete-backward-word)
 (define-key evil-insert-state-map (kbd "C-u") 'evil-delete-back-to-indentation)
 (define-key evil-insert-state-map (kbd "C-p") 'evil-complete-previous)
@@ -535,14 +549,15 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; (define-key evil-insert-state-map (kbd "C-s") nil)
 ;; (define-key evil-insert-state-map (kbd "C-r") 'evil-paste-from-register)
 ;; (define-key evil-insert-state-map (kbd "C-o") 'evil-execute-in-normal-state)
+#+end_src
 
+** evil-surround
 
-
-;; evil-surround
+#+begin_src emacs-lisp
 (global-evil-surround-mode 1)
 #+end_src
 
-* appearance
+* appearance advanced
 
 #+begin_src emacs-lisp
 (load "dl.el")
@@ -555,11 +570,13 @@ https://evil.readthedocs.io/en/latest/index.html
 
 * org plugin
 
+** valign
+
 #+begin_src emacs-lisp
 ;; (add-hook 'org-mode-hook #'valign-mode)
 #+end_src
 
-* COMMENT org gtd
+** COMMENT org gtd
 
 #+begin_src emacs-lisp
 (setq org-edna-use-inheritance t)
@@ -576,11 +593,13 @@ https://evil.readthedocs.io/en/latest/index.html
 
 (require 'org-gtd)
 
+
+
 (global-set-key (kbd "C-c n c") #'org-gtd-capture)
 (define-key org-gtd-clarify-map (kbd "RET") #'org-gtd-organize)
 #+end_src
 
-* org journal
+** COMMENT org journal
 
 #+begin_src emacs-lisp
 (setq org-journal-dir (getenv "a_al"))
@@ -592,6 +611,8 @@ https://evil.readthedocs.io/en/latest/index.html
 (setq org-journal-hide-entries-p nil)
 
 (require 'org-journal)
+
+
 
 ;; (global-set-key (kbd "C-c j a") 'org-journal-new-entry)
 
@@ -605,22 +626,15 @@ https://evil.readthedocs.io/en/latest/index.html
 (evil-define-key 'normal calendar-mode-map (kbd "<leader>m") 'org-journal-mark-entries)
 #+end_src
 
-* org roam
+** org roam
 
 #+begin_src emacs-lisp
-;; (setq org-id-ts-format "%Y%m%dT%H%M%S.%6N")
-(setq org-id-ts-format "%Y-%m-%d-%H%M%S-%6N")
-(setq org-id-method 'ts)
-;; (global-set-key (kbd "C-c k a") #'org-id-get-create)
-(evil-define-key 'normal 'global (kbd "<leader>ka") 'org-id-get-create)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ;; https://www.orgroam.com/manual.html
 ;; https://github.com/org-roam/org-roam/issues/2031
 
 ;; (setq org-roam-directory (file-truename "~/org-roam"))
 (setq org-roam-directory (getenv "a_ak"))
+
 ;; (setq org-roam-capture-templates '(
 ;; ("d" "default" plain "%?"
 ;;      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
@@ -635,30 +649,26 @@ https://evil.readthedocs.io/en/latest/index.html
      :unnarrowed t)
 ))
 
+;; (setq org-roam-dailies-directory "")
+
+(org-roam-db-autosync-mode)
+
+
+
 ;; (global-set-key (kbd "C-c k f") #'org-roam-node-find)
 ;; (global-set-key (kbd "C-c k i") #'org-roam-node-insert)
 ;; (global-set-key (kbd "C-c k c") #'org-roam-capture)
 ;; (global-set-key (kbd "C-c k b") #'org-roam-buffer-toggle)
 ;; (global-set-key (kbd "C-c k g") #'org-roam-graph)
-
 (evil-define-key 'normal 'global (kbd "<leader>kf") 'org-roam-node-find)
 (evil-define-key 'normal 'global (kbd "<leader>ki") 'org-roam-node-insert)
 (evil-define-key 'normal 'global (kbd "<leader>kc") 'org-roam-capture)
 (evil-define-key 'normal 'global (kbd "<leader>kb") 'org-roam-buffer-toggle)
 (evil-define-key 'normal 'global (kbd "<leader>kg") 'org-roam-graph)
-
-
-
-;; (setq org-roam-dailies-directory "")
-
 ;; (global-set-key (kbd "C-c n h") #'org-roam-dailies-goto-yesterday)
 ;; (global-set-key (kbd "C-c n j") #'org-roam-dailies-goto-today)
 ;; (global-set-key (kbd "C-c n l") #'org-roam-dailies-goto-tomorrow)
 ;; (global-set-key (kbd "C-c n k") #'org-roam-dailies-goto-date)
-
-
-
-(org-roam-db-autosync-mode)
 #+end_src
 
 * COMMENT dirvish
