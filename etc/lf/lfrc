@@ -101,7 +101,7 @@ cmap <c-g> cmd-escape
 
 map c					# default: c -> clear, unmap it to use key sequence start with "c"
 map t
-map <c-space> invert
+map <c-a> invert
 map <esc> :unselect; clear
 map <c-g> :unselect; clear
 

@@ -340,8 +340,9 @@ https://melpa.org/#/getting-started
 (setq package-selected-packages '(
 ;; solarized-theme
 ;; color-theme-sanityinc-solarized
-nord-theme
+;; nord-theme
 ;; color-theme-sanityinc-tomorrow
+doom-themes
 minions
 rainbow-mode
 
@@ -475,8 +476,8 @@ https://evil.readthedocs.io/en/latest/index.html
 
 
 
-(global-set-key (kbd "<f12>") 'universal-argument)
-(define-key universal-argument-map (kbd "<f12>") 'universal-argument-more)
+(global-set-key (kbd "<f7>") 'universal-argument)
+(define-key universal-argument-map (kbd "<f7>") 'universal-argument-more)
 ;; https://emacs.stackexchange.com/questions/58319/how-to-rebind-special-meaning-of-c-u-to-a-different-key
 
 (define-key evil-normal-state-map (kbd "z o") 'evil-open-fold-rec)
@@ -490,7 +491,7 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; (define-key evil-normal-state-map (kbd "K") 'evil-collection-unimpaired-insert-newline-above)
 ;; (define-key evil-normal-state-map (kbd "C-s") nil)
 
-(evil-set-leader '(normal motion) (kbd "RET"))
+(evil-set-leader '(normal motion) (kbd "SPC"))
 #+end_src
 
 * evil plugin
@@ -544,8 +545,8 @@ https://evil.readthedocs.io/en/latest/index.html
 
 ;; (define-key evil-insert-state-map (kbd "C-w") 'evil-delete-backward-word)
 (define-key evil-insert-state-map (kbd "C-u") 'evil-delete-back-to-indentation)
-(define-key evil-insert-state-map (kbd "C-p") 'evil-complete-previous)
-(define-key evil-insert-state-map (kbd "C-n") 'evil-complete-next)
+;; (define-key evil-insert-state-map (kbd "C-p") 'evil-complete-previous)
+;; (define-key evil-insert-state-map (kbd "C-n") 'evil-complete-next)
 ;; (define-key evil-insert-state-map (kbd "C-s") nil)
 ;; (define-key evil-insert-state-map (kbd "C-r") 'evil-paste-from-register)
 ;; (define-key evil-insert-state-map (kbd "C-o") 'evil-execute-in-normal-state)
@@ -560,10 +561,12 @@ https://evil.readthedocs.io/en/latest/index.html
 * appearance advanced
 
 #+begin_src emacs-lisp
-(load "dl.el")
-
 ;; (load-theme 'nord t)
 ;; https://github.com/nordtheme/emacs/issues/59#issuecomment-414882071
+
+;; (load "dl.el")
+
+(load-theme 'doom-nord t)
 
 (minions-mode 1)
 #+end_src
@@ -652,6 +655,28 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; (setq org-roam-dailies-directory "")
 
 (org-roam-db-autosync-mode)
+
+
+
+(defun convert-to-orgroam ()
+(interactive)
+
+(let ((new-file-name (concat (uuidgen-1) ".org")))
+(rename-file buffer-file-name new-file-name)
+(find-file new-file-name)
+)
+
+(goto-char (point-min))
+(insert "\n\n")
+(goto-char (point-min))
+
+(org-id-get-create)
+
+(beginning-of-line 4)
+(insert "#+title: ")
+)
+(evil-define-key 'normal 'global (kbd "<leader>kl") 'convert-to-orgroam)
+;; https://org-roam.discourse.group/t/convert-preexisting-org-note-to-org-roam-type/2680
 
 
 
