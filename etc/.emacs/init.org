@@ -353,6 +353,7 @@ evil-anzu
 evil-cleverparens
 evil-collection
 evil-commentary
+evil-lion
 evil-org
 evil-rsi
 evil-surround
@@ -368,6 +369,7 @@ dirvish
 vterm
 fcitx
 magit
+paredit
 sudo-edit
 ))
 ;; M-x package-refresh-contents
@@ -476,11 +478,17 @@ https://evil.readthedocs.io/en/latest/index.html
 
 
 
-(global-set-key (kbd "<f7>") 'universal-argument)
-(define-key universal-argument-map (kbd "<f7>") 'universal-argument-more)
+(global-set-key (kbd "<f5>") 'universal-argument)
+(define-key universal-argument-map (kbd "<f5>") 'universal-argument-more)
 ;; https://emacs.stackexchange.com/questions/58319/how-to-rebind-special-meaning-of-c-u-to-a-different-key
 
-(define-key evil-normal-state-map (kbd "z o") 'evil-open-fold-rec)
+;; (define-key evil-normal-state-map (kbd "z o") 'evil-open-fold-rec)
+;; https://github.com/emacs-evil/evil/blob/master/evil-maps.el
+;; (with-eval-after-load "evil-collection"
+;; (evil-collection-define-key 'normal 'outline-mode-map
+;; "zl" 'outline-show-entry
+;; ))
+;; https://github.com/emacs-evil/evil-collection/blob/master/modes/outline/evil-collection-outline.el
 
 (define-key evil-normal-state-map (kbd "J") (lambda () (interactive) (evil-ex-execute "put _")))
 (define-key evil-normal-state-map (kbd "K") (lambda () (interactive) (evil-ex-execute "put! _")))
@@ -489,6 +497,7 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; (define-key evil-normal-state-map (kbd "K") (kbd ":put! SPC _"))
 ;; (define-key evil-normal-state-map (kbd "J") 'evil-collection-unimpaired-insert-newline-below)
 ;; (define-key evil-normal-state-map (kbd "K") 'evil-collection-unimpaired-insert-newline-above)
+
 ;; (define-key evil-normal-state-map (kbd "C-s") nil)
 
 (evil-set-leader '(normal motion) (kbd "SPC"))
@@ -507,6 +516,12 @@ https://evil.readthedocs.io/en/latest/index.html
 (global-anzu-mode 1)
 #+end_src
 
+** evil-cleverparens
+
+#+begin_src emacs-lisp
+(add-hook 'emacs-lisp-mode-hook #'evil-cleverparens-mode)
+#+end_src
+
 ** evil-collection
 
 #+begin_src emacs-lisp
@@ -523,6 +538,12 @@ https://evil.readthedocs.io/en/latest/index.html
 
 #+begin_src emacs-lisp
 (evil-commentary-mode 1)
+#+end_src
+
+** evil-lion
+
+#+begin_src emacs-lisp
+(evil-lion-mode)
 #+end_src
 
 ** evil-org
