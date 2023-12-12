@@ -32,6 +32,7 @@
 
 #+begin_src emacs-lisp
 (setq inhibit-x-resources t)
+;; (setq inhibit-x-resources t) seems also (setq inhibit-startup-screen t)
 #+end_src
 
 * appearance
@@ -471,6 +472,8 @@ https://evil.readthedocs.io/en/latest/index.html
 (define-key universal-argument-map (kbd "<f5>") 'universal-argument-more)
 ;; https://emacs.stackexchange.com/questions/58319/how-to-rebind-special-meaning-of-c-u-to-a-different-key
 
+
+
 ;; local:
 (define-key evil-normal-state-map (kbd "z i") 'evil-open-fold)
 (define-key evil-normal-state-map (kbd "z o") 'evil-open-fold-rec)
@@ -498,8 +501,6 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; show-node
 ;; hide-node
 
-
-
 ;; local:
 (evil-define-key 'normal outline-mode-map (kbd "z e") 'outline-show-entry)
 (evil-define-key 'normal outline-mode-map (kbd "z w") 'outline-show-children)
@@ -516,6 +517,24 @@ https://evil.readthedocs.io/en/latest/index.html
 (evil-define-key 'normal outline-mode-map (kbd "z ;") 'outline-hide-sublevels)
 ;; https://github.com/emacs-evil/evil-collection/blob/master/modes/outline/evil-collection-outline.el
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Outline-Visibility.html
+
+
+
+(evil-define-key 'normal outline-mode-map (kbd "<down>") 'outline-next-visible-heading)
+(evil-define-key 'normal outline-mode-map (kbd "<up>") 'outline-previous-visible-heading)
+;; (evil-define-key 'normal outline-mode-map (kbd "C-j") 'outline-forward-same-level)
+;; (evil-define-key 'normal outline-mode-map (kbd "C-k") 'outline-backward-same-level)
+(evil-define-key 'normal outline-mode-map (kbd "<left>") 'outline-up-heading)
+
+
+
+;; (global-set-key (kbd "S-<return>") #'org-insert-subheading)
+;; (with-eval-after-load "org"
+;; (define-key org-mode-map (kbd "S-<return>") #'org-insert-subheading)
+;; )
+;; https://emacs.stackexchange.com/a/66683/41253
+
+
 
 (define-key evil-normal-state-map (kbd "J") (lambda () (interactive) (evil-ex-execute "put _")))
 (define-key evil-normal-state-map (kbd "K") (lambda () (interactive) (evil-ex-execute "put! _")))
@@ -601,12 +620,6 @@ https://evil.readthedocs.io/en/latest/index.html
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
 ;; https://orgmode.org/manual/Activation.html
-
-;; (global-set-key (kbd "S-<return>") #'org-insert-subheading)
-(with-eval-after-load "org"
-(define-key org-mode-map (kbd "S-<return>") #'org-insert-subheading)
-)
-;; https://emacs.stackexchange.com/a/66683/41253
 
 ;; (define-key global-map (kbd "C-c j a")
 ;;   (lambda () (interactive) (org-capture nil "a")))
