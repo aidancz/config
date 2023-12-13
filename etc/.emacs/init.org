@@ -1,6 +1,8 @@
 #+property: header-args:emacs-lisp :tangle (concat (getenv "XDG_CONFIG_HOME") "/emacs/init.el")
 
-* lexical binding
+* core
+
+** lexical binding
 
 #+begin_src emacs-lisp
 ;; -*- lexical-binding: t -*-
@@ -11,7 +13,7 @@
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Specifying-File-Variables.html
 #+end_src
 
-* tangle when saving
+** tangle when saving
 
 #+begin_src emacs-lisp
 ;; (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle :append :local)))
@@ -28,14 +30,14 @@
 ;; run "org-babel-tangle" when saving init.org
 #+end_src
 
-* xresources
+** xresources
 
 #+begin_src emacs-lisp
 (setq inhibit-x-resources t)
 ;; (setq inhibit-x-resources t) seems also (setq inhibit-startup-screen t)
 #+end_src
 
-* appearance
+** appearance
 
 #+begin_src emacs-lisp
 (menu-bar-mode -1)
@@ -116,7 +118,7 @@
 (blink-cursor-mode 0)
 #+end_src
 
-* scroll
+** scroll
 
 #+begin_src emacs-lisp
 ;; vertical scrolling
@@ -143,7 +145,7 @@
 (setq scroll-preserve-screen-position t)
 #+end_src
 
-* search
+** search
 
 #+begin_src emacs-lisp
 (setq isearch-lazy-count t)
@@ -152,20 +154,20 @@
 (setq lazy-highlight-no-delay-length 1)
 #+end_src
 
-* copy & paste
+** copy & paste
 
 #+begin_src emacs-lisp
 (setq x-select-enable-clipboard t)
 (setq x-select-enable-primary t)
 #+end_src
 
-* undo
+** undo
 
 #+begin_src emacs-lisp
 (setq undo-no-redo t)
 #+end_src
 
-* indent
+** indent
 
 #+begin_src emacs-lisp
 ;; (setq-default tab-width 8)
@@ -178,7 +180,7 @@
 (setq sh-basic-offset 8)
 #+end_src
 
-* save & quit
+** save & quit
 
 #+begin_src emacs-lisp
 (setq save-silently t)
@@ -191,22 +193,10 @@
 (auto-save-visited-mode 1)
 ;; http://xahlee.info/emacs/emacs/emacs_auto_save.html
 
-
-
 (setq confirm-kill-processes nil)
-
-
-
-(global-set-key (kbd "C-x C-c")
-(lambda () (interactive)
-(let ((current-prefix-arg '(4)))
-     (call-interactively #'save-buffers-kill-terminal))
-))
-;; https://emacs.stackexchange.com/questions/50672/how-to-save-all-modified-buffers-and-kill-emacs
-;; https://emacs.stackexchange.com/questions/48753/how-to-bind-c-u-m-x-shell-to-c-c-s
 #+end_src
 
-* extra files
+** extra files
 
 #+begin_src emacs-lisp
 (setq make-backup-files nil)
@@ -221,7 +211,7 @@
 ;; move url dir
 #+end_src
 
-* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ package
+* package
 
 emacs has a built-in package manager called "package.el"
 it installs packages from "elpa"
@@ -239,6 +229,8 @@ melpa: milkypostman’s elpa
 
 https://www.emacswiki.org/emacs/InstallingPackages
 https://melpa.org/#/getting-started
+
+** package-initialize
 
 #+begin_src emacs-lisp
 (require 'package)
@@ -289,39 +281,56 @@ sudo-edit
 
 (package-initialize)
 
+;; https://stackoverflow.com/questions/10092322/how-to-automatically-install-emacs-packages-by-specifying-a-list-of-package-name
+;; https://emacs.stackexchange.com/questions/28932/how-to-automate-installation-of-packages-with-emacs-file
+#+end_src
+
+** check package-selected-packages
+
+#+begin_src emacs-lisp
 (defun my-every (@list) "return t if all elements are true" (eval `(and ,@ @list)))
 (if (not (my-every (mapcar 'package-installed-p package-selected-packages))) (error "Package missing"))
 ;; need to be put after (package-initialize), don't know why for now
 
-
-
-;; https://stackoverflow.com/questions/10092322/how-to-automatically-install-emacs-packages-by-specifying-a-list-of-package-name
-;; https://emacs.stackexchange.com/questions/28932/how-to-automate-installation-of-packages-with-emacs-file
 ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Errors.html
 ;; http://xahlee.info/emacs/emacs/elisp_mapcar_loop.html
 ;; http://xahlee.info/emacs/misc/emacs_lisp_some_and_every.html
 #+end_src
+
+** load-path
 
 #+begin_src emacs-lisp
 (setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/lisp") load-path))
 ;; http://xahlee.info/emacs/emacs/elisp_library_system.html
 #+end_src
 
-* basic
+* package_basic
+
+** xclip
 
 #+begin_src emacs-lisp
 (xclip-mode 1)
 ;; copy between *terminal* emacs and x clipboard
+#+end_src
 
+** sudo-edit
+
+#+begin_src emacs-lisp
 (require 'sudo-edit)
+#+end_src
 
+** fcitx
+
+#+begin_src emacs-lisp
 (setq fcitx-remote-command "fcitx5-remote")
 (fcitx-aggressive-setup)
 ;; https://github.com/cute-jumper/fcitx.el/issues?q=fcitx5
 ;; https://kisaragi-hiu.com/why-fcitx5
 #+end_src
 
-* evil
+* package_evil
+
+** evil
 
 https://evil.readthedocs.io/en/latest/index.html
 
@@ -388,8 +397,6 @@ https://evil.readthedocs.io/en/latest/index.html
 (evil-mode 1)
 #+end_src
 
-* evil plugin
-
 ** evil-anzu
 
 #+begin_src emacs-lisp
@@ -407,17 +414,16 @@ https://evil.readthedocs.io/en/latest/index.html
 (add-hook 'emacs-lisp-mode-hook #'evil-cleverparens-mode)
 #+end_src
 
-** evil-collection
+** COMMENT evil-collection
+
+to override existing binding in evil-collection, bind the key after (evil-collection-init), see this [[https://github.com/emacs-evil/evil-collection/issues/214][issue]]
 
 #+begin_src emacs-lisp
-;; (evil-collection-translate-key nil 'evil-normal-state-map
-;; "a" "b"
-;; )
 ;; (setq evil-collection-mode-list '())
 ;; (setq evil-collection-setup-minibuffer t)
 ;; use (setq evil-want-minibuffer t) instead of (setq evil-collection-setup-minibuffer t)
+
 (evil-collection-init)
-;; https://github.com/emacs-evil/evil-collection/issues/214
 #+end_src
 
 ** evil-commentary
@@ -432,13 +438,13 @@ https://evil.readthedocs.io/en/latest/index.html
 (evil-lion-mode)
 #+end_src
 
-** evil-org
+** COMMENT evil-org
 
 #+begin_src emacs-lisp
-;; (require 'evil-org)
-;; (add-hook 'org-mode-hook 'evil-org-mode)
-;; (setq evil-org-key-theme '(navigation textobjects additional calendar))
-;; (evil-org-set-key-theme)
+(require 'evil-org)
+(add-hook 'org-mode-hook 'evil-org-mode)
+(setq evil-org-key-theme '(navigation textobjects additional calendar))
+(evil-org-set-key-theme)
 (require 'evil-org-agenda)
 (evil-org-agenda-set-keys)
 #+end_src
@@ -447,16 +453,6 @@ https://evil.readthedocs.io/en/latest/index.html
 
 #+begin_src emacs-lisp
 (evil-rsi-mode)
-
-
-
-;; (define-key evil-insert-state-map (kbd "C-w") 'evil-delete-backward-word)
-(define-key evil-insert-state-map (kbd "C-u") 'evil-delete-back-to-indentation)
-;; (define-key evil-insert-state-map (kbd "C-p") 'evil-complete-previous)
-;; (define-key evil-insert-state-map (kbd "C-n") 'evil-complete-next)
-;; (define-key evil-insert-state-map (kbd "C-s") nil)
-;; (define-key evil-insert-state-map (kbd "C-r") 'evil-paste-from-register)
-;; (define-key evil-insert-state-map (kbd "C-o") 'evil-execute-in-normal-state)
 #+end_src
 
 ** evil-surround
@@ -465,91 +461,9 @@ https://evil.readthedocs.io/en/latest/index.html
 (global-evil-surround-mode 1)
 #+end_src
 
-* evil keybindings
+* package_appearance
 
-#+begin_src emacs-lisp
-(global-set-key (kbd "<f5>") 'universal-argument)
-(define-key universal-argument-map (kbd "<f5>") 'universal-argument-more)
-;; https://emacs.stackexchange.com/questions/58319/how-to-rebind-special-meaning-of-c-u-to-a-different-key
-
-
-
-;; local:
-(define-key evil-normal-state-map (kbd "z i") 'evil-open-fold)
-(define-key evil-normal-state-map (kbd "z o") 'evil-open-fold-rec)
-;; (define-key evil-normal-state-map (kbd "z c") 'evil-close-fold)
-;; (define-key evil-normal-state-map (kbd "z a") 'evil-toggle-fold)
-;; global:
-;; (define-key evil-normal-state-map (kbd "z r") 'evil-open-folds)
-;; (define-key evil-normal-state-map (kbd "z m") 'evil-close-folds)
-;; https://github.com/emacs-evil/evil/blob/master/evil-maps.el
-
-
-
-;; outline mode logic:
-
-;;        leaf
-;;      /
-;; node
-;;      \
-;;        node
-
-;; so only 4 functions are needed:
-
-;; show-leaf
-;; hide-leaf
-;; show-node
-;; hide-node
-
-;; local:
-(evil-define-key 'normal outline-mode-map (kbd "z e") 'outline-show-entry)
-(evil-define-key 'normal outline-mode-map (kbd "z w") 'outline-show-children)
-(evil-define-key 'normal outline-mode-map (kbd "z l") 'outline-show-branches) ; also hide leaves
-;; (evil-define-key 'normal outline-mode-map (kbd "z a") 'outline-show-subtree)
-(evil-define-key 'normal outline-mode-map (kbd "z x") 'outline-hide-entry)
-;; (evil-define-key 'normal outline-mode-map (kbd "z a") 'outline-hide-leaves)
-;; (evil-define-key 'normal outline-mode-map (kbd "z a") 'outline-hide-subtree)
-;; global:
-(evil-define-key 'normal outline-mode-map (kbd "z k") 'outline-show-only-headings)
-;; (evil-define-key 'normal outline-mode-map (kbd "z a") 'outline-show-all)
-(evil-define-key 'normal outline-mode-map (kbd "z j") 'outline-hide-other)
-;; (evil-define-key 'normal outline-mode-map (kbd "z a") 'outline-hide-body)
-(evil-define-key 'normal outline-mode-map (kbd "z ;") 'outline-hide-sublevels)
-;; https://github.com/emacs-evil/evil-collection/blob/master/modes/outline/evil-collection-outline.el
-;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Outline-Visibility.html
-
-
-
-(evil-define-key 'normal outline-mode-map (kbd "<down>") 'outline-next-visible-heading)
-(evil-define-key 'normal outline-mode-map (kbd "<up>") 'outline-previous-visible-heading)
-;; (evil-define-key 'normal outline-mode-map (kbd "C-j") 'outline-forward-same-level)
-;; (evil-define-key 'normal outline-mode-map (kbd "C-k") 'outline-backward-same-level)
-(evil-define-key 'normal outline-mode-map (kbd "<left>") 'outline-up-heading)
-
-
-
-;; (global-set-key (kbd "S-<return>") #'org-insert-subheading)
-;; (with-eval-after-load "org"
-;; (define-key org-mode-map (kbd "S-<return>") #'org-insert-subheading)
-;; )
-;; https://emacs.stackexchange.com/a/66683/41253
-
-
-
-(define-key evil-normal-state-map (kbd "J") (lambda () (interactive) (evil-ex-execute "put _")))
-(define-key evil-normal-state-map (kbd "K") (lambda () (interactive) (evil-ex-execute "put! _")))
-;; https://stackoverflow.com/questions/20438900/key-map-for-ex-command-in-emacs-evil-mode
-;; (define-key evil-normal-state-map (kbd "J") (kbd ":put SPC _"))
-;; (define-key evil-normal-state-map (kbd "K") (kbd ":put! SPC _"))
-;; (define-key evil-normal-state-map (kbd "J") 'evil-collection-unimpaired-insert-newline-below)
-;; (define-key evil-normal-state-map (kbd "K") 'evil-collection-unimpaired-insert-newline-above)
-
-;; (define-key evil-normal-state-map (kbd "C-s") nil)
-
-(evil-set-leader '(normal motion) (kbd "SPC"))
-#+end_src
-
-* appearance advanced
+** load-theme ?
 
 #+begin_src emacs-lisp
 ;; (load-theme 'nord t)
@@ -558,11 +472,37 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; (load "dl.el")
 
 (load-theme 'doom-nord t)
+#+end_src
 
+** minions
+
+#+begin_src emacs-lisp
 (minions-mode 1)
 #+end_src
 
-* org
+* package_dired
+
+** dired
+
+#+begin_src emacs-lisp
+;; http://xahlee.info/emacs/emacs/file_management.html
+
+(setq dired-listing-switches "-Ahv --group-directories-first -l")
+
+;; (setq dired-kill-when-opening-new-dired-buffer t)
+;; https://emacs-china.org/t/emacs-28-dired-kill-when-opening-new-dired-buffer/20655
+#+end_src
+
+** COMMENT dirvish
+
+#+begin_src emacs-lisp
+(dirvish-override-dired-mode)
+;; https://emacs-china.org/t/dirvish-dired/20189/60
+#+end_src
+
+* package_org
+
+** org
 
 #+begin_src emacs-lisp
 (setq org-startup-folded nil)
@@ -588,6 +528,8 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; (setq org-property-format "%-15s %s")
 (setq org-property-format "%s %s")
 
+;; (setq org-M-RET-may-split-line nil)
+
 
 
 ;; (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAIT(w)" "CANC(c)" "|" "DONE(d)")))
@@ -609,40 +551,18 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; (setq org-id-ts-format "%Y%m%dT%H%M%S.%6N")
 (setq org-id-ts-format "%Y-%m-%d-%H%M%S-%6N")
 (setq org-id-method 'ts)
-
-
-
-(setq org-M-RET-may-split-line nil)
-
-(require 'org-tempo)
-
-(global-set-key (kbd "C-c s") #'org-store-link)
-(global-set-key (kbd "C-c a") #'org-agenda)
-(global-set-key (kbd "C-c c") #'org-capture)
-;; https://orgmode.org/manual/Activation.html
-
-;; (define-key global-map (kbd "C-c j a")
-;;   (lambda () (interactive) (org-capture nil "a")))
-
-(with-eval-after-load "evil"
-(evil-define-key 'normal 'global (kbd "<leader>ja") (lambda () (interactive) (org-capture nil "a")))
-(evil-define-key 'normal 'global (kbd "<leader>jw") 'org-refile)
-(evil-define-key 'normal 'global (kbd "<leader>jl") 'org-time-stamp)
-(evil-define-key 'normal 'global (kbd "<leader>l") 'calendar)
-)
-
-;; (global-set-key (kbd "C-c k a") #'org-id-get-create)
-(with-eval-after-load "evil"
-(evil-define-key 'normal 'global (kbd "<leader>ka") 'org-id-get-create)
-)
 #+end_src
 
-* org plugin
-
-** valign
+** org-tempo
 
 #+begin_src emacs-lisp
-;; (add-hook 'org-mode-hook #'valign-mode)
+(require 'org-tempo)
+#+end_src
+
+** COMMENT valign
+
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook #'valign-mode)
 #+end_src
 
 ** COMMENT org gtd
@@ -661,38 +581,6 @@ https://evil.readthedocs.io/en/latest/index.html
 ))
 
 (require 'org-gtd)
-
-
-
-(global-set-key (kbd "C-c n c") #'org-gtd-capture)
-(define-key org-gtd-clarify-map (kbd "RET") #'org-gtd-organize)
-#+end_src
-
-** COMMENT org journal
-
-#+begin_src emacs-lisp
-(setq org-journal-dir (getenv "a_al"))
-(setq org-journal-file-format "%F")
-(setq org-journal-date-prefix "#+title ")
-(setq org-journal-date-format "%F")
-(setq org-journal-time-prefix "* ")
-(setq org-journal-time-format "%F %a %H:%M%n")
-(setq org-journal-hide-entries-p nil)
-
-(require 'org-journal)
-
-
-
-;; (global-set-key (kbd "C-c j a") 'org-journal-new-entry)
-
-;; (evil-define-key 'normal calendar-mode-map (kbd "d") nil)
-;; (evil-define-key 'normal calendar-mode-map (kbd "d a") 'org-journal-new-date-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "<leader>a") 'org-journal-new-date-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "<leader>j") 'org-journal-read-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "<leader>k") 'org-journal-display-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "<leader>h") 'org-journal-previous-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "<leader>l") 'org-journal-next-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "<leader>m") 'org-journal-mark-entries)
 #+end_src
 
 ** org roam
@@ -721,9 +609,189 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; (setq org-roam-dailies-directory "")
 
 (org-roam-db-autosync-mode)
+#+end_src
+
+** COMMENT org journal
+
+#+begin_src emacs-lisp
+(setq org-journal-dir (getenv "a_al"))
+(setq org-journal-file-format "%F")
+(setq org-journal-date-prefix "#+title ")
+(setq org-journal-date-format "%F")
+(setq org-journal-time-prefix "* ")
+(setq org-journal-time-format "%F %a %H:%M%n")
+(setq org-journal-hide-entries-p nil)
+
+(require 'org-journal)
+#+end_src
+
+* COMMENT package_eaf
+
+#+begin_src emacs-lisp
+(setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/eaf") load-path))
+(require 'eaf)
+(require 'eaf-demo)
+(require 'eaf-file-manager)
+(require 'eaf-pdf-viewer)
+(require 'eaf-browser)
+#+end_src
+
+* keybindings
+
+** core
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-x C-c")
+(lambda () (interactive)
+(let ((current-prefix-arg '(4)))
+     (call-interactively #'save-buffers-kill-terminal))
+))
+;; https://emacs.stackexchange.com/questions/50672/how-to-save-all-modified-buffers-and-kill-emacs
+;; https://emacs.stackexchange.com/questions/48753/how-to-bind-c-u-m-x-shell-to-c-c-s
+#+end_src
+
+** evil
+
+#+begin_src emacs-lisp
+(evil-set-leader '(normal motion) (kbd "SPC"))
+
+(define-key evil-normal-state-map (kbd "z i") 'evil-open-fold)
+(define-key evil-normal-state-map (kbd "z o") 'evil-open-fold-rec)
+;; (define-key evil-normal-state-map (kbd "z c") 'evil-close-fold)
+;; (define-key evil-normal-state-map (kbd "z a") 'evil-toggle-fold)
+;; (define-key evil-normal-state-map (kbd "z r") 'evil-open-folds)
+;; (define-key evil-normal-state-map (kbd "z m") 'evil-close-folds)
+;; https://github.com/emacs-evil/evil/blob/master/evil-maps.el
+
+(define-key evil-normal-state-map (kbd "J") (lambda () (interactive) (evil-ex-execute "put _")))
+(define-key evil-normal-state-map (kbd "K") (lambda () (interactive) (evil-ex-execute "put! _")))
+;; https://stackoverflow.com/questions/20438900/key-map-for-ex-command-in-emacs-evil-mode
+;; (define-key evil-normal-state-map (kbd "J") (kbd ":put SPC _"))
+;; (define-key evil-normal-state-map (kbd "K") (kbd ":put! SPC _"))
+;; (define-key evil-normal-state-map (kbd "J") 'evil-collection-unimpaired-insert-newline-below)
+;; (define-key evil-normal-state-map (kbd "K") 'evil-collection-unimpaired-insert-newline-above)
 
 
 
+(global-set-key (kbd "<f5>") 'universal-argument)
+(define-key universal-argument-map (kbd "<f5>") 'universal-argument-more)
+;; https://emacs.stackexchange.com/questions/58319/how-to-rebind-special-meaning-of-c-u-to-a-different-key
+#+end_src
+
+** COMMENT evil-collection
+
+#+begin_src emacs-lisp
+;; (evil-collection-translate-key nil 'evil-normal-state-map
+;; "a" "b"
+;; )
+#+end_src
+
+** evil-rsi
+
+#+begin_src emacs-lisp
+(define-key evil-normal-state-map (kbd "C-s") 'evil-scroll-line-down)
+
+;; (define-key evil-insert-state-map (kbd "C-w") 'evil-delete-backward-word)
+(define-key evil-insert-state-map (kbd "C-u") 'evil-delete-back-to-indentation)
+;; (define-key evil-insert-state-map (kbd "C-p") 'evil-complete-previous)
+;; (define-key evil-insert-state-map (kbd "C-n") 'evil-complete-next)
+;; (define-key evil-insert-state-map (kbd "C-s") nil)
+;; (define-key evil-insert-state-map (kbd "C-r") 'evil-paste-from-register)
+;; (define-key evil-insert-state-map (kbd "C-o") 'evil-execute-in-normal-state)
+#+end_src
+** outline
+
+#+begin_example
+outline mode logic:
+
+       leaf
+     /
+node
+     \
+       node
+
+so only 4 functions are needed:
+
+show-leaf
+hide-leaf
+show-node
+hide-node
+#+end_example
+
+#+begin_src emacs-lisp
+;; visibility_local:
+(evil-define-key 'normal outline-mode-map (kbd "z y") 'outline-show-entry)
+(evil-define-key 'normal outline-mode-map (kbd "z u") 'outline-show-children)
+(evil-define-key 'normal outline-mode-map (kbd "z j") 'outline-show-branches) ; also hide leaves
+;; (evil-define-key 'normal outline-mode-map (kbd "z a") 'outline-show-subtree)
+(evil-define-key 'normal outline-mode-map (kbd "z x") 'outline-hide-entry)
+;; (evil-define-key 'normal outline-mode-map (kbd "z a") 'outline-hide-leaves)
+;; (evil-define-key 'normal outline-mode-map (kbd "z a") 'outline-hide-subtree)
+
+;; visibility_global:
+(evil-define-key 'normal outline-mode-map (kbd "z k") 'outline-show-only-headings)
+;; (evil-define-key 'normal outline-mode-map (kbd "z a") 'outline-show-all)
+(evil-define-key 'normal outline-mode-map (kbd "z f") 'outline-hide-other)
+;; (evil-define-key 'normal outline-mode-map (kbd "z a") 'outline-hide-body)
+(evil-define-key 'normal outline-mode-map (kbd "z g") 'outline-hide-sublevels)
+;; https://github.com/emacs-evil/evil-collection/blob/master/modes/outline/evil-collection-outline.el
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Outline-Visibility.html
+
+;; motion:
+(evil-define-key 'normal outline-mode-map (kbd "<down>") 'outline-next-visible-heading)
+(evil-define-key 'normal outline-mode-map (kbd "<up>") 'outline-previous-visible-heading)
+(evil-define-key 'normal outline-mode-map (kbd "<next>") 'outline-forward-same-level)
+(evil-define-key 'normal outline-mode-map (kbd "<prior>") 'outline-backward-same-level)
+(evil-define-key 'normal outline-mode-map (kbd "<left>") 'outline-up-heading)
+
+;; edit:
+(evil-define-key '(normal insert) outline-mode-map (kbd "M-j") 'outline-move-subtree-down)
+(evil-define-key '(normal insert) outline-mode-map (kbd "M-k") 'outline-move-subtree-up)
+(evil-define-key '(normal insert) outline-mode-map (kbd "M-h") 'outline-promote)
+(evil-define-key '(normal insert) outline-mode-map (kbd "M-l") 'outline-demote)
+
+(evil-define-key '(normal insert) outline-mode-map (kbd "M-RET") 'outline-insert-heading)
+#+end_src
+
+** org
+
+#+begin_src emacs-lisp
+;; https://emacs.stackexchange.com/a/66683/41253
+(evil-define-key '(normal insert) org-mode-map (kbd "M-h") 'org-metaleft)
+(evil-define-key '(normal insert) org-mode-map (kbd "M-l") 'org-metaright)
+(evil-define-key '(normal insert) org-mode-map (kbd "M-<left>") 'org-shiftmetaleft)
+(evil-define-key '(normal insert) org-mode-map (kbd "M-<right>") 'org-shiftmetaright)
+
+(evil-define-key '(normal insert) org-mode-map (kbd "M-RET") 'org-meta-return)
+
+
+(global-set-key (kbd "C-c s") #'org-store-link)
+(global-set-key (kbd "C-c a") #'org-agenda)
+(global-set-key (kbd "C-c c") #'org-capture)
+;; https://orgmode.org/manual/Activation.html
+
+
+
+(evil-define-key 'normal 'global (kbd "<leader>ja") (lambda () (interactive) (org-capture nil "a")))
+(evil-define-key 'normal 'global (kbd "<leader>jw") 'org-refile)
+(evil-define-key 'normal 'global (kbd "<leader>jl") 'org-time-stamp)
+(evil-define-key 'normal 'global (kbd "<leader>l") 'calendar)
+
+
+
+(evil-define-key 'normal 'global (kbd "<leader>ka") 'org-id-get-create)
+#+end_src
+
+** COMMENT org-gtd
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-c n c") #'org-gtd-capture)
+(define-key org-gtd-clarify-map (kbd "RET") #'org-gtd-organize)
+#+end_src
+
+** org roam
+
+#+begin_src emacs-lisp
 (defun convert-to-orgroam ()
 (interactive)
 
@@ -746,47 +814,28 @@ https://evil.readthedocs.io/en/latest/index.html
 
 
 
-;; (global-set-key (kbd "C-c k f") #'org-roam-node-find)
-;; (global-set-key (kbd "C-c k i") #'org-roam-node-insert)
-;; (global-set-key (kbd "C-c k c") #'org-roam-capture)
-;; (global-set-key (kbd "C-c k b") #'org-roam-buffer-toggle)
-;; (global-set-key (kbd "C-c k g") #'org-roam-graph)
 (evil-define-key 'normal 'global (kbd "<leader>kf") 'org-roam-node-find)
 (evil-define-key 'normal 'global (kbd "<leader>ki") 'org-roam-node-insert)
 (evil-define-key 'normal 'global (kbd "<leader>kc") 'org-roam-capture)
 (evil-define-key 'normal 'global (kbd "<leader>kb") 'org-roam-buffer-toggle)
 (evil-define-key 'normal 'global (kbd "<leader>kg") 'org-roam-graph)
+
+
+
 ;; (global-set-key (kbd "C-c n h") #'org-roam-dailies-goto-yesterday)
 ;; (global-set-key (kbd "C-c n j") #'org-roam-dailies-goto-today)
 ;; (global-set-key (kbd "C-c n l") #'org-roam-dailies-goto-tomorrow)
 ;; (global-set-key (kbd "C-c n k") #'org-roam-dailies-goto-date)
 #+end_src
 
-* dired
+** COMMENT org-journal
 
 #+begin_src emacs-lisp
-;; http://xahlee.info/emacs/emacs/file_management.html
-
-(setq dired-listing-switches "-Ahv --group-directories-first -l")
-
-;; (setq dired-kill-when-opening-new-dired-buffer t)
-;; https://emacs-china.org/t/emacs-28-dired-kill-when-opening-new-dired-buffer/20655
+(evil-define-key 'normal calendar-mode-map (kbd "<leader>a") 'org-journal-new-date-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "<leader>j") 'org-journal-read-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "<leader>k") 'org-journal-display-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "<leader>h") 'org-journal-previous-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "<leader>l") 'org-journal-next-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "<leader>m") 'org-journal-mark-entries)
 #+end_src
 
-* COMMENT dirvish
-
-#+begin_src emacs-lisp
-(dirvish-override-dired-mode)
-;; https://emacs-china.org/t/dirvish-dired/20189/60
-#+end_src
-
-* COMMENT eaf
-
-#+begin_src emacs-lisp
-(setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/eaf") load-path))
-(require 'eaf)
-(require 'eaf-demo)
-(require 'eaf-file-manager)
-(require 'eaf-pdf-viewer)
-(require 'eaf-browser)
-#+end_src
