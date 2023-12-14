@@ -56,11 +56,15 @@ A: vim doesn't respect xdg variable, so use a dot to denote it must be symlinked
 
 * logic behind login
 
-#+begin_example
-appointment:
-"a <- b" means a is symlinked by b
-"a << b" means a is referenced by b
+the login shell executes profile, that's it
+# https://wiki.archlinux.org/title/command-line_shell#Login_shell
 
-~/.profile -> .local/etc/.sh/profile >> .local/etc/.x11/xinitrc >> ~/.xprofile -> .local/etc/.x11/xprofile
-                                                                >> dwm
+detail:
+
+#+begin_example
+.local/etc/.sh/profile (~/.profile)
+	.local/etc/.sh/env
+	.local/etc/.x11/xinitrc
+        	local/etc/.x11/xprofile (~/.xprofile)
+		dwm
 #+end_example

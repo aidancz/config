@@ -258,6 +258,8 @@ evil-collection
 evil-commentary
 evil-lion
 evil-org
+evil-replace-with-char
+evil-replace-with-register
 evil-rsi
 evil-surround
 
@@ -302,6 +304,16 @@ sudo-edit
 #+begin_src emacs-lisp
 (setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/lisp") load-path))
 ;; http://xahlee.info/emacs/emacs/elisp_library_system.html
+#+end_src
+
+** debug
+
+#+begin_src emacs-lisp
+;; (top-level)
+;; https://emacs.stackexchange.com/questions/75179/how-to-stop-evaluating-within-emacs-for-debugging-purposes
+
+;; (error "Done")
+;; https://stackoverflow.com/questions/25393418/stop-execution-of-emacs
 #+end_src
 
 * package_basic
@@ -408,13 +420,17 @@ https://evil.readthedocs.io/en/latest/index.html
 (global-anzu-mode 1)
 #+end_src
 
-** evil-cleverparens
+** COMMENT evil-cleverparens
+
+disable for now, because its "M-[" binding break terminal emacs, check:
+
+[[https://emacs.stackexchange.com/questions/68703/m-causes-emacs-to-print-weird-possibly-escape-sequences]]
 
 #+begin_src emacs-lisp
 (add-hook 'emacs-lisp-mode-hook #'evil-cleverparens-mode)
 #+end_src
 
-** COMMENT evil-collection
+** evil-collection
 
 to override existing binding in evil-collection, bind the key after (evil-collection-init), see this [[https://github.com/emacs-evil/evil-collection/issues/214][issue]]
 
@@ -631,9 +647,12 @@ to override existing binding in evil-collection, bind the key after (evil-collec
 (setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/eaf") load-path))
 (require 'eaf)
 (require 'eaf-demo)
+
 (require 'eaf-file-manager)
 (require 'eaf-pdf-viewer)
 (require 'eaf-browser)
+
+;; (require 'eaf-evil)
 #+end_src
 
 * keybindings
@@ -654,6 +673,11 @@ to override existing binding in evil-collection, bind the key after (evil-collec
 
 #+begin_src emacs-lisp
 (evil-set-leader '(normal motion) (kbd "SPC"))
+
+(define-key evil-motion-state-map (kbd ";") 'evil-ex)
+;; (define-key evil-motion-state-map (kbd ":") 'evil-repeat-find-char)
+;; https://stackoverflow.com/questions/34497696/swap-and-to-make-colon-commands-easier-to-type-in-emacs
+;; https://emacs.stackexchange.com/questions/26450/how-to-remap-to-in-evil-mode
 
 (define-key evil-normal-state-map (kbd "z i") 'evil-open-fold)
 (define-key evil-normal-state-map (kbd "z o") 'evil-open-fold-rec)
@@ -684,6 +708,21 @@ to override existing binding in evil-collection, bind the key after (evil-collec
 ;; (evil-collection-translate-key nil 'evil-normal-state-map
 ;; "a" "b"
 ;; )
+#+end_src
+
+** evil-replace-with-char
+
+#+begin_src emacs-lisp
+(require 'evil-replace-with-char)
+(define-key evil-normal-state-map "gr" 'evil-operator-replace-with-char)
+#+end_src
+
+** evil-replace-with-register
+
+#+begin_src emacs-lisp
+(require 'evil-replace-with-register)
+(setq evil-replace-with-register-key (kbd "gp"))
+(evil-replace-with-register-install)
 #+end_src
 
 ** evil-rsi

@@ -102,6 +102,9 @@ cmap <c-g> cmd-escape
 
 map c					# default: c -> clear, unmap it to use key sequence start with "c"
 map t
+
+map ; read
+
 map <c-a> invert
 map <esc> :unselect; clear
 map <c-g> :unselect; clear
@@ -131,6 +134,7 @@ map e $emacsclient -nw $fx
 map E $emacs -nw $fx
 map <c-e> $emacsclient -cn $fx
 # `emacsclient -c' not work fine with lf, maybe relevant to dwm's swallow patch?
+map <a-e> $emacs $fx
 
 map <enter>	$setsid -f $TERMINAL >/dev/null 2>&1
 map x		!$f
@@ -139,7 +143,7 @@ map <a-y>	$printf "%s" "$fx" | xclip -selection clipboard
 map <a-b>	$setbg $f
 map <a-g>	!find . -maxdepth 1 -mindepth 1 -type d -exec sh -c "echo {}; cd {}; git status -s; echo" \;
 map <a-d>	$trash-put $fx
-map <a-e>	$aunpack $fx
+map <a-z>	$aunpack $fx
 map <a-c>	copyto
 map <a-m>	moveto
 map <a-s>	$lf -remote "send $id select \"$(fzf)\""
