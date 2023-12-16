@@ -544,8 +544,6 @@ to override existing binding in evil-collection, bind the key after (evil-collec
 ;; (setq org-property-format "%-15s %s")
 (setq org-property-format "%s %s")
 
-;; (setq org-M-RET-may-split-line nil)
-
 
 
 ;; (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAIT(w)" "CANC(c)" "|" "DONE(d)")))
@@ -679,6 +677,14 @@ to override existing binding in evil-collection, bind the key after (evil-collec
 ;; https://stackoverflow.com/questions/34497696/swap-and-to-make-colon-commands-easier-to-type-in-emacs
 ;; https://emacs.stackexchange.com/questions/26450/how-to-remap-to-in-evil-mode
 
+(with-eval-after-load 'evil
+  (defadvice forward-evil-paragraph (around default-values activate)
+    (let ((paragraph-start (default-value 'paragraph-start))
+          (paragraph-separate (default-value 'paragraph-separate)))
+      ad-do-it)))
+;; https://emacs.stackexchange.com/questions/38596/make-evil-paragraphs-behave-like-vim-paragraphs
+;; (define-key evil-motion-state-map (kbd "}") 'evil-forward-paragraph)
+
 (define-key evil-normal-state-map (kbd "z i") 'evil-open-fold)
 (define-key evil-normal-state-map (kbd "z o") 'evil-open-fold-rec)
 ;; (define-key evil-normal-state-map (kbd "z c") 'evil-close-fold)
@@ -702,7 +708,7 @@ to override existing binding in evil-collection, bind the key after (evil-collec
 ;; https://emacs.stackexchange.com/questions/58319/how-to-rebind-special-meaning-of-c-u-to-a-different-key
 #+end_src
 
-** COMMENT evil-collection
+** evil-collection
 
 #+begin_src emacs-lisp
 ;; (evil-collection-translate-key nil 'evil-normal-state-map
@@ -801,6 +807,7 @@ hide-node
 (evil-define-key '(normal insert) org-mode-map (kbd "M-<left>") 'org-shiftmetaleft)
 (evil-define-key '(normal insert) org-mode-map (kbd "M-<right>") 'org-shiftmetaright)
 
+;; (setq org-M-RET-may-split-line nil)
 (evil-define-key '(normal insert) org-mode-map (kbd "M-RET") 'org-meta-return)
 
 
