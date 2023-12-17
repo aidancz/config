@@ -58,7 +58,7 @@ cmd open ${{
 	# inode/x-empty | text/* | application/*) emacsclient -nw -a "" $fx;;
 	# inode/x-empty | text/* | application/*) devour emacsclient -c $fx;;
 	# inode/x-empty | text/* | application/*) emacsclient -nw $fx;;
-	inode/x-empty | text/* | application/*) emacsclient -r $fx;;
+	inode/x-empty | text/* | application/*) emacsclient -r -n $fx;;
 
 
 

@@ -409,6 +409,28 @@ https://evil.readthedocs.io/en/latest/index.html
 (evil-mode 1)
 #+end_src
 
+** evil-collection
+
+to override existing binding in evil-collection, bind the key after (evil-collection-init), see this [[https://github.com/emacs-evil/evil-collection/issues/214][issue]]
+
+#+begin_src emacs-lisp
+;; (setq evil-collection-mode-list '())
+
+;; (setq evil-collection-setup-minibuffer t)
+;; use (setq evil-want-minibuffer t) instead of (setq evil-collection-setup-minibuffer t)
+
+(setq evil-collection-key-blacklist '(
+"{"
+"}"
+))
+
+(evil-collection-init)
+
+;; (evil-collection-translate-key nil 'evil-normal-state-map
+;; "a" "b"
+;; )
+#+end_src
+
 ** evil-anzu
 
 #+begin_src emacs-lisp
@@ -428,18 +450,6 @@ disable for now, because its "M-[" binding break terminal emacs, check:
 
 #+begin_src emacs-lisp
 (add-hook 'emacs-lisp-mode-hook #'evil-cleverparens-mode)
-#+end_src
-
-** evil-collection
-
-to override existing binding in evil-collection, bind the key after (evil-collection-init), see this [[https://github.com/emacs-evil/evil-collection/issues/214][issue]]
-
-#+begin_src emacs-lisp
-;; (setq evil-collection-mode-list '())
-;; (setq evil-collection-setup-minibuffer t)
-;; use (setq evil-want-minibuffer t) instead of (setq evil-collection-setup-minibuffer t)
-
-(evil-collection-init)
 #+end_src
 
 ** evil-commentary
@@ -579,7 +589,7 @@ to override existing binding in evil-collection, bind the key after (evil-collec
 (add-hook 'org-mode-hook #'valign-mode)
 #+end_src
 
-** COMMENT org gtd
+** COMMENT org-gtd
 
 #+begin_src emacs-lisp
 (setq org-edna-use-inheritance t)
@@ -597,7 +607,7 @@ to override existing binding in evil-collection, bind the key after (evil-collec
 (require 'org-gtd)
 #+end_src
 
-** org roam
+** org-roam
 
 #+begin_src emacs-lisp
 ;; https://www.orgroam.com/manual.html
@@ -625,11 +635,11 @@ to override existing binding in evil-collection, bind the key after (evil-collec
 (org-roam-db-autosync-mode)
 #+end_src
 
-** COMMENT org journal
+** org-journal
 
 #+begin_src emacs-lisp
 (setq org-journal-dir (getenv "a_al"))
-(setq org-journal-file-format "%F")
+(setq org-journal-file-format "%F.txt")
 (setq org-journal-date-prefix "#+title ")
 (setq org-journal-date-format "%F")
 (setq org-journal-time-prefix "* ")
@@ -670,12 +680,13 @@ to override existing binding in evil-collection, bind the key after (evil-collec
 ** evil
 
 #+begin_src emacs-lisp
-(evil-set-leader '(normal motion) (kbd "SPC"))
+(evil-set-leader nil (kbd "RET"))
 
 (define-key evil-motion-state-map (kbd ";") 'evil-ex)
 ;; (define-key evil-motion-state-map (kbd ":") 'evil-repeat-find-char)
 ;; https://stackoverflow.com/questions/34497696/swap-and-to-make-colon-commands-easier-to-type-in-emacs
 ;; https://emacs.stackexchange.com/questions/26450/how-to-remap-to-in-evil-mode
+(define-key evil-window-map (kbd ";") 'evil-ex)
 
 (with-eval-after-load 'evil
   (defadvice forward-evil-paragraph (around default-values activate)
@@ -683,7 +694,6 @@ to override existing binding in evil-collection, bind the key after (evil-collec
           (paragraph-separate (default-value 'paragraph-separate)))
       ad-do-it)))
 ;; https://emacs.stackexchange.com/questions/38596/make-evil-paragraphs-behave-like-vim-paragraphs
-;; (define-key evil-motion-state-map (kbd "}") 'evil-forward-paragraph)
 
 (define-key evil-normal-state-map (kbd "z i") 'evil-open-fold)
 (define-key evil-normal-state-map (kbd "z o") 'evil-open-fold-rec)
@@ -706,14 +716,6 @@ to override existing binding in evil-collection, bind the key after (evil-collec
 (global-set-key (kbd "<f5>") 'universal-argument)
 (define-key universal-argument-map (kbd "<f5>") 'universal-argument-more)
 ;; https://emacs.stackexchange.com/questions/58319/how-to-rebind-special-meaning-of-c-u-to-a-different-key
-#+end_src
-
-** evil-collection
-
-#+begin_src emacs-lisp
-;; (evil-collection-translate-key nil 'evil-normal-state-map
-;; "a" "b"
-;; )
 #+end_src
 
 ** evil-replace-with-char
@@ -744,6 +746,7 @@ to override existing binding in evil-collection, bind the key after (evil-collec
 ;; (define-key evil-insert-state-map (kbd "C-r") 'evil-paste-from-register)
 ;; (define-key evil-insert-state-map (kbd "C-o") 'evil-execute-in-normal-state)
 #+end_src
+
 ** outline
 
 #+begin_example
@@ -821,11 +824,10 @@ hide-node
 (evil-define-key 'normal 'global (kbd "<leader>ja") (lambda () (interactive) (org-capture nil "a")))
 (evil-define-key 'normal 'global (kbd "<leader>jw") 'org-refile)
 (evil-define-key 'normal 'global (kbd "<leader>jl") 'org-time-stamp)
-(evil-define-key 'normal 'global (kbd "<leader>l") 'calendar)
-
-
 
 (evil-define-key 'normal 'global (kbd "<leader>ka") 'org-id-get-create)
+
+(evil-define-key 'normal 'global (kbd "<leader>l") 'calendar)
 #+end_src
 
 ** COMMENT org-gtd
@@ -835,7 +837,7 @@ hide-node
 (define-key org-gtd-clarify-map (kbd "RET") #'org-gtd-organize)
 #+end_src
 
-** org roam
+** org-roam
 
 #+begin_src emacs-lisp
 (defun convert-to-orgroam ()
@@ -874,14 +876,14 @@ hide-node
 ;; (global-set-key (kbd "C-c n k") #'org-roam-dailies-goto-date)
 #+end_src
 
-** COMMENT org-journal
+** org-journal
 
 #+begin_src emacs-lisp
-(evil-define-key 'normal calendar-mode-map (kbd "<leader>a") 'org-journal-new-date-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "<leader>j") 'org-journal-read-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "<leader>k") 'org-journal-display-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "<leader>h") 'org-journal-previous-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "<leader>l") 'org-journal-next-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "<leader>m") 'org-journal-mark-entries)
+(evil-define-key 'normal calendar-mode-map (kbd "a") 'org-journal-new-date-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "f") 'org-journal-read-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "d") 'org-journal-display-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "p") 'org-journal-previous-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "n") 'org-journal-next-entry)
+(evil-define-key 'normal calendar-mode-map (kbd "m") 'org-journal-mark-entries)
 #+end_src
 
