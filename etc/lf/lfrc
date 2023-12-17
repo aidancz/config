@@ -57,7 +57,8 @@ cmd open ${{
 
 	# inode/x-empty | text/* | application/*) emacsclient -nw -a "" $fx;;
 	# inode/x-empty | text/* | application/*) devour emacsclient -c $fx;;
-	inode/x-empty | text/* | application/*) emacsclient -nw $fx;;
+	# inode/x-empty | text/* | application/*) emacsclient -nw $fx;;
+	inode/x-empty | text/* | application/*) emacsclient -r $fx;;
 
 
 
@@ -132,8 +133,7 @@ map v $vim $fx
 # map E $devour emacs $fx
 map e $emacsclient -nw $fx
 map E $emacs -nw $fx
-map <c-e> $emacsclient -cn $fx
-# `emacsclient -c' not work fine with lf, maybe relevant to dwm's swallow patch?
+map <c-e> $emacsclient -c $fx
 map <a-e> $emacs $fx
 
 map <enter>	$setsid -f $TERMINAL >/dev/null 2>&1
