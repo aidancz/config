@@ -623,12 +623,17 @@ disable for now, because its "M-[" binding break terminal emacs, check:
 ;;      :unnarrowed t)
 ;; ))
 (require 'uuidgen)
-(setq org-roam-capture-templates '(
-("d" "default" plain "%?"
-     :target (file+head "%(uuidgen-1).org"
-                        "#+title: ${title}\n")
-     :unnarrowed t)
-))
+(setq org-roam-capture-templates '((
+"d"
+"default"
+plain
+"%?"
+:target (file+head "%(uuidgen-1).org" "#+title: ${title}\n")
+:unnarrowed t
+)))
+
+(setq org-roam-node-formatter "link")
+;; https://github.com/org-roam/org-roam/issues/1892
 
 ;; (setq org-roam-dailies-directory "")
 
@@ -680,7 +685,14 @@ disable for now, because its "M-[" binding break terminal emacs, check:
 ** evil
 
 #+begin_src emacs-lisp
-(evil-set-leader nil (kbd "RET"))
+;; (with-eval-after-load 'evil-maps
+(define-key evil-motion-state-map (kbd "SPC") nil)
+(define-key evil-motion-state-map (kbd "RET") nil)
+(define-key evil-motion-state-map (kbd "TAB") nil)
+;; )
+;; https://emacs.stackexchange.com/questions/46371/how-can-i-get-ret-to-follow-org-mode-links-when-using-evil-mode
+
+(evil-set-leader nil (kbd "SPC"))
 
 (define-key evil-motion-state-map (kbd ";") 'evil-ex)
 ;; (define-key evil-motion-state-map (kbd ":") 'evil-repeat-find-char)
@@ -804,7 +816,8 @@ hide-node
 ** org
 
 #+begin_src emacs-lisp
-;; https://emacs.stackexchange.com/a/66683/41253
+(setq org-return-follows-link t)
+
 (evil-define-key '(normal insert) org-mode-map (kbd "M-h") 'org-metaleft)
 (evil-define-key '(normal insert) org-mode-map (kbd "M-l") 'org-metaright)
 (evil-define-key '(normal insert) org-mode-map (kbd "M-<left>") 'org-shiftmetaleft)
@@ -842,18 +855,14 @@ hide-node
 #+begin_src emacs-lisp
 (defun convert-to-orgroam ()
 (interactive)
-
 (let ((new-file-name (concat (uuidgen-1) ".org")))
 (rename-file buffer-file-name new-file-name)
 (find-file new-file-name)
 )
-
 (goto-char (point-min))
 (insert "\n\n")
 (goto-char (point-min))
-
 (org-id-get-create)
-
 (beginning-of-line 4)
 (insert "#+title: ")
 )
