@@ -211,6 +211,13 @@
 ;; move url dir
 #+end_src
 
+** misc
+
+#+begin_src emacs-lisp
+(fset 'yes-or-no-p 'y-or-n-p)
+;; https://manateelazycat.github.io/2016/03/08/emacs-basic-config/
+#+end_src
+
 * package
 
 emacs has a built-in package manager called "package.el"
@@ -235,22 +242,27 @@ https://melpa.org/#/getting-started
 #+begin_src emacs-lisp
 (require 'package)
 
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 ;; (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+
+(setq package-archives '(
+("gnu-cn" . "http://1.15.88.122/gnu/")
+("nongnu-cn" . "http://1.15.88.122/nongnu/")
+("melpa-stable-cn" . "http://1.15.88.122/stable-melpa/")
+))
+;; https://elpamirror.emacs-china.org/
 
 ;; (setq package-user-dir (concat (getenv "XDG_CACHE_HOME") "/emacs/elpa"))
 
 (setq package-selected-packages '(
-;; solarized-theme
 ;; color-theme-sanityinc-solarized
-;; nord-theme
 ;; color-theme-sanityinc-tomorrow
+;; nord-theme
+;; org-gtd
+;; solarized-theme
+;; valign
+dirvish
 doom-themes
-minions
-rainbow-mode
-
-xclip
-
 evil
 evil-anzu
 evil-cleverparens
@@ -262,20 +274,19 @@ evil-replace-with-char
 evil-replace-with-register
 evil-rsi
 evil-surround
-
-;; valign
-uuidgen
-;; org-gtd
+fcitx
+magit
+minions
 org-journal
 org-roam
 org-roam-ui
-
-dirvish
-vterm
-fcitx
-magit
 paredit
+rainbow-mode
 sudo-edit
+uuidgen
+vertico
+vterm
+xclip
 ))
 ;; M-x package-refresh-contents
 ;; M-x package-install-selected-packages
@@ -338,6 +349,12 @@ sudo-edit
 (fcitx-aggressive-setup)
 ;; https://github.com/cute-jumper/fcitx.el/issues?q=fcitx5
 ;; https://kisaragi-hiu.com/why-fcitx5
+#+end_src
+
+** COMMENT uuidgen
+
+#+begin_src emacs-lisp
+(require 'uuidgen)
 #+end_src
 
 * package_evil
@@ -414,15 +431,25 @@ https://evil.readthedocs.io/en/latest/index.html
 to override existing binding in evil-collection, bind the key after (evil-collection-init), see this [[https://github.com/emacs-evil/evil-collection/issues/214][issue]]
 
 #+begin_src emacs-lisp
-;; (setq evil-collection-mode-list '())
+(setq evil-collection-mode-list '(
+calendar
+dired
+(package-menu package)
+))
 
 ;; (setq evil-collection-setup-minibuffer t)
 ;; use (setq evil-want-minibuffer t) instead of (setq evil-collection-setup-minibuffer t)
 
+(setq evil-collection-want-unimpaired-p nil)
+
 (setq evil-collection-key-blacklist '(
 "{"
 "}"
+"C-j"
+"C-k"
 ))
+
+
 
 (evil-collection-init)
 
@@ -504,26 +531,6 @@ disable for now, because its "M-[" binding break terminal emacs, check:
 
 #+begin_src emacs-lisp
 (minions-mode 1)
-#+end_src
-
-* package_dired
-
-** dired
-
-#+begin_src emacs-lisp
-;; http://xahlee.info/emacs/emacs/file_management.html
-
-(setq dired-listing-switches "-Ahv --group-directories-first -l")
-
-;; (setq dired-kill-when-opening-new-dired-buffer t)
-;; https://emacs-china.org/t/emacs-28-dired-kill-when-opening-new-dired-buffer/20655
-#+end_src
-
-** COMMENT dirvish
-
-#+begin_src emacs-lisp
-(dirvish-override-dired-mode)
-;; https://emacs-china.org/t/dirvish-dired/20189/60
 #+end_src
 
 * package_org
@@ -622,13 +629,13 @@ disable for now, because its "M-[" binding break terminal emacs, check:
 ;;                         "#+title: ${title}\n")
 ;;      :unnarrowed t)
 ;; ))
-(require 'uuidgen)
 (setq org-roam-capture-templates '((
 "d"
 "default"
 plain
 "%?"
-:target (file+head "%(uuidgen-1).org" "#+title: ${title}\n")
+;; :target (file+head "%(uuidgen-1).org" "#+title: ${title}\n")
+:target (file+head "${title}.org" "#+title: ${title}\n")
 :unnarrowed t
 )))
 
@@ -638,6 +645,25 @@ plain
 ;; (setq org-roam-dailies-directory "")
 
 (org-roam-db-autosync-mode)
+
+(defun org-title-to-file-name ()
+(interactive)
+(let (
+(title (org-get-title))
+(name (file-name-sans-extension (file-name-nondirectory (buffer-file-name))))
+)
+(when (and (not (null title)) (not (string= title name)))
+(let (
+(old-file-name (file-name-nondirectory (buffer-file-name)))
+(new-file-name (concat title ".org"))
+)
+(rename-file old-file-name new-file-name)
+(find-file new-file-name)
+(kill-buffer old-file-name)
+(message "Renamed %s to %s." old-file-name new-file-name)
+))))
+(add-hook 'org-mode-hook 'org-title-to-file-name)
+;; https://emacs.stackexchange.com/questions/54809/rename-org-buffers-to-orgs-title-instead-of-filename
 #+end_src
 
 ** org-journal
@@ -654,6 +680,26 @@ plain
 (require 'org-journal)
 #+end_src
 
+* package_dired
+
+** dired
+
+#+begin_src emacs-lisp
+;; http://xahlee.info/emacs/emacs/file_management.html
+
+(setq dired-listing-switches "-Ahv --group-directories-first -l")
+
+;; (setq dired-kill-when-opening-new-dired-buffer t)
+;; https://emacs-china.org/t/emacs-28-dired-kill-when-opening-new-dired-buffer/20655
+#+end_src
+
+** COMMENT dirvish
+
+#+begin_src emacs-lisp
+(dirvish-override-dired-mode)
+;; https://emacs-china.org/t/dirvish-dired/20189/60
+#+end_src
+
 * COMMENT package_eaf
 
 #+begin_src emacs-lisp
@@ -668,6 +714,14 @@ plain
 ;; (require 'eaf-evil)
 #+end_src
 
+* package_minibuffer
+
+** vertico
+
+#+begin_src emacs-lisp
+(vertico-mode)
+#+end_src
+
 * keybindings
 
 ** core
@@ -680,25 +734,16 @@ plain
 ))
 ;; https://emacs.stackexchange.com/questions/50672/how-to-save-all-modified-buffers-and-kill-emacs
 ;; https://emacs.stackexchange.com/questions/48753/how-to-bind-c-u-m-x-shell-to-c-c-s
+
+(global-set-key (kbd "<f5>") 'universal-argument)
+(define-key universal-argument-map (kbd "<f5>") 'universal-argument-more)
+;; https://emacs.stackexchange.com/questions/58319/how-to-rebind-special-meaning-of-c-u-to-a-different-key
 #+end_src
 
 ** evil
 
 #+begin_src emacs-lisp
-;; (with-eval-after-load 'evil-maps
-(define-key evil-motion-state-map (kbd "SPC") nil)
-(define-key evil-motion-state-map (kbd "RET") nil)
-(define-key evil-motion-state-map (kbd "TAB") nil)
-;; )
-;; https://emacs.stackexchange.com/questions/46371/how-can-i-get-ret-to-follow-org-mode-links-when-using-evil-mode
-
 (evil-set-leader nil (kbd "SPC"))
-
-(define-key evil-motion-state-map (kbd ";") 'evil-ex)
-;; (define-key evil-motion-state-map (kbd ":") 'evil-repeat-find-char)
-;; https://stackoverflow.com/questions/34497696/swap-and-to-make-colon-commands-easier-to-type-in-emacs
-;; https://emacs.stackexchange.com/questions/26450/how-to-remap-to-in-evil-mode
-(define-key evil-window-map (kbd ";") 'evil-ex)
 
 (with-eval-after-load 'evil
   (defadvice forward-evil-paragraph (around default-values activate)
@@ -706,6 +751,39 @@ plain
           (paragraph-separate (default-value 'paragraph-separate)))
       ad-do-it)))
 ;; https://emacs.stackexchange.com/questions/38596/make-evil-paragraphs-behave-like-vim-paragraphs
+
+;; (defun evil-aidan-scroll-line-to-1/4 ()
+;; (interactive)
+;; (recenter (/ (window-body-height) 4))
+;; )
+;; (defun evil-aidan-scroll-line-to-3/4 ()
+;; (interactive)
+;; (recenter (- (/ (window-body-height) 4)))
+;; )
+
+
+
+;; (with-eval-after-load 'evil-maps
+(define-key evil-motion-state-map (kbd "SPC") nil)
+(define-key evil-motion-state-map (kbd "RET") nil)
+(define-key evil-motion-state-map (kbd "TAB") nil)
+;; )
+;; https://emacs.stackexchange.com/questions/46371/how-can-i-get-ret-to-follow-org-mode-links-when-using-evil-mode
+
+(define-key evil-motion-state-map (kbd ";") 'evil-ex)
+;; (define-key evil-motion-state-map (kbd ":") 'evil-repeat-find-char)
+;; https://stackoverflow.com/questions/34497696/swap-and-to-make-colon-commands-easier-to-type-in-emacs
+;; https://emacs.stackexchange.com/questions/26450/how-to-remap-to-in-evil-mode
+
+
+
+(define-key evil-normal-state-map (kbd "C-s") 'evil-scroll-line-down)
+;; (define-key evil-normal-state-map (kbd "C-y") 'evil-scroll-line-up)
+;; (define-key evil-normal-state-map (kbd "C-k") 'evil-aidan-scroll-line-to-1/4)
+;; (define-key evil-normal-state-map (kbd "C-j") 'evil-aidan-scroll-line-to-3/4)
+(define-key evil-normal-state-map (kbd "C-k") 'evil-scroll-line-to-top)
+(define-key evil-normal-state-map (kbd "C-l") 'evil-scroll-line-to-center)
+(define-key evil-normal-state-map (kbd "C-j") 'evil-scroll-line-to-bottom)
 
 (define-key evil-normal-state-map (kbd "z i") 'evil-open-fold)
 (define-key evil-normal-state-map (kbd "z o") 'evil-open-fold-rec)
@@ -725,9 +803,24 @@ plain
 
 
 
-(global-set-key (kbd "<f5>") 'universal-argument)
-(define-key universal-argument-map (kbd "<f5>") 'universal-argument-more)
-;; https://emacs.stackexchange.com/questions/58319/how-to-rebind-special-meaning-of-c-u-to-a-different-key
+(define-key evil-insert-state-map (kbd "C-s") 'evil-scroll-line-down)
+(define-key evil-insert-state-map (kbd "C-y") 'evil-scroll-line-up)
+;; (define-key evil-insert-state-map (kbd "C-k") 'evil-aidan-scroll-line-to-1/4)
+;; (define-key evil-insert-state-map (kbd "C-j") 'evil-aidan-scroll-line-to-3/4)
+(define-key evil-insert-state-map (kbd "C-k") 'evil-scroll-line-to-top)
+(define-key evil-insert-state-map (kbd "C-l") 'evil-scroll-line-to-center)
+(define-key evil-insert-state-map (kbd "C-j") 'evil-scroll-line-to-bottom)
+
+;; (define-key evil-insert-state-map (kbd "C-w") 'evil-delete-backward-word)
+(define-key evil-insert-state-map (kbd "C-u") 'evil-delete-back-to-indentation)
+;; (define-key evil-insert-state-map (kbd "C-p") 'evil-complete-previous)
+;; (define-key evil-insert-state-map (kbd "C-n") 'evil-complete-next)
+;; (define-key evil-insert-state-map (kbd "C-r") 'evil-paste-from-register)
+;; (define-key evil-insert-state-map (kbd "C-o") 'evil-execute-in-normal-state)
+
+
+
+(define-key evil-window-map (kbd ";") 'evil-ex)
 #+end_src
 
 ** evil-replace-with-char
@@ -743,20 +836,6 @@ plain
 (require 'evil-replace-with-register)
 (setq evil-replace-with-register-key (kbd "gp"))
 (evil-replace-with-register-install)
-#+end_src
-
-** evil-rsi
-
-#+begin_src emacs-lisp
-(define-key evil-normal-state-map (kbd "C-s") 'evil-scroll-line-down)
-
-;; (define-key evil-insert-state-map (kbd "C-w") 'evil-delete-backward-word)
-(define-key evil-insert-state-map (kbd "C-u") 'evil-delete-back-to-indentation)
-;; (define-key evil-insert-state-map (kbd "C-p") 'evil-complete-previous)
-;; (define-key evil-insert-state-map (kbd "C-n") 'evil-complete-next)
-;; (define-key evil-insert-state-map (kbd "C-s") nil)
-;; (define-key evil-insert-state-map (kbd "C-r") 'evil-paste-from-register)
-;; (define-key evil-insert-state-map (kbd "C-o") 'evil-execute-in-normal-state)
 #+end_src
 
 ** outline
@@ -853,18 +932,28 @@ hide-node
 ** org-roam
 
 #+begin_src emacs-lisp
+;; (defun convert-to-orgroam ()
+;; (interactive)
+;; (let ((new-file-name (concat (uuidgen-1) ".org")))
+;; (rename-file buffer-file-name new-file-name)
+;; (find-file new-file-name)
+;; )
+;; (goto-char (point-min))
+;; (insert "\n\n")
+;; (goto-char (point-min))
+;; (org-id-get-create)
+;; (beginning-of-line 4)
+;; (insert "#+title: ")
+;; )
 (defun convert-to-orgroam ()
 (interactive)
-(let ((new-file-name (concat (uuidgen-1) ".org")))
-(rename-file buffer-file-name new-file-name)
-(find-file new-file-name)
-)
 (goto-char (point-min))
 (insert "\n\n")
 (goto-char (point-min))
 (org-id-get-create)
 (beginning-of-line 4)
-(insert "#+title: ")
+(insert (format "#+title: %s" (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))))
+(goto-char (point-min))
 )
 (evil-define-key 'normal 'global (kbd "<leader>kl") 'convert-to-orgroam)
 ;; https://org-roam.discourse.group/t/convert-preexisting-org-note-to-org-roam-type/2680
