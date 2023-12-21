@@ -64,7 +64,7 @@
 ;; better not (setq column-number-indicator-zero-based nil), because this is different from assumption
 (column-number-mode 1)
 
-(setq echo-keystrokes 0.01)
+(setq echo-keystrokes 0.001)
 
 (setq completions-format 'vertical)
 
@@ -172,7 +172,7 @@
 #+begin_src emacs-lisp
 ;; (setq-default tab-width 8)
 (setq-default indent-tabs-mode nil)
-;; (setq-default tab-always-indent t)
+(setq-default tab-always-indent 'complete)
 ;; (electric-indent-mode -1)
 ;; electric-indent-mode is a global minor mode that automatically indents the line after every RET you type, enabled by default
 ;; http://xahlee.info/emacs/emacs/emacs_tabs_space_indentation_setup.html
@@ -584,7 +584,9 @@ disable for now, because its "M-[" binding break terminal emacs, check:
 (setq org-id-method 'ts)
 #+end_src
 
-** org-tempo
+** COMMENT org-tempo
+
+org mode now bundle with =C-c C-,= (org-insert-structure-template), obsolete org-tempo
 
 #+begin_src emacs-lisp
 (require 'org-tempo)
@@ -647,21 +649,25 @@ plain
 (org-roam-db-autosync-mode)
 
 (defun org-title-to-file-name ()
-(interactive)
-(let (
-(title (org-get-title))
-(name (file-name-sans-extension (file-name-nondirectory (buffer-file-name))))
-)
-(when (and (not (null title)) (not (string= title name)))
-(let (
-(old-file-name (file-name-nondirectory (buffer-file-name)))
-(new-file-name (concat title ".org"))
-)
-(rename-file old-file-name new-file-name)
-(find-file new-file-name)
-(kill-buffer old-file-name)
-(message "Renamed %s to %s." old-file-name new-file-name)
-))))
+  (interactive)
+  (when (and
+         (not (null (buffer-file-name)))
+         (not (null (org-get-title)))
+         )
+    (let (
+          (title (org-get-title))
+          (name (file-name-sans-extension (file-name-nondirectory (buffer-file-name))))
+          )
+      (when (not (string= title name))
+        (let (
+              (old-file-name (file-name-nondirectory (buffer-file-name)))
+              (new-file-name (concat title ".org"))
+              )
+          (rename-file old-file-name new-file-name)
+          (find-file new-file-name)
+          (kill-buffer old-file-name)
+          (message "Renamed %s to %s." old-file-name new-file-name)
+          )))))
 (add-hook 'org-mode-hook 'org-title-to-file-name)
 ;; https://emacs.stackexchange.com/questions/54809/rename-org-buffers-to-orgs-title-instead-of-filename
 #+end_src
@@ -781,9 +787,9 @@ plain
 ;; (define-key evil-normal-state-map (kbd "C-y") 'evil-scroll-line-up)
 ;; (define-key evil-normal-state-map (kbd "C-k") 'evil-aidan-scroll-line-to-1/4)
 ;; (define-key evil-normal-state-map (kbd "C-j") 'evil-aidan-scroll-line-to-3/4)
-(define-key evil-normal-state-map (kbd "C-k") 'evil-scroll-line-to-top)
+(define-key evil-normal-state-map (kbd "C-j") 'evil-scroll-line-to-top)
+(define-key evil-normal-state-map (kbd "C-k") 'evil-scroll-line-to-bottom)
 (define-key evil-normal-state-map (kbd "C-l") 'evil-scroll-line-to-center)
-(define-key evil-normal-state-map (kbd "C-j") 'evil-scroll-line-to-bottom)
 
 (define-key evil-normal-state-map (kbd "z i") 'evil-open-fold)
 (define-key evil-normal-state-map (kbd "z o") 'evil-open-fold-rec)
@@ -807,9 +813,9 @@ plain
 (define-key evil-insert-state-map (kbd "C-y") 'evil-scroll-line-up)
 ;; (define-key evil-insert-state-map (kbd "C-k") 'evil-aidan-scroll-line-to-1/4)
 ;; (define-key evil-insert-state-map (kbd "C-j") 'evil-aidan-scroll-line-to-3/4)
-(define-key evil-insert-state-map (kbd "C-k") 'evil-scroll-line-to-top)
+(define-key evil-insert-state-map (kbd "C-j") 'evil-scroll-line-to-top)
+(define-key evil-insert-state-map (kbd "C-k") 'evil-scroll-line-to-bottom)
 (define-key evil-insert-state-map (kbd "C-l") 'evil-scroll-line-to-center)
-(define-key evil-insert-state-map (kbd "C-j") 'evil-scroll-line-to-bottom)
 
 ;; (define-key evil-insert-state-map (kbd "C-w") 'evil-delete-backward-word)
 (define-key evil-insert-state-map (kbd "C-u") 'evil-delete-back-to-indentation)
@@ -895,7 +901,7 @@ hide-node
 ** org
 
 #+begin_src emacs-lisp
-(setq org-return-follows-link t)
+;; (setq org-return-follows-link t)
 
 (evil-define-key '(normal insert) org-mode-map (kbd "M-h") 'org-metaleft)
 (evil-define-key '(normal insert) org-mode-map (kbd "M-l") 'org-metaright)
