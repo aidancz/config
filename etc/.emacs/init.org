@@ -30,16 +30,14 @@
 ;; run "org-babel-tangle" when saving init.org
 #+end_src
 
-** xresources
+** appearance
 
 #+begin_src emacs-lisp
 (setq inhibit-x-resources t)
 ;; (setq inhibit-x-resources t) seems also (setq inhibit-startup-screen t)
-#+end_src
 
-** appearance
 
-#+begin_src emacs-lisp
+
 (menu-bar-mode -1)
 
 (tool-bar-mode -1)
@@ -180,7 +178,7 @@
 (setq sh-basic-offset 8)
 #+end_src
 
-** save & quit
+** save
 
 #+begin_src emacs-lisp
 (setq save-silently t)
@@ -192,8 +190,6 @@
 (setq auto-save-visited-interval 1)
 (auto-save-visited-mode 1)
 ;; http://xahlee.info/emacs/emacs/emacs_auto_save.html
-
-(setq confirm-kill-processes nil)
 #+end_src
 
 ** extra files
@@ -216,6 +212,10 @@
 #+begin_src emacs-lisp
 (fset 'yes-or-no-p 'y-or-n-p)
 ;; https://manateelazycat.github.io/2016/03/08/emacs-basic-config/
+
+(setq confirm-kill-processes nil)
+
+(defalias 'list-buffers 'ibuffer)
 #+end_src
 
 * package
@@ -431,11 +431,12 @@ https://evil.readthedocs.io/en/latest/index.html
 to override existing binding in evil-collection, bind the key after (evil-collection-init), see this [[https://github.com/emacs-evil/evil-collection/issues/214][issue]]
 
 #+begin_src emacs-lisp
-(setq evil-collection-mode-list '(
-calendar
-dired
-(package-menu package)
-))
+;; (setq evil-collection-mode-list '(
+;; ibuffer
+;; calendar
+;; dired
+;; (package-menu package)
+;; ))
 
 ;; (setq evil-collection-setup-minibuffer t)
 ;; use (setq evil-want-minibuffer t) instead of (setq evil-collection-setup-minibuffer t)
@@ -706,7 +707,17 @@ plain
 ;; https://emacs-china.org/t/dirvish-dired/20189/60
 #+end_src
 
-* COMMENT package_eaf
+* package_minibuffer
+
+** vertico
+
+#+begin_src emacs-lisp
+(vertico-mode)
+#+end_src
+
+* package_misc
+
+** COMMENT package_eaf
 
 #+begin_src emacs-lisp
 (setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/eaf") load-path))
@@ -718,14 +729,6 @@ plain
 (require 'eaf-browser)
 
 ;; (require 'eaf-evil)
-#+end_src
-
-* package_minibuffer
-
-** vertico
-
-#+begin_src emacs-lisp
-(vertico-mode)
 #+end_src
 
 * keybindings
@@ -771,7 +774,7 @@ plain
 
 ;; (with-eval-after-load 'evil-maps
 (define-key evil-motion-state-map (kbd "SPC") nil)
-(define-key evil-motion-state-map (kbd "RET") nil)
+;; (define-key evil-motion-state-map (kbd "RET") nil)
 (define-key evil-motion-state-map (kbd "TAB") nil)
 ;; )
 ;; https://emacs.stackexchange.com/questions/46371/how-can-i-get-ret-to-follow-org-mode-links-when-using-evil-mode
