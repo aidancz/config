@@ -190,6 +190,8 @@
 (setq auto-save-visited-interval 1)
 (auto-save-visited-mode 1)
 ;; http://xahlee.info/emacs/emacs/emacs_auto_save.html
+
+(global-auto-revert-mode 1)
 #+end_src
 
 ** extra files
@@ -213,7 +215,8 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 ;; https://manateelazycat.github.io/2016/03/08/emacs-basic-config/
 
-(setq confirm-kill-processes nil)
+;; (setq ring-bell-function 'ignore)
+;; https://manateelazycat.github.io/2016/03/08/emacs-basic-config/
 
 (defalias 'list-buffers 'ibuffer)
 #+end_src
@@ -287,6 +290,12 @@ uuidgen
 vertico
 vterm
 xclip
+orderless
+marginalia
+consult
+embark
+company
+undo-fu
 ))
 ;; M-x package-refresh-contents
 ;; M-x package-install-selected-packages
@@ -328,6 +337,12 @@ xclip
 #+end_src
 
 * package_basic
+
+** undo-fu
+
+#+begin_src emacs-lisp
+(setq undo-fu-ignore-keyboard-quit t)
+#+end_src
 
 ** xclip
 
@@ -398,16 +413,26 @@ https://evil.readthedocs.io/en/latest/index.html
 (setq evil-start-of-line t)
 
 ;; cursor display
-(setq evil-normal-state-cursor t)
-(setq evil-insert-state-cursor t)
-(setq evil-visual-state-cursor t)
-(setq evil-replace-state-cursor t)
-(setq evil-operator-state-cursor t)
-(setq evil-motion-state-cursor t)
-(setq evil-emacs-state-cursor t)
+;; (setq evil-normal-state-cursor t)
+;; (setq evil-insert-state-cursor t)
+;; (setq evil-visual-state-cursor t)
+;; (setq evil-replace-state-cursor t)
+;; (setq evil-operator-state-cursor t)
+;; (setq evil-motion-state-cursor t)
+;; (setq evil-emacs-state-cursor t)
+(let ((default '(box "#eceff4")))
+(setq evil-normal-state-cursor   default)
+(setq evil-insert-state-cursor   default)
+(setq evil-visual-state-cursor   default)
+(setq evil-replace-state-cursor  default)
+(setq evil-operator-state-cursor default)
+(setq evil-motion-state-cursor   default)
+(setq evil-emacs-state-cursor    default)
+)
 
 ;; miscellaneous
-(setq evil-undo-system 'undo-redo)
+;; (setq evil-undo-system 'undo-redo)
+(setq evil-undo-system 'undo-fu)
 
 ;; undocumented evil settings
 (setq evil-want-change-word-to-end nil)
@@ -712,7 +737,50 @@ plain
 ** vertico
 
 #+begin_src emacs-lisp
+(setq vertico-scroll-margin 0)
+(setq vertico-count 10)
+;; (setq vertico-resize t)
+(setq vertico-cycle t)
+
 (vertico-mode)
+#+end_src
+
+** orderless
+
+#+begin_src emacs-lisp
+;; (require 'orderless)
+(setq completion-styles '(orderless basic))
+(setq completion-category-overrides '((file (styles basic partial-completion))))
+#+end_src
+
+** marginalia
+
+#+begin_src emacs-lisp
+;; (require 'marginalia)
+(marginalia-mode)
+#+end_src
+
+** COMMENT consult
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "") 'consult-line)
+#+end_src
+
+** COMMENT embark
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "") 'embark-act)
+#+end_src
+
+* package_completion
+
+** COMMENT company
+
+#+begin_src emacs-lisp
+(setq company-idle-delay 0)
+(setq company-minimum-prefix-length 0)
+
+(global-company-mode 1)
 #+end_src
 
 * package_misc
@@ -720,6 +788,7 @@ plain
 ** COMMENT package_eaf
 
 #+begin_src emacs-lisp
+(setq confirm-kill-processes nil)
 (setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/eaf") load-path))
 (require 'eaf)
 (require 'eaf-demo)
