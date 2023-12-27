@@ -378,41 +378,63 @@ undo-fu
 
 https://evil.readthedocs.io/en/latest/index.html
 
+*** keybindings and other behaviour
+
 #+begin_src emacs-lisp
-;; keybindings and other behaviour
-(setq evil-want-C-i-jump nil)
+;; (setq evil-want-C-i-jump nil)
+
 (setq evil-want-C-u-delete t)
 (setq evil-want-C-u-scroll t)
 ;; https://www.reddit.com/r/emacs/comments/9j34bf/evil_and_the_universal_argument/
+
+(setq evil-want-C-w-in-emacs-state t)
 (setq evil-want-Y-yank-to-eol t)
 ;; (setq evil-disable-insert-state-bindings t)
+#+end_src
 
-;; search
+*** search
+
+#+begin_src emacs-lisp
 ;; (setq evil-search-module 'isearch)
 (setq evil-search-module 'evil-search)
+#+end_src
 
-;; search_isearch
+*** search_isearch
+
+#+begin_src emacs-lisp
 ;; (setq evil-flash-delay 0)
+#+end_src
 
-;; search_evil-search
+*** search_evil-search
+
+#+begin_src emacs-lisp
 ;; (setq evil-ex-search-case 'smart)
 ;; (setq evil-ex-search-vim-style-regexp nil)
 ;; (setq evil-ex-search-interactive nil)
 ;; (setq evil-ex-search-incremental t)
 (setq evil-ex-search-highlight-all nil)
 ;; (setq evil-ex-search-persistent-highlight nil)
+#+end_src
 
-;; indentation
+*** indentation
+
+#+begin_src emacs-lisp
 (setq evil-shift-width 8)
+#+end_src
 
-;; cursor movement
+*** cursor movement
+
+#+begin_src emacs-lisp
 (setq evil-move-cursor-back nil)
 (setq evil-move-beyond-eol t)
 (setq evil-v$-excludes-newline t)
 (setq evil-cross-lines t)
 (setq evil-start-of-line t)
+#+end_src
 
-;; cursor display
+*** cursor display
+
+#+begin_src emacs-lisp
 ;; (setq evil-normal-state-cursor t)
 ;; (setq evil-insert-state-cursor t)
 ;; (setq evil-visual-state-cursor t)
@@ -420,6 +442,7 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; (setq evil-operator-state-cursor t)
 ;; (setq evil-motion-state-cursor t)
 ;; (setq evil-emacs-state-cursor t)
+
 (let ((default '(box "#eceff4")))
 (setq evil-normal-state-cursor   default)
 (setq evil-insert-state-cursor   default)
@@ -429,12 +452,18 @@ https://evil.readthedocs.io/en/latest/index.html
 (setq evil-motion-state-cursor   default)
 (setq evil-emacs-state-cursor    default)
 )
+#+end_src
 
-;; miscellaneous
+*** miscellaneous
+
+#+begin_src emacs-lisp
 ;; (setq evil-undo-system 'undo-redo)
 (setq evil-undo-system 'undo-fu)
+#+end_src
 
-;; undocumented evil settings
+*** undocumented evil settings
+
+#+begin_src emacs-lisp
 (setq evil-want-change-word-to-end nil)
 (setq evil-want-minibuffer t)
 
@@ -442,12 +471,13 @@ https://evil.readthedocs.io/en/latest/index.html
 (setq evil-want-keybinding nil)
 ;; whether to load evil-keybindings.el, which provides a set of keybindings for other emacs modes (dired etc)
 ;; these two variables are required by evil-collection (https://github.com/emacs-evil/evil-collection#installation)
+#+end_src
 
-;; require evil
+*** enable evil
+
+#+begin_src emacs-lisp
 (require 'evil)
 ;; some variables need to be set before evil is loaded, keymaps need to be set after evil is loaded, so put this line here
-
-;; enable evil
 (evil-mode 1)
 #+end_src
 
@@ -576,7 +606,7 @@ disable for now, because its "M-[" binding break terminal emacs, check:
 ;;         - banana
 ;; 8 - 2 = 6
 
-;; (setq org-link-descriptive nil)
+(setq org-link-descriptive nil)
 
 ;; (setq org-edit-src-content-indentation 0)
 (setq org-src-preserve-indentation t)
@@ -586,6 +616,12 @@ disable for now, because its "M-[" binding break terminal emacs, check:
 ;; (setq org-property-format "%-10s %s")
 ;; (setq org-property-format "%-15s %s")
 (setq org-property-format "%s %s")
+
+(setq org-startup-with-inline-images t)
+(setq org-image-actual-width nil)
+;; (setq org-cycle-inline-images-display t)
+;; org-cycle-inline-images-display only affects the command org-cycle (bound to TAB by default)
+;; https://orgmode.org/manual/Images.html
 
 
 
@@ -844,7 +880,7 @@ plain
 ;; (with-eval-after-load 'evil-maps
 (define-key evil-motion-state-map (kbd "SPC") nil)
 ;; (define-key evil-motion-state-map (kbd "RET") nil)
-(define-key evil-motion-state-map (kbd "TAB") nil)
+;; (define-key evil-motion-state-map (kbd "TAB") nil)
 ;; )
 ;; https://emacs.stackexchange.com/questions/46371/how-can-i-get-ret-to-follow-org-mode-links-when-using-evil-mode
 
