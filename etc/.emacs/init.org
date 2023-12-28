@@ -245,14 +245,23 @@ https://melpa.org/#/getting-started
 #+begin_src emacs-lisp
 (require 'package)
 
-;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;; (add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/") t)
 ;; (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
 (setq package-archives '(
-("gnu-cn" . "http://1.15.88.122/gnu/")
-("nongnu-cn" . "http://1.15.88.122/nongnu/")
-("melpa-stable-cn" . "http://1.15.88.122/stable-melpa/")
+("gnu"          . "https://elpa.gnu.org/packages/")
+;; ("gnu-devel"    . "https://elpa.gnu.org/devel/")
+("nongnu"       . "https://elpa.nongnu.org/nongnu/")
+("melpa"        . "https://melpa.org/packages/")
+("melpa-stable" . "https://stable.melpa.org/packages/")
 ))
+
+;; (setq package-archives '(
+;; ("gnu-cn"          . "http://1.15.88.122/gnu/")
+;; ("nongnu-cn"       . "http://1.15.88.122/nongnu/")
+;; ("melpa-cn"        . "http://1.15.88.122/melpa/")
+;; ("melpa-stable-cn" . "http://1.15.88.122/stable-melpa/")
+;; ))
 ;; https://elpamirror.emacs-china.org/
 
 ;; (setq package-user-dir (concat (getenv "XDG_CACHE_HOME") "/emacs/elpa"))
@@ -594,6 +603,10 @@ disable for now, because its "M-[" binding break terminal emacs, check:
 ** org
 
 #+begin_src emacs-lisp
+(setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/src/org-mode/lisp") load-path))
+
+
+
 (setq org-startup-folded nil)
 
 ;; (setq org-adapt-indentation nil)
@@ -617,11 +630,24 @@ disable for now, because its "M-[" binding break terminal emacs, check:
 ;; (setq org-property-format "%-15s %s")
 (setq org-property-format "%s %s")
 
+
+
 (setq org-startup-with-inline-images t)
-(setq org-image-actual-width nil)
+
+(setq org-image-actual-width (list 960))
+;; https://stackoverflow.com/a/69339844/18034992
+
 ;; (setq org-cycle-inline-images-display t)
 ;; org-cycle-inline-images-display only affects the command org-cycle (bound to TAB by default)
+
 ;; https://orgmode.org/manual/Images.html
+
+
+
+;; (setq org-startup-with-latex-preview t)
+;; (setq org-preview-latex-default-process 'dvisvgm)
+;; (setq org-preview-latex-process-alist
+;; https://emacs-china.org/t/org-mode-latex-improved-latex-preview/23742
 
 
 
@@ -825,7 +851,7 @@ plain
 
 #+begin_src emacs-lisp
 (setq confirm-kill-processes nil)
-(setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/eaf") load-path))
+(setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/src/eaf") load-path))
 (require 'eaf)
 (require 'eaf-demo)
 

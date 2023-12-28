@@ -43,20 +43,20 @@ call plug#end()
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ plug_config
 
-" solarized{{{
-"let g:solarized_termcolors=16
-"let g:solarized_termtrans=0
-"let g:solarized_degrade=0
-"let g:solarized_bold=1
-"let g:solarized_underline=1
-"let g:solarized_italic=1
-"let g:solarized_contrast="normal"
-"let g:solarized_visibility="normal"
-set background=dark
-" always set this option to "dark", let the terminal decide dark or light
-colorscheme solarized
-call togglebg#map("<F2>")
-"}}}
+" " solarized{{{
+" "let g:solarized_termcolors=16
+" "let g:solarized_termtrans=0
+" "let g:solarized_degrade=0
+" "let g:solarized_bold=1
+" "let g:solarized_underline=1
+" "let g:solarized_italic=1
+" "let g:solarized_contrast="normal"
+" "let g:solarized_visibility="normal"
+" set background=dark
+" " always set this option to "dark", let the terminal decide dark or light
+" colorscheme solarized
+" call togglebg#map("<F2>")
+" "}}}
 
 " auto-pairs{{{
 let g:AutoPairsMapCh = 0
