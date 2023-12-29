@@ -1,7 +1,9 @@
+" may overridden, see ":h initialization"
+
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ option
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nocompatible
 "set nocompatible
-" archlinux has a default vim config at "/usr/share/vim/vimfiles/archlinux.vim", this option has been set there
+" archlinux has a default vim config at "/usr/share/vim/vimfiles/archlinux.vim", this option has already been set there
 " find the location via ":verbose set compatible?"
 " if no user vimrc is found, this option will also be set via "default.vim", see ":h defaults.vim"
 
@@ -11,27 +13,39 @@ set relativenumber
 set guicursor=
 "set cursorline
 set wildmenu
+" using wildchar (usually <tab>) to perform a command-line completion, shows a menu
 set wildoptions=pum,tagfile
+" pum: popup menu
 set shortmess-=S
+" show [1/5] when searching
 set showcmd
+" show z when using zz, for example
 
 syntax on
-set list
-set listchars=eol:\ ,
-set virtualedit=onemore,block
-au InsertLeave * :norm `^
-set listchars+=tab:\·\ ,			"u+00b7, middle dot
+"set list
+"set listchars=eol:\ ,
+"set virtualedit=onemore,block
+"au InsertLeave * :norm `^
+"set listchars+=tab:\·\ ,			"u+00b7, middle dot
 "set listchars+=multispace:▫,lead:▫,trail:▫,	"u+25ab, white small square
+
+highlight TabChar ctermbg=8
+au BufEnter    * match TabChar /\t/
+au InsertEnter * match TabChar /\t/
+au InsertLeave * match TabChar /\t/
 
 highlight ExtraWhitespace ctermbg=red guibg=red
 au ColorScheme * highlight ExtraWhitespace guibg=red
-au BufEnter * match ExtraWhitespace /\s\+$/
-au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-au InsertLeave * match ExtraWhiteSpace /\s\+$/
+au BufEnter    * 2match ExtraWhitespace /\s\+$/
+au InsertEnter * 2match ExtraWhitespace /\s\+\%#\@<!$/
+au InsertLeave * 2match ExtraWhiteSpace /\s\+$/
 " https://gist.github.com/pironim/3722006
 
 set concealcursor=""
 set conceallevel=0
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ motion
+set startofline
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ timeout
 " in terminal, press "<a-j>" / "<esc>j" send the same keycode "^[j" to program
@@ -88,17 +102,28 @@ set foldmethod=marker
 
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
-nnoremap <expr> zh 'zt' . winheight(0)/4 . '<c-y>'
-nnoremap <expr> zl 'zb' . winheight(0)/4 . '<c-e>'
+"nnoremap <expr> zh 'zt' . winheight(0)/4 . '<c-y>'
+"nnoremap <expr> zl 'zb' . winheight(0)/4 . '<c-e>'
 " https://stackoverflow.com/questions/8059448/scroll-window-halfway-between-zt-and-zz-in-vim
 
+nnoremap <c-g> <esc>
+inoremap <c-g> <c-c>
+cnoremap <c-g> <c-c>
+vnoremap <c-g> <esc>
+nnoremap ; :
 nnoremap Y y$
 
-nnoremap <silent> <c-j> :put _<cr>
-nnoremap <silent> <c-k> :put! _<cr>
-nnoremap <silent> <s-j> :m +1<cr>
-nnoremap <silent> <s-k> :m -2<cr>
-" for now the "<a-j>" mapping only works in nvim, so map <s-j> instead
+nnoremap <silent> <c-j> zt
+nnoremap <silent> <c-k> zb
+nnoremap <silent> <c-l> zz
+inoremap <silent> <c-j> <c-o>zt
+inoremap <silent> <c-k> <c-o>zb
+inoremap <silent> <c-l> <c-o>zz
+nnoremap <silent> <s-j> :put _<cr>
+nnoremap <silent> <s-k> :put! _<cr>
+nnoremap <silent> <a-j> :m +1<cr>
+nnoremap <silent> <a-k> :m -2<cr>
+" for now the "<a-j>" mapping only works in nvim
 
 
 

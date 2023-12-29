@@ -19,7 +19,7 @@ augroup END
 call plug#begin(stdpath('data') . '/plugged')
 
 " appearance
-Plug 'altercation/vim-colors-solarized'
+" Plug 'altercation/vim-colors-solarized'
 Plug 'ap/vim-css-color'
 
 " editor enhancement
@@ -27,6 +27,7 @@ Plug 'ap/vim-css-color'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-rsi'
+Plug 'tommcdo/vim-lion'
 Plug 'aidancz/vim-barbaric'
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
