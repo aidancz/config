@@ -34,11 +34,12 @@ export no_proxy="localhost, 127.0.0.1, ::1"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ default program
 export TERMINAL="st"
-export EDITOR="emacsclient -nw -a vim"
+export EDITOR="emacsclient -nw -a nvim"
 export VISUAL="$EDITOR"
 # if EDITOR or VISUAL contains "vi", zsh keymap will be "viins", otherwise it will be "emacs". this behaviour can be changed, see "man zshzle"
 # https://unix.stackexchange.com/questions/4859/visual-vs-editor-what-s-the-difference
-export PAGER="vimpager"
+export PAGER="page"
+export MANPAGER="page -t man"
 export BROWSER="google-chrome-stable"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ program_path
@@ -62,5 +63,6 @@ export SAVEHIST=10000001
 # zsh:  HISTFILE, HISTSIZE, SAVEHIST
 # https://kevinjalbert.com/more-shell-history/
 export QT_QPA_PLATFORMTHEME="gtk2"
+export QT_STYLE_OVERRIDE="kvantum"
 export RANGER_LOAD_DEFAULT_RC="false"
 export FZF_DEFAULT_COMMAND="find -L"

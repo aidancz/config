@@ -127,8 +127,8 @@ nnoremap <silent> <a-k> :m -2<cr>
 
 
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vimpager
-let g:less = {}
-let g:vimpager = {}
-let g:less.scrolloff = 1024
-" https://github.com/rkitover/vimpager/issues/212
+" " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vimpager
+" let g:less = {}
+" let g:vimpager = {}
+" let g:less.scrolloff = 1024
+" " https://github.com/rkitover/vimpager/issues/212

@@ -20,6 +20,8 @@ call plug#begin(stdpath('data') . '/plugged')
 
 " appearance
 " Plug 'altercation/vim-colors-solarized'
+Plug 'nordtheme/vim'
+" Plug 'shaunsingh/nord.nvim'
 Plug 'ap/vim-css-color'
 
 " editor enhancement
@@ -58,6 +60,10 @@ call plug#end()
 " colorscheme solarized
 " call togglebg#map("<F2>")
 " "}}}
+
+" nord{{{
+colorscheme nord
+"}}}
 
 " auto-pairs{{{
 let g:AutoPairsMapCh = 0
@@ -162,6 +168,10 @@ let mapleader=" "
 " autocmd BufWritePost mdir,mfile !mdf
 " autocmd BufRead,BufNewFile xresources* set filetype=xdefaults
 " autocmd BufWritePost xresources* !xrdb % 2> /dev/null
+
+autocmd User PageOpen,PageOpenFile
+			\ nnoremap <silent> <nowait> g gg
+" https://github.com/I60R/page?tab=readme-ov-file#nviminitlua-customizations-pager-only
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ compile function
 func! CompileRunGcc()

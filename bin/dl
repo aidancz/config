@@ -10,7 +10,7 @@ else
 	# sed -e '/solarized-dark/,/solarized-dark/s/! \(.\+\)/\1/'	\
 	#     -e '/solarized-set/,/solarized-set/s/! \(.\+\)/\1/'	\
 	#     "$XDG_CONFIG_HOME/.x11/xresources" | xrdb 2> /dev/null
-	sed -e '/nord/,/nord/s/! \(.\+\)/\1/'	\
+	sed -e '/nord-dark/,/nord-dark/s/! \(.\+\)/\1/'	\
 	    -e '/nord-set/,/nord-set/s/! \(.\+\)/\1/'	\
 	    "$XDG_CONFIG_HOME/.x11/xresources" | xrdb 2> /dev/null
 fi
