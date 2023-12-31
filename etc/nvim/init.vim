@@ -188,4 +188,4 @@ endfunc
 nnoremap <f5> :call CompileRunGcc()<cr>
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ source
-source $XDG_CONFIG_HOME/.vim/.vimrc
+source $XDG_CONFIG_HOME/vim/.vimrc

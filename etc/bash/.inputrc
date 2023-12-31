@@ -1,3 +1,5 @@
+# https://wiki.archlinux.org/title/readline
+
 set keyseq-timeout 10
 # wait 10 milliseconds
 # works in "vi" keymap, doesn't work in "emacs" keymap (can't figure it now)

@@ -38,8 +38,8 @@ export XDG_STATE_HOME="$HOME/.local/var/log"
 
 these vaviables are set at:
 
-- .local/etc/.sh/env
-- .local/etc/.sh/profile
+- .local/etc/sh/env
+- .local/etc/sh/profile
 - .local/lsl
 
 some program can't read these variables by design,
@@ -47,24 +47,24 @@ i have to hard code the file path, they are:
 
 - lfrc
 
-* name convention
+* config effective location
 
-=.local/etc/.vim=
-
-Q: why prepend a dot to "vim"?
-A: vim doesn't respect xdg variable, so use a dot to denote it must be symlinked
+1. $XDG_CONFIG_HOME
+2. configured at .local/etc/sh/env
+3. symlinked by specific location (typically at $HOME)
 
 * logic behind login
 
-the login shell executes profile, that's it
+bash executes ~/.profile, that's it
+(login shell executes its profile, so if zsh is login shell, zsh executes ~/.zprofile)
 # https://wiki.archlinux.org/title/command-line_shell#Login_shell
 
 detail:
 
 #+begin_example
-.local/etc/.sh/profile (~/.profile)
-	.local/etc/.sh/env
-	.local/etc/.x11/xinitrc
-        	local/etc/.x11/xprofile (~/.xprofile)
+.local/etc/sh/profile (~/.profile)
+	.local/etc/sh/env
+	.local/etc/x11/.xinitrc
+        	local/etc/x11/.xprofile (~/.xprofile)
 		dwm
 #+end_example

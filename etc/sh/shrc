@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ source
-source $XDG_CONFIG_HOME/.sh/env
-source $XDG_CONFIG_HOME/.sh/alias
+source $XDG_CONFIG_HOME/sh/env
+source $XDG_CONFIG_HOME/sh/alias
 source $XDG_CACHE_HOME/mdf/m_sh
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ misc

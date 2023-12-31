@@ -3,7 +3,7 @@
 
 # env
 XDG_CONFIG_HOME="$HOME/.local/etc"
-source "$XDG_CONFIG_HOME/.sh/env"
+source "$XDG_CONFIG_HOME/sh/env"
 
 # startx only if:
 # 1. tty1

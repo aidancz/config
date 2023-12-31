@@ -5,36 +5,15 @@ if [ "$1" == 1 ]
 then
 	sed -e '/solarized-light/,/solarized-light/s/! \(.\+\)/\1/'	\
 	    -e '/solarized-set/,/solarized-set/s/! \(.\+\)/\1/'	\
-	    "$XDG_CONFIG_HOME/.x11/xresources" | xrdb 2> /dev/null
+	    "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
 else
 	# sed -e '/solarized-dark/,/solarized-dark/s/! \(.\+\)/\1/'	\
 	#     -e '/solarized-set/,/solarized-set/s/! \(.\+\)/\1/'	\
-	#     "$XDG_CONFIG_HOME/.x11/xresources" | xrdb 2> /dev/null
+	#     "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
 	sed -e '/nord-dark/,/nord-dark/s/! \(.\+\)/\1/'	\
 	    -e '/nord-set/,/nord-set/s/! \(.\+\)/\1/'	\
-	    "$XDG_CONFIG_HOME/.x11/xresources" | xrdb 2> /dev/null
+	    "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
 fi
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ emacs dl.el
-# echo ";; -*- lexical-binding: t -*-" > "$XDG_CONFIG_HOME/emacs/lisp/dl.el"
-
-# if [ "$1" == 1 ]
-# then
-# 	echo "(load-theme 'sanityinc-solarized-light t)" >> "$XDG_CONFIG_HOME/emacs/lisp/dl.el"
-# else
-# 	# echo "(load-theme 'sanityinc-solarized-dark t)" >> "$XDG_CONFIG_HOME/emacs/lisp/dl.el"
-# 	echo "
-# (if (daemonp)
-#     (cl-labels ((load-nord (frame)
-#                            (with-selected-frame frame
-#                              (load-theme 'nord t))
-#                            (set-face-background whitespace-trailing \"#bf616a\")
-#                            (set-face-background whitespace-tab \"#3b4252\")
-#                            (remove-hook 'after-make-frame-functions #'load-nord)))
-#       (add-hook 'after-make-frame-functions #'load-nord))
-#   (load-theme 'nord t))
-# " >> "$XDG_CONFIG_HOME/emacs/lisp/dl.el"
-# fi
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ renew dwm
 # steal code from sysact

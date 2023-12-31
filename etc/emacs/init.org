@@ -1,4 +1,4 @@
-#+property: header-args:emacs-lisp :tangle (concat (getenv "XDG_CONFIG_HOME") "/emacs/init.el")
+#+property: header-args:emacs-lisp :tangle ~/.emacs.d/init.el
 
 * core
 
@@ -22,7 +22,7 @@
 ;; https://leanpub.com/lit-config/read#leanpub-auto-emacs-and-org-mode
 
 (defun org-babel-tangle-config ()
-  (when (string-equal (buffer-file-name) (concat (getenv "a_gi") "/.local/etc/.emacs/init.org"))
+  (when (string-equal (buffer-file-name) (concat (getenv "a_gi") "/.local/etc/emacs/init.org"))
     (org-babel-tangle)
   )
 )
@@ -205,7 +205,7 @@
 ;; stop creating .#<filename>
 (setq auto-save-list-file-prefix nil)
 ;; stop creating auto-save-list dir
-;; (setq url-configuration-directory (concat (getenv "XDG_CACHE_HOME") "/emacs/url"))
+;; (setq url-configuration-directory "~/.emacs.d/url")
 ;; move url dir
 #+end_src
 
@@ -264,7 +264,7 @@ https://melpa.org/#/getting-started
 ;; ))
 ;; https://elpamirror.emacs-china.org/
 
-;; (setq package-user-dir (concat (getenv "XDG_CACHE_HOME") "/emacs/elpa"))
+;; (setq package-user-dir "~/.emacs.d/elpa")
 
 (setq package-selected-packages '(
 ;; color-theme-sanityinc-solarized
@@ -331,7 +331,7 @@ undo-fu
 ** load-path
 
 #+begin_src emacs-lisp
-(setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/lisp") load-path))
+(setq load-path (cons "~/.emacs.d/lisp" load-path))
 ;; http://xahlee.info/emacs/emacs/elisp_library_system.html
 #+end_src
 
@@ -603,7 +603,7 @@ disable for now, because its "M-[" binding break terminal emacs, check:
 ** org
 
 #+begin_src emacs-lisp
-;; (setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/src/org-mode/lisp") load-path))
+;; (setq load-path (cons "~/.emacs.d/src/org-mode/lisp" load-path))
 ;; org 9.7 is not compatible with org-roam, see https://github.com/org-roam/org-roam/issues/2361
 
 
@@ -852,7 +852,7 @@ plain
 
 #+begin_src emacs-lisp
 (setq confirm-kill-processes nil)
-(setq load-path (cons (concat (getenv "XDG_CONFIG_HOME") "/emacs/src/eaf") load-path))
+(setq load-path (cons "~/.emacs.d/src/eaf" load-path))
 (require 'eaf)
 (require 'eaf-demo)
 
