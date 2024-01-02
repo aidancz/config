@@ -22,11 +22,12 @@ set showcmd
 " show z when using zz, for example
 
 syntax on
-"set list
-"set listchars=eol:\ ,
-"set virtualedit=onemore,block
-"au InsertLeave * :norm `^
+set list
+set listchars=eol:\ ,
+set virtualedit=onemore,block
+au InsertLeave * :norm `^
 "set listchars+=tab:\·\ ,			"u+00b7, middle dot
+set listchars+=tab:\ \ ,
 "set listchars+=multispace:▫,lead:▫,trail:▫,	"u+25ab, white small square
 
 highlight TabChar ctermbg=8
@@ -98,6 +99,11 @@ set wrapmargin=0
 set hidden
 set scrolloff=0
 set foldmethod=marker
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ misc
+set cpoptions-=_
+" when using "cw", do not treat like "ce" (nvim only)
+" https://vi.stackexchange.com/questions/6194/why-do-cw-and-ce-do-the-same-thing
 
 
 

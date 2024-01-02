@@ -13,6 +13,12 @@
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Specifying-File-Variables.html
 #+end_src
 
+** COMMENT test
+
+#+begin_src emacs-lisp
+
+#+end_src
+
 ** tangle when saving
 
 #+begin_src emacs-lisp
@@ -305,6 +311,7 @@ consult
 embark
 company
 undo-fu
+xresources-theme
 ))
 ;; M-x package-refresh-contents
 ;; M-x package-install-selected-packages
@@ -590,6 +597,8 @@ disable for now, because its "M-[" binding break terminal emacs, check:
 ;; (load "dl.el")
 
 (load-theme 'doom-nord t)
+
+;; (load-theme 'xresources t)
 #+end_src
 
 ** minions
@@ -603,7 +612,7 @@ disable for now, because its "M-[" binding break terminal emacs, check:
 ** org
 
 #+begin_src emacs-lisp
-;; (setq load-path (cons "~/.emacs.d/src/org-mode/lisp" load-path))
+(setq load-path (cons "~/.emacs.d/src/org-mode/lisp" load-path))
 ;; org 9.7 is not compatible with org-roam, see https://github.com/org-roam/org-roam/issues/2361
 
 
@@ -645,10 +654,11 @@ disable for now, because its "M-[" binding break terminal emacs, check:
 
 
 
-;; (setq org-startup-with-latex-preview t)
+(setq org-startup-with-latex-preview t)
+
 ;; (setq org-preview-latex-default-process 'dvisvgm)
 ;; (setq org-preview-latex-process-alist
-;; https://emacs-china.org/t/org-mode-latex-improved-latex-preview/23742
+;; these settings are obsolete since org 9.7, see https://emacs-china.org/t/org-mode-latex-improved-latex-preview/23742
 
 
 

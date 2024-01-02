@@ -2,9 +2,12 @@
 
 set keyseq-timeout 10
 # wait 10 milliseconds
-# works in "vi" keymap, doesn't work in "emacs" keymap (can't figure it now)
+# works in "vi" keymap, doesn't work in "emacs" keymap (can't figure it out now)
 
-"\C-p":history-search-backward
-"\C-n":history-search-forward
+"\e[A":history-search-backward
+"\e[B":history-search-forward
+# "\C-p":history-search-backward
+# "\C-n":history-search-forward
 # bind "\C-p":history-search-backward
 # bind -p
+# https://unix.stackexchange.com/questions/53814/configure-up-arrow-to-browse-through-commands-with-same-initial-characters-rathe

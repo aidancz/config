@@ -22,6 +22,7 @@ call plug#begin(stdpath('data') . '/plugged')
 " Plug 'altercation/vim-colors-solarized'
 Plug 'nordtheme/vim'
 " Plug 'shaunsingh/nord.nvim'
+Plug 'nekonako/xresources-nvim'
 Plug 'ap/vim-css-color'
 
 " editor enhancement
@@ -64,6 +65,10 @@ call plug#end()
 " nord{{{
 colorscheme nord
 "}}}
+
+" " xresources{{{
+" colorscheme xresources
+" "}}}
 
 " auto-pairs{{{
 let g:AutoPairsMapCh = 0
