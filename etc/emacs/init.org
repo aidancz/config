@@ -53,11 +53,22 @@
 
 (scroll-bar-mode -1)
 
+
+
 (setq display-line-numbers-type 'visual)
 ;; https://emacs.stackexchange.com/questions/78532/mixed-display-line-numbers-type-for-evil-users
-(setq display-line-numbers-current-absolute nil)
-;; so that the line number width will not change, current absolute line number can be found in mode line
+;; (setq display-line-numbers-grow-only t)
+(setq display-line-numbers-width-start t)
+(setq display-line-numbers-current-absolute t)
+
+(setq-default display-line-numbers-widen t)
+;; https://emacs.stackexchange.com/questions/48581/how-to-display-absolute-line-numbers-of-a-full-widened-buffer-when-narrowing-to
+
 (global-display-line-numbers-mode 1)
+(add-hook 'evil-emacs-state-entry-hook (lambda () (display-line-numbers-mode -1)))
+(add-hook 'evil-emacs-state-exit-hook  (lambda () (display-line-numbers-mode 1)))
+
+
 
 (setq mode-line-client "")
 ;; https://emacs.stackexchange.com/questions/4018/reduce-the-space-between-elements-in-modeline
@@ -68,7 +79,10 @@
 ;; better not (setq column-number-indicator-zero-based nil), because this is different from assumption
 (column-number-mode 1)
 
+;; (setq echo-keystrokes 0)
+;; can't echo immediately, so don't echo at all
 (setq echo-keystrokes 0.001)
+;; evil's equivalent of vim "set showcmd" is working in progress, see https://github.com/emacs-evil/evil/issues/1386
 
 (setq completions-format 'vertical)
 
@@ -90,8 +104,8 @@
 (set-face-attribute 'default nil :family "monospace" :height 150)
 (set-fontset-font t 'symbol (font-spec :family "Symbola") nil 'prepend)
 (set-fontset-font t 'emoji (font-spec :family "Twemoji") nil 'prepend)
-(set-fontset-font t 'han (font-spec :family "Sarasa Term SC"))
-(setq face-font-rescale-alist '(("Twemoji" . 0.9) ("Sarasa Term SC" . 1.1)))
+(set-fontset-font t 'han (font-spec :family "Noto Sans CJK SC"))
+(setq face-font-rescale-alist '(("Twemoji" . 0.9) ("Noto Sans CJK SC" . 1.1)))
 ))
 (centaur-setup-fonts)
 ;; (add-hook 'window-setup-hook #'centaur-setup-fonts)
@@ -312,6 +326,8 @@ embark
 company
 undo-fu
 xresources-theme
+dired-preview
+evil-nerd-commenter
 ))
 ;; M-x package-refresh-contents
 ;; M-x package-install-selected-packages
@@ -393,6 +409,27 @@ xresources-theme
 ** evil
 
 https://evil.readthedocs.io/en/latest/index.html
+
+*** the initial state
+
+#+begin_src emacs-lisp
+(setq evil-default-state 'emacs)
+;; http://bling.github.io/blog/2015/01/06/emacs-as-my-leader-1-year-later/
+
+(with-eval-after-load 'evil
+(evil-set-initial-state 'fundamental-mode 'normal)
+(evil-set-initial-state 'text-mode 'normal)
+(evil-set-initial-state 'prog-mode 'normal)
+)
+
+(setq evil-normal-state-modes   nil)
+(setq evil-insert-state-modes   nil)
+(setq evil-visual-state-modes   nil)
+(setq evil-replace-state-modes  nil)
+(setq evil-operator-state-modes nil)
+(setq evil-motion-state-modes   nil)
+(setq evil-emacs-state-modes    nil)
+#+end_src
 
 *** keybindings and other behaviour
 
@@ -477,16 +514,21 @@ https://evil.readthedocs.io/en/latest/index.html
 (setq evil-undo-system 'undo-fu)
 #+end_src
 
-*** undocumented evil settings
+*** unmentioned evil settings
 
 #+begin_src emacs-lisp
 (setq evil-want-change-word-to-end nil)
-(setq evil-want-minibuffer t)
+(setq evil-want-minibuffer nil)
 
-(setq evil-want-integration t)
+(setq evil-want-integration nil)
 (setq evil-want-keybinding nil)
-;; whether to load evil-keybindings.el, which provides a set of keybindings for other emacs modes (dired etc)
+;; evil-want-keybinding: whether to load evil-keybindings.el, which provides a set of keybindings for other emacs modes (dired etc)
+
+;; (setq evil-want-integration t)
+;; (setq evil-want-keybinding nil)
 ;; these two variables are required by evil-collection (https://github.com/emacs-evil/evil-collection#installation)
+
+;; (setq evil-overriding-maps t)
 #+end_src
 
 *** enable evil
@@ -494,10 +536,11 @@ https://evil.readthedocs.io/en/latest/index.html
 #+begin_src emacs-lisp
 (require 'evil)
 ;; some variables need to be set before evil is loaded, keymaps need to be set after evil is loaded, so put this line here
+
 (evil-mode 1)
 #+end_src
 
-** evil-collection
+** COMMENT evil-collection
 
 to override existing binding in evil-collection, bind the key after (evil-collection-init), see this [[https://github.com/emacs-evil/evil-collection/issues/214][issue]]
 
@@ -551,10 +594,24 @@ disable for now, because its "M-[" binding break terminal emacs, check:
 (add-hook 'emacs-lisp-mode-hook #'evil-cleverparens-mode)
 #+end_src
 
-** evil-commentary
+** COMMENT evil-commentary
+
+comment in org src block cause this error:
+combine-change-calls: buffer-undo-list broken
 
 #+begin_src emacs-lisp
 (evil-commentary-mode 1)
+#+end_src
+
+** evil-nerd-commenter
+
+#+begin_src emacs-lisp
+;; (evilnc-default-hotkeys)
+
+(require 'evil-nerd-commenter)
+(define-key evil-normal-state-map "gc" 'evilnc-comment-operator)
+(define-key evil-visual-state-map "gc" 'evilnc-comment-operator)
+;; https://github.com/redguardtoo/evil-nerd-commenter/issues/15
 #+end_src
 
 ** evil-lion
@@ -612,7 +669,7 @@ disable for now, because its "M-[" binding break terminal emacs, check:
 ** org
 
 #+begin_src emacs-lisp
-(setq load-path (cons "~/.emacs.d/src/org-mode/lisp" load-path))
+;; (setq load-path (cons "~/.emacs.d/src/org-mode/lisp" load-path))
 ;; org 9.7 is not compatible with org-roam, see https://github.com/org-roam/org-roam/issues/2361
 
 
@@ -796,6 +853,25 @@ plain
 
 ;; (setq dired-kill-when-opening-new-dired-buffer t)
 ;; https://emacs-china.org/t/emacs-28-dired-kill-when-opening-new-dired-buffer/20655
+#+end_src
+
+** COMMENT dired-preview
+
+#+begin_src emacs-lisp
+(require 'dired-preview)
+
+;; Default values for demo purposes
+(setq dired-preview-delay 0.7)
+(setq dired-preview-max-size (expt 2 20))
+(setq dired-preview-ignored-extensions-regexp
+      (concat "\\."
+              "\\(mkv\\|webm\\|mp4\\|mp3\\|ogg\\|m4a"
+              "\\|gz\\|zst\\|tar\\|xz\\|rar\\|zip"
+              "\\|iso\\|epub\\|pdf\\)"))
+
+;; Enable `dired-preview-mode' in a given Dired buffer or do it
+;; globally:
+(dired-preview-global-mode 1)
 #+end_src
 
 ** COMMENT dirvish
