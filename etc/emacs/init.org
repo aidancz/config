@@ -29,9 +29,9 @@
 
 (defun org-babel-tangle-config ()
   (when (string-equal (buffer-file-name) (concat (getenv "a_gi") "/.local/etc/emacs/init.org"))
-    (org-babel-tangle)
-  )
-)
+    (let ((inhibit-message t))
+      (org-babel-tangle))
+    ))
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle-config)))
 ;; run "org-babel-tangle" when saving init.org
 #+end_src
@@ -57,11 +57,13 @@
 
 (setq display-line-numbers-type 'visual)
 ;; https://emacs.stackexchange.com/questions/78532/mixed-display-line-numbers-type-for-evil-users
+(setq display-line-numbers-current-absolute nil)
 ;; (setq display-line-numbers-grow-only t)
-(setq display-line-numbers-width-start t)
-(setq display-line-numbers-current-absolute t)
+;; (setq display-line-numbers-width-start t)
 
-(setq-default display-line-numbers-widen t)
+;; (setq-default display-line-numbers-width )
+
+;; (setq-default display-line-numbers-widen t)
 ;; https://emacs.stackexchange.com/questions/48581/how-to-display-absolute-line-numbers-of-a-full-widened-buffer-when-narrowing-to
 
 (global-display-line-numbers-mode 1)
@@ -70,7 +72,7 @@
 
 
 
-(setq mode-line-client "")
+;; (setq mode-line-client "")
 ;; https://emacs.stackexchange.com/questions/4018/reduce-the-space-between-elements-in-modeline
 ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Mode-Line-Variables.html#Mode-Line-Variables
 
@@ -79,10 +81,10 @@
 ;; better not (setq column-number-indicator-zero-based nil), because this is different from assumption
 (column-number-mode 1)
 
-;; (setq echo-keystrokes 0)
-;; can't echo immediately, so don't echo at all
-(setq echo-keystrokes 0.001)
+;; (setq echo-keystrokes 0.001)
 ;; evil's equivalent of vim "set showcmd" is working in progress, see https://github.com/emacs-evil/evil/issues/1386
+(setq echo-keystrokes 0)
+;; can't echo immediately, can't don't echo the last key, so don't echo at all
 
 (setq completions-format 'vertical)
 
@@ -289,7 +291,7 @@ https://melpa.org/#/getting-started
 (setq package-selected-packages '(
 ;; color-theme-sanityinc-solarized
 ;; color-theme-sanityinc-tomorrow
-;; nord-theme
+nord-theme
 ;; org-gtd
 ;; solarized-theme
 ;; valign
@@ -328,6 +330,8 @@ undo-fu
 xresources-theme
 dired-preview
 evil-nerd-commenter
+clipetty
+doom-modeline
 ))
 ;; M-x package-refresh-contents
 ;; M-x package-install-selected-packages
@@ -354,8 +358,11 @@ evil-nerd-commenter
 ** load-path
 
 #+begin_src emacs-lisp
-(setq load-path (cons "~/.emacs.d/lisp" load-path))
+(let ((default-directory  "~/.emacs.d/src/"))
+  (normal-top-level-add-subdirs-to-load-path))
+
 ;; http://xahlee.info/emacs/emacs/elisp_library_system.html
+;; https://www.emacswiki.org/emacs/LoadPath
 #+end_src
 
 ** debug
@@ -378,9 +385,23 @@ evil-nerd-commenter
 
 ** xclip
 
+copying from "emacsclient -c" (gui emacsclient) to "emacsclient -nw" (tui emacsclient) will freeze emacs
+
 #+begin_src emacs-lisp
 (xclip-mode 1)
 ;; copy between *terminal* emacs and x clipboard
+#+end_src
+
+** COMMENT clipetty
+
+can't copy from outside and paste inside emacs
+
+#+begin_src emacs-lisp
+(require 'clipetty)
+(global-clipetty-mode)
+
+;; for st, see https://www.reddit.com/r/suckless/comments/1715wey/does_st_support_osc_52/
+;; xclip vs clipetty, see https://www.reddit.com/r/emacs/comments/n7z6f6/emacs_cli_copypaste_how_to/
 #+end_src
 
 ** sudo-edit
@@ -496,6 +517,7 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; (setq evil-motion-state-cursor t)
 ;; (setq evil-emacs-state-cursor t)
 
+;; (let ((default 'box))
 (let ((default '(box "#eceff4")))
 (setq evil-normal-state-cursor   default)
 (setq evil-insert-state-cursor   default)
@@ -651,17 +673,37 @@ combine-change-calls: buffer-undo-list broken
 ;; (load-theme 'nord t)
 ;; https://github.com/nordtheme/emacs/issues/59#issuecomment-414882071
 
-;; (load "dl.el")
-
 (load-theme 'doom-nord t)
+;; https://github.com/doomemacs/themes#customization
 
 ;; (load-theme 'xresources t)
+
+;; (load "dl.el")
 #+end_src
 
 ** minions
 
 #+begin_src emacs-lisp
+(setq minions-mode-line-lighter "")
 (minions-mode 1)
+#+end_src
+
+** COMMENT awesome-tray
+
+#+begin_src emacs-lisp
+;; (setq awesome-tray-mode-line-height 0)
+
+;; (setq awesome-tray-second-line t)
+
+(require 'awesome-tray)
+(awesome-tray-mode 1)
+#+end_src
+
+** COMMENT doom-modeline
+
+#+begin_src emacs-lisp
+(require 'doom-modeline)
+(doom-modeline-mode 1)
 #+end_src
 
 * package_org
@@ -669,11 +711,6 @@ combine-change-calls: buffer-undo-list broken
 ** org
 
 #+begin_src emacs-lisp
-;; (setq load-path (cons "~/.emacs.d/src/org-mode/lisp" load-path))
-;; org 9.7 is not compatible with org-roam, see https://github.com/org-roam/org-roam/issues/2361
-
-
-
 (setq org-startup-folded nil)
 
 ;; (setq org-adapt-indentation nil)
@@ -728,12 +765,17 @@ combine-change-calls: buffer-undo-list broken
 ("a" "inbox" entry (file ,(concat (getenv "a_aj") "/inbox.org")) "* %i%?")
 ))
 
-(setq org-refile-use-outline-path 'file)
-;; https://emacs.stackexchange.com/questions/13353/how-to-use-org-refile-to-move-a-headline-to-a-file-as-a-toplevel-headline
 (setq org-refile-targets `(
 ;; (,(concat (getenv "a_aj") "/inbox.org") :maxlevel . 2)
 (,(directory-files-recursively (getenv "a_aj") "\.org$") :maxlevel . 2)
 ))
+;; (setq org-reverse-note-order t)
+(setq org-refile-use-outline-path 'file)
+;; https://emacs.stackexchange.com/questions/13353/how-to-use-org-refile-to-move-a-headline-to-a-file-as-a-toplevel-headline
+(setq org-outline-path-complete-in-steps nil)
+;; https://github.com/minad/vertico#org-refile
+;; (setq org-refile-allow-creating-parent-nodes )
+;; (setq org-log-refile )
 
 ;; (setq org-id-ts-format "%Y%m%dT%H%M%S.%6N")
 (setq org-id-ts-format "%Y-%m-%d-%H%M%S-%6N")
@@ -888,7 +930,7 @@ plain
 #+begin_src emacs-lisp
 (setq vertico-scroll-margin 0)
 (setq vertico-count 10)
-;; (setq vertico-resize t)
+(setq vertico-resize nil)
 (setq vertico-cycle t)
 
 (vertico-mode)
@@ -938,7 +980,6 @@ plain
 
 #+begin_src emacs-lisp
 (setq confirm-kill-processes nil)
-(setq load-path (cons "~/.emacs.d/src/eaf" load-path))
 (require 'eaf)
 (require 'eaf-demo)
 
@@ -951,7 +992,7 @@ plain
 
 * keybindings
 
-** core
+** global
 
 #+begin_src emacs-lisp
 (global-set-key (kbd "C-x C-c")
@@ -1020,13 +1061,40 @@ plain
 ;; (define-key evil-normal-state-map (kbd "z m") 'evil-close-folds)
 ;; https://github.com/emacs-evil/evil/blob/master/evil-maps.el
 
-(define-key evil-normal-state-map (kbd "J") (lambda () (interactive) (evil-ex-execute "put _")))
-(define-key evil-normal-state-map (kbd "K") (lambda () (interactive) (evil-ex-execute "put! _")))
-;; https://stackoverflow.com/questions/20438900/key-map-for-ex-command-in-emacs-evil-mode
 ;; (define-key evil-normal-state-map (kbd "J") (kbd ":put SPC _"))
 ;; (define-key evil-normal-state-map (kbd "K") (kbd ":put! SPC _"))
+;; (define-key evil-normal-state-map (kbd "J") (lambda () (interactive) (evil-ex-execute "put _")))
+;; (define-key evil-normal-state-map (kbd "K") (lambda () (interactive) (evil-ex-execute "put! _")))
+;; https://stackoverflow.com/questions/20438900/key-map-for-ex-command-in-emacs-evil-mode
 ;; (define-key evil-normal-state-map (kbd "J") 'evil-collection-unimpaired-insert-newline-below)
 ;; (define-key evil-normal-state-map (kbd "K") 'evil-collection-unimpaired-insert-newline-above)
+
+;; (define-key evil-normal-state-map (kbd "J") (lambda ()
+;; (interactive)
+;; (end-of-line)
+;; (insert "\n")
+;; ))
+;; (define-key evil-normal-state-map (kbd "K") (lambda ()
+;; (interactive)
+;; (beginning-of-line)
+;; (save-excursion (insert "\n"))
+;; ))
+
+(define-key evil-normal-state-map (kbd "J")
+            (lambda (count)
+              (interactive "p")
+              (dotimes (_ count)
+                (end-of-line)
+                (insert "\n")
+                )))
+(define-key evil-normal-state-map (kbd "K")
+            (lambda (count)
+              (interactive "p")
+              (dotimes (_ count)
+                (beginning-of-line)
+                (save-excursion (insert "\n"))
+                ;; https://emacs.stackexchange.com/questions/2120/how-to-insert-text-after-point
+                )))
 
 
 
