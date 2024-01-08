@@ -332,6 +332,10 @@ dired-preview
 evil-nerd-commenter
 clipetty
 doom-modeline
+edwina
+popper
+shackle
+standard-themes
 ))
 ;; M-x package-refresh-contents
 ;; M-x package-install-selected-packages
@@ -375,7 +379,75 @@ doom-modeline
 ;; https://stackoverflow.com/questions/25393418/stop-execution-of-emacs
 #+end_src
 
+* package_appearance
+
+** load-theme ?
+
+#+begin_src emacs-lisp
+;; (load-theme 'standard-dark)
+
+
+
+;; (load-theme 'nord t)
+;; https://github.com/nordtheme/emacs/issues/59#issuecomment-414882071
+
+
+
+;; (setq doom-nord-brighter-modeline t)
+;; (setq doom-nord-brighter-comments t)
+;; (setq doom-nord-padded-modeline   t)
+;; (setq doom-nord-comment-bg        t)
+;; (setq doom-nord-region-highlight  t)
+
+(load-theme 'doom-nord t)
+;; https://github.com/doomemacs/themes#customization
+
+(custom-set-faces
+`(cursor ((t (:background ,(doom-color 'base7)))))
+`(mode-line ((t (:background ,(doom-color 'base5) :foreground ,(doom-color 'fg-alt)))))
+)
+
+
+
+;; (load-theme 'xresources t)
+
+
+
+;; (load "dl.el")
+#+end_src
+
+** minions
+
+#+begin_src emacs-lisp
+(setq minions-mode-line-lighter "")
+(minions-mode 1)
+#+end_src
+
+** COMMENT awesome-tray
+
+#+begin_src emacs-lisp
+;; (setq awesome-tray-mode-line-height 0)
+
+;; (setq awesome-tray-second-line t)
+
+(require 'awesome-tray)
+(awesome-tray-mode 1)
+#+end_src
+
+** COMMENT doom-modeline
+
+#+begin_src emacs-lisp
+(require 'doom-modeline)
+(doom-modeline-mode 1)
+#+end_src
+
 * package_basic
+
+** sudo-edit
+
+#+begin_src emacs-lisp
+(require 'sudo-edit)
+#+end_src
 
 ** undo-fu
 
@@ -402,12 +474,6 @@ can't copy from outside and paste inside emacs
 
 ;; for st, see https://www.reddit.com/r/suckless/comments/1715wey/does_st_support_osc_52/
 ;; xclip vs clipetty, see https://www.reddit.com/r/emacs/comments/n7z6f6/emacs_cli_copypaste_how_to/
-#+end_src
-
-** sudo-edit
-
-#+begin_src emacs-lisp
-(require 'sudo-edit)
 #+end_src
 
 ** fcitx
@@ -517,8 +583,8 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; (setq evil-motion-state-cursor t)
 ;; (setq evil-emacs-state-cursor t)
 
-;; (let ((default 'box))
-(let ((default '(box "#eceff4")))
+(let ((default 'box))
+;; (let ((default '(box "#eceff4")))
 (setq evil-normal-state-cursor   default)
 (setq evil-insert-state-cursor   default)
 (setq evil-visual-state-cursor   default)
@@ -600,9 +666,16 @@ to override existing binding in evil-collection, bind the key after (evil-collec
 #+begin_src emacs-lisp
 (setq anzu-cons-mode-line-p nil)
 ;; https://github.com/emacsorphanage/anzu#anzu-cons-mode-line-pdefault-is-t
-(require 'evil-anzu)
+
 (setq global-mode-string '(:eval (anzu--update-mode-line)))
 ;; https://emacs.stackexchange.com/questions/13855/how-to-append-string-that-gets-updated-to-mode-line
+
+(require 'evil-anzu)
+
+;; (set-face-attribute 'anzu-mode-line nil :inherit 'mode-line)
+;; don't work, reason unknown
+(copy-face 'mode-line 'anzu-mode-line)
+
 (global-anzu-mode 1)
 #+end_src
 
@@ -665,45 +738,15 @@ combine-change-calls: buffer-undo-list broken
 (global-evil-surround-mode 1)
 #+end_src
 
-* package_appearance
+* package_completion
 
-** load-theme ?
-
-#+begin_src emacs-lisp
-;; (load-theme 'nord t)
-;; https://github.com/nordtheme/emacs/issues/59#issuecomment-414882071
-
-(load-theme 'doom-nord t)
-;; https://github.com/doomemacs/themes#customization
-
-;; (load-theme 'xresources t)
-
-;; (load "dl.el")
-#+end_src
-
-** minions
+** COMMENT company
 
 #+begin_src emacs-lisp
-(setq minions-mode-line-lighter "")
-(minions-mode 1)
-#+end_src
+(setq company-idle-delay 0)
+(setq company-minimum-prefix-length 0)
 
-** COMMENT awesome-tray
-
-#+begin_src emacs-lisp
-;; (setq awesome-tray-mode-line-height 0)
-
-;; (setq awesome-tray-second-line t)
-
-(require 'awesome-tray)
-(awesome-tray-mode 1)
-#+end_src
-
-** COMMENT doom-modeline
-
-#+begin_src emacs-lisp
-(require 'doom-modeline)
-(doom-modeline-mode 1)
+(global-company-mode 1)
 #+end_src
 
 * package_org
@@ -963,15 +1006,45 @@ plain
 (global-set-key (kbd "") 'embark-act)
 #+end_src
 
-* package_completion
+* package_window
 
-** COMMENT company
+** COMMENT edwina
 
 #+begin_src emacs-lisp
-(setq company-idle-delay 0)
-(setq company-minimum-prefix-length 0)
+(require 'edwina)
+(setq display-buffer-base-action '(display-buffer-below-selected))
+(edwina-setup-dwm-keys)
+(edwina-mode 1)
+#+end_src
 
-(global-company-mode 1)
+** popper
+
+#+begin_src emacs-lisp
+;; (setq popper-window-height 40)
+(setq popper-display-control nil)
+
+(require 'popper)
+
+(setq popper-reference-buffers
+      '("\\*Messages\\*"
+        "Output\\*$"
+        "\\*Async Shell Command\\*"
+        help-mode
+        compilation-mode))
+(global-set-key (kbd "<f1>") 'popper-toggle)
+(global-set-key (kbd "<f3>") 'popper-cycle)
+(global-set-key (kbd "<f7>") 'popper-toggle-type)
+(popper-mode +1)
+
+;; for echo-area hints
+(require 'popper-echo)
+(popper-echo-mode +1)
+#+end_src
+
+** shackle
+
+#+begin_src emacs-lisp
+(setq shackle-default-rule '(:same t))
 #+end_src
 
 * package_misc
@@ -1279,4 +1352,3 @@ hide-node
 (evil-define-key 'normal calendar-mode-map (kbd "n") 'org-journal-next-entry)
 (evil-define-key 'normal calendar-mode-map (kbd "m") 'org-journal-mark-entries)
 #+end_src
-

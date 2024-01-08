@@ -92,17 +92,17 @@
 ! !*pointerColorBackground:  s_base01
 ! !*pointerColorForeground:  s_base1
 
-dwm.normbgcolor:	s_base03
-dwm.normfgcolor:	s_base0
-dwm.selbgcolor:		s_base02
-dwm.selfgcolor:		s_base1
-dwm.normbordercolor:	s_base02
-dwm.selbordercolor:	s_base1
+! dwm.normbgcolor:	s_base03
+! dwm.normfgcolor:	s_base0
+! dwm.selbgcolor:		s_base02
+! dwm.selfgcolor:		s_base1
+! dwm.normbordercolor:	s_base02
+! dwm.selbordercolor:	s_base1
 
-dmenu.normbgcolor:	s_base03
-dmenu.normfgcolor:	s_base0
-dmenu.selbgcolor:	s_base02
-dmenu.selfgcolor:	s_base1
+! dmenu.normbgcolor:	s_base03
+! dmenu.normfgcolor:	s_base0
+! dmenu.selbgcolor:	s_base02
+! dmenu.selfgcolor:	s_base1
 ! ! solarized-set
 
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nord
@@ -172,7 +172,7 @@ dmenu.selfgcolor:	s_base1
 ! 4 pixel = 3 point
 
 *alpha: 1
-*cursorBlink:		  0
+*cursorBlink: 0
 
 st.borderpx: 0
 
