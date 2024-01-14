@@ -1,4 +1,4 @@
-gtk-theme-name="Nordic-darker"
+gtk-theme-name="Adwaita-dark"
 gtk-icon-theme-name="Arc"
 gtk-font-name="sans-serif 12"
 gtk-cursor-theme-name="Adwaita"
@@ -16,4 +16,4 @@ gtk-cursor-theme-size=0
 gtk-enable-event-sounds=1
 gtk-enable-input-feedback-sounds=1
 
-gtk-key-theme-name="Emacs"
+# gtk-key-theme-name="Emacs"

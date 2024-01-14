@@ -29,8 +29,9 @@
 
 (defun org-babel-tangle-config ()
   (when (string-equal (buffer-file-name) (concat (getenv "a_gi") "/.local/etc/emacs/init.org"))
-    (let ((inhibit-message t))
-      (org-babel-tangle))
+    (org-babel-tangle)
+    ;; (let ((inhibit-message t))
+    ;;   (org-babel-tangle))
     ))
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle-config)))
 ;; run "org-babel-tangle" when saving init.org
@@ -81,9 +82,9 @@
 ;; better not (setq column-number-indicator-zero-based nil), because this is different from assumption
 (column-number-mode 1)
 
-;; (setq echo-keystrokes 0.001)
+(setq echo-keystrokes 0.001)
 ;; evil's equivalent of vim "set showcmd" is working in progress, see https://github.com/emacs-evil/evil/issues/1386
-(setq echo-keystrokes 0)
+;; (setq echo-keystrokes 0)
 ;; can't echo immediately, can't don't echo the last key, so don't echo at all
 
 (setq completions-format 'vertical)
@@ -170,8 +171,10 @@
 #+begin_src emacs-lisp
 (setq isearch-lazy-count t)
 ;; (setq isearch-lazy-highlight t)
-;; (setq lazy-highlight-initial-delay 0)
+
+;; (setq search-highlight nil)
 (setq lazy-highlight-no-delay-length 1)
+;; (setq lazy-highlight-initial-delay 0)
 #+end_src
 
 ** copy & paste
@@ -381,18 +384,22 @@ standard-themes
 
 * package_appearance
 
-** load-theme ?
+** COMMENT theme_standard-dark
 
 #+begin_src emacs-lisp
-;; (load-theme 'standard-dark)
+(load-theme 'standard-dark)
+#+end_src
 
+** COMMENT theme_nord
 
-
-;; (load-theme 'nord t)
+#+begin_src emacs-lisp
+(load-theme 'nord t)
 ;; https://github.com/nordtheme/emacs/issues/59#issuecomment-414882071
+#+end_src
 
+** COMMENT theme_doom-nord
 
-
+#+begin_src emacs-lisp
 ;; (setq doom-nord-brighter-modeline t)
 ;; (setq doom-nord-brighter-comments t)
 ;; (setq doom-nord-padded-modeline   t)
@@ -406,14 +413,35 @@ standard-themes
 `(cursor ((t (:background ,(doom-color 'base7)))))
 `(mode-line ((t (:background ,(doom-color 'base5) :foreground ,(doom-color 'fg-alt)))))
 )
+#+end_src
 
+** COMMENT theme_xresources
 
+#+begin_src emacs-lisp
+(load-theme 'xresources t)
+#+end_src
 
-;; (load-theme 'xresources t)
+** theme_penumbra
 
+http://xahlee.info/emacs/emacs/emacs_create_theme.html
 
+#+begin_src emacs-lisp :tangle ~/.emacs.d/penumbra-theme.el
+;; -*- lexical-binding: t -*-
 
-;; (load "dl.el")
+(deftheme penumbra)
+
+(custom-theme-set-faces
+'penumbra
+'(default ((t (:background "honeydew"))))
+'(font-lock-constant-face ((t (:foreground "black" :bold t))))
+'(font-lock-variable-name-face ((t (:foreground "red" :bold t))))
+)
+
+(provide-theme 'penumbra)
+#+end_src
+
+#+begin_src emacs-lisp
+(load-theme 'penumbra t)
 #+end_src
 
 ** minions
@@ -666,15 +694,13 @@ to override existing binding in evil-collection, bind the key after (evil-collec
 #+begin_src emacs-lisp
 (setq anzu-cons-mode-line-p nil)
 ;; https://github.com/emacsorphanage/anzu#anzu-cons-mode-line-pdefault-is-t
-
 (setq global-mode-string '(:eval (anzu--update-mode-line)))
 ;; https://emacs.stackexchange.com/questions/13855/how-to-append-string-that-gets-updated-to-mode-line
 
 (require 'evil-anzu)
 
 ;; (set-face-attribute 'anzu-mode-line nil :inherit 'mode-line)
-;; don't work, reason unknown
-(copy-face 'mode-line 'anzu-mode-line)
+;; (copy-face 'mode-line 'anzu-mode-line)
 
 (global-anzu-mode 1)
 #+end_src
@@ -1352,3 +1378,4 @@ hide-node
 (evil-define-key 'normal calendar-mode-map (kbd "n") 'org-journal-next-entry)
 (evil-define-key 'normal calendar-mode-map (kbd "m") 'org-journal-mark-entries)
 #+end_src
+

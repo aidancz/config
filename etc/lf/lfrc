@@ -126,7 +126,7 @@ map ci $vidir
 # https://github.com/gokcehan/lf/issues/279
 # https://github.com/gokcehan/lf/wiki/Tips#enhancing-the-rename-command
 
-map v $nvim $fx
+map v $vim $fx
 # map e $emacsclient -nw -a "" $fx
 # map E $emacs -nw $fx
 # map e $devour emacsclient -c $fx

@@ -6,7 +6,7 @@
 ! green		2	10
 ! yellow	3	11
 ! blue		4	12
-! purple	5	13
+! magenta	5	13
 ! cyan		6	14
 ! white		7	15
 
@@ -164,6 +164,98 @@
 ! dmenu.selbgcolor:	nord3
 ! dmenu.selfgcolor:	nord5
 ! ! nord-set
+
+! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ penumbra
+
+! https://github.com/nealmckee/penumbra
+
+! ! penumbra-dark0
+! #define sun1    #fffdfb
+! #define sun     #fff7ed
+! #define sun0    #f2e6d4
+! #define sky1    #bebebe
+! #define sky     #8f8f8f
+! #define sky0    #636363
+! #define shade1  #3e4044
+! #define shade   #303338
+! #define shade0  #24272b
+! #define red     #cb7459
+! #define yellow  #a38f2d
+! #define green   #46a473
+! #define cyan    #00a0be
+! #define blue    #7e87d6
+! #define magenta #bd72a8
+! ! penumbra-dark0
+
+! ! penumbra-dark1
+! #define sun1    #fffdfb
+! #define sun     #fff7ed
+! #define sun0    #f2e6d4
+! #define sky1    #cecece
+! #define sky     #9e9e9e
+! #define sky0    #636363
+! #define shade1  #3e4044
+! #define shade   #24272b
+! #define shade0  #181b1f
+! #define red     #e18163
+! #define yellow  #b49e33
+! #define green   #4eb67f
+! #define cyan    #00b0d2
+! #define blue    #8c96ec
+! #define magenta #d07eba
+! ! penumbra-dark1
+
+! ! penumbra-dark2
+! #define sun1    #fffdfb
+! #define sun     #fff7ed
+! #define sun0    #f2e6d4
+! #define sky1    #dedede
+! #define sky     #aeaeae
+! #define sky0    #636363
+! #define shade1  #3e4044
+! #define shade   #181b1f
+! #define shade0  #0d0f13
+! #define red     #f48e74
+! #define yellow  #c7ad40
+! #define green   #61c68a
+! #define cyan    #1ac2e1
+! #define blue    #97a6ff
+! #define magenta #e18dce
+! ! penumbra-dark2
+
+! ! penumbra-set
+! *color0:  shade0
+! *color1:  red
+! *color2:  green
+! *color3:  yellow
+! *color4:  blue
+! *color5:  magenta
+! *color6:  cyan
+! *color7:  sun1
+
+! *color8:  shade0
+! *color9:  red
+! *color10: green
+! *color11: yellow
+! *color12: blue
+! *color13: magenta
+! *color14: cyan
+! *color15: sun1
+
+! *background:  shade
+! *foreground:  sky
+! *cursorColor: sky
+
+! dwm.normbgcolor:	shade
+! dwm.normfgcolor:	sky
+! dwm.selbgcolor:		shade1
+! dwm.selfgcolor:		sky
+
+! dmenu.normbgcolor:	shade
+! dmenu.normfgcolor:	sky
+! dmenu.selbgcolor:	shade1
+! dmenu.selfgcolor:	sky
+! ! penumbra-set
 
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ misc
 *font: monospace:size=15
