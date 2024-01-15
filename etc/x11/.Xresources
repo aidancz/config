@@ -224,23 +224,23 @@
 ! ! penumbra-dark2
 
 ! ! penumbra-set
-! *color0:  shade0
+! *color0:  shade
 ! *color1:  red
 ! *color2:  green
 ! *color3:  yellow
 ! *color4:  blue
 ! *color5:  magenta
 ! *color6:  cyan
-! *color7:  sun1
+! *color7:  sky0
 
-! *color8:  shade0
+! *color8:  shade1
 ! *color9:  red
 ! *color10: green
 ! *color11: yellow
 ! *color12: blue
 ! *color13: magenta
 ! *color14: cyan
-! *color15: sun1
+! *color15: sky
 
 ! *background:  shade
 ! *foreground:  sky

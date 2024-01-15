@@ -33,17 +33,17 @@ au InsertLeave * :norm `^
 set listchars+=tab:\ \ ,
 " set listchars+=multispace:▫,lead:▫,trail:▫,	" u+25ab, white small square
 
-highlight TabChar ctermbg=8
-au BufEnter    * match TabChar /\t/
-au InsertEnter * match TabChar /\t/
-au InsertLeave * match TabChar /\t/
+" highlight TabChar ctermbg=8
+" au BufEnter    * match TabChar /\t/
+" au InsertEnter * match TabChar /\t/
+" au InsertLeave * match TabChar /\t/
 
-highlight ExtraWhitespace ctermbg=red guibg=red
-au ColorScheme * highlight ExtraWhitespace guibg=red
-au BufEnter    * 2match ExtraWhitespace /\s\+$/
-au InsertEnter * 2match ExtraWhitespace /\s\+\%#\@<!$/
-au InsertLeave * 2match ExtraWhiteSpace /\s\+$/
-" https://gist.github.com/pironim/3722006
+" highlight ExtraWhitespace ctermbg=red guibg=red
+" au ColorScheme * highlight ExtraWhitespace guibg=red
+" au BufEnter    * 2match ExtraWhitespace /\s\+$/
+" au InsertEnter * 2match ExtraWhitespace /\s\+\%#\@<!$/
+" au InsertLeave * 2match ExtraWhiteSpace /\s\+$/
+" " https://gist.github.com/pironim/3722006
 
 set concealcursor=""
 set conceallevel=0
@@ -174,6 +174,8 @@ call plug#begin()
 " Plug 'mbulat/penumbra', { 'branch': 'vim', 'rtp':'vim' }
 " Plug 'nekonako/xresources-nvim'
 " Plug 'martineausimon/nvim-xresources'
+" Plug 'robertmeta/nofrils'
+Plug 'aidancz/nofrils'
 Plug 'ap/vim-css-color'
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ editor enhancement
@@ -224,6 +226,10 @@ call plug#end()
 " runtime penumbra.vim
 " " https://github.com/junegunn/vim-plug/issues/796
 " " colorscheme penumbra
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nofrils
+" source ~/a_gi/nofrils/nofrils.vim
+colorscheme nofrils
 
 " " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ auto-pairs
 " let g:AutoPairsMapCh = 0
