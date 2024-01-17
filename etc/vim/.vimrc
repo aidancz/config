@@ -1,15 +1,15 @@
-" may overridden, see ":h initialization"
+" may overridden, see ':h initialization'
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ option
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nocompatible
 " set nocompatible
 
-" archlinux has a default vim config at "/usr/share/vim/vimfiles/archlinux.vim", this option has already been set there
-" find the location via ":verbose set compatible?"
-" if no user vimrc is found, this option will also be set via "default.vim", see ":h defaults.vim"
+" archlinux has a default vim config at '/usr/share/vim/vimfiles/archlinux.vim', this option has already been set there
+" find the location via ':verbose set compatible?'
+" if no user vimrc is found, this option will also be set via 'default.vim', see ':h defaults.vim'
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ appearance
-set t_Co=16
+" set t_Co=16
 
 set number
 set relativenumber
@@ -24,26 +24,16 @@ set shortmess-=S
 set showcmd
 " show z when using zz, for example
 
-syntax on
+" syntax on
 set list
 set listchars=eol:\ ,
 set virtualedit=onemore,block
 au InsertLeave * :norm `^
-" set listchars+=tab:\·\ ,			" u+00b7, middle dot
+" set listchars+=tab:\·\ ,
+" ·	middle dot	u+00b7
 set listchars+=tab:\ \ ,
-" set listchars+=multispace:▫,lead:▫,trail:▫,	" u+25ab, white small square
-
-" highlight TabChar ctermbg=8
-" au BufEnter    * match TabChar /\t/
-" au InsertEnter * match TabChar /\t/
-" au InsertLeave * match TabChar /\t/
-
-" highlight ExtraWhitespace ctermbg=red guibg=red
-" au ColorScheme * highlight ExtraWhitespace guibg=red
-" au BufEnter    * 2match ExtraWhitespace /\s\+$/
-" au InsertEnter * 2match ExtraWhitespace /\s\+\%#\@<!$/
-" au InsertLeave * 2match ExtraWhiteSpace /\s\+$/
-" " https://gist.github.com/pironim/3722006
+" set listchars+=multispace:▫,lead:▫,trail:▫,
+" ▫	white small square	u+25ab
 
 set concealcursor=""
 set conceallevel=0
@@ -52,10 +42,12 @@ set conceallevel=0
 set startofline
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ timeout
-" in terminal, press "<a-j>" / "<esc>j" send the same keycode "^[j" to program
-" if you are vim, when you receive keycode "^[", you can choose wait or not
-set notimeout			" timeout: whether "^[j and zz" timeout
-set ttimeout			" ttimeout: whether "^[j" timeout, t means terminal
+" in terminal, press <a-j> or <esc>j send the same keycode '^[j' to program
+" if you are vim, when you receive keycode '^[', you can choose wait or not
+set notimeout
+" timeout: whether '^[j and zz' timeout
+set ttimeout
+" ttimeout: whether '^[j' timeout, t means terminal
 set timeoutlen=100
 set ttimeoutlen=0
 
@@ -70,24 +62,34 @@ set magic
 set clipboard^=unnamed,unnamedplus
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ indent
-set tabstop=8			" ? column of whitespace \t		worth
-set softtabstop=0		" ? column of whitespace <tab>/<bs>	worth, 0 turns off this feature
-set shiftwidth=8		" ? column of whitespace >>/<<		worth
-" we abbreviate "? column of whitespace" as "indent" below
+set tabstop=8
+set softtabstop=0
+set shiftwidth=8
+" tabstop:	? column of whitespace \t		worth
+" softtabstop:	? column of whitespace <tab>/<bs>	worth, 0 turns off this feature
+" shiftwidth:	? column of whitespace >>/<<		worth
+" we abbreviate '? column of whitespace' as 'indent' from now on
 " https://arisweedler.medium.com/tab-settings-in-vim-1ea0863c5990
 
-set noexpandtab			" expandtab: replace '\t' with ' '
+set noexpandtab
+" expandtab: replace '\t' with ' '
 
-set autoindent			" autoindent: when create a new line, copy indent from the line above
-set copyindent			" copyindent: based on "autoindent", when create a new line, copy indent (use same whitespace chars) from the line above
-" let's say we have "▫▫▫·alice and bob"
-" "autoindent": "·▫▫▫█"
-" "autoindent" & "copyindent": "▫▫▫·█"
+set autoindent
+" autoindent: when create a new line, copy indent from the line above
+set copyindent
+" copyindent: based on 'autoindent', when create a new line, copy indent (use same whitespace chars) from the line above
 
-set nosmarttab			" smarttab: at line start, use shiftwidth instead of softtabstop
-set preserveindent		" preserveindent: at line start, when use >>/<<, preserve current indent
-" let's say we have "▫▫▫·alice and bob"
-" "preserveindent": "▫▫▫·▫▫▫·alice and bob"
+" let's say we have '▫▫▫·alice and bob', and press 'o' (▫ space · tab █ cursor)
+" 'autoindent': '·▫▫▫█'
+" 'autoindent' & 'copyindent': '▫▫▫·█'
+
+set nosmarttab
+" smarttab: at line start, use shiftwidth instead of softtabstop
+set preserveindent
+" preserveindent: at line start, when use >>/<<, preserve current indent
+
+" let's say we have '▫▫▫·alice and bob'
+" 'preserveindent': '▫▫▫·▫▫▫·alice and bob'
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ auto linebreak
 set textwidth=0
@@ -106,7 +108,7 @@ set foldmethod=marker
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ misc
 set cpoptions-=_
-" when using "cw", do not treat like "ce" (nvim only)
+" when using 'cw', do not treat like 'ce' (nvim only)
 " https://vi.stackexchange.com/questions/6194/why-do-cw-and-ce-do-the-same-thing
 
 
@@ -120,7 +122,10 @@ nnoremap <c-g> <esc>
 inoremap <c-g> <c-c>
 cnoremap <c-g> <c-c>
 vnoremap <c-g> <esc>
+
 nnoremap ; :
+vnoremap ; :
+
 nnoremap Y y$
 
 nnoremap <silent> <c-j> zt
@@ -133,7 +138,7 @@ nnoremap <silent> <s-j> :put _<cr>
 nnoremap <silent> <s-k> :put! _<cr>
 nnoremap <silent> <a-j> :m +1<cr>
 nnoremap <silent> <a-k> :m -2<cr>
-" for now the "<a-j>" mapping only works in nvim
+" for now the <a-j> mapping only works in nvim
 
 
 
@@ -158,7 +163,7 @@ nnoremap <silent> <a-k> :m -2<cr>
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-plug_install
 " https://github.com/junegunn/vim-plug#installation
 
-" run ":PlugInstall" inside vim to install the plugs
+" run ':PlugInstall' inside vim to install the plugs
 " https://github.com/junegunn/vim-plug#commands
 
 
@@ -209,12 +214,12 @@ call plug#end()
 " " let g:solarized_bold=1
 " " let g:solarized_underline=1
 " " let g:solarized_italic=1
-" " let g:solarized_contrast="normal"
-" " let g:solarized_visibility="normal"
+" " let g:solarized_contrast='normal'
+" " let g:solarized_visibility='normal'
 " set background=dark
-" " always set this option to "dark", let the terminal decide dark or light
+" " always set this option to 'dark', let the terminal decide dark or light
 " colorscheme solarized
-" call togglebg#map("<F2>")
+" call togglebg#map('<F2>')
 
 " " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nord
 " colorscheme nord
@@ -228,7 +233,7 @@ call plug#end()
 " " colorscheme penumbra
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nofrils
-" source ~/a_gi/nofrils/nofrils.vim
+" source ~/a_gi/nofrils/colors/nofrils.vim
 colorscheme nofrils
 
 " " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ auto-pairs
@@ -275,7 +280,7 @@ let g:mkdp_page_title = '${name}'
 let g:mkdp_filetypes = ['markdown']
 
 function! g:Open_browser(url)
-	silent exec "!google-chrome-stable --new-window " . a:url . " &"
+	silent exec '!google-chrome-stable --new-window ' . a:url . ' &'
 endfunction
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-table-mode
@@ -284,7 +289,7 @@ nnoremap <leader>tm :TableModeToggle<cr>
 
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
-let mapleader=" "
+let mapleader=' '
 
 
 
@@ -301,10 +306,10 @@ let mapleader=" "
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ compile function
 func! CompileRunGcc()
-	exe "w"
-	if expand("%:e") == "md"
-		exe "MarkdownPreview"
-	elseif &filetype == "c"
+	exe 'w'
+	if expand('%:e') == 'md'
+		exe 'MarkdownPreview'
+	elseif &filetype == 'c'
 		set splitbelow
 		:sp
 		:res -5
