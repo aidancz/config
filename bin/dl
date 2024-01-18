@@ -15,7 +15,7 @@ else
 	# sed -e '/nord-dark/,/nord-dark/s/! \(.\+\)/\1/'	\
 	#     -e '/nord-set/,/nord-set/s/! \(.\+\)/\1/'	\
 	#     "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
-	sed -e '/penumbra-dark2/,/penumbra-dark2/s/! \(.\+\)/\1/'	\
+	sed -e '/penumbra-dark1/,/penumbra-dark1/s/! \(.\+\)/\1/'	\
 	    -e '/penumbra-set/,/penumbra-set/s/! \(.\+\)/\1/'	\
 	    "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
 fi

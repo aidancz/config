@@ -34,7 +34,7 @@ export no_proxy="localhost, 127.0.0.1, ::1"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ default program
 export TERMINAL="st"
-export EDITOR="emacsclient -nw -a nvim"
+export EDITOR="emacsclient -nw -a vim"
 export VISUAL="$EDITOR"
 # if EDITOR or VISUAL contains "vi", zsh keymap will be "viins", otherwise it will be "emacs". this behaviour can be changed, see "man zshzle"
 # https://unix.stackexchange.com/questions/4859/visual-vs-editor-what-s-the-difference
