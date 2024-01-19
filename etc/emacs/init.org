@@ -124,8 +124,8 @@
 ;; http://xahlee.info/emacs/emacs/whitespace-mode.html
 ;; http://xahlee.info/emacs/emacs/emacs_init_whitespace_mode.html
 
-(setq show-paren-delay 0)
-(show-paren-mode 1)
+;; (setq show-paren-delay 0)
+;; (show-paren-mode 1)
 
 ;; (defun set-prettify-symbols-alist ()
 ;; (setq prettify-symbols-alist '(
@@ -339,6 +339,7 @@ edwina
 popper
 shackle
 standard-themes
+trashed
 ))
 ;; M-x package-refresh-contents
 ;; M-x package-install-selected-packages
@@ -439,7 +440,11 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 
 (deftheme penumbra)
 
-;; (global-font-lock-mode 0)
+(global-font-lock-mode 0)
+(add-hook 'text-mode-hook 'turn-on-font-lock)
+(add-hook 'prog-mode-hook 'turn-on-font-lock)
+(add-hook 'conf-mode-hook 'turn-on-font-lock)
+(add-hook 'magit-mode-hook 'turn-on-font-lock)
 
 (let
 (
@@ -497,6 +502,25 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 
 )
 
+(defface penumbra-default   `((t (:background ,shade :foreground ,sky)))    "" :group 'penumbra)
+(defface penumbra-reverse   `((t (:background ,sky :foreground ,shade)))    "" :group 'penumbra)
+(defface penumbra-shadow    `((t (:foreground ,sky0)))                      "" :group 'penumbra)
+(defface penumbra-highlight `((t (:background ,shade1)))                    "" :group 'penumbra)
+
+(defface penumbra-red       `((t (:foreground ,red)))                       "" :group 'penumbra)
+(defface penumbra-yellow    `((t (:foreground ,yellow)))                    "" :group 'penumbra)
+(defface penumbra-green     `((t (:foreground ,green)))                     "" :group 'penumbra)
+(defface penumbra-cyan      `((t (:foreground ,cyan)))                      "" :group 'penumbra)
+(defface penumbra-blue      `((t (:foreground ,blue)))                      "" :group 'penumbra)
+(defface penumbra-magenta   `((t (:foreground ,magenta)))                   "" :group 'penumbra)
+
+(defface penumbra-error     `((t (:background ,red :foreground ,shade)))    "" :group 'penumbra)
+(defface penumbra-warning   `((t (:background ,yellow :foreground ,shade))) "" :group 'penumbra)
+(defface penumbra-success   `((t (:background ,green :foreground ,shade)))  "" :group 'penumbra)
+
+(defface penumbra-link      `((t (:foreground ,cyan)))                      "" :group 'penumbra)
+(defface penumbra-button    `((t (:foreground ,cyan)))                      "" :group 'penumbra)
+
 (custom-theme-set-faces
 'penumbra
 ;; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ faces_standard
@@ -508,7 +532,7 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 ;; 3. emacs frame
 ;; 4. emacs frame (text terminal)
 
-`(default                                   ((t (:background ,shade :foreground ,sky))))
+`(default                                   ((t (:inherit penumbra-default))))
 `(bold                                      ((t ())))
 `(italic                                    ((t ())))
 `(bold-italic                               ((t ())))
@@ -517,25 +541,25 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 `(fixed-pitch-serif                         ((t ())))
 `(variable-pitch                            ((t ())))
 `(variable-pitch-text                       ((t ())))
-`(shadow                                    ((t (:foreground ,sky0))))
+`(shadow                                    ((t (:inherit penumbra-shadow))))
 
-`(highlight                                 ((t (:background ,shade1))))
-`(isearch                                   ((t (:background ,sky :foreground ,shade))))
+`(highlight                                 ((t ())))
+`(isearch                                   ((t (:inherit penumbra-reverse))))
 `(isearch-fail                              ((t ())))
 `(isearch-group-1                           ((t ())))
 `(isearch-group-2                           ((t ())))
 `(query-replace                             ((t ())))
 `(lazy-highlight                            ((t ())))
-`(region                                    ((t (:inherit highlight))))
+`(region                                    ((t (:inherit penumbra-highlight))))
 `(secondary-selection                       ((t ())))
-`(trailing-whitespace                       ((t (:inherit warning))))
-`(escape-glyph                              ((t (:inherit warning))))
+`(trailing-whitespace                       ((t ())))
+`(escape-glyph                              ((t (:inherit penumbra-warning))))
 `(homoglyph                                 ((t ())))
 `(nobreak-space                             ((t ())))
 `(nobreak-hyphen                            ((t ())))
 
 `(mode-line                                 ((t ())))
-`(mode-line-active                          ((t (:inherit highlight))))
+`(mode-line-active                          ((t (:inherit penumbra-highlight))))
 `(mode-line-inactive                        ((t ())))
 `(mode-line-highlight                       ((t ())))
 `(mode-line-buffer-id                       ((t ())))
@@ -570,27 +594,27 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 ;; faces that protesilaos considered as "basic" in his "standard themes": https://github.com/protesilaos/standard-themes/blob/main/standard-themes.el
 
 `(appt-notification                         ((t ())))
-`(button                                    ((t (:inherit link))))
+`(button                                    ((t (:inherit penumbra-button))))
 `(child-frame-border                        ((t ())))
 `(comint-highlight-input                    ((t ())))
 `(comint-highlight-prompt                   ((t ())))
 `(edmacro-label                             ((t ())))
 `(elisp-shorthand-font-lock-face            ((t ())))
-`(error                                     ((t (:background ,red :foreground ,shade))))
+`(error                                     ((t ())))
 `(help-argument-name                        ((t ())))
 `(help-key-binding                          ((t ())))
 `(hl-line                                   ((t ())))
 `(hl-paren-face                             ((t ())))
 `(icon-button                               ((t ())))
-`(link                                      ((t (:foreground ,cyan))))
-`(link-visited                              ((t (:foreground ,magenta))))
+`(link                                      ((t ())))
+`(link-visited                              ((t ())))
 `(match                                     ((t ())))
 `(mm-command-output                         ((t ())))
 `(pgtk-im-0                                 ((t ())))
 `(read-multiple-choice-face                 ((t ())))
 `(rectangle-preview                         ((t ())))
-`(success                                   ((t (:background ,green :foreground ,shade))))
-`(warning                                   ((t (:background ,yellow :foreground ,shade))))
+`(success                                   ((t ())))
+`(warning                                   ((t ())))
 
 ;; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ faces_other
 
@@ -764,8 +788,8 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 `(corfu-candidate-overlay-face              ((t ())))
 `(corfu-current                             ((t ())))
 `(corfu-default                             ((t ())))
-`(custom-button                             ((t (:inherit button))))
-`(custom-button-mouse                       ((t (:inherit highlight))))
+`(custom-button                             ((t (:inherit penumbra-button))))
+`(custom-button-mouse                       ((t ())))
 `(custom-button-pressed                     ((t ())))
 `(custom-button-pressed-unraised            ((t ())))
 `(custom-button-unraised                    ((t ())))
@@ -777,7 +801,7 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 `(custom-group-tag                          ((t ())))
 `(custom-group-tag-1                        ((t ())))
 `(custom-invalid                            ((t ())))
-`(custom-link                               ((t (:inherit link))))
+`(custom-link                               ((t (:inherit penumbra-link))))
 `(custom-modified                           ((t ())))
 `(custom-rogue                              ((t ())))
 `(custom-saved                              ((t ())))
@@ -786,7 +810,7 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 `(custom-themed                             ((t ())))
 `(custom-variable-obsolete                  ((t ())))
 `(custom-variable-tag                       ((t ())))
-`(custom-visibility                         ((t (:inherit button))))
+`(custom-visibility                         ((t (:inherit penumbra-button))))
 `(denote-faces-date                         ((t ())))
 `(denote-faces-keywords                     ((t ())))
 `(diary                                     ((t ())))
@@ -860,7 +884,18 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 `(diredfl-write-priv                        ((t ())))
 `(diredp-file-suffix                        ((t ())))
 `(diredp-ignored-file-name                  ((t ())))
-`(dirvish-hl-line                           ((t ())))
+`(dirvish-file-device-number                ((t ())))
+`(dirvish-file-group-id                     ((t ())))
+`(dirvish-file-inode-number                 ((t ())))
+`(dirvish-file-link-number                  ((t ())))
+`(dirvish-file-modes                        ((t ())))
+`(dirvish-file-size                         ((t ())))
+`(dirvish-file-time                         ((t ())))
+`(dirvish-file-user-id                      ((t ())))
+`(dirvish-free-space                        ((t ())))
+`(dirvish-hl-line                           ((t (:inherit penumbra-highlight))))
+`(dirvish-media-info-heading                ((t ())))
+`(dirvish-media-info-property-key           ((t ())))
 `(doom-modeline-bar                         ((t ())))
 `(doom-modeline-bar-inactive                ((t ())))
 `(doom-modeline-battery-charging            ((t ())))
@@ -963,7 +998,7 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 `(evil-ex-commands                          ((t ())))
 `(evil-ex-info                              ((t ())))
 `(evil-ex-lazy-highlight                    ((t ())))
-`(evil-ex-search                            ((t (:inherit isearch))))
+`(evil-ex-search                            ((t (:inherit penumbra-reverse))))
 `(evil-ex-substitute-matches                ((t ())))
 `(evil-ex-substitute-replacement            ((t ())))
 `(eww-form-checkbox                         ((t ())))
@@ -1017,8 +1052,8 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 `(font-latex-verbatim-face                  ((t ())))
 `(font-latex-warning-face                   ((t ())))
 `(font-lock-builtin-face                    ((t ())))
-`(font-lock-comment-delimiter-face          ((t (:inherit shadow))))
-`(font-lock-comment-face                    ((t (:inherit shadow))))
+`(font-lock-comment-delimiter-face          ((t (:inherit penumbra-shadow))))
+`(font-lock-comment-face                    ((t (:inherit penumbra-shadow))))
 `(font-lock-constant-face                   ((t ())))
 `(font-lock-doc-face                        ((t ())))
 `(font-lock-function-name-face              ((t ())))
@@ -1051,7 +1086,7 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 `(git-rebase-comment-heading                ((t ())))
 `(git-rebase-description                    ((t ())))
 `(git-rebase-hash                           ((t ())))
-`(glyphless-char                            ((t (:inherit escape-glyph :height 0.6))))
+`(glyphless-char                            ((t (:inherit penumbra-warning :height 0.6))))
 `(gnus-button                               ((t ())))
 `(gnus-cite-1                               ((t ())))
 `(gnus-cite-10                              ((t ())))
@@ -1220,8 +1255,8 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 `(js3-warning-face                          ((t ())))
 `(keycast-command                           ((t ())))
 `(keycast-key                               ((t ())))
-`(line-number                               ((t (:inherit shadow))))
-`(line-number-current-line                  ((t (:inherit shadow))))
+`(line-number                               ((t (:inherit penumbra-shadow))))
+`(line-number-current-line                  ((t (:inherit penumbra-shadow))))
 `(line-number-major-tick                    ((t ())))
 `(line-number-minor-tick                    ((t ())))
 `(linum                                     ((t ())))
@@ -1243,30 +1278,32 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 `(magit-blame-name                          ((t ())))
 `(magit-blame-summary                       ((t ())))
 `(magit-branch                              ((t ())))
+`(magit-branch-current                      ((t ())))
 `(magit-branch-local                        ((t ())))
 `(magit-branch-remote                       ((t ())))
+`(magit-branch-remote-head                  ((t ())))
 `(magit-branch-upstream                     ((t ())))
 `(magit-branch-warning                      ((t ())))
 `(magit-cherry-equivalent                   ((t ())))
 `(magit-cherry-unmatched                    ((t ())))
-`(magit-diff-added                          ((t ())))
-`(magit-diff-added-highlight                ((t ())))
+`(magit-diff-added                          ((t (:inherit penumbra-green))))
+`(magit-diff-added-highlight                ((t (:inherit penumbra-green))))
 `(magit-diff-base                           ((t ())))
 `(magit-diff-base-highlight                 ((t ())))
-`(magit-diff-context                        ((t ())))
-`(magit-diff-context-highlight              ((t ())))
+`(magit-diff-context                        ((t (:inherit penumbra-shadow))))
+`(magit-diff-context-highlight              ((t (:inherit penumbra-shadow))))
 `(magit-diff-file-header                    ((t ())))
-`(magit-diff-file-heading                   ((t ())))
-`(magit-diff-file-heading-highlight         ((t ())))
+`(magit-diff-file-heading                   ((t (:inherit penumbra-blue))))
+`(magit-diff-file-heading-highlight         ((t (:inherit penumbra-blue))))
 `(magit-diff-file-heading-selection         ((t ())))
-`(magit-diff-hunk-heading                   ((t ())))
-`(magit-diff-hunk-heading-highlight         ((t ())))
+`(magit-diff-hunk-heading                   ((t (:inherit penumbra-shadow))))
+`(magit-diff-hunk-heading-highlight         ((t (:inherit penumbra-shadow))))
 `(magit-diff-hunk-heading-selection         ((t ())))
 `(magit-diff-hunk-region                    ((t ())))
 `(magit-diff-lines-boundary                 ((t ())))
 `(magit-diff-lines-heading                  ((t ())))
-`(magit-diff-removed                        ((t ())))
-`(magit-diff-removed-highlight              ((t ())))
+`(magit-diff-removed                        ((t (:inherit penumbra-red))))
+`(magit-diff-removed-highlight              ((t (:inherit penumbra-red))))
 `(magit-diffstat-added                      ((t ())))
 `(magit-diffstat-removed                    ((t ())))
 `(magit-dimmed                              ((t ())))
@@ -1303,7 +1340,8 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 `(magit-refname-stash                       ((t ())))
 `(magit-refname-wip                         ((t ())))
 `(magit-section                             ((t ())))
-`(magit-section-heading                     ((t ())))
+`(magit-section-child-count                 ((t (:inherit penumbra-shadow))))
+`(magit-section-heading                     ((t (:inherit penumbra-shadow))))
 `(magit-section-heading-selection           ((t ())))
 `(magit-section-highlight                   ((t ())))
 `(magit-selection                           ((t ())))
@@ -1550,8 +1588,8 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 `(org-archived                              ((t ())))
 `(org-block                                 ((t ())))
 `(org-block-background                      ((t ())))
-`(org-block-begin-line                      ((t (:inherit shadow))))
-`(org-block-end-line                        ((t (:inherit shadow))))
+`(org-block-begin-line                      ((t (:inherit penumbra-shadow))))
+`(org-block-end-line                        ((t (:inherit penumbra-shadow))))
 `(org-checkbox                              ((t ())))
 `(org-checkbox-statistics-done              ((t ())))
 `(org-checkbox-statistics-todo              ((t ())))
@@ -1566,7 +1604,7 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 `(org-document-title                        ((t ())))
 `(org-done                                  ((t ())))
 `(org-drawer                                ((t ())))
-`(org-ellipsis                              ((t (:foreground ,yellow))))
+`(org-ellipsis                              ((t (:inherit penumbra-yellow))))
 `(org-footnote                              ((t ())))
 `(org-formula                               ((t ())))
 `(org-habit-alert-face                      ((t ())))
@@ -1583,13 +1621,13 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 `(org-imminent-deadline                     ((t ())))
 `(org-indent                                ((t ())))
 `(org-latex-and-related                     ((t ())))
-`(org-level-1                               ((t (:foreground ,red))))
-`(org-level-2                               ((t (:foreground ,green))))
-`(org-level-3                               ((t (:foreground ,blue))))
+`(org-level-1                               ((t (:inherit penumbra-red))))
+`(org-level-2                               ((t (:inherit penumbra-green))))
+`(org-level-3                               ((t (:inherit penumbra-blue))))
 `(org-level-4                               ((t ())))
-`(org-level-5                               ((t (:foreground ,red))))
-`(org-level-6                               ((t (:foreground ,green))))
-`(org-level-7                               ((t (:foreground ,blue))))
+`(org-level-5                               ((t (:inherit penumbra-red))))
+`(org-level-6                               ((t (:inherit penumbra-green))))
+`(org-level-7                               ((t (:inherit penumbra-blue))))
 `(org-level-8                               ((t ())))
 `(org-link                                  ((t ())))
 `(org-list-dt                               ((t ())))
@@ -1762,13 +1800,21 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 `(textsec-suspicious                        ((t ())))
 `(transient-active-infix                    ((t ())))
 `(transient-amaranth                        ((t ())))
+`(transient-argument                        ((t ())))
 `(transient-blue                            ((t ())))
+`(transient-delimiter                       ((t ())))
 `(transient-disabled-suffix                 ((t ())))
 `(transient-enabled-suffix                  ((t ())))
 `(transient-heading                         ((t ())))
+`(transient-higher-level                    ((t ())))
 `(transient-inactive-argument               ((t ())))
 `(transient-inactive-value                  ((t ())))
+`(transient-inapt-suffix                    ((t ())))
 `(transient-key                             ((t ())))
+`(transient-key-exit                        ((t ())))
+`(transient-key-noop                        ((t ())))
+`(transient-key-return                      ((t ())))
+`(transient-key-stay                        ((t ())))
 `(transient-mismatched-key                  ((t ())))
 `(transient-nonstandard-key                 ((t ())))
 `(transient-pink                            ((t ())))
@@ -1823,7 +1869,7 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 `(vc-removed-state                          ((t ())))
 `(vc-state-base                             ((t ())))
 `(vc-up-to-date-state                       ((t ())))
-`(vertico-current                           ((t (:inherit highlight))))
+`(vertico-current                           ((t (:inherit penumbra-highlight))))
 `(vertico-group-separator                   ((t ())))
 `(vertico-group-title                       ((t ())))
 `(vertico-multiline                         ((t ())))
@@ -1885,12 +1931,12 @@ https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.ht
 `(whitespace-space                          ((t ())))
 `(whitespace-space-after-tab                ((t ())))
 `(whitespace-space-before-tab               ((t ())))
-`(whitespace-tab                            ((t (:inherit highlight))))
-`(whitespace-trailing                       ((t (:inherit trailing-whitespace))))
+`(whitespace-tab                            ((t (:inherit penumbra-highlight))))
+`(whitespace-trailing                       ((t (:inherit penumbra-warning))))
 `(widget-button                             ((t ())))
 `(widget-button-pressed                     ((t ())))
 `(widget-documentation                      ((t ())))
-`(widget-field                              ((t (:inherit highlight))))
+`(widget-field                              ((t (:inherit penumbra-highlight))))
 `(widget-inactive                           ((t ())))
 `(widget-single-line-field                  ((t ())))
 `(window-divider                            ((t ())))
@@ -2005,9 +2051,13 @@ https://evil.readthedocs.io/en/latest/index.html
 ;; http://bling.github.io/blog/2015/01/06/emacs-as-my-leader-1-year-later/
 
 (with-eval-after-load 'evil
+
 (evil-set-initial-state 'fundamental-mode 'normal)
-(evil-set-initial-state 'text-mode 'normal)
-(evil-set-initial-state 'prog-mode 'normal)
+(evil-set-initial-state 'text-mode        'normal)
+(evil-set-initial-state 'prog-mode        'normal)
+(evil-set-initial-state 'conf-mode        'normal)
+;; (evil-set-initial-state 'special-mode     'normal)
+
 )
 
 (setq evil-normal-state-modes   nil)
@@ -2248,6 +2298,142 @@ combine-change-calls: buffer-undo-list broken
 (global-company-mode 1)
 #+end_src
 
+* package_minibuffer
+
+** vertico
+
+#+begin_src emacs-lisp
+(setq vertico-scroll-margin 0)
+(setq vertico-count 10)
+(setq vertico-resize nil)
+(setq vertico-cycle t)
+
+(vertico-mode)
+
+(add-hook 'rfn-eshadow-update-overlay-hook 'vertico-directory-tidy)
+#+end_src
+
+** orderless
+
+#+begin_src emacs-lisp
+;; (require 'orderless)
+(setq completion-styles '(orderless basic))
+(setq completion-category-overrides '((file (styles basic partial-completion))))
+#+end_src
+
+** marginalia
+
+#+begin_src emacs-lisp
+;; (require 'marginalia)
+(marginalia-mode)
+#+end_src
+
+** COMMENT consult
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "") 'consult-line)
+#+end_src
+
+** COMMENT embark
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "") 'embark-act)
+#+end_src
+
+* package_window
+
+** COMMENT edwina
+
+#+begin_src emacs-lisp
+(require 'edwina)
+(setq display-buffer-base-action '(display-buffer-below-selected))
+(edwina-setup-dwm-keys)
+(edwina-mode 1)
+#+end_src
+
+** popper
+
+#+begin_src emacs-lisp
+;; (setq popper-window-height 40)
+(setq popper-display-control nil)
+
+(require 'popper)
+
+(setq popper-reference-buffers
+      '("\\*Messages\\*"
+        "Output\\*$"
+        "\\*Async Shell Command\\*"
+        help-mode
+        compilation-mode))
+(global-set-key (kbd "<f1>") 'popper-toggle)
+(global-set-key (kbd "<f3>") 'popper-cycle)
+(global-set-key (kbd "<f7>") 'popper-toggle-type)
+(popper-mode +1)
+
+;; for echo-area hints
+(require 'popper-echo)
+(popper-echo-mode +1)
+#+end_src
+
+** shackle
+
+#+begin_src emacs-lisp
+(setq shackle-default-rule '(:same t))
+#+end_src
+
+* package_dired
+
+** dired
+
+#+begin_src emacs-lisp
+;; http://xahlee.info/emacs/emacs/file_management.html
+;; https://protesilaos.com/codelog/2023-06-26-emacs-file-dired-basics/
+
+(setq dired-listing-switches "-Ahv --group-directories-first -l")
+
+;; (setq dired-kill-when-opening-new-dired-buffer t)
+;; https://emacs-china.org/t/emacs-28-dired-kill-when-opening-new-dired-buffer/20655
+
+;; (setq trash-directory nil)
+(setq delete-by-moving-to-trash t)
+
+(add-hook 'dired-mode-hook 'dired-hide-details-mode)
+#+end_src
+
+** trashed
+
+https://github.com/shingo256/trashed
+
+#+begin_src emacs-lisp
+(require 'trashed)
+#+end_src
+
+** COMMENT dired-preview
+
+#+begin_src emacs-lisp
+(require 'dired-preview)
+
+;; Default values for demo purposes
+(setq dired-preview-delay 0.7)
+(setq dired-preview-max-size (expt 2 20))
+(setq dired-preview-ignored-extensions-regexp
+      (concat "\\."
+              "\\(mkv\\|webm\\|mp4\\|mp3\\|ogg\\|m4a"
+              "\\|gz\\|zst\\|tar\\|xz\\|rar\\|zip"
+              "\\|iso\\|epub\\|pdf\\)"))
+
+;; Enable `dired-preview-mode' in a given Dired buffer or do it
+;; globally:
+(dired-preview-global-mode 1)
+#+end_src
+
+** COMMENT dirvish
+
+#+begin_src emacs-lisp
+(dirvish-override-dired-mode)
+;; https://emacs-china.org/t/dirvish-dired/20189/60
+#+end_src
+
 * package_org
 
 ** org
@@ -2433,126 +2619,6 @@ plain
 (setq org-journal-hide-entries-p nil)
 
 (require 'org-journal)
-#+end_src
-
-* package_dired
-
-** dired
-
-#+begin_src emacs-lisp
-;; http://xahlee.info/emacs/emacs/file_management.html
-
-(setq dired-listing-switches "-Ahv --group-directories-first -l")
-
-;; (setq dired-kill-when-opening-new-dired-buffer t)
-;; https://emacs-china.org/t/emacs-28-dired-kill-when-opening-new-dired-buffer/20655
-#+end_src
-
-** COMMENT dired-preview
-
-#+begin_src emacs-lisp
-(require 'dired-preview)
-
-;; Default values for demo purposes
-(setq dired-preview-delay 0.7)
-(setq dired-preview-max-size (expt 2 20))
-(setq dired-preview-ignored-extensions-regexp
-      (concat "\\."
-              "\\(mkv\\|webm\\|mp4\\|mp3\\|ogg\\|m4a"
-              "\\|gz\\|zst\\|tar\\|xz\\|rar\\|zip"
-              "\\|iso\\|epub\\|pdf\\)"))
-
-;; Enable `dired-preview-mode' in a given Dired buffer or do it
-;; globally:
-(dired-preview-global-mode 1)
-#+end_src
-
-** COMMENT dirvish
-
-#+begin_src emacs-lisp
-(dirvish-override-dired-mode)
-;; https://emacs-china.org/t/dirvish-dired/20189/60
-#+end_src
-
-* package_minibuffer
-
-** vertico
-
-#+begin_src emacs-lisp
-(setq vertico-scroll-margin 0)
-(setq vertico-count 10)
-(setq vertico-resize nil)
-(setq vertico-cycle t)
-
-(vertico-mode)
-#+end_src
-
-** orderless
-
-#+begin_src emacs-lisp
-;; (require 'orderless)
-(setq completion-styles '(orderless basic))
-(setq completion-category-overrides '((file (styles basic partial-completion))))
-#+end_src
-
-** marginalia
-
-#+begin_src emacs-lisp
-;; (require 'marginalia)
-(marginalia-mode)
-#+end_src
-
-** COMMENT consult
-
-#+begin_src emacs-lisp
-(global-set-key (kbd "") 'consult-line)
-#+end_src
-
-** COMMENT embark
-
-#+begin_src emacs-lisp
-(global-set-key (kbd "") 'embark-act)
-#+end_src
-
-* package_window
-
-** COMMENT edwina
-
-#+begin_src emacs-lisp
-(require 'edwina)
-(setq display-buffer-base-action '(display-buffer-below-selected))
-(edwina-setup-dwm-keys)
-(edwina-mode 1)
-#+end_src
-
-** popper
-
-#+begin_src emacs-lisp
-;; (setq popper-window-height 40)
-(setq popper-display-control nil)
-
-(require 'popper)
-
-(setq popper-reference-buffers
-      '("\\*Messages\\*"
-        "Output\\*$"
-        "\\*Async Shell Command\\*"
-        help-mode
-        compilation-mode))
-(global-set-key (kbd "<f1>") 'popper-toggle)
-(global-set-key (kbd "<f3>") 'popper-cycle)
-(global-set-key (kbd "<f7>") 'popper-toggle-type)
-(popper-mode +1)
-
-;; for echo-area hints
-(require 'popper-echo)
-(popper-echo-mode +1)
-#+end_src
-
-** shackle
-
-#+begin_src emacs-lisp
-(setq shackle-default-rule '(:same t))
 #+end_src
 
 * package_misc
