@@ -21,11 +21,6 @@ done >/dev/null 2>&1
 fcitx5 -d &
 # run fcitx5 as daemon
 
-emacs --daemon &
-# run emacs as daemon
-
-
-
 remaps &
 setbg &
 dl & xrdbpid=$!
