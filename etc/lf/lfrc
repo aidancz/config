@@ -58,7 +58,8 @@ cmd open ${{
 	# inode/x-empty | text/* | application/*) emacsclient -nw -a "" $fx;;
 	# inode/x-empty | text/* | application/*) devour emacsclient -c $fx;;
 	# inode/x-empty | text/* | application/*) emacsclient -nw $fx;;
-	inode/x-empty | text/* | application/*) emacsclient -r -n $fx;;
+	# inode/x-empty | text/* | application/*) emacsclient -r -n $fx;;
+	inode/x-empty | text/* | application/*) vim $fx;;
 
 
 
@@ -104,7 +105,7 @@ cmap <c-g> cmd-escape
 map c					# default: c -> clear, unmap it to use key sequence start with "c"
 map t
 
-map ; read
+# map ; read
 
 map <c-a> invert
 map <esc> :unselect; clear

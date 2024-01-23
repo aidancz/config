@@ -244,6 +244,10 @@
 ;; https://manateelazycat.github.io/2016/03/08/emacs-basic-config/
 
 (defalias 'list-buffers 'ibuffer)
+
+;; http://xahlee.info/emacs/emacs/bookmark.html
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Bookmarks.html
+(setq bookmark-save-flag 1)
 #+end_src
 
 * package
@@ -341,6 +345,7 @@ shackle
 standard-themes
 trashed
 denote
+terminal-here
 ))
 ;; M-x package-refresh-contents
 ;; M-x package-install-selected-packages
@@ -1449,7 +1454,7 @@ https://evil.readthedocs.io/en/latest/index.html
 (setq evil-move-cursor-back nil)
 (setq evil-move-beyond-eol t)
 (setq evil-v$-excludes-newline t)
-(setq evil-cross-lines t)
+;; (setq evil-cross-lines t)
 (setq evil-start-of-line t)
 #+end_src
 
@@ -1719,7 +1724,9 @@ http://xahlee.info/emacs/emacs/file_management.html
 https://protesilaos.com/codelog/2023-06-26-emacs-file-dired-basics/
 
 #+begin_src emacs-lisp
-(setq dired-listing-switches "-l -v --almost-all --human-readable --group-directories-first")
+(setq dired-listing-switches "-l --almost-all --human-readable --indicator-style=slash -v --group-directories-first")
+;; alias ls="ls -Ahp1v --group-directories-first"
+;; alias ll="ls -l"
 
 ;; (setq dired-kill-when-opening-new-dired-buffer t)
 ;; https://emacs-china.org/t/emacs-28-dired-kill-when-opening-new-dired-buffer/20655
@@ -1743,8 +1750,7 @@ https://github.com/shingo256/trashed
 #+begin_src emacs-lisp
 (require 'dired-preview)
 
-;; Default values for demo purposes
-(setq dired-preview-delay 0)
+(setq dired-preview-delay 0.1)
 (setq dired-preview-max-size (expt 2 20))
 (setq dired-preview-ignored-extensions-regexp
       (concat "\\."
@@ -1752,8 +1758,6 @@ https://github.com/shingo256/trashed
               "\\|gz\\|zst\\|tar\\|xz\\|rar\\|zip"
               "\\|iso\\|epub\\|pdf\\)"))
 
-;; Enable `dired-preview-mode' in a given Dired buffer or do it
-;; globally:
 (dired-preview-global-mode 1)
 #+end_src
 
@@ -1961,7 +1965,7 @@ plain
 
 * package_misc
 
-** COMMENT package_eaf
+** COMMENT eaf
 
 #+begin_src emacs-lisp
 (setq confirm-kill-processes nil)
@@ -2033,6 +2037,8 @@ plain
 
 * keybindings
 
+
+
 ** global
 
 #+begin_src emacs-lisp
@@ -2073,16 +2079,16 @@ plain
 
 
 ;; (with-eval-after-load 'evil-maps
-(define-key evil-motion-state-map (kbd "SPC") nil)
+;; (define-key evil-motion-state-map (kbd "SPC") nil)
 ;; (define-key evil-motion-state-map (kbd "RET") nil)
 ;; (define-key evil-motion-state-map (kbd "TAB") nil)
 ;; )
 ;; https://emacs.stackexchange.com/questions/46371/how-can-i-get-ret-to-follow-org-mode-links-when-using-evil-mode
 
-(define-key evil-motion-state-map (kbd ";") 'evil-ex)
-;; (define-key evil-motion-state-map (kbd ":") 'evil-repeat-find-char)
-;; https://stackoverflow.com/questions/34497696/swap-and-to-make-colon-commands-easier-to-type-in-emacs
-;; https://emacs.stackexchange.com/questions/26450/how-to-remap-to-in-evil-mode
+;; (define-key evil-motion-state-map (kbd ";") 'evil-ex)
+;; ;; (define-key evil-motion-state-map (kbd ":") 'evil-repeat-find-char)
+;; ;; https://stackoverflow.com/questions/34497696/swap-and-to-make-colon-commands-easier-to-type-in-emacs
+;; ;; https://emacs.stackexchange.com/questions/26450/how-to-remap-to-in-evil-mode
 
 
 
@@ -2156,7 +2162,7 @@ plain
 
 
 
-(define-key evil-window-map (kbd ";") 'evil-ex)
+;; (define-key evil-window-map (kbd ";") 'evil-ex)
 #+end_src
 
 ** evil-replace-with-char
@@ -2319,4 +2325,14 @@ hide-node
 (evil-define-key 'normal calendar-mode-map (kbd "p") 'org-journal-previous-entry)
 (evil-define-key 'normal calendar-mode-map (kbd "n") 'org-journal-next-entry)
 (evil-define-key 'normal calendar-mode-map (kbd "m") 'org-journal-mark-entries)
+#+end_src
+
+** terminal-here
+
+#+begin_src emacs-lisp
+(require 'terminal-here)
+(setq terminal-here-linux-terminal-command 'st)
+
+;; (global-set-key (kbd "C-<f5>") 'terminal-here-launch)
+;; (global-set-key (kbd "C-<f6>") 'terminal-here-project-launch)
 #+end_src

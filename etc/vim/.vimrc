@@ -123,8 +123,8 @@ inoremap <c-g> <c-c>
 cnoremap <c-g> <c-c>
 vnoremap <c-g> <esc>
 
-nnoremap ; :
-vnoremap ; :
+" nnoremap ; :
+" vnoremap ; :
 
 nnoremap Y y$
 
