@@ -71,7 +71,65 @@ export FZF_DEFAULT_COMMAND="find -L"
 
 
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ program_config_ls
+export LS_COLORS="\
+di=34:\
+ln=36:\
+or=30;43:\
+ex=32:\
+\
+rs=00:\
+mh=00:\
+mi=00:\
+ca=00:\
+\
+pi=33:\
+so=35:\
+do=35:\
+bd=33:\
+cd=33:\
+su=30;41:\
+sg=30;43:\
+tw=30;42:\
+ow=30;42:\
+st=30;44:\
+\
+*.pdf=33:\
+*.epub=33:\
+*.doc=33:\
+*.xls=33:\
+*.ppt=33:\
+*.docx=33:\
+*.xlsx=33:\
+*.pptx=33:\
+\
+*.jpg=33:\
+*.png=33:\
+*.svg=33:\
+*.mp4=33:\
+*.m4a=33:\
+*.mkv=33:\
+*.gif=33:\
+\
+*.zip=33:\
+*.rar=33:\
+*.7z=33:\
+*.tar=33:\
+*.gz=33:\
+\
+*.exe=33:\
+*.tmp=33:\
+"
+
+# https://www.bigsoft.co.uk/blog/2008/04/11/configuring-ls_colors
+# https://linuxhint.com/ls_colors_bash/
+# https://www.gnu.org/software/termutils/manual/termcap-1.3/html_mono/termcap.html
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ program_config_less
+export LESS="--incsearch -FR"
+# https://stackoverflow.com/questions/74039591/how-to-clear-git-log-pager-output-after-closing
+# https://stackoverflow.com/questions/8883189/how-can-i-turn-on-a-pager-for-the-output-of-git-status
+
 # export LESS_TERMCAP_DEBUG=1
 export GROFF_NO_SGR=1
 export LESS_TERMCAP_mb=$'\e[31m'
@@ -97,3 +155,4 @@ export LESS_TERMCAP_ue=$'\e[0m'
 
 # https://unix.stackexchange.com/questions/119/colors-in-man-pages
 # https://unix.stackexchange.com/questions/108699/documentation-on-less-termcap-variables
+# https://www.gnu.org/software/termutils/manual/termcap-1.3/html_mono/termcap.html

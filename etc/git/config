@@ -7,8 +7,11 @@
 	proxy = http://127.0.0.1:8889
 [https]
 	proxy = http://127.0.0.1:8889
-
 [color]
 	ui = auto
+[color "diff"]
+	meta = blue
+	frag = normal
+# https://stackoverflow.com/questions/26941144/how-do-you-customize-the-color-of-the-diff-header-in-git-diff/61993060#61993060
 [advice]
 	statusHints = false

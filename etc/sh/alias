@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # give command better default
-# alias ls="ls --color=auto -Ahv1 --group-directories-first"
-alias ls="ls -Ahp1v --group-directories-first"
+alias ls="ls -Ah1v --group-directories-first --color=auto"
+# -p
 alias chmod="chmod --preserve-root -v"
 alias chown="chown --preserve-root -v"
 alias df="df -h"
@@ -22,7 +22,7 @@ alias ke="kill $(pidof emacs)"
 # alias E="devour emacs"
 alias e="emacsclient -nw"
 alias E="emacs -nw"
-# alias lf="lfub"
+alias lf="lfub"
 alias ll="ls -l"
 alias pacref="reflector --country 'China' --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
 
