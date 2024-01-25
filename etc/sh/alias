@@ -31,11 +31,14 @@ alias gs="git status -s"
 alias gd="git diff"
 alias gl="git log --all --oneline --graph"
 
+alias gr="git restore ."
 alias ga="git add --all"
 alias gc="git commit -m -"
-alias gca="git commit --amend"
 alias gp="git push"
 
 alias gccs="git config credential.helper store"
+
 alias gsl="find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && git status -s && echo)' \;"
 # https://stackoverflow.com/a/65970494
+alias gg='cd $(git rev-parse --show-toplevel)'
+# https://blogboard.io/blog/knowledge/cd-to-git-root/

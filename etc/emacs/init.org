@@ -2037,7 +2037,9 @@ plain
 
 * keybindings
 
-
+http://xahlee.info/emacs/emacs/emacs_keys_index.html
+http://xahlee.info/emacs/emacs/emacs_key_notation_return_vs_RET.html
+http://xahlee.info/emacs/emacs/keyboard_shortcuts_examples.html
 
 ** global
 
@@ -2200,7 +2202,8 @@ hide-node
 #+end_example
 
 #+begin_src emacs-lisp
-;; visibility_local:
+;; visibility
+
 (evil-define-key 'normal outline-mode-map (kbd "z y") 'outline-show-entry)
 (evil-define-key 'normal outline-mode-map (kbd "z u") 'outline-show-children)
 (evil-define-key 'normal outline-mode-map (kbd "z j") 'outline-show-branches) ; also hide leaves
@@ -2209,59 +2212,49 @@ hide-node
 ;; (evil-define-key 'normal outline-mode-map (kbd "z a") 'outline-hide-leaves)
 ;; (evil-define-key 'normal outline-mode-map (kbd "z a") 'outline-hide-subtree)
 
-;; visibility_global:
 (evil-define-key 'normal outline-mode-map (kbd "z k") 'outline-show-only-headings)
 ;; (evil-define-key 'normal outline-mode-map (kbd "z a") 'outline-show-all)
 (evil-define-key 'normal outline-mode-map (kbd "z f") 'outline-hide-other)
 ;; (evil-define-key 'normal outline-mode-map (kbd "z a") 'outline-hide-body)
 (evil-define-key 'normal outline-mode-map (kbd "z g") 'outline-hide-sublevels)
+
+;; https://github.com/emacs-evil/evil/blob/9e27bb9e5a66cacbf9f1f4f20ca9b30fc2ae297b/evil-maps.el
 ;; https://github.com/emacs-evil/evil-collection/blob/master/modes/outline/evil-collection-outline.el
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Outline-Visibility.html
 
-;; motion:
-(evil-define-key 'normal outline-mode-map (kbd "<down>") 'outline-next-visible-heading)
-(evil-define-key 'normal outline-mode-map (kbd "<up>") 'outline-previous-visible-heading)
-(evil-define-key 'normal outline-mode-map (kbd "<next>") 'outline-forward-same-level)
-(evil-define-key 'normal outline-mode-map (kbd "<prior>") 'outline-backward-same-level)
-(evil-define-key 'normal outline-mode-map (kbd "<left>") 'outline-up-heading)
+;; motion
+;; (evil-define-key 'normal outline-mode-map (kbd "") 'outline-next-visible-heading)
+;; (evil-define-key 'normal outline-mode-map (kbd "") 'outline-previous-visible-heading)
+;; (evil-define-key 'normal outline-mode-map (kbd "") 'outline-forward-same-level)
+;; (evil-define-key 'normal outline-mode-map (kbd "") 'outline-backward-same-level)
+;; (evil-define-key 'normal outline-mode-map (kbd "") 'outline-up-heading)
 
-;; edit:
-(evil-define-key '(normal insert) outline-mode-map (kbd "M-j") 'outline-move-subtree-down)
-(evil-define-key '(normal insert) outline-mode-map (kbd "M-k") 'outline-move-subtree-up)
-(evil-define-key '(normal insert) outline-mode-map (kbd "M-h") 'outline-promote)
-(evil-define-key '(normal insert) outline-mode-map (kbd "M-l") 'outline-demote)
-
-(evil-define-key '(normal insert) outline-mode-map (kbd "M-RET") 'outline-insert-heading)
+;; edit
+(define-key outline-mode-map (kbd "M-j") 'outline-move-subtree-down)
+(define-key outline-mode-map (kbd "M-k") 'outline-move-subtree-up)
+(define-key outline-mode-map (kbd "M-h") 'outline-promote)
+(define-key outline-mode-map (kbd "M-l") 'outline-demote)
+(define-key outline-mode-map (kbd "M-RET") 'outline-insert-heading)
 #+end_src
 
 ** org
 
 #+begin_src emacs-lisp
 ;; (setq org-return-follows-link t)
-
-(evil-define-key '(normal insert) org-mode-map (kbd "M-h") 'org-metaleft)
-(evil-define-key '(normal insert) org-mode-map (kbd "M-l") 'org-metaright)
-(evil-define-key '(normal insert) org-mode-map (kbd "M-<left>") 'org-shiftmetaleft)
-(evil-define-key '(normal insert) org-mode-map (kbd "M-<right>") 'org-shiftmetaright)
-
 ;; (setq org-M-RET-may-split-line nil)
-(evil-define-key '(normal insert) org-mode-map (kbd "M-RET") 'org-meta-return)
 
+(define-key org-mode-map (kbd "M-h")       'org-metaleft)
+(define-key org-mode-map (kbd "M-l")       'org-metaright)
+(define-key org-mode-map (kbd "M-<left>")  'org-shiftmetaleft)
+(define-key org-mode-map (kbd "M-<right>") 'org-shiftmetaright)
+(define-key org-mode-map (kbd "M-RET")     'org-meta-return)
 
 (global-set-key (kbd "C-c s") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
-(global-set-key (kbd "C-c c") #'org-capture)
+;; (global-set-key (kbd "C-c c") #'org-capture)
 ;; https://orgmode.org/manual/Activation.html
 
-
-
-(evil-define-key 'normal 'global (kbd "<leader>ja") (lambda () (interactive) (org-capture nil "a")))
-(evil-define-key 'normal 'global (kbd "<leader>jw") 'org-refile)
-(evil-define-key 'normal 'global (kbd "<leader>jl") 'org-time-stamp)
-
-(evil-define-key 'normal 'global (kbd "<leader>ka") 'org-id-get-create)
-
-(evil-define-key 'normal 'global (kbd "<leader>l") 'calendar)
+(global-set-key (kbd "C-c c") (lambda () (interactive) (org-capture nil "a")))
 #+end_src
 
 ** COMMENT org-gtd
@@ -2302,11 +2295,11 @@ hide-node
 
 
 
-(evil-define-key 'normal 'global (kbd "<leader>kf") 'org-roam-node-find)
-(evil-define-key 'normal 'global (kbd "<leader>ki") 'org-roam-node-insert)
-(evil-define-key 'normal 'global (kbd "<leader>kc") 'org-roam-capture)
-(evil-define-key 'normal 'global (kbd "<leader>kb") 'org-roam-buffer-toggle)
-(evil-define-key 'normal 'global (kbd "<leader>kg") 'org-roam-graph)
+(global-set-key (kbd "C-c j f") 'org-roam-node-find)
+(global-set-key (kbd "C-c j i") 'org-roam-node-insert)
+(global-set-key (kbd "C-c j c") 'org-roam-capture)
+(global-set-key (kbd "C-c j b") 'org-roam-buffer-toggle)
+(global-set-key (kbd "C-c j g") 'org-roam-graph)
 
 
 
@@ -2319,12 +2312,14 @@ hide-node
 ** org-journal
 
 #+begin_src emacs-lisp
-(evil-define-key 'normal calendar-mode-map (kbd "a") 'org-journal-new-date-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "f") 'org-journal-read-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "d") 'org-journal-display-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "p") 'org-journal-previous-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "n") 'org-journal-next-entry)
-(evil-define-key 'normal calendar-mode-map (kbd "m") 'org-journal-mark-entries)
+(global-set-key (kbd "C-c l") 'calendar)
+
+(define-key calendar-mode-map (kbd "a") 'org-journal-new-date-entry)
+(define-key calendar-mode-map (kbd "f") 'org-journal-read-entry)
+(define-key calendar-mode-map (kbd "d") 'org-journal-display-entry)
+(define-key calendar-mode-map (kbd "p") 'org-journal-previous-entry)
+(define-key calendar-mode-map (kbd "n") 'org-journal-next-entry)
+(define-key calendar-mode-map (kbd "m") 'org-journal-mark-entries)
 #+end_src
 
 ** terminal-here
@@ -2333,6 +2328,7 @@ hide-node
 (require 'terminal-here)
 (setq terminal-here-linux-terminal-command 'st)
 
-;; (global-set-key (kbd "C-<f5>") 'terminal-here-launch)
-;; (global-set-key (kbd "C-<f6>") 'terminal-here-project-launch)
+(global-set-key (kbd "<menu>") 'terminal-here-launch)
+;; (global-set-key (kbd "") 'terminal-here-project-launch)
+;; aidan: go to the root dir of current repo isn't your job
 #+end_src
