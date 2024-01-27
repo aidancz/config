@@ -455,6 +455,7 @@ https://emacs.stackexchange.com/questions/46541/running-emacs-as-a-daemon-does-n
 (add-hook 'prog-mode-hook 'turn-on-font-lock)
 (add-hook 'conf-mode-hook 'turn-on-font-lock)
 (add-hook 'magit-mode-hook 'turn-on-font-lock)
+(add-hook 'magit-section-mode-hook 'turn-on-font-lock)
 
 (let
 (
@@ -1094,7 +1095,7 @@ https://emacs.stackexchange.com/questions/46541/running-emacs-as-a-daemon-does-n
 `(org-level-6                            ((t (:inherit penumbra-level2))))
 `(org-level-7                            ((t (:inherit penumbra-level3))))
 `(org-level-8                            ((t ())))
-`(org-link                               ((t ())))
+`(org-link                               ((t (:inherit penumbra-link))))
 `(org-list-dt                            ((t ())))
 `(org-macro                              ((t ())))
 `(org-meta-line                          ((t ())))
@@ -1111,7 +1112,7 @@ https://emacs.stackexchange.com/questions/46541/running-emacs-as-a-daemon-does-n
 `(org-roam-preview-heading-selection     ((t ())))
 `(org-roam-preview-region                ((t ())))
 `(org-roam-shielded                      ((t ())))
-`(org-roam-title                         ((t ())))
+`(org-roam-title                         ((t (:inherit penumbra-blue))))
 `(org-scheduled                          ((t ())))
 `(org-scheduled-previously               ((t ())))
 `(org-scheduled-today                    ((t ())))
@@ -1702,7 +1703,7 @@ combine-change-calls: buffer-undo-list broken
         compilation-mode))
 (global-set-key (kbd "<f1>") 'popper-toggle)
 (global-set-key (kbd "<f3>") 'popper-cycle)
-(global-set-key (kbd "<f7>") 'popper-toggle-type)
+;; (global-set-key (kbd "<f7>") 'popper-toggle-type)
 (popper-mode +1)
 
 ;; for echo-area hints
@@ -2290,16 +2291,23 @@ hide-node
 (insert (format "#+title: %s" (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))))
 (goto-char (point-min))
 )
-(evil-define-key 'normal 'global (kbd "<leader>kl") 'convert-to-orgroam)
+(global-set-key (kbd "C-c k l") 'convert-to-orgroam)
 ;; https://org-roam.discourse.group/t/convert-preexisting-org-note-to-org-roam-type/2680
 
 
 
-(global-set-key (kbd "C-c j f") 'org-roam-node-find)
-(global-set-key (kbd "C-c j i") 'org-roam-node-insert)
-(global-set-key (kbd "C-c j c") 'org-roam-capture)
-(global-set-key (kbd "C-c j b") 'org-roam-buffer-toggle)
-(global-set-key (kbd "C-c j g") 'org-roam-graph)
+(global-set-key (kbd "C-c k f") 'org-roam-node-find)
+;; creates a node if it does not exist, and visits the node
+(global-set-key (kbd "C-c k i") 'org-roam-node-insert)
+;; creates a node if it does not exist, and inserts a link to the node at point
+(global-set-key (kbd "C-c k c") 'org-roam-capture)
+;; creates a node if it does not exist, and restores the current window configuration upon completion
+(global-set-key (kbd "C-c k b") 'org-roam-buffer-toggle)
+;; launch an org-roam buffer that tracks the node currently at point. this means that the content of the buffer changes as the point is moved, if necessary
+;; aidan: this open a buffer with org-roam-mode, which is derived from magit-section-mode
+(global-set-key (kbd "C-c k d") 'org-roam-buffer-display-dedicated)
+
+;; (global-set-key (kbd "C-c k g") 'org-roam-graph)
 
 
 
