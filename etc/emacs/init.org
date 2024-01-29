@@ -282,7 +282,7 @@ https://melpa.org/#/getting-started
 ;; ("gnu-devel"    . "https://elpa.gnu.org/devel/")
 ("nongnu"       . "https://elpa.nongnu.org/nongnu/")
 ("melpa"        . "https://melpa.org/packages/")
-("melpa-stable" . "https://stable.melpa.org/packages/")
+;; ("melpa-stable" . "https://stable.melpa.org/packages/")
 ))
 
 ;; (setq package-archives '(
@@ -346,6 +346,7 @@ standard-themes
 trashed
 denote
 terminal-here
+evil-snipe
 ))
 ;; M-x package-refresh-contents
 ;; M-x package-install-selected-packages
@@ -717,8 +718,8 @@ https://emacs.stackexchange.com/questions/46541/running-emacs-as-a-daemon-does-n
 `(evil-ex-info                           ((t ())))
 `(evil-ex-lazy-highlight                 ((t ())))
 `(evil-ex-search                         ((t (:inherit penumbra-reverse))))
-`(evil-ex-substitute-matches             ((t ())))
-`(evil-ex-substitute-replacement         ((t ())))
+`(evil-ex-substitute-matches             ((t (:inherit penumbra-reverse))))
+`(evil-ex-substitute-replacement         ((t (:inherit (penumbra-highlight penumbra-default)))))
 `(eww-form-checkbox                      ((t ())))
 `(eww-form-file                          ((t ())))
 `(eww-form-select                        ((t ())))
@@ -1095,7 +1096,7 @@ https://emacs.stackexchange.com/questions/46541/running-emacs-as-a-daemon-does-n
 `(org-level-6                            ((t (:inherit penumbra-level2))))
 `(org-level-7                            ((t (:inherit penumbra-level3))))
 `(org-level-8                            ((t ())))
-`(org-link                               ((t (:inherit penumbra-link))))
+`(org-link                               ((t (:inherit penumbra-shadow))))
 `(org-list-dt                            ((t ())))
 `(org-macro                              ((t ())))
 `(org-meta-line                          ((t ())))
@@ -1455,7 +1456,7 @@ https://evil.readthedocs.io/en/latest/index.html
 (setq evil-move-cursor-back nil)
 (setq evil-move-beyond-eol t)
 (setq evil-v$-excludes-newline t)
-;; (setq evil-cross-lines t)
+(setq evil-cross-lines t)
 (setq evil-start-of-line t)
 #+end_src
 
@@ -1615,6 +1616,25 @@ combine-change-calls: buffer-undo-list broken
 
 #+begin_src emacs-lisp
 (evil-rsi-mode)
+#+end_src
+
+** evil-snipe
+
+#+begin_src emacs-lisp
+(setq evil-snipe-scope           'buffer)
+(setq evil-snipe-repeat-scope    'buffer)
+(setq evil-snipe-spillover-scope 'buffer)
+
+(setq evil-snipe-enable-highlight             nil)
+(setq evil-snipe-enable-incremental-highlight nil)
+(setq evil-snipe-repeat-keys                  nil)
+(setq evil-snipe-show-prompt                  nil)
+(setq evil-snipe-smart-case                   t)
+
+(require 'evil-snipe)
+
+(evil-snipe-mode +1)
+;; (evil-snipe-override-mode +1)
 #+end_src
 
 ** evil-surround
@@ -2056,6 +2076,8 @@ http://xahlee.info/emacs/emacs/keyboard_shortcuts_examples.html
 (global-set-key (kbd "<f5>") 'universal-argument)
 (define-key universal-argument-map (kbd "<f5>") 'universal-argument-more)
 ;; https://emacs.stackexchange.com/questions/58319/how-to-rebind-special-meaning-of-c-u-to-a-different-key
+
+(global-set-key (kbd "<f12>") 'bookmark-jump)
 #+end_src
 
 ** evil
