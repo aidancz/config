@@ -1,4 +1,5 @@
 #+property: header-args:emacs-lisp :tangle ~/.emacs.d/init.el
+#+auto_tangle: t
 
 * core
 
@@ -16,10 +17,11 @@
 ** COMMENT test
 
 #+begin_src emacs-lisp
-
+(defun display-startup-echo-area-message ()
+(message "test block on"))
 #+end_src
 
-** tangle when saving
+** COMMENT tangle when saving
 
 #+begin_src emacs-lisp
 ;; (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle :append :local)))
@@ -212,8 +214,8 @@
 ;; (setq mode-require-final-newline nil)
 ;; https://stackoverflow.com/questions/13574564/emacs-automatically-adding-a-newline-even-after-changing-emacs
 
-(setq auto-save-visited-interval 1)
-(auto-save-visited-mode 1)
+;; (setq auto-save-visited-interval 1)
+;; (auto-save-visited-mode 1)
 ;; http://xahlee.info/emacs/emacs/emacs_auto_save.html
 
 (global-auto-revert-mode 1)
@@ -296,57 +298,61 @@ https://melpa.org/#/getting-started
 ;; (setq package-user-dir "~/.emacs.d/elpa")
 
 (setq package-selected-packages '(
+
 ;; color-theme-sanityinc-solarized
 ;; color-theme-sanityinc-tomorrow
-nord-theme
 ;; org-gtd
 ;; solarized-theme
 ;; valign
+clipetty
+company
+consult
+denote
+dired-preview
 dirvish
+doom-modeline
 doom-themes
+edwina
+embark
 evil
 evil-anzu
 evil-cleverparens
 evil-collection
 evil-commentary
 evil-lion
+evil-nerd-commenter
 evil-org
 evil-replace-with-char
 evil-replace-with-register
 evil-rsi
+evil-snipe
 evil-surround
 fcitx
 magit
+marginalia
 minions
+nord-theme
+orderless
 org-journal
 org-roam
 org-roam-ui
 paredit
+popper
 rainbow-mode
+shackle
+standard-themes
 sudo-edit
+super-save
+terminal-here
+trashed
+undo-fu
 uuidgen
 vertico
 vterm
 xclip
-orderless
-marginalia
-consult
-embark
-company
-undo-fu
 xresources-theme
-dired-preview
-evil-nerd-commenter
-clipetty
-doom-modeline
-edwina
-popper
-shackle
-standard-themes
-trashed
-denote
-terminal-here
-evil-snipe
+org-auto-tangle
+
 ))
 ;; M-x package-refresh-contents
 ;; M-x package-install-selected-packages
@@ -1375,6 +1381,13 @@ can't copy from outside and paste inside emacs
 (require 'uuidgen)
 #+end_src
 
+** super-save
+
+#+begin_src emacs-lisp
+(setq super-save-all-buffers t)
+(super-save-mode +1)
+#+end_src
+
 * package_evil
 
 ** evil
@@ -1455,7 +1468,10 @@ https://evil.readthedocs.io/en/latest/index.html
 #+begin_src emacs-lisp
 (setq evil-move-cursor-back nil)
 (setq evil-move-beyond-eol t)
-(setq evil-v$-excludes-newline t)
+;; (setq evil-v$-excludes-newline t)
+;; if we enable `evil-move-beyond-eol', we actually make `$' exclusive
+;; while visual selection is always inclusive
+;; trying to make `v$y' and `y$' have the same result breaks the expectation of `$' in visual state
 (setq evil-cross-lines t)
 (setq evil-start-of-line t)
 #+end_src
@@ -1618,7 +1634,7 @@ combine-change-calls: buffer-undo-list broken
 (evil-rsi-mode)
 #+end_src
 
-** evil-snipe
+** COMMENT evil-snipe
 
 #+begin_src emacs-lisp
 (setq evil-snipe-scope           'buffer)
@@ -1882,6 +1898,13 @@ https://github.com/shingo256/trashed
 (setq org-id-method 'ts)
 #+end_src
 
+** org-auto-tangle
+
+#+begin_src emacs-lisp
+(require 'org-auto-tangle)
+(add-hook 'org-mode-hook 'org-auto-tangle-mode)
+#+end_src
+
 ** COMMENT org-tempo
 
 org mode now bundle with =C-c C-,= (org-insert-structure-template), obsolete org-tempo
@@ -1964,10 +1987,13 @@ plain
           (rename-file old-file-name new-file-name)
           (find-file new-file-name)
           (kill-buffer old-file-name)
-          (message "Renamed %s to %s." old-file-name new-file-name)
+          (message "Renamed %s to %s" old-file-name new-file-name)
           )))))
-(add-hook 'org-mode-hook 'org-title-to-file-name)
 ;; https://emacs.stackexchange.com/questions/54809/rename-org-buffers-to-orgs-title-instead-of-filename
+
+(add-hook 'org-mode-hook 'org-title-to-file-name)
+;; add hook, run `org-title-to-file-name' when entering org-mode
+;; if you rename title, run `M-x revert-buffer-quick' to use this hook
 #+end_src
 
 ** org-journal
