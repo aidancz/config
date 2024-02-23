@@ -1997,32 +1997,23 @@ plain
 ;; ;; add hook, run `org-title-to-file-name' when entering org-mode
 ;; ;; if you rename title, run `M-x revert-buffer-quick' to use this hook
 
-;; (defun org-file-name-to-title ()
-;;   (interactive)
-;;   (when (and
-;;          (not (null (buffer-file-name)))
-;;          (not (null (org-get-title)))
-;;          )
-;;     (let (
-;;           (name (file-name-sans-extension (file-name-nondirectory (buffer-file-name))))
-;;           (title (org-get-title))
-;;           )
-;;       (when (not (string= title name))
-;; aidan here
-;;         (let (
-;;               (old-file-name (file-name-nondirectory (buffer-file-name)))
-;;               (new-file-name (concat title ".org"))
-;;               )
-;;           (rename-file old-file-name new-file-name)
-;;           (find-file new-file-name)
-;;           (kill-buffer old-file-name)
-;;           (message "Renamed %s to %s" old-file-name new-file-name)
-;;           )))))
-;; ;; https://emacs.stackexchange.com/questions/54809/rename-org-buffers-to-orgs-title-instead-of-filename
+(defun org-file-name-to-title ()
+  (interactive)
+  (when (and
+         (not (null (buffer-file-name)))
+         (not (null (org-get-title)))
+         )
+    (let (
+          (name (file-name-sans-extension (file-name-nondirectory (buffer-file-name))))
+          (title (org-get-title))
+          )
+      (when (not (string= title name))
+        (shell-command-on-region (point-min) (point-max)
+                                 (format "sed '0,/#+title:/c#+title: %s'" name) nil t)
+        (message "changed title")
+        ))))
 
-;; (add-hook 'org-mode-hook 'org-title-to-file-name)
-;; ;; add hook, run `org-title-to-file-name' when entering org-mode
-;; ;; if you rename title, run `M-x revert-buffer-quick' to use this hook
+(add-hook 'org-mode-hook 'org-file-name-to-title)
 #+end_src
 
 ** org-journal
