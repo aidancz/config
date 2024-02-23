@@ -1864,7 +1864,7 @@ https://github.com/shingo256/trashed
 
 
 
-(setq org-startup-with-latex-preview t)
+;; (setq org-startup-with-latex-preview t)
 
 ;; (setq org-preview-latex-default-process 'dvisvgm)
 ;; (setq org-preview-latex-process-alist
