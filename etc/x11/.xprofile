@@ -5,7 +5,7 @@ xrandr --dpi 96
 
 output=`xrandr | grep "\bconnected\b" | cut -d' ' -f1`
 xrandr --output $output --set TearFree on
-# set tearfree
+xrandr --output $output --mode 1920x1080 --rate 144
 
 xset s off -dpms
 #xset s off dpms 2700 2700 2700
@@ -13,7 +13,7 @@ xset s off -dpms
 
 
 
-autostart="mpd dunst unclutter pipewire nutstore"
+autostart="mpd dunst unclutter pipewire"
 for program in $autostart; do
 	pidof -s "$program" || "$program" &
 done >/dev/null 2>&1

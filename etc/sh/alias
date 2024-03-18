@@ -24,7 +24,7 @@ alias v="vim"
 # alias E="emacs -nw"
 alias lf="lfub"
 alias ll="ls -l"
-alias pacref="reflector --country 'China' --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
+alias pacref="sudo reflector --country 'China' --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
 
 # abbreviate git command
 alias gs="git status -s"

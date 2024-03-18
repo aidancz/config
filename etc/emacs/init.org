@@ -1581,11 +1581,11 @@ to override existing binding in evil-collection, bind the key after (evil-collec
 (global-anzu-mode 1)
 #+end_src
 
-** COMMENT evil-cleverparens
+** evil-cleverparens
 
-disable for now, because its "M-[" binding break terminal emacs, check:
+its "M-[" binding will break terminal emacs, check:
 
-[[https://emacs.stackexchange.com/questions/68703/m-causes-emacs-to-print-weird-possibly-escape-sequences]]
+https://emacs.stackexchange.com/questions/68703/m-causes-emacs-to-print-weird-possibly-escape-sequences
 
 #+begin_src emacs-lisp
 (add-hook 'emacs-lisp-mode-hook #'evil-cleverparens-mode)
@@ -2114,7 +2114,7 @@ http://xahlee.info/emacs/emacs/keyboard_shortcuts_examples.html
 (global-set-key (kbd "C-x C-c")
 (lambda () (interactive)
 (let ((current-prefix-arg '(4)))
-     (call-interactively #'save-buffers-kill-terminal))
+     (call-interactively 'save-buffers-kill-terminal))
 ))
 ;; https://emacs.stackexchange.com/questions/50672/how-to-save-all-modified-buffers-and-kill-emacs
 ;; https://emacs.stackexchange.com/questions/48753/how-to-bind-c-u-m-x-shell-to-c-c-s
@@ -2122,6 +2122,9 @@ http://xahlee.info/emacs/emacs/keyboard_shortcuts_examples.html
 (global-set-key (kbd "<f5>") 'universal-argument)
 (define-key universal-argument-map (kbd "<f5>") 'universal-argument-more)
 ;; https://emacs.stackexchange.com/questions/58319/how-to-rebind-special-meaning-of-c-u-to-a-different-key
+
+(global-set-key (kbd "C-u") (lambda () (interactive) (kill-line 0)))
+;; https://emacs.stackexchange.com/questions/56320/delete-from-point-to-beginning-of-the-line
 
 (global-set-key (kbd "<f12>") 'bookmark-jump)
 #+end_src
