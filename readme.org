@@ -1,70 +1,19 @@
 config repo
 
-* .local dir hierarchy
-
-#+begin_example
-$HOME/.local
-|- bin
-|- include
-|- etc
-|- share
-|- lib
-|- man
-`- var
-   |- cache
-   `- log
-#+end_example
-
-stole the idea from:
-https://gist.github.com/Earnestly/84cf9670b7e11ae2eac6f753910efebe
-
-this repo is a pseudo $HOME/.local dir
-
-this repo effect when symlinked by $HOME/.local dir:
-
-#+begin_example
-.local/*  <-  $HOME/.local/*
-#+end_example
-
-this can be done via the .local/lsl shell script
-
 * xdg variable
 
-#+begin_src sh
-export XDG_CONFIG_HOME="$HOME/.local/etc"
-export XDG_CACHE_HOME="$HOME/.local/var/cache"
-export XDG_STATE_HOME="$HOME/.local/var/log"
-#+end_src
-
-these vaviables are set at:
-
-- .local/etc/sh/env
-- .local/etc/sh/profile
-- .local/lsl
+these vaviables are set at a shell script called "env"
 
 some program can't read these variables by design,
-i have to hard code the file path, they are:
-
-- lfrc
+i have to hard code the file path, use grep to find them
 
 * config effective location
 
-1. $XDG_CONFIG_HOME
-2. configured at .local/etc/sh/env
-3. symlinked by specific location (typically at $HOME)
+1. $HOME            (eg: ~/.profile) (~/.env is also the case)
+2. $XDG_CONFIG_HOME (eg: ~/.config/clash)
 
 * logic behind login
 
 bash executes ~/.profile, that's it
 (login shell executes its profile, so if zsh is login shell, zsh executes ~/.zprofile)
 # https://wiki.archlinux.org/title/command-line_shell#Login_shell
-
-detail:
-
-#+begin_example
-.local/etc/sh/profile (~/.profile)
-	.local/etc/sh/env
-	.local/etc/x11/.xinitrc
-        	local/etc/x11/.xprofile (~/.xprofile)
-		dwm
-#+end_example

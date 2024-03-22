@@ -30,7 +30,7 @@
 ;; https://leanpub.com/lit-config/read#leanpub-auto-emacs-and-org-mode
 
 (defun org-babel-tangle-config ()
-  (when (string-equal (buffer-file-name) (concat (getenv "a_gi") "/.local/etc/emacs/init.org"))
+  (when (string-equal (buffer-file-name) (concat (getenv "a_gi") "/arch_config/.config/emacs/init.org"))
     (org-babel-tangle)
     ;; (let ((inhibit-message t))
     ;;   (org-babel-tangle))

@@ -7,9 +7,9 @@ set shellopts '-eu'	# see "man zshoptions"
 set ifs "\n"		# internal field separater
 set period 1
 set hidden
-set cleaner "~/.local/etc/lf/cleaner"
+set cleaner "~/.config/lf/cleaner"
 # set cleaner "$XDG_CONFIG_HOME/lf/cleaner"
-set previewer "~/.local/etc/lf/scope"
+set previewer "~/.config/lf/scope"
 # set previewer "$XDG_CONFIG_HOME/lf/scope"
 set autoquit
 # set sortby "ext"
@@ -161,5 +161,5 @@ map <a-i>	$sed -Ezi 's/(:[^\n]+\n){3}/\n/g' $f; sed -Ei 's/^ {4}/\t/g' $f
 map <a-p>	$sed -e '0,/mixed-port/s/7890/8889/' -e '/external-controller/aexternal-ui: clash-dashboard' $f > ~/.config/clash/config.yaml
 
 # source
-source "~/.local/var/cache/mdf/m_lf"
+source "~/.cache/mdf/m_lf"
 # source "$XDG_CACHE_HOME/mdf/m_lf"

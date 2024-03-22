@@ -2,8 +2,7 @@
 # profile file, runs on login
 
 # env
-XDG_CONFIG_HOME="$HOME/.local/etc"
-source "$XDG_CONFIG_HOME/sh/env"
+source $HOME/.env
 
 # startx only if:
 # 1. tty1

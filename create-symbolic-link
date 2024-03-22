@@ -1,12 +1,4 @@
 #!/bin/sh
-# lsl: local symbolic link
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ xdg
-XDG_EXE_HOME="$HOME/.local/bin"
-XDG_CONFIG_HOME="$HOME/.local/etc"
-XDG_DATA_HOME="$HOME/.local/share"
-XDG_CACHE_HOME="$HOME/.local/var/cache"
-XDG_STATE_HOME="$HOME/.local/var/log"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ $path & $dir
 path=$(readlink -f "$0")
@@ -14,42 +6,47 @@ path=$(readlink -f "$0")
 dir=$(dirname "$path")
 # absolute path this script is in
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ env
+source $dir/.config/sh/.env
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ shopt
 shopt -s dotglob
 # loop hidden files
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_EXE_HOME
-mkdir -p "$XDG_EXE_HOME"
-cd $dir/bin
-for i in *; do
-	rm -rf					"$XDG_EXE_HOME/$i"
-	ln -s "$PWD/$i"			"$XDG_EXE_HOME/$i"
-done
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_CONFIG_HOME
 mkdir -p "$XDG_CONFIG_HOME"
-cd $dir/etc
+cd $dir/.config
 for i in *; do
 	rm -rf					"$XDG_CONFIG_HOME/$i"
 	ln -s "$PWD/$i"			"$XDG_CONFIG_HOME/$i"
 done
 
-ln -sf "$XDG_CONFIG_HOME/sh/profile"		"$HOME/.profile"
-ln -sf "$XDG_CONFIG_HOME/sh/profile"		"$HOME/.zprofile"
+ln -sf "$XDG_CONFIG_HOME/sh/.env"		"$HOME/.env"
+ln -sf "$XDG_CONFIG_HOME/sh/.profile"		"$HOME/.profile"
+ln -sf "$XDG_CONFIG_HOME/sh/.profile"		"$HOME/.zprofile"
+ln -sf "$XDG_CONFIG_HOME/sh/.shrc"		"$HOME/.shrc"
 ln -sf "$XDG_CONFIG_HOME/bash/.bashrc"		"$HOME/.bashrc"
 ln -sf "$XDG_CONFIG_HOME/x11/.xprofile"		"$HOME/.xprofile"
 ln -sf "$XDG_CONFIG_HOME/vim/.vimrc"		"$HOME/.vimrc"
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_CACHE_HOME
+mkdir -p "$XDG_CACHE_HOME"
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_DATA_HOME
 mkdir -p "$XDG_DATA_HOME"
-cd $dir/share
+cd $dir/.local/share
 for i in *; do
 	rm -rf					"$XDG_DATA_HOME/$i"
 	ln -s "$PWD/$i"			"$XDG_DATA_HOME/$i"
 done
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_CACHE_HOME
-mkdir -p "$XDG_CACHE_HOME"
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_STATE_HOME
 mkdir -p "$XDG_STATE_HOME"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_EXE_HOME
+mkdir -p "$XDG_EXE_HOME"
+cd $dir/.local/bin
+for i in *; do
+	rm -rf					"$XDG_EXE_HOME/$i"
+	ln -s "$PWD/$i"			"$XDG_EXE_HOME/$i"
+done
