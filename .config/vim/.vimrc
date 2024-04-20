@@ -10,6 +10,7 @@
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ appearance
 " set t_Co=16
+" syntax on
 
 set number
 set relativenumber
@@ -22,9 +23,8 @@ set wildoptions=pum,tagfile
 set shortmess-=S
 " show [1/5] when searching
 set showcmd
-" show z when using zz, for example
+" show z when using zz, etc
 
-" syntax on
 set list
 set listchars=eol:\ ,
 set virtualedit=onemore,block
@@ -35,8 +35,8 @@ set listchars+=tab:\ \ ,
 " set listchars+=multispace:▫,lead:▫,trail:▫,
 " ▫	white small square	u+25ab
 
-set concealcursor=""
 set conceallevel=0
+set concealcursor=""
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ motion
 set startofline
@@ -108,7 +108,7 @@ set foldmethod=marker
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ misc
 set cpoptions-=_
-" when using 'cw', do not treat like 'ce' (nvim only)
+" [nvim only] when using 'cw', do not treat like 'ce'
 " https://vi.stackexchange.com/questions/6194/why-do-cw-and-ce-do-the-same-thing
 
 
@@ -138,7 +138,14 @@ nnoremap <silent> <s-j> :put _<cr>
 nnoremap <silent> <s-k> :put! _<cr>
 nnoremap <silent> <a-j> :m +1<cr>
 nnoremap <silent> <a-k> :m -2<cr>
-" for now the <a-j> mapping only works in nvim
+" [nvim only] <a-j> etc
+
+let mapleader=' '
+
+
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ftplugin
+let g:markdown_recommended_style=0
 
 
 
@@ -169,8 +176,8 @@ nnoremap <silent> <a-k> :m -2<cr>
 
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-plug_config
-call plug#begin()
-" call plug#begin(stdpath('data') . '/plugged')
+" call plug#begin()                             "vim
+call plug#begin(stdpath('data') . '/plugged') "nvim
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ appearance
 " Plug 'altercation/vim-colors-solarized'
@@ -181,6 +188,7 @@ call plug#begin()
 " Plug 'martineausimon/nvim-xresources'
 " Plug 'robertmeta/nofrils'
 Plug 'aidancz/nofrils'
+
 Plug 'ap/vim-css-color'
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ editor enhancement
@@ -233,7 +241,7 @@ call plug#end()
 " " colorscheme penumbra
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nofrils
-" source ~/a_gi/nofrils/colors/nofrils.vim
+" source ~/sync_git/nofrils/colors/nofrils.vim
 colorscheme nofrils
 
 " " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ auto-pairs
@@ -280,7 +288,7 @@ let g:mkdp_page_title = '${name}'
 let g:mkdp_filetypes = ['markdown']
 
 function! g:Open_browser(url)
-	silent exec '!google-chrome-stable --new-window ' . a:url . ' &'
+	silent exec '!firefox --new-window ' . a:url . ' &'
 endfunction
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-table-mode
@@ -288,12 +296,9 @@ nnoremap <leader>tm :TableModeToggle<cr>
 
 
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
-let mapleader=' '
-
-
-
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ autocmd
+au FocusLost,QuitPre * silent! wa
+
 " autocmd BufWritePost mdir,mfile !mdf
 " autocmd BufRead,BufNewFile xresources* set filetype=xdefaults
 " autocmd BufWritePost xresources* !xrdb % 2> /dev/null

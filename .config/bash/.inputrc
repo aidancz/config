@@ -1,13 +1,34 @@
 # https://wiki.archlinux.org/title/readline
+$include /etc/inputrc
 
+
+
+set editing-mode vi
 set keyseq-timeout 10
-# wait 10 milliseconds
-# works in "vi" keymap, doesn't work in "emacs" keymap (can't figure it out now)
+# set show-mode-in-prompt on
+set show-all-if-unmodified on
+set show-all-if-ambiguous on
+# set echo-control-characters off
 
-"\e[A":history-search-backward
-"\e[B":history-search-forward
-# "\C-p":history-search-backward
-# "\C-n":history-search-forward
-# bind "\C-p":history-search-backward
-# bind -p
-# https://unix.stackexchange.com/questions/53814/configure-up-arrow-to-browse-through-commands-with-same-initial-characters-rathe
+
+
+$if mode=vi
+
+set keymap vi-command
+# these are for vi-command mode:
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+j: history-search-forward
+k: history-search-backward
+
+set keymap vi-insert
+# these are for vi-insert mode:
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+"\C-l": clear-screen
+"\C-a": beginning-of-line
+"\C-e": end-of-line
+"\C-k": kill-line
+
+$endif

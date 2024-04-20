@@ -1,6 +1,5 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ source
 source "$XDG_CONFIG_HOME/sh/shrc"
-source "$XDG_CACHE_HOME/mdf/m_zshnameddir"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ prompt
 autoload -U colors && colors

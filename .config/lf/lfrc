@@ -24,6 +24,8 @@ set errorfmt "\033[30;41m"
 # https://github.com/gokcehan/lf/issues/1403
 # https://github.com/gokcehan/lf/pull/1381
 
+
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ cmd
 
 # cmd on-cd &{{
@@ -48,7 +50,7 @@ set errorfmt "\033[30;41m"
 
 cmd open ${{
     case $(file --mime-type "$(readlink -f $f)" -b) in
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	text/html) setsid -f $BROWSER --new-window $fx;;
 
 	application/msword) setsid -f zaread $fx >/dev/null 2>&1 ;;
@@ -65,9 +67,7 @@ cmd open ${{
 	# inode/x-empty | text/* | application/*) devour emacsclient -c $fx;;
 	# inode/x-empty | text/* | application/*) emacsclient -nw $fx;;
 	# inode/x-empty | text/* | application/*) emacsclient -r -n $fx;;
-	inode/x-empty | text/* | application/*) vim $fx;;
-
-
+	inode/x-empty | text/* | application/*) nvim $fx;;
 
 	image/x-xcf) setsid -f gimp $f >/dev/null 2>&1 ;;
 	image/svg+xml) display -- $f ;;
@@ -80,7 +80,7 @@ cmd open ${{
 		;;
 	audio/*|video/x-ms-asf) mpv --audio-display=no $f ;;
 	video/*) setsid -f mpv $f -quiet >/dev/null 2>&1 ;;
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         *) for f in $fx; do setsid -f $OPENER $f >/dev/null 2>&1; done;;
     esac
 }}
@@ -105,17 +105,22 @@ cmd copyto ${{
 	done
 }}
 
+
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
 cmap <c-g> cmd-escape
+
+
 
 map c					# default: c -> clear, unmap it to use key sequence start with "c"
 map t
 
+map <f-1> quit
 # map ; read
 
-map <c-a> invert
 map <esc> :unselect; clear
 map <c-g> :unselect; clear
+map <c-a> invert
 
 map g top
 map <c-j> :updir; set dironly true; down; set dironly false; open
@@ -133,15 +138,11 @@ map ci $vidir
 # https://github.com/gokcehan/lf/issues/279
 # https://github.com/gokcehan/lf/wiki/Tips#enhancing-the-rename-command
 
-map v $vim $fx
-# map e $emacsclient -nw -a "" $fx
+map v $nvim $fx
+# map e $emacsclient -nw $fx
 # map E $emacs -nw $fx
-# map e $devour emacsclient -c $fx
-# map E $devour emacs $fx
-map e $emacsclient -nw $fx
-map E $emacs -nw $fx
-map <c-e> $emacsclient -c $fx
-map <a-e> $emacs $fx
+# map <c-e> $emacsclient -c $fx
+# map <a-e> $emacs $fx
 
 map <enter>	$setsid -f $TERMINAL >/dev/null 2>&1
 map x		!$f
@@ -156,10 +157,12 @@ map <a-m>	moveto
 map <a-s>	$lf -remote "send $id select \"$(fzf)\""
 map <a-a>	$clear; diff --color=always -u $fx $f | less -r
 # https://stackoverflow.com/questions/4857310/how-to-get-diff-working-like-git-diff
-map <a-q>	$pandoc --wrap=preserve -f markdown -t org -o $(basename -s .md $f).org $f
+# map <a-q>	$pandoc --wrap=preserve -f markdown -t org -o $(basename -s .md $f).org $f
+map <a-q>	$pandoc --wrap=preserve -f org -t gfm -o $(basename -s .org $f).md $f
 map <a-i>	$sed -Ezi 's/(:[^\n]+\n){3}/\n/g' $f; sed -Ei 's/^ {4}/\t/g' $f
 map <a-p>	$sed -e '0,/mixed-port/s/7890/8889/' -e '/external-controller/aexternal-ui: clash-dashboard' $f > ~/.config/clash/config.yaml
 
-# source
-source "~/.cache/mdf/m_lf"
-# source "$XDG_CACHE_HOME/mdf/m_lf"
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ source
+source "~/.config/bookmarks_output/lf"

@@ -3,7 +3,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ source
 source $HOME/.env
 source $XDG_CONFIG_HOME/sh/.alias
-source $XDG_CACHE_HOME/mdf/m_sh
+source $XDG_CONFIG_HOME/bookmarks_output/sh
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ misc
 stty stop undef
