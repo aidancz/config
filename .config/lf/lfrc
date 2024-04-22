@@ -123,8 +123,8 @@ map <c-g> :unselect; clear
 map <c-a> invert
 
 map g top
-map <c-j> :updir; set dironly true; down; set dironly false; open
-map <c-k> :updir; set dironly true; up; set dironly false; open
+map <down> :updir; set dironly true; down; set dironly false; open
+map <up>   :updir; set dironly true; up; set dironly false; open
 map <c-o> jump-prev
 map <tab> jump-next			# <tab> & <c-i>
 
@@ -138,6 +138,7 @@ map ci $vidir
 # https://github.com/gokcehan/lf/issues/279
 # https://github.com/gokcehan/lf/wiki/Tips#enhancing-the-rename-command
 
+map <right> $sudo -e $fx
 map v $nvim $fx
 # map e $emacsclient -nw $fx
 # map E $emacs -nw $fx

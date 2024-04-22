@@ -298,6 +298,7 @@ nnoremap <leader>tm :TableModeToggle<cr>
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ autocmd
 au FocusLost,QuitPre * silent! wa
+" autosave
 
 " autocmd BufWritePost mdir,mfile !mdf
 " autocmd BufRead,BufNewFile xresources* set filetype=xdefaults

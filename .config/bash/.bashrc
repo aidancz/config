@@ -13,5 +13,6 @@ source "$HOME/.shrc"
 PS1="(\$ \u \h \W) "
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
-bind -x '"\eOP":"lfub"'
+bind -m vi-insert  -x '"\eOP":"lfub"'
+bind -m vi-command -x '"\eOP":"lfub"'
 # https://stackoverflow.com/questions/4200800/in-bash-how-do-i-bind-a-function-key-to-a-command

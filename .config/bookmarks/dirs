@@ -10,3 +10,11 @@ xco	$XDG_CONFIG_HOME
 xda	$XDG_DATA_HOME
 xca	$XDG_CACHE_HOME
 xst	$XDG_STATE_HOME
+
+de	$HOME/Desktop
+do	$HOME/Downloads
+
+sc	$HOME/sync_cloud
+
+sg	$HOME/sync_git
+c	$HOME/sync_git/arch_config

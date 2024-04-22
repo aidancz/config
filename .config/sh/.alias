@@ -13,7 +13,7 @@ alias mkdir="mkdir -p"
 
 # abbreviate long command
 alias j="setsid -f $TERMINAL"
-alias v="vim"
+alias v="nvim"
 # alias ed="emacs --daemon"
 # alias ek="emacsclient -e '(kill-emacs)'"
 # alias ke="kill $(pidof emacs)"
