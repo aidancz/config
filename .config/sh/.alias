@@ -12,7 +12,7 @@ alias mkdir="mkdir -p"
 # alias diff="diff --color=auto"
 
 # abbreviate long command
-alias j="setsid -f $TERMINAL"
+# alias j="setsid -f $TERMINAL"
 alias v="nvim"
 # alias ed="emacs --daemon"
 # alias ek="emacsclient -e '(kill-emacs)'"
@@ -23,7 +23,6 @@ alias v="nvim"
 # alias E="devour emacs"
 # alias e="emacsclient -nw"
 # alias E="emacs -nw"
-alias lf="lfub"
 alias ll="ls -l"
 alias pacref="sudo reflector --country 'China' --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
 

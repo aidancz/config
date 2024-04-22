@@ -140,6 +140,10 @@ nnoremap <silent> <a-j> :m +1<cr>
 nnoremap <silent> <a-k> :m -2<cr>
 " [nvim only] <a-j> etc
 
+" noremap  <silent> <f1> <esc>:silent! !setsid -f $TERMINAL<cr>
+" noremap! <silent> <f1> <esc>:silent! !setsid -f $TERMINAL<cr>
+" https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
+
 let mapleader=' '
 
 
