@@ -201,6 +201,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-rsi'
 Plug 'tommcdo/vim-lion'
+Plug 'inkarkat/vim-ReplaceWithRegister'
 Plug 'aidancz/vim-barbaric'
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -219,48 +220,17 @@ call plug#end()
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ plug_config
 
-" " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ solarized
-" " let g:solarized_termcolors=16
-" " let g:solarized_termtrans=0
-" " let g:solarized_degrade=0
-" " let g:solarized_bold=1
-" " let g:solarized_underline=1
-" " let g:solarized_italic=1
-" " let g:solarized_contrast='normal'
-" " let g:solarized_visibility='normal'
-" set background=dark
-" " always set this option to 'dark', let the terminal decide dark or light
-" colorscheme solarized
-" call togglebg#map('<F2>')
-
-" " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nord
-" colorscheme nord
-
-" " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ xresources
-" colorscheme xresources
-
-" " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ penumbra
-" runtime penumbra.vim
-" " https://github.com/junegunn/vim-plug/issues/796
-" " colorscheme penumbra
-
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nofrils
 " source ~/sync_git/nofrils/colors/nofrils.vim
 colorscheme nofrils
 
-" " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ auto-pairs
-" let g:AutoPairsMapCh = 0
-" " let g:AutoPairsShortcutToggle     = '<M-p>'
-" " let g:AutoPairsShortcutFastWrap   = '<M-e>'
-" " let g:AutoPairsShortcutJump       = '<M-n>'
-" " let g:AutoPairsShortcutBackInsert = '<M-b>'
-
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ coc
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-lion
+let g:lion_squeeze_spaces = 1
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ fzf
-" nnoremap <leader>ff :Files<cr>
-" nnoremap <leader>fb :Buffers<cr>
-" nnoremap <leader>fh :History<cr>
+nnoremap <leader>ff :Files<cr>
+nnoremap <leader>fb :Buffers<cr>
+nnoremap <leader>fh :History<cr>
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ markdown-preview
 let g:mkdp_auto_start = 0
@@ -290,13 +260,51 @@ let g:mkdp_highlight_css = ''
 let g:mkdp_port = ''
 let g:mkdp_page_title = '${name}'
 let g:mkdp_filetypes = ['markdown']
-
+" ~~~
 function! g:Open_browser(url)
 	silent exec '!firefox --new-window ' . a:url . ' &'
 endfunction
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-table-mode
 nnoremap <leader>tm :TableModeToggle<cr>
+
+
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ plug_config_comment {{{
+
+" " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ solarized
+" " let g:solarized_termcolors=16
+" " let g:solarized_termtrans=0
+" " let g:solarized_degrade=0
+" " let g:solarized_bold=1
+" " let g:solarized_underline=1
+" " let g:solarized_italic=1
+" " let g:solarized_contrast='normal'
+" " let g:solarized_visibility='normal'
+" set background=dark
+" " always set this option to 'dark', let the terminal decide dark or light
+" colorscheme solarized
+" call togglebg#map('<F2>')
+
+" " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nord
+" colorscheme nord
+
+" " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ xresources
+" colorscheme xresources
+
+" " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ penumbra
+" runtime penumbra.vim
+" " https://github.com/junegunn/vim-plug/issues/796
+" " colorscheme penumbra
+
+" " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ auto-pairs
+" let g:AutoPairsMapCh = 0
+" " let g:AutoPairsShortcutToggle     = '<M-p>'
+" " let g:AutoPairsShortcutFastWrap   = '<M-e>'
+" " let g:AutoPairsShortcutJump       = '<M-n>'
+" " let g:AutoPairsShortcutBackInsert = '<M-b>'
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ plug_config_comment }}}
 
 
 

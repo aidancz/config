@@ -38,3 +38,5 @@ bind -m vi-command '"\eOR":"\ecclfubcd\n"'
 # \eOR is keycode for function key f3
 # \e cc lfubcd \n
 
+bind -m vi-insert  '"\ef":"\ecccd $(dirname $(fzf))\n"'
+bind -m vi-command '"\ef":"\ecccd $(dirname $(fzf))\n"'

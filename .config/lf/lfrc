@@ -126,7 +126,7 @@ map <up>   :updir; set dironly true; up; set dironly false; open
 map <c-o>  jump-prev
 map <tab>  jump-next			# <tab> & <c-i>
 map <left> $lf -remote "send $id cd $(git rev-parse --show-toplevel)"
-map <a-s>  $lf -remote "send $id select \"$(fzf)\""
+map <a-f>  $lf -remote "send $id select \"$(fzf)\""
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ select
 map <esc> :unselect; clear
