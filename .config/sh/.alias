@@ -12,7 +12,7 @@ alias mkdir="mkdir -p"
 # alias diff="diff --color=auto"
 
 # abbreviate long command
-# alias j="setsid -f $TERMINAL"
+alias n="setsid -f $TERMINAL >/dev/null 2>&1"
 alias v="nvim"
 # alias ed="emacs --daemon"
 # alias ek="emacsclient -e '(kill-emacs)'"

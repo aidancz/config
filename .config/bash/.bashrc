@@ -26,9 +26,15 @@ lfubcd () {
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
-bind -m vi-insert  '"\eOP":"\ecclfubcd\n"'
-bind -m vi-command '"\eOP":"\ecclfubcd\n"'
-# \e cc lfubcd \n
-# https://stackoverflow.com/questions/4200800/in-bash-how-do-i-bind-a-function-key-to-a-command
 # https://stackoverflow.com/questions/8366450/complex-keybinding-in-bash
+# https://stackoverflow.com/questions/4200800/in-bash-how-do-i-bind-a-function-key-to-a-command
+
+bind -m vi-insert  -x '"\eOP":setsid -f $TERMINAL >/dev/null 2>&1'
+bind -m vi-command -x '"\eOP":setsid -f $TERMINAL >/dev/null 2>&1'
+# \eOP is keycode for function key f1
+
+bind -m vi-insert  '"\eOR":"\ecclfubcd\n"'
+bind -m vi-command '"\eOR":"\ecclfubcd\n"'
+# \eOR is keycode for function key f3
+# \e cc lfubcd \n
 

@@ -107,36 +107,50 @@ cmd copyto ${{
 
 
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ cmap
 cmap <c-g> cmd-escape
 
-
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ basic
 map c					# default: c -> clear, unmap it to use key sequence start with "c"
 map t
-
-map <f-1> quit
+map <f-3> quit
 # map ; read
+map <enter> $setsid -f $TERMINAL >/dev/null 2>&1
+map <f-1> $setsid -f $TERMINAL >/dev/null 2>&1
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ navigate
+map g top
+map <down> :updir; set dironly true; down; set dironly false; open
+map <up>   :updir; set dironly true; up; set dironly false; open
+map <c-o>  jump-prev
+map <tab>  jump-next			# <tab> & <c-i>
+map <left> $lf -remote "send $id cd $(git rev-parse --show-toplevel)"
+map <a-s>  $lf -remote "send $id select \"$(fzf)\""
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ select
 map <esc> :unselect; clear
 map <c-g> :unselect; clear
 map <c-a> invert
 
-map g top
-map <down> :updir; set dironly true; down; set dironly false; open
-map <up>   :updir; set dironly true; up; set dironly false; open
-map <c-o> jump-prev
-map <tab> jump-next			# <tab> & <c-i>
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ cp mv
+map <a-c>	copyto
 
-map i rename				# before extension
-map a push i<c-f>			# after extension
-map I push i<c-a>			# at the very beginning
-map A push i<c-e>			# at the very end
-map cc push i<c-e><c-u>		# new rename
+map <a-m>	moveto
+map <a-d>	$trash-put $fx
+
+map i  rename				# before extension
+map a  push i<c-f>			# after extension
+map I  push i<c-a>			# at the very beginning
+map A  push i<c-e>			# at the very end
+map cc push i<c-e><c-u>			# new rename
 map cw push i<c-u>			# new rename (with extension)
 map ci $vidir
 # https://github.com/gokcehan/lf/issues/279
 # https://github.com/gokcehan/lf/wiki/Tips#enhancing-the-rename-command
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ file change
+map <a-x> $chmod +x $f
 
 map <right> $sudo -e $fx
 map v $nvim $fx
@@ -145,23 +159,21 @@ map v $nvim $fx
 # map <c-e> $emacsclient -c $fx
 # map <a-e> $emacs $fx
 
-map <enter>	$setsid -f $TERMINAL >/dev/null 2>&1
+# map <a-q>	$pandoc --wrap=preserve -f markdown -t org -o $(basename -s .md $f).org $f
+# map <a-i>	$sed -Ezi 's/(:[^\n]+\n){3}/\n/g' $f; sed -Ei 's/^ {4}/\t/g' $f
+map <a-q>	$pandoc --wrap=preserve -f org -t gfm -o $(basename -s .org $f).md $f
+map <a-p>	$sed -e '0,/mixed-port/s/7890/8889/' -e '/external-controller/aexternal-ui: clash-dashboard' $f > ~/.config/clash/config.yaml
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ file use
 map x		!$f
-map <a-x>	$chmod +x $f
-map <a-y>	$printf "%s" "$fx" | xclip -selection clipboard
-map <a-b>	$setbg $f
-map <a-g>	!find . -maxdepth 1 -mindepth 1 -type d -exec sh -c "echo {}; cd {}; git status -s; echo" \;
-map <a-d>	$trash-put $fx
 map <a-z>	$aunpack $fx
-map <a-c>	copyto
-map <a-m>	moveto
-map <a-s>	$lf -remote "send $id select \"$(fzf)\""
+map <a-b>	$setbg $f
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ file info
+map <a-y>	$printf "%s" "$fx" | xclip -selection clipboard
+map <a-g>	!find . -maxdepth 1 -mindepth 1 -type d -exec sh -c "echo {}; cd {}; git status -s; echo" \;
 map <a-a>	$clear; diff --color=always -u $fx $f | less -r
 # https://stackoverflow.com/questions/4857310/how-to-get-diff-working-like-git-diff
-# map <a-q>	$pandoc --wrap=preserve -f markdown -t org -o $(basename -s .md $f).org $f
-map <a-q>	$pandoc --wrap=preserve -f org -t gfm -o $(basename -s .org $f).md $f
-map <a-i>	$sed -Ezi 's/(:[^\n]+\n){3}/\n/g' $f; sed -Ei 's/^ {4}/\t/g' $f
-map <a-p>	$sed -e '0,/mixed-port/s/7890/8889/' -e '/external-controller/aexternal-ui: clash-dashboard' $f > ~/.config/clash/config.yaml
 
 
 
