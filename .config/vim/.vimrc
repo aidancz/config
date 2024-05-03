@@ -144,6 +144,9 @@ noremap  <silent> <f1> <esc>:silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>
 noremap! <silent> <f1> <esc>:silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>
 " https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
 
+noremap  <silent> <f7> <esc>:put =strftime('%F')<cr>
+noremap! <silent> <f7> <esc>:put =strftime('%F')<cr>
+
 let mapleader=' '
 
 
@@ -221,8 +224,8 @@ call plug#end()
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ plug_config
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nofrils
-" source ~/sync_git/nofrils/colors/nofrils.vim
-colorscheme nofrils
+source ~/sync_git/nofrils/colors/nofrils.vim
+" colorscheme nofrils
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-lion
 let g:lion_squeeze_spaces = 1
@@ -309,10 +312,11 @@ nnoremap <leader>tm :TableModeToggle<cr>
 
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ autocmd
-au FocusLost,QuitPre * silent! wa
+autocmd FocusLost,QuitPre * ++nested silent! wa
 " autosave
 
-" autocmd BufWritePost mdir,mfile !mdf
+autocmd BufWritePost dirs,files silent !bookmarks
+
 " autocmd BufRead,BufNewFile xresources* set filetype=xdefaults
 " autocmd BufWritePost xresources* !xrdb % 2> /dev/null
 

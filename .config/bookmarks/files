@@ -1,2 +1,2 @@
-ff	$XDG_CONFIG_HOME/bookmarks/bookmarks_files
-fd	$XDG_CONFIG_HOME/bookmarks/bookmarks_dirs
+ff	$XDG_CONFIG_HOME/bookmarks/files
+fd	$XDG_CONFIG_HOME/bookmarks/dirs
