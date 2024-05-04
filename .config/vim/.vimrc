@@ -26,14 +26,16 @@ set showcmd
 " show z when using zz, etc
 
 set list
-set listchars=eol:\ ,
-set virtualedit=onemore,block
-au InsertLeave * :norm `^
-" set listchars+=tab:\·\ ,
-" ·	middle dot	u+00b7
-set listchars+=tab:\ \ ,
-" set listchars+=multispace:▫,lead:▫,trail:▫,
+set listchars=
+" ·	middle dot		u+00b7
 " ▫	white small square	u+25ab
+" set listchars+=tab:\·\ ,
+" set listchars+=multispace:▫,lead:▫,trail:▫,
+set listchars+=tab:\ \ ,
+
+" set listchars=eol:\ ,
+" set virtualedit=onemore,block
+" au InsertLeave * :norm `^
 
 set conceallevel=0
 set concealcursor=""
@@ -313,7 +315,9 @@ nnoremap <leader>tm :TableModeToggle<cr>
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ autocmd
 autocmd FocusLost,QuitPre * ++nested silent! wa
-" autosave
+" https://vim.fandom.com/wiki/Auto_save_files_when_focus_is_lost
+
+autocmd BufRead log.txt silent $
 
 autocmd BufWritePost dirs,files silent !bookmarks
 

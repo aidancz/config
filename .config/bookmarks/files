@@ -1,2 +1,4 @@
 ff	$XDG_CONFIG_HOME/bookmarks/files
 fd	$XDG_CONFIG_HOME/bookmarks/dirs
+
+l	$HOME/sync_cloud/todo/log.txt
