@@ -112,6 +112,8 @@ set foldmethod=marker
 set cpoptions-=_
 " [nvim only] when using 'cw', do not treat like 'ce'
 " https://vi.stackexchange.com/questions/6194/why-do-cw-and-ce-do-the-same-thing
+set updatetime=100
+" https://github.com/iamcco/markdown-preview.nvim/issues/4
 
 
 
