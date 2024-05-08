@@ -10,7 +10,6 @@
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ appearance
 " set t_Co=16
-" syntax on
 
 set number
 set relativenumber
@@ -107,6 +106,9 @@ set wrapmargin=0
 set hidden
 set scrolloff=0
 set foldmethod=marker
+set foldtext=getline(v:foldstart)
+set fillchars=
+set fillchars+=fold:\ ,
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ misc
 set cpoptions-=_
@@ -152,11 +154,6 @@ noremap  <silent> <f7> <esc>:put =strftime('%F')<cr>
 noremap! <silent> <f7> <esc>:put =strftime('%F')<cr>
 
 let mapleader=' '
-
-
-
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ftplugin
-let g:markdown_recommended_style=0
 
 
 
@@ -222,6 +219,20 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for':
 Plug 'dhruvasagar/vim-table-mode'
 
 call plug#end()
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ script
+" put these lines here because:
+" open https://github.com/junegunn/vim-plug, search 'filetype'
+
+" filetype plugin indent on
+filetype plugin indent off
+" see ':h :filetype-overview'
+
+" syntax on
+syntax off
+
+" let g:markdown_recommended_style=0
+" '/usr/share/nvim/runtime/ftplugin/markdown.vim'
 
 
 
