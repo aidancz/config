@@ -34,7 +34,7 @@ set listchars+=tab:\ \ ,
 
 " set listchars=eol:\ ,
 " set virtualedit=onemore,block
-" au InsertLeave * :norm `^
+" autocmd InsertLeave * :norm `^
 
 set conceallevel=0
 set concealcursor=""
@@ -97,7 +97,8 @@ set textwidth=0
 set wrapmargin=0
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ formatoptions
-" au BufEnter * set fo-=c fo-=r fo-=o
+" autocmd BufEnter * set fo-=c fo-=r fo-=o
+set fo-=c fo-=r fo-=o
 
 " disable automatic comment on newline
 " https://vi.stackexchange.com/questions/1983/how-can-i-get-vim-to-stop-putting-comments-in-front-of-new-lines
@@ -184,8 +185,8 @@ let mapleader=' '
 
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-plug_config
-" call plug#begin()                             "vim
-call plug#begin(stdpath('data') . '/plugged') "nvim
+call plug#begin()                             "vim
+" call plug#begin(stdpath('data') . '/plugged') "nvim
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ appearance
 " Plug 'altercation/vim-colors-solarized'
@@ -201,22 +202,25 @@ Plug 'ap/vim-css-color'
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ editor enhancement
 " Plug 'jiangmiao/auto-pairs'
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-rsi'
 Plug 'tommcdo/vim-lion'
 Plug 'inkarkat/vim-ReplaceWithRegister'
 Plug 'aidancz/vim-barbaric'
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ file navigation
-Plug 'preservim/nerdtree'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+" Plug 'preservim/nerdtree'
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf.vim'
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown' }
 Plug 'dhruvasagar/vim-table-mode'
+" Plug 'preservim/vim-markdown'
+" Plug 'Scuilion/markdown-drawer'
+Plug 'NikitaIvanovV/vim-markdown-outline'
 
 call plug#end()
 
@@ -224,15 +228,25 @@ call plug#end()
 " put these lines here because:
 " open https://github.com/junegunn/vim-plug, search 'filetype'
 
+filetype on
+
 " filetype plugin indent on
 filetype plugin indent off
 " see ':h :filetype-overview'
 
-" syntax on
-syntax off
+syntax on
+" syntax off
 
-" let g:markdown_recommended_style=0
-" '/usr/share/nvim/runtime/ftplugin/markdown.vim'
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ replace 'ftplugin' and 'syntax' with autocmd
+autocmd FileType markdown
+\ setlocal commentstring=#%s
+
+autocmd FileType vim
+\ setlocal commentstring=\"%s
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ /usr/share/nvim/runtime/ftplugin/markdown.vim
+" let g:markdown_folding = 1
+" let g:markdown_recommended_style = 0
 
 
 
@@ -242,13 +256,10 @@ syntax off
 source ~/sync_git/nofrils/colors/nofrils.vim
 " colorscheme nofrils
 
+nnoremap <silent> <f9> :NofrilsToggle<cr>
+
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-lion
 let g:lion_squeeze_spaces = 1
-
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ fzf
-nnoremap <leader>ff :Files<cr>
-nnoremap <leader>fb :Buffers<cr>
-nnoremap <leader>fh :History<cr>
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ markdown-preview
 let g:mkdp_auto_start = 0
@@ -321,6 +332,11 @@ nnoremap <leader>tm :TableModeToggle<cr>
 " " let g:AutoPairsShortcutFastWrap   = '<M-e>'
 " " let g:AutoPairsShortcutJump       = '<M-n>'
 " " let g:AutoPairsShortcutBackInsert = '<M-b>'
+
+" " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ fzf
+" nnoremap <leader>ff :Files<cr>
+" nnoremap <leader>fb :Buffers<cr>
+" nnoremap <leader>fh :History<cr>
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ plug_config_comment }}}
 
