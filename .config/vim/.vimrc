@@ -10,16 +10,19 @@
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ appearance
 " set t_Co=16
+set notermguicolors
 
 set number
 set relativenumber
 set guicursor=
 " set cursorline
+set noshowmode
+" show '-- INSERT --' when switching to insert mode, etc
 set wildmenu
 " using wildchar (usually <tab>) to perform a command-line completion, shows a menu
 set wildoptions=pum,tagfile
 " pum: popup menu
-set shortmess-=S
+set shortmess-=S shortmess+=c shortmess+=I
 " show [1/5] when searching
 set showcmd
 " show z when using zz, etc
@@ -32,9 +35,9 @@ set listchars=
 " set listchars+=multispace:▫,lead:▫,trail:▫,
 set listchars+=tab:\ \ ,
 
-" set listchars=eol:\ ,
-" set virtualedit=onemore,block
-" autocmd InsertLeave * :norm `^
+set listchars+=eol:\ ,
+set virtualedit=onemore,block
+autocmd InsertLeave * :norm `^
 
 set conceallevel=0
 set concealcursor=""
@@ -96,13 +99,6 @@ set preserveindent
 set textwidth=0
 set wrapmargin=0
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ formatoptions
-" autocmd BufEnter * set fo-=c fo-=r fo-=o
-set fo-=c fo-=r fo-=o
-
-" disable automatic comment on newline
-" https://vi.stackexchange.com/questions/1983/how-can-i-get-vim-to-stop-putting-comments-in-front-of-new-lines
-
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buffer window tab
 set hidden
 set scrolloff=0
@@ -110,6 +106,8 @@ set foldmethod=marker
 set foldtext=getline(v:foldstart)
 set fillchars=
 set fillchars+=fold:\ ,
+set splitbelow
+set splitright
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ misc
 set cpoptions-=_
@@ -117,10 +115,19 @@ set cpoptions-=_
 " https://vi.stackexchange.com/questions/6194/why-do-cw-and-ce-do-the-same-thing
 set updatetime=100
 " https://github.com/iamcco/markdown-preview.nvim/issues/4
+set backspace=indent,eol,start,nostop
+
+" autocmd BufEnter * set fo-=c fo-=r fo-=o
+set formatoptions-=c formatoptions-=r formatoptions-=o
+" disable automatic comment on newline
+" not using 'set fo-=cro' because ':h add-option-flags'
+" https://vi.stackexchange.com/questions/1983/how-can-i-get-vim-to-stop-putting-comments-in-front-of-new-lines
 
 
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
+" ':h map-table'
+
 " nnoremap <expr> zh 'zt' . winheight(0)/4 . '<c-y>'
 " nnoremap <expr> zl 'zb' . winheight(0)/4 . '<c-e>'
 " https://stackoverflow.com/questions/8059448/scroll-window-halfway-between-zt-and-zz-in-vim
@@ -154,27 +161,22 @@ noremap! <silent> <f1> <esc>:silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>
 noremap  <silent> <f7> <esc>:put =strftime('%F')<cr>
 noremap! <silent> <f7> <esc>:put =strftime('%F')<cr>
 
+func! CompileRunGcc()
+	exe 'w'
+	if     &filetype == 'markdown'
+		exe 'MarkdownPreview'
+	elseif &filetype == 'c'
+		set splitbelow
+		:sp
+		:res -5
+		term gcc % -o %< && time ./%<
+	endif
+endfunc
+nnoremap <f5> :call CompileRunGcc()<cr>
+
 let mapleader=' '
 
-
-
-" " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vimpager
-" let g:less = {}
-" let g:vimpager = {}
-" let g:less.scrolloff = 1024
-" " https://github.com/rkitover/vimpager/issues/212
-
-
-
-
-
-
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
-
-
+" 
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-plug_install
 " https://github.com/junegunn/vim-plug#installation
@@ -185,8 +187,8 @@ let mapleader=' '
 
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-plug_config
-call plug#begin()                             "vim
-" call plug#begin(stdpath('data') . '/plugged') "nvim
+" call plug#begin()                             "vim
+call plug#begin(stdpath('data') . '/plugged') "nvim
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ appearance
 " Plug 'altercation/vim-colors-solarized'
@@ -198,7 +200,8 @@ call plug#begin()                             "vim
 " Plug 'robertmeta/nofrils'
 Plug 'aidancz/nofrils'
 
-Plug 'ap/vim-css-color'
+" Plug 'ap/vim-css-color'
+" Plug 'RRethy/vim-hexokinase'
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ editor enhancement
 " Plug 'jiangmiao/auto-pairs'
@@ -224,33 +227,53 @@ Plug 'NikitaIvanovV/vim-markdown-outline'
 
 call plug#end()
 
+
+
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ script
 " put these lines here because:
 " open https://github.com/junegunn/vim-plug, search 'filetype'
 
 filetype on
 
-" filetype plugin indent on
-filetype plugin indent off
+filetype plugin indent on
+" filetype plugin indent off
 " see ':h :filetype-overview'
 
 syntax on
 " syntax off
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ replace 'ftplugin' and 'syntax' with autocmd
-autocmd FileType markdown
-\ setlocal commentstring=#%s
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ overrule ftplugin with filetype autocmd
+" ':h ftplugin-overrule'
+" https://stackoverflow.com/questions/1413285/multiple-autocommands-in-vim
 
-autocmd FileType vim
-\ setlocal commentstring=\"%s
+function SetMarkdown()
+	setlocal commentstring=#%s
+endfunction
+autocmd FileType markdown call SetMarkdown()
+
+function SetVim()
+	setlocal commentstring=\"%s
+endfunction
+autocmd FileType vim call SetVim()
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ filename autocmd
+autocmd FocusLost,QuitPre * ++nested silent! wa
+" https://vim.fandom.com/wiki/Auto_save_files_when_focus_is_lost
+
+autocmd BufRead log.txt silent $
+
+autocmd BufWritePost dirs,files silent !bookmarks
+
+" autocmd BufRead,BufNewFile xresources* set filetype=xdefaults
+" autocmd BufWritePost xresources* !xrdb % 2> /dev/null
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ /usr/share/nvim/runtime/ftplugin/markdown.vim
-" let g:markdown_folding = 1
+let g:markdown_folding = 1
 " let g:markdown_recommended_style = 0
 
 
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ plug_config
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ plug_config {{{
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nofrils
 source ~/sync_git/nofrils/colors/nofrils.vim
@@ -297,6 +320,8 @@ endfunction
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-table-mode
 nnoremap <leader>tm :TableModeToggle<cr>
 
+" }}}
+
 
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ plug_config_comment {{{
@@ -342,33 +367,17 @@ nnoremap <leader>tm :TableModeToggle<cr>
 
 
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ autocmd
-autocmd FocusLost,QuitPre * ++nested silent! wa
-" https://vim.fandom.com/wiki/Auto_save_files_when_focus_is_lost
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ pager {{{
 
-autocmd BufRead log.txt silent $
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vimpager
+let g:less = {}
+let g:vimpager = {}
+let g:less.scrolloff = 1024
+" https://github.com/rkitover/vimpager/issues/212
 
-autocmd BufWritePost dirs,files silent !bookmarks
-
-" autocmd BufRead,BufNewFile xresources* set filetype=xdefaults
-" autocmd BufWritePost xresources* !xrdb % 2> /dev/null
-
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nvimpager
 " autocmd User PageOpen,PageOpenFile
 " 			\ nnoremap <silent> <nowait> g gg
 " https://github.com/I60R/page?tab=readme-ov-file#nviminitlua-customizations-pager-only
 
-
-
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ compile function
-func! CompileRunGcc()
-	exe 'w'
-	if expand('%:e') == 'md'
-		exe 'MarkdownPreview'
-	elseif &filetype == 'c'
-		set splitbelow
-		:sp
-		:res -5
-		term gcc % -o %< && time ./%<
-	endif
-endfunc
-nnoremap <f5> :call CompileRunGcc()<cr>
+" }}}
