@@ -108,6 +108,8 @@ set fillchars=
 set fillchars+=fold:\ ,
 set splitbelow
 set splitright
+set equalalways
+set nowinfixheight
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ misc
 set cpoptions-=_
@@ -174,6 +176,8 @@ func! CompileRunGcc()
 endfunc
 nnoremap <f5> :call CompileRunGcc()<cr>
 
+nmap <f3> gO
+
 let mapleader=' '
 
 " 
@@ -223,7 +227,8 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for':
 Plug 'dhruvasagar/vim-table-mode'
 " Plug 'preservim/vim-markdown'
 " Plug 'Scuilion/markdown-drawer'
-Plug 'NikitaIvanovV/vim-markdown-outline'
+" Plug 'NikitaIvanovV/vim-markdown-outline'
+Plug 'aidancz/vim-markdown-outline'
 
 call plug#end()
 
@@ -256,6 +261,17 @@ function SetVim()
 endfunction
 autocmd FileType vim call SetVim()
 
+function SetQf()
+	" setlocal nowinfixheight
+	" wincmd =
+
+	wincmd _
+	nnoremap <buffer> <silent> <cr> <cr>:only<cr>
+	nnoremap <buffer> <silent> <f3> :q<cr>
+	nnoremap <buffer> <silent> q    :q<cr>
+endfunction
+autocmd FileType qf call SetQf()
+
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ filename autocmd
 autocmd FocusLost,QuitPre * ++nested silent! wa
 " https://vim.fandom.com/wiki/Auto_save_files_when_focus_is_lost
@@ -268,7 +284,7 @@ autocmd BufWritePost dirs,files silent !bookmarks
 " autocmd BufWritePost xresources* !xrdb % 2> /dev/null
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ /usr/share/nvim/runtime/ftplugin/markdown.vim
-let g:markdown_folding = 1
+" let g:markdown_folding = 1
 " let g:markdown_recommended_style = 0
 
 
@@ -319,6 +335,8 @@ endfunction
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-table-mode
 nnoremap <leader>tm :TableModeToggle<cr>
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-markdown-outline
 
 " }}}
 
