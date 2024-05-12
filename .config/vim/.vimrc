@@ -24,7 +24,7 @@ set wildoptions=pum,tagfile
 " pum: popup menu
 set shortmess-=S shortmess+=c shortmess+=I
 " show [1/5] when searching
-set showcmd
+set noshowcmd
 " show z when using zz, etc
 
 set list
@@ -124,6 +124,8 @@ set formatoptions-=c formatoptions-=r formatoptions-=o
 " disable automatic comment on newline
 " not using 'set fo-=cro' because ':h add-option-flags'
 " https://vi.stackexchange.com/questions/1983/how-can-i-get-vim-to-stop-putting-comments-in-front-of-new-lines
+
+set commentstring=●%s
 
 
 
@@ -252,7 +254,7 @@ syntax on
 " https://stackoverflow.com/questions/1413285/multiple-autocommands-in-vim
 
 function SetMarkdown()
-	setlocal commentstring=#%s
+	" setlocal commentstring=#%s
 endfunction
 autocmd FileType markdown call SetMarkdown()
 
