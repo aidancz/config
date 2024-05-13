@@ -126,6 +126,7 @@ set formatoptions-=c formatoptions-=r formatoptions-=o
 " https://vi.stackexchange.com/questions/1983/how-can-i-get-vim-to-stop-putting-comments-in-front-of-new-lines
 
 set commentstring=●%s
+" ●○■□
 
 
 
