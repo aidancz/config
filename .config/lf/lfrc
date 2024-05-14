@@ -114,16 +114,17 @@ cmap <c-g> cmd-escape
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ basic
 map c					# default: c -> clear, unmap it to use key sequence start with "c"
 map t
+map <f-2> quit
 map <f-3> quit
 # map ; read
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ navigate
 map g top
-map <down> :updir; set dironly true; down; set dironly false; open
-map <up>   :updir; set dironly true; up; set dironly false; open
+map <a-j>  :updir; set dironly true; down; set dironly false; open
+map <a-k>  :updir; set dironly true; up; set dironly false; open
 map <c-o>  jump-prev
 map <tab>  jump-next			# <tab> & <c-i>
-map <left> $lf -remote "send $id cd $(git rev-parse --show-toplevel)"
+map <a-h>  $lf -remote "send $id cd $(git rev-parse --show-toplevel)"
 map <a-f>  $lf -remote "send $id select \"$(fzf)\""
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ select
@@ -150,7 +151,7 @@ map ci $vidir
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ open
 map o $mimeopen --ask "$f"
 
-map <right> $sudo -e $fx
+map <a-l> $sudo -e $fx
 map v $nvim $fx
 # map e $emacsclient -nw $fx
 # map E $emacs -nw $fx

@@ -163,8 +163,10 @@ noremap  <silent> <f1> <esc>:silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>
 noremap! <silent> <f1> <esc>:silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>
 " https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
 
-noremap  <silent> <f7> <esc>:put =strftime('%F')<cr>
-noremap! <silent> <f7> <esc>:put =strftime('%F')<cr>
+noremap  <silent> <f2> <esc>:q<cr>
+noremap! <silent> <f2> <esc>:q<cr>
+
+nmap <f3> gO
 
 func! CompileRunGcc()
 	exe 'w'
@@ -179,7 +181,8 @@ func! CompileRunGcc()
 endfunc
 nnoremap <f5> :call CompileRunGcc()<cr>
 
-nmap <f3> gO
+noremap  <silent> <f7> <esc>:put =strftime('%F')<cr>
+noremap! <silent> <f7> <esc>:put =strftime('%F')<cr>
 
 let mapleader=' '
 

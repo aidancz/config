@@ -33,6 +33,10 @@ bind -m vi-insert  -x '"\eOP":setsid -f $TERMINAL >/dev/null 2>&1'
 bind -m vi-command -x '"\eOP":setsid -f $TERMINAL >/dev/null 2>&1'
 # \eOP is keycode for function key f1
 
+bind -m vi-insert  '"\eOQ":"\ecc\C-d"'
+bind -m vi-command '"\eOQ":"\ecc\C-d"'
+# \eOQ is keycode for function key f2
+
 bind -m vi-insert  '"\eOR":"\ecclfubcd\n"'
 bind -m vi-command '"\eOR":"\ecclfubcd\n"'
 # \eOR is keycode for function key f3
