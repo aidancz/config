@@ -215,7 +215,7 @@ Plug 'aidancz/nofrils'
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-rsi'
+" Plug 'tpope/vim-rsi'
 Plug 'tommcdo/vim-lion'
 Plug 'inkarkat/vim-ReplaceWithRegister'
 Plug 'aidancz/vim-barbaric'
