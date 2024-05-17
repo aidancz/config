@@ -2,6 +2,8 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #command
+\e\117\121	quit
+# https://unix.stackexchange.com/questions/672094/lesskey-add-altright-keybinding-to-less
 
 #line-edit
 
