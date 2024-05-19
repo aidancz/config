@@ -25,7 +25,7 @@ set wildoptions=pum,tagfile
 set shortmess-=S shortmess+=c shortmess+=I
 " show [1/5] when searching
 set noshowcmd
-" show z when using zz, etc
+" show z when using zz, etc, show size of selection when in visual mode
 
 set list
 set listchars=
@@ -134,19 +134,22 @@ let @o='●'
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
 " ':h map-table'
 
+" nnoremap ; :
+" vnoremap ; :
+
+" nnoremap <c-g> <esc>
+" inoremap <c-g> <c-c>
+" cnoremap <c-g> <c-c>
+" vnoremap <c-g> <esc>
+
 " nnoremap <expr> zh 'zt' . winheight(0)/4 . '<c-y>'
 " nnoremap <expr> zl 'zb' . winheight(0)/4 . '<c-e>'
 " https://stackoverflow.com/questions/8059448/scroll-window-halfway-between-zt-and-zz-in-vim
 
-nnoremap <c-g> <esc>
-inoremap <c-g> <c-c>
-cnoremap <c-g> <c-c>
-vnoremap <c-g> <esc>
-
-" nnoremap ; :
-" vnoremap ; :
-
 nnoremap Y y$
+
+nnoremap <expr> <c-s> winheight(0)/4 . '<c-e>'
+nnoremap <expr> <c-h> winheight(0)/4 . '<c-y>'
 
 nnoremap <silent> <c-j> zt
 nnoremap <silent> <c-k> zb
@@ -154,18 +157,21 @@ nnoremap <silent> <c-l> zz
 inoremap <silent> <c-j> <c-o>zt
 inoremap <silent> <c-k> <c-o>zb
 inoremap <silent> <c-l> <c-o>zz
+
 nnoremap <silent> <s-j> :put _<cr>
 nnoremap <silent> <s-k> :put! _<cr>
 nnoremap <silent> <a-j> :m +1<cr>
 nnoremap <silent> <a-k> :m -2<cr>
 " [nvim only] <a-j> etc
 
+noremap! <c-s> <c-k>
+
 noremap  <silent> <f1> <esc>:silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>
 noremap! <silent> <f1> <esc>:silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>
 " https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
 
-noremap  <silent> <f2> <esc>:q<cr>
-noremap! <silent> <f2> <esc>:q<cr>
+noremap  <silent> <f2> <esc>:q!<cr>
+noremap! <silent> <f2> <esc>:q!<cr>
 
 nmap <f3> gO
 
@@ -302,7 +308,7 @@ autocmd BufWritePost dirs,files silent !bookmarks
 source ~/sync_git/nofrils/colors/nofrils.vim
 " colorscheme nofrils
 
-nnoremap <silent> <f9> :NofrilsToggle<cr>
+" nnoremap <silent> <f9> :NofrilsToggle<cr>
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-lion
 let g:lion_squeeze_spaces = 1
