@@ -1,5 +1,9 @@
 # man zathura zathurarc
 
+# set recolor true
+# set recolor-darkcolor "#dcdccc"
+# set recolor-lightcolor "#1f1f1f"
+
 map g goto top
 map d scroll half-down
 map u scroll half-up
