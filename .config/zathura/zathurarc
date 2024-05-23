@@ -1,8 +1,10 @@
 # man zathura zathurarc
 
-# set recolor true
-# set recolor-darkcolor "#dcdccc"
-# set recolor-lightcolor "#1f1f1f"
+set recolor true
+# set recolor-darkcolor  "#9e9e9e"
+# set recolor-lightcolor "#24272b"
+set recolor-darkcolor  "#24272b"
+set recolor-lightcolor "#9e9e9e"
 
 map g goto top
 map d scroll half-down
@@ -11,3 +13,4 @@ map f navigate next
 map b navigate previous
 
 map <C-a> toggle_page_mode
+map <F2> quit

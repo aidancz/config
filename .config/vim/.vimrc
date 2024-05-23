@@ -125,14 +125,11 @@ set formatoptions-=c formatoptions-=r formatoptions-=o
 " not using 'set fo-=cro' because ':h add-option-flags'
 " https://vi.stackexchange.com/questions/1983/how-can-i-get-vim-to-stop-putting-comments-in-front-of-new-lines
 
-set commentstring=●%s
-let @o='●'
-" ●○■□
-
 
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
 " ':h map-table'
+" ':h key-notation'
 
 " nnoremap ; :
 " vnoremap ; :
@@ -158,11 +155,15 @@ inoremap <silent> <c-j> <c-o>zt
 inoremap <silent> <c-k> <c-o>zb
 inoremap <silent> <c-l> <c-o>zz
 
-nnoremap <silent> <s-j> :put _<cr>
-nnoremap <silent> <s-k> :put! _<cr>
-nnoremap <silent> <a-j> :m +1<cr>
-nnoremap <silent> <a-k> :m -2<cr>
-" [nvim only] <a-j> etc
+nnoremap <silent> <down>  :put  _<cr>
+nnoremap <silent> <up>    :put! _<cr>
+nnoremap <silent> <left>  "=' '<cr>P
+nnoremap <silent> <right> "=' '<cr>p
+" https://github.com/tpope/vim-unimpaired
+
+nnoremap <silent> <s-j> :m +1<cr>
+nnoremap <silent> <s-k> :m -2<cr>
+" [nvim only] <a-j> <a-k> etc
 
 noremap! <c-s> <c-k>
 
@@ -264,26 +265,33 @@ syntax on
 " ':h ftplugin-overrule'
 " https://stackoverflow.com/questions/1413285/multiple-autocommands-in-vim
 
-function SetMarkdown()
-	" setlocal commentstring=#%s
-endfunction
-autocmd FileType markdown call SetMarkdown()
+set commentstring=#%s
+digraphs oo 9679
 
-function SetVim()
+function All()
+endfunction
+autocmd FileType * call All()
+
+" function Markdown()
+" 	setlocal commentstring=●%s
+" 	" ●○■□
+" endfunction
+" autocmd FileType markdown call Markdown()
+
+function Vim()
 	setlocal commentstring=\"%s
 endfunction
-autocmd FileType vim call SetVim()
+autocmd FileType vim call Vim()
 
-function SetQf()
+function Qf()
 	" setlocal nowinfixheight
 	" wincmd =
-
 	wincmd _
 	nnoremap <buffer> <silent> <cr> <cr>:only<cr>
 	nnoremap <buffer> <silent> <f3> :q<cr>
 	nnoremap <buffer> <silent> q    :q<cr>
 endfunction
-autocmd FileType qf call SetQf()
+autocmd FileType qf call Qf()
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ filename autocmd
 autocmd FocusLost,QuitPre * ++nested silent! wa
