@@ -111,6 +111,10 @@ set splitright
 set equalalways
 set nowinfixheight
 
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ auto save
+autocmd FocusLost,QuitPre * ++nested silent! wa
+" https://vim.fandom.com/wiki/Auto_save_files_when_focus_is_lost
+
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ misc
 set cpoptions-=_
 " [nvim only] when using 'cw', do not treat like 'ce'
@@ -176,19 +180,6 @@ noremap! <silent> <f2> <esc>:q!<cr>
 
 nmap <f3> gO
 
-func! CompileRunGcc()
-	exe 'w'
-	if     &filetype == 'markdown'
-		exe 'MarkdownPreview'
-	elseif &filetype == 'c'
-		set splitbelow
-		:sp
-		:res -5
-		term gcc % -o %< && time ./%<
-	endif
-endfunc
-nnoremap <f5> :call CompileRunGcc()<cr>
-
 noremap  <silent> <f7> <esc>:put =strftime('%F')<cr>
 noremap! <silent> <f7> <esc>:put =strftime('%F')<cr>
 
@@ -205,8 +196,8 @@ let mapleader=' '
 
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-plug_config
-" call plug#begin()                             "vim
-call plug#begin(stdpath('data') . '/plugged') "nvim
+" call plug#begin()                             " vim
+call plug#begin(stdpath('data') . '/plugged') " nvim
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ appearance
 " Plug 'altercation/vim-colors-solarized'
@@ -216,7 +207,8 @@ call plug#begin(stdpath('data') . '/plugged') "nvim
 " Plug 'nekonako/xresources-nvim'
 " Plug 'martineausimon/nvim-xresources'
 " Plug 'robertmeta/nofrils'
-Plug 'aidancz/nofrils'
+" Plug 'aidancz/nofrils'
+Plug '~/sync_git/nofrils'
 
 " Plug 'ap/vim-css-color'
 " Plug 'RRethy/vim-hexokinase'
@@ -242,17 +234,19 @@ Plug 'dhruvasagar/vim-table-mode'
 " Plug 'preservim/vim-markdown'
 " Plug 'Scuilion/markdown-drawer'
 " Plug 'NikitaIvanovV/vim-markdown-outline'
-Plug 'aidancz/vim-markdown-outline'
+" Plug 'aidancz/vim-markdown-outline'
+Plug '~/sync_git/vim-markdown-outline'
 
 call plug#end()
 
 
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ script
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ builtin script (filetype-plugin filetype-indent syntax)
 " put these lines here because:
 " open https://github.com/junegunn/vim-plug, search 'filetype'
 
 filetype on
+" filetype off
 
 filetype plugin indent on
 " filetype plugin indent off
@@ -293,16 +287,18 @@ function Qf()
 endfunction
 autocmd FileType qf call Qf()
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ filename autocmd
-autocmd FocusLost,QuitPre * ++nested silent! wa
-" https://vim.fandom.com/wiki/Auto_save_files_when_focus_is_lost
-
-autocmd BufRead log.txt silent $
-
-autocmd BufWritePost dirs,files silent !bookmarks
-
-" autocmd BufRead,BufNewFile xresources* set filetype=xdefaults
-" autocmd BufWritePost xresources* !xrdb % 2> /dev/null
+func! CompileRunGcc()
+	exe 'w'
+	if     &filetype == 'markdown'
+		exe 'MarkdownPreview'
+	elseif &filetype == 'c'
+		set splitbelow
+		:sp
+		:res -5
+		term gcc % -o %< && time ./%<
+	endif
+endfunc
+nnoremap <f5> :call CompileRunGcc()<cr>
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ /usr/share/nvim/runtime/ftplugin/markdown.vim
 " let g:markdown_folding = 1
@@ -313,8 +309,8 @@ autocmd BufWritePost dirs,files silent !bookmarks
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ plug_config {{{
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nofrils
-source ~/sync_git/nofrils/colors/nofrils.vim
-" colorscheme nofrils
+" source ~/sync_git/nofrils/colors/nofrils.vim
+colorscheme nofrils
 
 " nnoremap <silent> <f9> :NofrilsToggle<cr>
 
@@ -420,3 +416,11 @@ let g:less.scrolloff = 1024
 " https://github.com/I60R/page?tab=readme-ov-file#nviminitlua-customizations-pager-only
 
 " }}}
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ filename autocmd
+autocmd BufRead log.txt silent $
+
+autocmd BufWritePost dirs,files silent !bookmarks
+
+" autocmd BufRead,BufNewFile xresources* set filetype=xdefaults
+" autocmd BufWritePost xresources* !xrdb % 2> /dev/null
