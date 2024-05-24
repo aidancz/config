@@ -66,6 +66,8 @@ set magic
 set clipboard^=unnamed,unnamedplus
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ indent
+" [ftplugin]
+
 set tabstop=8
 set softtabstop=0
 set shiftwidth=8
@@ -119,12 +121,16 @@ autocmd FocusLost,QuitPre * ++nested silent! wa
 set cpoptions-=_
 " [nvim only] when using 'cw', do not treat like 'ce'
 " https://vi.stackexchange.com/questions/6194/why-do-cw-and-ce-do-the-same-thing
+
 set updatetime=100
 " https://github.com/iamcco/markdown-preview.nvim/issues/4
+
 set backspace=indent,eol,start,nostop
 
 " autocmd BufEnter * set fo-=c fo-=r fo-=o
-set formatoptions-=c formatoptions-=r formatoptions-=o
+" set formatoptions-=c formatoptions-=r formatoptions-=o
+set formatoptions=
+" [ftplugin]
 " disable automatic comment on newline
 " not using 'set fo-=cro' because ':h add-option-flags'
 " https://vi.stackexchange.com/questions/1983/how-can-i-get-vim-to-stop-putting-comments-in-front-of-new-lines
@@ -263,19 +269,26 @@ set commentstring=#%s
 digraphs oo 9679
 
 function All()
+
+	set formatoptions=
+
+	set tabstop=8
+	set softtabstop=0
+	set shiftwidth=8
+	set noexpandtab
+	set autoindent
+	set copyindent
+	set nosmarttab
+	set preserveindent
+
 endfunction
 autocmd FileType * call All()
 
-" function Markdown()
-" 	setlocal commentstring=●%s
-" 	" ●○■□
-" endfunction
-" autocmd FileType markdown call Markdown()
-
-function Vim()
-	setlocal commentstring=\"%s
+function Markdown()
+	setlocal commentstring=●%s
+	" ●○■□
 endfunction
-autocmd FileType vim call Vim()
+autocmd FileType markdown call Markdown()
 
 function Qf()
 	" setlocal nowinfixheight
@@ -300,7 +313,7 @@ func! CompileRunGcc()
 endfunc
 nnoremap <f5> :call CompileRunGcc()<cr>
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ /usr/share/nvim/runtime/ftplugin/markdown.vim
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ftplugin options
 " let g:markdown_folding = 1
 " let g:markdown_recommended_style = 0
 
