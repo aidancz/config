@@ -170,6 +170,11 @@ map <a-q>	$pandoc --wrap=preserve --preserve-tabs=true -f org -t gfm -o $(basena
 
 map <a-p>	$sed -e '0,/mixed-port/s/7890/8889/' -e '/external-controller/aexternal-ui: clash-dashboard' $f > ~/.config/clash/config.yaml
 
+# map <a-i>	$convert $f -trim -resize 1600x900  -background white -gravity center -extent 1920x1080 $f
+# map <a-i>	$convert $f -trim -resize 1920x1080 -background white -gravity center -extent 1920x1080 $f
+# map <a-i>	$convert $f -trim -resize 3200x1800 -background white -gravity center -extent 3840x2160 $f
+map <a-i>	$convert $f -trim -resize 3520x1980 -background white -gravity center -extent 3840x2160 $f
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ file use
 map x		!$f
 map <a-z>	$aunpack $fx
