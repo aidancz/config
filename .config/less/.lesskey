@@ -6,5 +6,6 @@
 # https://unix.stackexchange.com/questions/672094/lesskey-add-altright-keybinding-to-less
 
 #line-edit
+\e	abort
 
 #env

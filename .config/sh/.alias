@@ -10,6 +10,7 @@ alias du="du -h"
 alias mkdir="mkdir -p"
 # alias grep="grep --color=auto"
 # alias diff="diff --color=auto"
+alias man="man -a"
 
 # abbreviate long command
 alias n="setsid -f $TERMINAL >/dev/null 2>&1"

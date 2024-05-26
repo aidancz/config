@@ -42,8 +42,9 @@ autocmd InsertLeave * :norm `^
 set conceallevel=0
 set concealcursor=""
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ motion
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ navigation
 set startofline
+set jumpoptions=stack
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ timeout
 " in terminal, press <a-j> or <esc>j send the same keycode '^[j' to program
@@ -101,6 +102,14 @@ set preserveindent
 set textwidth=0
 set wrapmargin=0
 
+" autocmd BufEnter * set fo-=c fo-=r fo-=o
+" set formatoptions-=c formatoptions-=r formatoptions-=o
+set formatoptions=
+" [ftplugin]
+" disable automatic comment on newline
+" not using 'set fo-=cro' because ':h add-option-flags'
+" https://vi.stackexchange.com/questions/1983/how-can-i-get-vim-to-stop-putting-comments-in-front-of-new-lines
+
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buffer window tab
 set hidden
 set scrolloff=0
@@ -112,6 +121,7 @@ set splitbelow
 set splitright
 set equalalways
 set nowinfixheight
+set cmdwinheight=8
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ auto save
 autocmd FocusLost,QuitPre * ++nested silent! wa
@@ -126,14 +136,6 @@ set updatetime=100
 " https://github.com/iamcco/markdown-preview.nvim/issues/4
 
 set backspace=indent,eol,start,nostop
-
-" autocmd BufEnter * set fo-=c fo-=r fo-=o
-" set formatoptions-=c formatoptions-=r formatoptions-=o
-set formatoptions=
-" [ftplugin]
-" disable automatic comment on newline
-" not using 'set fo-=cro' because ':h add-option-flags'
-" https://vi.stackexchange.com/questions/1983/how-can-i-get-vim-to-stop-putting-comments-in-front-of-new-lines
 
 
 

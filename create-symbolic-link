@@ -23,12 +23,13 @@ done
 
 ln -sf "$XDG_CONFIG_HOME/sh/.env"		"$HOME/.env"
 ln -sf "$XDG_CONFIG_HOME/sh/.profile"		"$HOME/.profile"
-ln -sf "$XDG_CONFIG_HOME/sh/.profile"		"$HOME/.zprofile"
+# ln -sf "$XDG_CONFIG_HOME/sh/.profile"		"$HOME/.zprofile"
 ln -sf "$XDG_CONFIG_HOME/sh/.shrc"		"$HOME/.shrc"
 ln -sf "$XDG_CONFIG_HOME/bash/.bashrc"		"$HOME/.bashrc"
 ln -sf "$XDG_CONFIG_HOME/x11/.xprofile"		"$HOME/.xprofile"
+ln -sf "$XDG_CONFIG_HOME/ex/.exrc"		"$HOME/.exrc"
 # ln -sf "$XDG_CONFIG_HOME/vim/.vimrc"		"$HOME/.vimrc"
-ln -sf "$XDG_CONFIG_HOME/less/.lesskey"		"$HOME/.lesskey"
+# ln -sf "$XDG_CONFIG_HOME/less/.lesskey"		"$HOME/.lesskey"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_CACHE_HOME
 mkdir -p "$XDG_CACHE_HOME"
