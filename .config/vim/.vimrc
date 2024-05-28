@@ -131,11 +131,16 @@ autocmd FocusLost,QuitPre * ++nested silent! wa
 set cpoptions-=_
 " [nvim only] when using 'cw', do not treat like 'ce'
 " https://vi.stackexchange.com/questions/6194/why-do-cw-and-ce-do-the-same-thing
+" set cpoptions+=v
+" set cpoptions+=$
 
 set updatetime=100
 " https://github.com/iamcco/markdown-preview.nvim/issues/4
 
 set backspace=indent,eol,start,nostop
+
+set showmatch
+set matchtime=1
 
 
 
