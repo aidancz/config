@@ -139,8 +139,8 @@ set updatetime=100
 
 set backspace=indent,eol,start,nostop
 
-set showmatch
-set matchtime=1
+" set showmatch
+" set matchtime=1
 
 
 
