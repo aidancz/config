@@ -7,6 +7,8 @@ set recolor-darkcolor  "#24272b"
 set recolor-lightcolor "#9e9e9e"
 
 map g goto top
+map e scroll down
+map y scroll up
 map d scroll half-down
 map u scroll half-up
 map f navigate next

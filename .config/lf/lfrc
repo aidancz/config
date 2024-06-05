@@ -136,7 +136,7 @@ map <c-a> invert
 map <a-c>	copyto
 
 map <a-m>	moveto
-map <a-d>	$trash-put $fx
+map <a-t>	$trash-put $fx
 
 map i  rename				# before extension
 map a  push i<c-f>			# after extension
@@ -184,7 +184,7 @@ map <a-b>	$setbg $f
 map <a-y>	$printf "%s" "$fx" | xclip -selection clipboard
 map <a-g>	!find . -maxdepth 1 -mindepth 1 -type d -exec sh -c "echo {}; cd {}; git status -s; echo" \;
 
-map <a-a>	$clear; diff --color=always -u $fx $f | less -r
+map <a-d>	$clear; diff --color=always -u $fx $f | less -r
 # map <a-a>	$clear; diff --color=always -u $f $fx | less -r
 # https://stackoverflow.com/questions/4857310/how-to-get-diff-working-like-git-diff
 

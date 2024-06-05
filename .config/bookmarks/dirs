@@ -16,8 +16,8 @@ de	$HOME/Desktop
 do	$HOME/Downloads
 
 sc	$HOME/sync_cloud
-j	$HOME/sync_cloud/todo
+t	$HOME/sync_cloud/todo
 
 sg	$HOME/sync_git
 c	$HOME/sync_git/arch_config
-k	$HOME/sync_git/note
+n	$HOME/sync_git/note
