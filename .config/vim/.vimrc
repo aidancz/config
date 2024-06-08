@@ -165,17 +165,17 @@ nnoremap Y y$
 nnoremap <expr> <c-n> winheight(0)/4 . '<c-e>'
 nnoremap <expr> <c-p> winheight(0)/4 . '<c-y>'
 
+nnoremap <silent> <c-s> zz
 nnoremap <silent> <c-j> zt
 nnoremap <silent> <c-k> zb
-nnoremap <silent> <c-s> zz
-nmap     <silent> <c-h> zz<c-n>
-nmap     <silent> <c-l> zz<c-p>
+nmap     <silent> <c-l> zz<c-n>
+nmap     <silent> <c-h> zz<c-p>
 " ---
+inoremap <silent> <c-s> <c-o>zz
 inoremap <silent> <c-j> <c-o>zt
 inoremap <silent> <c-k> <c-o>zb
-inoremap <silent> <c-s> <c-o>zz
-imap     <silent> <c-h> <c-o>zz<c-o><c-n>
-imap     <silent> <c-l> <c-o>zz<c-o><c-p>
+imap     <silent> <c-l> <c-o>zz<c-o><c-n>
+imap     <silent> <c-h> <c-o>zz<c-o><c-p>
 " ---
 noremap! <c-f> <c-k>
 inoremap <silent> <down>  <c-n>
