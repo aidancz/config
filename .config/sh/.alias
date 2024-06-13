@@ -36,6 +36,7 @@ alias gr="git restore ."
 alias ga="git add --all"
 alias gc="git commit --allow-empty-message -m ''"
 # https://stackoverflow.com/questions/6218199/git-commit-with-no-commit-message
+alias gca="git commit --amend --allow-empty-message -m ''"
 alias gp="git push"
 
 alias gccs="git config credential.helper store"

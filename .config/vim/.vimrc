@@ -14,6 +14,7 @@ set notermguicolors
 
 set number
 set relativenumber
+" set signcolumn=yes:2
 set guicursor=
 " set cursorline
 set noshowmode
