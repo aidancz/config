@@ -37,14 +37,15 @@ set listchars=
 set listchars+=tab:\ \ ,
 
 set listchars+=eol:\ ,
-set virtualedit=onemore,block
+" set virtualedit=onemore,block
+set virtualedit=all
 autocmd InsertLeave * :norm `^
 
 set conceallevel=0
 set concealcursor=""
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ navigation
-set startofline
+set nostartofline
 set jumpoptions=stack
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ timeout
@@ -57,12 +58,14 @@ set ttimeout
 " set timeoutlen=0
 set ttimeoutlen=0
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ search
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ search & substitute
 set nohlsearch
-set incsearch
+set noincsearch
 set ignorecase
 set smartcase
 set magic
+
+set inccommand=
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ copy & paste
 set clipboard^=unnamed,unnamedplus
@@ -139,9 +142,14 @@ set updatetime=100
 " https://github.com/iamcco/markdown-preview.nvim/issues/4
 
 set backspace=indent,eol,start,nostop
+set whichwrap+=[,]
 
 set showmatch
 set matchtime=1
+
+set iskeyword-=_
+
+set matchpairs+=<:>
 
 
 
@@ -210,9 +218,73 @@ noremap! <silent> <f7> <esc>:put =strftime('%F')<cr>
 
 let mapleader=' '
 
-" 
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-plug_install
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ script
+function! Compile()
+	execute 'w'
+
+	if	&filetype == 'markdown'
+		execute 'MarkdownPreview'
+
+	elseif	&filetype == 'c'
+		silent! !gcc % -o %<
+		silent! !setsid -f $TERMINAL -e bash -c "%:p:r; bash"
+	endif
+endfunc
+nnoremap <f5> :call Compile()<cr>
+
+
+
+xnoremap il g_o0
+onoremap il :normal vil<cr>
+xnoremap al $o0
+onoremap al :normal val<cr>
+xnoremap i% GoggV
+onoremap i% :normal vi%<cr>
+" https://vi.stackexchange.com/questions/6101/is-there-a-text-object-for-current-line/6102#6102
+
+
+
+function! VisMove(f)
+    normal! gv
+    call function(a:f)()
+endfunction
+" https://stackoverflow.com/questions/16212801/how-to-call-a-function-that-moves-the-cursor-without-leaving-visual-mode
+
+function! ParagraphFirstLine()
+	let line_number = line(".")
+	while 1
+		if line_number == 1 || getline(line_number - 1) == ""
+			break
+		else
+			let line_number -= 1
+		endif
+	endwhile
+	call cursor(line_number, virtcol2col(0, line_number, virtcol(".")))
+endfunction
+nnoremap <silent> ( :call ParagraphFirstLine()<cr>
+xnoremap <silent> ( :<c-u>call VisMove('ParagraphFirstLine')<cr>
+onoremap ( :normal V(<cr>
+
+function! ParagraphLastLine()
+	let line_number = line(".")
+	while 1
+		if line_number == line("$") || getline(line_number + 1) == ""
+			break
+		else
+			let line_number += 1
+		endif
+	endwhile
+	call cursor(line_number, virtcol2col(0, line_number, virtcol(".")))
+endfunction
+nnoremap <silent> ) :call ParagraphLastLine()<cr>
+xnoremap <silent> ) :<c-u>call VisMove('ParagraphLastLine')<cr>
+onoremap ) :normal V)<cr>
+
+
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-plug
 " https://github.com/junegunn/vim-plug#installation
 
 " run ':PlugInstall' inside vim to install the plugs
@@ -220,7 +292,6 @@ let mapleader=' '
 
 
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-plug_config
 " call plug#begin()                             " vim
 call plug#begin(stdpath('data') . '/plugged') " nvim
 
@@ -266,87 +337,10 @@ call plug#end()
 
 
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ builtin script (filetype-plugin filetype-indent syntax)
-" put these lines here because:
-" open https://github.com/junegunn/vim-plug, search 'filetype'
-
-filetype on
-" filetype off
-
-filetype plugin indent on
-" filetype plugin indent off
-" see ':h :filetype-overview'
-
-syntax on
-" syntax off
-
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ overrule ftplugin with filetype autocmd
-" ':h ftplugin-overrule'
-" https://stackoverflow.com/questions/1413285/multiple-autocommands-in-vim
-
-set commentstring=#%s
-digraphs oo 9679
-digraphs -< 8592
-digraphs -^ 8593
-
-function All()
-
-	set formatoptions=
-
-	set tabstop=8
-	set softtabstop=0
-	set shiftwidth=8
-	set noexpandtab
-	set autoindent
-	set copyindent
-	set nosmarttab
-	set preserveindent
-
-endfunction
-autocmd FileType * call All()
-
-function Markdown()
-	setlocal commentstring=●%s
-	" ●○■□
-endfunction
-autocmd FileType markdown call Markdown()
-
-function Qf()
-	" setlocal nowinfixheight
-	" wincmd =
-	wincmd _
-	nnoremap <buffer> <silent> <cr> <cr>:only<cr>
-	nnoremap <buffer> <silent> <f3> :q<cr>
-	nnoremap <buffer> <silent> q    :q<cr>
-endfunction
-autocmd FileType qf call Qf()
-
-func! CompileRunGcc()
-	exe 'w'
-	if     &filetype == 'markdown'
-		exe 'MarkdownPreview'
-	elseif &filetype == 'c'
-		set splitbelow
-		:sp
-		:res -5
-		term gcc % -o %< && time ./%<
-	endif
-endfunc
-nnoremap <f5> :call CompileRunGcc()<cr>
-
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ftplugin options
-" let g:markdown_folding = 1
-" let g:markdown_recommended_style = 0
-
-
-
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ plug_config {{{
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ plug_config
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nofrils
-" source ~/sync_git/nofrils/colors/nofrils.vim
 colorscheme nofrils
-
-" nnoremap <silent> <f9> :NofrilsToggle<cr>
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-lion
 let g:lion_squeeze_spaces = 1
@@ -387,57 +381,6 @@ endfunction
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-table-mode
 nnoremap <leader>tm :TableModeToggle<cr>
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-markdown-outline
-
-" }}}
-
-
-
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ plug_config_comment {{{
-
-" " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ solarized
-" " let g:solarized_termcolors=16
-" " let g:solarized_termtrans=0
-" " let g:solarized_degrade=0
-" " let g:solarized_bold=1
-" " let g:solarized_underline=1
-" " let g:solarized_italic=1
-" " let g:solarized_contrast='normal'
-" " let g:solarized_visibility='normal'
-" set background=dark
-" " always set this option to 'dark', let the terminal decide dark or light
-" colorscheme solarized
-" call togglebg#map('<F2>')
-
-" " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nord
-" colorscheme nord
-
-" " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ xresources
-" colorscheme xresources
-
-" " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ penumbra
-" runtime penumbra.vim
-" " https://github.com/junegunn/vim-plug/issues/796
-" " colorscheme penumbra
-
-" " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ auto-pairs
-" let g:AutoPairsMapCh = 0
-" " let g:AutoPairsShortcutToggle     = '<M-p>'
-" " let g:AutoPairsShortcutFastWrap   = '<M-e>'
-" " let g:AutoPairsShortcutJump       = '<M-n>'
-" " let g:AutoPairsShortcutBackInsert = '<M-b>'
-
-" " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ fzf
-" nnoremap <leader>ff :Files<cr>
-" nnoremap <leader>fb :Buffers<cr>
-" nnoremap <leader>fh :History<cr>
-
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ plug_config_comment }}}
-
-
-
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ pager {{{
-
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vimpager
 let g:less = {}
 let g:vimpager = {}
@@ -449,9 +392,67 @@ let g:less.scrolloff = 1024
 " 			\ nnoremap <silent> <nowait> g gg
 " https://github.com/I60R/page?tab=readme-ov-file#nviminitlua-customizations-pager-only
 
-" }}}
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ filename autocmd
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ builtin script (filetype-plugin filetype-indent syntax)
+" put these lines here because:
+" open https://github.com/junegunn/vim-plug, search 'filetype'
+
+filetype on
+filetype plugin on
+filetype indent off
+syntax on
+" see ':h :filetype-overview'
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ overrule ftplugin with filetype autocmd
+" ':h ftplugin-overrule'
+" https://stackoverflow.com/questions/1413285/multiple-autocommands-in-vim
+
+set commentstring=#%s
+digraphs oo 9679
+digraphs xx 215
+digraphs -< 8592
+digraphs -^ 8593
+
+function All()
+
+	set formatoptions=
+
+	set tabstop=8
+	set softtabstop=0
+	set shiftwidth=8
+	set noexpandtab
+	set autoindent
+	set copyindent
+	set nosmarttab
+	set preserveindent
+
+endfunction
+autocmd FileType * call All()
+
+function Markdown()
+	setlocal commentstring=●%s
+	" ●○■□
+endfunction
+autocmd FileType markdown call Markdown()
+
+function Qf()
+	" setlocal nowinfixheight
+	" wincmd =
+	wincmd _
+	nnoremap <buffer> <silent> <cr> <cr>:only<cr>
+	nnoremap <buffer> <silent> <f3> :q<cr>
+	nnoremap <buffer> <silent> q    :q<cr>
+endfunction
+autocmd FileType qf call Qf()
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ftplugin options
+" let g:markdown_folding = 1
+" let g:markdown_recommended_style = 0
+
+
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ filename autocmd
 autocmd BufRead log.txt silent $
 
 autocmd BufWritePost dirs,files silent !bookmarks

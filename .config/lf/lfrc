@@ -61,7 +61,8 @@ cmd open ${{
 	application/vnd.openxmlformats-officedocument.presentationml.presentation) setsid -f zaread $fx >/dev/null 2>&1 ;;
 	# .doc .xls .ppt .docx .xlsx .pptx
 
-	application/pdf) setsid -f zathura $fx >/dev/null 2>&1 ;;
+	# application/pdf) setsid -f zathura $fx >/dev/null 2>&1 ;;
+	application/pdf) zathura $fx >/dev/null 2>&1 ;;
 
 	# inode/x-empty | text/* | application/*) emacsclient -nw -a "" $fx;;
 	# inode/x-empty | text/* | application/*) devour emacsclient -c $fx;;
