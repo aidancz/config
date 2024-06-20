@@ -39,7 +39,9 @@ set listchars+=tab:\ \ ,
 set listchars+=eol:\ ,
 " set virtualedit=onemore,block
 set virtualedit=all
-autocmd InsertLeave * :norm `^
+autocmd InsertLeave * :normal `^
+autocmd ModeChanged *:[vV\x16]* :normal mv
+autocmd Modechanged [vV\x16]*:* :normal `v
 
 set conceallevel=0
 set concealcursor=""
@@ -246,38 +248,66 @@ onoremap i% :normal vi%<cr>
 
 
 
+function! SetCursorVirtPos(lnum, virtcol)
+	call cursor(a:lnum, 1)
+	while 1
+		if virtcol(".") == a:virtcol
+			break
+		else
+			normal l
+		endif
+	endwhile
+endfunction
+
+function! ParagraphFirstLine()
+	let line_number_current = line(".")
+	let line_number = line_number_current
+	while 1
+		while 1
+			if line_number == 1 || ( getline(line_number) != "" && getline(line_number - 1) == "" )
+				break
+			else
+				let line_number -= 1
+			endif
+		endwhile
+		if line_number == 1 || line_number != line_number_current
+			break
+		else
+			let line_number -= 1
+		endif
+	endwhile
+	call SetCursorVirtPos(line_number, virtcol("."))
+endfunction
+
+function! ParagraphLastLine()
+	let line_number_current = line(".")
+	let line_number = line_number_current
+	while 1
+		while 1
+			if line_number == line("$") || ( getline(line_number) != "" && getline(line_number + 1) == "" )
+				break
+			else
+				let line_number += 1
+			endif
+		endwhile
+		if line_number == line("$") || line_number != line_number_current
+			break
+		else
+			let line_number += 1
+		endif
+	endwhile
+	call SetCursorVirtPos(line_number, virtcol("."))
+endfunction
+
 function! VisMove(f)
     normal! gv
     call function(a:f)()
 endfunction
 " https://stackoverflow.com/questions/16212801/how-to-call-a-function-that-moves-the-cursor-without-leaving-visual-mode
 
-function! ParagraphFirstLine()
-	let line_number = line(".")
-	while 1
-		if line_number == 1 || getline(line_number - 1) == ""
-			break
-		else
-			let line_number -= 1
-		endif
-	endwhile
-	call cursor(line_number, virtcol2col(0, line_number, virtcol(".")))
-endfunction
 nnoremap <silent> ( :call ParagraphFirstLine()<cr>
 xnoremap <silent> ( :<c-u>call VisMove('ParagraphFirstLine')<cr>
 onoremap ( :normal V(<cr>
-
-function! ParagraphLastLine()
-	let line_number = line(".")
-	while 1
-		if line_number == line("$") || getline(line_number + 1) == ""
-			break
-		else
-			let line_number += 1
-		endif
-	endwhile
-	call cursor(line_number, virtcol2col(0, line_number, virtcol(".")))
-endfunction
 nnoremap <silent> ) :call ParagraphLastLine()<cr>
 xnoremap <silent> ) :<c-u>call VisMove('ParagraphLastLine')<cr>
 onoremap ) :normal V)<cr>
