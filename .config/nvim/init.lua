@@ -8,8 +8,6 @@ vim.g.have_nerd_font = true
 
 --  option
 --  appearance
-vim.opt.termguicolors = false
-
 vim.opt.number = true
 vim.opt.relativenumber = true
 -- vim.opt.signcolumn = 'yes:2'
@@ -128,6 +126,7 @@ vim.opt.equalalways = true
 vim.opt.winfixheight = false
 vim.opt.cmdwinheight = 8
 vim.opt.laststatus = 2
+-- https://github.com/neovim/neovim/issues/18965
 
 --  misc
 vim.opt.cpoptions:remove('_')
@@ -343,11 +342,11 @@ function eol_mark_clear_and_set()
 end
 
 vim.api.nvim_create_autocmd(
-	{'BufEnter', 'CursorMoved', 'CursorMovedI'}, {
+	{'BufWinEnter', 'CursorMoved', 'CursorMovedI'}, {
 	group = eol_mark,
 	pattern = {'*'},
 	-- callback = time
-	callback = eol_mark_clear_and_set
+	callback = eol_mark_clear_and_set,
 	})
 
 --  auto save
@@ -471,28 +470,37 @@ require("lazy").setup(
 			vim.cmd('colorscheme nofrils')
 		end,
 	},
+	-- {
+	-- 	'lukas-reineke/indent-blankline.nvim',
+	-- 	main = 'ibl',
+	-- 	opts = {},
+	-- },
+	-- {
+	-- 	'lewis6991/gitsigns.nvim',
+	-- 	opts = {},
+	-- },
 	{
-		-- 'tpope/vim-surround',
 		'kylechui/nvim-surround',
+		opts = {},
+	},
+	{
+		'numToStr/Comment.nvim',
+		opts = {
+			toggler = {
+				block = 'gbb',
+			},
+		},
+	},
+	{
+		'echasnovski/mini.nvim',
+		version = false,
 		config = function()
-			require('nvim-surround').setup({
-			})
+			require('mini.ai').setup()
+			require('mini.align').setup()
+			require('mini.operators').setup()
 		end,
 	},
 	{
-		'tpope/vim-commentary',
-	},
-	{
-		'tommcdo/vim-lion',
-		config = function()
-			vim.g.lion_squeeze_spaces = 1
-		end,
-	},
-	{
-		'inkarkat/vim-ReplaceWithRegister',
-	},
-	{
-		-- 'aidancz/vim-barbaric',
 		'h-hg/fcitx.nvim',
 	},
 	{
@@ -550,6 +558,77 @@ require("lazy").setup(
 		end,
 	},
 	{
+		'stevearc/aerial.nvim',
+		dependencies = {
+			'nvim-treesitter/nvim-treesitter',
+			'nvim-tree/nvim-web-devicons',
+		},
+		opts = {
+			layout = {
+				width = 0.5,
+				max_width = 0.5,
+				min_width = 0.5,
+				default_direction = 'float',
+				resize_to_content = false,
+			},
+			float = {
+				height = 0.8,
+				max_height = 0.8,
+				min_height = 0.8,
+				border = 'single',
+				relative = 'editor',
+			},
+		},
+		config = function(_, opts)
+			require('aerial').setup(opts)
+			vim.keymap.set("n", "<f3>", "<cmd>AerialToggle<CR>")
+		end,
+	},
+	{
+		'nvim-telescope/telescope.nvim',
+		branch = '0.1.x',
+		dependencies = {
+			{
+				'nvim-lua/plenary.nvim',
+			},
+			{
+				'nvim-telescope/telescope-fzf-native.nvim',
+				build = 'make',
+				cond = function()
+					return vim.fn.executable 'make' == 1
+				end,
+			},
+			{
+				'nvim-telescope/telescope-ui-select.nvim'
+			},
+		},
+		config = function()
+			require('telescope').setup({
+				defaults = {
+					layout_config = {
+						horizontal = {
+							preview_cutoff = 0,
+							preview_width = 0.5
+						},
+					},
+					mappings = {
+						i = {
+							['<c-u>'] = false
+						},
+					},
+				},
+				extensions = {
+					['ui-select'] = {
+						require('telescope.themes').get_dropdown(),
+					},
+				},
+			})
+			require('telescope').load_extension('fzf')
+			require('telescope').load_extension('ui-select')
+			vim.keymap.set('n', '<leader>s', ':Telescope ')
+		end,
+	},
+	{
 		'nvim-treesitter/nvim-treesitter',
 		build = ':TSUpdate',
 		opts = {
@@ -566,47 +645,6 @@ require("lazy").setup(
 			require('nvim-treesitter.install').prefer_git = true
 			require('nvim-treesitter.configs').setup(opts)
 		end,
-	},
-	{
-		"stevearc/aerial.nvim",
-		opts = {},
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-			"nvim-tree/nvim-web-devicons",
-		},
-		config = function()
-
-			require("aerial").setup({
-				layout = {
-					width = 0.5,
-					max_width = 0.5,
-					min_width = 0.5,
-					default_direction = "float",
-					resize_to_content = false,
-				},
-				on_attach = function(bufnr)
-					vim.keymap.set("n", "<pageup>",   "<cmd>AerialPrev<CR>", { buffer = bufnr })
-					vim.keymap.set("n", "<pagedown>", "<cmd>AerialNext<CR>", { buffer = bufnr })
-				end,
-				float = {
-					height = 0.8,
-					max_height = 0.8,
-					min_height = 0.8,
-					border = "single",
-					relative = "editor",
-				},
-			})
-
-			vim.keymap.set("n", "<f3>", "<cmd>AerialToggle<CR>")
-
-		end,
-	},
-	{
-		'nvim-telescope/telescope.nvim',
-		branch = '0.1.x',
-		dependencies = {
-			'nvim-lua/plenary.nvim',
-		},
 	},
 
 },
