@@ -8,8 +8,8 @@ vim.g.have_nerd_font = true
 
 --  option
 --  appearance
-vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt_local.number = true
+vim.opt_local.relativenumber = true
 -- vim.opt.signcolumn = 'yes:2'
 vim.opt.guicursor = ''
 -- vim.opt.cursorline = true
@@ -27,8 +27,8 @@ vim.opt.showcmd = false
 
 -- vim.opt.list = true
 -- vim.opt.listchars = ''
--- vim.opt.listchars:append({tab = '  '})
--- vim.opt.listchars:append({eol = ' '})
+-- vim.opt.listchars:append({tab = ''})
+-- vim.opt.listchars:append({eol = ''})
 -- some unicode symbols:
 -- ·▫
 -- use 'ga' to get the code point
@@ -198,6 +198,7 @@ vim.keymap.set({'', 'i'}, '<f7>', [[<cmd>put =strftime('%F')<cr>]])
 
 
 --  function
+--  compile
 function compile()
 	vim.cmd('w')
 
@@ -212,70 +213,61 @@ function compile()
 end
 vim.keymap.set('n', '<f5>', compile)
 
-
-
-function set_cursor_virt_pos(lnum, virtcol)
-	vim.fn.cursor(lnum, 1)
-	while true do
-		if vim.fn.virtcol(".") == virtcol then
-			break
-		else
-			vim.cmd('normal l')
-		end
+--  paragraph_border
+local function paragraph_border_line_p(lnum)
+	if lnum == 1 then
+		return true
 	end
+	if lnum == vim.fn.line('$') then
+		return true
+	end
+	if vim.fn.getline(lnum) ~= '' and vim.fn.getline(lnum - 1) == '' then
+		return true
+	end
+	if vim.fn.getline(lnum) ~= '' and vim.fn.getline(lnum + 1) == '' then
+		return true
+	end
+	return false
 end
 
-function paragraph_first_line()
-	local line_number_current = vim.fn.line(".")
-	local line_number = line_number_current
-
-	while true do
-		while true do
-			if line_number == 1 or (vim.fn.getline(line_number) ~= "" and vim.fn.getline(line_number - 1) == "") then
-				break
-			else
-				line_number = line_number - 1
-			end
-		end
-		if line_number == 1 or line_number ~= line_number_current then
-			break
-		else
-			line_number = line_number - 1
-		end
+function paragraph_border_backward_lnum(lnum)
+	if lnum == 1 then
+		return lnum
 	end
-
-	set_cursor_virt_pos(line_number, vim.fn.virtcol("."))
+	if paragraph_border_line_p(lnum - 1) then
+		return lnum - 1
+	end
+	return paragraph_border_backward_lnum(lnum - 1)
 end
 
-function paragraph_last_line()
-	local line_number_current = vim.fn.line(".")
-	local line_number = line_number_current
-
-	while true do
-		while true do
-			if line_number == vim.fn.line("$") or (vim.fn.getline(line_number) ~= "" and vim.fn.getline(line_number + 1) == "") then
-				break
-			else
-				line_number = line_number + 1
-			end
-		end
-		if line_number == vim.fn.line("$") or line_number ~= line_number_current then
-			break
-		else
-			line_number = line_number + 1
-		end
+function paragraph_border_forward_lnum(lnum)
+	if lnum == vim.fn.line('$') then
+		return lnum
 	end
-
-	set_cursor_virt_pos(line_number, vim.fn.virtcol("."))
+	if paragraph_border_line_p(lnum + 1) then
+		return lnum + 1
+	end
+	return paragraph_border_forward_lnum(lnum + 1)
 end
 
-vim.keymap.set({'n', 'v'}, '(', paragraph_first_line)
+function paragraph_border_backward()
+	local line_number_current = vim.fn.line('.')
+	local line_number_destination = paragraph_border_backward_lnum(line_number_current)
+	vim.cmd(tostring(line_number_destination))
+end
+
+function paragraph_border_forward()
+	local line_number_current = vim.fn.line('.')
+	local line_number_destination = paragraph_border_forward_lnum(line_number_current)
+	vim.cmd(tostring(line_number_destination))
+end
+
+vim.keymap.set({'n', 'v'}, '(', paragraph_border_backward)
 vim.keymap.set('o', '(', 'V(')
-vim.keymap.set({'n', 'v'}, ')', paragraph_last_line)
+vim.keymap.set({'n', 'v'}, ')', paragraph_border_forward)
 vim.keymap.set('o', ')', 'V)')
 
-
-
+--  misc
 function time()
 	vim.api.nvim_out_write(vim.fn.system({'date', '--iso-8601=ns'}))
 end
@@ -286,67 +278,74 @@ end
 -- https://vi.stackexchange.com/questions/9455/why-should-i-use-augroup
 
 --  change option
-local change_option = vim.api.nvim_create_augroup('change_option', {clear = true})
+local change_option_augroup = vim.api.nvim_create_augroup('change_option', {clear = true})
 
 -- vim.api.nvim_create_autocmd(
--- 	{''}, {
--- 	group = change_option,
--- 	pattern = {'*'},
--- 	callback = function()
--- 		time()
--- 		print(vim.opt.modifiable:get())
--- 		if vim.opt.modifiable:get() then
--- 			return
--- 		end
--- 		vim.opt_local.number = false
--- 		vim.opt_local.relativenumber = false
--- 	end,
+-- 	{},
+-- 	{
+-- 		group = change_option_augroup,
+-- 		pattern = {'*'},
+-- 		callback = function()
+-- 			time()
+-- 			print(vim.opt.modifiable:get())
+-- 			if vim.opt.modifiable:get() then
+-- 				return
+-- 			end
+-- 			vim.opt_local.number = false
+-- 			vim.opt_local.relativenumber = false
+-- 		end,
 -- 	})
 
 --  fix cursor position when changing mode
-local cursor_position = vim.api.nvim_create_augroup('cursor_position', {clear = true})
+local cursor_position_augroup = vim.api.nvim_create_augroup('cursor_position', {clear = true})
 
-vim.api.nvim_create_autocmd('InsertLeave', {
-	group = cursor_position,
-	pattern = {'*'},
-	command = 'normal `^',
+vim.api.nvim_create_autocmd(
+	'InsertLeave',
+	{
+		group = cursor_position_augroup,
+		pattern = {'*'},
+		command = 'normal `^',
 	})
 
-vim.api.nvim_create_autocmd('ModeChanged', {
-	group = cursor_position,
-	pattern = {'*:[vV\x16]*'},
-	command = 'normal mv',
+vim.api.nvim_create_autocmd(
+	'ModeChanged',
+	{
+		group = cursor_position_augroup,
+		pattern = {'n:*'},
+		command = 'normal mn',
 	})
 
-vim.api.nvim_create_autocmd('ModeChanged', {
-	group = cursor_position,
-	pattern = {'[vV\x16]*:*'},
-	command = 'silent! normal `v',
+vim.api.nvim_create_autocmd(
+	'ModeChanged',
+	{
+		group = cursor_position_augroup,
+		pattern = {'[vV\x16]*:n'},
+		command = 'silent! normal `n',
 	})
 -- use 'silent!' to ignore the error message when press 'Vd'
 
---  current line eol mark
-local eol_mark = vim.api.nvim_create_augroup('eol_mark', {clear = true})
+--  eol extmark at cursor line
+-- https://github.com/echasnovski/mini.nvim/issues/990
 
-local eol_mark_ns_id = vim.api.nvim_create_namespace('eol_mark')
-
-function eol_mark_clear_and_set()
-	vim.api.nvim_buf_clear_namespace(0, eol_mark_ns_id, 0, -1)
-	local line = vim.api.nvim_win_get_cursor(0)[1] - 1
-	-- local col = #vim.api.nvim_get_current_line()
-	local opts = {
-		virt_text = {{'○', 'Comment'}},
-		virt_text_pos = 'overlay',
-		}
-	vim.api.nvim_buf_set_extmark(0, eol_mark_ns_id, line, -1, opts)
+local eol_extmark_ns_id = vim.api.nvim_create_namespace('eol_extmark')
+local eol_extmark_opts = {
+	virt_text = {{'○', 'Comment'}},
+	virt_text_pos = 'overlay',
+}
+local eol_extmark_id
+local show_eol_at_cursor_line = function(args)
+	if vim.api.nvim_get_current_buf() ~= args.buf then return end
+	eol_extmark_opts.id = eol_extmark_id
+	local line = vim.fn.line('.') - 1
+	eol_extmark_id = vim.api.nvim_buf_set_extmark(args.buf, eol_extmark_ns_id, line, -1, eol_extmark_opts)
 end
 
+local eol_extmark_augroup = vim.api.nvim_create_augroup('eol_extmark', {clear = true})
 vim.api.nvim_create_autocmd(
-	{'BufWinEnter', 'CursorMoved', 'CursorMovedI'}, {
-	group = eol_mark,
-	pattern = {'*'},
-	-- callback = time
-	callback = eol_mark_clear_and_set,
+	{'BufEnter', 'CursorMoved', 'CursorMovedI'},
+	{
+		group = eol_extmark_augroup,
+		callback = show_eol_at_cursor_line,
 	})
 
 --  auto save
@@ -355,78 +354,97 @@ vim.api.nvim_create_autocmd(
 -- 	vim.cmd('echo mode(1)')
 -- 	end))
 
-local auto_save = vim.api.nvim_create_augroup('auto_save', {clear = true})
+local auto_save_augroup = vim.api.nvim_create_augroup('auto_save', {clear = true})
 
 vim.api.nvim_create_autocmd(
-	{'TextChanged', 'InsertLeave'}, {
-	group = auto_save,
-	pattern = {'*'},
-	command = 'silent! wa',
+	{'TextChanged', 'InsertLeave'},
+	{
+		group = auto_save_augroup,
+		pattern = {'*'},
+		command = 'silent! wa',
 	})
 
 vim.api.nvim_create_autocmd(
-	{'FocusLost', 'QuitPre'}, {
-	group = auto_save,
-	pattern = {'*'},
-	nested = true,
-	command = 'silent! wa',
+	{'FocusLost', 'QuitPre'},
+	{
+		group = auto_save_augroup,
+		pattern = {'*'},
+		nested = true,
+		command = 'silent! wa',
 	})
 -- https://vim.fandom.com/wiki/Auto_save_files_when_focus_is_lost
 
 --  filetype
-local filetype = vim.api.nvim_create_augroup('filetype', {clear = true})
+local filetype_augroup = vim.api.nvim_create_augroup('filetype', {clear = true})
 
 vim.api.nvim_create_autocmd(
-	'FileType', {
-	group = filetype,
-	pattern = {'markdown'},
-	callback = function()
-		vim.opt.commentstring = '●%s'
-	end,
+	'FileType',
+	{
+		group = filetype_augroup,
+		pattern = {'markdown'},
+		callback = function()
+			vim.opt.commentstring = '●%s'
+		end,
 	})
 
 vim.api.nvim_create_autocmd(
-	'FileType', {
-	group = filetype,
-	pattern = {'c'},
-	callback = function()
-		vim.opt.commentstring = '//%s'
-	end,
+	'FileType',
+	{
+		group = filetype_augroup,
+		pattern = {'c'},
+		callback = function()
+			vim.opt.commentstring = '//%s'
+		end,
 	})
 
 vim.api.nvim_create_autocmd(
-	'FileType', {
-	group = filetype,
-	pattern = {'vim'},
-	callback = function()
-		vim.opt.commentstring = '"%s'
-	end,
+	'FileType',
+	{
+		group = filetype_augroup,
+		pattern = {'vim'},
+		callback = function()
+			vim.opt.commentstring = '"%s'
+		end,
 	})
 
 vim.api.nvim_create_autocmd(
-	'FileType', {
-	group = filetype,
-	pattern = {'lua'},
-	callback = function()
-		vim.opt.commentstring = '--%s'
-	end,
+	'FileType',
+	{
+		group = filetype_augroup,
+		pattern = {'lua'},
+		callback = function()
+			vim.opt.commentstring = '--%s'
+		end,
+	})
+
+vim.api.nvim_create_autocmd(
+	'FileType',
+	{
+		group = filetype_augroup,
+		pattern = {'man'},
+		callback = function()
+			vim.opt_local.number = false
+			vim.opt_local.relativenumber = false
+		end,
 	})
 
 --  filename
-local filename = vim.api.nvim_create_augroup('filename', {clear = true})
+local filename_augroup = vim.api.nvim_create_augroup('filename', {clear = true})
 
 vim.api.nvim_create_autocmd(
-	'BufRead', {
-	group = filename,
-	pattern = {'log.txt'},
-	command = 'silent $',
+	'BufRead',
+	{
+		group = filename_augroup,
+		pattern = {'log.txt'},
+		command = 'silent $',
 	})
 
 vim.api.nvim_create_autocmd(
-	'BufWritePost', {
-	group = filename,
-	pattern = {'dirs', 'files'},
-	command = 'silent !bookmarks',
+	'BufWritePost',
+	{
+		group = filename_augroup,
+		pattern = {'dirs', 'files'},
+		command = 'silent !bookmarks',
 	})
 
 
@@ -495,7 +513,7 @@ require("lazy").setup(
 		'echasnovski/mini.nvim',
 		version = false,
 		config = function()
-			require('mini.ai').setup()
+			-- require('mini.ai').setup()
 			require('mini.align').setup()
 			require('mini.operators').setup()
 		end,
@@ -561,7 +579,7 @@ require("lazy").setup(
 		'stevearc/aerial.nvim',
 		dependencies = {
 			'nvim-treesitter/nvim-treesitter',
-			'nvim-tree/nvim-web-devicons',
+			-- 'nvim-tree/nvim-web-devicons',
 		},
 		opts = {
 			layout = {
@@ -613,7 +631,8 @@ require("lazy").setup(
 					},
 					mappings = {
 						i = {
-							['<c-u>'] = false
+							['<esc>'] = 'close',
+							['<c-u>'] = false,
 						},
 					},
 				},
