@@ -1,6 +1,0 @@
-ff	$XDG_CONFIG_HOME/bookmarks/files
-fd	$XDG_CONFIG_HOME/bookmarks/dirs
-
-l	$HOME/sync_cloud/todo/log.txt
-i	$HOME/sync_cloud/todo/inbox.txt
-a	$HOME/sync_cloud/todo/action.txt

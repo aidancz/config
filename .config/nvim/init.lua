@@ -439,14 +439,6 @@ vim.api.nvim_create_autocmd(
 		command = 'silent $',
 	})
 
-vim.api.nvim_create_autocmd(
-	'BufWritePost',
-	{
-		group = filename_augroup,
-		pattern = {'dirs', 'files'},
-		command = 'silent !bookmarks',
-	})
-
 
 
 --  builtin plugin
