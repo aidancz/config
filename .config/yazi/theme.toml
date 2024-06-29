@@ -1,0 +1,174 @@
+# "black":    terminal color code 0
+# "white":    terminal color code 15
+# "gray":     terminal color code 7
+# "darkgray": terminal color code 8
+
+[flavor]
+use = ""
+
+
+
+[manager]
+cwd = {}
+
+# hovered
+hovered         = {reversed  = true}
+preview_hovered = {underline = true}
+
+# find
+find_keyword  = {}
+find_position = {}
+
+# marker
+marker_selected = {fg = "white",  bg = "white"}
+marker_marked   = {fg = "green",  bg = "green"}
+marker_copied   = {fg = "yellow", bg = "yellow"}
+marker_cut      = {fg = "red",    bg = "red"}
+
+# tab
+tab_active   = {reversed = true}
+tab_inactive = {}
+tab_width    = 1
+
+# count
+count_selected = {fg = "black", bg = "white"}
+count_copied   = {fg = "black", bg = "yellow"}
+count_cut      = {fg = "black", bg = "red"}
+
+# border
+border_symbol = " "
+border_style  = {}
+
+# highlighting
+syntect_theme = "~/.config/yazi/theme_preview.tmTheme"
+
+
+
+[status]
+separator_open  = ""
+separator_close = ""
+separator_style = {fg = "white", bg = "black"}
+
+# mode
+mode_normal = {fg = "black", bg = "white"}
+mode_select = {fg = "black", bg = "green"}
+mode_unset  = {fg = "black", bg = "gray"}
+
+# progress
+progress_label  = {}
+progress_normal = {fg = "blue", bg = "black"}
+progress_error  = {fg = "red",  bg = "black"}
+
+# permissions
+permissions_t = {}
+permissions_r = {}
+permissions_w = {}
+permissions_x = {}
+permissions_s = {}
+
+
+
+[select]
+border   = {}
+active   = {}
+inactive = {}
+
+
+
+[input]
+border   = {}
+title    = {}
+value    = {}
+selected = {}
+
+
+
+[completion]
+border   = {}
+active   = {reversed = true}
+inactive = {}
+
+# icons
+icon_file    = ""
+icon_folder  = ""
+icon_command = ""
+
+
+
+[tasks]
+border  = {}
+title   = {}
+hovered = {}
+
+
+
+[which]
+cols            = 1
+mask            = {}
+cand            = {}
+rest            = {}
+desc            = {}
+separator       = "    "
+separator_style = {}
+
+
+
+[help]
+on      = {}
+run     = {}
+desc    = {}
+hovered = {reversed = true}
+footer  = {}
+
+
+
+[notify]
+title_info  = { fg = "green" }
+title_warn  = { fg = "yellow" }
+title_error = { fg = "red" }
+
+# icons
+icon_info  = ""
+icon_warn  = ""
+icon_error = ""
+
+
+
+[filetype]
+# file --mime-type cat_white.jpg
+
+rules = [
+	# dir
+	{name = "*/", fg = "blue"},
+
+	# symbolic link
+	{name = "*", is = "link",   fg = "cyan"},
+	{name = "*", is = "orphan", fg = "red"},
+
+	# executable
+	{name = "*", is = "exec", fg = "green"},
+
+	# archive
+	{mime = "application/*zip",            fg = "magenta"},
+	{mime = "application/x-tar",           fg = "magenta"},
+	{mime = "application/x-bzip*",         fg = "magenta"},
+	{mime = "application/x-7z-compressed", fg = "magenta"},
+	{mime = "application/x-xz",            fg = "magenta"},
+	{mime = "application/x-rar",           fg = "magenta"},
+
+	# image
+	{mime = "image/*",           fg = "yellow"},
+	# media
+	{mime = "audio/*",           fg = "yellow"},
+	{mime = "video/*",           fg = "yellow"},
+	# document
+	{mime = "application/pdf",   fg = "yellow"},
+	{mime = "application/doc",   fg = "yellow"},
+	{mime = "application/rtf",   fg = "yellow"},
+	{mime = "application/vnd.*", fg = "yellow"},
+]
+
+[icon]
+
+rules = [
+]

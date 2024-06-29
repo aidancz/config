@@ -1,0 +1,27 @@
+[manager]
+ratio = [1, 2, 3]
+show_hidden = true
+scrolloff = 0
+
+[preview]
+tab_size = 8
+max_width = 10000
+max_height = 10000
+
+[opener]
+
+[open]
+
+[tasks]
+
+[plugin]
+
+[input]
+
+[select]
+
+[which]
+
+[log]
+
+[headsup]

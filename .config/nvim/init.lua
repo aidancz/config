@@ -647,6 +647,10 @@ require("lazy").setup(
 			vim.keymap.set('n', '<leader>s', ':Telescope ')
 		end,
 	},
+	-- {
+	-- 	'ibhagwan/fzf-lua',
+	-- 	opts = {},
+	-- },
 	{
 		'nvim-treesitter/nvim-treesitter',
 		build = ':TSUpdate',

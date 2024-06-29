@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string></string>
+	<key>settings</key>
+	<array>
+		<dict>
+			<key>settings</key>
+			<dict>
+				<key>background</key>
+				<string></string>
+				<key>foreground</key>
+				<string>#9e9e9e</string>
+			</dict>
+		</dict>
+	</array>
+	<key>uuid</key>
+	<string></string>
+</dict>
+</plist>
