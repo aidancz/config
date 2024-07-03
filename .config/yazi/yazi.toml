@@ -17,6 +17,7 @@ max_height = 10000
 [plugin]
 
 [input]
+# find_origin = "bottom-left"
 
 [select]
 
