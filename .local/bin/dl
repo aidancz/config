@@ -5,8 +5,14 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ xresources
 if [ "$1" == 1 ]
 then
-	sed -e '/solarized-light/,/solarized-light/s/! \(.\+\)/\1/'	\
-	    -e '/solarized-set/,/solarized-set/s/! \(.\+\)/\1/'	\
+	# sed -e '/solarized-light/,/solarized-light/s/! \(.\+\)/\1/'	\
+	#     -e '/solarized-set/,/solarized-set/s/! \(.\+\)/\1/'	\
+	#     "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
+	# sed -e '/penumbra-light0/,/penumbra-light0/s/! \(.\+\)/\1/'	\
+	#     -e '/penumbra-set/,/penumbra-set/s/! \(.\+\)/\1/'	\
+	#     "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
+	sed -e '/simple-light-solarized/,/simple-light-solarized/s/! \(.\+\)/\1/'	\
+	    -e '/simple-set/,/simple-set/s/! \(.\+\)/\1/'	\
 	    "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
 else
 	# sed -e '/solarized-dark/,/solarized-dark/s/! \(.\+\)/\1/'	\
@@ -15,8 +21,11 @@ else
 	# sed -e '/nord-dark/,/nord-dark/s/! \(.\+\)/\1/'	\
 	#     -e '/nord-set/,/nord-set/s/! \(.\+\)/\1/'	\
 	#     "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
-	sed -e '/penumbra-dark1/,/penumbra-dark1/s/! \(.\+\)/\1/'	\
-	    -e '/penumbra-set/,/penumbra-set/s/! \(.\+\)/\1/'	\
+	# sed -e '/penumbra-dark1/,/penumbra-dark1/s/! \(.\+\)/\1/'	\
+	#     -e '/penumbra-set/,/penumbra-set/s/! \(.\+\)/\1/'	\
+	#     "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
+	sed -e '/simple-dark-solarized/,/simple-dark-solarized/s/! \(.\+\)/\1/'	\
+	    -e '/simple-set/,/simple-set/s/! \(.\+\)/\1/'	\
 	    "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
 fi
 

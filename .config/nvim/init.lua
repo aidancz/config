@@ -25,10 +25,10 @@ vim.opt.showcmd = false
 -- showmode	show '-- INSERT --' when switching to insert mode, etc
 -- showcmd	show z when using zz, etc, show size of selection when in visual mode
 
--- vim.opt.list = true
--- vim.opt.listchars = ''
--- vim.opt.listchars:append({tab = ''})
--- vim.opt.listchars:append({eol = ''})
+vim.opt.list = true
+vim.opt.listchars = ''
+vim.opt.listchars:append({tab = '  '})
+vim.opt.listchars:append({eol = ' '})
 -- some unicode symbols:
 -- ·▫
 -- use 'ga' to get the code point
@@ -594,55 +594,55 @@ require("lazy").setup(
 			vim.keymap.set("n", "<f3>", "<cmd>AerialToggle<CR>")
 		end,
 	},
-	{
-		'nvim-telescope/telescope.nvim',
-		branch = '0.1.x',
-		dependencies = {
-			{
-				'nvim-lua/plenary.nvim',
-			},
-			{
-				'nvim-telescope/telescope-fzf-native.nvim',
-				build = 'make',
-				cond = function()
-					return vim.fn.executable 'make' == 1
-				end,
-			},
-			{
-				'nvim-telescope/telescope-ui-select.nvim'
-			},
-		},
-		config = function()
-			require('telescope').setup({
-				defaults = {
-					layout_config = {
-						horizontal = {
-							preview_cutoff = 0,
-							preview_width = 0.5
-						},
-					},
-					mappings = {
-						i = {
-							['<esc>'] = 'close',
-							['<c-u>'] = false,
-						},
-					},
-				},
-				extensions = {
-					['ui-select'] = {
-						require('telescope.themes').get_dropdown(),
-					},
-				},
-			})
-			require('telescope').load_extension('fzf')
-			require('telescope').load_extension('ui-select')
-			vim.keymap.set('n', '<leader>s', ':Telescope ')
-		end,
-	},
 	-- {
-	-- 	'ibhagwan/fzf-lua',
-	-- 	opts = {},
+	-- 	'nvim-telescope/telescope.nvim',
+	-- 	branch = '0.1.x',
+	-- 	dependencies = {
+	-- 		{
+	-- 			'nvim-lua/plenary.nvim',
+	-- 		},
+	-- 		{
+	-- 			'nvim-telescope/telescope-fzf-native.nvim',
+	-- 			build = 'make',
+	-- 			cond = function()
+	-- 				return vim.fn.executable 'make' == 1
+	-- 			end,
+	-- 		},
+	-- 		{
+	-- 			'nvim-telescope/telescope-ui-select.nvim'
+	-- 		},
+	-- 	},
+	-- 	config = function()
+	-- 		require('telescope').setup({
+	-- 			defaults = {
+	-- 				layout_config = {
+	-- 					horizontal = {
+	-- 						preview_cutoff = 0,
+	-- 						preview_width = 0.5
+	-- 					},
+	-- 				},
+	-- 				mappings = {
+	-- 					i = {
+	-- 						['<esc>'] = 'close',
+	-- 						['<c-u>'] = false,
+	-- 					},
+	-- 				},
+	-- 			},
+	-- 			extensions = {
+	-- 				['ui-select'] = {
+	-- 					require('telescope.themes').get_dropdown(),
+	-- 				},
+	-- 			},
+	-- 		})
+	-- 		require('telescope').load_extension('fzf')
+	-- 		require('telescope').load_extension('ui-select')
+	-- 		vim.keymap.set('n', '<leader>s', ':Telescope ')
+	-- 	end,
 	-- },
+	{
+		'ibhagwan/fzf-lua',
+		opts = {},
+	},
 	{
 		'nvim-treesitter/nvim-treesitter',
 		build = ':TSUpdate',
