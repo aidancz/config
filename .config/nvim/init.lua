@@ -511,7 +511,7 @@ require("lazy").setup(
 			require('mini.ai').setup()
 			require('mini.align').setup()
 			require('mini.operators').setup()
-			require('mini.trailspace').setup()
+			-- require('mini.trailspace').setup()
 		end,
 	},
 	{
