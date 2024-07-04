@@ -167,6 +167,9 @@ vim.keymap.set('n', '<right>', [["=' '<cr>p]], {silent = true})
 
 vim.keymap.set('n', '<f3>', 'gO', {remap = true})
 
+vim.keymap.set('n', '<leader>rt', [[:%s/\s\+$//e<cr>]])
+-- https://vim.fandom.com/wiki/Remove_unwanted_spaces
+
 
 
 vim.keymap.set('i', '<down>', '<c-n>')
@@ -505,9 +508,10 @@ require("lazy").setup(
 		'echasnovski/mini.nvim',
 		version = false,
 		config = function()
-			-- require('mini.ai').setup()
+			require('mini.ai').setup()
 			require('mini.align').setup()
 			require('mini.operators').setup()
+			require('mini.trailspace').setup()
 		end,
 	},
 	{
@@ -594,54 +598,57 @@ require("lazy").setup(
 			vim.keymap.set("n", "<f3>", "<cmd>AerialToggle<CR>")
 		end,
 	},
-	-- {
-	-- 	'nvim-telescope/telescope.nvim',
-	-- 	branch = '0.1.x',
-	-- 	dependencies = {
-	-- 		{
-	-- 			'nvim-lua/plenary.nvim',
-	-- 		},
-	-- 		{
-	-- 			'nvim-telescope/telescope-fzf-native.nvim',
-	-- 			build = 'make',
-	-- 			cond = function()
-	-- 				return vim.fn.executable 'make' == 1
-	-- 			end,
-	-- 		},
-	-- 		{
-	-- 			'nvim-telescope/telescope-ui-select.nvim'
-	-- 		},
-	-- 	},
-	-- 	config = function()
-	-- 		require('telescope').setup({
-	-- 			defaults = {
-	-- 				layout_config = {
-	-- 					horizontal = {
-	-- 						preview_cutoff = 0,
-	-- 						preview_width = 0.5
-	-- 					},
-	-- 				},
-	-- 				mappings = {
-	-- 					i = {
-	-- 						['<esc>'] = 'close',
-	-- 						['<c-u>'] = false,
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 			extensions = {
-	-- 				['ui-select'] = {
-	-- 					require('telescope.themes').get_dropdown(),
-	-- 				},
-	-- 			},
-	-- 		})
-	-- 		require('telescope').load_extension('fzf')
-	-- 		require('telescope').load_extension('ui-select')
-	-- 		vim.keymap.set('n', '<leader>s', ':Telescope ')
-	-- 	end,
-	-- },
+	{
+		'nvim-telescope/telescope.nvim',
+		branch = '0.1.x',
+		dependencies = {
+			{
+				'nvim-lua/plenary.nvim',
+			},
+			{
+				'nvim-telescope/telescope-fzf-native.nvim',
+				build = 'make',
+				cond = function()
+					return vim.fn.executable 'make' == 1
+				end,
+			},
+			{
+				'nvim-telescope/telescope-ui-select.nvim'
+			},
+		},
+		config = function()
+			require('telescope').setup({
+				defaults = {
+					layout_config = {
+						horizontal = {
+							preview_cutoff = 0,
+							preview_width = 0.5
+						},
+					},
+					mappings = {
+						i = {
+							['<esc>'] = 'close',
+							['<c-u>'] = false,
+						},
+					},
+				},
+				extensions = {
+					['ui-select'] = {
+						require('telescope.themes').get_dropdown(),
+					},
+				},
+			})
+			require('telescope').load_extension('fzf')
+			require('telescope').load_extension('ui-select')
+			vim.keymap.set('n', '<leader>s', ':Telescope ')
+		end,
+	},
 	{
 		'ibhagwan/fzf-lua',
 		opts = {},
+		config = function()
+			vim.keymap.set('n', '<leader>f', ':FzfLua ')
+		end,
 	},
 	{
 		'nvim-treesitter/nvim-treesitter',
@@ -659,6 +666,20 @@ require("lazy").setup(
 		config = function(_, opts)
 			require('nvim-treesitter.install').prefer_git = true
 			require('nvim-treesitter.configs').setup(opts)
+		end,
+	},
+	{
+		'neovim/nvim-lspconfig',
+		dependencies = {
+			{'williamboman/mason.nvim', config = true},
+			'williamboman/mason-lspconfig.nvim',
+			'WhoIsSethDaniel/mason-tool-installer.nvim',
+
+			{'j-hui/fidget.nvim', opts = {}},
+
+			{'folke/neodev.nvim', opts = {}},
+		},
+		config = function()
 		end,
 	},
 
