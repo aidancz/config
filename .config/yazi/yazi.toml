@@ -16,7 +16,7 @@ max_height = 10000
 
 [plugin]
 prepend_previewers = [
-	{mime = "text/*", run = "preview-file"},
+	{mime = "text/*", run = "preview-text"},
 ]
 
 [input]
