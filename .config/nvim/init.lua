@@ -266,9 +266,10 @@ function paragraph_border_forward()
 end
 
 vim.keymap.set({'n', 'v'}, '(', paragraph_border_backward)
-vim.keymap.set('o', '(', 'V(')
+vim.keymap.set('o', '(', ':normal V(<cr>', {silent = true})
 vim.keymap.set({'n', 'v'}, ')', paragraph_border_forward)
-vim.keymap.set('o', ')', 'V)')
+vim.keymap.set('o', ')', ':normal V)<cr>', {silent = true})
+-- https://vi.stackexchange.com/questions/6101/is-there-a-text-object-for-current-line/6102#6102
 
 --  misc
 function time()

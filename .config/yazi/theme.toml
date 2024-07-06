@@ -40,7 +40,7 @@ border_symbol = " "
 border_style  = {}
 
 # highlighting
-syntect_theme = "~/.config/yazi/theme_preview.tmTheme"
+# syntect_theme = "~/.config/yazi/theme_preview.tmTheme"
 
 
 
