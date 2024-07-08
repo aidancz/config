@@ -1,0 +1,28 @@
+[Settings]
+
+# https://docs.gtk.org/gtk3/class.Settings.html#properties
+# https://docs.gtk.org/gtk4/class.Settings.html#properties
+
+gtk-theme-name=Adwaita
+# /usr/share/themes
+gtk-icon-theme-name=Arc
+# /usr/share/icons
+gtk-font-name=sans-serif 12
+gtk-cursor-theme-name=Adwaita
+# /usr/share/icons
+
+gtk-toolbar-style=GTK_TOOLBAR_TEXT
+gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
+gtk-button-images=0
+gtk-menu-images=1
+gtk-xft-antialias=1
+gtk-xft-hinting=1
+gtk-xft-hintstyle=hintfull
+gtk-xft-rgba=rgb
+gtk-cursor-theme-size=0
+# 0 means to use the default size
+
+gtk-enable-event-sounds=1
+gtk-enable-input-feedback-sounds=1
+
+# gtk-key-theme-name=Emacs

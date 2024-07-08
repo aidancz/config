@@ -148,6 +148,8 @@ vim.opt.autowrite = true
 -- ':h map-table'
 -- ':h key-notation'
 
+vim.keymap.set('', '<space>', '<nop>')
+
 local winheight14_ctrle = vim.api.nvim_win_get_height(0) / 4 .. '<c-e>'
 vim.keymap.set('n', '<c-n>', winheight14_ctrle)
 local winheight14_ctrly = vim.api.nvim_win_get_height(0) / 4 .. '<c-y>'

@@ -29,8 +29,19 @@ else
 	    "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
 fi
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ gtk
+if [ "$1" == 1 ]
+then
+	rm -rf "$XDG_CONFIG_HOME/gtk-3.0"
+	mkdir -p "$XDG_CONFIG_HOME/gtk-3.0"
+	ln -sf "$aidan_git/arch_config/.config/gtk-3.0/settings.ini_1"	"$XDG_CONFIG_HOME/gtk-3.0/settings.ini"
+else
+	rm -rf "$XDG_CONFIG_HOME/gtk-3.0"
+	mkdir -p "$XDG_CONFIG_HOME/gtk-3.0"
+	ln -sf "$aidan_git/arch_config/.config/gtk-3.0/settings.ini_0"	"$XDG_CONFIG_HOME/gtk-3.0/settings.ini"
+fi
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ renew dwm
-# steal code from sysact
 export WM="dwm"
 
 wmpid(){
@@ -40,3 +51,5 @@ wmpid(){
 }
 
 kill -HUP "$(wmpid)"
+exit 1
+# steal code from sysact
