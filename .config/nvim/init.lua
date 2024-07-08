@@ -10,6 +10,7 @@ vim.g.have_nerd_font = true
 --  appearance
 vim.opt_local.number = true
 vim.opt_local.relativenumber = true
+vim.opt.signcolumn = 'yes'
 -- vim.opt.signcolumn = 'yes:2'
 vim.opt.guicursor = ''
 -- vim.opt.cursorline = true
@@ -27,7 +28,7 @@ vim.opt.showcmd = false
 
 vim.opt.list = true
 vim.opt.listchars = ''
-vim.opt.listchars:append({tab = '  '})
+vim.opt.listchars:append({tab = '░░'})
 vim.opt.listchars:append({eol = ' '})
 -- some unicode symbols:
 -- ·▫
@@ -95,7 +96,7 @@ vim.opt.copyindent = true
 -- 'autoindent' & 'copyindent': '▫▫▫·█'
 
 vim.opt.smarttab = false
-vim.opt.preserveindent = true
+vim.opt.preserveindent = false
 vim.opt.shiftround = true
 -- smarttab		at line start, when use <tab>, use shiftwidth instead of softtabstop
 -- preserveindent	at line start, when use >>/<<, preserve current indent
@@ -169,9 +170,6 @@ vim.keymap.set('n', '<right>', [["=' '<cr>p]], {silent = true})
 
 vim.keymap.set('n', '<f3>', 'gO', {remap = true})
 
-vim.keymap.set('n', '<leader>rt', [[:%s/\s\+$//e<cr>]])
--- https://vim.fandom.com/wiki/Remove_unwanted_spaces
-
 
 
 vim.keymap.set('i', '<down>', '<c-n>')
@@ -199,6 +197,13 @@ vim.keymap.set({'', 'i'}, '<f1>', '<cmd>silent! !setsid -f $TERMINAL >/dev/null 
 vim.keymap.set({'', 'i'}, '<f2>', '<cmd>q!<cr>')
 
 vim.keymap.set({'', 'i'}, '<f7>', [[<cmd>put =strftime('%F')<cr>]])
+
+
+
+vim.api.nvim_create_user_command('Time', [[put =strftime('%F')]], {})
+
+vim.api.nvim_create_user_command('TrailRemove', [[%s/\s\+$//e]], {})
+-- https://vim.fandom.com/wiki/Remove_unwanted_spaces
 
 
 
@@ -514,7 +519,6 @@ require("lazy").setup(
 			require('mini.ai').setup()
 			require('mini.align').setup()
 			require('mini.operators').setup()
-			-- require('mini.trailspace').setup()
 		end,
 	},
 	{
@@ -522,9 +526,6 @@ require("lazy").setup(
 	},
 	{
 		'dhruvasagar/vim-table-mode',
-		config = function()
-			vim.keymap.set('n', '<leader>tm', '<cmd>TableModeToggle<cr>')
-		end,
 	},
 	{
 		'iamcco/markdown-preview.nvim',
@@ -643,14 +644,12 @@ require("lazy").setup(
 			})
 			require('telescope').load_extension('fzf')
 			require('telescope').load_extension('ui-select')
-			vim.keymap.set('n', '<leader>s', ':Telescope ')
 		end,
 	},
 	{
 		'ibhagwan/fzf-lua',
 		opts = {},
 		config = function()
-			vim.keymap.set('n', '<leader>f', ':FzfLua ')
 		end,
 	},
 	{
@@ -671,19 +670,52 @@ require("lazy").setup(
 			require('nvim-treesitter.configs').setup(opts)
 		end,
 	},
+	-- {
+	-- 	'neovim/nvim-lspconfig',
+	-- 	dependencies = {
+	-- 		-- {'williamboman/mason.nvim'},
+	-- 		-- {'williamboman/mason-lspconfig.nvim'},
+	--
+	-- 		{'VonHeikemen/lsp-zero.nvim', branch = 'v3.x'},
+	-- 	},
+	-- 	config = function()
+	-- 		local lsp_zero = require('lsp-zero')
+	-- 		lsp_zero.on_attach(function(client, bufnr)
+	-- 				lsp_zero.default_keymaps({buffer = bufnr})
+	-- 				end)
+	--
+	-- 		require'lspconfig'.lua_ls.setup{}
+	-- 	end,
+	-- },
 	{
-		'neovim/nvim-lspconfig',
+		'hrsh7th/nvim-cmp',
 		dependencies = {
-			{'williamboman/mason.nvim', config = true},
-			'williamboman/mason-lspconfig.nvim',
-			'WhoIsSethDaniel/mason-tool-installer.nvim',
-
-			{'j-hui/fidget.nvim', opts = {}},
-
-			{'folke/neodev.nvim', opts = {}},
+			{'hrsh7th/cmp-nvim-lsp'},
+			{'hrsh7th/cmp-cmdline'},
 		},
 		config = function()
+			local cmp = require('cmp')
+
+			cmp.setup.cmdline(':', {
+					mapping = cmp.mapping.preset.cmdline(),
+					sources = cmp.config.sources({
+							{ name = 'path' }
+							}, {
+							{
+							name = 'cmdline',
+							option = {
+							ignore_cmds = { 'Man', '!' }
+							}
+							}
+							})
+					})
+
+
+
 		end,
+	},
+	{
+		'L3MON4D3/LuaSnip',
 	},
 
 },
