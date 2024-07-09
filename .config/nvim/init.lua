@@ -10,6 +10,7 @@ vim.g.have_nerd_font = true
 --  appearance
 vim.opt_local.number = true
 vim.opt_local.relativenumber = true
+vim.opt.numberwidth = 1
 vim.opt.signcolumn = 'yes'
 -- vim.opt.signcolumn = 'yes:2'
 vim.opt.guicursor = ''
@@ -29,9 +30,9 @@ vim.opt.showcmd = false
 vim.opt.list = true
 vim.opt.listchars = ''
 vim.opt.listchars:append({tab = '░░'})
-vim.opt.listchars:append({eol = ' '})
+-- vim.opt.listchars:append({eol = '$'})
 -- some unicode symbols:
--- ·▫
+-- ·▫░▒▓█
 -- use 'ga' to get the code point
 
 vim.opt.display = {'lastline'}
@@ -142,6 +143,8 @@ vim.opt.backspace = {'indent', 'eol', 'start', 'nostop'}
 
 vim.opt.autoread = true
 vim.opt.autowrite = true
+
+vim.opt.completeopt = {'menu', 'preview'}
 
 
 
@@ -326,14 +329,15 @@ vim.api.nvim_create_autocmd(
 		command = 'normal mn',
 	})
 
-vim.api.nvim_create_autocmd(
-	'ModeChanged',
-	{
-		group = cursor_position_augroup,
-		pattern = {'[vV\x16]*:n'},
-		command = 'silent! normal `n',
-	})
--- use 'silent!' to ignore the error message when press 'Vd'
+-- vim.api.nvim_create_autocmd(
+-- 	'ModeChanged',
+-- 	{
+-- 		group = cursor_position_augroup,
+-- 		pattern = {'[vV\x16]*:n'},
+-- 		command = 'silent! normal `n',
+-- 	})
+-- -- use 'silent!' to ignore the error message when press 'Vd'
+-- -- may conflict with plugin
 
 --  eol extmark at cursor line
 -- https://github.com/echasnovski/mini.nvim/issues/990
@@ -494,31 +498,41 @@ require("lazy").setup(
 	-- {
 	-- 	'lukas-reineke/indent-blankline.nvim',
 	-- 	main = 'ibl',
-	-- 	opts = {},
+	-- 	config = function()
+	-- 		require('ibl').setup({
+	-- 			indent = {char = '┃'},
+	-- 		})
+	-- 	end,
 	-- },
 	-- {
 	-- 	'lewis6991/gitsigns.nvim',
-	-- 	opts = {},
+	-- 	config = function()
+	-- 		require('gitsigns').setup({})
+	-- 	end,
 	-- },
 	{
 		'kylechui/nvim-surround',
-		opts = {},
+		config = function()
+			require('nvim-surround').setup({})
+		end,
 	},
 	{
 		'numToStr/Comment.nvim',
-		opts = {
-			toggler = {
-				block = 'gbb',
-			},
-		},
+		config = function()
+			require('Comment').setup({
+				toggler = {
+					block = 'gbb',
+				},
+			})
+		end,
 	},
 	{
 		'echasnovski/mini.nvim',
 		version = false,
 		config = function()
-			require('mini.ai').setup()
-			require('mini.align').setup()
-			require('mini.operators').setup()
+			require('mini.ai').setup({})
+			require('mini.align').setup({})
+			require('mini.operators').setup({})
 		end,
 	},
 	{
@@ -581,25 +595,25 @@ require("lazy").setup(
 			'nvim-treesitter/nvim-treesitter',
 			-- 'nvim-tree/nvim-web-devicons',
 		},
-		opts = {
-			layout = {
-				width = 0.5,
-				max_width = 0.5,
-				min_width = 0.5,
-				default_direction = 'float',
-				resize_to_content = false,
-			},
-			float = {
-				height = 0.8,
-				max_height = 0.8,
-				min_height = 0.8,
-				border = 'single',
-				relative = 'editor',
-			},
-		},
-		config = function(_, opts)
-			require('aerial').setup(opts)
-			vim.keymap.set("n", "<f3>", "<cmd>AerialToggle<CR>")
+		config = function()
+			require('aerial').setup({
+				layout = {
+					width = 0.5,
+					max_width = 0.5,
+					min_width = 0.5,
+					default_direction = 'float',
+					resize_to_content = false,
+				},
+				float = {
+					height = 0.8,
+					max_height = 0.8,
+					min_height = 0.8,
+					border = 'single',
+					relative = 'editor',
+				},
+			})
+
+			vim.keymap.set('n', '<f3>', '<cmd>AerialToggle<cr>')
 		end,
 	},
 	{
@@ -648,26 +662,33 @@ require("lazy").setup(
 	},
 	{
 		'ibhagwan/fzf-lua',
-		opts = {},
 		config = function()
+			require("fzf-lua").setup({
+				keymap = {
+					builtin = {
+					},
+					fzf = {
+						['f2'] = 'abort',
+					},
+				},
+			})
 		end,
 	},
 	{
 		'nvim-treesitter/nvim-treesitter',
 		build = ':TSUpdate',
-		opts = {
-			ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc' },
-			auto_install = true,
-			highlight = {
-				enable = true,
-			},
-			-- indent = {
-			-- 	enable = true,
-			-- },
-		},
-		config = function(_, opts)
+		config = function()
 			require('nvim-treesitter.install').prefer_git = true
-			require('nvim-treesitter.configs').setup(opts)
+			require('nvim-treesitter.configs').setup({
+				ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc' },
+				auto_install = true,
+				highlight = {
+					enable = true,
+				},
+				-- indent = {
+				-- 	enable = true,
+				-- },
+			})
 		end,
 	},
 	-- {
@@ -684,34 +705,46 @@ require("lazy").setup(
 	-- 				lsp_zero.default_keymaps({buffer = bufnr})
 	-- 				end)
 	--
-	-- 		require'lspconfig'.lua_ls.setup{}
+	-- 		require('lspconfig').lua_ls.setup({})
 	-- 	end,
 	-- },
 	{
 		'hrsh7th/nvim-cmp',
 		dependencies = {
-			{'hrsh7th/cmp-nvim-lsp'},
+			{'hrsh7th/cmp-path'},
+			{'hrsh7th/cmp-buffer'},
 			{'hrsh7th/cmp-cmdline'},
+			{'hrsh7th/cmp-nvim-lsp'},
 		},
 		config = function()
 			local cmp = require('cmp')
 
+			cmp.setup({
+				completion = {
+					completeopt = 'menu,menuone,noselect',
+				},
+				window = {
+					completion    = cmp.config.window.bordered(),
+					documentation = cmp.config.window.bordered(),
+				},
+			})
+
 			cmp.setup.cmdline(':', {
-					mapping = cmp.mapping.preset.cmdline(),
-					sources = cmp.config.sources({
-							{ name = 'path' }
-							}, {
-							{
-							name = 'cmdline',
-							option = {
-							ignore_cmds = { 'Man', '!' }
-							}
-							}
-							})
-					})
-
-
-
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = cmp.config.sources(
+					{
+						{name = 'path'},
+					},
+					{
+						{name = 'cmdline'},
+					}),
+			})
+			-- cmp.setup.cmdline({'/', '?'}, {
+			-- 	mapping = cmp.mapping.preset.cmdline(),
+			-- 	sources = {
+			-- 		{name = 'buffer'},
+			-- 	}
+			-- })
 		end,
 	},
 	{
