@@ -10,7 +10,7 @@ vim.g.have_nerd_font = true
 --  appearance
 vim.opt_local.number = true
 vim.opt_local.relativenumber = true
-vim.opt.numberwidth = 1
+vim.opt.numberwidth = 5
 vim.opt.signcolumn = 'yes'
 -- vim.opt.signcolumn = 'yes:2'
 vim.opt.guicursor = ''
@@ -115,6 +115,9 @@ vim.opt.wrapmargin = 0
 
 vim.opt.formatoptions = ''
 -- https://vi.stackexchange.com/questions/1983/how-can-i-get-vim-to-stop-putting-comments-in-front-of-new-lines
+
+--  undo
+vim.opt.undofile = true
 
 --  fold
 vim.opt.foldmethod = 'marker'
@@ -343,11 +346,16 @@ vim.api.nvim_create_autocmd(
 -- https://github.com/echasnovski/mini.nvim/issues/990
 
 local eol_extmark_ns_id = vim.api.nvim_create_namespace('eol_extmark')
+
+vim.api.nvim_set_hl(0, 'EolExtmark', {link = 'Comment'})
+
 local eol_extmark_opts = {
-	virt_text = {{'○', 'Comment'}},
+	virt_text = {{'○', 'EolExtmark'}},
 	virt_text_pos = 'overlay',
 }
+
 local eol_extmark_id
+
 local show_eol_at_cursor_line = function(args)
 	if vim.api.nvim_get_current_buf() ~= args.buf then return end
 	eol_extmark_opts.id = eol_extmark_id
@@ -355,7 +363,10 @@ local show_eol_at_cursor_line = function(args)
 	eol_extmark_id = vim.api.nvim_buf_set_extmark(args.buf, eol_extmark_ns_id, line, -1, eol_extmark_opts)
 end
 
+
+
 local eol_extmark_augroup = vim.api.nvim_create_augroup('eol_extmark', {clear = true})
+
 vim.api.nvim_create_autocmd(
 	{'BufEnter', 'CursorMoved', 'CursorMovedI'},
 	{
@@ -440,6 +451,7 @@ vim.api.nvim_create_autocmd(
 		callback = function()
 			vim.opt_local.number = false
 			vim.opt_local.relativenumber = false
+			vim.opt_local.signcolumn = 'no'
 		end,
 	})
 
@@ -534,6 +546,9 @@ require("lazy").setup(
 			require('mini.align').setup({})
 			require('mini.operators').setup({})
 		end,
+	},
+	{
+		'mbbill/undotree',
 	},
 	{
 		'h-hg/fcitx.nvim',
