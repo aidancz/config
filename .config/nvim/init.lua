@@ -8,8 +8,8 @@ vim.g.have_nerd_font = true
 
 --  option
 --  appearance
-vim.opt_local.number = true
-vim.opt_local.relativenumber = true
+vim.opt.number = true
+vim.opt.relativenumber = true
 vim.opt.numberwidth = 5
 vim.opt.signcolumn = 'yes'
 -- vim.opt.signcolumn = 'yes:2'
@@ -127,6 +127,7 @@ vim.opt.foldtext = vim.fn.getline(vim.v.foldstart)
 vim.opt.hidden = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
+vim.opt.splitkeep = 'topline'
 vim.opt.equalalways = true
 vim.opt.winfixheight = false
 vim.opt.cmdwinheight = 8
@@ -523,6 +524,12 @@ require("lazy").setup(
 	-- 	end,
 	-- },
 	{
+		'inkarkat/vim-mark',
+		dependencies = {
+			'inkarkat/vim-ingo-library',
+		},
+	},
+	{
 		'kylechui/nvim-surround',
 		config = function()
 			require('nvim-surround').setup({})
@@ -545,6 +552,8 @@ require("lazy").setup(
 			require('mini.ai').setup({})
 			require('mini.align').setup({})
 			require('mini.operators').setup({})
+			require('mini.trailspace').setup({})
+			vim.api.nvim_set_hl(0, 'MiniTrailspace', {link = 'nofrils-yellow-bg'})
 		end,
 	},
 	{
@@ -762,8 +771,15 @@ require("lazy").setup(
 			-- })
 		end,
 	},
+	-- {
+	-- 	'L3MON4D3/LuaSnip',
+	-- },
 	{
-		'L3MON4D3/LuaSnip',
+		'mikavilpas/yazi.nvim',
+		config = function()
+			require('yazi').setup({})
+			vim.api.nvim_create_user_command('Yazi', function() require('yazi').yazi() end, {})
+		end,
 	},
 
 },

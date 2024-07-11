@@ -11,6 +11,7 @@ alias mkdir="mkdir -p"
 # alias grep="grep --color=auto"
 # alias diff="diff --color=auto"
 alias man="man -a"
+alias chez="chez ~/.schemerc"
 
 # abbreviate long command
 alias 1="setsid -f $TERMINAL >/dev/null 2>&1"
