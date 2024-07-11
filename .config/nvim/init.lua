@@ -325,13 +325,14 @@ vim.api.nvim_create_autocmd(
 		command = 'normal `^',
 	})
 
-vim.api.nvim_create_autocmd(
-	'ModeChanged',
-	{
-		group = cursor_position_augroup,
-		pattern = {'n:*'},
-		command = 'normal mn',
-	})
+-- vim.api.nvim_create_autocmd(
+-- 	'ModeChanged',
+-- 	{
+-- 		group = cursor_position_augroup,
+-- 		pattern = {'n:*'},
+-- 		command = 'normal mn',
+-- 	})
+-- -- may conflict with plugin! (vim-mark)
 
 -- vim.api.nvim_create_autocmd(
 -- 	'ModeChanged',
@@ -341,7 +342,7 @@ vim.api.nvim_create_autocmd(
 -- 		command = 'silent! normal `n',
 -- 	})
 -- -- use 'silent!' to ignore the error message when press 'Vd'
--- -- may conflict with plugin
+-- -- may conflict with plugin! (mini.ai)
 
 --  eol extmark at cursor line
 -- https://github.com/echasnovski/mini.nvim/issues/990
@@ -528,6 +529,35 @@ require("lazy").setup(
 		dependencies = {
 			'inkarkat/vim-ingo-library',
 		},
+		config = function()
+			vim.api.nvim_set_hl(0, 'MarkWord1', {link = 'nofrils-red-bg'})
+			vim.api.nvim_set_hl(0, 'MarkWord2', {link = 'nofrils-green-bg'})
+			vim.api.nvim_set_hl(0, 'MarkWord3', {link = 'nofrils-yellow-bg'})
+			vim.api.nvim_set_hl(0, 'MarkWord4', {link = 'nofrils-blue-bg'})
+			vim.api.nvim_set_hl(0, 'MarkWord5', {link = 'nofrils-magenta-bg'})
+			vim.api.nvim_set_hl(0, 'MarkWord6', {link = 'nofrils-cyan-bg'})
+		end,
+	},
+	{
+		'chentoast/marks.nvim',
+		config = function()
+			require('marks').setup({
+				default_mappings = true,
+				builtin_marks = {".", "<", ">", "^"},
+				cyclic = true,
+				force_write_shada = false,
+				refresh_interval = 150,
+				sign_priority = {lower=10, upper=15, builtin=8, bookmark=20},
+				excluded_filetypes = {},
+				excluded_buftypes = {},
+				bookmark_0 = {
+					sign = "⚑",
+					virt_text = "hello world",
+					annotate = false,
+				},
+				mappings = {}
+			})
+		end,
 	},
 	{
 		'kylechui/nvim-surround',

@@ -67,8 +67,6 @@ set ignorecase
 set smartcase
 set magic
 
-set inccommand=
-
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ copy & paste
 set clipboard^=unnamed,unnamedplus
 
@@ -322,8 +320,12 @@ onoremap ) :normal V)<cr>
 
 
 
-" call plug#begin()                             " vim
-call plug#begin(stdpath('data') . '/plugged') " nvim
+call plug#begin()                             " vim
+" call plug#begin(stdpath('data') . '/plugged') " nvim
+
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ test
+Plug 'inkarkat/vim-ingo-library'
+Plug 'inkarkat/vim-mark'
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ appearance
 " Plug 'altercation/vim-colors-solarized'
@@ -333,8 +335,6 @@ call plug#begin(stdpath('data') . '/plugged') " nvim
 " Plug 'nekonako/xresources-nvim'
 " Plug 'martineausimon/nvim-xresources'
 " Plug 'robertmeta/nofrils'
-" Plug 'aidancz/nofrils'
-Plug '~/sync_git/nofrils'
 
 " Plug 'ap/vim-css-color'
 " Plug 'RRethy/vim-hexokinase'
@@ -369,8 +369,8 @@ call plug#end()
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ plug_config
 
-" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nofrils
-colorscheme nofrils
+" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ colorscheme
+" colorscheme nofrils
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vim-lion
 let g:lion_squeeze_spaces = 1

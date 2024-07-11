@@ -29,7 +29,7 @@ ln -sf "$XDG_CONFIG_HOME/bash/.bashrc"		"$HOME/.bashrc"
 ln -sf "$XDG_CONFIG_HOME/x11/.xprofile"		"$HOME/.xprofile"
 ln -sf "$XDG_CONFIG_HOME/ex/.exrc"		"$HOME/.exrc"
 ln -sf "$XDG_CONFIG_HOME/chez/.schemerc"	"$HOME/.schemerc"
-# ln -sf "$XDG_CONFIG_HOME/vim/.vimrc"		"$HOME/.vimrc"
+ln -sf "$XDG_CONFIG_HOME/vim/.vimrc"		"$HOME/.vimrc"
 # ln -sf "$XDG_CONFIG_HOME/less/.lesskey"		"$HOME/.lesskey"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_CACHE_HOME
