@@ -230,15 +230,19 @@ function compile()
 end
 vim.keymap.set('n', '<f5>', compile)
 
---  paragraph_border
-local function paragraph_border_line_p(lnum)
+--  paragraph_textline (para_textl)
+local function para_textl_head_p(lnum)
 	if lnum == 1 then
 		return true
 	end
-	if lnum == vim.fn.line('$') then
+	if vim.fn.getline(lnum) ~= '' and vim.fn.getline(lnum - 1) == '' then
 		return true
 	end
-	if vim.fn.getline(lnum) ~= '' and vim.fn.getline(lnum - 1) == '' then
+	return false
+end
+
+local function para_textl_tail_p(lnum)
+	if lnum == vim.fn.line('$') then
 		return true
 	end
 	if vim.fn.getline(lnum) ~= '' and vim.fn.getline(lnum + 1) == '' then
@@ -247,42 +251,50 @@ local function paragraph_border_line_p(lnum)
 	return false
 end
 
-function paragraph_border_backward_lnum(lnum)
+local function para_textl_backward_lnum(lnum)
 	if lnum == 1 then
 		return lnum
 	end
-	if paragraph_border_line_p(lnum - 1) then
+	if para_textl_head_p(lnum - 1) then
 		return lnum - 1
 	end
-	return paragraph_border_backward_lnum(lnum - 1)
+	return para_textl_backward_lnum(lnum - 1)
 end
 
-function paragraph_border_forward_lnum(lnum)
+local function para_textl_forward_lnum(lnum)
 	if lnum == vim.fn.line('$') then
 		return lnum
 	end
-	if paragraph_border_line_p(lnum + 1) then
+	if para_textl_tail_p(lnum + 1) then
 		return lnum + 1
 	end
-	return paragraph_border_forward_lnum(lnum + 1)
+	return para_textl_forward_lnum(lnum + 1)
 end
 
-function paragraph_border_backward()
-	local line_number_current = vim.fn.line('.')
-	local line_number_destination = paragraph_border_backward_lnum(line_number_current)
-	vim.cmd(tostring(line_number_destination))
+rep_call = function(func, arg, count)
+	if count == 0 then
+		return func(arg)
+	else
+		return rep_call(func, func(arg), (count - 1))
+	end
 end
 
-function paragraph_border_forward()
-	local line_number_current = vim.fn.line('.')
-	local line_number_destination = paragraph_border_forward_lnum(line_number_current)
-	vim.cmd(tostring(line_number_destination))
+local function para_textl_backward()
+	local lnum_current = vim.fn.line('.')
+	local lnum_destination = rep_call(para_textl_backward_lnum, lnum_current, (vim.v.count1 - 1))
+	vim.cmd(tostring(lnum_destination))
 end
 
-vim.keymap.set({'n', 'v'}, '(', paragraph_border_backward)
-vim.keymap.set('o', '(', ':normal V(<cr>', {silent = true})
-vim.keymap.set({'n', 'v'}, ')', paragraph_border_forward)
-vim.keymap.set('o', ')', ':normal V)<cr>', {silent = true})
+local function para_textl_forward()
+	local lnum_current = vim.fn.line('.')
+	local lnum_destination = rep_call(para_textl_forward_lnum, lnum_current, (vim.v.count1 - 1))
+	vim.cmd(tostring(lnum_destination))
+end
+
+vim.keymap.set({'n', 'v'}, '(', para_textl_backward)
+vim.keymap.set('o', '(', function() return ':normal V' .. vim.v.count1 .. '(<cr>' end, {silent = true, expr = true})
+vim.keymap.set({'n', 'v'}, ')', para_textl_forward)
+vim.keymap.set('o', ')', function() return ':normal V' .. vim.v.count1 .. ')<cr>' end, {silent = true, expr = true})
 -- https://vi.stackexchange.com/questions/6101/is-there-a-text-object-for-current-line/6102#6102
 
 --  misc
@@ -594,6 +606,9 @@ require("lazy").setup(
 	},
 	{
 		'dhruvasagar/vim-table-mode',
+		config = function()
+			vim.g.table_mode_corner = '|'
+		end,
 	},
 	{
 		'iamcco/markdown-preview.nvim',
