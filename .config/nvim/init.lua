@@ -537,6 +537,22 @@ require("lazy").setup(
 	-- 	end,
 	-- },
 	{
+		'utilyre/sentiment.nvim',
+		init = function()
+			vim.g.loaded_matchparen = 1
+			vim.opt.showmatch = false
+		end,
+		config = function()
+			require('sentiment').setup({
+				included_modes = {
+					n = true,
+					i = true,
+				},
+				delay = 0,
+			})
+		end,
+	},
+	{
 		'inkarkat/vim-mark',
 		dependencies = {
 			'inkarkat/vim-ingo-library',
@@ -753,11 +769,13 @@ require("lazy").setup(
 				auto_install = true,
 				highlight = {
 					enable = true,
+					additional_vim_regex_highlighting = false,
 				},
 				-- indent = {
 				-- 	enable = true,
 				-- },
 			})
+			-- vim.api.nvim_set_hl(0, '@comment', {link = 'Comment'})
 		end,
 	},
 	-- {
