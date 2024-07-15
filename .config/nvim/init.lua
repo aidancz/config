@@ -41,7 +41,11 @@ vim.opt.conceallevel = 0
 vim.opt.concealcursor = ''
 
 vim.opt.fillchars = ''
+vim.opt.fillchars:append({eob = ' '})
 vim.opt.fillchars:append({fold = ' '})
+vim.opt.fillchars:append({foldclose = '●'})
+vim.opt.fillchars:append({foldopen = '○'})
+vim.opt.fillchars:append({foldsep = '1'})
 
 --  navigation
 vim.opt.virtualedit = {'all'}
@@ -120,8 +124,12 @@ vim.opt.formatoptions = ''
 vim.opt.undofile = true
 
 --  fold
-vim.opt.foldmethod = 'marker'
+vim.opt.foldenable = true
+vim.opt.foldcolumn = '1'
 vim.opt.foldtext = vim.fn.getline(vim.v.foldstart)
+vim.opt.foldlevel = 0
+vim.opt.foldlevelstart = 0
+vim.opt.foldmethod = 'marker'
 
 --  buffer window tab
 vim.opt.hidden = true
@@ -552,6 +560,20 @@ require("lazy").setup(
 			})
 		end,
 	},
+	-- {
+	-- 	'kevinhwang91/nvim-ufo',
+	-- 	dependencies = {
+	-- 		'kevinhwang91/promise-async',
+	-- 	},
+	-- 	config = function()
+	-- 		require('ufo').setup({
+	-- 			provider_selector = function(bufnr, filetype, buftype)
+	-- 				return ''
+	-- 			end,
+	-- 			fold_virt_text_handler = function() return vim.fn.getline(vim.v.foldstart) end,
+	-- 		})
+	-- 	end,
+	-- },
 	{
 		'inkarkat/vim-mark',
 		dependencies = {
