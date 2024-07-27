@@ -1,3 +1,8 @@
+--  debug
+-- if true then return end
+
+
+
 --  variable
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -135,7 +140,7 @@ vim.opt.foldmethod = 'marker'
 vim.opt.hidden = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.splitkeep = 'topline'
+-- vim.opt.splitkeep = 'topline'
 vim.opt.equalalways = true
 vim.opt.winfixheight = false
 vim.opt.cmdwinheight = 8
@@ -165,6 +170,9 @@ vim.opt.completeopt = {'menu', 'preview'}
 -- ':h key-notation'
 
 vim.keymap.set('', '<space>', '<nop>')
+
+vim.keymap.set('o', '{', function() return ':normal V' .. vim.v.count1 .. '{<cr>' end, {silent = true, expr = true})
+vim.keymap.set('o', '}', function() return ':normal V' .. vim.v.count1 .. '}<cr>' end, {silent = true, expr = true})
 
 local winheight14_ctrle = vim.api.nvim_win_get_height(0) / 4 .. '<c-e>'
 vim.keymap.set('n', '<c-n>', winheight14_ctrle)
@@ -215,7 +223,7 @@ vim.keymap.set({'', 'i'}, '<f7>', [[<cmd>put =strftime('%F')<cr>]])
 
 
 
-vim.api.nvim_create_user_command('Time', [[put =strftime('%F')]], {})
+vim.api.nvim_create_user_command('Date', [[put =strftime('%F')]], {})
 
 vim.api.nvim_create_user_command('TrailRemove', [[%s/\s\+$//e]], {})
 -- https://vim.fandom.com/wiki/Remove_unwanted_spaces
@@ -723,6 +731,12 @@ require("lazy").setup(
 			vim.keymap.set('n', '<f3>', '<cmd>AerialToggle<cr>')
 		end,
 	},
+	-- {
+	-- 	'hedyhli/outline.nvim',
+	-- 	config = function()
+	-- 		require('outline').setup({})
+	-- 	end,
+	-- },
 	{
 		'nvim-telescope/telescope.nvim',
 		branch = '0.1.x',

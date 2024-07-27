@@ -4,7 +4,7 @@ xrandr --dpi 96
 # set dpi. user may want to use a larger number for larger screens
 
 output=`xrandr | grep "\bconnected\b" | cut -d' ' -f1`
-xrandr --output $output --set TearFree on
+# xrandr --output $output --set TearFree on
 xrandr --output $output --mode 1920x1080 --rate 144
 
 xset s off -dpms
@@ -23,5 +23,5 @@ fcitx5 -d &
 
 remaps &
 setbg &
-dl & xrdbpid=$!
+dark-light & xrdbpid=$!
 [ -n "$xrdbpid" ] && wait "$xrdbpid"
