@@ -1,3 +1,5 @@
+vim.loader.enable()
+
 --  debug
 -- if true then return end
 
@@ -227,6 +229,18 @@ vim.api.nvim_create_user_command('Date', [[put =strftime('%F')]], {})
 
 vim.api.nvim_create_user_command('TrailRemove', [[%s/\s\+$//e]], {})
 -- https://vim.fandom.com/wiki/Remove_unwanted_spaces
+
+vim.api.nvim_create_user_command('SearchMiddleToggle',
+	function()
+		if vim.fn.mapcheck('n') == '' then
+			vim.keymap.set('n', 'n', 'nzz')
+			vim.keymap.set('n', 'N', 'Nzz')
+		else
+			vim.keymap.del('n', 'n')
+			vim.keymap.del('n', 'N')
+		end
+	end,
+	{})
 
 
 
@@ -510,6 +524,7 @@ vim.fn.digraph_set('oo', '●')
 vim.fn.digraph_set('xx', '×')
 vim.fn.digraph_set('-<', '←')
 vim.fn.digraph_set('-^', '↑')
+vim.fn.digraph_set('^v', '↕')
 
 
 
@@ -610,7 +625,7 @@ require("lazy").setup(
 				excluded_buftypes = {},
 				bookmark_0 = {
 					sign = "⚑",
-					virt_text = "hello world",
+					virt_text = "",
 					annotate = false,
 				},
 				mappings = {}
@@ -712,6 +727,17 @@ require("lazy").setup(
 		},
 		config = function()
 			require('aerial').setup({
+				keymaps = {
+					['?']      = false,
+					['<C-j>']  = false,
+					['<C-k>']  = false,
+					['<C-s>']  = false,
+					['<C-v>']  = false,
+					['<a-j>']  = 'actions.down_and_scroll',
+					['<a-k>']  = 'actions.up_and_scroll',
+					['<a-s>']  = 'actions.jump_split',
+					['<a-v>']  = 'actions.jump_vsplit',
+				},
 				layout = {
 					width = 0.5,
 					max_width = 0.5,
