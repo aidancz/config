@@ -1,5 +1,6 @@
 [manager]
 ratio = [1, 2, 3]
+sort_by = "natural"
 show_hidden = true
 scrolloff = 0
 
@@ -17,6 +18,7 @@ max_height = 10000
 [plugin]
 prepend_previewers = [
 	{mime = "text/*", run = "preview-text"},
+	{mime = "application/javascript", run = "preview-text"},
 ]
 
 [input]

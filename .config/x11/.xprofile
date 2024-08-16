@@ -13,15 +13,17 @@ xset s off -dpms
 
 
 
-autostart="mpd dunst unclutter pipewire nutstore"
+setbg &
+remaps &
+dark-light & xrdbpid=$!
+fcitx5 -d &
+nutstore &
+
+autostart="mpd xcompmgr dunst unclutter pipewire remapd"
 for program in $autostart; do
 	pidof -s "$program" || "$program" &
 done >/dev/null 2>&1
 
-fcitx5 -d &
-# run fcitx5 as daemon
 
-remaps &
-setbg &
-dark-light & xrdbpid=$!
+
 [ -n "$xrdbpid" ] && wait "$xrdbpid"
