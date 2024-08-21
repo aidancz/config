@@ -138,34 +138,22 @@ icon_error = ""
 # file --mime-type cat_white.jpg
 
 rules = [
-	# dir
+
 	{name = "*/", fg = "blue"},
 
-	# symbolic link
 	{name = "*", is = "link",   fg = "cyan"},
 	{name = "*", is = "orphan", fg = "red"},
+	{name = "*", is = "exec",   fg = "green"},
 
-	# executable
-	{name = "*", is = "exec", fg = "green"},
+	{mime = "application/zip",                fg = "magenta"},
+	{mime = "application/x-7z-compressed",    fg = "magenta"},
+	{mime = "image/*",                        fg = "yellow"},
+	{mime = "audio/*",                        fg = "yellow"},
+	{mime = "video/*",                        fg = "yellow"},
+	{mime = "application/pdf",                fg = "yellow"},
+	{mime = "application/epub+zip",           fg = "yellow"},
+	{mime = "application/x-mobipocket-ebook", fg = "yellow"},
 
-	# archive
-	{mime = "application/*zip",            fg = "magenta"},
-	{mime = "application/x-tar",           fg = "magenta"},
-	{mime = "application/x-bzip*",         fg = "magenta"},
-	{mime = "application/x-7z-compressed", fg = "magenta"},
-	{mime = "application/x-xz",            fg = "magenta"},
-	{mime = "application/x-rar",           fg = "magenta"},
-
-	# image
-	{mime = "image/*",           fg = "yellow"},
-	# media
-	{mime = "audio/*",           fg = "yellow"},
-	{mime = "video/*",           fg = "yellow"},
-	# document
-	{mime = "application/pdf",   fg = "yellow"},
-	{mime = "application/doc",   fg = "yellow"},
-	{mime = "application/rtf",   fg = "yellow"},
-	{mime = "application/vnd.*", fg = "yellow"},
 ]
 
 [icon]
