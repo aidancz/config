@@ -165,6 +165,8 @@ vim.opt.autowrite = true
 
 vim.opt.completeopt = {'menu', 'preview'}
 
+vim.opt.commentstring = '#%s'
+
 
 
 --  map
@@ -214,7 +216,7 @@ vim.keymap.set({'', 'i'}, '<c-j>', '<cmd>normal zt<cr>')
 vim.keymap.set({'', 'i'}, '<c-k>', '<cmd>normal zb<cr>')
 vim.keymap.set({'', 'i'}, '<c-h>', '<cmd>normal zz<c-n><cr>', {remap = true})
 vim.keymap.set({'', 'i'}, '<c-l>', '<cmd>normal zz<c-p><cr>', {remap = true})
-vim.keymap.set('!', '<c-f>', '<c-k>')
+vim.keymap.set('!', '<a-v>', '<c-k>')
 
 vim.keymap.set({'', 'i'}, '<f1>', '<cmd>silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>')
 -- https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
@@ -652,7 +654,18 @@ require("lazy").setup(
 		'echasnovski/mini.nvim',
 		version = false,
 		config = function()
-			require('mini.ai').setup({})
+			require('mini.ai').setup({
+				custom_textobjects = {
+					g = function()
+						local from = { line = 1, col = 1 }
+						local to = {
+							line = vim.fn.line('$'),
+							col = math.max(vim.fn.getline('$'):len(), 1)
+						}
+						return { from = from, to = to, vis_mode = 'V' }
+					end,
+				},
+			})
 			require('mini.align').setup({})
 			require('mini.operators').setup({})
 			require('mini.trailspace').setup({})
