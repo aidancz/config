@@ -175,13 +175,11 @@ vim.opt.commentstring = '#%s'
 
 vim.keymap.set('', '<space>', '<nop>')
 
-vim.keymap.set('o', '{', function() return ':normal V' .. vim.v.count1 .. '{<cr>' end, {silent = true, expr = true})
-vim.keymap.set('o', '}', function() return ':normal V' .. vim.v.count1 .. '}<cr>' end, {silent = true, expr = true})
+vim.keymap.set('o', '{', function() return 'V' .. vim.v.count1 .. '{' end, {silent = true, expr = true})
+vim.keymap.set('o', '}', function() return 'V' .. vim.v.count1 .. '}' end, {silent = true, expr = true})
 
-local winheight14_ctrle = vim.api.nvim_win_get_height(0) / 4 .. '<c-e>'
-vim.keymap.set('n', '<c-n>', winheight14_ctrle)
-local winheight14_ctrly = vim.api.nvim_win_get_height(0) / 4 .. '<c-y>'
-vim.keymap.set('n', '<c-p>', winheight14_ctrly)
+vim.keymap.set('n', '<c-n>', function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. '<c-e>' end, {silent = true, expr = true})
+vim.keymap.set('n', '<c-p>', function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. '<c-y>' end, {silent = true, expr = true})
 -- https://stackoverflow.com/questions/8059448/scroll-window-halfway-between-zt-and-zz-in-vim
 
 vim.keymap.set('n', '<a-j>', ':.m .+1<cr>', {silent = true})
