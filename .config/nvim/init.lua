@@ -390,16 +390,11 @@ vim.api.nvim_create_autocmd(
 -- https://github.com/echasnovski/mini.nvim/issues/990
 
 local eol_extmark_ns_id = vim.api.nvim_create_namespace('eol_extmark')
-
-vim.api.nvim_set_hl(0, 'EolExtmark', {link = 'Comment'})
-
 local eol_extmark_opts = {
 	virt_text = {{'○', 'EolExtmark'}},
 	virt_text_pos = 'overlay',
 }
-
 local eol_extmark_id
-
 local show_eol_at_cursor_line = function(args)
 	if vim.api.nvim_get_current_buf() ~= args.buf then return end
 	eol_extmark_opts.id = eol_extmark_id
@@ -407,16 +402,15 @@ local show_eol_at_cursor_line = function(args)
 	eol_extmark_id = vim.api.nvim_buf_set_extmark(args.buf, eol_extmark_ns_id, line, -1, eol_extmark_opts)
 end
 
-
-
 local eol_extmark_augroup = vim.api.nvim_create_augroup('eol_extmark', {clear = true})
-
 vim.api.nvim_create_autocmd(
-	{'BufEnter', 'CursorMoved', 'CursorMovedI'},
+	{'BufRead', 'CursorMoved', 'CursorMovedI'},
 	{
 		group = eol_extmark_augroup,
 		callback = show_eol_at_cursor_line,
 	})
+
+vim.api.nvim_set_hl(0, 'EolExtmark', {link = 'Comment'})
 
 --  auto save
 -- local timer = vim.uv.new_timer()
