@@ -250,13 +250,11 @@ function compile()
 	vim.cmd('w')
 
 	local filetype = vim.bo.filetype
-	if filetype == 'markdown' then
-		vim.cmd('MarkdownPreview')
-	end
 	if filetype == 'c' then
 		vim.cmd([[silent! !gcc % -o %<]])
 		vim.cmd([[silent! !setsid -f $TERMINAL -e bash -c "%:p:r; bash"]])
 	end
+	vim.cmd('MarkdownPreview')
 end
 vim.keymap.set('n', '<f5>', compile)
 
@@ -678,8 +676,6 @@ require("lazy").setup(
 	},
 	{
 		'iamcco/markdown-preview.nvim',
-		cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
-		ft = { 'markdown' },
 		build = function() vim.fn['mkdp#util#install']() end,
 		config = function()
 
@@ -720,7 +716,7 @@ require("lazy").setup(
 			vim.g.mkdp_highlight_css = ''
 			vim.g.mkdp_port = ''
 			vim.g.mkdp_page_title = '${name}'
-			vim.g.mkdp_filetypes = {'markdown'}
+			vim.g.mkdp_filetypes = {'markdown', 'text'}
 
 		end,
 	},
