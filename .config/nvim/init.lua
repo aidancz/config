@@ -510,6 +510,23 @@ filetype indent off
 syntax off
 ]])
 
+--[[
+it's possible to turn off specific filetype plugin
+
+e.g. turn off markdown filetype plugin:
+
+```
+if exists("b:did_ftplugin")
+	finish
+endif
+let b:did_ftplugin = 1
+```
+
+save the file above as ~/.config/nvim/ftplugin/markdown.vim
+this will turn off markdown filetype plugin,
+which located at $VIMRUNTIME/ftplugin/markdown.vim
+--]]
+
 vim.fn.digraph_set('oo', '●')
 vim.fn.digraph_set('xx', '×')
 vim.fn.digraph_set('-<', '←')
@@ -519,6 +536,10 @@ vim.fn.digraph_set('^v', '↕')
 
 
 --  plugin
+-- https://lazy.folke.io/installation
+-- https://lazy.folke.io/configuration
+-- https://github.com/LazyVim/LazyVim/discussions/1483
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   vim.fn.system({
