@@ -182,9 +182,6 @@ vim.keymap.set('n', '<c-n>', function() return math.ceil(vim.api.nvim_win_get_he
 vim.keymap.set('n', '<c-p>', function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. '<c-y>' end, {silent = true, expr = true})
 -- https://stackoverflow.com/questions/8059448/scroll-window-halfway-between-zt-and-zz-in-vim
 
-vim.keymap.set('n', '<a-j>', ':.m .+1<cr>', {silent = true})
-vim.keymap.set('n', '<a-k>', ':.m .-2<cr>', {silent = true})
-
 vim.keymap.set('n', '<a-n>', 'nzz')
 vim.keymap.set('n', '<a-p>', 'Nzz')
 
@@ -400,7 +397,7 @@ end
 
 local eol_extmark_augroup = vim.api.nvim_create_augroup('eol_extmark', {clear = true})
 vim.api.nvim_create_autocmd(
-	{'BufRead', 'CursorMoved', 'CursorMovedI'},
+	{'BufEnter', 'CursorMoved', 'CursorMovedI'},
 	{
 		group = eol_extmark_augroup,
 		callback = show_eol_at_cursor_line,
@@ -436,46 +433,6 @@ vim.api.nvim_create_autocmd(
 
 --  filetype
 local filetype_augroup = vim.api.nvim_create_augroup('filetype', {clear = true})
-
-vim.api.nvim_create_autocmd(
-	'FileType',
-	{
-		group = filetype_augroup,
-		pattern = {'markdown'},
-		callback = function()
-			vim.opt.commentstring = '●%s'
-		end,
-	})
-
-vim.api.nvim_create_autocmd(
-	'FileType',
-	{
-		group = filetype_augroup,
-		pattern = {'c'},
-		callback = function()
-			vim.opt.commentstring = '//%s'
-		end,
-	})
-
-vim.api.nvim_create_autocmd(
-	'FileType',
-	{
-		group = filetype_augroup,
-		pattern = {'vim'},
-		callback = function()
-			vim.opt.commentstring = '"%s'
-		end,
-	})
-
-vim.api.nvim_create_autocmd(
-	'FileType',
-	{
-		group = filetype_augroup,
-		pattern = {'lua'},
-		callback = function()
-			vim.opt.commentstring = '--%s'
-		end,
-	})
 
 vim.api.nvim_create_autocmd(
 	'FileType',
@@ -656,12 +613,14 @@ local lazyplugins =
 	end,
 },
 
+--[[
 {
 	'kylechui/nvim-surround',
 	config = function()
 		require('nvim-surround').setup({})
 	end,
 },
+--]]
 
 {
 	'numToStr/Comment.nvim',
@@ -678,24 +637,49 @@ local lazyplugins =
 	'echasnovski/mini.nvim',
 	version = false,
 	config = function()
+
 		require('mini.ai').setup({
 			custom_textobjects = {
-				g = function()
-					local from = { line = 1, col = 1 }
-					local to = {
-						line = vim.fn.line('$'),
-						col = math.max(vim.fn.getline('$'):len(), 1)
-					}
-					return { from = from, to = to, vis_mode = 'V' }
-				end,
+				n = require('mini.extra').gen_ai_spec.number(),
+				l = require('mini.extra').gen_ai_spec.line(),
+				i = require('mini.extra').gen_ai_spec.indent(),
+				b = require('mini.extra').gen_ai_spec.buffer(),
+			},
+			mappings = {
+				around_next = '',
+				inside_next = '',
+				around_last = 'ah',
+				inside_last = 'ih',
 			},
 		})
+
 		require('mini.align').setup({})
+
+		require('mini.bracketed').setup({})
+
+		require('mini.diff').setup({
+			view = {
+				style = 'sign',
+				signs = {add = '■', change = '■', delete = '■'},
+			},
+			delay = {
+				text_change = 100,
+			},
+		})
+		vim.api.nvim_set_hl(0, 'MiniDiffOverChange', {link = 'nofrils-yellow'})
+		vim.api.nvim_set_hl(0, 'MiniDiffOverContext', {link = 'nofrils-default'})
+
+		require('mini.extra').setup({})
+
+		require('mini.move').setup({})
+
 		require('mini.operators').setup({})
+
+		require('mini.surround').setup({})
+
 		require('mini.trailspace').setup({})
 		vim.api.nvim_set_hl(0, 'MiniTrailspace', {link = 'nofrils-yellow-bg'})
-		-- require('mini.statusline').setup({})
-		require('mini.diff').setup({})
+
 	end,
 },
 
