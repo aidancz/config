@@ -532,9 +532,9 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup(
+local lazyplugins =
 {
-
+----------------------------------------------------------------
 {
 	'aidancz/nofrils',
 	dev = true,
@@ -931,14 +931,13 @@ require("lazy").setup(
 		vim.api.nvim_create_user_command('Yazi', function() require('yazi').yazi() end, {})
 	end,
 },
-
-},
-{
-
-dev = {
-	path = '~/sync_git',
-},
-lockfile = vim.fn.stdpath('data') .. '/lazy-lock.json',
-
+----------------------------------------------------------------
 }
-)
+
+require("lazy").setup({
+	spec = lazyplugins,
+	dev = {
+		path = '~/sync_git',
+	},
+	lockfile = vim.fn.stdpath('data') .. '/lazy-lock.json',
+})
