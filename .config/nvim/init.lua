@@ -27,7 +27,7 @@ vim.opt.wildoptions = {'pum', 'tagfile'}
 vim.opt.shortmess:remove('S')
 vim.opt.shortmess:append('I')
 vim.opt.showmode = false
-vim.opt.showcmd = false
+vim.opt.showcmd = true
 -- wildmenu	using wildchar (usually <tab>) to perform a command-line completion, shows a menu
 -- wildoptions	pum: popup menu
 -- shortmess	set message form
@@ -193,7 +193,7 @@ vim.keymap.set('n', '<up>',   ':put! _<cr>', {silent = true})
 vim.keymap.set('n', '<left>',  [["=' '<cr>P]], {silent = true})
 vim.keymap.set('n', '<right>', [["=' '<cr>p]], {silent = true})
 
-vim.keymap.set('n', '<f3>', 'gO', {remap = true})
+-- vim.keymap.set('n', '<f3>', 'gO', {remap = true})
 
 
 
@@ -220,8 +220,6 @@ vim.keymap.set({'', 'i'}, '<f1>', '<cmd>silent! !setsid -f $TERMINAL >/dev/null 
 -- https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
 
 vim.keymap.set({'', 'i'}, '<f2>', '<cmd>q!<cr>')
-
-vim.keymap.set({'', 'i'}, '<f7>', [[<cmd>put =strftime('%F')<cr>]])
 
 
 
@@ -537,384 +535,410 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(
 {
 
-	{
-		'aidancz/nofrils',
-		dev = true,
-		config = function()
-			vim.cmd('colorscheme nofrils')
-		end,
-	},
-	-- {
-	-- 	'lukas-reineke/indent-blankline.nvim',
-	-- 	main = 'ibl',
-	-- 	config = function()
-	-- 		require('ibl').setup({
-	-- 			indent = {char = '┃'},
-	-- 		})
-	-- 	end,
-	-- },
-	-- {
-	-- 	'lewis6991/gitsigns.nvim',
-	-- 	config = function()
-	-- 		require('gitsigns').setup({})
-	-- 	end,
-	-- },
-	{
-		'utilyre/sentiment.nvim',
-		init = function()
-			vim.g.loaded_matchparen = 1
-			vim.opt.showmatch = false
-		end,
-		config = function()
-			require('sentiment').setup({
-				included_modes = {
-					n = true,
-					i = true,
-				},
-				delay = 0,
-			})
-		end,
-	},
-	-- {
-	-- 	'kevinhwang91/nvim-ufo',
-	-- 	dependencies = {
-	-- 		'kevinhwang91/promise-async',
-	-- 	},
-	-- 	config = function()
-	-- 		require('ufo').setup({
-	-- 			provider_selector = function(bufnr, filetype, buftype)
-	-- 				return ''
-	-- 			end,
-	-- 			fold_virt_text_handler = function() return vim.fn.getline(vim.v.foldstart) end,
-	-- 		})
-	-- 	end,
-	-- },
-	{
-		'inkarkat/vim-mark',
-		dependencies = {
-			'inkarkat/vim-ingo-library',
-		},
-		config = function()
-			vim.api.nvim_set_hl(0, 'MarkWord1', {link = 'nofrils-red-bg'})
-			vim.api.nvim_set_hl(0, 'MarkWord2', {link = 'nofrils-green-bg'})
-			vim.api.nvim_set_hl(0, 'MarkWord3', {link = 'nofrils-yellow-bg'})
-			vim.api.nvim_set_hl(0, 'MarkWord4', {link = 'nofrils-blue-bg'})
-			vim.api.nvim_set_hl(0, 'MarkWord5', {link = 'nofrils-magenta-bg'})
-			vim.api.nvim_set_hl(0, 'MarkWord6', {link = 'nofrils-cyan-bg'})
-		end,
-	},
-	{
-		'chentoast/marks.nvim',
-		config = function()
-			require('marks').setup({
-				default_mappings = true,
-				builtin_marks = {".", "<", ">", "^"},
-				cyclic = true,
-				force_write_shada = false,
-				refresh_interval = 150,
-				sign_priority = {lower=10, upper=15, builtin=8, bookmark=20},
-				excluded_filetypes = {},
-				excluded_buftypes = {},
-				bookmark_0 = {
-					sign = "⚑",
-					virt_text = "",
-					annotate = false,
-				},
-				mappings = {}
-			})
-		end,
-	},
-	{
-		'kylechui/nvim-surround',
-		config = function()
-			require('nvim-surround').setup({})
-		end,
-	},
-	{
-		'numToStr/Comment.nvim',
-		config = function()
-			require('Comment').setup({
-				toggler = {
-					block = 'gbb',
-				},
-			})
-		end,
-	},
-	{
-		'echasnovski/mini.nvim',
-		version = false,
-		config = function()
-			require('mini.ai').setup({
-				custom_textobjects = {
-					g = function()
-						local from = { line = 1, col = 1 }
-						local to = {
-							line = vim.fn.line('$'),
-							col = math.max(vim.fn.getline('$'):len(), 1)
-						}
-						return { from = from, to = to, vis_mode = 'V' }
-					end,
-				},
-			})
-			require('mini.align').setup({})
-			require('mini.operators').setup({})
-			require('mini.trailspace').setup({})
-			vim.api.nvim_set_hl(0, 'MiniTrailspace', {link = 'nofrils-yellow-bg'})
-		end,
-	},
-	{
-		'mbbill/undotree',
-	},
-	{
-		'h-hg/fcitx.nvim',
-	},
-	{
-		'dhruvasagar/vim-table-mode',
-		config = function()
-			vim.g.table_mode_corner = '|'
-		end,
-	},
-	{
-		'iamcco/markdown-preview.nvim',
-		build = function() vim.fn['mkdp#util#install']() end,
-		config = function()
+{
+	'aidancz/nofrils',
+	dev = true,
+	config = function()
+		vim.cmd('colorscheme nofrils')
+	end,
+},
 
-			vim.g.mkdp_auto_start = false
-			vim.g.mkdp_auto_close = true
-			vim.g.mkdp_refresh_slow = false
-			vim.g.mkdp_command_for_global = false
-			vim.g.mkdp_open_to_the_world = false
-			vim.g.mkdp_open_ip = ''
-			vim.g.mkdp_browser = ''
-			vim.g.mkdp_echo_preview_url = false
+--[[
+{
+	'lukas-reineke/indent-blankline.nvim',
+	main = 'ibl',
+	config = function()
+		require('ibl').setup({
+			indent = {char = '┃'},
+		})
+	end,
+},
+--]]
 
-			-- function open_browser(url)
-			-- 	vim.cmd('silent !firefox --new-window' .. ' ' .. url)
-			-- end
+--[[
+{
+	'lewis6991/gitsigns.nvim',
+	config = function()
+		require('gitsigns').setup({})
+	end,
+},
+--]]
 
-			vim.cmd([[
-			function OpenBrowser(url)
-				silent execute '!firefox --new-window' . ' ' . a:url
-			endfunction
-			]])
-
-			vim.g.mkdp_browserfunc = 'OpenBrowser'
-			vim.g.mkdp_preview_options = {
-				mkit = {breaks = true},
-				katex = {},
-				uml = {},
-				maid = {},
-				disable_sync_scroll = false,
-				sync_scroll_type = 'middle',
-				hide_yaml_meta = true,
-				sequence_diagrams = {},
-				flowchart_diagrams = {},
-				content_editable = false,
-				disable_filename = true,
-			}
-			vim.g.mkdp_markdown_css = ''
-			vim.g.mkdp_highlight_css = ''
-			vim.g.mkdp_port = ''
-			vim.g.mkdp_page_title = '${name}'
-			vim.g.mkdp_filetypes = {'markdown', 'text'}
-
-		end,
-	},
-	{
-		'stevearc/aerial.nvim',
-		dependencies = {
-			'nvim-treesitter/nvim-treesitter',
-			-- 'nvim-tree/nvim-web-devicons',
-		},
-		config = function()
-			require('aerial').setup({
-				keymaps = {
-					['?']      = false,
-					['<C-j>']  = false,
-					['<C-k>']  = false,
-					['<C-s>']  = false,
-					['<C-v>']  = false,
-					['<a-j>']  = 'actions.down_and_scroll',
-					['<a-k>']  = 'actions.up_and_scroll',
-					['<a-s>']  = 'actions.jump_split',
-					['<a-v>']  = 'actions.jump_vsplit',
-				},
-				layout = {
-					width = 0.5,
-					max_width = 0.5,
-					min_width = 0.5,
-					default_direction = 'float',
-					resize_to_content = false,
-				},
-				float = {
-					height = 0.8,
-					max_height = 0.8,
-					min_height = 0.8,
-					border = 'single',
-					relative = 'editor',
-				},
-			})
-
-			vim.keymap.set('n', '<f3>', '<cmd>AerialToggle<cr>')
-		end,
-	},
-	-- {
-	-- 	'hedyhli/outline.nvim',
-	-- 	config = function()
-	-- 		require('outline').setup({})
-	-- 	end,
-	-- },
-	{
-		'nvim-telescope/telescope.nvim',
-		branch = '0.1.x',
-		dependencies = {
-			{
-				'nvim-lua/plenary.nvim',
+{
+	'utilyre/sentiment.nvim',
+	init = function()
+		vim.g.loaded_matchparen = 1
+		vim.opt.showmatch = false
+	end,
+	config = function()
+		require('sentiment').setup({
+			included_modes = {
+				n = true,
+				i = true,
 			},
-			{
-				'nvim-telescope/telescope-fzf-native.nvim',
-				build = 'make',
-				cond = function()
-					return vim.fn.executable 'make' == 1
+			delay = 0,
+		})
+	end,
+},
+
+--[[
+{
+	'kevinhwang91/nvim-ufo',
+	dependencies = {
+		'kevinhwang91/promise-async',
+	},
+	config = function()
+		require('ufo').setup({
+			provider_selector = function(bufnr, filetype, buftype)
+				return ''
+			end,
+			fold_virt_text_handler = function() return vim.fn.getline(vim.v.foldstart) end,
+		})
+	end,
+},
+--]]
+
+{
+	'inkarkat/vim-mark',
+	dependencies = {
+		'inkarkat/vim-ingo-library',
+	},
+	config = function()
+		vim.api.nvim_set_hl(0, 'MarkWord1', {link = 'nofrils-red-bg'})
+		vim.api.nvim_set_hl(0, 'MarkWord2', {link = 'nofrils-green-bg'})
+		vim.api.nvim_set_hl(0, 'MarkWord3', {link = 'nofrils-yellow-bg'})
+		vim.api.nvim_set_hl(0, 'MarkWord4', {link = 'nofrils-blue-bg'})
+		vim.api.nvim_set_hl(0, 'MarkWord5', {link = 'nofrils-magenta-bg'})
+		vim.api.nvim_set_hl(0, 'MarkWord6', {link = 'nofrils-cyan-bg'})
+	end,
+},
+
+{
+	'chentoast/marks.nvim',
+	config = function()
+		require('marks').setup({
+			default_mappings = true,
+			builtin_marks = {".", "<", ">", "^"},
+			cyclic = true,
+			force_write_shada = false,
+			refresh_interval = 150,
+			sign_priority = {lower=10, upper=15, builtin=8, bookmark=20},
+			excluded_filetypes = {},
+			excluded_buftypes = {},
+			bookmark_0 = {
+				sign = "⚑",
+				virt_text = "",
+				annotate = false,
+			},
+			mappings = {}
+		})
+	end,
+},
+
+{
+	'kylechui/nvim-surround',
+	config = function()
+		require('nvim-surround').setup({})
+	end,
+},
+
+{
+	'numToStr/Comment.nvim',
+	config = function()
+		require('Comment').setup({
+			toggler = {
+				block = 'gbb',
+			},
+		})
+	end,
+},
+
+{
+	'echasnovski/mini.nvim',
+	version = false,
+	config = function()
+		require('mini.ai').setup({
+			custom_textobjects = {
+				g = function()
+					local from = { line = 1, col = 1 }
+					local to = {
+						line = vim.fn.line('$'),
+						col = math.max(vim.fn.getline('$'):len(), 1)
+					}
+					return { from = from, to = to, vis_mode = 'V' }
 				end,
 			},
-			{
-				'nvim-telescope/telescope-ui-select.nvim'
-			},
-		},
-		config = function()
-			require('telescope').setup({
-				defaults = {
-					layout_config = {
-						horizontal = {
-							preview_cutoff = 0,
-							preview_width = 0.5
-						},
-					},
-					mappings = {
-						i = {
-							['<esc>'] = 'close',
-							['<c-u>'] = false,
-						},
-					},
-				},
-				extensions = {
-					['ui-select'] = {
-						require('telescope.themes').get_dropdown(),
-					},
-				},
-			})
-			require('telescope').load_extension('fzf')
-			require('telescope').load_extension('ui-select')
-		end,
-	},
-	{
-		'ibhagwan/fzf-lua',
-		config = function()
-			require("fzf-lua").setup({
-				keymap = {
-					builtin = {
-					},
-					fzf = {
-						['f2'] = 'abort',
-					},
-				},
-			})
-		end,
-	},
-	{
+		})
+		require('mini.align').setup({})
+		require('mini.operators').setup({})
+		require('mini.trailspace').setup({})
+		vim.api.nvim_set_hl(0, 'MiniTrailspace', {link = 'nofrils-yellow-bg'})
+		-- require('mini.statusline').setup({})
+		require('mini.diff').setup({})
+	end,
+},
+
+{
+	'mbbill/undotree',
+},
+
+{
+	'h-hg/fcitx.nvim',
+},
+
+{
+	'dhruvasagar/vim-table-mode',
+	config = function()
+		vim.g.table_mode_corner = '|'
+	end,
+},
+
+{
+	'iamcco/markdown-preview.nvim',
+	build = function() vim.fn['mkdp#util#install']() end,
+	config = function()
+		vim.g.mkdp_auto_start = false
+		vim.g.mkdp_auto_close = true
+		vim.g.mkdp_refresh_slow = false
+		vim.g.mkdp_command_for_global = false
+		vim.g.mkdp_open_to_the_world = false
+		vim.g.mkdp_open_ip = ''
+		vim.g.mkdp_browser = ''
+		vim.g.mkdp_echo_preview_url = false
+		-- function open_browser(url)
+		-- 	vim.cmd('silent !firefox --new-window' .. ' ' .. url)
+		-- end
+		vim.cmd([[
+		function OpenBrowser(url)
+			silent execute '!firefox --new-window' . ' ' . a:url
+		endfunction
+		]])
+		vim.g.mkdp_browserfunc = 'OpenBrowser'
+		vim.g.mkdp_preview_options = {
+			mkit = {breaks = true},
+			katex = {},
+			uml = {},
+			maid = {},
+			disable_sync_scroll = false,
+			sync_scroll_type = 'middle',
+			hide_yaml_meta = true,
+			sequence_diagrams = {},
+			flowchart_diagrams = {},
+			content_editable = false,
+			disable_filename = true,
+		}
+		vim.g.mkdp_markdown_css = ''
+		vim.g.mkdp_highlight_css = ''
+		vim.g.mkdp_port = ''
+		vim.g.mkdp_page_title = '${name}'
+		vim.g.mkdp_filetypes = {'markdown', 'text'}
+	end,
+},
+
+{
+	'stevearc/aerial.nvim',
+	dependencies = {
 		'nvim-treesitter/nvim-treesitter',
-		build = ':TSUpdate',
-		config = function()
-			require('nvim-treesitter.install').prefer_git = true
-			require('nvim-treesitter.configs').setup({
-				ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc' },
-				auto_install = true,
-				highlight = {
-					enable = true,
-					additional_vim_regex_highlighting = false,
-				},
-				-- indent = {
-				-- 	enable = true,
-				-- },
-			})
-			-- vim.api.nvim_set_hl(0, '@comment', {link = 'Comment'})
-		end,
+		-- 'nvim-tree/nvim-web-devicons',
 	},
-	-- {
-	-- 	'neovim/nvim-lspconfig',
-	-- 	dependencies = {
-	-- 		-- {'williamboman/mason.nvim'},
-	-- 		-- {'williamboman/mason-lspconfig.nvim'},
-	--
-	-- 		{'VonHeikemen/lsp-zero.nvim', branch = 'v3.x'},
-	-- 	},
-	-- 	config = function()
-	-- 		local lsp_zero = require('lsp-zero')
-	-- 		lsp_zero.on_attach(function(client, bufnr)
-	-- 				lsp_zero.default_keymaps({buffer = bufnr})
-	-- 				end)
-	--
-	-- 		require('lspconfig').lua_ls.setup({})
-	-- 	end,
-	-- },
-	{
-		'hrsh7th/nvim-cmp',
-		dependencies = {
-			{'hrsh7th/cmp-path'},
-			{'hrsh7th/cmp-buffer'},
-			{'hrsh7th/cmp-cmdline'},
-			{'hrsh7th/cmp-nvim-lsp'},
+	config = function()
+		require('aerial').setup({
+			keymaps = {
+				['?']      = false,
+				['<C-j>']  = false,
+				['<C-k>']  = false,
+				['<C-s>']  = false,
+				['<C-v>']  = false,
+				['<a-j>']  = 'actions.down_and_scroll',
+				['<a-k>']  = 'actions.up_and_scroll',
+				['<a-s>']  = 'actions.jump_split',
+				['<a-v>']  = 'actions.jump_vsplit',
+			},
+			layout = {
+				width = 0.5,
+				max_width = 0.5,
+				min_width = 0.5,
+				default_direction = 'float',
+				resize_to_content = false,
+			},
+			float = {
+				height = 0.8,
+				max_height = 0.8,
+				min_height = 0.8,
+				border = 'single',
+				relative = 'editor',
+			},
+		})
+		vim.keymap.set('n', '<f3>', '<cmd>AerialToggle<cr>')
+	end,
+},
+
+--[[
+{
+	'hedyhli/outline.nvim',
+	config = function()
+		require('outline').setup({})
+	end,
+},
+--]]
+
+{
+	'nvim-telescope/telescope.nvim',
+	branch = '0.1.x',
+	dependencies = {
+		{
+			'nvim-lua/plenary.nvim',
 		},
-		config = function()
-			local cmp = require('cmp')
-
-			cmp.setup({
-				completion = {
-					completeopt = 'menu,menuone,noselect',
-				},
-				window = {
-					completion    = cmp.config.window.bordered(),
-					documentation = cmp.config.window.bordered(),
-				},
-			})
-
-			cmp.setup.cmdline(':', {
-				mapping = cmp.mapping.preset.cmdline(),
-				sources = cmp.config.sources(
-					{
-						{name = 'path'},
+		{
+			'nvim-telescope/telescope-fzf-native.nvim',
+			build = 'make',
+			cond = function()
+				return vim.fn.executable 'make' == 1
+			end,
+		},
+		{
+			'nvim-telescope/telescope-ui-select.nvim'
+		},
+	},
+	config = function()
+		require('telescope').setup({
+			defaults = {
+				layout_config = {
+					horizontal = {
+						preview_cutoff = 0,
+						preview_width = 0.5
 					},
-					{
-						{name = 'cmdline'},
-					}),
-			})
-			-- cmp.setup.cmdline({'/', '?'}, {
-			-- 	mapping = cmp.mapping.preset.cmdline(),
-			-- 	sources = {
-			-- 		{name = 'buffer'},
-			-- 	}
-			-- })
-		end,
+				},
+				mappings = {
+					i = {
+						['<esc>'] = 'close',
+						['<c-u>'] = false,
+					},
+				},
+			},
+			extensions = {
+				['ui-select'] = {
+					require('telescope.themes').get_dropdown(),
+				},
+			},
+		})
+		require('telescope').load_extension('fzf')
+		require('telescope').load_extension('ui-select')
+	end,
+},
+
+{
+	'ibhagwan/fzf-lua',
+	config = function()
+		require("fzf-lua").setup({
+			keymap = {
+				builtin = {
+				},
+				fzf = {
+					['f2'] = 'abort',
+				},
+			},
+		})
+	end,
+},
+
+{
+	'nvim-treesitter/nvim-treesitter',
+	build = ':TSUpdate',
+	config = function()
+		require('nvim-treesitter.install').prefer_git = true
+		require('nvim-treesitter.configs').setup({
+			ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc' },
+			auto_install = true,
+			highlight = {
+				enable = true,
+				additional_vim_regex_highlighting = false,
+			},
+			-- indent = {
+			-- 	enable = true,
+			-- },
+		})
+		-- vim.api.nvim_set_hl(0, '@comment', {link = 'Comment'})
+	end,
+},
+
+--[[
+{
+	'neovim/nvim-lspconfig',
+	dependencies = {
+		-- {'williamboman/mason.nvim'},
+		-- {'williamboman/mason-lspconfig.nvim'},
+		{'VonHeikemen/lsp-zero.nvim', branch = 'v3.x'},
 	},
-	-- {
-	-- 	'L3MON4D3/LuaSnip',
-	-- },
-	{
-		'mikavilpas/yazi.nvim',
-		config = function()
-			require('yazi').setup({})
-			vim.api.nvim_create_user_command('Yazi', function() require('yazi').yazi() end, {})
-		end,
+	config = function()
+		local lsp_zero = require('lsp-zero')
+		lsp_zero.on_attach(function(client, bufnr)
+				lsp_zero.default_keymaps({buffer = bufnr})
+				end)
+		require('lspconfig').lua_ls.setup({})
+	end,
+},
+--]]
+
+{
+	'hrsh7th/nvim-cmp',
+	dependencies = {
+		{'hrsh7th/cmp-path'},
+		{'hrsh7th/cmp-buffer'},
+		{'hrsh7th/cmp-cmdline'},
+		{'hrsh7th/cmp-nvim-lsp'},
 	},
+	config = function()
+		local cmp = require('cmp')
+		cmp.setup({
+			completion = {
+				completeopt = 'menu,menuone,noselect',
+			},
+			window = {
+				completion    = cmp.config.window.bordered(),
+				documentation = cmp.config.window.bordered(),
+			},
+		})
+		cmp.setup.cmdline(':', {
+			mapping = cmp.mapping.preset.cmdline(),
+			sources = cmp.config.sources(
+				{
+					{name = 'path'},
+				},
+				{
+					{name = 'cmdline'},
+				}),
+		})
+		-- cmp.setup.cmdline({'/', '?'}, {
+		-- 	mapping = cmp.mapping.preset.cmdline(),
+		-- 	sources = {
+		-- 		{name = 'buffer'},
+		-- 	}
+		-- })
+	end,
+},
+
+--[[
+{
+	'L3MON4D3/LuaSnip',
+},
+--]]
+
+{
+	'mikavilpas/yazi.nvim',
+	config = function()
+		require('yazi').setup({})
+		vim.api.nvim_create_user_command('Yazi', function() require('yazi').yazi() end, {})
+	end,
+},
 
 },
 {
 
-	dev = {
-		path = '~/sync_git',
-	},
-	lockfile = vim.fn.stdpath('data') .. '/lazy-lock.json',
+dev = {
+	path = '~/sync_git',
+},
+lockfile = vim.fn.stdpath('data') .. '/lazy-lock.json',
 
 }
 )
