@@ -185,10 +185,10 @@ vim.keymap.set('n', '<c-p>', function() return math.ceil(vim.api.nvim_win_get_he
 vim.keymap.set('n', '<a-n>', 'nzz')
 vim.keymap.set('n', '<a-p>', 'Nzz')
 
-vim.keymap.set('n', '<down>', ':put  _<cr>', {silent = true})
-vim.keymap.set('n', '<up>',   ':put! _<cr>', {silent = true})
-vim.keymap.set('n', '<left>',  [["=' '<cr>P]], {silent = true})
-vim.keymap.set('n', '<right>', [["=' '<cr>p]], {silent = true})
+-- vim.keymap.set('n', '<down>', ':put  _<cr>', {silent = true})
+-- vim.keymap.set('n', '<up>',   ':put! _<cr>', {silent = true})
+-- vim.keymap.set('n', '<left>',  [["=' '<cr>P]], {silent = true})
+-- vim.keymap.set('n', '<right>', [["=' '<cr>p]], {silent = true})
 
 -- vim.keymap.set('n', '<f3>', 'gO', {remap = true})
 
@@ -319,6 +319,40 @@ vim.keymap.set('o', '(', function() return ':normal V' .. vim.v.count1 .. '(<cr>
 vim.keymap.set({'n', 'v'}, ')', para_textl_forward)
 vim.keymap.set('o', ')', function() return ':normal V' .. vim.v.count1 .. ')<cr>' end, {silent = true, expr = true})
 -- https://vi.stackexchange.com/questions/6101/is-there-a-text-object-for-current-line/6102#6102
+
+--  empty_line (eml)
+eml = {}
+eml.fun = function(below_or_above)
+	eml.below_or_above = below_or_above
+	vim.go.operatorfunc = 'v:lua.eml.fun_callback'
+	return 'g@l'
+end
+eml.fun_callback = function()
+	local lnum_current = vim.fn.line('.')
+	local lnum_target
+	if eml.below_or_above == 'below' then
+		lnum_target = lnum_current
+	elseif eml.below_or_above == 'above' then
+		lnum_target = lnum_current - 1
+	end
+	vim.fn.append(lnum_target, vim.fn['repeat']({''}, vim.v.count1))
+	vim.fn.cursor(lnum_current+vim.v.count1, 1)
+end
+vim.keymap.set('n', '<down>', function() return eml.fun('below') end, {expr = true})
+vim.keymap.set('n', '<up>',   function() return eml.fun('above') end, {expr = true})
+
+--  empty_char (emc)
+emc = {}
+emc.fun = function(direction)
+	emc.direction = direction
+	vim.go.operatorfunc = 'v:lua.emc.fun_callback'
+	return 'g@l'
+end
+emc.fun_callback = function()
+	vim.api.nvim_put({string.rep(' ', vim.v.count1)}, 'c', emc.direction, false)
+end
+vim.keymap.set('n', '<right>', function() return emc.fun(true)  end, {expr = true})
+vim.keymap.set('n', '<left>',  function() return emc.fun(false) end, {expr = true})
 
 --  misc
 function time()
@@ -641,9 +675,29 @@ local lazyplugins =
 		require('mini.ai').setup({
 			custom_textobjects = {
 				n = require('mini.extra').gen_ai_spec.number(),
-				l = require('mini.extra').gen_ai_spec.line(),
-				i = require('mini.extra').gen_ai_spec.indent(),
-				b = require('mini.extra').gen_ai_spec.buffer(),
+				l = function(ai_type)
+					local line_num = vim.fn.line('.')
+					local col_max = math.max(1, #vim.api.nvim_get_current_line())
+					local region = {from = {line = line_num, col = 1}, to = {line = line_num, col = col_max}}
+					if ai_type == 'i' then
+						region.vis_mode = 'v'
+					elseif ai_type == 'a' then
+						region.vis_mode = 'V'
+					end
+					return region
+				end,
+				i = function(ai_type)
+					local region = (require('mini.extra').gen_ai_spec.indent())(ai_type)
+					for _, i in ipairs(region) do
+						i.vis_mode = 'V'
+					end
+					return region
+				end,
+				b = function(ai_type)
+					local region = (require('mini.extra').gen_ai_spec.buffer())(ai_type)
+					region.vis_mode = 'V'
+					return region
+				end,
 			},
 			mappings = {
 				around_next = '',
@@ -676,6 +730,7 @@ local lazyplugins =
 		require('mini.operators').setup({})
 
 		require('mini.surround').setup({})
+		vim.keymap.set('', 's', '<nop>')
 
 		require('mini.trailspace').setup({})
 		vim.api.nvim_set_hl(0, 'MiniTrailspace', {link = 'nofrils-yellow-bg'})
@@ -935,6 +990,10 @@ local lazyplugins =
 		require('yazi').setup({})
 		vim.api.nvim_create_user_command('Yazi', function() require('yazi').yazi() end, {})
 	end,
+},
+
+{
+	'bfredl/nvim-luadev',
 },
 ----------------------------------------------------------------
 }
