@@ -322,24 +322,19 @@ vim.keymap.set('o', ')', function() return ':normal V' .. vim.v.count1 .. ')<cr>
 
 --  empty_line (eml)
 eml = {}
-eml.fun = function(below_or_above)
-	eml.below_or_above = below_or_above
+eml.fun = function(direction)
+	eml.direction = direction
 	vim.go.operatorfunc = 'v:lua.eml.fun_callback'
 	return 'g@l'
 end
 eml.fun_callback = function()
 	local lnum_current = vim.fn.line('.')
-	local lnum_target
-	if eml.below_or_above == 'below' then
-		lnum_target = lnum_current
-	elseif eml.below_or_above == 'above' then
-		lnum_target = lnum_current - 1
-	end
-	vim.fn.append(lnum_target, vim.fn['repeat']({''}, vim.v.count1))
-	vim.fn.cursor(lnum_current+vim.v.count1, 1)
+	vim.fn.append((eml.direction and lnum_current or lnum_current - 1), vim.fn['repeat']({''}, vim.v.count1))
+	local lnum_current = vim.fn.line('.')
+	vim.fn.cursor((lnum_current + (eml.direction and vim.v.count1 or -vim.v.count1)), 1)
 end
-vim.keymap.set('n', '<down>', function() return eml.fun('below') end, {expr = true})
-vim.keymap.set('n', '<up>',   function() return eml.fun('above') end, {expr = true})
+vim.keymap.set('n', '<down>', function() return eml.fun(true)  end, {expr = true})
+vim.keymap.set('n', '<up>',   function() return eml.fun(false) end, {expr = true})
 
 --  empty_char (emc)
 emc = {}
