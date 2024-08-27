@@ -147,6 +147,7 @@ rules = [
 
 	{mime = "application/zip",                fg = "magenta"},
 	{mime = "application/x-7z-compressed",    fg = "magenta"},
+	{mime = "application/x-rar",              fg = "magenta"},
 	{mime = "image/*",                        fg = "yellow"},
 	{mime = "audio/*",                        fg = "yellow"},
 	{mime = "video/*",                        fg = "yellow"},

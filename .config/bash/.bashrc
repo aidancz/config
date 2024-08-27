@@ -24,9 +24,9 @@ bind -m vi-insert  '"\eOQ":"\ecc\C-d"'
 bind -m vi-command '"\eOQ":"\ecc\C-d"'
 # \eOQ is keycode for function key f2
 
-bind -m vi-insert  '"\ef":"\ecccd $(dirname $(fzf))\n"'
-bind -m vi-command '"\ef":"\ecccd $(dirname $(fzf))\n"'
-# \ef is keycode for alt-f
+# bind -m vi-insert  '"\ef":"\ecccd $(dirname $(fzf))\n"'
+# bind -m vi-command '"\ef":"\ecccd $(dirname $(fzf))\n"'
+# # \ef is keycode for alt-f
 
 # # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ lfcd
 # # lfcd () {
@@ -59,5 +59,19 @@ bind -m vi-command '"\eOR":"\eccyy\n"'
 # \eOR is keycode for function key f3
 # \e cc yy \n
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zoxide
-eval "$(zoxide init bash --cmd e)"
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ official shell integration
+eval "$(zoxide init bash --no-cmd)"
+alias e='__zoxide_z'
+alias ei='__zoxide_zi'
+
+function fzf_cd() {
+	local path
+	path=$(fzf +m -q "$1")
+	if [ -d "$path" ]; then
+		path="$path"
+	else
+		path=$(dirname "$path")
+	fi
+	cd "$path"
+}
+alias i='fzf_cd'

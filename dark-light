@@ -2,19 +2,11 @@
 
 # dark-light switch
 
+mode=${1:-0}
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ xresources
-if [ "$1" == 1 ]
+if [ "$mode" == 0 ]
 then
-	# sed -e '/solarized-light/,/solarized-light/s/! \(.\+\)/\1/'	\
-	#     -e '/solarized-set/,/solarized-set/s/! \(.\+\)/\1/'	\
-	#     "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
-	# sed -e '/penumbra-light0/,/penumbra-light0/s/! \(.\+\)/\1/'	\
-	#     -e '/penumbra-set/,/penumbra-set/s/! \(.\+\)/\1/'	\
-	#     "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
-	sed -e '/simple-light-solarized/,/simple-light-solarized/s/! \(.\+\)/\1/'	\
-	    -e '/simple-set/,/simple-set/s/! \(.\+\)/\1/'	\
-	    "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
-else
 	# sed -e '/solarized-dark/,/solarized-dark/s/! \(.\+\)/\1/'	\
 	#     -e '/solarized-set/,/solarized-set/s/! \(.\+\)/\1/'	\
 	#     "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
@@ -27,18 +19,42 @@ else
 	sed -e '/simple-dark-solarized/,/simple-dark-solarized/s/! \(.\+\)/\1/'	\
 	    -e '/simple-set/,/simple-set/s/! \(.\+\)/\1/'	\
 	    "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
+else
+	# sed -e '/solarized-light/,/solarized-light/s/! \(.\+\)/\1/'	\
+	#     -e '/solarized-set/,/solarized-set/s/! \(.\+\)/\1/'	\
+	#     "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
+	# sed -e '/penumbra-light0/,/penumbra-light0/s/! \(.\+\)/\1/'	\
+	#     -e '/penumbra-set/,/penumbra-set/s/! \(.\+\)/\1/'	\
+	#     "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
+	sed -e '/simple-light-solarized/,/simple-light-solarized/s/! \(.\+\)/\1/'	\
+	    -e '/simple-set/,/simple-set/s/! \(.\+\)/\1/'	\
+	    "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
 fi
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ gtk
-if [ "$1" == 1 ]
+if [ "$mode" == 0 ]
 then
 	rm -rf "$XDG_CONFIG_HOME/gtk-3.0"
 	mkdir -p "$XDG_CONFIG_HOME/gtk-3.0"
-	ln -sf "$aidan_git/arch_config/.config/gtk-3.0/settings.ini_1"	"$XDG_CONFIG_HOME/gtk-3.0/settings.ini"
+	cp "$aidan_git/arch_config/.config/gtk-3.0/settings.ini"	"$XDG_CONFIG_HOME/gtk-3.0/settings.ini"
 else
 	rm -rf "$XDG_CONFIG_HOME/gtk-3.0"
 	mkdir -p "$XDG_CONFIG_HOME/gtk-3.0"
-	ln -sf "$aidan_git/arch_config/.config/gtk-3.0/settings.ini_0"	"$XDG_CONFIG_HOME/gtk-3.0/settings.ini"
+	cp "$aidan_git/arch_config/.config/gtk-3.0/settings.ini"	"$XDG_CONFIG_HOME/gtk-3.0/settings.ini"
+	echo "gtk-theme-name=Adwaita" >> "$XDG_CONFIG_HOME/gtk-3.0/settings.ini"
+fi
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zathura
+if [ "$mode" == 0 ]
+then
+	rm -rf "$XDG_CONFIG_HOME/zathura"
+	mkdir -p "$XDG_CONFIG_HOME/zathura"
+	cp "$aidan_git/arch_config/.config/zathura/zathurarc"	"$XDG_CONFIG_HOME/zathura/zathurarc"
+else
+	rm -rf "$XDG_CONFIG_HOME/zathura"
+	mkdir -p "$XDG_CONFIG_HOME/zathura"
+	cp "$aidan_git/arch_config/.config/zathura/zathurarc"	"$XDG_CONFIG_HOME/zathura/zathurarc"
+	echo "set recolor false" >> "$XDG_CONFIG_HOME/zathura/zathurarc"
 fi
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ renew dwm

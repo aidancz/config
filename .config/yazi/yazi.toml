@@ -12,6 +12,9 @@ max_height = 10000
 [opener]
 
 [open]
+prepend_rules = [
+	{name = "*/", use = ["open"]},
+]
 
 [tasks]
 

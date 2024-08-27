@@ -1,3 +1,5 @@
+# manager
+
 [[manager.prepend_keymap]]
 on = ["g"]
 run = "arrow -99999999"
@@ -28,12 +30,14 @@ run = """shell --confirm 'setsid -f $TERMINAL >/dev/null 2>&1'"""
 on = ["e"]
 run = "plugin zoxide"
 [[manager.prepend_keymap]]
-on = ["E"]
+on = ["i"]
 run = "plugin fzf"
+# [[manager.prepend_keymap]]
+# on = [":"]
+# run = "plugin command"
 
-
+# input
 
 [[input.prepend_keymap]]
 on   = ["<Esc>"]
 run  = "close"
-desc = "cancel input"

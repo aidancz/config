@@ -720,6 +720,10 @@ local lazyplugins =
 
 		require('mini.extra').setup({})
 
+		require('mini.icons').setup({
+			style = 'ascii',
+		})
+
 		require('mini.move').setup({})
 
 		require('mini.operators').setup({})
