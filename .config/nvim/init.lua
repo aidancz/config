@@ -28,6 +28,7 @@ vim.opt.shortmess:remove('S')
 vim.opt.shortmess:append('I')
 vim.opt.showmode = false
 vim.opt.showcmd = true
+vim.opt.showcmdloc = 'statusline'
 -- wildmenu	using wildchar (usually <tab>) to perform a command-line completion, shows a menu
 -- wildoptions	pum: popup menu
 -- shortmess	set message form
@@ -248,8 +249,9 @@ function compile()
 	if filetype == 'c' then
 		vim.cmd([[silent! !gcc % -o %<]])
 		vim.cmd([[silent! !setsid -f $TERMINAL -e bash -c "%:p:r; bash"]])
+	else
+		vim.cmd('MarkdownPreview')
 	end
-	vim.cmd('MarkdownPreview')
 end
 vim.keymap.set('n', '<f5>', compile)
 

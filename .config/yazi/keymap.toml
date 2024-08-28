@@ -3,7 +3,6 @@
 [[manager.prepend_keymap]]
 on = ["g"]
 run = "arrow -99999999"
-
 [[manager.prepend_keymap]]
 on = ["<Tab>"]
 run = "forward"
@@ -11,20 +10,30 @@ run = "forward"
 [[manager.prepend_keymap]]
 on = ["<C-o>"]
 run = "back"
-
 [[manager.prepend_keymap]]
 on = ["<F2>"]
 run = "quit"
 [[manager.prepend_keymap]]
 on = ["<F3>"]
 run = "quit"
-
 [[manager.prepend_keymap]]
 on = ["<F1>"]
 run = """shell --confirm 'setsid -f $TERMINAL >/dev/null 2>&1'"""
 [[manager.prepend_keymap]]
 on = ["<Enter>"]
 run = """shell --confirm 'setsid -f $TERMINAL >/dev/null 2>&1'"""
+[[manager.prepend_keymap]]
+on = ["d"]
+run = "yank --cut"
+[[manager.prepend_keymap]]
+on = ["x"]
+run = "remove"
+[[manager.prepend_keymap]]
+on = ["X"]
+run = "remove --permanently"
+[[manager.prepend_keymap]]
+on = ["<C-g>"]
+run = "unyank"
 
 [[manager.prepend_keymap]]
 on = ["e"]
@@ -32,9 +41,15 @@ run = "plugin zoxide"
 [[manager.prepend_keymap]]
 on = ["i"]
 run = "plugin fzf"
-# [[manager.prepend_keymap]]
-# on = [":"]
-# run = "plugin command"
+[[manager.prepend_keymap]]
+on = ["<A-x>"]
+run = "plugin command"
+[[manager.prepend_keymap]]
+on = ["<Down>"]
+run = "plugin --sync parent-arrow --args=1"
+[[manager.prepend_keymap]]
+on = ["<Up>"]
+run = "plugin --sync parent-arrow --args=-1"
 
 # input
 
