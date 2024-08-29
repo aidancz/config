@@ -488,6 +488,14 @@ vim.api.nvim_create_autocmd(
 		command = 'silent $',
 	})
 
+vim.api.nvim_create_autocmd(
+	'BufRead',
+	{
+		group = filename_augroup,
+		pattern = {'*.txt'},
+		command = 'set filetype=markdown',
+	})
+
 
 
 --  builtin plugin
