@@ -246,9 +246,11 @@ function compile()
 	vim.cmd('w')
 
 	local filetype = vim.bo.filetype
-	if filetype == 'c' then
-		vim.cmd([[silent! !gcc % -o %<]])
-		vim.cmd([[silent! !setsid -f $TERMINAL -e bash -c "%:p:r; bash"]])
+	if	filetype == 'scheme' then
+	elseif	filetype == 'c' then
+	elseif	filetype == 'java' then
+	elseif	filetype == 'python' then
+	elseif	filetype == 'javascript' then
 	else
 		vim.cmd('MarkdownPreview')
 	end
