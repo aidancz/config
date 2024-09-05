@@ -1,6 +1,3 @@
-[submodule ".config/yazi/plugins/mime-preview.yazi"]
-	path = .config/yazi/plugins/mime-preview.yazi
-	url = https://gitee.com/DreamMaoMao/mime-preview.yazi.git
 [submodule ".config/yazi/plugins/command.yazi"]
 	path = .config/yazi/plugins/command.yazi
 	url = https://github.com/KKV9/command.yazi
