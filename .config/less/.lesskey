@@ -2,7 +2,13 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #command
-\e\117\121	quit
+
+# \e\117\121	quit
+# <f2>	^[OQ	\e\117\121
+
+\e\133\062\064\176	quit
+# <f12>	^[[24~	\e\133\062\064\176
+
 # https://unix.stackexchange.com/questions/672094/lesskey-add-altright-keybinding-to-less
 
 #line-edit

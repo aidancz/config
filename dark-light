@@ -5,7 +5,7 @@
 mode=${1:-0}
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ xresources
-if [ "$mode" == 0 ]
+if [ "$mode" = 0 ]
 then
 	# sed -e '/solarized-dark/,/solarized-dark/s/! \(.\+\)/\1/'	\
 	#     -e '/solarized-set/,/solarized-set/s/! \(.\+\)/\1/'	\
@@ -32,28 +32,28 @@ else
 fi
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ gtk
-if [ "$mode" == 0 ]
+if [ "$mode" = 0 ]
 then
 	rm -rf "$XDG_CONFIG_HOME/gtk-3.0"
 	mkdir -p "$XDG_CONFIG_HOME/gtk-3.0"
-	cp "$aidan_git/arch_config/.config/gtk-3.0/settings.ini"	"$XDG_CONFIG_HOME/gtk-3.0/settings.ini"
+	cp "$AIDAN_GIT/arch_config/.config/gtk-3.0/settings.ini"	"$XDG_CONFIG_HOME/gtk-3.0/settings.ini"
 else
 	rm -rf "$XDG_CONFIG_HOME/gtk-3.0"
 	mkdir -p "$XDG_CONFIG_HOME/gtk-3.0"
-	cp "$aidan_git/arch_config/.config/gtk-3.0/settings.ini"	"$XDG_CONFIG_HOME/gtk-3.0/settings.ini"
+	cp "$AIDAN_GIT/arch_config/.config/gtk-3.0/settings.ini"	"$XDG_CONFIG_HOME/gtk-3.0/settings.ini"
 	echo "gtk-theme-name=Adwaita" >> "$XDG_CONFIG_HOME/gtk-3.0/settings.ini"
 fi
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zathura
-if [ "$mode" == 0 ]
+if [ "$mode" = 0 ]
 then
 	rm -rf "$XDG_CONFIG_HOME/zathura"
 	mkdir -p "$XDG_CONFIG_HOME/zathura"
-	cp "$aidan_git/arch_config/.config/zathura/zathurarc"	"$XDG_CONFIG_HOME/zathura/zathurarc"
+	cp "$AIDAN_GIT/arch_config/.config/zathura/zathurarc"	"$XDG_CONFIG_HOME/zathura/zathurarc"
 else
 	rm -rf "$XDG_CONFIG_HOME/zathura"
 	mkdir -p "$XDG_CONFIG_HOME/zathura"
-	cp "$aidan_git/arch_config/.config/zathura/zathurarc"	"$XDG_CONFIG_HOME/zathura/zathurarc"
+	cp "$AIDAN_GIT/arch_config/.config/zathura/zathurarc"	"$XDG_CONFIG_HOME/zathura/zathurarc"
 	echo "set recolor false" >> "$XDG_CONFIG_HOME/zathura/zathurarc"
 fi
 

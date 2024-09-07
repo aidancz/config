@@ -2,7 +2,7 @@
 # profile file, runs on login
 
 # env
-source $HOME/.env
+. "$HOME/.env"
 
 # startx only if:
 # 1. tty1

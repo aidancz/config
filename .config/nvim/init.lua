@@ -217,7 +217,7 @@ vim.keymap.set("!", "<a-v>", "<c-k>")
 vim.keymap.set({"", "i"}, "<f1>", "<cmd>silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>")
 -- https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
 
-vim.keymap.set({"", "i"}, "<f2>", "<cmd>q!<cr>")
+vim.keymap.set({"", "i"}, "<f12>", "<cmd>q!<cr>")
 
 
 
@@ -675,6 +675,10 @@ local lazyplugins =
 },
 
 {
+	"inkarkat/vim-ReplaceWithRegister",
+},
+
+{
 	"echasnovski/mini.nvim",
 	version = false,
 	config = function()
@@ -738,7 +742,11 @@ local lazyplugins =
 
 		require("mini.move").setup({})
 
-		require("mini.operators").setup({})
+		require("mini.operators").setup({
+			replace = {
+				prefix = "",
+			},
+		})
 
 		require("mini.surround").setup({})
 		vim.keymap.set("", "s", "<nop>")
@@ -906,7 +914,7 @@ local lazyplugins =
 				builtin = {
 				},
 				fzf = {
-					["f2"] = "abort",
+					["f12"] = "abort",
 				},
 			},
 		})

@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ source
-source $HOME/.env
-source $XDG_CONFIG_HOME/sh/.alias
+. "$HOME/.env"
+. "$XDG_CONFIG_HOME/sh/.alias"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ misc
 stty stop undef

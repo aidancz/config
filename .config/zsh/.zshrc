@@ -55,6 +55,8 @@ function fzf_cd() {
 # https://superuser.com/questions/1733936/why-does-assigning-to-path-break-my-path-in-zsh
 alias i="fzf_cd"
 
+eval "$(atuin init zsh)"
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle_vi{{{
 bindkey -v
 
@@ -67,13 +69,13 @@ export KEYTIMEOUT=1
 autoload edit-command-line; zle -N edit-command-line
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vicmd
-bindkey -M vicmd "^[[A" up-line-or-search
-bindkey -M vicmd "^[[B" down-line-or-search
+bindkey -M vicmd "^[[A" history-beginning-search-backward
+bindkey -M vicmd "^[[B" history-beginning-search-forward
 bindkey -M vicmd "^[[H" beginning-of-line
 bindkey -M vicmd "^[[4~" end-of-line
 # bindkey -M vicmd "^r" clear-screen
-bindkey -M vicmd "^e" edit-command-line
-bindkey -M vicmd -s "^[OQ" "^[dd^d"
+bindkey -M vicmd "^[OQ" edit-command-line
+bindkey -M vicmd -s "^[[24~" "^[dd^d"
 
 bindkey -M vicmd "^[OP" open_terminal
 bindkey -M vicmd -s "^[OR" "^[ddiyyy^M"
@@ -84,21 +86,29 @@ bindkey -M vicmd -s "^[OR" "^[ddiyyy^M"
 	# bindkey -M vicmd "l" vi-forward-char
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ viins
-bindkey -M viins "^[[A" up-line-or-search
-bindkey -M viins "^[[B" down-line-or-search
+bindkey -M viins "^[[A" history-beginning-search-backward
+bindkey -M viins "^[[B" history-beginning-search-forward
 bindkey -M viins "^[[H" beginning-of-line
 bindkey -M viins "^[[4~" end-of-line
 # bindkey -M viins "^r" clear-screen
-bindkey -M viins "^e" edit-command-line
-bindkey -M viins -s "^[OQ" "^[dd^d"
+bindkey -M viins "^[OQ" edit-command-line
+bindkey -M viins -s "^[[24~" "^[dd^d"
 
 bindkey -M viins "^[OP" open_terminal
 bindkey -M viins -s "^[OR" "^[ddiyyy^M"
 # <esc>cc bug when line is empty...
 
+bindkey -M viins "^e" end-of-line
+bindkey -M viins "^a" beginning-of-line
+bindkey -M viins "^f" forward-char
+bindkey -M viins "^b" backward-char
+bindkey -M viins "\ef" forward-word
+bindkey -M viins "\eb" backward-word
+
 bindkey -M viins "^?" backward-delete-char
 bindkey -M viins "^w" backward-kill-word
 bindkey -M viins "^u" backward-kill-line
+bindkey -M viins "^k" kill-line
 
 # bindkey -M viins "kj" vi-cmd-mode
 # bindkey -M viins "^n" forward-word

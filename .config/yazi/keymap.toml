@@ -11,7 +11,7 @@ run = "forward"
 on = ["<C-o>"]
 run = "back"
 [[manager.prepend_keymap]]
-on = ["<F2>"]
+on = ["<F12>"]
 run = "quit"
 [[manager.prepend_keymap]]
 on = ["<F3>"]
@@ -34,6 +34,9 @@ run = "remove --permanently"
 [[manager.prepend_keymap]]
 on = ["<C-g>"]
 run = "unyank"
+[[manager.prepend_keymap]]
+on = ["A"]
+run = "create --dir"
 
 [[manager.prepend_keymap]]
 on = ["e"]
