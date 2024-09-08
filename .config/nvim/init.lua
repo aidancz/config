@@ -1036,3 +1036,6 @@ require("lazy").setup({
 	},
 	lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
 })
+
+vim.cmd([[
+]])

@@ -126,3 +126,12 @@ bindkey -M emacs "\eb" emacs-backward-word
 bindkey -M emacs "^u" backward-kill-line
 # https://unix.stackexchange.com/questions/106375/make-zsh-alt-f-behave-like-emacs-alt-f
 # https://stackoverflow.com/questions/3483604/which-shortcut-in-zsh-does-the-same-as-ctrl-u-in-bash
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ tmux
+# if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
+#     exec tmux new-session -A -s ${USER} >/dev/null 2>&1
+# fi
+
+# if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
+#     exec tmux
+# fi
