@@ -115,7 +115,7 @@ cmap <c-g> cmd-escape
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ basic
 map c					# default: c -> clear, unmap it to use key sequence start with "c"
 map t
-map <f-2> quit
+map <f-12> quit
 map <f-3> quit
 # map ; read
 

@@ -39,6 +39,10 @@ on = ["A"]
 run = "create --dir"
 
 [[manager.prepend_keymap]]
+on = ["<Home>"]
+run = """shell 'ya pub dds-cd --str "$(git rev-parse --show-toplevel)"' --confirm"""
+
+[[manager.prepend_keymap]]
 on = ["e"]
 run = "plugin zoxide"
 [[manager.prepend_keymap]]
