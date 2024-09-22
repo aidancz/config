@@ -57,75 +57,83 @@ alias i="fzf_cd"
 
 eval "$(atuin init zsh)"
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle_vi{{{
-bindkey -v
-
-# bindkey -s "^[[91;5u" "^["
-# bind ctrl-[ to esc
-
-export KEYTIMEOUT=1
-# wait ? hundredths of seconds (? 0.01s)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle
 
 autoload edit-command-line; zle -N edit-command-line
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ vicmd
-bindkey -M vicmd "^[[A" history-beginning-search-backward
-bindkey -M vicmd "^[[B" history-beginning-search-forward
-bindkey -M vicmd "^[[H" beginning-of-line
-bindkey -M vicmd "^[[4~" end-of-line
-# bindkey -M vicmd "^r" clear-screen
-bindkey -M vicmd "^[OQ" edit-command-line
-bindkey -M vicmd -s "^[[24~" "^[dd^d"
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle_vi{{{
 
-bindkey -M vicmd "^[OP" open_terminal
-bindkey -M vicmd -s "^[OR" "^[ddiyyy^M"
+# bindkey -v
 
-	# bindkey -M vicmd "j" down-line-or-history
-	# bindkey -M vicmd "k" up-line-or-history
-	# bindkey -M vicmd "h" vi-backward-char
-	# bindkey -M vicmd "l" vi-forward-char
+# bindkey -M viins -s "^[[91;5u" "^["
+# bind ctrl-[ to esc
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ viins
-bindkey -M viins "^[[A" history-beginning-search-backward
-bindkey -M viins "^[[B" history-beginning-search-forward
-bindkey -M viins "^[[H" beginning-of-line
-bindkey -M viins "^[[4~" end-of-line
-# bindkey -M viins "^r" clear-screen
-bindkey -M viins "^[OQ" edit-command-line
-bindkey -M viins -s "^[[24~" "^[dd^d"
+# bindkey -M viins "kj" vi-cmd-mode
+# bind kj to esc
 
-bindkey -M viins "^[OP" open_terminal
-bindkey -M viins -s "^[OR" "^[ddiyyy^M"
-# <esc>cc bug when line is empty...
+export KEYTIMEOUT=1
+# wait ? hundredths of seconds (? 0.01s)
 
 bindkey -M viins "^e" end-of-line
 bindkey -M viins "^a" beginning-of-line
 bindkey -M viins "^f" forward-char
 bindkey -M viins "^b" backward-char
-bindkey -M viins "\ef" forward-word
-bindkey -M viins "\eb" backward-word
+bindkey -M viins "^[f" emacs-forward-word
+bindkey -M viins "^[b" emacs-backward-word
+# bindkey -M viins "^n" forward-word
+
+# "forward-word" and "end-of-line" is used by zsh-autosuggestions (see https://github.com/zsh-users/zsh-autosuggestions#usage)
 
 bindkey -M viins "^?" backward-delete-char
 bindkey -M viins "^w" backward-kill-word
 bindkey -M viins "^u" backward-kill-line
 bindkey -M viins "^k" kill-line
 
-# bindkey -M viins "kj" vi-cmd-mode
-# bindkey -M viins "^n" forward-word
-
-# "forward-word" and "end-of-line" is used by zsh-autosuggestions (see https://github.com/zsh-users/zsh-autosuggestions#usage)
 # in viins, ^? (backspace) defaults to "vi-backward-delete-char", which won't delete past the point where insert mode was last entered
+
+bindkey -M vicmd "^[[H" beginning-of-line
+bindkey -M viins "^[[H" beginning-of-line
+bindkey -M vicmd "^[[4~" end-of-line
+bindkey -M viins "^[[4~" end-of-line
+bindkey -M vicmd "^[[A" history-beginning-search-backward
+bindkey -M viins "^[[A" history-beginning-search-backward
+bindkey -M vicmd "^[[B" history-beginning-search-forward
+bindkey -M viins "^[[B" history-beginning-search-forward
+bindkey -M vicmd "^[OP" open_terminal
+bindkey -M viins "^[OP" open_terminal
+bindkey -M vicmd "^[OQ" edit-command-line
+bindkey -M viins "^[OQ" edit-command-line
+
+bindkey -M vicmd -s "^[[24~" "^[dd^d"
+bindkey -M viins -s "^[[24~" "^[dd^d"
+bindkey -M viins -s "^[OR" "^[ddiyyy^M"
+bindkey -M vicmd -s "^[OR" "^[ddiyyy^M" # <esc>cc bug when line is empty...
+
 #}}}
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle_emacs
 
-# bindkey -e
+bindkey -e
 
-bindkey -M emacs "\ef" emacs-forward-word
-bindkey -M emacs "\eb" emacs-backward-word
-bindkey -M emacs "^u" backward-kill-line
-# https://unix.stackexchange.com/questions/106375/make-zsh-alt-f-behave-like-emacs-alt-f
-# https://stackoverflow.com/questions/3483604/which-shortcut-in-zsh-does-the-same-as-ctrl-u-in-bash
+# bindkey -rp "^["
+# bindkey -M emacs "^[" undefined-key
+# bindkey -M emacs "^[" self-insert
+# bindkey -M emacs "^[" redisplay
+bindkey -M emacs "^[" beep
+# bindkey -M emacs -s "^[" ""
+
+bindkey -M emacs "^u"    backward-kill-line # https://stackoverflow.com/questions/3483604/which-shortcut-in-zsh-does-the-same-as-ctrl-u-in-bash
+bindkey -M emacs "^[f"   emacs-forward-word # https://unix.stackexchange.com/questions/106375/make-zsh-alt-f-behave-like-emacs-alt-f
+bindkey -M emacs "^[b"   emacs-backward-word
+bindkey -M emacs "^[[H"  beginning-of-line
+bindkey -M emacs "^[[4~" end-of-line
+bindkey -M emacs "^[[A"  history-beginning-search-backward
+bindkey -M emacs "^[[B"  history-beginning-search-forward
+bindkey -M emacs "^[OP"  open_terminal
+bindkey -M emacs "^[OQ"  edit-command-line
+
+bindkey -M emacs -s "^[[24~" "^e^u^d"
+bindkey -M emacs -s "^[OR" "^e^uyyy^M"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ tmux
 # if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then

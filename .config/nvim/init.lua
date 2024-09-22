@@ -37,10 +37,13 @@ vim.opt.showcmdloc = "statusline"
 
 vim.opt.list = true
 vim.opt.listchars = ""
-vim.opt.listchars:append({tab = "░░"})
 -- vim.opt.listchars:append({eol = "$"})
--- some unicode symbols:
--- ·▫░▒▓█
+vim.opt.listchars:append({tab = "▒▒"})
+vim.opt.listchars:append({lead = "░"})
+vim.opt.listchars:append({multispace = "░"})
+
+-- some unicode symbols (to keep these chars' original color, we wrap them in a variable):
+local comment = [[·▫░▒▓█]]
 -- use "ga" to get the code point
 
 vim.opt.display = {"lastline"}
@@ -807,8 +810,8 @@ local lazyplugins =
 		require("mini.surround").setup({})
 		vim.keymap.set("", "s", "<nop>")
 
-		require("mini.trailspace").setup({})
-		vim.api.nvim_set_hl(0, "MiniTrailspace", {link = "nofrils-yellow-bg"})
+		-- require("mini.trailspace").setup({})
+		-- vim.api.nvim_set_hl(0, "MiniTrailspace", {link = "nofrils-yellow-bg"})
 
 	end,
 },
@@ -1080,7 +1083,28 @@ local lazyplugins =
 },
 
 {
-	"bfredl/nvim-luadev",
+	-- "bfredl/nvim-luadev",
+	"ii14/neorepl.nvim",
+	-- https://www.reddit.com/r/neovim/comments/11lep0t/ineditor_lua_repl_nvimluadev_vs_neoreplnvim/
+},
+
+{
+	"michaelb/sniprun",
+	build = "sh install.sh",
+	config = function()
+		require("sniprun").setup({
+			selected_interpreters = {
+				"Lua_nvim",
+			},
+			repl_enable = {
+			},
+			interpreter_options = {
+			},
+			display = {
+				"Classic",
+			},
+		})
+	end,
 },
 ----------------------------------------------------------------
 }
