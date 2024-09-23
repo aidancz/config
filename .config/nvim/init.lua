@@ -35,12 +35,14 @@ vim.opt.showcmdloc = "statusline"
 -- showmode	show "-- INSERT --" when switching to insert mode, etc
 -- showcmd	show z when using zz, etc, show size of selection when in visual mode
 
-vim.opt.list = true
-vim.opt.listchars = ""
--- vim.opt.listchars:append({eol = "$"})
-vim.opt.listchars:append({tab = "▒▒"})
-vim.opt.listchars:append({lead = "░"})
-vim.opt.listchars:append({multispace = "░"})
+-- vim.opt.list = true
+-- vim.opt.listchars = ""
+
+-- vim.opt.listchars:append({eol            = "$"})
+-- vim.opt.listchars:append({tab            = "▒▒"})
+-- vim.opt.listchars:append({multispace     = "░"})
+-- vim.opt.listchars:append({lead           = "░"})
+-- vim.opt.listchars:append({trail          = "░"})
 
 -- some unicode symbols (to keep these chars' original color, we wrap them in a variable):
 local comment = [[·▫░▒▓█]]
@@ -407,6 +409,13 @@ xX.fun_callback = function()
 		col_byte_end = col1_byte
 	end
 
+	local text = vim.api.nvim_buf_get_text(0, row_beg - 1, col_byte_beg - 1, row_end - 1, col_byte_end - 1, {})
+	-- print(vim.inspect(text))
+	vim.fn.setreg("",  text, "c")
+	vim.fn.setreg("-", text, "c")
+	vim.fn.setreg("*", text, "c")
+	vim.fn.setreg("+", text, "c")
+
 	vim.api.nvim_buf_set_text(0, row_beg - 1, col_byte_beg - 1, row_end - 1, col_byte_end - 1, {})
 end
 vim.keymap.set("n", "x", function() return xX.fun(true)  end, {expr = true})
@@ -733,9 +742,11 @@ local lazyplugins =
 	end,
 },
 
+--[[
 {
 	"inkarkat/vim-ReplaceWithRegister",
 },
+--]]
 
 {
 	"echasnovski/mini.nvim",
@@ -802,9 +813,9 @@ local lazyplugins =
 		require("mini.move").setup({})
 
 		require("mini.operators").setup({
-			replace = {
-				prefix = "",
-			},
+			-- replace = {
+			-- 	prefix = "",
+			-- },
 		})
 
 		require("mini.surround").setup({})
