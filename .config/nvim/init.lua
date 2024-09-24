@@ -227,7 +227,16 @@ vim.keymap.set({"", "i"}, "<f12>", "<cmd>q!<cr>")
 
 
 
-vim.api.nvim_create_user_command("Date", [[put =strftime("%F")]], {})
+-- vim.api.nvim_create_user_command("Date", [[put =strftime("%F")]], {})
+vim.api.nvim_create_user_command("Date",
+	function()
+		local text = os.date("%F")
+		local lines = {text}
+		vim.api.nvim_put(lines, "l", true, false)
+	end,
+	{})
+-- https://cplusplus.com/reference/ctime/strftime/
+-- https://www.runoob.com/cprogramming/c-function-strftime.html
 
 vim.api.nvim_create_user_command("TrailRemove", [[%s/\s\+$//e]], {})
 -- https://vim.fandom.com/wiki/Remove_unwanted_spaces
