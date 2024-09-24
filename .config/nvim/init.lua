@@ -66,7 +66,8 @@ vim.opt.startofline = false
 vim.opt.jumpoptions = {"stack"}
 vim.opt.scrolloff = 0
 vim.opt.whichwrap:append("[,]")
-vim.opt.iskeyword:remove("_")
+vim.opt.iskeyword:append("_")
+vim.opt.iskeyword:append("-")
 vim.opt.smoothscroll = true
 
 --  keypress timeout
@@ -262,8 +263,8 @@ function compile()
 end
 vim.keymap.set("n", "<f5>", compile)
 
---  paragraph_textline (para_textl)
-local function para_textl_head_p(lnum)
+--  paragraph_definition1 (para1)
+local function para1_head_p(lnum)
 	if lnum == 1 then
 		return true
 	end
@@ -273,7 +274,7 @@ local function para_textl_head_p(lnum)
 	return false
 end
 
-local function para_textl_tail_p(lnum)
+local function para1_tail_p(lnum)
 	if lnum == vim.fn.line("$") then
 		return true
 	end
@@ -283,51 +284,146 @@ local function para_textl_tail_p(lnum)
 	return false
 end
 
-local function para_textl_backward_lnum(lnum)
+local function para1_backward_lnum(lnum)
 	if lnum == 1 then
 		return lnum
 	end
-	if para_textl_head_p(lnum - 1) then
+	if para1_head_p(lnum - 1) then
 		return lnum - 1
 	end
-	return para_textl_backward_lnum(lnum - 1)
+	return para1_backward_lnum(lnum - 1)
 end
 
-local function para_textl_forward_lnum(lnum)
+local function para1_forward_lnum(lnum)
 	if lnum == vim.fn.line("$") then
 		return lnum
 	end
-	if para_textl_tail_p(lnum + 1) then
+	if para1_tail_p(lnum + 1) then
 		return lnum + 1
 	end
-	return para_textl_forward_lnum(lnum + 1)
+	return para1_forward_lnum(lnum + 1)
 end
 
-rep_call = function(func, arg, count)
+para1_rep_call = function(func, arg, count)
 	if count == 0 then
 		return func(arg)
 	else
-		return rep_call(func, func(arg), (count - 1))
+		return para1_rep_call(func, func(arg), (count - 1))
 	end
 end
 
-local function para_textl_backward()
+local function para1_backward()
 	local lnum_current = vim.fn.line(".")
-	local lnum_destination = rep_call(para_textl_backward_lnum, lnum_current, (vim.v.count1 - 1))
+	local lnum_destination = para1_rep_call(para1_backward_lnum, lnum_current, (vim.v.count1 - 1))
 	vim.cmd(tostring(lnum_destination))
 end
 
-local function para_textl_forward()
+local function para1_forward()
 	local lnum_current = vim.fn.line(".")
-	local lnum_destination = rep_call(para_textl_forward_lnum, lnum_current, (vim.v.count1 - 1))
+	local lnum_destination = para1_rep_call(para1_forward_lnum, lnum_current, (vim.v.count1 - 1))
 	vim.cmd(tostring(lnum_destination))
 end
 
-vim.keymap.set({"n", "v"}, "(", para_textl_backward)
+vim.keymap.set({"n", "v"}, "(", para1_backward)
 vim.keymap.set("o", "(", function() return ":normal V" .. vim.v.count1 .. "(<cr>" end, {silent = true, expr = true})
-vim.keymap.set({"n", "v"}, ")", para_textl_forward)
+vim.keymap.set({"n", "v"}, ")", para1_forward)
 vim.keymap.set("o", ")", function() return ":normal V" .. vim.v.count1 .. ")<cr>" end, {silent = true, expr = true})
 -- https://vi.stackexchange.com/questions/6101/is-there-a-text-object-for-current-line/6102#6102
+
+--  paragraph_definition2 (para2)
+local function para2_successor_p(lnum, virtcol)
+	local virtcol_max = vim.fn.virtcol({lnum, "$"})
+	if virtcol > virtcol_max-1 then
+		return false
+	else
+		local col = vim.fn.virtcol2col(0, lnum, virtcol)
+		local char = vim.api.nvim_buf_get_text(0, lnum-1, col-1, lnum-1, col-1+1, {})[1]
+		if char == "" or char == " " or char == "\t" then
+			return false
+		else
+			return true
+		end
+	end
+end
+
+local function para2_backward_successor_lnum(lnum, virtcol)
+	if lnum == 1 then
+		return lnum
+	end
+	if para2_successor_p(lnum - 1, virtcol) then
+		return lnum - 1
+	end
+	return para2_backward_successor_lnum(lnum - 1, virtcol)
+end
+
+local function para2_backward_nonsuccessor_lnum(lnum, virtcol)
+	if lnum == 1 then
+		return lnum
+	end
+	if not para2_successor_p(lnum - 1, virtcol) then
+		return lnum - 1
+	end
+	return para2_backward_nonsuccessor_lnum(lnum - 1, virtcol)
+end
+
+local function para2_forward_successor_lnum(lnum, virtcol)
+	if lnum == vim.fn.line("$") then
+		return lnum
+	end
+	if para2_successor_p(lnum + 1, virtcol) then
+		return lnum + 1
+	end
+	return para2_forward_successor_lnum(lnum + 1, virtcol)
+end
+
+local function para2_forward_nonsuccessor_lnum(lnum, virtcol)
+	if lnum == vim.fn.line("$") then
+		return lnum
+	end
+	if not para2_successor_p(lnum + 1, virtcol) then
+		return lnum + 1
+	end
+	return para2_forward_nonsuccessor_lnum(lnum + 1, virtcol)
+end
+
+local function para2_backward_lnum(lnum, virtcol)
+	lnum = para2_backward_nonsuccessor_lnum(lnum, virtcol)
+	lnum = para2_backward_successor_lnum(lnum, virtcol)
+	return lnum
+end
+
+local function para2_forward_lnum(lnum, virtcol)
+	lnum = para2_forward_nonsuccessor_lnum(lnum, virtcol)
+	lnum = para2_forward_successor_lnum(lnum, virtcol)
+	return lnum
+end
+
+para2_rep_call = function(func, arg1, arg2, count)
+	if count == 0 then
+		return func(arg1, arg2)
+	else
+		return para2_rep_call(func, func(arg1, arg2), arg2, (count - 1))
+	end
+end
+
+local function para2_backward()
+	local lnum_current = vim.fn.line(".")
+	local virtcol = vim.fn.virtcol(".")
+	local lnum_destination = para2_rep_call(para2_backward_lnum, lnum_current, virtcol, (vim.v.count1 - 1))
+	vim.cmd(tostring(lnum_destination))
+end
+
+local function para2_forward()
+	local lnum_current = vim.fn.line(".")
+	local virtcol = vim.fn.virtcol(".")
+	local lnum_destination = para2_rep_call(para2_forward_lnum, lnum_current, virtcol, (vim.v.count1 - 1))
+	vim.cmd(tostring(lnum_destination))
+end
+
+vim.keymap.set({"n", "v"}, "<pageup>", para2_backward)
+vim.keymap.set("o", "<pageup>", function() return ":normal V" .. vim.v.count1 .. "(<cr>" end, {silent = true, expr = true})
+vim.keymap.set({"n", "v"}, "<pagedown>", para2_forward)
+vim.keymap.set("o", "<pagedown>", function() return ":normal V" .. vim.v.count1 .. ")<cr>" end, {silent = true, expr = true})
 
 --  empty_line (eml)
 eml = {}
@@ -756,7 +852,7 @@ local lazyplugins =
 		require("mini.ai").setup({
 			custom_textobjects = {
 				n = require("mini.extra").gen_ai_spec.number(),
-				l = function(ai_type)
+				e = function(ai_type)
 					local line_num = vim.fn.line(".")
 					local col_max = math.max(1, #vim.api.nvim_get_current_line())
 					local region = {from = {line = line_num, col = 1}, to = {line = line_num, col = col_max}}
@@ -781,8 +877,8 @@ local lazyplugins =
 				end,
 			},
 			mappings = {
-				around_next = "",
-				inside_next = "",
+				around_next = "al",
+				inside_next = "il",
 				around_last = "ah",
 				inside_last = "ih",
 			},
