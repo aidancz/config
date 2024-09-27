@@ -334,8 +334,8 @@ local function para1_forward()
 end
 
 vim.keymap.set({"n", "v"}, "(", para1_backward)
-vim.keymap.set("o", "(", function() return ":normal V" .. vim.v.count1 .. "(<cr>" end, {silent = true, expr = true})
 vim.keymap.set({"n", "v"}, ")", para1_forward)
+vim.keymap.set("o", "(", function() return ":normal V" .. vim.v.count1 .. "(<cr>" end, {silent = true, expr = true})
 vim.keymap.set("o", ")", function() return ":normal V" .. vim.v.count1 .. ")<cr>" end, {silent = true, expr = true})
 -- https://vi.stackexchange.com/questions/6101/is-there-a-text-object-for-current-line/6102#6102
 
@@ -347,7 +347,10 @@ local function para2_successor_p(lnum, virtcol)
 	else
 		local col = vim.fn.virtcol2col(0, lnum, virtcol)
 		local char = vim.api.nvim_buf_get_text(0, lnum-1, col-1, lnum-1, col-1+1, {})[1]
-		if char == "" or char == " " or char == "\t" then
+		local str = vim.api.nvim_buf_get_text(0, lnum-1, 0, lnum-1, col-1+1, {})[1]
+		if char == "" then
+			return false
+		elseif (char == " " or char == "\t") and (str:match("^%s*$") ~= nil) then
 			return false
 		else
 			return true
@@ -396,15 +399,49 @@ local function para2_forward_nonsuccessor_lnum(lnum, virtcol)
 end
 
 local function para2_backward_lnum(lnum, virtcol)
-	lnum = para2_backward_nonsuccessor_lnum(lnum, virtcol)
-	lnum = para2_backward_successor_lnum(lnum, virtcol)
-	return lnum
+	if para2_successor_p(lnum, virtcol) then
+		if lnum == 1 then
+			return lnum
+		else
+			if para2_successor_p(lnum - 1, virtcol) then
+				lnum = para2_backward_nonsuccessor_lnum(lnum, virtcol)
+				if lnum == 1 then
+					return lnum
+				else
+					return lnum + 1
+				end
+			else
+				lnum = para2_backward_successor_lnum(lnum, virtcol)
+				return lnum
+			end
+		end
+	else
+		lnum = para2_backward_successor_lnum(lnum, virtcol)
+		return lnum
+	end
 end
 
 local function para2_forward_lnum(lnum, virtcol)
-	lnum = para2_forward_nonsuccessor_lnum(lnum, virtcol)
-	lnum = para2_forward_successor_lnum(lnum, virtcol)
-	return lnum
+	if para2_successor_p(lnum, virtcol) then
+		if lnum == vim.fn.line("$") then
+			return lnum
+		else
+			if para2_successor_p(lnum + 1, virtcol) then
+				lnum = para2_forward_nonsuccessor_lnum(lnum, virtcol)
+				if lnum == vim.fn.line("$") then
+					return lnum
+				else
+					return lnum - 1
+				end
+			else
+				lnum = para2_forward_successor_lnum(lnum, virtcol)
+				return lnum
+			end
+		end
+	else
+		lnum = para2_forward_successor_lnum(lnum, virtcol)
+		return lnum
+	end
 end
 
 para2_rep_call = function(func, arg1, arg2, count)
@@ -429,10 +466,20 @@ local function para2_forward()
 	vim.cmd(tostring(lnum_destination))
 end
 
-vim.keymap.set({"n", "v"}, "<pageup>", para2_backward)
-vim.keymap.set("o", "<pageup>", function() return ":normal V" .. vim.v.count1 .. "(<cr>" end, {silent = true, expr = true})
+vim.keymap.set({"n", "v"}, "<pageup>",   para2_backward)
 vim.keymap.set({"n", "v"}, "<pagedown>", para2_forward)
-vim.keymap.set("o", "<pagedown>", function() return ":normal V" .. vim.v.count1 .. ")<cr>" end, {silent = true, expr = true})
+
+vim.keymap.set("o", "<pageup>",
+	function()
+		return [[:exe "normal V]] .. vim.v.count1 .. [[\<pageup>"]] .. vim.api.nvim_replace_termcodes([[<cr>]], true, true, true)
+	end,
+	{silent = true, expr = true, replace_keycodes = false})
+
+vim.keymap.set("o", "<pagedown>",
+	function()
+		return [[:exe "normal V]] .. vim.v.count1 .. [[\<pagedown>"]] .. vim.api.nvim_replace_termcodes([[<cr>]], true, true, true)
+	end,
+	{silent = true, expr = true, replace_keycodes = false})
 
 --  empty_line (eml)
 eml = {}
