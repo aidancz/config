@@ -340,108 +340,89 @@ vim.keymap.set("o", ")", function() return ":normal V" .. vim.v.count1 .. ")<cr>
 -- https://vi.stackexchange.com/questions/6101/is-there-a-text-object-for-current-line/6102#6102
 
 --  paragraph_definition2 (para2)
-local function para2_successor_p(lnum, virtcol)
+local PARA2_TYPE1 = 1
+local PARA2_TYPE2 = 2
+
+local function para2_type(lnum, virtcol)
 	local virtcol_max = vim.fn.virtcol({lnum, "$"})
-	if virtcol > virtcol_max-1 then
-		return false
+	local a = virtcol >= virtcol_max
+	if a then
+		return PARA2_TYPE2
 	else
 		local col = vim.fn.virtcol2col(0, lnum, virtcol)
 		local char = vim.api.nvim_buf_get_text(0, lnum-1, col-1, lnum-1, col-1+1, {})[1]
-		local str = vim.api.nvim_buf_get_text(0, lnum-1, 0, lnum-1, col-1+1, {})[1]
-		if char == "" then
-			return false
-		elseif (char == " " or char == "\t") and (str:match("^%s*$") ~= nil) then
-			return false
+		local prestr = vim.api.nvim_buf_get_text(0, lnum-1, 0, lnum-1, col-1+1, {})[1]
+		local b = (char == " " or char == "\t") and (prestr:match("^%s*$") ~= nil)
+		if b then
+			return PARA2_TYPE2
 		else
-			return true
+			return PARA2_TYPE1
 		end
 	end
 end
 
-local function para2_backward_successor_lnum(lnum, virtcol)
-	if lnum == 1 then
-		return lnum
+local function para2_type1_head_p(lnum, virtcol)
+	local a = para2_type(lnum, virtcol) == PARA2_TYPE1
+	local b = lnum == 1
+	local c = para2_type(lnum-1, virtcol) == PARA2_TYPE2
+	if a and (b or c) then
+		return true
+	else
+		return false
 	end
-	if para2_successor_p(lnum - 1, virtcol) then
-		return lnum - 1
-	end
-	return para2_backward_successor_lnum(lnum - 1, virtcol)
 end
 
-local function para2_backward_nonsuccessor_lnum(lnum, virtcol)
-	if lnum == 1 then
-		return lnum
+local function para2_type1_tail_p(lnum, virtcol)
+	local a = para2_type(lnum, virtcol) == PARA2_TYPE1
+	local b = lnum == vim.fn.line("$")
+	local c = para2_type(lnum+1, virtcol) == PARA2_TYPE2
+	if a and (b or c) then
+		return true
+	else
+		return false
 	end
-	if not para2_successor_p(lnum - 1, virtcol) then
-		return lnum - 1
-	end
-	return para2_backward_nonsuccessor_lnum(lnum - 1, virtcol)
 end
 
-local function para2_forward_successor_lnum(lnum, virtcol)
-	if lnum == vim.fn.line("$") then
-		return lnum
+local function para2_type2_head_p(lnum, virtcol)
+	local a = para2_type(lnum, virtcol) == PARA2_TYPE2
+	local b = lnum == 1
+	local c = para2_type(lnum-1, virtcol) == PARA2_TYPE1
+	if a and (b or c) then
+		return true
+	else
+		return false
 	end
-	if para2_successor_p(lnum + 1, virtcol) then
-		return lnum + 1
-	end
-	return para2_forward_successor_lnum(lnum + 1, virtcol)
 end
 
-local function para2_forward_nonsuccessor_lnum(lnum, virtcol)
-	if lnum == vim.fn.line("$") then
-		return lnum
+local function para2_type2_tail_p(lnum, virtcol)
+	local a = para2_type(lnum, virtcol) == PARA2_TYPE2
+	local b = lnum == vim.fn.line("$")
+	local c = para2_type(lnum+1, virtcol) == PARA2_TYPE1
+	if a and (b or c) then
+		return true
+	else
+		return false
 	end
-	if not para2_successor_p(lnum + 1, virtcol) then
-		return lnum + 1
-	end
-	return para2_forward_nonsuccessor_lnum(lnum + 1, virtcol)
 end
 
 local function para2_backward_lnum(lnum, virtcol)
-	if para2_successor_p(lnum, virtcol) then
-		if lnum == 1 then
-			return lnum
-		else
-			if para2_successor_p(lnum - 1, virtcol) then
-				lnum = para2_backward_nonsuccessor_lnum(lnum, virtcol)
-				if lnum == 1 then
-					return lnum
-				else
-					return lnum + 1
-				end
-			else
-				lnum = para2_backward_successor_lnum(lnum, virtcol)
-				return lnum
-			end
-		end
-	else
-		lnum = para2_backward_successor_lnum(lnum, virtcol)
+	if lnum == 1 then
 		return lnum
 	end
+	if para2_type1_head_p(lnum-1, virtcol) or para2_type2_head_p(lnum-1, virtcol) then
+		return lnum - 1
+	end
+	return para2_backward_lnum(lnum - 1, virtcol)
 end
 
 local function para2_forward_lnum(lnum, virtcol)
-	if para2_successor_p(lnum, virtcol) then
-		if lnum == vim.fn.line("$") then
-			return lnum
-		else
-			if para2_successor_p(lnum + 1, virtcol) then
-				lnum = para2_forward_nonsuccessor_lnum(lnum, virtcol)
-				if lnum == vim.fn.line("$") then
-					return lnum
-				else
-					return lnum - 1
-				end
-			else
-				lnum = para2_forward_successor_lnum(lnum, virtcol)
-				return lnum
-			end
-		end
-	else
-		lnum = para2_forward_successor_lnum(lnum, virtcol)
+	if lnum == vim.fn.line("$") then
 		return lnum
 	end
+	if para2_type1_tail_p(lnum+1, virtcol) or para2_type2_tail_p(lnum+1, virtcol) then
+		return lnum + 1
+	end
+	return para2_forward_lnum(lnum + 1, virtcol)
 end
 
 para2_rep_call = function(func, arg1, arg2, count)
@@ -466,8 +447,59 @@ local function para2_forward()
 	vim.cmd(tostring(lnum_destination))
 end
 
-vim.keymap.set({"n", "v"}, "<pageup>",   para2_backward)
-vim.keymap.set({"n", "v"}, "<pagedown>", para2_forward)
+vim.keymap.set({"n", "v"}, "<home>",   para2_backward)
+vim.keymap.set({"n", "v"}, "<end>", para2_forward)
+
+vim.keymap.set("o", "<home>",
+	function()
+		return [[:exe "normal V]] .. vim.v.count1 .. [[\<home>"]] .. vim.api.nvim_replace_termcodes([[<cr>]], true, true, true)
+	end,
+	{silent = true, expr = true, replace_keycodes = false})
+
+vim.keymap.set("o", "<end>",
+	function()
+		return [[:exe "normal V]] .. vim.v.count1 .. [[\<end>"]] .. vim.api.nvim_replace_termcodes([[<cr>]], true, true, true)
+	end,
+	{silent = true, expr = true, replace_keycodes = false})
+
+
+
+local function para2_backward_lnum_special(lnum, virtcol)
+	if lnum == 1 then
+		return lnum
+	end
+	if para2_type1_head_p(lnum-1, virtcol) then
+		return lnum - 1
+	end
+	return para2_backward_lnum_special(lnum - 1, virtcol)
+end
+
+local function para2_forward_lnum_special(lnum, virtcol)
+	if lnum == vim.fn.line("$") then
+		return lnum
+	end
+	if para2_type1_head_p(lnum+1, virtcol) then
+		return lnum + 1
+	end
+	return para2_forward_lnum_special(lnum + 1, virtcol)
+end
+
+local function para2_backward_special()
+	local lnum_current = vim.fn.line(".")
+	local virtcol = vim.fn.virtcol(".")
+	local lnum_destination = para2_rep_call(para2_backward_lnum_special, lnum_current, virtcol, (vim.v.count1 - 1))
+	vim.cmd(tostring(lnum_destination))
+end
+
+local function para2_forward_special()
+	local lnum_current = vim.fn.line(".")
+	local virtcol = vim.fn.virtcol(".")
+	local lnum_destination = para2_rep_call(para2_forward_lnum_special, lnum_current, virtcol, (vim.v.count1 - 1))
+	vim.cmd(tostring(lnum_destination))
+end
+
+vim.keymap.set({"n", "v"}, "<pageup>",   para2_backward_special)
+vim.keymap.set({"n", "v"}, "<pagedown>", para2_forward_special)
 
 vim.keymap.set("o", "<pageup>",
 	function()
@@ -480,6 +512,8 @@ vim.keymap.set("o", "<pagedown>",
 		return [[:exe "normal V]] .. vim.v.count1 .. [[\<pagedown>"]] .. vim.api.nvim_replace_termcodes([[<cr>]], true, true, true)
 	end,
 	{silent = true, expr = true, replace_keycodes = false})
+
+
 
 --  empty_line (eml)
 eml = {}
@@ -962,7 +996,11 @@ local lazyplugins =
 			style = "ascii",
 		})
 
-		require("mini.move").setup({})
+		require("mini.move").setup({
+			options = {
+				reindent_linewise = false,
+			},
+		})
 
 		require("mini.operators").setup({
 			-- replace = {
