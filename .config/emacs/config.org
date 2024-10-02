@@ -1,9 +1,7 @@
 #+property: header-args:emacs-lisp :tangle ~/.emacs.d/init.el
 #+auto_tangle: t
 
-* core
-
-** lexical binding
+* lexical binding
 
 #+begin_src emacs-lisp
 ;; -*- lexical-binding: t -*-
@@ -14,14 +12,34 @@
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Specifying-File-Variables.html
 #+end_src
 
-** COMMENT test
+* debug
+
+#+begin_src emacs-lisp
+;; (top-level)
+;; https://emacs.stackexchange.com/questions/75179/how-to-stop-evaluating-within-emacs-for-debugging-purposes
+
+;; (error "Done")
+;; https://stackoverflow.com/questions/25393418/stop-execution-of-emacs
+#+end_src
+
+* COMMENT test
 
 #+begin_src emacs-lisp
 (defun display-startup-echo-area-message ()
 (message "test block on"))
 #+end_src
 
+* early-init.el
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/early-init.el
+(setq inhibit-x-resources t)
+#+end_src
+
+* built-in
+
 ** COMMENT tangle when saving
+
+use org-auto-tangle instead
 
 #+begin_src emacs-lisp
 ;; (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle :append :local)))
@@ -42,7 +60,7 @@
 ** appearance
 
 #+begin_src emacs-lisp
-(setq inhibit-x-resources t)
+;; (setq inhibit-x-resources t)
 ;; (setq inhibit-x-resources t) seems also (setq inhibit-startup-screen t)
 
 
@@ -252,7 +270,7 @@
 (setq bookmark-save-flag 1)
 #+end_src
 
-* package
+* package.el setup
 
 emacs has a built-in package manager called "package.el"
 it installs packages from "elpa"
@@ -386,22 +404,16 @@ org-auto-tangle
 ;; https://www.emacswiki.org/emacs/LoadPath
 #+end_src
 
-** debug
-
-#+begin_src emacs-lisp
-;; (top-level)
-;; https://emacs.stackexchange.com/questions/75179/how-to-stop-evaluating-within-emacs-for-debugging-purposes
-
-;; (error "Done")
-;; https://stackoverflow.com/questions/25393418/stop-execution-of-emacs
-#+end_src
-
 * package_appearance
 
-** COMMENT theme_standard-dark
+** theme_standard-dark
 
 #+begin_src emacs-lisp
-(load-theme 'standard-dark)
+(require 'standard-themes)
+(standard-themes-load-light)
+
+;; (load-theme 'standard-dark)
+;; (load-theme 'standard-light)
 #+end_src
 
 ** COMMENT theme_nord
@@ -435,7 +447,7 @@ org-auto-tangle
 (load-theme 'xresources t)
 #+end_src
 
-** theme_penumbra
+** COMMENT theme_penumbra
 
 http://xahlee.info/emacs/emacs/emacs_create_theme.html
 
@@ -1875,23 +1887,23 @@ https://github.com/shingo256/trashed
 ;; (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAIT(w)" "CANC(c)" "|" "DONE(d)")))
 ;; https://orgmode.org/manual/Workflow-states.html
 
-(setq org-agenda-files `(,(getenv "a_aj")))
+;; (setq org-agenda-files `(,(getenv "a_aj")))
 
-(setq org-capture-templates `(
-("a" "inbox" entry (file ,(concat (getenv "a_aj") "/inbox.org")) "* %i%?")
-))
+;; (setq org-capture-templates `(
+;; ("a" "inbox" entry (file ,(concat (getenv "a_aj") "/inbox.org")) "* %i%?")
+;; ))
 
-(setq org-refile-targets `(
-;; (,(concat (getenv "a_aj") "/inbox.org") :maxlevel . 2)
-(,(directory-files-recursively (getenv "a_aj") "\.org$") :maxlevel . 2)
-))
-;; (setq org-reverse-note-order t)
-(setq org-refile-use-outline-path 'file)
-;; https://emacs.stackexchange.com/questions/13353/how-to-use-org-refile-to-move-a-headline-to-a-file-as-a-toplevel-headline
-(setq org-outline-path-complete-in-steps nil)
-;; https://github.com/minad/vertico#org-refile
-;; (setq org-refile-allow-creating-parent-nodes )
-;; (setq org-log-refile )
+;; (setq org-refile-targets `(
+;; ;; (,(concat (getenv "a_aj") "/inbox.org") :maxlevel . 2)
+;; (,(directory-files-recursively (getenv "a_aj") "\.org$") :maxlevel . 2)
+;; ))
+;; ;; (setq org-reverse-note-order t)
+;; (setq org-refile-use-outline-path 'file)
+;; ;; https://emacs.stackexchange.com/questions/13353/how-to-use-org-refile-to-move-a-headline-to-a-file-as-a-toplevel-headline
+;; (setq org-outline-path-complete-in-steps nil)
+;; ;; https://github.com/minad/vertico#org-refile
+;; ;; (setq org-refile-allow-creating-parent-nodes )
+;; ;; (setq org-log-refile )
 
 ;; (setq org-id-ts-format "%Y%m%dT%H%M%S.%6N")
 (setq org-id-ts-format "%Y-%m-%d-%H%M%S-%6N")
@@ -1937,7 +1949,7 @@ org mode now bundle with =C-c C-,= (org-insert-structure-template), obsolete org
 (require 'org-gtd)
 #+end_src
 
-** org-roam
+** COMMENT org-roam
 
 #+begin_src emacs-lisp
 ;; https://www.orgroam.com/manual.html
@@ -2016,7 +2028,7 @@ plain
 (add-hook 'org-mode-hook 'org-file-name-to-title)
 #+end_src
 
-** org-journal
+** COMMENT org-journal
 
 #+begin_src emacs-lisp
 (setq org-journal-dir (getenv "a_al"))
@@ -2336,7 +2348,7 @@ hide-node
 (define-key org-gtd-clarify-map (kbd "RET") #'org-gtd-organize)
 #+end_src
 
-** org-roam
+** COMMENT org-roam
 
 #+begin_src emacs-lisp
 ;; (defun convert-to-orgroam ()
@@ -2388,7 +2400,7 @@ hide-node
 ;; (global-set-key (kbd "C-c n k") #'org-roam-dailies-goto-date)
 #+end_src
 
-** org-journal
+** COMMENT org-journal
 
 #+begin_src emacs-lisp
 (global-set-key (kbd "C-c l") 'calendar)

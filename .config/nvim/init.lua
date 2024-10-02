@@ -539,7 +539,12 @@ emc.fun = function(direction)
 	return "g@l"
 end
 emc.fun_callback = function()
-	vim.api.nvim_put({string.rep(" ", vim.v.count1)}, "c", emc.direction, false)
+	vim.api.nvim_put({string.rep(" ", vim.v.count1)}, "c", emc.direction, true)
+	if emc.direction then
+		vim.api.nvim_feedkeys("h", "n", false)
+	else
+		vim.api.nvim_feedkeys(vim.v.count1 .. "h", "n", false)
+	end
 end
 vim.keymap.set("n", "<right>", function() return emc.fun(true)  end, {expr = true})
 vim.keymap.set("n", "<left>",  function() return emc.fun(false) end, {expr = true})
@@ -1003,13 +1008,25 @@ local lazyplugins =
 		})
 
 		require("mini.operators").setup({
-			-- replace = {
-			-- 	prefix = "",
-			-- },
+			replace = {
+				prefix = "s",
+				reindent_linewise = false,
+			},
 		})
 
-		require("mini.surround").setup({})
-		vim.keymap.set("", "s", "<nop>")
+		require("mini.surround").setup({
+			mappings = {
+				add     = "ys",
+				delete  = "ds",
+				replace = "cs",
+
+				suffix_last = "h",
+				suffix_next = "l",
+			},
+			search_method = "cover_or_next",
+		})
+		vim.keymap.set('n', 'yss', 'ys_', {remap = true})
+		-- vim.keymap.set("", "s", "<nop>") -- if using `s` for prefix
 
 		-- require("mini.trailspace").setup({})
 		-- vim.api.nvim_set_hl(0, "MiniTrailspace", {link = "nofrils-yellow-bg"})
