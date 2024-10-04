@@ -27,8 +27,11 @@ append_rules = [
 
 [plugin]
 prepend_previewers = [
-	{mime = "text/*", run = "preview-text"},
-	{mime = "application/javascript", run = "preview-text"},
+	{mime = "text/*", run = "cat"},
+	{mime = "application/javascript", run = "cat"},
+]
+append_previewers = [
+	{name = "*", run = "hexyl"},
 ]
 
 [input]
