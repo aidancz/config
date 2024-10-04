@@ -1,12 +1,6 @@
 [submodule ".config/yazi/open-with-cmd.yazi"]
 	path = .config/yazi/open-with-cmd.yazi
 	url = https://github.com/Ape/open-with-cmd.yazi
-[submodule ".config/yazi/plugins/open-with-cmd.yazi"]
-	path = .config/yazi/plugins/open-with-cmd.yazi
-	url = https://github.com/Ape/open-with-cmd.yazi
-[submodule ".config/yazi/plugins/hexyl.yazi"]
-	path = .config/yazi/plugins/hexyl.yazi
-	url = https://github.com/Reledia/hexyl.yazi
 [submodule ".config/yazi/plugins/what-size.yazi"]
 	path = .config/yazi/plugins/what-size.yazi
 	url = https://github.com/pirafrank/what-size.yazi
