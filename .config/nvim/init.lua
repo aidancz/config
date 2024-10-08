@@ -66,8 +66,9 @@ vim.opt.startofline = false
 vim.opt.jumpoptions = {"stack"}
 vim.opt.scrolloff = 0
 vim.opt.whichwrap:append("[,]")
-vim.opt.iskeyword:append("_")
-vim.opt.iskeyword:append("-")
+vim.opt.iskeyword:remove("_")
+-- vim.opt.iskeyword:append("_")
+-- vim.opt.iskeyword:append("-")
 vim.opt.smoothscroll = true
 
 --  keypress timeout
@@ -525,8 +526,11 @@ end
 eml.fun_callback = function()
 	local lnum_current = vim.fn.line(".")
 	vim.fn.append((eml.direction and lnum_current or lnum_current - 1), vim.fn["repeat"]({""}, vim.v.count1))
-	local lnum_current = vim.fn.line(".")
-	vim.fn.cursor((lnum_current + (eml.direction and vim.v.count1 or -vim.v.count1)), 1)
+	if eml.direction then
+		vim.api.nvim_feedkeys(vim.v.count1 .. "j", "n", false)
+	else
+		vim.api.nvim_feedkeys(vim.v.count1 .. "k", "n", false)
+	end
 end
 vim.keymap.set("n", "<down>", function() return eml.fun(true)  end, {expr = true})
 vim.keymap.set("n", "<up>",   function() return eml.fun(false) end, {expr = true})
@@ -1013,6 +1017,7 @@ local lazyplugins =
 				reindent_linewise = false,
 			},
 		})
+		vim.keymap.set("n", "S", "s$", {remap = true})
 
 		require("mini.surround").setup({
 			mappings = {
@@ -1025,7 +1030,9 @@ local lazyplugins =
 			},
 			search_method = "cover_or_next",
 		})
-		vim.keymap.set('n', 'yss', 'ys_', {remap = true})
+		vim.keymap.del("x", "ys")
+		vim.keymap.set("x", "S", [[:<C-u>lua MiniSurround.add("visual")<CR>]], {silent = true})
+		vim.keymap.set("n", "yss", "ys_", {remap = true})
 		-- vim.keymap.set("", "s", "<nop>") -- if using `s` for prefix
 
 		-- require("mini.trailspace").setup({})

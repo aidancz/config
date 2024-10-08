@@ -33,7 +33,8 @@ append_rules = [
 # append_fetchers = [
 # ]
 prepend_previewers = [
-	{mime = "text/*", run = "cat"},
+	{mime = "text/x-diff",            run = "code"},
+	{mime = "text/*",                 run = "cat"},
 	{mime = "application/javascript", run = "cat"},
 ]
 append_previewers = [

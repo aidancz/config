@@ -1,0 +1,25 @@
+#!/bin/sh
+
+master_path="$1"
+master_prefix="${master_path%.*}"
+
+shift
+
+slave_new_paths=""
+for slave_path in "$@"
+do
+	slave_extension="${slave_path##*.}"
+	timestamp=$(date +"%Y%m%d%H%M%S%6N")
+	slave_new_path="${master_prefix}_${timestamp}.${slave_extension}"
+
+	mv "$slave_path" "$slave_new_path"
+
+	slave_new_paths="${slave_new_paths}${slave_new_path}\n"
+done
+
+echo "$slave_new_paths"
+
+if command -v xclip > /dev/null 2>&1
+then
+	echo -n "$slave_new_paths" | xclip -selection clipboard
+fi
