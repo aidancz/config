@@ -11,7 +11,7 @@ function M:peek()
 	local lines
 	local child
 
-	lines = Command("cat"):args({"", tostring(self.file.url)}):stdout(Command.PIPED):output().stdout
+	lines = Command("head"):args({"-n 128", tostring(self.file.url)}):stdout(Command.PIPED):output().stdout
 
 	child = Command("expand"):stdin(Command.PIPED):stdout(Command.PIPED):spawn()
 	child:write_all(lines)

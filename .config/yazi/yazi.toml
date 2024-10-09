@@ -34,8 +34,8 @@ append_rules = [
 # ]
 prepend_previewers = [
 	{mime = "text/x-diff",            run = "code"},
-	{mime = "text/*",                 run = "cat"},
-	{mime = "application/javascript", run = "cat"},
+	{mime = "text/*",                 run = "head-and-expand"},
+	{mime = "application/javascript", run = "head-and-expand"},
 ]
 append_previewers = [
 	{name = "*", run = "hexyl"},

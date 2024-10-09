@@ -15,6 +15,8 @@ vim.g.have_nerd_font = true
 
 --  option
 --  appearance
+vim.opt.termguicolors = true
+
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.numberwidth = 5
@@ -886,7 +888,8 @@ local lazyplugins =
 		"inkarkat/vim-ingo-library",
 	},
 	config = function()
-		vim.api.nvim_set_hl(0, "MarkWord1", {link = "nofrils-red-bg"})
+		-- vim.api.nvim_set_hl(0, "MarkWord1", {link = "nofrils-red-bg"})
+		vim.api.nvim_set_hl(0, "MarkWord1", {link = "nofrils-shadow-bg"})
 		vim.api.nvim_set_hl(0, "MarkWord2", {link = "nofrils-green-bg"})
 		vim.api.nvim_set_hl(0, "MarkWord3", {link = "nofrils-yellow-bg"})
 		vim.api.nvim_set_hl(0, "MarkWord4", {link = "nofrils-blue-bg"})
@@ -1231,6 +1234,8 @@ local lazyplugins =
 		vim.treesitter.query.set("javascript",      "highlights", "(comment) @comment")
 		vim.treesitter.query.set("markdown",        "highlights", "")
 		vim.treesitter.query.set("markdown_inline", "highlights", "")
+		vim.treesitter.query.set("lua",             "highlights", "(comment) @comment")
+		vim.treesitter.query.set("css",             "highlights", "(comment) @comment")
 
 		vim.treesitter.language.register("bash", "zsh")
 
@@ -1329,6 +1334,19 @@ local lazyplugins =
 				"Classic",
 			},
 		})
+	end,
+},
+
+--[[
+{
+	"lambdalisue/vim-suda",
+},
+--]]
+
+{
+	"norcalli/nvim-colorizer.lua",
+	config = function()
+		require("colorizer").setup()
 	end,
 },
 ----------------------------------------------------------------
