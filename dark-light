@@ -31,17 +31,37 @@ else
 	    "$XDG_CONFIG_HOME/x11/.Xresources" | xrdb 2> /dev/null
 fi
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ gtk
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ gtk-3.0
 if [ "$mode" = 0 ]
 then
 	rm -rf "$XDG_CONFIG_HOME/gtk-3.0"
-	mkdir -p "$XDG_CONFIG_HOME/gtk-3.0"
-	cp "$AIDAN_GIT/arch_config/.config/gtk-3.0/settings.ini"	"$XDG_CONFIG_HOME/gtk-3.0/settings.ini"
+	cp -r "$AIDAN_GIT/arch_config/.config/gtk-3.0"	"$XDG_CONFIG_HOME/gtk-3.0"
 else
 	rm -rf "$XDG_CONFIG_HOME/gtk-3.0"
-	mkdir -p "$XDG_CONFIG_HOME/gtk-3.0"
-	cp "$AIDAN_GIT/arch_config/.config/gtk-3.0/settings.ini"	"$XDG_CONFIG_HOME/gtk-3.0/settings.ini"
+	cp -r "$AIDAN_GIT/arch_config/.config/gtk-3.0"	"$XDG_CONFIG_HOME/gtk-3.0"
 	echo "gtk-theme-name=Adwaita" >> "$XDG_CONFIG_HOME/gtk-3.0/settings.ini"
+fi
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ qt5
+if [ "$mode" = 0 ]
+then
+	rm -rf "$XDG_CONFIG_HOME/qt5ct"
+	cp -r "$AIDAN_GIT/arch_config/.config/qt5ct"	"$XDG_CONFIG_HOME/qt5ct"
+else
+	rm -rf "$XDG_CONFIG_HOME/qt5ct"
+	cp -r "$AIDAN_GIT/arch_config/.config/qt5ct"	"$XDG_CONFIG_HOME/qt5ct"
+	sed -i '/darker/s/darker/simple/' "$XDG_CONFIG_HOME/qt5ct/qt5ct.conf"
+fi
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ qt6
+if [ "$mode" = 0 ]
+then
+	rm -rf "$XDG_CONFIG_HOME/qt6ct"
+	cp -r "$AIDAN_GIT/arch_config/.config/qt6ct"	"$XDG_CONFIG_HOME/qt6ct"
+else
+	rm -rf "$XDG_CONFIG_HOME/qt6ct"
+	cp -r "$AIDAN_GIT/arch_config/.config/qt6ct"	"$XDG_CONFIG_HOME/qt6ct"
+	sed -i '/darker/s/darker/simple/' "$XDG_CONFIG_HOME/qt6ct/qt6ct.conf"
 fi
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zathura
