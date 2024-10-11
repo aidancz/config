@@ -1,25 +1,35 @@
 #!/bin/sh
 
+
+
 master_path="$1"
+master_path=$(realpath "$master_path")
 master_prefix="${master_path%.*}"
 
 shift
 
 slave_new_paths=""
+slave_new_filenames=""
 for slave_path in "$@"
 do
+	slave_path=$(realpath "$slave_path")
 	slave_extension="${slave_path##*.}"
 	timestamp=$(date +"%Y%m%d%H%M%S%6N")
 	slave_new_path="${master_prefix}_${timestamp}.${slave_extension}"
+	slave_new_filename=$(basename "${slave_new_path}")
 
 	mv "$slave_path" "$slave_new_path"
 
 	slave_new_paths="${slave_new_paths}${slave_new_path}\n"
+
+	slave_new_filenames="${slave_new_filenames}${slave_new_filename}\n"
 done
 
-echo "$slave_new_paths"
+printf "$slave_new_paths"
 
+# echo "$slave_new_filenames"
 if command -v xclip > /dev/null 2>&1
 then
-	echo -n "$slave_new_paths" | xclip -selection clipboard
+	printf "$slave_new_filenames" | xclip -selection clipboard
+	# can't use `echo -n` (in posix sh, echo flags are undefined)
 fi
