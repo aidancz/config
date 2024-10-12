@@ -37,14 +37,13 @@ vim.opt.showcmdloc = "statusline"
 -- showmode	show "-- INSERT --" when switching to insert mode, etc
 -- showcmd	show z when using zz, etc, show size of selection when in visual mode
 
--- vim.opt.list = true
--- vim.opt.listchars = ""
-
+vim.opt.list = false
+vim.opt.listchars = ""
 -- vim.opt.listchars:append({eol            = "$"})
--- vim.opt.listchars:append({tab            = "▒▒"})
--- vim.opt.listchars:append({multispace     = "░"})
--- vim.opt.listchars:append({lead           = "░"})
--- vim.opt.listchars:append({trail          = "░"})
+vim.opt.listchars:append({tab            = "▒▒"})
+vim.opt.listchars:append({multispace     = "░"})
+vim.opt.listchars:append({lead           = "░"})
+vim.opt.listchars:append({trail          = "░"})
 
 -- some unicode symbols (to keep these chars' original color, we wrap them in a variable):
 local comment = [[·▫░▒▓█]]
@@ -983,10 +982,18 @@ local lazyplugins =
 				inside_next = "il",
 				around_last = "ah",
 				inside_last = "ih",
+
+				goto_left  = "gh",
+				goto_right = "gl",
 			},
 		})
 
-		require("mini.align").setup({})
+		require("mini.align").setup({
+			mappings = {
+				start = "gn",
+				start_with_preview = "gN",
+			},
+		})
 
 		require("mini.bracketed").setup({})
 
@@ -997,6 +1004,11 @@ local lazyplugins =
 			},
 			delay = {
 				text_change = 100,
+			},
+			mappings = {
+				apply = "ga",
+				reset = "gr",
+				textobject = ".",
 			},
 		})
 		vim.api.nvim_set_hl(0, "MiniDiffOverChange", {link = "nofrils-yellow"})
