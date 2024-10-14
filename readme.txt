@@ -1,15 +1,26 @@
 config repo
 
-# xdg variable
+# install
 
-these vaviables are set at a shell script called "env"
+shell scripts are placed in .local/bin
+run `.local/bin/create-symbolic-link` to create symbolic link
 
-some program can't read these variables by design,
-i have to hard code the file path, use grep to find them
+# dark light switch
+
+dark:  `dark-light 0`
+light: `dark-lignt 1`
+
+# xdg variables
+
+these vaviables are set in a shell script .config/sh/.env
+
+some programs can't read these variables by design
+i have to hard code the file path
+use grep to find them
 
 # config effective location
 
-1. $HOME            (eg: ~/.profile) (~/.env is also this case)
+1. $HOME            (eg: ~/.profile)
 2. $XDG_CONFIG_HOME (eg: ~/.config/clash)
 
 # logic behind login

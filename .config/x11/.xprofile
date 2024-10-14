@@ -3,7 +3,7 @@
 xrandr --dpi 96
 # set dpi. user may want to use a larger number for larger screens
 
-output=`xrandr | grep "\bconnected\b" | cut -d' ' -f1`
+output=$(xrandr | grep "\bconnected\b" | cut -d' ' -f1)
 # xrandr --output $output --set TearFree on
 xrandr --output $output --mode 1920x1080 --rate 144
 
@@ -13,17 +13,22 @@ xset s off -dpms
 
 
 
-setbg &
-remaps &
-dark-light & xrdbpid=$!
-fcitx5 -d &
-nutstore &
-
-autostart="mpd xcompmgr dunst unclutter pipewire remapd"
-for program in $autostart; do
+autostart="\
+mpd
+xcompmgr
+dunst
+unclutter
+pipewire
+remapd
+fcitx5
+nutstore
+"
+for program in $autostart
+do
 	pidof -s "$program" || "$program" &
-done >/dev/null 2>&1
+done 1> /dev/null 2>&1
 
-
-
+setbg		&
+remaps		&
+dark-light	& xrdbpid=$!
 [ -n "$xrdbpid" ] && wait "$xrdbpid"

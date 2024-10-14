@@ -76,7 +76,7 @@ shell --confirm --block 'vidir "$@"'
 [[manager.prepend_keymap]]
 on   = "<F5>"
 run  = """
-shell --confirm 'attach "$0" "$@"'
+shell --confirm 'markdown-attach-mv-file "$0" "$@"'
 """
 
 
