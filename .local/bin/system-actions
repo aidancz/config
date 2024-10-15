@@ -28,7 +28,7 @@ wmpid(){
 
 if [ -n "$1" ]; then
 
-action="$1"
+arg="$1"
 
 else
 
@@ -42,11 +42,11 @@ shutdown
 renew wm
 leave wm
 "
-action="$(printf "%s" "$menu" | dmenu -i -p 'action:')"
+arg="$(printf "%s" "$menu" | dmenu -i -p 'system action:')"
 
 fi
 
-case "$action" in
+case "$arg" in
 	"display off")
 		xset dpms force off
 		;;

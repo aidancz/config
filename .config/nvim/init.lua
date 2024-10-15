@@ -986,6 +986,7 @@ local lazyplugins =
 				goto_left  = "gh",
 				goto_right = "gl",
 			},
+			search_method = "cover_or_next",
 		})
 
 		require("mini.align").setup({
