@@ -6,8 +6,11 @@ source "$HOME/.shrc"
 # autoload -U colors && colors
 # load colors
 
-PS1="(%# %n %m %~) "
 # PS1="(%{$fg[red]%}$ %{$fg[yellow]%}%n %{$fg[green]%}%M %{$fg[blue]%}%~%{$reset_color%}) "
+PS1="(%# %n %m %~) "
+# PS1="%(0?..%?)(%# %n %m %~) "
+
+# https://stackoverflow.com/questions/4466245/customize-zshs-prompt-when-displaying-previous-command-exit-code
 # man zshmisc -> expansion of prompt sequences
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ variable & option
@@ -17,9 +20,11 @@ WORDCHARS="${WORDCHARS/\//}"
 # here the syntax is ${name/pattern/repl}, which replace the slash with nothing, see "man zshexpn" in the "parameter expansion" section for more details
 
 setopt APPEND_HISTORY
-setopt INC_APPEND_HISTORY
-# setopt SHARE_HISTORY
+# setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
 # setopt HIST_IGNORE_ALL_DUPS
+
+setopt PRINT_EXIT_VALUE
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ function
 open_terminal()

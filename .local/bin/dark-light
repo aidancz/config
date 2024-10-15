@@ -78,14 +78,4 @@ else
 fi
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ renew dwm
-export WM="dwm"
-
-wmpid(){
-	tree="$(pstree -ps $$)"
-	tree="${tree#*$WM(}"
-	echo "${tree%%)*}"
-}
-
-kill -HUP "$(wmpid)"
-exit 1
-# steal code from sysact
+system-actions "renew wm"

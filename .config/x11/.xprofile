@@ -11,6 +11,8 @@ xset s off -dpms
 #xset s off dpms 2700 2700 2700
 # disable screen saver blanking & set dpms. https://wiki.archlinux.org/title/Display_Power_Management_Signaling#Modify_DPMS_and_screensaver_settings_with_a_command
 
+xwallpaper --zoom "${XDG_DATA_HOME:-$HOME/.local/share}/wallpapers/000000.png"
+
 
 
 autostart="\
@@ -28,7 +30,6 @@ do
 	pidof -s "$program" || "$program" &
 done 1> /dev/null 2>&1
 
-setbg		&
-remaps		&
+set-keyboard	&
 dark-light	& xrdbpid=$!
 [ -n "$xrdbpid" ] && wait "$xrdbpid"

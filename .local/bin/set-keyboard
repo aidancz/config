@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# xset r off
+# disable key repeat
+
+xset r rate 240 32
+# key repeat delay: 240ms
+# key repeat rate: 32ms

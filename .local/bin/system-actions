@@ -1,0 +1,77 @@
+#!/bin/sh
+
+# a dmenu wrapper script for system functions.
+
+export WM="dwm"
+
+case "$(readlink -f /sbin/init)" in
+	*systemd*)
+		ctl='systemctl'
+		;;
+	*)
+		ctl='loginctl'
+		;;
+esac
+
+wmpid(){
+	tree="$(pstree -ps $$)"
+	# $$ is the process id of the current shell
+	tree="${tree#*$WM(}"
+	printf "%s" "${tree%%)*}"
+	# ${name#pattern}
+	# ${name##pattern}
+	# ${name%pattern}
+	# ${name%%pattern}
+	# see `man zshexpn`
+}
+# this function is needed if there are multiple instances of the window manager.
+
+if [ -n "$1" ]; then
+
+action="$1"
+
+else
+
+menu="\
+display off
+lock
+sleep
+hibernate
+reboot
+shutdown
+renew wm
+leave wm
+"
+action="$(printf "%s" "$menu" | dmenu -i -p 'action:')"
+
+fi
+
+case "$action" in
+	"display off")
+		xset dpms force off
+		;;
+	"lock")
+		slock
+		;;
+	"sleep")
+		slock $ctl suspend -i
+		;;
+	"hibernate")
+		slock $ctl hibernate -i
+		;;
+	"reboot")
+		$ctl reboot -i
+		;;
+	"shutdown")
+		$ctl poweroff -i
+		;;
+	"renew wm")
+		kill -HUP "$(wmpid)"
+		;;
+	"leave wm")
+		kill -TERM "$(wmpid)"
+		;;
+	*)
+		exit 1
+		;;
+esac
