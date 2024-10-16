@@ -17,9 +17,15 @@ dir=$(git -C "$dir" rev-parse --show-toplevel)
 shopt -s dotglob
 # loop hidden files
 
+# # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ delete broken symlinks
+# cd "$HOME" || exit
+# find . -xtype l -delete
+# # it works, but too slow, add seperately for each `cd` command below (add to the next line)
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_CONFIG_HOME
 mkdir -p "$XDG_CONFIG_HOME"
 cd "$dir"/.config || exit # THIS FUCKING exit SAVED MY LIFE (2024-10-14)
+find . -xtype l -delete
 for i in *; do
 	rm -rf					"${XDG_CONFIG_HOME:?}/$i"
 	ln -s "$PWD/$i"			"$XDG_CONFIG_HOME/$i"
@@ -45,6 +51,7 @@ mkdir -p "$XDG_CACHE_HOME"
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_DATA_HOME
 mkdir -p "$XDG_DATA_HOME"
 cd "$dir"/.local/share || exit
+find . -xtype l -delete
 for i in *; do
 	rm -rf					"${XDG_DATA_HOME:?}/$i"
 	ln -s "$PWD/$i"			"$XDG_DATA_HOME/$i"
@@ -56,6 +63,7 @@ mkdir -p "$XDG_STATE_HOME"
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_EXE_HOME
 mkdir -p "$XDG_EXE_HOME"
 cd "$dir"/.local/bin || exit
+find . -xtype l -delete
 for i in *; do
 	rm -rf					"${XDG_EXE_HOME:?}/$i"
 	ln -s "$PWD/$i"			"$XDG_EXE_HOME/$i"

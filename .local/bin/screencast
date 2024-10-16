@@ -1,0 +1,152 @@
+#!/bin/sh
+
+# help functions
+
+get_resolution()
+{
+	xrandr | grep -oP '(?<=current ).*(?=,)' | tr -d ' ' ;
+}
+
+update_dwmblocks_icon()
+{
+	echo "$1" > /tmp/recordingicon
+	pkill -RTMIN+9 "${STATUSBAR:-dwmblocks}"
+}
+
+# wrap commands in functions
+
+video_and_audio()
+{
+	ffmpeg -y \
+	-f x11grab \
+	-framerate 30 \
+	-s "$(get_resolution)" \
+	-i "$DISPLAY" \
+	-r 24 \
+	-use_wallclock_as_timestamps 1 \
+	-f alsa -thread_queue_size 1024 -i default \
+	-c:v h264 \
+	-crf 0 -preset ultrafast -c:a aac \
+	"$HOME/screencast-$(date '+%y%m%d-%H%M-%S').mp4" &
+	echo $! > /tmp/recordingpid
+	update_dwmblocks_icon "⏺️🎙️"
+}
+
+video()
+{
+	ffmpeg \
+	-f x11grab \
+	-framerate 30 \
+	-s "$(get_resolution)" \
+	-i "$DISPLAY" \
+	-c:v libx264 -qp 0 -r 30 \
+	"$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" &
+	echo $! > /tmp/recordingpid
+	update_dwmblocks_icon "⏺️"
+}
+
+video_selected()
+{
+	slop -f "%x %y %w %h" > /tmp/slop
+	read -r X Y W H < /tmp/slop
+	rm /tmp/slop
+
+	ffmpeg \
+	-f x11grab \
+	-framerate 30 \
+	-video_size "$W"x"$H" \
+	-i :0.0+"$X,$Y" \
+	-c:v libx264 -qp 0 -r 30 \
+	"$HOME/box-$(date '+%y%m%d-%H%M-%S').mkv" &
+	echo $! > /tmp/recordingpid
+	update_dwmblocks_icon "⏺️"
+}
+
+audio()
+{
+	ffmpeg \
+	-f alsa -i default \
+	-c:a flac \
+	"$HOME/audio-$(date '+%y%m%d-%H%M-%S').flac" &
+	echo $! > /tmp/recordingpid
+	update_dwmblocks_icon "🎙️"
+}
+
+webcam()
+{
+	ffmpeg \
+	-f v4l2 \
+	-i /dev/video0 \
+	-video_size 640x480 \
+	"$HOME/webcam-$(date '+%y%m%d-%H%M-%S').mkv" &
+	echo $! > /tmp/recordingpid
+	update_dwmblocks_icon "🎥"
+}
+# a webcam is a video camera which is designed to record or stream to a computer or computer network
+
+webcam_high_size()
+{
+	ffmpeg \
+	-f v4l2 \
+	-i /dev/video0 \
+	-video_size 1920x1080 \
+	"$HOME/webcam-$(date '+%y%m%d-%H%M-%S').mkv" &
+	echo $! > /tmp/recordingpid
+	update_dwmblocks_icon "🎥"
+}
+
+kill_recording()
+{
+	recpid="$(cat /tmp/recordingpid)"
+	kill -15 "$recpid"
+	rm -f /tmp/recordingpid
+	update_dwmblocks_icon ""
+	pkill -RTMIN+9 "${STATUSBAR:-dwmblocks}"
+}
+
+# main function
+
+menu="\
+video_and_audio
+video
+video_selected
+audio
+webcam
+webcam_high_size
+kill_recording
+"
+
+arg="${1:-$(printf "%s" "$menu" | dmenu -l 7 -i -p "record type")}"
+
+if [ -f /tmp/recordingpid ] && [ "$arg" != "kill_recording" ]; then
+	kill_yes_or_no=$(printf "no\\nyes" | dmenu -i -p "recording still active. end recording?")
+	if [ "$kill_yes_or_no" = "yes" ]; then
+		arg="kill_recording"
+	else
+		exit 0
+	fi
+fi
+
+case "$arg" in
+	video_and_audio)
+		video_and_audio
+		;;
+	video)
+		video
+		;;
+	video_selected)
+		video_selected
+		;;
+	audio)
+		audio
+		;;
+	webcam)
+		webcam
+		;;
+	webcam_high_size)
+		webcam_high_size
+		;;
+	kill_recording)
+		kill_recording
+		;;
+esac

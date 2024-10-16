@@ -138,6 +138,7 @@ vim.opt.formatoptions = ""
 
 --  undo
 vim.opt.undofile = true
+vim.opt.undolevels = 1024
 
 --  fold
 vim.opt.foldenable = true
@@ -1056,6 +1057,16 @@ local lazyplugins =
 		vim.keymap.set("n", "S", "s$", {remap = true})
 
 		require("mini.surround").setup({
+			custom_surroundings = {
+				['('] = { input = { '%b()', '^.().*().$'       }, output = { left = '(',  right = ')'  } },
+				[')'] = { input = { '%b()', '^.%s*().-()%s*.$' }, output = { left = '( ', right = ' )' } },
+				['['] = { input = { '%b[]', '^.().*().$'       }, output = { left = '[',  right = ']'  } },
+				[']'] = { input = { '%b[]', '^.%s*().-()%s*.$' }, output = { left = '[ ', right = ' ]' } },
+				['{'] = { input = { '%b{}', '^.().*().$'       }, output = { left = '{',  right = '}'  } },
+				['}'] = { input = { '%b{}', '^.%s*().-()%s*.$' }, output = { left = '{ ', right = ' }' } },
+				['<'] = { input = { '%b<>', '^.().*().$'       }, output = { left = '<',  right = '>'  } },
+				['>'] = { input = { '%b<>', '^.%s*().-()%s*.$' }, output = { left = '< ', right = ' >' } },
+			},
 			mappings = {
 				add     = "ys",
 				delete  = "ds",
@@ -1064,6 +1075,7 @@ local lazyplugins =
 				suffix_last = "h",
 				suffix_next = "l",
 			},
+			respect_selection_type = true,
 			search_method = "cover_or_next",
 		})
 		vim.keymap.del("x", "ys")
