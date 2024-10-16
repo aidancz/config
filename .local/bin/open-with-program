@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# feed this script a link and it will give dmenu some choice programs to use to open it
+
+test "$#" -ne 1 && exit 1
+
+link="$1"
+
+menu="\
+pager
+editor
+browser
+"
+
+arg="$(printf "%s" "$menu" | dmenu -l 64 -i -p "program (choose or type directly)")"
+
+case "$arg" in
+	"pager")
+		setsid -f "$TERMINAL" -e "$PAGER" "$link" 1> /dev/null 2>&1
+		;;
+	"editor")
+		setsid -f "$TERMINAL" -e "$EDITOR" "$link" 1> /dev/null 2>&1
+		;;
+	"browser")
+		setsid -f "$BROWSER" "$link" 1> /dev/null 2>&1
+		;;
+	*)
+		setsid -f "$TERMINAL" -e "$SHELL" -c "$arg $link; $SHELL"
+		;;
+esac

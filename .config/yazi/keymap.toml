@@ -101,9 +101,15 @@ run = "plugin --sync parent-arrow --args=1"
 on = ["<PageUp>"]
 run = "plugin --sync parent-arrow --args=-1"
 
+# [[manager.prepend_keymap]]
+# on   = "O"
+# run  = "plugin open-with-cmd --args=block"
+
 [[manager.prepend_keymap]]
 on   = "O"
-run  = "plugin open-with-cmd --args=block"
+run  = """
+shell --confirm 'open-with-program "$0"'
+"""
 
 [[manager.prepend_keymap]]
 on   = "<F4>"

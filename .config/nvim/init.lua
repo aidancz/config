@@ -187,13 +187,6 @@ vim.keymap.set("", "<space>", "<nop>")
 vim.keymap.set("o", "{", function() return "V" .. vim.v.count1 .. "{" end, {silent = true, expr = true})
 vim.keymap.set("o", "}", function() return "V" .. vim.v.count1 .. "}" end, {silent = true, expr = true})
 
-vim.keymap.set("n", "<c-n>", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-e>" end, {silent = true, expr = true})
-vim.keymap.set("n", "<c-p>", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-y>" end, {silent = true, expr = true})
--- https://stackoverflow.com/questions/8059448/scroll-window-halfway-between-zt-and-zz-in-vim
-
-vim.keymap.set("n", "<a-n>", "nzz")
-vim.keymap.set("n", "<a-p>", "Nzz")
-
 -- vim.keymap.set("n", "<down>", ":put  _<cr>", {silent = true})
 -- vim.keymap.set("n", "<up>",   ":put! _<cr>", {silent = true})
 -- vim.keymap.set("n", "<left>",  [["=" "<cr>P]], {silent = true})
@@ -215,6 +208,10 @@ vim.keymap.set({"n", "x"}, "k", function()
 	return vim.v.count == 0 and "gk" or "k"
 	end, {expr = true})
 
+vim.keymap.set("", "<c-n>", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-e>" end, {silent = true, expr = true})
+vim.keymap.set("", "<c-p>", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-y>" end, {silent = true, expr = true})
+-- https://stackoverflow.com/questions/8059448/scroll-window-halfway-between-zt-and-zz-in-vim
+
 vim.keymap.set({"", "i"}, "<c-s>", "<cmd>normal zz<cr>")
 vim.keymap.set({"", "i"}, "<c-j>", "<cmd>normal zt<cr>")
 vim.keymap.set({"", "i"}, "<c-k>", "<cmd>normal zb<cr>")
@@ -226,6 +223,7 @@ vim.keymap.set({"", "i"}, "<f1>", "<cmd>silent! !setsid -f $TERMINAL >/dev/null 
 -- https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
 
 vim.keymap.set({"", "i"}, "<f12>", "<cmd>q!<cr>")
+vim.keymap.set({"", "i"}, "<f11>", "<cmd>set list!<cr>")
 
 
 
@@ -821,6 +819,9 @@ local lazyplugins =
 {
 	"aidancz/nofrils",
 	dev = true,
+	lazy = false,
+	priority = 1000,
+	-- https://lazy.folke.io/spec/lazy_loading#-colorschemes
 	config = function()
 		vim.cmd("colorscheme nofrils")
 	end,
@@ -952,8 +953,26 @@ local lazyplugins =
 
 		require("mini.ai").setup({
 			custom_textobjects = {
+				['('] = { '%b()', '^.().*().$' },
+				[')'] = { '%b()', '^.%s*().-()%s*.$' },
+				['['] = { '%b[]', '^.().*().$' },
+				[']'] = { '%b[]', '^.%s*().-()%s*.$' },
+				['{'] = { '%b{}', '^.().*().$' },
+				['}'] = { '%b{}', '^.%s*().-()%s*.$' },
+				['<'] = { '%b<>', '^.().*().$' },
+				['>'] = { '%b<>', '^.%s*().-()%s*.$' },
+				b = {{'%b()', '%b[]', '%b{}', '%b<>'}, '^.().*().$'},
+				-- ['"'] = { '"().-()"' },
+				-- https://github.com/echasnovski/mini.nvim/issues/1281
+				["'"] = { "'.-'", '^.().*().$' },
+				['"'] = { '".-"', '^.().*().$' },
+				['`'] = { '`.-`', '^.().*().$' },
+				q = { { "'.-'", '".-"', '`.-`' }, '^.().*().$' },
+				-- 金铁击石全无力 大圣天蓬遭虎欺 枪刀戟剑浑不避 石猴似你不似你
+
 				n = require("mini.extra").gen_ai_spec.number(),
-				e = function(ai_type)
+				c = function(ai_type)
+				-- current line
 					local line_num = vim.fn.line(".")
 					local col_max = math.max(1, #vim.api.nvim_get_current_line())
 					local region = {from = {line = line_num, col = 1}, to = {line = line_num, col = col_max}}
@@ -971,8 +990,9 @@ local lazyplugins =
 					end
 					return region
 				end,
-				b = function(ai_type)
-					local region = (require("mini.extra").gen_ai_spec.buffer())(ai_type)
+				e = function(ai_type)
+				-- entire buffer
+					local region = (require("mini.extra").gen_ai_spec.buffer())("a")
 					region.vis_mode = "V"
 					return region
 				end,
@@ -1009,7 +1029,7 @@ local lazyplugins =
 			mappings = {
 				apply = "ga",
 				reset = "gr",
-				textobject = ".",
+				textobject = "gh",
 			},
 		})
 		vim.api.nvim_set_hl(0, "MiniDiffOverChange", {link = "nofrils-yellow"})
@@ -1238,7 +1258,15 @@ local lazyplugins =
 			-- 	enable = true,
 			-- },
 		})
-		-- vim.api.nvim_set_hl(0, "@comment", {link = "Comment"})
+		vim.api.nvim_set_hl(0, "@comment", {link = "Comment"})
+		vim.api.nvim_set_hl(0, "@markup.link", {link = "nofrils-cyan"})
+		vim.api.nvim_set_hl(0, "@markup.heading.1", {link = "nofrils-red"})
+		vim.api.nvim_set_hl(0, "@markup.heading.2", {link = "nofrils-green"})
+		vim.api.nvim_set_hl(0, "@markup.heading.3", {link = "nofrils-yellow"})
+		vim.api.nvim_set_hl(0, "@markup.heading.4", {link = "nofrils-blue"})
+		vim.api.nvim_set_hl(0, "@markup.heading.5", {link = "nofrils-magenta"})
+		vim.api.nvim_set_hl(0, "@markup.heading.6", {link = "nofrils-cyan"})
+		vim.api.nvim_set_hl(0, "@markup.raw", {link = "nofrils-highlight"})
 
 		vim.treesitter.query.set("scheme",          "highlights", "(comment) @comment")
 		vim.treesitter.query.set("c",               "highlights", "(comment) @comment")
@@ -1251,6 +1279,7 @@ local lazyplugins =
 		vim.treesitter.query.set("css",             "highlights", "(comment) @comment")
 
 		vim.treesitter.language.register("bash", "zsh")
+		-- https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#using-an-existing-parser-for-another-filetype
 
 	end,
 },

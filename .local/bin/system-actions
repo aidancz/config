@@ -42,7 +42,7 @@ shutdown
 renew wm
 leave wm
 "
-arg="$(printf "%s" "$menu" | dmenu -i -p 'system action:')"
+arg="$(printf "%s" "$menu" | dmenu -i -p 'system action')"
 
 fi
 
