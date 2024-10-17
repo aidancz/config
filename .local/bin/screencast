@@ -7,6 +7,11 @@ get_resolution()
 	xrandr | grep -oP '(?<=current ).*(?=,)' | tr -d ' ' ;
 }
 
+get_timestamp()
+{
+	printf "%s" "$(date +'%Y%m%d-%H%M%S-%6N')"
+}
+
 update_dwmblocks_icon()
 {
 	echo "$1" > /tmp/recordingicon
@@ -17,30 +22,37 @@ update_dwmblocks_icon()
 
 video_and_audio()
 {
-	ffmpeg -y \
-	-f x11grab \
-	-framerate 30 \
-	-s "$(get_resolution)" \
-	-i "$DISPLAY" \
-	-r 24 \
-	-use_wallclock_as_timestamps 1 \
-	-f alsa -thread_queue_size 1024 -i default \
-	-c:v h264 \
-	-crf 0 -preset ultrafast -c:a aac \
-	"$HOME/screencast-$(date '+%y%m%d-%H%M-%S').mp4" &
+
+	ffmpeg                                           \
+	-f                           x11grab             \
+	-framerate                   30                  \
+	-s                           "$(get_resolution)" \
+	-i                           "$DISPLAY"          \
+	-f                           alsa                \
+	-i                           default             \
+	-c:v                         h264                \
+	-preset                      ultrafast           \
+	-c:a                         aac                 \
+	"$HOME/$(get_timestamp).mp4" &
+	# https://wiki.archlinux.org/title/FFmpeg#Screen_capture
+
 	echo $! > /tmp/recordingpid
 	update_dwmblocks_icon "⏺️🎙️"
 }
 
 video()
 {
-	ffmpeg \
-	-f x11grab \
-	-framerate 30 \
-	-s "$(get_resolution)" \
-	-i "$DISPLAY" \
-	-c:v libx264 -qp 0 -r 30 \
-	"$HOME/video-$(date '+%y%m%d-%H%M-%S').mkv" &
+
+	ffmpeg                                           \
+	-f                           x11grab             \
+	-framerate                   30                  \
+	-s                           "$(get_resolution)" \
+	-i                           "$DISPLAY"          \
+	-c:v                         libx264             \
+	-qp                          0                   \
+	-r                           30                  \
+	"$HOME/$(get_timestamp).mp4" &
+
 	echo $! > /tmp/recordingpid
 	update_dwmblocks_icon "⏺️"
 }
@@ -51,34 +63,42 @@ video_selected()
 	read -r X Y W H < /tmp/slop
 	rm /tmp/slop
 
-	ffmpeg \
-	-f x11grab \
-	-framerate 30 \
-	-video_size "$W"x"$H" \
-	-i :0.0+"$X,$Y" \
-	-c:v libx264 -qp 0 -r 30 \
-	"$HOME/box-$(date '+%y%m%d-%H%M-%S').mkv" &
+	ffmpeg                                    \
+	-f                           x11grab      \
+	-framerate                   30           \
+	-video_size                  "$W"x"$H"    \
+	-i                           :0.0+"$X,$Y" \
+	-c:v                         libx264      \
+	-qp                          0            \
+	-r                           30           \
+	"$HOME/$(get_timestamp).mp4" &
+
 	echo $! > /tmp/recordingpid
 	update_dwmblocks_icon "⏺️"
 }
 
 audio()
 {
-	ffmpeg \
-	-f alsa -i default \
-	-c:a flac \
-	"$HOME/audio-$(date '+%y%m%d-%H%M-%S').flac" &
+
+	ffmpeg                                \
+	-f                            alsa    \
+	-i                            default \
+	-c:a                          flac    \
+	"$HOME/$(get_timestamp).flac" &
+
 	echo $! > /tmp/recordingpid
 	update_dwmblocks_icon "🎙️"
 }
 
 webcam()
 {
-	ffmpeg \
-	-f v4l2 \
-	-i /dev/video0 \
-	-video_size 640x480 \
-	"$HOME/webcam-$(date '+%y%m%d-%H%M-%S').mkv" &
+
+	ffmpeg                                   \
+	-f                           v4l2        \
+	-i                           /dev/video0 \
+	-video_size                  640x480     \
+	"$HOME/$(get_timestamp).mkv" &
+
 	echo $! > /tmp/recordingpid
 	update_dwmblocks_icon "🎥"
 }
@@ -86,11 +106,13 @@ webcam()
 
 webcam_high_size()
 {
-	ffmpeg \
-	-f v4l2 \
-	-i /dev/video0 \
-	-video_size 1920x1080 \
-	"$HOME/webcam-$(date '+%y%m%d-%H%M-%S').mkv" &
+
+	ffmpeg                                   \
+	-f                           v4l2        \
+	-i                           /dev/video0 \
+	-video_size                  1920x1080   \
+	"$HOME/$(get_timestamp).mkv" &
+
 	echo $! > /tmp/recordingpid
 	update_dwmblocks_icon "🎥"
 }

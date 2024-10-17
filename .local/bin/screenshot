@@ -16,19 +16,19 @@ arg="$(printf "%s" "$menu" | dmenu -l 6 -i -p "screen capture area")"
 
 case "$arg" in
 	"selected (file)")
-		maim -s image-selected-"${output}"
+		maim -s "${output}"
 		;;
 	"selected (clipboard)")
 		maim -s | ${xclip_cmd}
 		;;
 	"window (file)")
-		maim -q -d 0.2 -i "$(xdotool getactivewindow)" image-window-"${output}"
+		maim -q -d 0.2 -i "$(xdotool getactivewindow)" "${output}"
 		;;
 	"window (clipboard)")
 		maim -q -d 0.2 -i "$(xdotool getactivewindow)" | ${xclip_cmd}
 		;;
 	"screen (file)")
-		maim -q -d 0.2 image-screen-"${output}"
+		maim -q -d 0.2 "${output}"
 		;;
 	"screen (clipboard)")
 		maim -q -d 0.2 | ${xclip_cmd}
