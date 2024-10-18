@@ -16,13 +16,13 @@ arg="$(printf "%s" "$menu" | dmenu -l 64 -i -p "program (choose or type directly
 
 case "$arg" in
 	"pager")
-		setsid -f "$TERMINAL" -e "$PAGER" "$link" 1> /dev/null 2>&1
+		setsid -f "$TERMINAL" -e "$PAGER" "$link"
 		;;
 	"editor")
-		setsid -f "$TERMINAL" -e "$EDITOR" "$link" 1> /dev/null 2>&1
+		setsid -f "$TERMINAL" -e "$EDITOR" "$link"
 		;;
 	"browser")
-		setsid -f "$BROWSER" "$link" 1> /dev/null 2>&1
+		setsid -f "$BROWSER" "$link"
 		;;
 	*)
 		setsid -f "$TERMINAL" -e "$SHELL" -c "$arg $link; $SHELL"

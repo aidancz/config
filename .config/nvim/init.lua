@@ -963,13 +963,14 @@ local lazyplugins =
 				['<'] = { '%b<>', '^.().*().$' },
 				['>'] = { '%b<>', '^.%s*().-()%s*.$' },
 				b = {{'%b()', '%b[]', '%b{}', '%b<>'}, '^.().*().$'},
-				-- ['"'] = { '"().-()"' },
-				-- https://github.com/echasnovski/mini.nvim/issues/1281
-				["'"] = { "'.-'", '^.().*().$' },
-				['"'] = { '".-"', '^.().*().$' },
-				['`'] = { '`.-`', '^.().*().$' },
-				q = { { "'.-'", '".-"', '`.-`' }, '^.().*().$' },
-				-- 金铁击石全无力 大圣天蓬遭虎欺 枪刀戟剑浑不避 石猴似你不似你
+
+				-- -- ['"'] = { '"().-()"' },
+				-- -- https://github.com/echasnovski/mini.nvim/issues/1281
+				-- ["'"] = { "'.-'", '^.().*().$' },
+				-- ['"'] = { '".-"', '^.().*().$' },
+				-- ['`'] = { '`.-`', '^.().*().$' },
+				-- q = { { "'.-'", '".-"', '`.-`' }, '^.().*().$' },
+				-- -- 金铁击石全无力 大圣天蓬遭虎欺 枪刀戟剑浑不避 石猴似你不似你
 
 				n = require("mini.extra").gen_ai_spec.number(),
 				c = function(ai_type)
@@ -1016,6 +1017,7 @@ local lazyplugins =
 				start_with_preview = "gN",
 			},
 		})
+		vim.keymap.set("n", "gnn", "gn_", {remap = true})
 
 		require("mini.bracketed").setup({})
 
@@ -1270,15 +1272,6 @@ local lazyplugins =
 			-- 	enable = true,
 			-- },
 		})
-		vim.api.nvim_set_hl(0, "@comment", {link = "Comment"})
-		vim.api.nvim_set_hl(0, "@markup.link", {link = "nofrils-cyan"})
-		vim.api.nvim_set_hl(0, "@markup.heading.1", {link = "nofrils-red"})
-		vim.api.nvim_set_hl(0, "@markup.heading.2", {link = "nofrils-green"})
-		vim.api.nvim_set_hl(0, "@markup.heading.3", {link = "nofrils-yellow"})
-		vim.api.nvim_set_hl(0, "@markup.heading.4", {link = "nofrils-blue"})
-		vim.api.nvim_set_hl(0, "@markup.heading.5", {link = "nofrils-magenta"})
-		vim.api.nvim_set_hl(0, "@markup.heading.6", {link = "nofrils-cyan"})
-		vim.api.nvim_set_hl(0, "@markup.raw", {link = "nofrils-highlight"})
 
 		vim.treesitter.query.set("scheme",          "highlights", "(comment) @comment")
 		vim.treesitter.query.set("c",               "highlights", "(comment) @comment")
@@ -1292,7 +1285,6 @@ local lazyplugins =
 
 		vim.treesitter.language.register("bash", "zsh")
 		-- https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#using-an-existing-parser-for-another-filetype
-
 	end,
 },
 

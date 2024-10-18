@@ -1,0 +1,22 @@
+#!/bin/sh
+
+case "$BLOCK_BUTTON" in
+	1)
+		notify-send "button 1"
+		;;
+	2)
+		notify-send "button 2"
+		pkill -RTMIN+1 dwmblocks
+		;;
+	3)
+		notify-send "button 3"
+		;;
+	4)
+		notify-send "button 4"
+		;;
+	5)
+		notify-send "button 5"
+		;;
+esac
+
+printf "%s" "$(date +'%Y%m%d-%H%M%S-%6N')"

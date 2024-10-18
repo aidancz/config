@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # a dmenu wrapper script for system functions.
+# WARNING: can't be used in shell spawned by `setsid`
 
 export WM="dwm"
 

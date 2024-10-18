@@ -15,7 +15,7 @@ get_timestamp()
 update_dwmblocks_icon()
 {
 	echo "$1" > /tmp/recordingicon
-	pkill -RTMIN+9 "${STATUSBAR:-dwmblocks}"
+	pkill -RTMIN+2 "${STATUSBAR:-dwmblocks}"
 }
 
 # wrap commands in functions

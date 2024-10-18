@@ -78,5 +78,32 @@ else
 	echo "set recolor false" >> "$XDG_CONFIG_HOME/zathura/zathurarc"
 fi
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ dunst
+if [ "$mode" = 0 ]
+then
+	rm -rf "$XDG_CONFIG_HOME/dunst"
+	mkdir -p "$XDG_CONFIG_HOME/dunst"
+	cp "$AIDAN_GIT/arch_config/.config/dunst/dunstrc"	"$XDG_CONFIG_HOME/dunst/dunstrc"
+else
+	rm -rf "$XDG_CONFIG_HOME/dunst"
+	mkdir -p "$XDG_CONFIG_HOME/dunst"
+	cp "$AIDAN_GIT/arch_config/.config/dunst/dunstrc"	"$XDG_CONFIG_HOME/dunst/dunstrc"
+	dunst_light='
+[urgency_low]
+    background = "#d4d4d4"
+    foreground = "#616161"
+
+[urgency_normal]
+    background = "#bababa"
+    foreground = "#616161"
+
+[urgency_critical]
+    background  = "#616161"
+    foreground  = "#d4d4d4"
+'
+	echo "$dunst_light" >> "$XDG_CONFIG_HOME/dunst/dunstrc"
+	killall -q dunst; dunst &
+fi
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ renew dwm
 system-actions "renew wm"

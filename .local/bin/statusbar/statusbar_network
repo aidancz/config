@@ -1,0 +1,26 @@
+#!/bin/sh
+
+case "$BLOCK_BUTTON" in
+	1)
+		"$TERMINAL" -e nmtui
+		;;
+	3)
+		pkill -RTMIN+3 dwmblocks
+		;;
+esac
+
+# wifi
+
+if [ "$(cat /sys/class/net/w*/operstate 2>/dev/null)" = 'up' ] ; then
+	wifi_status="$(awk '/^\s*w/ { printf "%03d%%", int($3 * 100 / 70) }' /proc/net/wireless)"
+elif [ "$(cat /sys/class/net/w*/operstate 2>/dev/null)" = 'down' ] ; then
+	[ "$(cat /sys/class/net/w*/flags 2>/dev/null)" = '0x1003' ] && wifi_status="not-connected" || wifi_status="off"
+fi
+
+# ethernet
+
+[ "$(cat /sys/class/net/e*/operstate 2>/dev/null)" = 'up' ] && ethernet_status="on" || ethernet_status="off"
+
+# printf
+
+printf "%s" "(network $wifi_status $ethernet_status)"
