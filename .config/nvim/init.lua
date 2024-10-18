@@ -228,6 +228,21 @@ vim.keymap.set({"", "i"}, "<f11>", "<cmd>set list!<cr>")
 
 
 
+vim.api.nvim_create_user_command("RegisterUnnamedToSelection", [[let @+ = @" | let @* = @"]], {})
+-- how shall we yank all lines except for the commented lines?
+-- 	:v/--/y
+-- failed, we just replace the content of the unnamed register over and over again...
+-- we can't append to unnamed register...
+-- we have to use the named register
+-- 	qaq
+-- 	:v/--/y A
+-- we successfully yank the desired lines to the register a
+-- we want to put the yanked text to another program, so we:
+-- 	:let @+ = @a
+-- this is okay, but since the unnamed register's content get updated together with the named register
+-- we can simply:
+-- 	:let @+ = @"
+
 -- vim.api.nvim_create_user_command("Date", [[put =strftime("%F")]], {})
 vim.api.nvim_create_user_command("Date",
 	function()

@@ -4,7 +4,7 @@ xrandr --dpi 96
 # set dpi. user may want to use a larger number for larger screens
 
 output=$(xrandr | grep "\bconnected\b" | cut -d' ' -f1)
-# xrandr --output $output --set TearFree on
+xrandr --output $output --set TearFree on
 xrandr --output $output --mode 1920x1080 --rate 144
 
 xset s off -dpms
@@ -15,20 +15,11 @@ xwallpaper --zoom "${XDG_DATA_HOME:-$HOME/.local/share}/wallpapers/000000.png"
 
 
 
-autostart="\
-mpd
-xcompmgr
-dunst
-unclutter
-pipewire
-fcitx5
-nutstore
-"
-for program in $autostart
-do
-	pidof -s "$program" || "$program" &
-done 1> /dev/null 2>&1
-
-set-keyboard	&
-dark-light	& xrdbpid=$!
+picom                             &
+dunst                             &
+unclutter                         &
+fcitx5 -d                         &
+nutstore                          &
+set-keyboard                      &
+dark-light                        & xrdbpid=$!
 [ -n "$xrdbpid" ] && wait "$xrdbpid"
