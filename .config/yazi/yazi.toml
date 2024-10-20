@@ -11,16 +11,13 @@ max_width = 10000
 max_height = 10000
 
 [opener]
-fallback = [
-	{run = 'firefox "$@"'},
+default = [
+	{ run = 'xdg-open "$@"' },
 ]
 
 [open]
-prepend_rules = [
-	{name = "*/", use = ["open"]},
-	# {name = "*", use = ["open", "fallback"]},
-]
-append_rules = [
+rules = [
+	{ name = "*", use = [ "default" ] },
 ]
 
 [tasks]

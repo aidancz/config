@@ -7,9 +7,26 @@ output=$(xrandr | grep "\bconnected\b" | cut -d' ' -f1)
 xrandr --output $output --set TearFree on
 xrandr --output $output --mode 1920x1080 --rate 144
 
-xset s off -dpms
-#xset s off dpms 2700 2700 2700
-# disable screen saver blanking & set dpms. https://wiki.archlinux.org/title/Display_Power_Management_Signaling#Modify_DPMS_and_screensaver_settings_with_a_command
+xset s off
+xset s blank
+xset s expose
+xset s 3600 0
+# screen saver
+
+xset +dpms
+xset dpms 0 0 3600
+
+xss-lock -- slock &
+# automatically lock the screen with `slock` when the screen turns off
+
+# https://wiki.archlinux.org/title/Display_Power_Management_Signaling#Runtime_settings
+# https://shallowsky.com/linux/x-screen-blanking.html
+# xset q
+# sleep 1; xset dpms force off
+# sleep 0.2; xset dpms force off
+# sleep 0.2; xset s activate
+
+
 
 xwallpaper --zoom "${XDG_DATA_HOME:-$HOME/.local/share}/wallpapers/000000.png"
 
@@ -21,5 +38,5 @@ unclutter                         &
 fcitx5 -d                         &
 nutstore                          &
 set-keyboard                      &
-dark-light                        & xrdbpid=$!
+dark-light 0                      & xrdbpid=$!
 [ -n "$xrdbpid" ] && wait "$xrdbpid"

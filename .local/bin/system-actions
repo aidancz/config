@@ -34,43 +34,41 @@ arg="$1"
 else
 
 menu="\
-display off
-lock
-sleep
-hibernate
-reboot
-shutdown
-renew wm
-leave wm
+screen off
+window-manager renew
+window-manager leave
+system suspend
+system hibernate
+system reboot
+system poweroff
 "
-arg="$(printf "%s" "$menu" | dmenu -i -p 'system action')"
+arg="$(printf "%s" "$menu" | dmenu -l 64 -i -p 'system action')"
 
 fi
 
 case "$arg" in
-	"display off")
-		xset dpms force off
-		;;
-	"lock")
+	"screen off")
+		sleep 0.2; xset dpms force off
+		# https://wiki.archlinux.org/title/Display_Power_Management_Signaling#Runtime_settings
 		slock
 		;;
-	"sleep")
-		slock $ctl suspend -i
-		;;
-	"hibernate")
-		slock $ctl hibernate -i
-		;;
-	"reboot")
-		$ctl reboot -i
-		;;
-	"shutdown")
-		$ctl poweroff -i
-		;;
-	"renew wm")
+	"window-manager renew")
 		kill -HUP "$(wmpid)"
 		;;
-	"leave wm")
+	"window-manager leave")
 		kill -TERM "$(wmpid)"
+		;;
+	"system suspend")
+		slock $ctl suspend -i
+		;;
+	"system hibernate")
+		slock $ctl hibernate -i
+		;;
+	"system reboot")
+		$ctl reboot -i
+		;;
+	"system poweroff")
+		$ctl poweroff -i
 		;;
 	*)
 		exit 1

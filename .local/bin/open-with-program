@@ -15,6 +15,9 @@ browser
 arg="$(printf "%s" "$menu" | dmenu -l 64 -i -p "program (choose or type directly)")"
 
 case "$arg" in
+	"")
+		exit 0
+		;;
 	"pager")
 		setsid -f "$TERMINAL" -e "$PAGER" "$link"
 		;;

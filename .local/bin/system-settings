@@ -1,0 +1,35 @@
+#!/bin/sh
+
+if [ -n "$1" ]; then
+
+arg="$1"
+
+else
+
+menu="\
+color-scheme dark
+color-scheme light
+network
+volume
+"
+arg="$(printf "%s" "$menu" | dmenu -l 64 -i -p 'system setting')"
+
+fi
+
+case "$arg" in
+	"color-scheme dark")
+		dark-light 0
+		;;
+	"color-scheme light")
+		dark-light 1
+		;;
+	"network")
+		setsid -f "$TERMINAL" -e nmtui
+		;;
+	"volume")
+		setsid -f "$TERMINAL" -e pulsemixer
+		;;
+	*)
+		exit 1
+		;;
+esac

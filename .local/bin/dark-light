@@ -106,4 +106,4 @@ else
 fi
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ renew dwm
-system-actions "renew wm"
+system-actions "window-manager renew"
