@@ -11,6 +11,7 @@ set-appearance dark
 set-appearance light
 set-keyboard
 set-symbolic-link
+set-symbolic-link clear
 network
 volume
 "
@@ -30,6 +31,9 @@ case "$arg" in
 		;;
 	"set-symbolic-link")
 		set-symbolic-link
+		;;
+	"set-symbolic-link clear")
+		set-symbolic-link clear
 		;;
 	"network")
 		setsid -f "$TERMINAL" -e nmtui

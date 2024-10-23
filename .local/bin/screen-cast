@@ -37,7 +37,7 @@ video_and_audio()
 	# https://wiki.archlinux.org/title/FFmpeg#Screen_capture
 
 	echo $! > /tmp/recordingpid
-	update_dwmblocks_icon "⏺️🎙️"
+	update_dwmblocks_icon "(record video audio)"
 }
 
 video()
@@ -54,7 +54,7 @@ video()
 	"$HOME/$(get_timestamp).mp4" &
 
 	echo $! > /tmp/recordingpid
-	update_dwmblocks_icon "⏺️"
+	update_dwmblocks_icon "(record video)"
 }
 
 video_selected()
@@ -74,7 +74,7 @@ video_selected()
 	"$HOME/$(get_timestamp).mp4" &
 
 	echo $! > /tmp/recordingpid
-	update_dwmblocks_icon "⏺️"
+	update_dwmblocks_icon "(record video_selected)"
 }
 
 audio()
@@ -87,7 +87,7 @@ audio()
 	"$HOME/$(get_timestamp).flac" &
 
 	echo $! > /tmp/recordingpid
-	update_dwmblocks_icon "🎙️"
+	update_dwmblocks_icon "(record audio)"
 }
 
 webcam()
@@ -100,7 +100,7 @@ webcam()
 	"$HOME/$(get_timestamp).mkv" &
 
 	echo $! > /tmp/recordingpid
-	update_dwmblocks_icon "🎥"
+	update_dwmblocks_icon "(record webcam)"
 }
 # a webcam is a video camera which is designed to record or stream to a computer or computer network
 
@@ -114,7 +114,7 @@ webcam_high_size()
 	"$HOME/$(get_timestamp).mkv" &
 
 	echo $! > /tmp/recordingpid
-	update_dwmblocks_icon "🎥"
+	update_dwmblocks_icon "(record webcam_high-size)"
 }
 
 kill_recording()
@@ -128,6 +128,12 @@ kill_recording()
 
 # main function
 
+if [ -f /tmp/recordingpid ]; then
+
+arg="kill_recording"
+
+else
+
 menu="\
 video_and_audio
 video
@@ -135,21 +141,15 @@ video_selected
 audio
 webcam
 webcam_high_size
-kill_recording
 "
+arg="$(printf "%s" "$menu" | dmenu -l 6 -i -p "record type")"
 
-arg="${1:-$(printf "%s" "$menu" | dmenu -l 7 -i -p "record type")}"
-
-if [ -f /tmp/recordingpid ] && [ "$arg" != "kill_recording" ]; then
-	kill_yes_or_no=$(printf "no\\nyes" | dmenu -i -p "recording still active. end recording?")
-	if [ "$kill_yes_or_no" = "yes" ]; then
-		arg="kill_recording"
-	else
-		exit 0
-	fi
 fi
 
 case "$arg" in
+	kill_recording)
+		kill_recording
+		;;
 	video_and_audio)
 		video_and_audio
 		;;
@@ -167,8 +167,5 @@ case "$arg" in
 		;;
 	webcam_high_size)
 		webcam_high_size
-		;;
-	kill_recording)
-		kill_recording
 		;;
 esac
