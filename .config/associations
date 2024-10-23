@@ -1,0 +1,23 @@
+;; https://github.com/isamert/jaro
+
+(assoc
+  #:pattern "inode/directory"
+  #:program "yazi %f"
+  #:term "st -e")
+
+(assoc
+  #:pattern "application/pdf"
+  #:program "zathura %f")
+
+(assoc
+  #:pattern "image/.*"
+  #:program "nsxiv -a %f")
+
+(assoc
+  #:pattern "video/.*"
+  #:program "mpv %f")
+
+(assoc
+  #:pattern ".*"
+  #:program "nvim %f"
+  #:term "st -e")

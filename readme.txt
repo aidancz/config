@@ -3,12 +3,12 @@ config repo
 # install
 
 shell scripts are placed in .local/bin
-run `.local/bin/create-symbolic-link` to create symbolic link
+run `.local/bin/set-symbolic-link` to set symbolic link
 
 # dark light switch
 
-dark:  `dark-light 0`
-light: `dark-lignt 1`
+dark:  `set-appearance dark`
+light: `set-appearance light`
 
 # xdg variables
 

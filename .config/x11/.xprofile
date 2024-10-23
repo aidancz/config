@@ -38,5 +38,5 @@ unclutter                         &
 fcitx5 -d                         &
 nutstore                          &
 set-keyboard                      &
-dark-light 0                      & xrdbpid=$!
+set-appearance dark               & xrdbpid=$!
 [ -n "$xrdbpid" ] && wait "$xrdbpid"

@@ -1,0 +1,3 @@
+[submodule ".local/bin/jaro"]
+	path = .local/bin/jaro
+	url = https://github.com/isamert/jaro.git

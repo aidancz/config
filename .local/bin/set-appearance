@@ -1,0 +1,85 @@
+#!/bin/sh
+
+# set appearance to dark or light
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ set $arg to "dark" or "light"
+if [ -n "$1" ]; then
+
+arg="$1"
+
+else
+
+menu="\
+dark
+light
+"
+arg="$(printf "%s" "$menu" | dmenu -i -p 'appearance')"
+
+fi
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ set_appearance_dark()
+set_appearance_dark()
+{
+	:
+	# shell script doesn't allow empty function (try it?)
+	# a function must contain at least one command
+	# the colon `:` itself is a command, which is `null command`
+	# it does nothing and always returns a successful exit status (0), making it useful for placeholder code
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ set_appearance_light()
+set_appearance_light()
+{
+
+# xresources
+rm -rf "$XDG_CONFIG_HOME/x11"
+cp -r "$AIDAN_GIT/arch_config/.config/x11" "$XDG_CONFIG_HOME/x11"
+sed -i -e '/simple-light-solarized/,/simple-light-solarized/s/! \(.\+\)/\1/' "$XDG_CONFIG_HOME/x11/.Xresources"
+
+# gtk-3.0
+rm -rf "$XDG_CONFIG_HOME/gtk-3.0"
+cp -r "$AIDAN_GIT/arch_config/.config/gtk-3.0" "$XDG_CONFIG_HOME/gtk-3.0"
+echo "gtk-theme-name=Adwaita" >> "$XDG_CONFIG_HOME/gtk-3.0/settings.ini"
+
+# qt5
+rm -rf "$XDG_CONFIG_HOME/qt5ct"
+cp -r "$AIDAN_GIT/arch_config/.config/qt5ct" "$XDG_CONFIG_HOME/qt5ct"
+sed -i '/darker/s/darker/simple/' "$XDG_CONFIG_HOME/qt5ct/qt5ct.conf"
+
+# qt6
+rm -rf "$XDG_CONFIG_HOME/qt6ct"
+cp -r "$AIDAN_GIT/arch_config/.config/qt6ct" "$XDG_CONFIG_HOME/qt6ct"
+sed -i '/darker/s/darker/simple/' "$XDG_CONFIG_HOME/qt6ct/qt6ct.conf"
+
+# zathura
+rm -rf "$XDG_CONFIG_HOME/zathura"
+cp -r "$AIDAN_GIT/arch_config/.config/zathura" "$XDG_CONFIG_HOME/zathura"
+echo "set recolor false" >> "$XDG_CONFIG_HOME/zathura/zathurarc"
+
+# dunst
+rm -rf "$XDG_CONFIG_HOME/dunst"
+cp -r "$AIDAN_GIT/arch_config/.config/dunst" "$XDG_CONFIG_HOME/dunst"
+sed -i -e '/dunst_light/,/dunst_light/s/# \(.\+\)/\1/' "$XDG_CONFIG_HOME/dunst/dunstrc"
+
+killall -q dunst; dunst &
+
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ set appearance
+case "$arg" in
+	"dark")
+		set-symbolic-link
+		set_appearance_dark
+		xrdb "$XDG_CONFIG_HOME/x11/.Xresources" 2> /dev/null
+		system-actions "window-manager renew"
+		;;
+	"light")
+		set-symbolic-link
+		set_appearance_light
+		xrdb "$XDG_CONFIG_HOME/x11/.Xresources" 2> /dev/null
+		system-actions "window-manager renew"
+		;;
+	*)
+		exit 1
+		;;
+esac

@@ -7,8 +7,10 @@ arg="$1"
 else
 
 menu="\
-color-scheme dark
-color-scheme light
+set-appearance dark
+set-appearance light
+set-keyboard
+set-symbolic-link
 network
 volume
 "
@@ -17,11 +19,17 @@ arg="$(printf "%s" "$menu" | dmenu -l 64 -i -p 'system setting')"
 fi
 
 case "$arg" in
-	"color-scheme dark")
-		dark-light 0
+	"set-appearance dark")
+		set-appearance dark
 		;;
-	"color-scheme light")
-		dark-light 1
+	"set-appearance light")
+		set-appearance light
+		;;
+	"set-keyboard")
+		set-keyboard
+		;;
+	"set-symbolic-link")
+		set-symbolic-link
 		;;
 	"network")
 		setsid -f "$TERMINAL" -e nmtui

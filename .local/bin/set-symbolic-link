@@ -20,30 +20,28 @@ shopt -s dotglob
 # # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ delete broken symlinks
 # cd "$HOME" || exit
 # find . -xtype l -delete
-# # it works, but too slow, add seperately for each `cd` command below (add to the next line)
+# # it works, but too slow, run it manually
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_CONFIG_HOME
 mkdir -p "$XDG_CONFIG_HOME"
 cd "$dir"/.config || exit # THIS FUCKING exit SAVED MY LIFE (2024-10-14)
-find . -xtype l -delete
 for i in *; do
-	rm -rf					"${XDG_CONFIG_HOME:?}/$i"
+	rm -rf				"${XDG_CONFIG_HOME:?}/$i"
 	ln -s "$PWD/$i"			"$XDG_CONFIG_HOME/$i"
 done
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ HOME (link to link)
 ln -sf "$XDG_CONFIG_HOME/sh/.env"		"$HOME/.env"
 ln -sf "$XDG_CONFIG_HOME/sh/.profile"		"$HOME/.profile"
-	ln -sf "$HOME/.profile"		"$HOME/.bash_profile"
-	ln -sf "$HOME/.profile"		"$HOME/.zprofile"
+	ln -sf "$HOME/.profile"			"$HOME/.bash_profile"
+	ln -sf "$HOME/.profile"			"$HOME/.zprofile"
 ln -sf "$XDG_CONFIG_HOME/sh/.shrc"		"$HOME/.shrc"
 ln -sf "$XDG_CONFIG_HOME/bash/.bashrc"		"$HOME/.bashrc"
 ln -sf "$XDG_CONFIG_HOME/x11/.xprofile"		"$HOME/.xprofile"
 ln -sf "$XDG_CONFIG_HOME/ex/.exrc"		"$HOME/.exrc"
 ln -sf "$XDG_CONFIG_HOME/chez/.schemerc"	"$HOME/.schemerc"
 ln -sf "$XDG_CONFIG_HOME/vim/.vimrc"		"$HOME/.vimrc"
-
-# ln -sf "$XDG_CONFIG_HOME/less/.lesskey"		"$HOME/.lesskey"
-# use $LESSKEYIN instead
+# ln -sf "$XDG_CONFIG_HOME/less/.lesskey"		"$HOME/.lesskey" # use $LESSKEYIN instead
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_CACHE_HOME
 mkdir -p "$XDG_CACHE_HOME"
@@ -51,9 +49,8 @@ mkdir -p "$XDG_CACHE_HOME"
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_DATA_HOME
 mkdir -p "$XDG_DATA_HOME"
 cd "$dir"/.local/share || exit
-find . -xtype l -delete
 for i in *; do
-	rm -rf					"${XDG_DATA_HOME:?}/$i"
+	rm -rf				"${XDG_DATA_HOME:?}/$i"
 	ln -s "$PWD/$i"			"$XDG_DATA_HOME/$i"
 done
 
@@ -63,8 +60,10 @@ mkdir -p "$XDG_STATE_HOME"
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_EXE_HOME
 mkdir -p "$XDG_EXE_HOME"
 cd "$dir"/.local/bin || exit
-find . -xtype l -delete
 for i in *; do
-	rm -rf					"${XDG_EXE_HOME:?}/$i"
+	rm -rf				"${XDG_EXE_HOME:?}/$i"
 	ln -s "$PWD/$i"			"$XDG_EXE_HOME/$i"
 done
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ /usr/bin (link to link)
+sudo ln -sf "$XDG_EXE_HOME/jaro/jaro" "/usr/bin/xdg-open"
