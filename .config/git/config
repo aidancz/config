@@ -20,3 +20,6 @@
 	requireForce = false
 [core]
 	quotepath = false
+	pager = diff-so-fancy | less
+[interactive]
+	diffFilter = diff-so-fancy --patch
