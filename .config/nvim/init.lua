@@ -161,6 +161,7 @@ vim.opt.laststatus = 2
 
 --  misc
 vim.opt.cpoptions:remove("_")
+vim.opt.cpoptions:append("u")
 -- vim.opt.cpoptions:append("v")
 -- vim.opt.cpoptions:append("$")
 -- https://vi.stackexchange.com/questions/6194/why-do-cw-and-ce-do-the-same-thing
@@ -181,13 +182,24 @@ vim.opt.commentstring = "#%s"
 
 --  map
 -- ":h map-table"
+--[[
+         Mode  | Norm | Ins | Cmd | Vis | Sel | Opr | Term | Lang |
+Command        +------+-----+-----+-----+-----+-----+------+------+
+[nore]map      | yes  |  -  |  -  | yes | yes | yes |  -   |  -   |
+n[nore]map     | yes  |  -  |  -  |  -  |  -  |  -  |  -   |  -   |
+[nore]map!     |  -   | yes | yes |  -  |  -  |  -  |  -   |  -   |
+i[nore]map     |  -   | yes |  -  |  -  |  -  |  -  |  -   |  -   |
+c[nore]map     |  -   |  -  | yes |  -  |  -  |  -  |  -   |  -   |
+v[nore]map     |  -   |  -  |  -  | yes | yes |  -  |  -   |  -   |
+x[nore]map     |  -   |  -  |  -  | yes |  -  |  -  |  -   |  -   |
+s[nore]map     |  -   |  -  |  -  |  -  | yes |  -  |  -   |  -   |
+o[nore]map     |  -   |  -  |  -  |  -  |  -  | yes |  -   |  -   |
+t[nore]map     |  -   |  -  |  -  |  -  |  -  |  -  | yes  |  -   |
+l[nore]map     |  -   | yes | yes |  -  |  -  |  -  |  -   | yes  |
+--]]
 -- ":h key-notation"
 
-vim.keymap.set("", "<space>", "<nop>")
-
-vim.keymap.set("o", "{", function() return "V" .. vim.v.count1 .. "{" end, {silent = true, expr = true})
-vim.keymap.set("o", "}", function() return "V" .. vim.v.count1 .. "}" end, {silent = true, expr = true})
-
+--  "n"
 -- vim.keymap.set("n", "<down>", ":put  _<cr>", {silent = true})
 -- vim.keymap.set("n", "<up>",   ":put! _<cr>", {silent = true})
 -- vim.keymap.set("n", "<left>",  [["=" "<cr>P]], {silent = true})
@@ -195,13 +207,15 @@ vim.keymap.set("o", "}", function() return "V" .. vim.v.count1 .. "}" end, {sile
 
 -- vim.keymap.set("n", "<f3>", "gO", {remap = true})
 
-
-
+--  "i"
 vim.keymap.set("i", "<down>", "<c-n>")
 vim.keymap.set("i", "<up>",   "<c-p>")
 
+--  "o"
+vim.keymap.set("o", "{", function() return "V" .. vim.v.count1 .. "{" end, {silent = true, expr = true})
+vim.keymap.set("o", "}", function() return "V" .. vim.v.count1 .. "}" end, {silent = true, expr = true})
 
-
+--  {"n", "x"}
 vim.keymap.set({"n", "x"}, "j", function()
 	return vim.v.count == 0 and "gj" or "j"
 	end, {expr = true})
@@ -209,25 +223,28 @@ vim.keymap.set({"n", "x"}, "k", function()
 	return vim.v.count == 0 and "gk" or "k"
 	end, {expr = true})
 
-vim.keymap.set("", "<c-n>", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-e>" end, {silent = true, expr = true})
-vim.keymap.set("", "<c-p>", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-y>" end, {silent = true, expr = true})
+vim.keymap.set({"n", "x"}, "<c-n>", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-e>" end, {silent = true, expr = true})
+vim.keymap.set({"n", "x"}, "<c-p>", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-y>" end, {silent = true, expr = true})
 -- https://stackoverflow.com/questions/8059448/scroll-window-halfway-between-zt-and-zz-in-vim
 
-vim.keymap.set({"", "i"}, "<c-s>", "<cmd>normal zz<cr>")
-vim.keymap.set({"", "i"}, "<c-j>", "<cmd>normal zt<cr>")
-vim.keymap.set({"", "i"}, "<c-k>", "<cmd>normal zb<cr>")
-vim.keymap.set({"", "i"}, "<c-h>", "<cmd>normal zz<c-n><cr>", {remap = true})
-vim.keymap.set({"", "i"}, "<c-l>", "<cmd>normal zz<c-p><cr>", {remap = true})
-vim.keymap.set("!", "<a-v>", "<c-k>")
+--  {"n", "x", "o"}
+vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
 
-vim.keymap.set({"", "i"}, "<f1>", "<cmd>silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>")
+--  {"n", "x", "i"}
+vim.keymap.set({"n", "x", "i"}, "<c-s>", "<cmd>normal zz<cr>")
+vim.keymap.set({"n", "x", "i"}, "<c-j>", "<cmd>normal zt<cr>")
+vim.keymap.set({"n", "x", "i"}, "<c-k>", "<cmd>normal zb<cr>")
+vim.keymap.set({"n", "x", "i"}, "<c-h>", "<cmd>normal zz<c-n><cr>", {remap = true})
+vim.keymap.set({"n", "x", "i"}, "<c-l>", "<cmd>normal zz<c-p><cr>", {remap = true})
+vim.keymap.set({"i", "c"}, "<a-v>", "<c-k>")
+
+vim.keymap.set({"n", "x", "i"}, "<f1>", "<cmd>silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>")
 -- https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
 
-vim.keymap.set({"", "i"}, "<f12>", "<cmd>q!<cr>")
-vim.keymap.set({"", "i"}, "<f11>", "<cmd>set list!<cr>")
+vim.keymap.set({"n", "x", "i"}, "<f12>", "<cmd>q!<cr>")
+vim.keymap.set({"n", "x", "i"}, "<f11>", "<cmd>set list!<cr>")
 
-
-
+--  map to commands
 vim.api.nvim_create_user_command("RegisterUnnamedToSelection", [[let @+ = @" | let @* = @"]], {})
 -- how shall we yank all lines except for the commented lines?
 -- 	:v/--/y
@@ -1106,8 +1123,24 @@ local lazyplugins =
 	end,
 },
 
+-- {
+-- 	"mbbill/undotree",
+-- },
+
 {
-	"mbbill/undotree",
+	"jiaoshijie/undotree",
+	dependencies = "nvim-lua/plenary.nvim",
+	config = function()
+		require("undotree").setup({
+			window = {
+				winblend = 0,
+			},
+		})
+		vim.keymap.set("n", "<f7>", require('undotree').toggle)
+		vim.api.nvim_set_hl(0, "UndotreeDiffAdded",   {link = "nofrils-green"})
+		vim.api.nvim_set_hl(0, "UndotreeDiffRemoved", {link = "nofrils-red"})
+		vim.api.nvim_set_hl(0, "UndotreeDiffLine",    {link = "nofrils-blue"})
+	end,
 },
 
 {
