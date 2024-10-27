@@ -112,6 +112,13 @@ shell --confirm 'open-with-program "$0"'
 """
 
 [[manager.prepend_keymap]]
+on   = "<A-o>"
+run  = """
+shell --confirm ''
+"""
+desc = "test"
+
+[[manager.prepend_keymap]]
 on   = "<F4>"
 run  = "plugin diff"
 

@@ -2,10 +2,10 @@
 
 # set appearance to dark or light
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ set $arg to "dark" or "light"
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ set $i to "dark" or "light"
 if [ -n "$1" ]; then
 
-arg="$1"
+i="$1"
 
 else
 
@@ -13,7 +13,7 @@ menu="\
 dark
 light
 "
-arg="$(printf "%s" "$menu" | dmenu -i -p 'appearance')"
+i="$(printf "%s" "$menu" | dmenu -i -p 'appearance')"
 
 fi
 
@@ -61,23 +61,36 @@ rm -rf "$XDG_CONFIG_HOME/dunst"
 cp -r "$AIDAN_GIT/arch_config/.config/dunst" "$XDG_CONFIG_HOME/dunst"
 sed -i -e '/dunst_light/,/dunst_light/s/# \(.\+\)/\1/' "$XDG_CONFIG_HOME/dunst/dunstrc"
 
-killall -q dunst; dunst &
+# fcitx5
+rm -rf "$XDG_CONFIG_HOME/fcitx5"
+cp -r "$AIDAN_GIT/arch_config/.config/fcitx5" "$XDG_CONFIG_HOME/fcitx5"
+echo "Theme=default" >> "$XDG_CONFIG_HOME/fcitx5/conf/classicui.conf"
 
 }
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ reload_programs()
+reload_programs()
+{
+xrdb "$XDG_CONFIG_HOME/x11/.Xresources" 2> /dev/null
+
+system-actions "window-manager renew"
+
+killall -q dunst; dunst &
+
+killall -q fcitx5; fcitx5 -d &
+}
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ set appearance
-case "$arg" in
+case "$i" in
 	"dark")
 		set-symbolic-link
 		set_appearance_dark
-		xrdb "$XDG_CONFIG_HOME/x11/.Xresources" 2> /dev/null
-		system-actions "window-manager renew"
+		reload_programs
 		;;
 	"light")
 		set-symbolic-link
 		set_appearance_light
-		xrdb "$XDG_CONFIG_HOME/x11/.Xresources" 2> /dev/null
-		system-actions "window-manager renew"
+		reload_programs
 		;;
 	*)
 		exit 1

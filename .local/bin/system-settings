@@ -2,7 +2,7 @@
 
 if [ -n "$1" ]; then
 
-arg="$1"
+i="$1"
 
 else
 
@@ -15,11 +15,11 @@ set-symbolic-link clear
 network
 volume
 "
-arg="$(printf "%s" "$menu" | dmenu -l 64 -i -p 'system setting')"
+i="$(printf "%s" "$menu" | dmenu -l 64 -i -p 'system setting')"
 
 fi
 
-case "$arg" in
+case "$i" in
 	"set-appearance dark")
 		set-appearance dark
 		;;

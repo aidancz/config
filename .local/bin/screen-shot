@@ -12,9 +12,9 @@ screen (file)
 screen (clipboard)
 "
 
-arg="$(printf "%s" "$menu" | dmenu -l 6 -i -p "screen capture area")"
+i="$(printf "%s" "$menu" | dmenu -l 6 -i -p "screen capture area")"
 
-case "$arg" in
+case "$i" in
 	"selected (file)")
 		maim -s "${output}"
 		;;

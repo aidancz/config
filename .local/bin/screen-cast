@@ -130,7 +130,7 @@ kill_recording()
 
 if [ -f /tmp/recordingpid ]; then
 
-arg="kill_recording"
+i="kill_recording"
 
 else
 
@@ -142,11 +142,11 @@ audio
 webcam
 webcam_high_size
 "
-arg="$(printf "%s" "$menu" | dmenu -l 6 -i -p "record type")"
+i="$(printf "%s" "$menu" | dmenu -l 6 -i -p "record type")"
 
 fi
 
-case "$arg" in
+case "$i" in
 	kill_recording)
 		kill_recording
 		;;

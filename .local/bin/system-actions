@@ -29,7 +29,7 @@ wmpid(){
 
 if [ -n "$1" ]; then
 
-arg="$1"
+i="$1"
 
 else
 
@@ -42,11 +42,11 @@ system hibernate
 system reboot
 system poweroff
 "
-arg="$(printf "%s" "$menu" | dmenu -l 64 -i -p 'system action')"
+i="$(printf "%s" "$menu" | dmenu -l 64 -i -p 'system action')"
 
 fi
 
-case "$arg" in
+case "$i" in
 	"screen off")
 		sleep 0.2; xset dpms force off
 		# https://wiki.archlinux.org/title/Display_Power_Management_Signaling#Runtime_settings

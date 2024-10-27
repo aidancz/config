@@ -2,32 +2,44 @@
 
 # feed this script a link and it will give dmenu some choice programs to use to open it
 
-test "$#" -ne 1 && exit 1
-
+test $# -ne 1 && exit 1
 link="$1"
 
+prefix=""
+# prefix="setsid -f"
+# prefix="exec"
+
 menu="\
-pager
-editor
-browser
+tui
+tui_PAGER
+tui_EDITOR
+gui
+gui_BROWSER
 "
-
-arg="$(printf "%s" "$menu" | dmenu -l 64 -i -p "program (choose or type directly)")"
-
-case "$arg" in
-	"")
-		exit 0
+i="$(printf "%s" "$menu" | dmenu -l 64 -i -p 'program (typing directly functions as though you have selected the `gui` option)')"
+case "$i" in
+	"tui")
+		program="$(dmenu -p "program (please type)" 0< /dev/null)"
+		test -z "$program" && exit 0
+		$prefix "$TERMINAL" -e "$SHELL" -c "$program $link; $SHELL"
 		;;
-	"pager")
-		setsid -f "$TERMINAL" -e "$PAGER" "$link"
+	"tui_PAGER")
+		$prefix "$TERMINAL" -e "$PAGER" "$link"
 		;;
-	"editor")
-		setsid -f "$TERMINAL" -e "$EDITOR" "$link"
+	"tui_EDITOR")
+		$prefix "$TERMINAL" -e "$EDITOR" "$link"
 		;;
-	"browser")
-		setsid -f "$BROWSER" "$link"
+	"gui")
+		program="$(dmenu -p "program (please type)" 0< /dev/null)"
+		test -z "$program" && exit 0
+		$prefix "$program" "$link"
+		;;
+	"gui_BROWSER")
+		$prefix "$BROWSER" "$link"
 		;;
 	*)
-		setsid -f "$TERMINAL" -e "$SHELL" -c "$arg $link; $SHELL"
+		program="$i"
+		test -z "$program" && exit 0
+		$prefix "$program" "$link"
 		;;
 esac
