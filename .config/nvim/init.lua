@@ -286,6 +286,15 @@ vim.api.nvim_create_user_command("SearchMiddleToggle",
 	end,
 	{})
 
+vim.api.nvim_create_user_command("DeleteLastEOL",
+	function()
+		vim.opt.binary = true
+		vim.opt.fixendofline = false
+		vim.opt.endofline = false
+	end,
+	{})
+-- https://stackoverflow.com/questions/1050640/how-to-stop-vim-from-adding-a-newline-at-end-of-file
+
 
 
 --  function

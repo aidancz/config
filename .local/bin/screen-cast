@@ -12,9 +12,14 @@ get_timestamp()
 	printf "%s" "$(date +'%Y%m%d-%H%M%S-%6N')"
 }
 
-update_dwmblocks_icon()
+update_pid()
 {
-	echo "$1" > /tmp/recordingicon
+	echo "$1" > /tmp/screen-cast_pid
+}
+
+update_status()
+{
+	echo "$1" > /tmp/screen-cast_status
 	pkill -RTMIN+2 "${STATUSBAR:-dwmblocks}"
 }
 
@@ -36,8 +41,8 @@ video_and_audio()
 	"$HOME/$(get_timestamp).mp4" &
 	# https://wiki.archlinux.org/title/FFmpeg#Screen_capture
 
-	echo $! > /tmp/recordingpid
-	update_dwmblocks_icon "(record video audio)"
+	update_pid "$!"
+	update_status "(record video audio)"
 }
 
 video()
@@ -53,8 +58,8 @@ video()
 	-r                           30                  \
 	"$HOME/$(get_timestamp).mp4" &
 
-	echo $! > /tmp/recordingpid
-	update_dwmblocks_icon "(record video)"
+	update_pid "$!"
+	update_status "(record video)"
 }
 
 video_selected()
@@ -73,8 +78,8 @@ video_selected()
 	-r                           30           \
 	"$HOME/$(get_timestamp).mp4" &
 
-	echo $! > /tmp/recordingpid
-	update_dwmblocks_icon "(record video_selected)"
+	update_pid "$!"
+	update_status "(record video_selected)"
 }
 
 audio()
@@ -86,8 +91,8 @@ audio()
 	-c:a                          flac    \
 	"$HOME/$(get_timestamp).flac" &
 
-	echo $! > /tmp/recordingpid
-	update_dwmblocks_icon "(record audio)"
+	update_pid "$!"
+	update_status "(record audio)"
 }
 
 webcam()
@@ -99,8 +104,8 @@ webcam()
 	-video_size                  640x480     \
 	"$HOME/$(get_timestamp).mkv" &
 
-	echo $! > /tmp/recordingpid
-	update_dwmblocks_icon "(record webcam)"
+	update_pid "$!"
+	update_status "(record webcam)"
 }
 # a webcam is a video camera which is designed to record or stream to a computer or computer network
 
@@ -113,22 +118,22 @@ webcam_high_size()
 	-video_size                  1920x1080   \
 	"$HOME/$(get_timestamp).mkv" &
 
-	echo $! > /tmp/recordingpid
-	update_dwmblocks_icon "(record webcam_high-size)"
+	update_pid "$!"
+	update_status "(record webcam_high-size)"
 }
 
 kill_recording()
 {
-	recpid="$(cat /tmp/recordingpid)"
-	kill -15 "$recpid"
-	rm -f /tmp/recordingpid
-	update_dwmblocks_icon ""
-	pkill -RTMIN+9 "${STATUSBAR:-dwmblocks}"
+	pid="$(cat /tmp/screen-cast_pid)"
+	kill -15 "$pid"
+
+	update_pid ""
+	update_status ""
 }
 
 # main function
 
-if [ -f /tmp/recordingpid ]; then
+if [ -n "$(cat /tmp/screen-cast_pid)" ]; then
 
 i="kill_recording"
 

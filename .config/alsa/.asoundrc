@@ -1,0 +1,6 @@
+# `aplay -l` to list cards
+
+defaults.pcm.card 3
+defaults.pcm.device 0
+
+defaults.ctl.card 3
