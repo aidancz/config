@@ -35,10 +35,11 @@ video_and_audio()
 	-i                           "$DISPLAY"          \
 	-f                           alsa                \
 	-i                           default             \
-	-c:v                         h264                \
+	-c:v                         libx264             \
 	-preset                      ultrafast           \
 	-c:a                         aac                 \
-	"$HOME/$(get_timestamp).mp4" &
+	"$HOME/$(get_timestamp).mp4"                     \
+	&
 	# https://wiki.archlinux.org/title/FFmpeg#Screen_capture
 
 	update_pid "$!"
@@ -54,13 +55,22 @@ video()
 	-s                           "$(get_resolution)" \
 	-i                           "$DISPLAY"          \
 	-c:v                         libx264             \
-	-qp                          0                   \
+	-pix_fmt                     yuv420p             \
+	-profile:v                   main                \
 	-r                           30                  \
-	"$HOME/$(get_timestamp).mp4" &
+	"$HOME/$(get_timestamp).mp4"                     \
+	&
 
 	update_pid "$!"
 	update_status "(record video)"
 }
+
+: << 'EOF'
+	-qp                          0                   \
+
+	-pix_fmt                     yuv420p             \
+	-profile:v                   main                \
+EOF
 
 video_selected()
 {
@@ -76,7 +86,8 @@ video_selected()
 	-c:v                         libx264      \
 	-qp                          0            \
 	-r                           30           \
-	"$HOME/$(get_timestamp).mp4" &
+	"$HOME/$(get_timestamp).mp4"              \
+	&
 
 	update_pid "$!"
 	update_status "(record video_selected)"
@@ -89,7 +100,8 @@ audio()
 	-f                            alsa    \
 	-i                            default \
 	-c:a                          flac    \
-	"$HOME/$(get_timestamp).flac" &
+	"$HOME/$(get_timestamp).flac"         \
+	&
 
 	update_pid "$!"
 	update_status "(record audio)"
@@ -102,7 +114,8 @@ webcam()
 	-f                           v4l2        \
 	-i                           /dev/video0 \
 	-video_size                  640x480     \
-	"$HOME/$(get_timestamp).mkv" &
+	"$HOME/$(get_timestamp).mkv"             \
+	&
 
 	update_pid "$!"
 	update_status "(record webcam)"
@@ -116,7 +129,8 @@ webcam_high_size()
 	-f                           v4l2        \
 	-i                           /dev/video0 \
 	-video_size                  1920x1080   \
-	"$HOME/$(get_timestamp).mkv" &
+	"$HOME/$(get_timestamp).mkv"             \
+	&
 
 	update_pid "$!"
 	update_status "(record webcam_high-size)"

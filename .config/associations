@@ -14,6 +14,10 @@
   #:program "nsxiv -a %f")
 
 (assoc
+  #:pattern "audio/.*"
+  #:program "mpv %f")
+
+(assoc
   #:pattern "video/.*"
   #:program "mpv %f")
 
