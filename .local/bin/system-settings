@@ -7,8 +7,8 @@ i="$1"
 else
 
 menu="\
-set-appearance dark
-set-appearance light
+set-symbolic-link_appearance dark
+set-symbolic-link_appearance light
 set-keyboard
 set-symbolic-link
 set-symbolic-link clear
@@ -20,11 +20,11 @@ i="$(printf "%s" "$menu" | dmenu -l 64 -i -p 'system setting')"
 fi
 
 case "$i" in
-	"set-appearance dark")
-		set-appearance dark
+	"set-symbolic-link_appearance dark")
+		set-symbolic-link_appearance dark
 		;;
-	"set-appearance light")
-		set-appearance light
+	"set-symbolic-link_appearance light")
+		set-symbolic-link_appearance light
 		;;
 	"set-keyboard")
 		set-keyboard

@@ -7,8 +7,8 @@ run `.local/bin/set-symbolic-link` to set symbolic link
 
 # dark light switch
 
-dark:  `set-appearance dark`
-light: `set-appearance light`
+dark:  `set-symbolic-link_appearance dark`
+light: `set-symbolic-link_appearance light`
 
 # xdg variables
 

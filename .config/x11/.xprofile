@@ -35,8 +35,8 @@ xwallpaper --zoom "${XDG_DATA_HOME:-$HOME/.local/share}/wallpapers/000000.png"
 picom                             &
 dunst                             &
 unclutter                         &
-fcitx5 -d                         &
+fcitx5                            &
 nutstore                          &
 set-keyboard                      &
-set-appearance dark               & xrdbpid=$!
+set-symbolic-link_appearance dark & xrdbpid=$!
 [ -n "$xrdbpid" ] && wait "$xrdbpid"

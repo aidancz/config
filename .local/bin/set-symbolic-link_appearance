@@ -77,7 +77,7 @@ system-actions "window-manager renew"
 
 killall -q dunst; dunst &
 
-killall -q fcitx5; fcitx5 -d &
+killall -q fcitx5; fcitx5 &
 }
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ set appearance
