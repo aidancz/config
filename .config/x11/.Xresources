@@ -289,29 +289,29 @@
 ! ! simple-dark-origin
 
 ! simple-dark-solarized
-#define black   #2b2b2b
-#define red     #dc322f
-#define green   #859900
-#define yellow  #b58900
-#define blue    #268bd2
-#define magenta #d33682
-#define cyan    #2aa198
-#define white   #636363
-#define brblack #454545
-#define brwhite #9e9e9e
+#define black     #2b2b2b
+#define red       #dc322f
+#define green     #859900
+#define yellow    #b58900
+#define blue      #268bd2
+#define magenta   #d33682
+#define cyan      #2aa198
+#define white     #9e9e9e
+#define black_alt #454545
+#define white_alt #636363
 ! simple-dark-solarized
 
 ! ! simple-light-solarized
-! #define black   #d4d4d4
-! #define red     #dc322f
-! #define green   #859900
-! #define yellow  #b58900
-! #define blue    #268bd2
-! #define magenta #d33682
-! #define cyan    #2aa198
-! #define white   #9c9c9c
-! #define brblack #bababa
-! #define brwhite #616161
+! #define black     #d4d4d4
+! #define red       #dc322f
+! #define green     #859900
+! #define yellow    #b58900
+! #define blue      #268bd2
+! #define magenta   #d33682
+! #define cyan      #2aa198
+! #define white     #616161
+! #define black_alt #bababa
+! #define white_alt #9c9c9c
 ! ! simple-light-solarized
 
 ! simple-set
@@ -324,28 +324,31 @@
 *color6:  cyan
 *color7:  white
 
-*color8:  brblack
+*color8:  black
 *color9:  red
 *color10: green
 *color11: yellow
 *color12: blue
 *color13: magenta
 *color14: cyan
-*color15: brwhite
+*color15: white
 
 *background:  black
-*foreground:  brwhite
-*cursorColor: brwhite
+*foreground:  white
+*cursorColor: white
+
+color_black_alt: black_alt
+color_white_alt: white_alt
 
 dwm.normbgcolor:	black
-dwm.normfgcolor:	brwhite
-dwm.selbgcolor:		brblack
-dwm.selfgcolor:		brwhite
+dwm.normfgcolor:	white
+dwm.selbgcolor:		black_alt
+dwm.selfgcolor:		white
 
 dmenu.normbgcolor:	black
-dmenu.normfgcolor:	brwhite
-dmenu.selbgcolor:	brblack
-dmenu.selfgcolor:	brwhite
+dmenu.normfgcolor:	white
+dmenu.selbgcolor:	black_alt
+dmenu.selfgcolor:	white
 ! simple-set
 
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ misc
