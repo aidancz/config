@@ -1,0 +1,8 @@
+#!/bin/sh
+
+input="$*"
+
+date="$(date +'%Y-%m-%d')"
+output="$date.7z"
+
+mkdir "/tmp/$date"

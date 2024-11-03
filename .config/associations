@@ -14,12 +14,22 @@
   #:program "nsxiv -a %f")
 
 (assoc
-  #:pattern "audio/.*"
+  #:pattern '(
+    "audio/.*"
+    "video/.*"
+    )
   #:program "mpv %f")
 
 (assoc
-  #:pattern "video/.*"
-  #:program "mpv %f")
+  #:pattern '(
+    "application/x-7z-compressed"
+    "application/zip"
+    "application/x-tar"
+    "application/gzip"
+    )
+  #:program "ouch decompress %f")
+
+;; fallback
 
 (assoc
   #:pattern ".*"
