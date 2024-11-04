@@ -14,7 +14,7 @@ for slave_path in "$@"
 do
 	slave_path=$(realpath "$slave_path")
 	slave_extension="${slave_path##*.}"
-	timestamp=$(date +"%Y%m%d%H%M%S%6N")
+	timestamp=$(date +"%Y%m%d%H%M%S%N")
 	slave_new_path="${master_prefix}_${timestamp}.${slave_extension}"
 	slave_new_filename=$(basename "${slave_new_path}")
 

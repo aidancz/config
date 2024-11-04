@@ -9,7 +9,7 @@ get_resolution()
 
 get_timestamp()
 {
-	printf "%s" "$(date +'%Y%m%d-%H%M%S-%6N')"
+	printf "%s" "$(date +'%Y%m%d-%H%M%S-%N')"
 }
 
 update_pid()

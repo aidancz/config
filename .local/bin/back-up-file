@@ -2,7 +2,12 @@
 
 input="$*"
 
-date="$(date +'%Y-%m-%d')"
-output="$date.7z"
+date="$(date +'%Y%m%d-%H%M%S-%N')"
+dir="$HOME/$date"
+output="$HOME/$date.7z"
 
-mkdir "/tmp/$date"
+rm -rf "$dir"
+mkdir "$dir"
+cp -r $input "$dir"
+7z a -p -mhe "$output" "$dir"
+rm -rf "$dir"

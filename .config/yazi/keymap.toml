@@ -1,4 +1,6 @@
-# manager
+################################################################ manager
+
+################################ basic
 
 [[manager.prepend_keymap]]
 on = ["g"]
@@ -30,18 +32,6 @@ on = ["<F3>"]
 run = "quit"
 
 [[manager.prepend_keymap]]
-on = ["<F1>"]
-run = """
-shell --confirm 'setsid -f $TERMINAL >/dev/null 2>&1'
-"""
-
-[[manager.prepend_keymap]]
-on = ["<Enter>"]
-run = """
-shell --confirm 'setsid -f $TERMINAL >/dev/null 2>&1'
-"""
-
-[[manager.prepend_keymap]]
 on = ["d"]
 run = "yank --cut"
 
@@ -61,6 +51,20 @@ run = "unyank"
 on = ["A"]
 run = "create --dir"
 
+################################ shell
+
+[[manager.prepend_keymap]]
+on = ["<F1>"]
+run = """
+shell --confirm 'setsid -f $TERMINAL >/dev/null 2>&1'
+"""
+
+[[manager.prepend_keymap]]
+on = ["<Enter>"]
+run = """
+shell --confirm 'setsid -f $TERMINAL >/dev/null 2>&1'
+"""
+
 [[manager.prepend_keymap]]
 on = ["<Home>"]
 run = """
@@ -79,7 +83,26 @@ run  = """
 shell --confirm 'markdown-attach-mv-file "$0" "$@"'
 """
 
+[[manager.prepend_keymap]]
+on   = "<F10>"
+run  = """
+shell --confirm --block 'back-up-file "$@"'
+"""
 
+[[manager.prepend_keymap]]
+on   = "<A-o>"
+run  = """
+shell --confirm ''
+"""
+desc = "test"
+
+[[manager.prepend_keymap]]
+on   = "O"
+run  = """
+shell --confirm 'open-with-program "$0"'
+"""
+
+################################ plugin
 
 [[manager.prepend_keymap]]
 on = ["e"]
@@ -106,23 +129,10 @@ run = "plugin --sync parent-arrow --args=-1"
 # run  = "plugin open-with-cmd --args=block"
 
 [[manager.prepend_keymap]]
-on   = "O"
-run  = """
-shell --confirm 'open-with-program "$0"'
-"""
-
-[[manager.prepend_keymap]]
-on   = "<A-o>"
-run  = """
-shell --confirm ''
-"""
-desc = "test"
-
-[[manager.prepend_keymap]]
 on   = "<F4>"
 run  = "plugin diff"
 
-# input
+################################################################ input
 
 [[input.prepend_keymap]]
 on   = ["<Esc>"]

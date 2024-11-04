@@ -7,3 +7,4 @@ inode/directory=directory.desktop;
 video/mp4=video.desktop;
 text/plain=text.desktop
 */*=text.desktop
+x-scheme-handler/baiduyunguanjia=baidunetdisk.desktop
