@@ -242,7 +242,16 @@ vim.keymap.set({"n", "x", "i"}, "<f1>", "<cmd>silent! !setsid -f $TERMINAL >/dev
 -- https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
 
 vim.keymap.set({"n", "x", "i"}, "<f12>", "<cmd>q!<cr>")
-vim.keymap.set({"n", "x", "i"}, "<f11>", "<cmd>set list!<cr>")
+vim.keymap.set({"n", "x", "i"}, "<f11>",
+	function()
+		vim.cmd([[set list!]])
+		if vim.opt.list:get()
+		then
+			vim.cmd([[echo "list on"]])
+		else
+			vim.cmd([[echo "list off"]])
+		end
+	end)
 
 --  map to commands
 vim.api.nvim_create_user_command("RegisterUnnamedToSelection", [[let @+ = @" | let @* = @"]], {})
@@ -1049,7 +1058,7 @@ local lazyplugins =
 				goto_left  = "gh",
 				goto_right = "gl",
 			},
-			n_lines = 64,
+			n_lines = 1024,
 			search_method = "cover_or_next",
 		})
 
@@ -1336,7 +1345,7 @@ local lazyplugins =
 		-- vim.treesitter.query.set("java",            "highlights", "")
 		vim.treesitter.query.set("python",          "highlights", "(comment) @comment")
 		vim.treesitter.query.set("javascript",      "highlights", "(comment) @comment")
-		vim.treesitter.query.set("markdown",        "highlights", "")
+		-- vim.treesitter.query.set("markdown",        "highlights", "")
 		vim.treesitter.query.set("markdown_inline", "highlights", "")
 		vim.treesitter.query.set("lua",             "highlights", "(comment) @comment")
 		vim.treesitter.query.set("css",             "highlights", "(comment) @comment")

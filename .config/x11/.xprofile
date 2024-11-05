@@ -7,14 +7,17 @@ output=$(xrandr | grep "\bconnected\b" | cut -d' ' -f1)
 xrandr --output $output --set TearFree on
 xrandr --output $output --mode 1920x1080 --rate 144
 
-xset s off
 xset s blank
 xset s expose
 xset s 3600 0
+xset s off
 # screen saver
+# place `xset s off` last, since may be overridden
 
-xset +dpms
 xset dpms 0 0 3600
+xset +dpms
+# dpms (display power management signaling)
+# place `xset +dpms` last, since may be overridden
 
 xss-lock -- slock &
 # automatically lock the screen with `slock` when the screen turns off
