@@ -17,11 +17,24 @@ vim.g.have_nerd_font = true
 --  appearance
 vim.opt.termguicolors = true
 
+vim.opt.statuscolumn = ""
+
+vim.opt.foldenable = true
+vim.opt.foldcolumn = "1"
+vim.opt.foldtext = vim.fn.getline(vim.v.foldstart)
+vim.opt.foldlevel = 0
+vim.opt.foldlevelstart = 0
+vim.opt.foldmethod = "marker"
+
+vim.opt.signcolumn = "yes:4"
+-- vim.opt.signcolumn = "yes:2"
+-- https://github.com/neovim/neovim/issues/13098
+-- https://github.com/neovim/neovim/issues/10106
+
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.numberwidth = 5
-vim.opt.signcolumn = "yes"
--- vim.opt.signcolumn = "yes:2"
+vim.opt.numberwidth = 7
+
 vim.opt.guicursor = ""
 -- vim.opt.cursorline = true
 vim.opt.wildmenu = true
@@ -139,14 +152,6 @@ vim.opt.formatoptions = ""
 --  undo
 vim.opt.undofile = true
 vim.opt.undolevels = 1024
-
---  fold
-vim.opt.foldenable = true
-vim.opt.foldcolumn = "1"
-vim.opt.foldtext = vim.fn.getline(vim.v.foldstart)
-vim.opt.foldlevel = 0
-vim.opt.foldlevelstart = 0
-vim.opt.foldmethod = "marker"
 
 --  buffer window tab
 vim.opt.hidden = true
@@ -749,7 +754,7 @@ vim.api.nvim_create_autocmd(
 		callback = show_eol_at_cursor_line,
 	})
 
-vim.api.nvim_set_hl(0, "EolExtmark", {link = "Comment"})
+vim.api.nvim_set_hl(0, "EolExtmark", {link = "LineNr"})
 
 --  auto save
 -- local timer = vim.uv.new_timer()
@@ -760,22 +765,24 @@ vim.api.nvim_set_hl(0, "EolExtmark", {link = "Comment"})
 local auto_save_augroup = vim.api.nvim_create_augroup("auto_save", {clear = true})
 
 vim.api.nvim_create_autocmd(
-	{"TextChanged", "InsertLeave"},
+	{"TextChanged", "InsertLeave", "FocusLost"},
 	{
 		group = auto_save_augroup,
 		pattern = {"*"},
-		command = "silent! wa",
+		command = "lockmarks silent! wa",
 	})
 
 vim.api.nvim_create_autocmd(
-	{"FocusLost", "QuitPre"},
+	{"QuitPre"},
 	{
 		group = auto_save_augroup,
 		pattern = {"*"},
 		nested = true,
-		command = "silent! wa",
+		command = "lockmarks silent! wa",
 	})
+
 -- https://vim.fandom.com/wiki/Auto_save_files_when_focus_is_lost
+-- https://github.com/neovim/neovim/issues/8807
 
 --  filetype
 local filetype_augroup = vim.api.nvim_create_augroup("filetype", {clear = true})
@@ -954,11 +961,11 @@ local lazyplugins =
 	config = function()
 		require("marks").setup({
 			default_mappings = true,
-			builtin_marks = {".", "<", ">", "^"},
+			builtin_marks = {"[", "]", "<", ">", "'", '"', "^", ".", "0", "1"},
 			cyclic = true,
 			force_write_shada = false,
 			refresh_interval = 150,
-			sign_priority = {lower=10, upper=15, builtin=8, bookmark=20},
+			sign_priority = {lower=11, upper=12, builtin=14, bookmark=13},
 			excluded_filetypes = {},
 			excluded_buftypes = {},
 			bookmark_0 = {
@@ -1075,7 +1082,8 @@ local lazyplugins =
 		require("mini.diff").setup({
 			view = {
 				style = "sign",
-				signs = {add = "■", change = "■", delete = "■"},
+				signs = {add = "┃", change = "●", delete = "━"},
+				priority = 0,
 			},
 			delay = {
 				text_change = 100,
@@ -1247,6 +1255,9 @@ local lazyplugins =
 				min_height = 0.8,
 				border = "single",
 				relative = "editor",
+			},
+			icons = {
+				Collapsed = "●",
 			},
 		})
 		vim.keymap.set("n", "<f3>", "<cmd>AerialToggle<cr>")

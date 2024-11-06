@@ -7,8 +7,9 @@ source "$HOME/.shrc"
 # load colors
 
 # PS1="(%{$fg[red]%}$ %{$fg[yellow]%}%n %{$fg[green]%}%M %{$fg[blue]%}%~%{$reset_color%}) "
-PS1="(%# %n %m %~) "
+# PS1="(%# %n %m %~) "
 # PS1="%(0?..%?)(%# %n %m %~) "
+PS1="%F{blue}(%# %n %m %~) %f"
 
 # https://stackoverflow.com/questions/4466245/customize-zshs-prompt-when-displaying-previous-command-exit-code
 # man zshmisc -> expansion of prompt sequences
