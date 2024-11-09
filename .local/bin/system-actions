@@ -53,7 +53,6 @@ case "$i" in
 	"screen off")
 		sleep 0.2; xset dpms force off
 		# https://wiki.archlinux.org/title/Display_Power_Management_Signaling#Runtime_settings
-		slock
 		;;
 	"window-manager renew")
 		kill -HUP "$(wmpid)"
@@ -62,20 +61,20 @@ case "$i" in
 		kill -TERM "$(wmpid)"
 		;;
 	"system suspend")
-		slock $ctl suspend -i
+		$ctl suspend
 		;;
 	"system hibernate")
-		slock $ctl hibernate -i
+		$ctl hibernate
 		# does not work right now, check later
 		# https://www.reddit.com/r/archlinux/comments/85q84q/cant_get_hibernate_to_work/
 		# https://www.reddit.com/r/linuxquestions/comments/7swvyb/cannot_restore_session_after_hibernation/?utm_source=reddit-android
 		# https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate#Hibernation
 		;;
 	"system reboot")
-		$ctl reboot -i
+		$ctl reboot
 		;;
 	"system poweroff")
-		$ctl poweroff -i
+		$ctl poweroff
 		;;
 	*)
 		exit 1

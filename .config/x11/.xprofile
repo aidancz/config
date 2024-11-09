@@ -20,7 +20,7 @@ xset +dpms
 # place `xset +dpms` last, since may be overridden
 
 xss-lock -- slock &
-# automatically lock the screen with `slock` when the screen turns off
+# automatically lock the screen with `slock` when: screen off / system suspend / system hibernate
 
 # https://wiki.archlinux.org/title/Display_Power_Management_Signaling#Runtime_settings
 # https://shallowsky.com/linux/x-screen-blanking.html

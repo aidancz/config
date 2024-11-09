@@ -1363,6 +1363,7 @@ local lazyplugins =
 
 		vim.treesitter.language.register("bash", "zsh")
 		-- https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#using-an-existing-parser-for-another-filetype
+		vim.treesitter.language.register("ini", "conf")
 	end,
 },
 
