@@ -133,6 +133,16 @@ vim.keymap.set({"n", "x", "i"}, "<f11>",
 
 
 
+-- # digraph
+
+vim.fn.digraph_set("oo", "●")
+vim.fn.digraph_set("xx", "×")
+vim.fn.digraph_set("-<", "←")
+vim.fn.digraph_set("-^", "↑")
+vim.fn.digraph_set("^v", "↕")
+
+
+
 -- # map to commands
 
 vim.api.nvim_create_user_command("RegisterUnnamedToSelection", [[let @+ = @" | let @* = @"]], {})
