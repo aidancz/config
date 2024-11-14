@@ -26,6 +26,7 @@ lazyspec =
 {
 
 require("lazy-spec/nofrils"),
+-- require("lazy-spec/tokyonight"),
 require("lazy-spec/nvim-treesitter"),
 
 require("lazy-spec/sentiment"),

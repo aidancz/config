@@ -4,8 +4,8 @@ vim.opt.termguicolors = true
 
 vim.opt.statuscolumn = ""
 
-vim.opt.foldenable = true
 vim.opt.foldcolumn = "1"
+vim.opt.foldenable = true
 vim.opt.foldtext = vim.fn.getline(vim.v.foldstart)
 vim.opt.foldlevel = 0
 vim.opt.foldlevelstart = 0

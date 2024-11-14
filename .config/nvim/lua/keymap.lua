@@ -95,15 +95,24 @@ vim.keymap.set({"n", "x", "o"}, ",", "<nop>")
 vim.keymap.set({"n", "x", "o"}, "t",
 	function()
 		local char = vim.fn.getcharstr()
-		return vim.v.count1 .. "/" .. char .. "<cr>"
-	end,
-	{expr = true})
+		local pattern = [[\V\C]] .. char
+
+		vim.fn.search(pattern, "")
+
+		vim.fn.setreg("/", pattern)
+		vim.v.searchforward = 1
+	end)
 vim.keymap.set({"n", "x", "o"}, "T",
 	function()
 		local char = vim.fn.getcharstr()
-		return vim.v.count1 .. "?" .. char .. "<cr>"
-	end,
-	{expr = true})
+		local pattern = [[\V\C]] .. char
+
+		vim.fn.search(pattern, "b")
+
+		vim.fn.setreg("/", pattern)
+		vim.v.searchforward = 0
+	end)
+vim.keymap.set({"n", "x", "o"}, ";", "@:")
 
 
 
