@@ -97,27 +97,6 @@ vim.keymap.set({"n", "x"}, "<c-p>", function() return math.ceil(vim.api.nvim_win
 
 -- # {"n", "x", "o"}
 
-vim.keymap.set({"n", "x", "o"}, "t",
-	function()
-		local char = vim.fn.getcharstr()
-		local pattern = [[\V\C]] .. char
-
-		vim.fn.search(pattern, "")
-
-		vim.fn.setreg("/", pattern)
-		vim.v.searchforward = 1
-	end)
-vim.keymap.set({"n", "x", "o"}, "T",
-	function()
-		local char = vim.fn.getcharstr()
-		local pattern = [[\V\C]] .. char
-
-		vim.fn.search(pattern, "b")
-
-		vim.fn.setreg("/", pattern)
-		vim.v.searchforward = 0
-	end)
-
 vim.keymap.set({"n", "x", "o"}, ";",     "<cmd>normal @:<cr>")
 vim.keymap.set({"n", "x", "o"}, ",",     "<cmd>normal @q<cr>")
 vim.keymap.set({"n", "x", "o"}, "<f24>", "<cmd>normal @q<cr>")

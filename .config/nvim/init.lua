@@ -8,17 +8,17 @@ vim.loader.enable()
 
 ----------------------------------------------------------------
 
-require("builtin-plugin")
+require("plugin-builtin")
 
 require("option")
 
 require("keymap")
-require("paragraph-motion")
-require("empty-line-and-char")
-require("xX-delete-single-char")
+require("paramo")
+require("lfsp")
+require("xX")
 
 require("autocmd")
-require("eol-extmark-at-cursor-line")
+require("eolmark")
 
 ----------------------------------------------------------------
 

@@ -40,6 +40,10 @@ dunst                             &
 unclutter                         &
 fcitx5                            &
 nutstore                          &
-set-keyboard                      &
+
+sleep 1 && set-keyboard           &
+# `sleep` since xmodmap settings are reset by setxkbmap
+# https://askubuntu.com/questions/54157/how-do-i-set-xmodmap-on-login
+
 set-symbolic-link_appearance dark & xrdbpid=$!
 [ -n "$xrdbpid" ] && wait "$xrdbpid"

@@ -1,5 +1,0 @@
-vim.fn.digraph_set("oo", "●")
-vim.fn.digraph_set("xx", "×")
-vim.fn.digraph_set("-<", "←")
-vim.fn.digraph_set("-^", "↑")
-vim.fn.digraph_set("^v", "↕")

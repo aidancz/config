@@ -1,5 +1,5 @@
-local para1 = require("paragraph-motion/para1")
-local para2 = require("paragraph-motion/para2")
+local para1 = require("paramo/para1")
+local para2 = require("paramo/para2")
 
 
 
