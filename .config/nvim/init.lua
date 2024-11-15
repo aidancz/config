@@ -13,6 +13,7 @@ require("plugin-builtin")
 require("option")
 
 require("keymap")
+require("tT")
 require("paramo")
 require("lfsp")
 require("xX")
