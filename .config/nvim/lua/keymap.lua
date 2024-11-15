@@ -27,6 +27,19 @@ vim.g.maplocalleader = " "
 
 
 
+-- # disable key
+
+vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
+
+vim.keymap.set({"n", "x", "o"}, "f", "<nop>")
+vim.keymap.set({"n", "x", "o"}, "F", "<nop>")
+vim.keymap.set({"n", "x", "o"}, "t", "<nop>")
+vim.keymap.set({"n", "x", "o"}, "T", "<nop>")
+vim.keymap.set({"n", "x", "o"}, ";", "<nop>")
+vim.keymap.set({"n", "x", "o"}, ",", "<nop>")
+
+
+
 -- # "n"
 
 -- vim.keymap.set("n", "<down>", ":put  _<cr>", {silent = true})
@@ -84,14 +97,6 @@ vim.keymap.set({"n", "x"}, "<c-p>", function() return math.ceil(vim.api.nvim_win
 
 -- # {"n", "x", "o"}
 
-vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
-
-vim.keymap.set({"n", "x", "o"}, "f", "<nop>")
-vim.keymap.set({"n", "x", "o"}, "F", "<nop>")
-vim.keymap.set({"n", "x", "o"}, "t", "<nop>")
-vim.keymap.set({"n", "x", "o"}, "T", "<nop>")
-vim.keymap.set({"n", "x", "o"}, ";", "<nop>")
-vim.keymap.set({"n", "x", "o"}, ",", "<nop>")
 vim.keymap.set({"n", "x", "o"}, "t",
 	function()
 		local char = vim.fn.getcharstr()
@@ -112,7 +117,11 @@ vim.keymap.set({"n", "x", "o"}, "T",
 		vim.fn.setreg("/", pattern)
 		vim.v.searchforward = 0
 	end)
-vim.keymap.set({"n", "x", "o"}, ";", "@:")
+
+vim.keymap.set({"n", "x", "o"}, ";",     "<cmd>normal @:<cr>")
+vim.keymap.set({"n", "x", "o"}, ",",     "<cmd>normal @q<cr>")
+vim.keymap.set({"n", "x", "o"}, "<f24>", "<cmd>normal @q<cr>")
+vim.keymap.set({"n", "x", "o"}, "<f13>", "<cmd>normal @p<cr>")
 
 
 

@@ -26,7 +26,10 @@ lazyspec =
 {
 
 require("lazy-spec/nofrils"),
+-- require("lazy-spec/xresources-nvim"),
+-- require("lazy-spec/nvim-xresources"),
 -- require("lazy-spec/tokyonight"),
+
 require("lazy-spec/nvim-treesitter"),
 
 require("lazy-spec/sentiment"),
@@ -35,12 +38,18 @@ require("lazy-spec/vim-mark"),
 require("lazy-spec/nvim-colorizer"),
 -- require("lazy-spec/gitsigns"),
 
-require("lazy-spec/marks"),
 
--- require("lazy-spec/nvim-ufo"),
+
+-- require("lazy-spec/nvim-better-n"),
+-- require("lazy-spec/nvim-next"),
+-- https://www.reddit.com/r/neovim/comments/1fltduc/better_mappings_for_the_n_and_p_keys/
 
 -- require("lazy-spec/undotree-mbbill"),
 require("lazy-spec/undotree-jiaoshijie"),
+
+require("lazy-spec/marks"),
+
+-- require("lazy-spec/nvim-ufo"),
 
 -- require("lazy-spec/vim-ReplaceWithRegister"),
 -- require("lazy-spec/nvim-surround"),
@@ -48,6 +57,8 @@ require("lazy-spec/Comment"),
 require("lazy-spec/mini"),
 
 -- require("lazy-spec/LuaSnip"),
+
+
 
 require("lazy-spec/nvim-cmp"),
 
