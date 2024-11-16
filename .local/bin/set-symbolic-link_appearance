@@ -71,7 +71,7 @@ echo "Theme=default" >> "$XDG_CONFIG_HOME/fcitx5/conf/classicui.conf"
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ reload_programs()
 reload_programs()
 {
-xrdb "$XDG_CONFIG_HOME/x11/.Xresources" 2> /dev/null
+xrdb "$HOME/.Xresources" 2> /dev/null
 
 system-actions "window-manager renew"
 
