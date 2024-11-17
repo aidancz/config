@@ -37,11 +37,9 @@ vim.opt.showcmdloc = "statusline"
 
 vim.opt.list = false
 vim.opt.listchars = ""
--- vim.opt.listchars:append({eol            = "$"})
-vim.opt.listchars:append({tab            = "▒▒"})
-vim.opt.listchars:append({multispace     = "░"})
-vim.opt.listchars:append({lead           = "░"})
-vim.opt.listchars:append({trail          = "░"})
+vim.opt.listchars:append({eol            = "$"})
+vim.opt.listchars:append({tab            = ">-"})
+vim.opt.listchars:append({trail          = "#"})
 
 -- some unicode symbols (to keep these chars' original color, we wrap them in a variable):
 local comment = [[·▫░▒▓█]]

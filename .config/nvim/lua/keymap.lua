@@ -117,16 +117,6 @@ vim.keymap.set({"n", "x", "i"}, "<f1>", "<cmd>silent! !setsid -f $TERMINAL >/dev
 -- https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
 
 vim.keymap.set({"n", "x", "i"}, "<f12>", "<cmd>q!<cr>")
-vim.keymap.set({"n", "x", "i"}, "<f11>",
-	function()
-		vim.cmd([[set list!]])
-		if vim.opt.list:get()
-		then
-			vim.cmd([[echo "list on"]])
-		else
-			vim.cmd([[echo "list off"]])
-		end
-	end)
 
 
 
