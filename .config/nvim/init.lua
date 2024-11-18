@@ -1,7 +1,13 @@
 --[[
+
 debug:
-if true then return end
+
+do return end
+os.exit()
+https://stackoverflow.com/questions/20188458/how-to-exit-a-lua-scripts-execution
+
 vim.api.nvim_out_write(vim.fn.system({"date", "--iso-8601=ns"}))
+
 --]]
 
 vim.loader.enable()

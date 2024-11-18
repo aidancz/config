@@ -4,7 +4,6 @@
 # env
 . "$HOME/.env"
 
-# startx only if:
-# 1. tty1
-# 2. xorg not exist
-[ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
+if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
+  exec startx
+fi

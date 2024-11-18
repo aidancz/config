@@ -2,4 +2,4 @@
 
 . "$HOME/.xprofile"
 
-dwm
+exec dwm
