@@ -1,26 +1,32 @@
 tT = {}
 
-tT.fun = function(direction)
-	tT.direction = direction
-	tT.char = vim.fn.getcharstr()
-	vim.go.operatorfunc = "v:lua.tT.fun_callback"
-	return "g@l"
+tT.map_expr = function(direction)
+	local char = vim.fn.getcharstr()
+	return string.format([[<cmd>lua tT.fun_callback(%s, "%s")<cr>]], direction, char)
+	-- make it dot-repeatable
+	-- i want to call this ultimate hack
 end
 
-tT.fun_callback = function()
-	local pattern = [[\V\C]] .. tT.char
+tT.fun_callback = function(direction, char)
+	local pattern = [[\V\C]] .. char
 
-	if tT.direction then
-		vim.fn.search(pattern, "")
+	if direction then
+		for i = 1, vim.v.count1 do
+			vim.fn.search(pattern, "")
+		end
 	else
-		vim.fn.search(pattern, "b")
+		for i = 1, vim.v.count1 do
+			vim.fn.search(pattern, "b")
+		end
 	end
 
 	vim.fn.setreg("/", pattern)
 
-	if tT.direction then
+	if direction then
 		vim.v.searchforward = 1
 	else
 		vim.v.searchforward = 0
 	end
 end
+
+return M
