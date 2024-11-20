@@ -11,5 +11,6 @@ return
 				},
 			},
 		})
+		vim.keymap.set("n", "f", require("fzf-lua").builtin)
 	end,
 }

@@ -10,7 +10,7 @@ return
 			refresh_interval = 150,
 			sign_priority = {lower=11, upper=12, builtin=14, bookmark=13},
 			excluded_filetypes = {},
-			excluded_buftypes = {},
+			excluded_buftypes = {"nofile", "terminal"},
 			bookmark_0 = {
 				sign = "⚑",
 				virt_text = "",
