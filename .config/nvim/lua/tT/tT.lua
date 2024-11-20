@@ -2,7 +2,7 @@ tT = {}
 
 tT.map_expr = function(direction)
 	local char = vim.fn.getcharstr()
-	return string.format([[<cmd>lua tT.fun_callback(%s, "%s")<cr>]], direction, char)
+	return string.format([=[<cmd>lua tT.fun_callback(%s, [[%s]])<cr>]=], direction, char)
 	-- make it dot-repeatable
 	-- i want to call this ultimate hack
 end

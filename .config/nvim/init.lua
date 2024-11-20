@@ -20,7 +20,7 @@ require("option")
 
 require("keymap")
 require("tT")
-require("paramo")
+-- require("paramo")
 require("lfsp")
 require("xX")
 
@@ -47,6 +47,7 @@ require("lazy-spec/nvim-colorizer"),
 
 
 
+require("lazy-spec/paramo"),
 -- require("lazy-spec/nvim-better-n"),
 -- require("lazy-spec/nvim-next"),
 -- https://www.reddit.com/r/neovim/comments/1fltduc/better_mappings_for_the_n_and_p_keys/
@@ -93,6 +94,10 @@ require("lazy-spec/yazi"),
 }
 
 require("lazy-setup")
+
+----------------------------------------------------------------
+
+require("redir")
 
 ----------------------------------------------------------------
 
