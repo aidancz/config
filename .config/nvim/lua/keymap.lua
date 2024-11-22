@@ -116,7 +116,15 @@ vim.keymap.set({"i", "c"}, "<a-v>", "<c-k>")
 vim.keymap.set({"n", "x", "i"}, "<f1>", "<cmd>silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>")
 -- https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
 
-vim.keymap.set({"n", "x", "i"}, "<f12>", "<cmd>q!<cr>")
+vim.keymap.set({"n", "x", "i"}, "<f12>", function()
+	if vim.fn.winnr("$") ~= 1 then
+		vim.cmd("close")
+	else
+		vim.cmd("quit!")
+	end
+	end)
+-- `:q` ignore help window, so create this mapping, see `:h edit-window`
+-- https://vi.stackexchange.com/questions/9479/what-is-the-difference-between-quit-and-close-commands
 
 
 

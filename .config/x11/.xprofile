@@ -41,7 +41,7 @@ unclutter                         &
 fcitx5                            &
 nutstore                          &
 
-sleep 4 && set-keyboard           &
+set-keyboard                      &
 # `sleep` since xmodmap settings are reset by setxkbmap
 # https://askubuntu.com/questions/54157/how-do-i-set-xmodmap-on-login
 

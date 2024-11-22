@@ -63,6 +63,16 @@ vim.api.nvim_create_autocmd(
 		end,
 	})
 
+vim.api.nvim_create_autocmd(
+	"FileType",
+	{
+		group = filetype_augroup,
+		pattern = {"help"},
+		callback = function()
+			vim.opt_local.buflisted = true
+		end,
+	})
+
 
 
 -- # filename
