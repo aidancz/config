@@ -11,15 +11,15 @@ return
 			-- },
 			{
 				type = "para1",
+				screen_or_logical_column = "screen",
 				backward = "(",
 				forward = ")",
-				screen_or_logical_column = "screen",
 			},
 			{
 				type = "para2",
+				screen_or_logical_column = "screen",
 				backward = "<home>",
 				forward = "<end>",
-				screen_or_logical_column = "screen",
 			},
 		})
 	end,

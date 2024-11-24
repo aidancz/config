@@ -61,7 +61,16 @@ require("lazy-spec/marks"),
 -- require("lazy-spec/vim-ReplaceWithRegister"),
 -- require("lazy-spec/nvim-surround"),
 require("lazy-spec/Comment"),
-require("lazy-spec/mini"),
+
+require("lazy-spec/mini-extra"),
+require("lazy-spec/mini-ai"),
+require("lazy-spec/mini-align"),
+require("lazy-spec/mini-bracketed"),
+require("lazy-spec/mini-diff"),
+require("lazy-spec/mini-icons"),
+require("lazy-spec/mini-move"),
+require("lazy-spec/mini-operators"),
+require("lazy-spec/mini-surround"),
 
 -- require("lazy-spec/LuaSnip"),
 
