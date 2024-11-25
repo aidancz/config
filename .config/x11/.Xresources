@@ -1,4 +1,4 @@
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ terminal color
+! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ color
 
 ! name		dark	light
 ! black		0	8
@@ -12,7 +12,9 @@
 
 ! e.g. brred (bright red) is color9
 
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ solarized
+! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ solarized
+
+! {{{
 
 ! https://github.com/altercation/solarized/blob/master/xresources/solarized
 
@@ -105,7 +107,11 @@
 ! dmenu.selfgcolor:	s_base1
 ! ! solarized-set
 
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nord
+! }}}
+
+! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nord
+
+! {{{
 
 ! https://github.com/nordtheme/xresources/blob/develop/src/nord
 
@@ -165,7 +171,11 @@
 ! dmenu.selfgcolor:	nord5
 ! ! nord-set
 
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ penumbra
+! }}}
+
+! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ penumbra
+
+! {{{
 
 ! https://github.com/nealmckee/penumbra
 
@@ -275,7 +285,9 @@
 ! dmenu.selfgcolor:	sky
 ! ! penumbra-set
 
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ simple
+! }}}
+
+! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ simple
 
 ! ! simple-dark-origin
 ! #define black   #000000
@@ -289,29 +301,29 @@
 ! ! simple-dark-origin
 
 ! simple-dark-solarized
-#define black     #2b2b2b
-#define red       #dc322f
-#define green     #859900
-#define yellow    #b58900
-#define blue      #268bd2
-#define magenta   #d33682
-#define cyan      #2aa198
-#define white     #9e9e9e
-#define black_alt #454545
-#define white_alt #636363
+#define black   #2b2b2b
+#define red     #dc322f
+#define green   #859900
+#define yellow  #b58900
+#define blue    #268bd2
+#define magenta #d33682
+#define cyan    #2aa198
+#define white   #9e9e9e
+#define custom0 #454545
+#define custom1 #636363
 ! simple-dark-solarized
 
 ! ! simple-light-solarized
-! #define black     #d4d4d4
-! #define red       #dc322f
-! #define green     #859900
-! #define yellow    #b58900
-! #define blue      #268bd2
-! #define magenta   #d33682
-! #define cyan      #2aa198
-! #define white     #616161
-! #define black_alt #bababa
-! #define white_alt #9c9c9c
+! #define black   #d4d4d4
+! #define red     #dc322f
+! #define green   #859900
+! #define yellow  #b58900
+! #define blue    #268bd2
+! #define magenta #d33682
+! #define cyan    #2aa198
+! #define white   #616161
+! #define custom0 #bababa
+! #define custom1 #9c9c9c
 ! ! simple-light-solarized
 
 ! simple-set
@@ -337,21 +349,21 @@
 *foreground:  white
 *cursorColor: white
 
-color_black_alt: black_alt
-color_white_alt: white_alt
+color_custom0: custom0
+color_custom1: custom1
 
 dwm.normbgcolor:	black
 dwm.normfgcolor:	white
-dwm.selbgcolor:		black_alt
-dwm.selfgcolor:		white
+dwm.selbgcolor:		white
+dwm.selfgcolor:		black
 
 dmenu.normbgcolor:	black
 dmenu.normfgcolor:	white
-dmenu.selbgcolor:	black_alt
-dmenu.selfgcolor:	white
+dmenu.selbgcolor:	white
+dmenu.selfgcolor:	black
 ! simple-set
 
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ misc
+! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ not color
 *font: monospace:size=15
 *fonta: Twemoji
 *fontb: Twemoji

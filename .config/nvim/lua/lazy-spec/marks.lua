@@ -18,6 +18,6 @@ return
 			},
 			mappings = {}
 		})
-		vim.api.nvim_set_hl(0, "MarkSignNumHL", {link = "nofrils-blue"})
+		-- vim.api.nvim_set_hl(0, "MarkSignNumHL", {link = "nofrils-blue"})
 	end,
 }

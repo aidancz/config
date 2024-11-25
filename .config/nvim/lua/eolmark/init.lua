@@ -1,6 +1,6 @@
 local M = require("eolmark/eolmark")
 
-vim.api.nvim_set_hl(0, "EolExtmark", {link = "LineNr"})
+vim.api.nvim_set_hl(0, "EolExtmark", {link = "NonText"})
 
 
 
