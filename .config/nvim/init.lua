@@ -10,6 +10,8 @@ vim.api.nvim_out_write(vim.fn.system({"date", "--iso-8601=ns"}))
 
 --]]
 
+----------------------------------------------------------------
+
 vim.loader.enable()
 
 ----------------------------------------------------------------
@@ -35,6 +37,7 @@ require("lazy-spec/nofrils"),
 -- require("lazy-spec/xresources-nvim"),
 -- require("lazy-spec/nvim-xresources"),
 -- require("lazy-spec/tokyonight"),
+-- https://lazy.folke.io/spec/lazy_loading#-colorschemes
 
 require("lazy-spec/nvim-treesitter"),
 
@@ -106,6 +109,10 @@ require("lazy-setup")
 ----------------------------------------------------------------
 
 require("redir")
+
+----------------------------------------------------------------
+
+vim.cmd.colorscheme("nofrils")
 
 ----------------------------------------------------------------
 
