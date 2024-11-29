@@ -211,4 +211,4 @@ vim.opt.autowrite = true
 
 vim.opt.completeopt = {"menu", "preview"}
 
-vim.opt.commentstring = "#%s"
+-- vim.opt.commentstring = "#%s"

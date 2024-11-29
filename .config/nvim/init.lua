@@ -16,6 +16,30 @@ vim.loader.enable()
 
 ----------------------------------------------------------------
 
+local path_package = vim.fn.stdpath('data') .. '/site/'
+local path_deps = path_package .. 'pack/deps/start/mini.deps'
+if not vim.uv.fs_stat(path_deps) then
+	vim.system(
+		{
+			'git',
+			'clone',
+			'--filter=blob:none',
+			'https://github.com/echasnovski/mini.deps',
+			path_deps,
+		}
+	):wait()
+	vim.cmd('packadd mini.deps')
+	vim.cmd('helptags ALL')
+end
+
+require("mini.deps").setup()
+
+----------------------------------------------------------------
+
+require("_plenary")
+
+----------------------------------------------------------------
+
 require("plugin-builtin")
 
 require("option")
@@ -28,93 +52,71 @@ require("xX")
 require("autocmd")
 require("eolmark")
 
-----------------------------------------------------------------
-
-lazyspec =
-{
-
-require("lazy-spec/nofrils"),
--- require("lazy-spec/xresources-nvim"),
--- require("lazy-spec/nvim-xresources"),
--- require("lazy-spec/tokyonight"),
--- https://lazy.folke.io/spec/lazy_loading#-colorschemes
-
-require("lazy-spec/nvim-treesitter"),
-
-require("lazy-spec/sentiment"),
--- require("lazy-spec/indent-blankline"),
-require("lazy-spec/vim-mark"),
-require("lazy-spec/nvim-colorizer"),
--- require("lazy-spec/gitsigns"),
-
-
-
-require("lazy-spec/paramo"),
--- require("lazy-spec/nvim-better-n"),
--- require("lazy-spec/nvim-next"),
--- https://www.reddit.com/r/neovim/comments/1fltduc/better_mappings_for_the_n_and_p_keys/
-
--- require("lazy-spec/undotree-mbbill"),
-require("lazy-spec/undotree-jiaoshijie"),
-
-require("lazy-spec/marks"),
-
--- require("lazy-spec/nvim-ufo"),
-
--- require("lazy-spec/vim-ReplaceWithRegister"),
--- require("lazy-spec/nvim-surround"),
-require("lazy-spec/Comment"),
-
-require("lazy-spec/mini-extra"),
-require("lazy-spec/mini-ai"),
-require("lazy-spec/mini-align"),
-require("lazy-spec/mini-bracketed"),
-require("lazy-spec/mini-diff"),
-require("lazy-spec/mini-icons"),
-require("lazy-spec/mini-move"),
-require("lazy-spec/mini-operators"),
-require("lazy-spec/mini-surround"),
-
--- require("lazy-spec/LuaSnip"),
-
-
-
-require("lazy-spec/nvim-cmp"),
-
--- require("lazy-spec/vim-suda"),
-require("lazy-spec/fcitx"),
-
-
-
--- require("lazy-spec/nvim-lspconfig"),
-
--- require("lazy-spec/outline"),
-require("lazy-spec/aerial"),
-
--- require("lazy-spec/sniprun"),
-
-require("lazy-spec/markdown-preview"),
-require("lazy-spec/vim-table-mode"),
-
-
-
-require("lazy-spec/telescope"),
-require("lazy-spec/fzf-lua"),
-require("lazy-spec/yazi"),
-
-}
-
-require("lazy-setup")
-
-----------------------------------------------------------------
-
 require("redir")
 
 ----------------------------------------------------------------
 
-vim.cmd.colorscheme("nofrils")
+require("_nofrils")
 
-----------------------------------------------------------------
+require("_nvim-treesitter")
 
-vim.cmd([[
-]])
+require("_sentiment")
+-- require("_indent-blankline")
+require("_vim-mark")
+require("_nvim-colorizer")
+-- require("_gitsigns")
+
+
+
+require("_paramo")
+-- require("_nvim-better-n")
+-- require("_nvim-next")
+-- https://www.reddit.com/r/neovim/comments/1fltduc/better_mappings_for_the_n_and_p_keys/
+
+-- require("_undotree-mbbill")
+require("_undotree-jiaoshijie")
+
+require("_marks")
+
+-- require("_nvim-ufo")
+
+-- require("_vim-ReplaceWithRegister")
+-- require("_nvim-surround")
+require("_Comment")
+
+require("_mini-extra")
+require("_mini-ai")
+require("_mini-align")
+require("_mini-bracketed")
+require("_mini-diff")
+require("_mini-icons")
+require("_mini-move")
+require("_mini-operators")
+require("_mini-surround")
+
+-- require("_LuaSnip")
+
+
+
+require("_nvim-cmp")
+
+-- require("_vim-suda")
+require("_fcitx")
+
+
+
+-- require("_nvim-lspconfig")
+
+-- require("_outline")
+require("_aerial")
+
+-- require("_sniprun")
+
+require("_markdown-preview")
+require("_vim-table-mode")
+
+
+
+require("_telescope")
+require("_fzf-lua")
+require("_yazi")
