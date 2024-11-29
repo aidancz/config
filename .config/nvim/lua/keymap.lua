@@ -31,13 +31,6 @@ vim.g.maplocalleader = " "
 
 vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
 
-vim.keymap.set({"n", "x", "o"}, "f", "<nop>")
-vim.keymap.set({"n", "x", "o"}, "F", "<nop>")
-vim.keymap.set({"n", "x", "o"}, "t", "<nop>")
-vim.keymap.set({"n", "x", "o"}, "T", "<nop>")
-vim.keymap.set({"n", "x", "o"}, ";", "<nop>")
-vim.keymap.set({"n", "x", "o"}, ",", "<nop>")
-
 
 
 -- # "n"

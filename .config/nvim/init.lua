@@ -1,3 +1,5 @@
+----------------------------------------------------------------
+
 --[[
 
 debug:
@@ -36,87 +38,74 @@ require("mini.deps").setup()
 
 ----------------------------------------------------------------
 
-require("_plenary")
+MiniDeps.now(function()
 
-----------------------------------------------------------------
+require("_nofrils")
 
 require("plugin-builtin")
-
 require("option")
-
-require("keymap")
-require("tT")
-require("lfsp")
-require("xX")
 
 require("autocmd")
 require("eolmark")
 
-require("redir")
+end)
 
 ----------------------------------------------------------------
 
-require("_nofrils")
+MiniDeps.later(function()
 
-require("_nvim-treesitter")
+require("_plenary")
+require("_mini-extra")
 
-require("_sentiment")
--- require("_indent-blankline")
-require("_vim-mark")
-require("_nvim-colorizer")
 -- require("_gitsigns")
+-- require("_indent-blankline")
+-- require("_mini-icons")
+-- require("_nvim-ufo")
+require("_marks")
+require("_mini-diff")
+require("_nvim-colorizer")
+require("_nvim-treesitter")
+require("_sentiment")
 
-
-
-require("_paramo")
+-- require("_LuaSnip")
 -- require("_nvim-better-n")
 -- require("_nvim-next")
--- https://www.reddit.com/r/neovim/comments/1fltduc/better_mappings_for_the_n_and_p_keys/
-
--- require("_undotree-mbbill")
-require("_undotree-jiaoshijie")
-
-require("_marks")
-
--- require("_nvim-ufo")
-
--- require("_vim-ReplaceWithRegister")
 -- require("_nvim-surround")
+-- require("_vim-ReplaceWithRegister")
 require("_Comment")
-
-require("_mini-extra")
+require("_fcitx")
 require("_mini-ai")
 require("_mini-align")
 require("_mini-bracketed")
-require("_mini-diff")
-require("_mini-icons")
 require("_mini-move")
 require("_mini-operators")
 require("_mini-surround")
+require("_paramo")
+require("_vim-mark")
+require("keymap")
+require("lfsp")
+require("tT")
+require("xX")
 
--- require("_LuaSnip")
-
-
-
-require("_nvim-cmp")
-
+-- require("_telescope")
+-- require("_undotree-mbbill")
 -- require("_vim-suda")
-require("_fcitx")
-
-
+-- require("_yazi")
+require("_fzf-lua")
+require("_undotree-jiaoshijie")
+require("redir")
 
 -- require("_nvim-lspconfig")
-
 -- require("_outline")
-require("_aerial")
-
 -- require("_sniprun")
+require("_aerial")
+require("_nvim-cmp")
 
 require("_markdown-preview")
 require("_vim-table-mode")
 
+end)
 
+-- https://www.reddit.com/r/neovim/comments/1fltduc/better_mappings_for_the_n_and_p_keys/
 
-require("_telescope")
-require("_fzf-lua")
-require("_yazi")
+----------------------------------------------------------------
