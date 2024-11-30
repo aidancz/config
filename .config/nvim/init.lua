@@ -40,10 +40,10 @@ require("mini.deps").setup()
 
 MiniDeps.now(function()
 
-require("_nofrils")
-
 require("plugin-builtin")
 require("option")
+
+require("_nofrils")
 
 require("autocmd")
 require("eolmark")
