@@ -40,7 +40,7 @@ require("mini.deps").setup()
 
 MiniDeps.now(function()
 
-require("plugin-builtin")
+require("variable")
 require("option")
 
 require("_nofrils")

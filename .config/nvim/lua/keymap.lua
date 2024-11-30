@@ -20,13 +20,6 @@ l[nore]map     |  -   | yes | yes |  -  |  -  |  -  |  -   | yes  |
 
 
 
--- # leader key
-
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
-
-
 -- # disable key
 
 vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")

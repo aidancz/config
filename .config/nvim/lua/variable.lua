@@ -1,3 +1,12 @@
+-- # leader key
+
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+
+
+-- # builtin plugin
+
 --[[
 it's possible to turn off specific filetype plugin
 
