@@ -46,7 +46,7 @@ require("option")
 require("_nofrils")
 
 require("autocmd")
-require("eolmark")
+require("_eolmark")
 
 end)
 
