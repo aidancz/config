@@ -44,9 +44,12 @@ require("variable")
 require("option")
 
 require("_nofrils")
+require("_eolmark")
+require("_whitespace")
 
 require("autocmd")
-require("_eolmark")
+
+require("_markdown-preview")
 
 end)
 
@@ -56,6 +59,12 @@ MiniDeps.later(function()
 
 require("_plenary")
 require("_mini-extra")
+
+end)
+
+----------------------------------------------------------------
+
+MiniDeps.later(function()
 
 -- require("_gitsigns")
 -- require("_indent-blankline")
@@ -101,7 +110,6 @@ require("redir")
 require("_aerial")
 require("_nvim-cmp")
 
-require("_markdown-preview")
 require("_vim-table-mode")
 
 end)

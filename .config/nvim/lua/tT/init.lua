@@ -1,9 +1,9 @@
-vim.keymap.set({"n", "x", "o"}, "f", "<nop>")
-vim.keymap.set({"n", "x", "o"}, "F", "<nop>")
-vim.keymap.set({"n", "x", "o"}, "t", "<nop>")
-vim.keymap.set({"n", "x", "o"}, "T", "<nop>")
-vim.keymap.set({"n", "x", "o"}, ";", "<nop>")
-vim.keymap.set({"n", "x", "o"}, ",", "<nop>")
+-- vim.keymap.set({"n", "x", "o"}, "f", "<nop>")
+-- vim.keymap.set({"n", "x", "o"}, "F", "<nop>")
+-- vim.keymap.set({"n", "x", "o"}, "t", "<nop>")
+-- vim.keymap.set({"n", "x", "o"}, "T", "<nop>")
+-- vim.keymap.set({"n", "x", "o"}, ";", "<nop>")
+-- vim.keymap.set({"n", "x", "o"}, ",", "<nop>")
 
 require("tT/tT")
 

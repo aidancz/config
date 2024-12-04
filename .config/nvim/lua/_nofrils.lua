@@ -7,3 +7,4 @@ vim.opt.runtimepath:prepend("~/sync_git/nofrils")
 -- })
 
 vim.cmd("colorscheme nofrils")
+-- `ColorScheme` autocmd will be triggered
