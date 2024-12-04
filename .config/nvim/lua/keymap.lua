@@ -183,3 +183,16 @@ vim.api.nvim_create_user_command("DeleteLastEOL",
 	end,
 	{})
 -- https://stackoverflow.com/questions/1050640/how-to-stop-vim-from-adding-a-newline-at-end-of-file
+
+
+
+vim.api.nvim_create_user_command("Presentation",
+	function()
+		vim.opt.foldcolumn = "0"
+
+		vim.opt.signcolumn = "no"
+
+		vim.opt.number = false
+		vim.opt.relativenumber = false
+	end,
+	{})
