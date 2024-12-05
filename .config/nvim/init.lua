@@ -46,9 +46,11 @@ require("option")
 require("_nofrils")
 require("_eolmark")
 require("_whitespace")
+-- require("_mini-trailspace")
 
 require("autocmd")
 
+-- require("_nvim-lspconfig")
 require("_markdown-preview")
 
 end)
@@ -104,7 +106,6 @@ require("_fzf-lua")
 require("_undotree-jiaoshijie")
 require("redir")
 
--- require("_nvim-lspconfig")
 -- require("_outline")
 -- require("_sniprun")
 require("_aerial")

@@ -16,4 +16,6 @@ require("fzf-lua").setup({
 	}
 })
 
+Nofrils.clear({"^FzfLua"})
+
 vim.keymap.set("n", "f", require("fzf-lua").builtin)

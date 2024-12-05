@@ -10,6 +10,12 @@ vim.opt.runtimepath:prepend("~/sync_git/nofrils.nvim")
 
 local main = function()
 
+-- # set option
+
+vim.opt.background = "dark"
+
+
+
 -- # clear definition of all existing highlight groups
 
 Nofrils.clear({".*"})

@@ -27,7 +27,7 @@ vim.opt.wildoptions = {"pum", "tagfile"}
 vim.opt.shortmess:remove("S")
 vim.opt.shortmess:append("I")
 vim.opt.showmode = false
-vim.opt.showcmd = true
+vim.opt.showcmd = false
 vim.opt.showcmdloc = "statusline"
 -- wildmenu	using wildchar (usually <tab>) to perform a command-line completion, shows a menu
 -- wildoptions	pum: popup menu
