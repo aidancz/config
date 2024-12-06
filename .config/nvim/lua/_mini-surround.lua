@@ -3,6 +3,7 @@ MiniDeps.add({
 })
 
 require("mini.surround").setup({
+	silent = true,
 	custom_surroundings = {
 		['('] = { input = { '%b()', '^.().*().$'       }, output = { left = '(',  right = ')'  } },
 		[')'] = { input = { '%b()', '^.%s*().-()%s*.$' }, output = { left = '( ', right = ' )' } },
@@ -18,8 +19,8 @@ require("mini.surround").setup({
 		delete  = "ds",
 		replace = "cs",
 
-		suffix_last = "h",
-		suffix_next = "l",
+		suffix_next = "n",
+		suffix_last = "N",
 	},
 	respect_selection_type = true,
 	search_method = "cover_or_next",

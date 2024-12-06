@@ -3,6 +3,7 @@ MiniDeps.add({
 })
 
 require("mini.ai").setup({
+	silent = true,
 	custom_textobjects = {
 		['('] = { '%b()', '^.().*().$' },
 		[')'] = { '%b()', '^.%s*().-()%s*.$' },
@@ -22,9 +23,9 @@ require("mini.ai").setup({
 		q = { { "'.-'", '".-"', '`.-`' }, '^.().*().$' },
 		-- 金铁击石全无力 大圣天蓬遭虎欺 枪刀戟剑浑不避 石猴似你不似你
 
-		n = require("mini.extra").gen_ai_spec.number(),
-		c = function(ai_type)
-		-- current line
+		c = require("mini.extra").gen_ai_spec.number(),
+		-- count number
+		l = function(ai_type)
 			local line_num = vim.fn.line(".")
 			local col_max = math.max(1, #vim.api.nvim_get_current_line())
 			local region = {from = {line = line_num, col = 1}, to = {line = line_num, col = col_max}}
@@ -50,13 +51,13 @@ require("mini.ai").setup({
 		end,
 	},
 	mappings = {
-		around_next = "al",
-		inside_next = "il",
-		around_last = "ah",
-		inside_last = "ih",
+		around_next = "an",
+		inside_next = "in",
+		around_last = "aN",
+		inside_last = "iN",
 
-		goto_left  = "gh",
-		goto_right = "gl",
+		goto_left  = "g[",
+		goto_right = "g]",
 	},
 	n_lines = 1024,
 	search_method = "cover_or_next",

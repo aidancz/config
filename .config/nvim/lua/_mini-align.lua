@@ -3,6 +3,7 @@ MiniDeps.add({
 })
 
 require("mini.align").setup({
+	-- silent = true,
 	mappings = {
 		start = "gn",
 		start_with_preview = "gN",
