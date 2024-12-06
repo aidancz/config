@@ -5,13 +5,16 @@ vim.opt.runtimepath:prepend("~/sync_git/whitespace.nvim")
 -- })
 
 require("whitespace").setup({
-	excluded_filetypes = {},
-	excluded_buftypes = {".+"},
+	excluded_filetypes = {
+	},
+	excluded_buftypes = {
+		".+",
+	},
 	init_switches = {
-		false,
-		false,
-		false,
-		true,
+		whitespace_switch_1 = false,
+		whitespace_switch_2 = false,
+		whitespace_switch_3 = false,
+		whitespace_switch_4 = true,
 	},
 })
 
@@ -24,6 +27,6 @@ local toggle = function()
 	vim.w.whitespace_switch_1 = not vim.w.whitespace_switch_1
 	vim.w.whitespace_switch_2 = not vim.w.whitespace_switch_2
 	vim.w.whitespace_switch_3 = not vim.w.whitespace_switch_3
-	Whitespace.match_sync()
+	require("whitespace").match_sync()
 end
 vim.keymap.set({"n", "x", "i"}, "<f11>", toggle)

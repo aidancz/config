@@ -18,13 +18,13 @@ vim.opt.background = "dark"
 
 -- # clear definition of all existing highlight groups
 
-Nofrils.clear({".*"})
+require("nofrils").clear({".*"})
 
 
 
 -- # get xresources colors and store them in a table named `x`
 
-local x = Nofrils.get_xresources()
+local x = require("nofrils").get_xresources()
 
 
 
