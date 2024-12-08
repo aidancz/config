@@ -27,7 +27,7 @@ vim.opt.wildoptions = {"pum", "tagfile"}
 vim.opt.shortmess:remove("S")
 vim.opt.shortmess:append("I")
 vim.opt.showmode = false
-vim.opt.showcmd = false
+vim.opt.showcmd = true
 vim.opt.showcmdloc = "statusline"
 -- wildmenu	using wildchar (usually <tab>) to perform a command-line completion, shows a menu
 -- wildoptions	pum: popup menu
@@ -87,6 +87,9 @@ vim.opt.iskeyword:remove("_")
 -- vim.opt.iskeyword:append("_")
 -- vim.opt.iskeyword:append("-")
 vim.opt.smoothscroll = true
+
+vim.opt.mouse = "a"
+vim.opt.mousemodel = "popup_setpos"
 
 
 
@@ -200,6 +203,8 @@ vim.opt.cpoptions:append("u")
 -- vim.opt.cpoptions:append("v")
 -- vim.opt.cpoptions:append("$")
 -- https://vi.stackexchange.com/questions/6194/why-do-cw-and-ce-do-the-same-thing
+
+vim.opt.selection = "exclusive"
 
 vim.opt.updatetime = 100
 -- https://github.com/iamcco/markdown-preview.nvim/issues/4

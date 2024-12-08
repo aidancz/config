@@ -20,10 +20,11 @@ require("aerial").setup({
 		["<a-v>"]  = "actions.jump_vsplit",
 	},
 	layout = {
-		width = 0.5,
-		max_width = 0.5,
-		min_width = 0.5,
-		default_direction = "float",
+		width = nil,
+		max_width = 0.3,
+		min_width = nil,
+		-- default_direction = "float",
+		default_direction = "prefer_right",
 		resize_to_content = false,
 	},
 	float = {
@@ -37,4 +38,5 @@ require("aerial").setup({
 		Collapsed = "●",
 	},
 })
+
 vim.keymap.set("n", "<f3>", "<cmd>AerialToggle<cr>")
