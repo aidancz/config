@@ -40,12 +40,21 @@ require("nvim-treesitter.install").prefer_git = true
 
 ----------------------------------------------------------------
 
+-- `:h nvim-treesitter-modules`
+
 require("nvim-treesitter.configs").setup({
 	ensure_installed = {},
 	auto_install = true,
 	highlight = {
 		enable = true,
-		disable = {},
+		disable = function(lang, buf)
+			local line = vim.api.nvim_buf_line_count(buf)
+			if line > 5000 then
+				return true
+			else
+				return false
+			end
+		end,
 		additional_vim_regex_highlighting = false,
 	},
 	-- indent = {
