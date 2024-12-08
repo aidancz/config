@@ -1,8 +1,11 @@
 MiniDeps.add({
 	source = "michaelb/sniprun",
 	hooks = {
+		post_install = function(arg)
+			vim.system({"sh", "install.sh"}, {cwd = arg.path}):wait()
+		end,
 		post_checkout = function(arg)
-			vim.system({"sh", "install.sh"}, {cwd = arg.path})
+			vim.system({"sh", "install.sh"}, {cwd = arg.path}):wait()
 		end,
 	},
 })

@@ -7,8 +7,11 @@ MiniDeps.add({
 		{
 			source = "nvim-telescope/telescope-fzf-native.nvim",
 			hooks = {
+				post_install = function(arg)
+					vim.system({"make"}, {cwd = arg.path}):wait()
+				end,
 				post_checkout = function(arg)
-					vim.system({"make"}, {cwd = arg.path})
+					vim.system({"make"}, {cwd = arg.path}):wait()
 				end,
 			},
 		},
@@ -39,5 +42,7 @@ require("telescope").setup({
 		},
 	},
 })
+
 require("telescope").load_extension("fzf")
+
 require("telescope").load_extension("ui-select")

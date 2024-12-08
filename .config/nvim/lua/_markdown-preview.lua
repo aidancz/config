@@ -1,6 +1,11 @@
 MiniDeps.add({
 	source = "iamcco/markdown-preview.nvim",
 	hooks = {
+		post_install = function()
+			MiniDeps.later(function()
+			vim.fn["mkdp#util#install"]()
+			end)
+		end,
 		post_checkout = function()
 			vim.fn["mkdp#util#install"]()
 		end,

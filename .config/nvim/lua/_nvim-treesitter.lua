@@ -1,6 +1,11 @@
 MiniDeps.add({
 	source = "nvim-treesitter/nvim-treesitter",
 	hooks = {
+		post_install = function()
+			MiniDeps.later(function()
+			vim.cmd("TSUpdate")
+			end)
+		end,
 		post_checkout = function()
 			vim.cmd("TSUpdate")
 		end,
