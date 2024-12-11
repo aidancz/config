@@ -30,4 +30,4 @@ require("zoxide"):setup({
 
 
 
-require("starship"):setup()
+-- require("starship"):setup()
