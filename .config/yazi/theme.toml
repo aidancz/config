@@ -3,12 +3,17 @@
 # "gray":     terminal color code 7
 # "darkgray": terminal color code 8
 
+
+
 [flavor]
-use = ""
+
+dark  = ""
+light = ""
 
 
 
 [manager]
+
 cwd = {}
 
 # hovered
@@ -44,15 +49,21 @@ border_style  = {}
 
 
 
+[mode]
+
+normal_main = {fg = "white", bg = "black"}
+normal_alt  = {fg = "white", bg = "black"}
+select_main = {fg = "white", bg = "black"}
+select_alt  = {fg = "white", bg = "black"}
+unset_main  = {fg = "white", bg = "black"}
+unset_alt   = {fg = "white", bg = "black"}
+
+
+
 [status]
+
 separator_open  = ""
 separator_close = ""
-separator_style = {fg = "white", bg = "black"}
-
-# mode
-mode_normal = {fg = "black", bg = "white"}
-mode_select = {fg = "black", bg = "green"}
-mode_unset  = {fg = "black", bg = "gray"}
 
 # progress
 progress_label  = {}
@@ -60,15 +71,16 @@ progress_normal = {fg = "blue", bg = "black"}
 progress_error  = {fg = "red",  bg = "black"}
 
 # permissions
-permissions_t = {}
-permissions_r = {}
-permissions_w = {}
-permissions_x = {}
-permissions_s = {}
+perm_sep   = {}
+perm_type  = {}
+perm_read  = {}
+perm_write = {}
+perm_exec  = {}
 
 
 
-[select]
+[pick]
+
 border   = {}
 active   = {}
 inactive = {}
@@ -76,6 +88,7 @@ inactive = {}
 
 
 [input]
+
 border   = {}
 title    = {}
 value    = {}
@@ -83,7 +96,20 @@ selected = {}
 
 
 
+[confirm]
+
+border     = {}
+title      = {}
+content    = {}
+list       = {}
+btn_yes    = {reversed = true}
+btn_no     = {}
+btn_labels = ["y", "n"]
+
+
+
 [completion]
+
 border   = {}
 active   = {reversed = true}
 inactive = {}
@@ -96,6 +122,7 @@ icon_command = ""
 
 
 [tasks]
+
 border  = {}
 title   = {}
 hovered = {}
@@ -103,6 +130,7 @@ hovered = {}
 
 
 [which]
+
 cols            = 1
 mask            = {}
 cand            = {}
@@ -114,6 +142,7 @@ separator_style = {}
 
 
 [help]
+
 on      = {}
 run     = {}
 desc    = {}
@@ -123,6 +152,7 @@ footer  = {}
 
 
 [notify]
+
 title_info  = { fg = "green" }
 title_warn  = { fg = "yellow" }
 title_error = { fg = "red" }
@@ -135,6 +165,7 @@ icon_error = ""
 
 
 [filetype]
+
 # file --mime-type cat_white.jpg
 
 rules = [
@@ -159,14 +190,14 @@ rules = [
 	{name = "*.azw3", fg = "yellow"},
 
 	# {mime = "application/zip",                fg = "magenta"},
-	# {mime = "application/x-7z-compressed",    fg = "magenta"},
-	# {mime = "application/x-rar",              fg = "magenta"},
+	# {mime = "application/7z-compressed",    fg = "magenta"},
+	# {mime = "application/rar",              fg = "magenta"},
 	# {mime = "image/*",                        fg = "yellow"},
 	# {mime = "audio/*",                        fg = "yellow"},
 	# {mime = "video/*",                        fg = "yellow"},
 	# {mime = "application/pdf",                fg = "yellow"},
 	# {mime = "application/epub+zip",           fg = "yellow"},
-	# {mime = "application/x-mobipocket-ebook", fg = "yellow"},
+	# {mime = "application/mobipocket-ebook", fg = "yellow"},
 
 ]
 

@@ -7,45 +7,39 @@ on = ["g"]
 run = "arrow -99999999"
 
 [[manager.prepend_keymap]]
-on = ["<Tab>"]
-run = "forward"
-# <tab> & <c-i>
-
-[[manager.prepend_keymap]]
-on = ["<C-o>"]
+on = ["<c-o>"]
 run = "back"
+[[manager.prepend_keymap]]
+on = ["<c-i>"]
+run = "forward"
 
 [[manager.prepend_keymap]]
-on = ["<Down>"]
-run = ["select --state=none", "arrow 1"]
+on = ["<down>"]
+run = ["toggle", "arrow 1"]
+[[manager.prepend_keymap]]
+on = ["<up>"]
+run = ["toggle", "arrow -1"]
 
 [[manager.prepend_keymap]]
-on = ["<Up>"]
-run = ["select --state=none", "arrow -1"]
-
-[[manager.prepend_keymap]]
-on = ["<F12>"]
+on = ["<f12>"]
 run = "quit"
-
 [[manager.prepend_keymap]]
-on = ["<F3>"]
+on = ["<f3>"]
 run = "quit"
 
 [[manager.prepend_keymap]]
 on = ["d"]
 run = "yank --cut"
+[[manager.prepend_keymap]]
+on = ["<c-g>"]
+run = "unyank"
 
 [[manager.prepend_keymap]]
 on = ["x"]
 run = "remove"
-
 [[manager.prepend_keymap]]
 on = ["X"]
 run = "remove --permanently"
-
-[[manager.prepend_keymap]]
-on = ["<C-g>"]
-run = "unyank"
 
 [[manager.prepend_keymap]]
 on = ["A"]
@@ -54,55 +48,49 @@ run = "create --dir"
 ################################ shell
 
 [[manager.prepend_keymap]]
-on = ["<F1>"]
-run = """
-shell --confirm 'setsid -f $TERMINAL >/dev/null 2>&1'
-"""
-
-[[manager.prepend_keymap]]
-on = ["<Enter>"]
-run = """
-shell --confirm 'setsid -f $TERMINAL >/dev/null 2>&1'
-"""
-
-[[manager.prepend_keymap]]
-on = ["<Home>"]
-run = """
-shell 'ya pub dds-cd --str "$(git rev-parse --show-toplevel)"' --confirm
-"""
-
-[[manager.prepend_keymap]]
-on   = "<F2>"
+on   = "<a-o>"
 run  = """
-shell --confirm --block 'vidir "$@"'
-"""
-
-[[manager.prepend_keymap]]
-on   = "<F5>"
-run  = """
-shell --confirm 'markdown-attach-mv-file "$0" "$@"'
-"""
-
-[[manager.prepend_keymap]]
-on   = "<F10>"
-run  = """
-shell --confirm --block 'back-up-file "$@"'
-"""
-
-[[manager.prepend_keymap]]
-on   = "<A-o>"
-run  = """
-shell --confirm ''
+shell ''
 """
 desc = "test"
 
 [[manager.prepend_keymap]]
+on = ["<f1>"]
+run = """
+shell 'setsid -f $TERMINAL >/dev/null 2>&1'
+"""
+[[manager.prepend_keymap]]
+on = ["<enter>"]
+run = """
+shell 'setsid -f $TERMINAL >/dev/null 2>&1'
+"""
+
+[[manager.prepend_keymap]]
+on = ["<home>"]
+run = """
+shell 'ya emit cd "$(git rev-parse --show-toplevel)"'
+"""
+
+[[manager.prepend_keymap]]
+on   = "<f5>"
+run  = """
+shell 'yazi-execute "$0" "$@"'
+"""
+
+[[manager.prepend_keymap]]
 on   = "O"
 run  = """
-shell --confirm 'open-with-program "$0"'
+shell 'open-with-program "$0"'
 """
 
 ################################ plugin
+
+[[manager.prepend_keymap]]
+on = ["<pagedown>"]
+run = "plugin parent-arrow --args=1"
+[[manager.prepend_keymap]]
+on = ["<pageup>"]
+run = "plugin parent-arrow --args=-1"
 
 [[manager.prepend_keymap]]
 on = ["e"]
@@ -112,28 +100,12 @@ run = "plugin zoxide"
 on = ["i"]
 run = "plugin fzf"
 
-# [[manager.prepend_keymap]]
-# on = ["<A-x>"]
-# run = "plugin command"
-
 [[manager.prepend_keymap]]
-on = ["<PageDown>"]
-run = "plugin --sync parent-arrow --args=1"
-
-[[manager.prepend_keymap]]
-on = ["<PageUp>"]
-run = "plugin --sync parent-arrow --args=-1"
-
-# [[manager.prepend_keymap]]
-# on   = "O"
-# run  = "plugin open-with-cmd --args=block"
-
-[[manager.prepend_keymap]]
-on   = "<F4>"
+on   = "<f4>"
 run  = "plugin diff"
 
 ################################################################ input
 
 [[input.prepend_keymap]]
-on   = ["<Esc>"]
+on   = ["<esc>"]
 run  = "close"

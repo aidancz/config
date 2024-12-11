@@ -25,8 +25,7 @@ require("mini.ai").setup({
 		q = { { "'.-'", '".-"', '`.-`' }, '^.().*().$' },
 		-- 金铁击石全无力 大圣天蓬遭虎欺 枪刀戟剑浑不避 石猴似你不似你
 
-		c = require("mini.extra").gen_ai_spec.number(),
-		-- count number
+		n = require("mini.extra").gen_ai_spec.number(),
 		l = function(ai_type)
 			local line_num = vim.fn.line(".")
 			local col_max = math.max(1, #vim.api.nvim_get_current_line())

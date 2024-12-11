@@ -5,8 +5,8 @@ MiniDeps.add({
 require("mini.align").setup({
 	-- silent = true,
 	mappings = {
-		start = "gn",
-		start_with_preview = "gN",
+		start = "gl",
+		start_with_preview = "gL",
 	},
 })
-vim.keymap.set("n", "gnn", "gn_", {remap = true})
+vim.keymap.set("n", "gll", "gl_", {remap = true})

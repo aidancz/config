@@ -1,26 +1,32 @@
 local M = {}
 
--- function M:peek()
--- 	local output_string = Command("cat"):args({"", tostring(self.file.url)}):stdout(Command.PIPED):output().stdout
--- 	local output_string_expand = output_string:gsub("\t", string.rep(" ", PREVIEW.tab_size))
--- 	local p = ui.Paragraph.parse(self.area, output_string_expand)
--- 	ya.preview_widgets(self, {p:wrap(ui.Paragraph.WRAP)})
--- end
+M.peek = function(self, job)
+	local a1 = Command("head")
+	a1.args(a1, {"-n 128", tostring(job.file.url)})
+	a1.stdout(a1, Command.PIPED)
 
-function M:peek()
-	local lines
-	local child
+	local a1_output, a1_err = a1.output(a1)
+	local a1_output_stdout = a1_output.stdout
 
-	lines = Command("head"):args({"-n 128", tostring(self.file.url)}):stdout(Command.PIPED):output().stdout
+	local a2 = Command("expand")
+	a2.stdin(a2, Command.PIPED)
+	a2.stdout(a2, Command.PIPED)
 
-	child = Command("expand"):stdin(Command.PIPED):stdout(Command.PIPED):spawn()
-	child:write_all(lines)
-	child:flush()
-	lines = child:wait_with_output().stdout
+	local a2_child = a2.spawn(a2)
+	a2_child.write_all(a2_child, a1_output_stdout)
+	a2_child.flush(a2_child)
 
-	ya.preview_widgets(self, {ui.Paragraph.parse(self.area, lines)})
+	local a2_output, a2_err = a2_child.wait_with_output(a2_child)
+	local a2_output_stdout = a2_output.stdout
+
+	local b = ui.Text(a2_output_stdout)
+	b.area(b, job.area)
+	b.wrap(b, ui.Text.WRAP)
+
+	ya.preview_widgets(job, {b})
 end
 
-function M:seek() end
+M.seek = function(self, job)
+end
 
 return M

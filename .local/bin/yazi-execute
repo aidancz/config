@@ -1,0 +1,21 @@
+#!/bin/sh
+
+input_a="$1"
+shift
+input_b="$*"
+
+menu="\
+markdown-attach-mv-file
+back-up-file
+"
+
+i="$(printf "%s" "$menu" | dmenu -l 64 -i -p "script")"
+
+case "$i" in
+	"markdown-attach-mv-file")
+		markdown-attach-mv-file "$input_a" $input_b
+		;;
+	"back-up-file")
+		back-up-file $input_b
+		;;
+esac

@@ -1,5 +1,5 @@
 [plugin]
-deps = [{ use = "Reledia/hexyl", rev = "ccc0a4a" }, { use = "yazi-rs/plugins:git", rev = "4a6edc3" }, { use = "yazi-rs/plugins:diff", rev = "4a6edc3" }]
+deps = [{ use = "Reledia/hexyl", rev = "39d3d4e" }, { use = "yazi-rs/plugins:git", rev = "ec97f88" }, { use = "yazi-rs/plugins:diff", rev = "ec97f88" }]
 
 [flavor]
 deps = []
