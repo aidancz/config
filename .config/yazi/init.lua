@@ -21,3 +21,13 @@ THEME.git.untracked = ui.Style():fg("")
 THEME.git.updated   = ui.Style():fg("")
 
 require("git"):setup()
+
+
+
+require("zoxide"):setup({
+	update_db = true,
+})
+
+
+
+require("starship"):setup()

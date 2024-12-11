@@ -68,6 +68,8 @@ alias i="fzf_cd"
 
 eval "$(atuin init zsh)"
 
+eval "$(starship init zsh)"
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle
 
 autoload edit-command-line; zle -N edit-command-line
