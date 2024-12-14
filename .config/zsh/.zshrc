@@ -69,7 +69,7 @@ alias i="fzf_cd"
 
 eval "$(atuin init zsh)"
 
-eval "$(starship init zsh)"
+# eval "$(starship init zsh)"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle
 
