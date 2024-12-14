@@ -1,6 +1,7 @@
 enter_accept = true
 [stats]
 [keys]
+scroll_exits = false
 [sync]
 records = true
 [preview]

@@ -76,6 +76,7 @@ require("_marks")
 require("_mini-diff")
 require("_nvim-colorizer")
 require("_nvim-treesitter")
+require("_nvim-treesitter-textobjects")
 require("_sentiment")
 
 -- require("_LuaSnip")
