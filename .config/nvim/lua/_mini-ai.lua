@@ -1,35 +1,52 @@
--- vim.opt.runtimepath:prepend("~/sync_git/mini.nvim")
+vim.opt.runtimepath:prepend("~/sync_git/mini.nvim")
 
-MiniDeps.add({
-	source = "echasnovski/mini.ai",
-})
+-- MiniDeps.add({
+-- 	source = "echasnovski/mini.ai",
+-- })
 
 require("mini.ai").setup({
 	silent = true,
 	custom_textobjects = {
 		['('] = { '%b()', '^.().*().$' },
-		[')'] = { '%b()', '^.%s*().-()%s*.$' },
 		['['] = { '%b[]', '^.().*().$' },
-		[']'] = { '%b[]', '^.%s*().-()%s*.$' },
 		['{'] = { '%b{}', '^.().*().$' },
-		['}'] = { '%b{}', '^.%s*().-()%s*.$' },
 		['<'] = { '%b<>', '^.().*().$' },
+		[')'] = { '%b()', '^.%s*().-()%s*.$' },
+		[']'] = { '%b[]', '^.%s*().-()%s*.$' },
+		['}'] = { '%b{}', '^.%s*().-()%s*.$' },
 		['>'] = { '%b<>', '^.%s*().-()%s*.$' },
-		b = {{'%b()', '%b[]', '%b{}', '%b<>'}, '^.().*().$'},
+		b = {
+			{ '%b()', '%b[]', '%b{}', '%b<>' },
+			'^.().*().$'
+		},
 
 		-- ['"'] = { '"().-()"' },
 		-- https://github.com/echasnovski/mini.nvim/issues/1281
 		["'"] = { "'.-'", '^.().*().$' },
 		['"'] = { '".-"', '^.().*().$' },
 		['`'] = { '`.-`', '^.().*().$' },
-		q = { { "'.-'", '".-"', '`.-`' }, '^.().*().$' },
+		q = {
+			{ "'.-'", '".-"', '`.-`' },
+			'^.().*().$'
+		},
 		-- 金铁击石全无力 大圣天蓬遭虎欺 枪刀戟剑浑不避 石猴似你不似你
 
-		n = require("mini.extra").gen_ai_spec.number(),
+		d = require("mini.extra").gen_ai_spec.number(),
 
 		l = function(ai_type)
 			local row = vim.fn.line(".")
-			local col_end = math.max(1, string.len(vim.fn.getline(".")))
+			local col_end = string.len(vim.fn.getline("."))
+
+			local to
+			if col_end ~= 0 then
+				to = {
+					line = row,
+					col = col_end,
+				}
+			else
+				to = nil
+			end
+
 			local vis_mode
 			if ai_type == "i" then
 				vis_mode = "v"
@@ -42,10 +59,7 @@ require("mini.ai").setup({
 					line = row,
 					col = 1,
 				},
-				to = {
-					line = row,
-					col = col_end,
-				},
+				to = to,
 				vis_mode = vis_mode,
 			}
 		end,
@@ -132,6 +146,7 @@ require("mini.ai").setup({
 				vis_mode = "V",
 			}
 		end,
+
 		c = function(ai_type, id, opts)
 			local f = require("mini.ai").gen_spec.treesitter({
 				i = "@block.inner",

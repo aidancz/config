@@ -204,7 +204,7 @@ vim.opt.cpoptions:append("u")
 -- vim.opt.cpoptions:append("$")
 -- https://vi.stackexchange.com/questions/6194/why-do-cw-and-ce-do-the-same-thing
 
-vim.opt.selection = "inclusive"
+vim.opt.selection = "exclusive"
 
 vim.opt.updatetime = 100
 -- https://github.com/iamcco/markdown-preview.nvim/issues/4
