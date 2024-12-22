@@ -43,6 +43,8 @@ MiniDeps.now(function()
 require("variable")
 require("option")
 
+require("keymap")
+
 require("_nofrils")
 require("_eolmark")
 require("_whitespace")
@@ -97,7 +99,6 @@ require("_mini-surround")
 require("_paramo")
 require("_tT")
 require("_vim-mark")
-require("keymap")
 
 -- require("_telescope")
 -- require("_undotree-mbbill")

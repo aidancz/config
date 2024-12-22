@@ -16,20 +16,41 @@ require("mini.ai").setup({
 		['}'] = { '%b{}', '^.%s*().-()%s*.$' },
 		['>'] = { '%b<>', '^.%s*().-()%s*.$' },
 		b = {
-			{ '%b()', '%b[]', '%b{}', '%b<>' },
+			{
+				'%b()',
+				'%b[]',
+				'%b{}',
+				'%b<>',
+			},
 			'^.().*().$'
 		},
 
-		-- ['"'] = { '"().-()"' },
 		-- https://github.com/echasnovski/mini.nvim/issues/1281
-		["'"] = { "'.-'", '^.().*().$' },
-		['"'] = { '".-"', '^.().*().$' },
-		['`'] = { '`.-`', '^.().*().$' },
+		["'"] = { "%b''", '^.().*().$' },
+		['"'] = { '%b""', '^.().*().$' },
+		['`'] = { '%b``', '^.().*().$' },
 		q = {
-			{ "'.-'", '".-"', '`.-`' },
+			{
+				"%b''",
+				'%b""',
+				'%b``',
+			},
 			'^.().*().$'
 		},
 		-- 金铁击石全无力 大圣天蓬遭虎欺 枪刀戟剑浑不避 石猴似你不似你
+
+		s = {
+			{
+				'%(.-%)',
+				'%[.-%]',
+				'%{.-%}',
+				'%<.-%>',
+				"%'.-%'",
+				'%".-%"',
+				'%`.-%`',
+			},
+			'^.().*().$'
+		},
 
 		d = require("mini.extra").gen_ai_spec.number(),
 
@@ -171,3 +192,28 @@ require("mini.ai").setup({
 	n_lines = 1024,
 	search_method = "cover_or_next",
 })
+
+
+
+vim.keymap.set(
+	{"n", "x", "o"},
+	"%",
+	function()
+		local row = vim.api.nvim_win_get_cursor(0)[1]
+		local col = vim.api.nvim_win_get_cursor(0)[2] + 1
+		local region = require("mini.ai").find_textobject("a", "b", {search_method = "cover_or_next"})
+		if
+			row < region.from.line or (row == region.from.line and col < region.from.col)
+			or
+			row == region.to.line and col == region.to.col
+		then
+			return "g[b"
+		else
+			return "g]b"
+		end
+	end,
+	{
+		expr = true,
+		remap = true,
+	}
+)

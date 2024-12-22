@@ -10,7 +10,7 @@ source "$HOME/.shrc"
 # PS1="(%# %n %m %~) "
 # PS1="%(0?..%?)(%# %n %m %~) "
 # PS1="%F{blue}(%# %n %m %~) %f"
-PS1="%F{blue}(%m %n %~) %f"
+PS1="%F{blue}($ %m %n %~) %f"
 
 # https://stackoverflow.com/questions/4466245/customize-zshs-prompt-when-displaying-previous-command-exit-code
 # man zshmisc -> expansion of prompt sequences
