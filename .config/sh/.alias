@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # give command better default
+
 alias ls="ls -Ah1v --group-directories-first --color=auto"
-# -p
 alias chmod="chmod --preserve-root -v"
 alias chown="chown --preserve-root -v"
 alias df="df -h"
@@ -13,7 +13,10 @@ alias mkdir="mkdir -p"
 alias man="man -a"
 alias chez="chez ~/.schemerc"
 
+
+
 # abbreviate long command
+
 alias 1='setsid -f $TERMINAL >/dev/null 2>&1'
 alias v="nvim"
 # alias ed="emacs --daemon"
@@ -26,9 +29,11 @@ alias v="nvim"
 # alias e="emacsclient -nw"
 # alias E="emacs -nw"
 alias ll="ls -l"
-alias pacref="sudo reflector --country 'China' --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
+
+
 
 # abbreviate git command
+
 alias gs="git status -sb"
 alias gd="git diff"
 alias gl="git log --all --oneline --graph"
