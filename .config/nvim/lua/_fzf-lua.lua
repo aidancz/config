@@ -7,6 +7,7 @@ require("fzf-lua").setup({
 		builtin = {
 		},
 		fzf = {
+			["f2"] = "abort",
 			["f12"] = "abort",
 		},
 	},
@@ -18,4 +19,4 @@ require("fzf-lua").setup({
 
 pcall(require("nofrils").clear, {"^FzfLua"})
 
-vim.keymap.set("n", "f", require("fzf-lua").builtin)
+vim.keymap.set("n", "<f2>", require("fzf-lua").builtin)

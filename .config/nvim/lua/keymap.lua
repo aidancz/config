@@ -79,14 +79,7 @@ vim.keymap.set({"n", "x"}, "<c-n>", function() return math.ceil(vim.api.nvim_win
 vim.keymap.set({"n", "x"}, "<c-p>", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-y>" end, {silent = true, expr = true})
 -- https://stackoverflow.com/questions/8059448/scroll-window-halfway-between-zt-and-zz-in-vim
 
-
-
--- # {"n", "x", "o"}
-
-vim.keymap.set({"n", "x", "o"}, ";",     "<cmd>normal @:<cr>")
-vim.keymap.set({"n", "x", "o"}, ",",     "<cmd>normal @q<cr>")
-vim.keymap.set({"n", "x", "o"}, "<f24>", "<cmd>normal @q<cr>")
-vim.keymap.set({"n", "x", "o"}, "<f13>", "<cmd>normal @p<cr>")
+vim.keymap.set({"n", "x"}, ";", "@:")
 
 
 
