@@ -5,6 +5,7 @@ MiniDeps.add({
 require("mini.surround").setup({
 	silent = true,
 	custom_surroundings = {
+
 		['('] = { input = { '%b()', '^.().*().$'       }, output = { left = '(',  right = ')'  } },
 		['['] = { input = { '%b[]', '^.().*().$'       }, output = { left = '[',  right = ']'  } },
 		['{'] = { input = { '%b{}', '^.().*().$'       }, output = { left = '{',  right = '}'  } },
@@ -46,6 +47,26 @@ require("mini.surround").setup({
 				right = '"',
 			},
 		},
+
+		-- s = {
+		-- 	input = {
+		-- 		{
+		-- 			'%(.-%)',
+		-- 			'%[.-%]',
+		-- 			'%{.-%}',
+		-- 			'%<.-%>',
+		-- 			"%'.-%'",
+		-- 			'%".-%"',
+		-- 			'%`.-%`',
+		-- 		},
+		-- 		'^.().*().$',
+		-- 	},
+		-- 	output = {
+		-- 		left = "(",
+		-- 		right = ")",
+		-- 	},
+		-- },
+
 	},
 	mappings = {
 		add     = "ys",

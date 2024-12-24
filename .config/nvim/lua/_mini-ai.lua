@@ -7,6 +7,7 @@ vim.opt.runtimepath:prepend("~/sync_git/mini.nvim")
 require("mini.ai").setup({
 	silent = true,
 	custom_textobjects = {
+
 		['('] = { '%b()', '^.().*().$' },
 		['['] = { '%b[]', '^.().*().$' },
 		['{'] = { '%b{}', '^.().*().$' },
@@ -39,18 +40,18 @@ require("mini.ai").setup({
 		},
 		-- 金铁击石全无力 大圣天蓬遭虎欺 枪刀戟剑浑不避 石猴似你不似你
 
-		s = {
-			{
-				'%(.-%)',
-				'%[.-%]',
-				'%{.-%}',
-				'%<.-%>',
-				"%'.-%'",
-				'%".-%"',
-				'%`.-%`',
-			},
-			'^.().*().$'
-		},
+		-- s = {
+		-- 	{
+		-- 		'%(.-%)',
+		-- 		'%[.-%]',
+		-- 		'%{.-%}',
+		-- 		'%<.-%>',
+		-- 		"%'.-%'",
+		-- 		'%".-%"',
+		-- 		'%`.-%`',
+		-- 	},
+		-- 	'^.().*().$'
+		-- },
 
 		d = require("mini.extra").gen_ai_spec.number(),
 
@@ -179,6 +180,7 @@ require("mini.ai").setup({
 			end
 			return o
 		end
+
 	},
 	mappings = {
 		around_next = "an",
