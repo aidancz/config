@@ -1,5 +1,3 @@
-----------------------------------------------------------------
-
 --[[
 
 debug:
@@ -108,15 +106,24 @@ require("_fzf-lua")
 require("_undotree-jiaoshijie")
 require("redir")
 
+-- require("_nvim-cmp")
 -- require("_outline")
 -- require("_sniprun")
 require("_aerial")
-require("_nvim-cmp")
+require("_blink-cmp")
 
 require("_vim-table-mode")
 
+require("_mini-deps")
+
 end)
 
--- https://www.reddit.com/r/neovim/comments/1fltduc/better_mappings_for_the_n_and_p_keys/
-
 ----------------------------------------------------------------
+
+-- testing section
+
+-- MiniDeps.add({
+-- 	source = "",
+-- })
+-- require("").setup({
+-- })
