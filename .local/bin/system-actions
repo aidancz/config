@@ -61,20 +61,20 @@ case "$i" in
 		kill -TERM "$(wmpid)"
 		;;
 	"system suspend")
-		$ctl suspend
+		$ctl suspend -i
 		;;
 	"system hibernate")
-		$ctl hibernate
+		$ctl hibernate -i
 		# does not work right now, check later
 		# https://www.reddit.com/r/archlinux/comments/85q84q/cant_get_hibernate_to_work/
 		# https://www.reddit.com/r/linuxquestions/comments/7swvyb/cannot_restore_session_after_hibernation/?utm_source=reddit-android
 		# https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate#Hibernation
 		;;
 	"system reboot")
-		$ctl reboot
+		$ctl reboot -i
 		;;
 	"system poweroff")
-		$ctl poweroff
+		$ctl poweroff -i
 		;;
 	*)
 		exit 1

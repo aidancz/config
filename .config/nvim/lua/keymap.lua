@@ -61,8 +61,49 @@ vim.keymap.set("i", "<up>",   "<c-p>")
 
 -- # "o"
 
-vim.keymap.set("o", "{", function() return "V" .. vim.v.count1 .. "{" end, {silent = true, expr = true})
-vim.keymap.set("o", "}", function() return "V" .. vim.v.count1 .. "}" end, {silent = true, expr = true})
+vim.keymap.set(
+	"o",
+	"{",
+	function()
+		local mode = vim.api.nvim_get_mode().mode
+		local vis_mode
+		if mode == "no"    then vis_mode = "V"     end
+		if mode == "nov"   then vis_mode = "v"     end
+		if mode == "noV"   then vis_mode = "V"     end
+		if mode == "no\22" then vis_mode = "<c-v>" end
+
+		local cache_selection = vim.o.selection
+		vim.o.selection = "exclusive"
+		vim.schedule(function()
+			vim.o.selection = cache_selection
+		end)
+
+		return "<cmd>normal! " .. vis_mode .. vim.v.count1 .. "{<cr>"
+	end,
+	{expr = true}
+)
+
+vim.keymap.set(
+	"o",
+	"}",
+	function()
+		local mode = vim.api.nvim_get_mode().mode
+		local vis_mode
+		if mode == "no"    then vis_mode = "V"     end
+		if mode == "nov"   then vis_mode = "v"     end
+		if mode == "noV"   then vis_mode = "V"     end
+		if mode == "no\22" then vis_mode = "<c-v>" end
+
+		local cache_selection = vim.o.selection
+		vim.o.selection = "exclusive"
+		vim.schedule(function()
+			vim.o.selection = cache_selection
+		end)
+
+		return "<cmd>normal! " .. vis_mode .. vim.v.count1 .. "}<cr>"
+	end,
+	{expr = true}
+)
 
 
 

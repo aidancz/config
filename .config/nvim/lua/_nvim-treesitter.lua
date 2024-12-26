@@ -49,7 +49,7 @@ require("nvim-treesitter.configs").setup({
 		enable = true,
 		disable = function(lang, buf)
 			local line = vim.api.nvim_buf_line_count(buf)
-			if line > 5000 then
+			if line > 10000 then
 				return true
 			else
 				return false
