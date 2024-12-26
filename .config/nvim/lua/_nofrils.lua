@@ -79,9 +79,9 @@ vim.api.nvim_set_hl(0, 'DiffChange',   {link = 'nofrils-yellow'})
 vim.api.nvim_set_hl(0, 'DiffDelete',   {link = 'nofrils-red'})
 vim.api.nvim_set_hl(0, 'DiffText',     {link = 'nofrils-blue'})
 
-vim.api.nvim_set_hl(0, 'Search',       {link = 'nofrils-cyan-bg'})
-vim.api.nvim_set_hl(0, 'CurSearch',    {link = 'nofrils-magenta-bg'})
-vim.api.nvim_set_hl(0, 'IncSearch',    {link = 'nofrils-white-bg'})
+vim.api.nvim_set_hl(0, 'Search',       {link = 'nofrils-green-bg'})
+vim.api.nvim_set_hl(0, 'CurSearch',    {link = 'nofrils-blue-bg'})
+vim.api.nvim_set_hl(0, 'IncSearch',    {link = 'nofrils-blue-bg'})
 
 vim.api.nvim_set_hl(0, 'LineNr',       {link = 'nofrils-white'})
 vim.api.nvim_set_hl(0, 'LineNrAbove',  {link = 'nofrils-white'})

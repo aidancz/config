@@ -40,20 +40,16 @@ require("mini.ai").setup({
 		},
 		-- 金铁击石全无力 大圣天蓬遭虎欺 枪刀戟剑浑不避 石猴似你不似你
 
-		-- s = {
-		-- 	{
-		-- 		'%(.-%)',
-		-- 		'%[.-%]',
-		-- 		'%{.-%}',
-		-- 		'%<.-%>',
-		-- 		"%'.-%'",
-		-- 		'%".-%"',
-		-- 		'%`.-%`',
-		-- 	},
-		-- 	'^.().*().$'
-		-- },
+		d = {
+			{
+				"%'.-%'",
+				'%".-%"',
+				'%`.-%`',
+			},
+			'^.().*().$'
+		},
 
-		d = require("mini.extra").gen_ai_spec.number(),
+		["0"] = require("mini.extra").gen_ai_spec.number(),
 
 		l = function(ai_type)
 			local row = vim.fn.line(".")
@@ -83,6 +79,20 @@ require("mini.ai").setup({
 				},
 				to = to,
 				vis_mode = vis_mode,
+			}
+		end,
+
+		r = function(ai_type)
+			return {
+				from = {
+					line = vim.api.nvim_buf_get_mark(0, "[")[1],
+					col  = vim.api.nvim_buf_get_mark(0, "[")[2] + 1,
+				},
+				to = {
+					line = vim.api.nvim_buf_get_mark(0, "]")[1],
+					col  = vim.api.nvim_buf_get_mark(0, "]")[2] + 1,
+				},
+				vis_mode = ai_type == "i" and "v" or "V",
 			}
 		end,
 
