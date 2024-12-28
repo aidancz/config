@@ -80,7 +80,7 @@ vim.opt.fillchars:append({verthoriz = "+"})
 
 vim.opt.virtualedit = {"onemore"}
 vim.opt.startofline = false
-vim.opt.jumpoptions = {"stack"}
+vim.opt.jumpoptions = {"stack", "view"}
 vim.opt.scrolloff = 0
 vim.opt.whichwrap:append("[,]")
 vim.opt.iskeyword:remove("_")

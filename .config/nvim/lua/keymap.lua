@@ -56,6 +56,11 @@ vim.keymap.set("n", "<f5>", compile)
 
 vim.keymap.set("i", "<down>", "<c-n>")
 vim.keymap.set("i", "<up>",   "<c-p>")
+vim.keymap.set("i", "<c-n>",  "<down>")
+vim.keymap.set("i", "<c-p>",  "<up>")
+
+vim.keymap.set("i", "<left>",  "<c-g>U<left>")
+vim.keymap.set("i", "<right>", "<c-g>U<right>")
 
 
 
