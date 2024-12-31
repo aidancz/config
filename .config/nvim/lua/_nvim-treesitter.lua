@@ -61,3 +61,16 @@ require("nvim-treesitter.configs").setup({
 	-- 	enable = true,
 	-- },
 })
+
+vim.api.nvim_set_hl(0, '@comment',          {link = 'nofrils-blue'})
+vim.api.nvim_set_hl(0, '@diff.delta',       {link = 'nofrils-yellow'})
+vim.api.nvim_set_hl(0, '@diff.minus',       {link = 'nofrils-red'})
+vim.api.nvim_set_hl(0, '@diff.plus',        {link = 'nofrils-green'})
+vim.api.nvim_set_hl(0, '@markup.heading.1', {link = 'nofrils-red'})
+vim.api.nvim_set_hl(0, '@markup.heading.2', {link = 'nofrils-green'})
+vim.api.nvim_set_hl(0, '@markup.heading.3', {link = 'nofrils-yellow'})
+vim.api.nvim_set_hl(0, '@markup.heading.4', {link = 'nofrils-blue'})
+vim.api.nvim_set_hl(0, '@markup.heading.5', {link = 'nofrils-magenta'})
+vim.api.nvim_set_hl(0, '@markup.heading.6', {link = 'nofrils-cyan'})
+vim.api.nvim_set_hl(0, '@markup.link',      {link = 'nofrils-cyan'})
+vim.api.nvim_set_hl(0, '@markup.raw',       {link = 'nofrils-blue'})

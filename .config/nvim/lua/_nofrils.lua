@@ -60,8 +60,8 @@ vim.api.nvim_set_hl(0, 'Normal', {ctermbg = 0, ctermfg = 7, bg = x.color0, fg = 
 
 
 
--- # define highlight groups: builtin
--- `:h highlight-groups`
+-- # define highlight groups
+-- for detailed information, run `:h highlight-groups`
 
 vim.api.nvim_set_hl(0, 'Whitespace',   {link = 'nofrils-yellow'})
 vim.api.nvim_set_hl(0, 'SpecialKey',   {link = 'nofrils-yellow-bg'})
@@ -97,8 +97,8 @@ vim.api.nvim_set_hl(0, 'Folded',       {link = 'nofrils-yellow'})
 
 
 
--- # define highlight groups: syntax suggested
--- `:h group-name`
+-- # define highlight groups
+-- for detailed information, run `:h group-name`
 
 vim.api.nvim_set_hl(0, 'Comment', {link = 'nofrils-blue'})
 vim.api.nvim_set_hl(0, 'Error',   {link = 'nofrils-red-bg'})
@@ -108,25 +108,8 @@ vim.api.nvim_set_hl(0, 'Removed', {link = 'nofrils-red'})
 
 
 
--- # define highlight groups: syntax treesitter
--- `:h treesitter-highlight-groups`
-
-vim.api.nvim_set_hl(0, '@comment',          {link = 'nofrils-blue'})
-vim.api.nvim_set_hl(0, '@diff.delta',       {link = 'nofrils-yellow'})
-vim.api.nvim_set_hl(0, '@diff.minus',       {link = 'nofrils-red'})
-vim.api.nvim_set_hl(0, '@diff.plus',        {link = 'nofrils-green'})
-vim.api.nvim_set_hl(0, '@markup.heading.1', {link = 'nofrils-red'})
-vim.api.nvim_set_hl(0, '@markup.heading.2', {link = 'nofrils-green'})
-vim.api.nvim_set_hl(0, '@markup.heading.3', {link = 'nofrils-yellow'})
-vim.api.nvim_set_hl(0, '@markup.heading.4', {link = 'nofrils-blue'})
-vim.api.nvim_set_hl(0, '@markup.heading.5', {link = 'nofrils-magenta'})
-vim.api.nvim_set_hl(0, '@markup.heading.6', {link = 'nofrils-cyan'})
-vim.api.nvim_set_hl(0, '@markup.link',      {link = 'nofrils-cyan'})
-vim.api.nvim_set_hl(0, '@markup.raw',       {link = 'nofrils-blue'})
-
-
-
--- # define highlight groups: syntax misc
+-- # define highlight groups
+-- for detailed information, run `:e $VIMRUNTIME/lua/man.lua`
 
 vim.api.nvim_set_hl(0, 'manBold',      {link = 'nofrils-yellow'})
 vim.api.nvim_set_hl(0, 'manItalic',    {link = 'nofrils-blue'})

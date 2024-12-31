@@ -78,13 +78,17 @@ video_selected()
 	read -r X Y W H < /tmp/slop
 	rm /tmp/slop
 
+	W=$(( W % 2 == 0 ? W : W - 1 ))
+	H=$(( H % 2 == 0 ? H : H - 1 ))
+
 	ffmpeg                                    \
 	-f                           x11grab      \
 	-framerate                   30           \
 	-video_size                  "$W"x"$H"    \
 	-i                           :0.0+"$X,$Y" \
 	-c:v                         libx264      \
-	-qp                          0            \
+	-pix_fmt                     yuv420p      \
+	-profile:v                   main         \
 	-r                           30           \
 	"$HOME/$(get_timestamp).mp4"              \
 	&

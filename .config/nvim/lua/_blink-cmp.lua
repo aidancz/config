@@ -1,6 +1,14 @@
 MiniDeps.add({
 	source = "saghen/blink.cmp",
-	checkout = "v0.8.2",
+	-- checkout = "main",
+	hooks = {
+		post_install = function(arg)
+			vim.system({"cargo", "build", "--release"}, {cwd = arg.path}):wait()
+		end,
+		post_checkout = function(arg)
+			vim.system({"cargo", "build", "--release"}, {cwd = arg.path}):wait()
+		end,
+	},
 })
 
 require("blink.cmp").setup({
@@ -10,31 +18,31 @@ require("blink.cmp").setup({
 		preset = "none",
 		["<down>"] = {
 			function(cmp)
-				cmp.show()
-				vim.defer_fn(function()
-					cmp.select_next()
-				end, 1)
+				cmp.show({
+					callback = function()
+						cmp.select_next()
+					end,
+				})
+				cmp.select_next()
 			end,
 		},
 		["<up>"] = {
 			function(cmp)
-				cmp.show()
-				vim.defer_fn(function()
-					cmp.select_prev()
-				end, 1)
+				cmp.show({
+					callback = function()
+						cmp.select_prev()
+					end,
+				})
+				cmp.select_prev()
 			end,
 		},
 		["<left>"] = {
 			function(cmp)
-				local a = cmp.cancel()
-				if a then
-					vim.defer_fn(function()
+				return cmp.cancel({
+					callback = function()
 						cmp.show()
-					end, 1)
-					return true
-				else
-					return false
-				end
+					end,
+				})
 			end,
 			"fallback",
 		},

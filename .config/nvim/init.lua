@@ -50,7 +50,7 @@ require("_whitespace")
 
 require("autocmd")
 
--- require("_nvim-lspconfig")
+require("_nvim-lspconfig")
 require("_markdown-preview")
 
 end)
