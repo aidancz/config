@@ -46,10 +46,10 @@ require("keymap")
 require("_nofrils")
 require("_eolmark")
 require("_whitespace")
+require("diagnostic")
 -- require("_mini-trailspace")
 
 require("autocmd")
-
 require("_nvim-lspconfig")
 require("_markdown-preview")
 

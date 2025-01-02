@@ -49,6 +49,11 @@ rm -rf "$XDG_CONFIG_HOME/gtk-3.0"
 cp -r "$dir/.config/gtk-3.0" "$XDG_CONFIG_HOME/gtk-3.0"
 echo "gtk-theme-name=Adwaita" >> "$XDG_CONFIG_HOME/gtk-3.0/settings.ini"
 
+# gtk-4.0
+rm -rf "$XDG_CONFIG_HOME/gtk-4.0"
+cp -r "$dir/.config/gtk-4.0" "$XDG_CONFIG_HOME/gtk-4.0"
+echo "gtk-theme-name=Adwaita" >> "$XDG_CONFIG_HOME/gtk-4.0/settings.ini"
+
 # qt5
 rm -rf "$XDG_CONFIG_HOME/qt5ct"
 cp -r "$dir/.config/qt5ct" "$XDG_CONFIG_HOME/qt5ct"

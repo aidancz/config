@@ -36,27 +36,33 @@ require("blink.cmp").setup({
 				cmp.select_prev()
 			end,
 		},
-		["<left>"] = {
-			function(cmp)
-				return cmp.cancel({
-					callback = function()
-						cmp.show()
-					end,
-				})
-			end,
-			"fallback",
-		},
-		["<right>"] = {
-			"hide",
-			"fallback",
-		},
+		-- ["<left>"] = {
+		-- 	function(cmp)
+		-- 		return cmp.cancel({
+		-- 			callback = function()
+		-- 				cmp.show()
+		-- 			end,
+		-- 		})
+		-- 	end,
+		-- 	"fallback",
+		-- },
+		-- ["<right>"] = {
+		-- 	"hide",
+		-- 	"fallback",
+		-- },
 		-- ["<c-g>"] = {
 		-- 	"cancel",
 		-- 	"fallback",
 		-- },
-		-- cmdline = {
-		-- 	preset = "none",
-		-- },
+		cmdline = {
+			preset = "none",
+			["<tab>"] = {
+				"select_next",
+			},
+			["<s-tab>"] = {
+				"select_prev",
+			},
+		},
 	},
 	completion = {
 		list = {
@@ -67,6 +73,7 @@ require("blink.cmp").setup({
 			},
 		},
 		menu = {
+			border = {"┏", "━", "┓", "┃", "┛", "━", "┗", "┃"},
 			auto_show = function(ctx)
 				if ctx.mode == "cmdline" then
 					return true
@@ -74,7 +81,8 @@ require("blink.cmp").setup({
 				return false
 			end,
 			scrolloff = 0,
-			max_height = 8,
+			min_width = 32,
+			max_height = 16,
 			direction_priority = {"s", "n"},
 			-- order = ?,
 			-- https://github.com/Saghen/blink.cmp/issues/206

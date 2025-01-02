@@ -87,8 +87,14 @@ vim.api.nvim_set_hl(0, 'LineNr',       {link = 'nofrils-white'})
 vim.api.nvim_set_hl(0, 'LineNrAbove',  {link = 'nofrils-white'})
 vim.api.nvim_set_hl(0, 'LineNrBelow',  {link = 'nofrils-white'})
 
+vim.api.nvim_set_hl(0, 'Pmenu',        {})
 vim.api.nvim_set_hl(0, 'PmenuSel',     {link = 'nofrils-white-bg'})
+vim.api.nvim_set_hl(0, 'PmenuSbar',    {})
+vim.api.nvim_set_hl(0, 'PmenuThumb',   {link = 'nofrils-white-bg'})
 vim.api.nvim_set_hl(0, 'StatusLine',   {link = 'nofrils-white'})
+
+vim.api.nvim_set_hl(0, 'FloatBorder',  {})
+vim.api.nvim_set_hl(0, 'WinSeparator', {})
 
 vim.api.nvim_set_hl(0, 'WarningMsg',   {link = 'nofrils-yellow'})
 vim.api.nvim_set_hl(0, 'ErrorMsg',     {link = 'nofrils-red'})

@@ -6,7 +6,7 @@ vim.opt.statuscolumn = ""
 
 vim.opt.foldcolumn = "1"
 vim.opt.foldenable = true
-vim.opt.foldtext = vim.fn.getline(vim.v.foldstart)
+vim.opt.foldtext = ""
 vim.opt.foldlevel = 0
 vim.opt.foldlevelstart = 0
 vim.opt.foldmethod = "marker"
@@ -58,21 +58,21 @@ vim.opt.fillchars:append({foldclose = "●"})
 vim.opt.fillchars:append({foldopen  = "○"})
 vim.opt.fillchars:append({foldsep   = "1"})
 
-vim.opt.fillchars:append({horiz     = "-"})
-vim.opt.fillchars:append({horizup   = "-"})
-vim.opt.fillchars:append({horizdown = "-"})
-vim.opt.fillchars:append({vert      = "|"})
-vim.opt.fillchars:append({vertleft  = "|"})
-vim.opt.fillchars:append({vertright = "|"})
-vim.opt.fillchars:append({verthoriz = "+"})
+-- vim.opt.fillchars:append({horiz     = "-"})
+-- vim.opt.fillchars:append({horizup   = "-"})
+-- vim.opt.fillchars:append({horizdown = "-"})
+-- vim.opt.fillchars:append({vert      = "|"})
+-- vim.opt.fillchars:append({vertleft  = "|"})
+-- vim.opt.fillchars:append({vertright = "|"})
+-- vim.opt.fillchars:append({verthoriz = "+"})
 
--- vim.opt.fillchars:append({horiz     = "━"})
--- vim.opt.fillchars:append({horizup   = "┻"})
--- vim.opt.fillchars:append({horizdown = "┳"})
--- vim.opt.fillchars:append({vert      = "┃"})
--- vim.opt.fillchars:append({vertleft  = "┫"})
--- vim.opt.fillchars:append({vertright = "┣"})
--- vim.opt.fillchars:append({verthoriz = "╋"})
+vim.opt.fillchars:append({horiz     = "━"})
+vim.opt.fillchars:append({horizup   = "┻"})
+vim.opt.fillchars:append({horizdown = "┳"})
+vim.opt.fillchars:append({vert      = "┃"})
+vim.opt.fillchars:append({vertleft  = "┫"})
+vim.opt.fillchars:append({vertright = "┣"})
+vim.opt.fillchars:append({verthoriz = "╋"})
 
 
 
