@@ -66,7 +66,10 @@ require("blink.cmp").setup({
 	},
 	completion = {
 		list = {
-			selection = "auto_insert",
+			selection = {
+				auto_insert = true,
+				preselect = false,
+			},
 			cycle = {
 				from_bottom = false,
 				from_top = false,

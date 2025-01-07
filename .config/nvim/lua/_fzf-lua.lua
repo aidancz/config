@@ -9,6 +9,8 @@ require("fzf-lua").setup({
 		fzf = {
 			["f2"] = "abort",
 			["f12"] = "abort",
+			["ctrl-a"] = "first",
+			["ctrl-e"] = "last",
 		},
 	},
 	files = {

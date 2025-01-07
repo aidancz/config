@@ -11,6 +11,6 @@ require("eolmark").setup({
 		".+",
 	},
 	opts = {
-		virt_text = {{"○", "NonText"}},
+		virt_text = {{"○", "nofrils-yellow"}},
 	},
 })

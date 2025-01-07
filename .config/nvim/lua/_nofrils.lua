@@ -72,7 +72,7 @@ vim.api.nvim_set_hl(0, 'TermCursor',   {link = 'nofrils-white-bg'})
 vim.api.nvim_set_hl(0, 'Visual',       {link = 'nofrils-blue-bg'})
 vim.api.nvim_set_hl(0, 'CursorLine',   {link = 'nofrils-blue-bg'})
 vim.api.nvim_set_hl(0, 'CursorColumn', {link = 'nofrils-blue-bg'})
-vim.api.nvim_set_hl(0, 'MatchParen',   {link = 'nofrils-blue-bg'})
+vim.api.nvim_set_hl(0, 'MatchParen',   {link = 'nofrils-yellow-bg'})
 
 vim.api.nvim_set_hl(0, 'DiffAdd',      {link = 'nofrils-green'})
 vim.api.nvim_set_hl(0, 'DiffChange',   {link = 'nofrils-yellow'})
