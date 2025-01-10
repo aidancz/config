@@ -1,4 +1,4 @@
-MiniDeps.add({
+require("mini.deps").add({
 	source = "numToStr/Comment.nvim",
 })
 

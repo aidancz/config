@@ -1,6 +1,6 @@
 vim.opt.runtimepath:prepend("~/sync_git/paramo.nvim")
 
--- MiniDeps.add({
+-- require("mini.deps").add({
 -- 	source = "aidancz/paramo.nvim",
 -- })
 

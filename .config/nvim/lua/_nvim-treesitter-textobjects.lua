@@ -1,4 +1,4 @@
-MiniDeps.add({
+require("mini.deps").add({
 	source = "nvim-treesitter/nvim-treesitter-textobjects",
 })
 

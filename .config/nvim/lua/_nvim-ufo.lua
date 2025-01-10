@@ -1,4 +1,4 @@
-MiniDeps.add({
+require("mini.deps").add({
 	source = "kevinhwang91/nvim-ufo",
 	depends = {
 		{

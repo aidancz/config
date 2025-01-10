@@ -36,7 +36,7 @@ require("mini.deps").setup()
 
 ----------------------------------------------------------------
 
-MiniDeps.now(function()
+require("mini.deps").now(function()
 
 require("variable")
 require("option")
@@ -57,7 +57,7 @@ end)
 
 ----------------------------------------------------------------
 
-MiniDeps.later(function()
+require("mini.deps").later(function()
 
 require("_plenary")
 require("_mini-extra")
@@ -66,7 +66,7 @@ end)
 
 ----------------------------------------------------------------
 
-MiniDeps.later(function()
+require("mini.deps").later(function()
 
 -- require("_gitsigns")
 -- require("_indent-blankline")
@@ -107,11 +107,11 @@ require("_fzf-lua")
 require("_undotree-jiaoshijie")
 require("redir")
 
+-- require("_aerial")
 -- require("_nvim-cmp")
--- require("_outline")
 -- require("_sniprun")
-require("_aerial")
 require("_blink-cmp")
+require("_outline")
 
 require("_vim-table-mode")
 
@@ -123,7 +123,7 @@ end)
 
 -- testing section
 
--- MiniDeps.add({
+-- require("mini.deps").add({
 -- 	source = "",
 -- })
 -- require("").setup({

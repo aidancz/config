@@ -1,7 +1,7 @@
 vim.g.loaded_matchparen = 1
 vim.opt.showmatch = false
 
-MiniDeps.add({
+require("mini.deps").add({
 	source = "utilyre/sentiment.nvim",
 })
 

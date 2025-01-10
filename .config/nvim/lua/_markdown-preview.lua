@@ -1,8 +1,8 @@
-MiniDeps.add({
+require("mini.deps").add({
 	source = "iamcco/markdown-preview.nvim",
 	hooks = {
 		post_install = function()
-			MiniDeps.later(function()
+			require("mini.deps").later(function()
 			vim.fn["mkdp#util#install"]()
 			end)
 		end,

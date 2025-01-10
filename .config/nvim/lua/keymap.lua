@@ -153,6 +153,12 @@ vim.keymap.set({"n", "x", "i"}, "<f12>", function()
 
 
 
+-- # {"n", "x", "o"}
+
+vim.keymap.set({"n", "x", "o"}, "<s-cr>", "-")
+
+
+
 -- # digraph
 
 vim.fn.digraph_set("oo", "●")

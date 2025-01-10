@@ -1,4 +1,4 @@
-MiniDeps.add({
+require("mini.deps").add({
 	source = "michaelb/sniprun",
 	hooks = {
 		post_install = function(arg)

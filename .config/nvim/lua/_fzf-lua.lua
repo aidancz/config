@@ -1,4 +1,4 @@
-MiniDeps.add({
+require("mini.deps").add({
 	source = "ibhagwan/fzf-lua",
 })
 
@@ -19,6 +19,8 @@ require("fzf-lua").setup({
 	}
 })
 
-pcall(require("nofrils").clear, {"^FzfLua"})
+pcall(function()
+require("nofrils").clear({"^FzfLua"})
+end)
 
 vim.keymap.set("n", "<f2>", require("fzf-lua").builtin)

@@ -1,4 +1,4 @@
-MiniDeps.add({
+require("mini.deps").add({
 	source = "saghen/blink.cmp",
 	-- checkout = "main",
 	hooks = {

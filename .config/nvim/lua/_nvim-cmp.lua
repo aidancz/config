@@ -1,4 +1,4 @@
-MiniDeps.add({
+require("mini.deps").add({
 	source = "hrsh7th/nvim-cmp",
 	depends = {
 		{
