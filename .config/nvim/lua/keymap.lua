@@ -209,8 +209,8 @@ vim.api.nvim_create_user_command("TrailRemove", [[%s/\s\+$//e]], {})
 vim.api.nvim_create_user_command("SearchMiddleToggle",
 	function()
 		if vim.fn.mapcheck("n") == "" then
-			vim.keymap.set("n", "n", "nzz")
-			vim.keymap.set("n", "N", "Nzz")
+			vim.keymap.set("n", "n", "nzz", {remap = true})
+			vim.keymap.set("n", "N", "Nzz", {remap = true})
 		else
 			vim.keymap.del("n", "n")
 			vim.keymap.del("n", "N")

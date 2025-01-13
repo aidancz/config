@@ -52,6 +52,7 @@ require("diagnostic")
 require("autocmd")
 require("_nvim-lspconfig")
 require("_markdown-preview")
+require("_go-up")
 
 end)
 

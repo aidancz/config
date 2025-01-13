@@ -8,13 +8,13 @@ require("mini.indentscope").setup({
 		animation = require("mini.indentscope").gen_animation.none(),
 	},
 	mappings = {
-		object_scope = "",
-		object_scope_with_border = "",
-		goto_top = "",
-		goto_bottom = "",
+		object_scope = "is",
+		object_scope_with_border = "as",
+		goto_top = "[s",
+		goto_bottom = "]s",
 	},
 	options = {
-		border = "top",
+		border = "both",
 		indent_at_cursor = true,
 		try_as_border = false,
 	},
