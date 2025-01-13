@@ -8,25 +8,6 @@ require("mini.deps").add({
 })
 
 require("outline").setup({
-	providers = {
-		priority = {
-			"lsp",
-			-- "markdown",
-			"treesitter",
-		},
-		markdown = {
-			filetypes = {
-				"text",
-			},
-		},
-	},
-	guides = {
-		enabled = false,
-	},
-	symbol_folding = {
-		autofold_depth = false,
-		markers = {"●", "○"},
-	},
 	outline_window = {
 		jump_highlight_duration = false,
 	},
@@ -35,10 +16,12 @@ require("outline").setup({
 		highlight_hovered_item = false,
 		auto_set_cursor = true,
 	},
-	symbols = {
-		icon_fetcher = function() return "" end,
-		icon_source = nil,
-		icons = nil,
+	guides = {
+		enabled = false,
+	},
+	symbol_folding = {
+		autofold_depth = false,
+		markers = {"●", "○"},
 	},
 	keymaps = {
 		show_help        = {"<c-h>"},
@@ -60,6 +43,23 @@ require("outline").setup({
 		fold_reset       = {"zx"},
 		down_and_jump    = {},
 		up_and_jump      = {},
+	},
+	providers = {
+		priority = {
+			"lsp",
+			-- "markdown",
+			"treesitter",
+		},
+		markdown = {
+			filetypes = {
+				"text",
+			},
+		},
+	},
+	symbols = {
+		icon_fetcher = function() return "" end,
+		icon_source = nil,
+		icons = nil,
 	},
 })
 

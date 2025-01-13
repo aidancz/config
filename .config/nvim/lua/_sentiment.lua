@@ -6,6 +6,11 @@ require("mini.deps").add({
 })
 
 require("sentiment").setup({
+	included_buftypes = {
+		[""] = true,
+	},
+	excluded_filetypes = {
+	},
 	included_modes = {
 		n = true,
 		i = true,

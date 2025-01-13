@@ -16,7 +16,10 @@ require("mini.deps").add({
 	},
 })
 
+
+
 local cmp = require("cmp")
+
 cmp.setup({
 	completion = {
 		completeopt = "menu,menuone,noselect",
@@ -26,6 +29,7 @@ cmp.setup({
 		documentation = cmp.config.window.bordered(),
 	},
 })
+
 cmp.setup.cmdline(":", {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = cmp.config.sources(
@@ -36,6 +40,7 @@ cmp.setup.cmdline(":", {
 			{name = "cmdline"},
 		}),
 })
+
 -- cmp.setup.cmdline({"/", "?"}, {
 -- 	mapping = cmp.mapping.preset.cmdline(),
 -- 	sources = {

@@ -8,4 +8,5 @@ require("mini.operators").setup({
 		reindent_linewise = false,
 	},
 })
+
 vim.keymap.set("n", "S", "s$", {remap = true})

@@ -9,4 +9,5 @@ require("mini.align").setup({
 		start_with_preview = "gL",
 	},
 })
+
 vim.keymap.set("n", "gll", "gl_", {remap = true})

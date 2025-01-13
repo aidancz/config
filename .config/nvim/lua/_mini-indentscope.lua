@@ -20,5 +20,6 @@ require("mini.indentscope").setup({
 	},
 	symbol = "┃",
 })
+
 vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", {link = "nofrils-yellow"})
 vim.api.nvim_set_hl(0, "MiniIndentscopeSymbolOff", {link = "nofrils-yellow"})

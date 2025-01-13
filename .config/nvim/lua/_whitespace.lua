@@ -52,9 +52,8 @@ vim.api.nvim_set_hl(0, "trail",          {link = "nofrils-red-bg"})
 vim.api.nvim_set_hl(0, "space_override", {link = "nofrils-blue-bg"})
 vim.api.nvim_set_hl(0, "tab_override",   {link = "nofrils-yellow-bg"})
 
-local toggle = function()
+vim.keymap.set({"n", "x", "i"}, "<f11>", function()
 	vim.w.space_override = not vim.w.space_override
 	vim.w.tab_override   = not vim.w.tab_override
 	require("whitespace").match_sync()
-end
-vim.keymap.set({"n", "x", "i"}, "<f11>", toggle)
+	end)
