@@ -35,11 +35,12 @@ vim.opt.showcmdloc = "statusline"
 -- showmode	show "-- INSERT --" when switching to insert mode, etc
 -- showcmd	show z when using zz, etc, show size of selection when in visual mode
 
-vim.opt.list = false
+vim.opt.list = true
 vim.opt.listchars = ""
-vim.opt.listchars:append({eol            = "$"})
-vim.opt.listchars:append({tab            = ">-"})
-vim.opt.listchars:append({trail          = "#"})
+-- vim.opt.listchars:append({eol = "$"})
+vim.opt.listchars:append({tab = "  "})
+-- vim.opt.listchars:append({trail = "#"})
+-- https://vi.stackexchange.com/questions/2239/how-can-i-make-vim-position-the-cursor-at-the-start-of-a-tab-character-instead-o
 
 -- some unicode symbols (to keep these chars' original color, we wrap them in a variable):
 local comment = [[·▫░▒▓█]]

@@ -1,0 +1,5 @@
+/* https://superuser.com/questions/1424478/can-i-hide-native-tabs-at-the-top-of-firefox */
+/* hides the native tabs */
+#TabsToolbar {
+  visibility: collapse;
+}
