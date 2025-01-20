@@ -4,7 +4,7 @@ require("mini.deps").add({
 
 require("marks").setup({
 	default_mappings = true,
-	builtin_marks = {"[", "]", "<", ">", "'", '"', "^", ".", "0", "1"},
+	builtin_marks = {},
 	cyclic = true,
 	force_write_shada = false,
 	refresh_interval = 150,

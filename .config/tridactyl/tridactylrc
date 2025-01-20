@@ -1,0 +1,21 @@
+colors mytheme
+
+
+
+set newtab about:blank
+set hintchars kdjflsieowmv
+set editorcmd st -e nvim
+
+
+
+unbind <F1>
+unbind <C-f>
+unbind <C-b>
+
+bind --mode=browser <C-e> escapehatch
+
+bind J tabnext
+bind K tabprev
+
+bind i focusinput 0
+bind gm tabduplicate
