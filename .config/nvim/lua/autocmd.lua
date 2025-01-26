@@ -10,7 +10,6 @@ vim.api.nvim_create_autocmd(
 	"InsertLeave",
 	{
 		group = cursor_position_augroup,
-		pattern = {"*"},
 		command = "normal `^",
 	})
 
@@ -29,7 +28,6 @@ vim.api.nvim_create_autocmd(
 	{"TextChanged", "InsertLeave", "FocusLost"},
 	{
 		group = auto_save_augroup,
-		pattern = {"*"},
 		command = "lockmarks silent! wa",
 	})
 
@@ -37,7 +35,6 @@ vim.api.nvim_create_autocmd(
 	{"QuitPre"},
 	{
 		group = auto_save_augroup,
-		pattern = {"*"},
 		nested = true,
 		command = "lockmarks silent! wa",
 	})
