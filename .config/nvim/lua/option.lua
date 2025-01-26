@@ -110,7 +110,7 @@ vim.opt.ttimeoutlen = 0
 -- # search & substitute
 
 vim.opt.hlsearch = false
-vim.opt.incsearch = false
+vim.opt.incsearch = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.magic = true

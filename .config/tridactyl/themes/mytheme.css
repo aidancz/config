@@ -1,20 +1,20 @@
 :root {
 
-    /* --tridactyl-font-size:       13pt; */
-    /* --tridactyl-small-font-size: 13pt; */
+    /* --tridactyl-font-size:       15pt; */
+    /* --tridactyl-small-font-size: 15pt; */
 
-    --tridactyl-status-font-size:   13pt;
+    --tridactyl-status-font-size:   15pt;
     --tridactyl-hintspan-font-size: 9pt;
-    --tridactyl-cmdl-font-size:     13pt;
-    --tridactyl-cmplt-font-size:    13pt;
-    --tridactyl-header-font-size:   13pt;
+    --tridactyl-cmdl-font-size:     15pt;
+    --tridactyl-cmplt-font-size:    15pt;
+    --tridactyl-header-font-size:   15pt;
 
 }
 
 #command-line-holder {
-    font-size: 13pt;
+    font-size: 15pt;
 }
 #completions > div > table {
-    font-size: 13pt;
+    font-size: 15pt;
 }
 /* https://github.com/tridactyl/tridactyl/issues/5152 */

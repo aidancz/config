@@ -1,6 +1,8 @@
-require("mini.deps").add({
-	source = "nullromo/go-up.nvim",
-})
+vim.opt.runtimepath:prepend("~/sync_git/go-up.nvim")
+
+-- require("mini.deps").add({
+-- 	source = "nullromo/go-up.nvim",
+-- })
 
 require("go-up").setup({
 })

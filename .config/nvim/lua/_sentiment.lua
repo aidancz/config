@@ -8,7 +8,7 @@ require("mini.deps").add({
 
 require("sentiment").setup({
 	included_buftypes = {
-		[""] = true,
+		[""] = false,
 	},
 	excluded_filetypes = {
 	},

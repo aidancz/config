@@ -12,5 +12,7 @@ require("eolmark").setup({
 	},
 	opts = {
 		virt_text = {{"○", "nofrils-yellow"}},
+		virt_text_pos = "inline",
+		priority = 10000,
 	},
 })
