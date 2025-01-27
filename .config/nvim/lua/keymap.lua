@@ -35,6 +35,12 @@ vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
 
 -- vim.keymap.set("n", "<f3>", "gO", {remap = true})
 
+vim.keymap.set({"n"}, [[\]], function()
+	vim.cmd("normal! " .. vim.v.count1 .. "i" .. vim.fn.getcharstr())
+	end)
+-- https://github.com/rjayatilleka/vim-insert-char
+-- https://github.com/bagohart/vim-insert-append-single-character
+
 function compile()
 	vim.cmd("w")
 

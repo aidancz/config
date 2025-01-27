@@ -40,6 +40,7 @@ vim.opt.listchars = ""
 -- vim.opt.listchars:append({eol = "$"})
 vim.opt.listchars:append({tab = "  "})
 -- vim.opt.listchars:append({trail = "#"})
+vim.opt.listchars:append({nbsp = "▪"})
 -- https://vi.stackexchange.com/questions/2239/how-can-i-make-vim-position-the-cursor-at-the-start-of-a-tab-character-instead-o
 
 -- some unicode symbols (to keep these chars' original color, we wrap them in a variable):
@@ -110,7 +111,7 @@ vim.opt.ttimeoutlen = 0
 -- # search & substitute
 
 vim.opt.hlsearch = false
-vim.opt.incsearch = true
+vim.opt.incsearch = false
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.magic = true
