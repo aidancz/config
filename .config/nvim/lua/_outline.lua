@@ -68,4 +68,4 @@ require("outline").setup({
 -- end)
 -- vim.api.nvim_set_hl(0, "OutlineCurrent", {link = "nofrils-red-bg"})
 
-vim.keymap.set("n", "<f3>", "<cmd>Outline<cr>")
+vim.keymap.set("n", "<f11>", "<cmd>Outline<cr>")

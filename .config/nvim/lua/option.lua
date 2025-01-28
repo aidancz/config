@@ -192,6 +192,7 @@ vim.opt.splitright = true
 -- vim.opt.splitkeep = "topline"
 vim.opt.equalalways = true
 vim.opt.winfixheight = false
+vim.opt.cmdheight = 1
 vim.opt.cmdwinheight = 8
 vim.opt.laststatus = 2
 -- https://github.com/neovim/neovim/issues/18965

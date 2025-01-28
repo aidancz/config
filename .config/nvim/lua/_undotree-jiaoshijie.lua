@@ -8,6 +8,7 @@ require("mini.deps").add({
 })
 
 require("undotree").setup({
+	position = "right",
 	window = {
 		winblend = 0,
 	},
