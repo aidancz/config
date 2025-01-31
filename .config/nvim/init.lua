@@ -40,6 +40,7 @@ require("mini.deps").now(function()
 
 require("variable")
 require("option")
+require("_guess-indent")
 
 require("keymap")
 

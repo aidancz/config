@@ -4,3 +4,19 @@
 /* #TabsToolbar { */
 /*   visibility: collapse; */
 /* } */
+
+/* https://www.reddit.com/r/FirefoxCSS/comments/k00tp2/firefox_hover_link/ */
+
+/* #statuspanel { */
+/*   display: none !important; */
+/* } */
+
+#statuspanel {
+  position: fixed !important;
+  top:      0     !important;
+  bottom:   auto  !important;
+  left:     0     !important;
+  right:    auto  !important;
+  width:    auto  !important;
+  padding:  0     !important;
+}
