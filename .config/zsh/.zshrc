@@ -74,6 +74,7 @@ eval "$(atuin init zsh)"
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle
 
 autoload edit-command-line; zle -N edit-command-line
+autoload -U select-word-style; select-word-style whitespace
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle_vi{{{
 
