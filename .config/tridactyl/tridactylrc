@@ -18,7 +18,7 @@ bind J tabnext
 bind K tabprev
 
 bind i focusinput -l
-bindurl ^https://github.com i hint -Vc .AppHeader-searchButton
+" bindurl ^https://github.com i hint -Vc .AppHeader-searchButton
 " https://github.com/tridactyl/tridactyl/blob/master/.tridactylrc
 
 bind gm tabduplicate
