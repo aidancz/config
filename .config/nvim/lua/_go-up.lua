@@ -15,7 +15,7 @@ vim.keymap.set({"n", "x"}, "<plug>(go-up-align)", require("go-up").align)
 vim.keymap.set({"n"}, "zz", require("go-up").centerScreen)
 vim.keymap.set({"n"}, "zb", "<cmd>normal! zb<plug>(go-up-redraw)<cr>", {desc = "https://github.com/nullromo/go-up.nvim/issues/9"})
 
-vim.keymap.set({"n", "x"}, "<c-g>", "<cmd>normal! <c-g><plug>(go-up-align)<cr>")
+vim.keymap.set({"n", "x"}, "<c-g>", "<plug>(go-up-align)")
 
 vim.keymap.set({"n", "x"}, "<c-e>", function() return 1                                           .. "<c-d><plug>(go-up-align)" end, {expr = true})
 vim.keymap.set({"n", "x"}, "<c-y>", function() return 1                                           .. "<c-u><plug>(go-up-align)" end, {expr = true})
@@ -41,7 +41,7 @@ end
 
 vim.keymap.set(
 	{"n", "x"},
-	"<f9>",
+	"<leader><leader>",
 	function()
 		if
 			pcall(function()

@@ -80,7 +80,7 @@ shell --block 'yazi-execute "$0" "$@"'
 [[manager.prepend_keymap]]
 on   = "O"
 run  = """
-shell 'open-with-program "$0"'
+shell 'open-with-program "$@"'
 """
 
 ################################ plugin

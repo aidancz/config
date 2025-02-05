@@ -18,14 +18,30 @@ require("yazi").setup({
 	},
 	yazi_floating_window_border = {"┏", "━", "┓", "┃", "┛", "━", "┗", "┃"},
 	clipboard_register = "+",
-	hooks = {
-		yazi_opened = function()
-			vim.o.cmdheight = 0
-		end,
-		yazi_closed_successfully = function()
-			vim.o.cmdheight = 1
-		end,
-	},
+	-- hooks = {
+	-- 	yazi_opened = function()
+	-- 		vim.o.cmdheight = 0
+	-- 	end,
+	-- 	yazi_closed_successfully = function()
+	-- 		vim.o.cmdheight = 1
+	-- 	end,
+	-- },
 })
 
 vim.keymap.set({"n"}, "<f3>", require("yazi").yazi)
+
+local yazi_augroup = vim.api.nvim_create_augroup("yazi", {clear = true})
+vim.api.nvim_create_autocmd(
+	"BufEnter",
+	{
+		group = yazi_augroup,
+		callback = function()
+			vim.schedule(function()
+			if vim.bo.filetype == "yazi" then
+				vim.opt.cmdheight = 0
+			else
+				vim.opt.cmdheight = 1
+			end
+			end)
+		end,
+	})

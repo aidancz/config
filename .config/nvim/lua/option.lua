@@ -37,7 +37,7 @@ vim.opt.showcmdloc = "statusline"
 
 vim.opt.list = true
 vim.opt.listchars = ""
--- vim.opt.listchars:append({eol = "$"})
+vim.opt.listchars:append({eol = " "})
 vim.opt.listchars:append({tab = "  "})
 -- vim.opt.listchars:append({trail = "#"})
 vim.opt.listchars:append({nbsp = "▪"})
