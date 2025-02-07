@@ -40,7 +40,7 @@ vim.api.nvim_set_hl(0, "tab",        {link = "nofrils-yellow-bg"})
 vim.api.nvim_set_hl(0, "multispace", {link = "nofrils-magenta-bg"})
 vim.api.nvim_set_hl(0, "trail",      {link = "nofrils-red-bg"})
 
-vim.keymap.set({"n", "x", "i"}, "<f10>", function()
+vim.keymap.set({"n", "x", "i"}, "<a-v>", function()
 	vim.w.space      = not vim.w.space
 	vim.w.tab        = not vim.w.tab
 	vim.w.multispace = not vim.w.multispace

@@ -9,7 +9,11 @@ require("mini.deps").add({
 
 require("outline").setup({
 	outline_window = {
+		position = "left",
+		width = 20,
+		relative_width = true,
 		jump_highlight_duration = false,
+		show_cursorline = true,
 	},
 	outline_items = {
 		-- show_symbol_lineno = true,
@@ -68,4 +72,12 @@ require("outline").setup({
 -- end)
 -- vim.api.nvim_set_hl(0, "OutlineCurrent", {link = "nofrils-red-bg"})
 
-vim.keymap.set("n", "<f11>", "<cmd>Outline<cr>")
+vim.keymap.set("n", "<f10>", "<cmd>Outline<cr>")
+
+local outline_augroup = vim.api.nvim_create_augroup("outline", {clear = true})
+vim.api.nvim_create_autocmd(
+	"VimEnter",
+	{
+		group = outline_augroup,
+		command = "OutlineOpen!",
+	})

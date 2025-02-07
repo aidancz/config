@@ -11,14 +11,14 @@ vim.opt.foldlevel = 0
 vim.opt.foldlevelstart = 0
 vim.opt.foldmethod = "marker"
 
-vim.opt.signcolumn = "yes:4"
--- vim.opt.signcolumn = "yes:2"
+-- vim.opt.signcolumn = "yes:4"
+vim.opt.signcolumn = "yes:2"
 -- https://github.com/neovim/neovim/issues/13098
 -- https://github.com/neovim/neovim/issues/10106
 
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.numberwidth = 7
+vim.opt.numberwidth = 1
 
 vim.opt.guicursor = ""
 -- vim.opt.cursorline = true

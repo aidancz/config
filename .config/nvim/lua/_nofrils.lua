@@ -67,17 +67,19 @@ vim.api.nvim_set_hl(0, 'Whitespace',   {link = 'nofrils-yellow'})
 vim.api.nvim_set_hl(0, 'SpecialKey',   {link = 'nofrils-yellow-bg'})
 vim.api.nvim_set_hl(0, 'NonText',      {link = 'nofrils-yellow'})
 
+vim.api.nvim_set_hl(0, 'DiffAdd',      {link = 'nofrils-green'})
+vim.api.nvim_set_hl(0, 'DiffChange',   {link = 'nofrils-yellow'})
+vim.api.nvim_set_hl(0, 'DiffDelete',   {link = 'nofrils-red'})
+vim.api.nvim_set_hl(0, 'DiffText',     {link = 'nofrils-blue'})
+
+vim.api.nvim_set_hl(0, 'Folded',       {link = 'nofrils-yellow'})
+
 vim.api.nvim_set_hl(0, 'Cursor',       {link = 'nofrils-white-bg'})
 vim.api.nvim_set_hl(0, 'TermCursor',   {link = 'nofrils-white-bg'})
 vim.api.nvim_set_hl(0, 'Visual',       {link = 'nofrils-blue-bg'})
 vim.api.nvim_set_hl(0, 'CursorLine',   {link = 'nofrils-blue-bg'})
 vim.api.nvim_set_hl(0, 'CursorColumn', {link = 'nofrils-blue-bg'})
 vim.api.nvim_set_hl(0, 'MatchParen',   {link = 'nofrils-yellow-bg'})
-
-vim.api.nvim_set_hl(0, 'DiffAdd',      {link = 'nofrils-green'})
-vim.api.nvim_set_hl(0, 'DiffChange',   {link = 'nofrils-yellow'})
-vim.api.nvim_set_hl(0, 'DiffDelete',   {link = 'nofrils-red'})
-vim.api.nvim_set_hl(0, 'DiffText',     {link = 'nofrils-blue'})
 
 vim.api.nvim_set_hl(0, 'Search',       {link = 'nofrils-green-bg'})
 vim.api.nvim_set_hl(0, 'CurSearch',    {link = 'nofrils-blue-bg'})
@@ -86,20 +88,21 @@ vim.api.nvim_set_hl(0, 'IncSearch',    {link = 'nofrils-blue-bg'})
 vim.api.nvim_set_hl(0, 'LineNr',       {link = 'nofrils-white'})
 vim.api.nvim_set_hl(0, 'LineNrAbove',  {link = 'nofrils-white'})
 vim.api.nvim_set_hl(0, 'LineNrBelow',  {link = 'nofrils-white'})
+vim.api.nvim_set_hl(0, 'StatusLine',   {link = 'nofrils-white'})
+
+vim.api.nvim_set_hl(0, 'FloatBorder',  {})
+vim.api.nvim_set_hl(0, 'WinSeparator', {})
+vim.api.nvim_set_hl(0, 'TabLine',      {})
+vim.api.nvim_set_hl(0, 'TabLineFill',  {})
+vim.api.nvim_set_hl(0, 'TabLineSel',   {link = 'nofrils-white-bg'})
 
 vim.api.nvim_set_hl(0, 'Pmenu',        {})
 vim.api.nvim_set_hl(0, 'PmenuSel',     {link = 'nofrils-white-bg'})
 vim.api.nvim_set_hl(0, 'PmenuSbar',    {})
 vim.api.nvim_set_hl(0, 'PmenuThumb',   {link = 'nofrils-white-bg'})
-vim.api.nvim_set_hl(0, 'StatusLine',   {link = 'nofrils-white'})
-
-vim.api.nvim_set_hl(0, 'FloatBorder',  {})
-vim.api.nvim_set_hl(0, 'WinSeparator', {})
 
 vim.api.nvim_set_hl(0, 'WarningMsg',   {link = 'nofrils-yellow'})
 vim.api.nvim_set_hl(0, 'ErrorMsg',     {link = 'nofrils-red'})
-
-vim.api.nvim_set_hl(0, 'Folded',       {link = 'nofrils-yellow'})
 
 
 

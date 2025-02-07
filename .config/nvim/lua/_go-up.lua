@@ -41,7 +41,7 @@ end
 
 vim.keymap.set(
 	{"n", "x"},
-	"<leader><leader>",
+	"<c-s-s>",
 	function()
 		if
 			pcall(function()
