@@ -16,7 +16,7 @@ vim.opt.signcolumn = "yes:2"
 -- https://github.com/neovim/neovim/issues/13098
 -- https://github.com/neovim/neovim/issues/10106
 
-vim.opt.number = true
+vim.opt.number = false
 vim.opt.relativenumber = true
 vim.opt.numberwidth = 1
 

@@ -10,8 +10,8 @@ require("mini.deps").add({
 require("outline").setup({
 	outline_window = {
 		position = "left",
-		width = 20,
-		relative_width = true,
+		width = math.ceil(vim.o.columns / 8),
+		relative_width = false,
 		jump_highlight_duration = false,
 		show_cursorline = true,
 	},

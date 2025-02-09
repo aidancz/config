@@ -51,7 +51,7 @@ require("diagnostic")
 -- require("_mini-trailspace")
 
 require("autocmd")
-require("buvvers")
+require("_buvvers")
 require("_outline")
 require("_nvim-lspconfig")
 require("_markdown-preview")
