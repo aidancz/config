@@ -13,7 +13,7 @@ require("outline").setup({
 		width = math.ceil(vim.o.columns / 8),
 		relative_width = false,
 		jump_highlight_duration = false,
-		show_cursorline = true,
+		show_cursorline = false,
 	},
 	outline_items = {
 		-- show_symbol_lineno = true,
@@ -24,7 +24,11 @@ require("outline").setup({
 		enabled = false,
 	},
 	symbol_folding = {
-		autofold_depth = false,
+		autofold_depth = 1,
+		auto_unfold = {
+			hovered = true,
+			only = true,
+		},
 		markers = {"●", "○"},
 	},
 	keymaps = {
@@ -74,10 +78,4 @@ require("outline").setup({
 
 vim.keymap.set("n", "<f10>", "<cmd>Outline<cr>")
 
-local outline_augroup = vim.api.nvim_create_augroup("outline", {clear = true})
-vim.api.nvim_create_autocmd(
-	"VimEnter",
-	{
-		group = outline_augroup,
-		command = "OutlineOpen!",
-	})
+require("outline").open({focus_outline = false})
