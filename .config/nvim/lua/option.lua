@@ -202,7 +202,7 @@ vim.opt.laststatus = 2
 -- # misc
 
 vim.opt.cpoptions:remove("_")
-vim.opt.cpoptions:append("u")
+-- vim.opt.cpoptions:append("u")
 -- vim.opt.cpoptions:append("v")
 -- vim.opt.cpoptions:append("$")
 -- https://vi.stackexchange.com/questions/6194/why-do-cw-and-ce-do-the-same-thing

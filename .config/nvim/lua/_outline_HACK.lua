@@ -1,6 +1,5 @@
 -- open outline.nvim in require("mini.deps").now:
 -- 	1. long startup time
--- 	2. bug if `set cpoptions+=u`
 -- open outline.nvim in require("mini.deps").later:
 -- 	1. ui shake
 -- let's make the ui does not shake:
