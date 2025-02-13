@@ -5,6 +5,7 @@ require("mini.deps").add({
 require("mini.bracketed").setup({
 	jump     = {suffix = "g", options = {}},
 	location = {suffix = "a", options = {}},
+	undo     = {suffix = "", options = {}},
 })
 
 for _, i in pairs(require("mini.bracketed").config) do

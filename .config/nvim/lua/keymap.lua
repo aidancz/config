@@ -41,6 +41,8 @@ vim.keymap.set({"n"}, [[\]], function()
 -- https://github.com/rjayatilleka/vim-insert-char
 -- https://github.com/bagohart/vim-insert-append-single-character
 
+vim.keymap.set("n", ",", "r")
+
 function compile()
 	vim.cmd("w")
 
