@@ -157,7 +157,7 @@ vim.keymap.set({"i", "c"}, "<a-v>", "<c-k>")
 vim.keymap.set({"n", "x", "i"}, "<a-cr>", "<cmd>silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>")
 -- https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
 
-vim.keymap.set({"n", "x", "i"}, "<a-esc>", function()
+vim.keymap.set({"n", "x", "i"}, "<s-esc>", function()
 	if vim.fn.winnr("$") ~= 1 then
 		vim.cmd("close")
 	else

@@ -21,7 +21,7 @@ on = ["<up>"]
 run = ["toggle", "arrow -1"]
 
 [[manager.prepend_keymap]]
-on = ["<a-esc>"]
+on = ["<s-esc>"]
 run = "quit"
 [[manager.prepend_keymap]]
 on = ["<a-f>"]

@@ -147,7 +147,7 @@ bindkey -M emacs "^[[B"  history-beginning-search-forward
 bindkey -M emacs "^[^M"  open_terminal
 bindkey -M emacs "^[e"   edit-command-line
 
-bindkey -M emacs -s "^[[27;3u" "^e^u^d"
+bindkey -M emacs -s "^[[27;2u" "^e^u^d"
 bindkey -M emacs -s "^[f" "^e^uyyy^M"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ tmux
