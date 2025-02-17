@@ -14,7 +14,7 @@ require("fzf-lua").setup({
 		},
 	},
 	files = {
-		cwd = require("fzf-lua/path").git_root(nil, true)
+		-- cwd = require("fzf-lua/path").git_root(nil, true)
 		-- https://github.com/ibhagwan/fzf-lua/issues/140
 	}
 })

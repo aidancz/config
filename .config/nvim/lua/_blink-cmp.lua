@@ -54,7 +54,9 @@ require("blink.cmp").setup({
 		-- 	"cancel",
 		-- 	"fallback",
 		-- },
-		cmdline = {
+	},
+	cmdline = {
+		keymap = {
 			preset = "none",
 			["<tab>"] = {
 				"select_next",

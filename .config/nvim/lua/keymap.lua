@@ -43,20 +43,20 @@ vim.keymap.set({"n"}, [[\]], function()
 
 vim.keymap.set("n", ",", "r")
 
-function compile()
-	vim.cmd("w")
-
-	local filetype = vim.bo.filetype
-	if	filetype == "scheme" then
-	elseif	filetype == "c" then
-	elseif	filetype == "java" then
-	elseif	filetype == "python" then
-	elseif	filetype == "javascript" then
-	else
-		vim.cmd("MarkdownPreview")
-	end
-end
-vim.keymap.set("n", "<f5>", compile)
+-- local compile = function()
+-- 	vim.cmd("w")
+--
+-- 	local filetype = vim.bo.filetype
+-- 	if	filetype == "scheme" then
+-- 	elseif	filetype == "c" then
+-- 	elseif	filetype == "java" then
+-- 	elseif	filetype == "python" then
+-- 	elseif	filetype == "javascript" then
+-- 	else
+-- 		vim.cmd("MarkdownPreview")
+-- 	end
+-- end
+-- vim.keymap.set("n", "<f5>", compile)
 
 
 
@@ -154,10 +154,10 @@ vim.keymap.set({"n", "x", "i"}, "<c-h>", "<cmd>normal zz<plug>(quarter-e)<cr>")
 vim.keymap.set({"n", "x", "i"}, "<c-l>", "<cmd>normal zz<plug>(quarter-y)<cr>")
 vim.keymap.set({"i", "c"}, "<a-v>", "<c-k>")
 
-vim.keymap.set({"n", "x", "i"}, "<f1>", "<cmd>silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>")
+vim.keymap.set({"n", "x", "i"}, "<a-cr>", "<cmd>silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>")
 -- https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
 
-vim.keymap.set({"n", "x", "i"}, "<f12>", function()
+vim.keymap.set({"n", "x", "i"}, "<a-esc>", function()
 	if vim.fn.winnr("$") ~= 1 then
 		vim.cmd("close")
 	else
