@@ -8,7 +8,7 @@ require("buvvers").setup({
 })
 require("buvvers").open()
 
-vim.keymap.set("n", "<f11>", require("buvvers").toggle)
+vim.keymap.set("n", "<a-b>", require("buvvers").toggle)
 
 local quit_win_augroup = vim.api.nvim_create_augroup("quit_win", {clear = true})
 vim.api.nvim_create_autocmd(

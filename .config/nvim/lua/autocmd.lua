@@ -25,14 +25,20 @@ vim.api.nvim_create_autocmd(
 local auto_save_augroup = vim.api.nvim_create_augroup("auto_save", {clear = true})
 
 vim.api.nvim_create_autocmd(
-	{"TextChanged", "InsertLeave", "FocusLost"},
+	{
+		"TextChanged",
+		"InsertLeave",
+		"FocusLost",
+	},
 	{
 		group = auto_save_augroup,
 		command = "lockmarks silent! wa",
 	})
 
 vim.api.nvim_create_autocmd(
-	{"QuitPre"},
+	{
+		"BufLeave",
+	},
 	{
 		group = auto_save_augroup,
 		nested = true,

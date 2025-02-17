@@ -21,10 +21,10 @@ on = ["<up>"]
 run = ["toggle", "arrow -1"]
 
 [[manager.prepend_keymap]]
-on = ["<f12>"]
+on = ["<a-esc>"]
 run = "quit"
 [[manager.prepend_keymap]]
-on = ["<f3>"]
+on = ["<a-f>"]
 run = "quit"
 
 [[manager.prepend_keymap]]
@@ -55,7 +55,7 @@ shell ''
 desc = "test"
 
 [[manager.prepend_keymap]]
-on = ["<f1>"]
+on = ["<a-enter>"]
 run = """
 shell 'setsid -f $TERMINAL >/dev/null 2>&1'
 """
@@ -72,7 +72,7 @@ shell 'ya emit cd "$(git rev-parse --show-toplevel)"'
 """
 
 [[manager.prepend_keymap]]
-on   = "<f5>"
+on   = "<a-x>"
 run  = """
 shell --block 'yazi-execute "$0" "$@"'
 """
@@ -101,7 +101,7 @@ on = ["i"]
 run = "plugin fzf"
 
 [[manager.prepend_keymap]]
-on   = "<f4>"
+on   = "<a-d>"
 run  = "plugin diff"
 
 ################################################################ input

@@ -138,17 +138,17 @@ bindkey -M emacs "^[" beep
 # bindkey -M emacs -s "^[" ""
 
 bindkey -M emacs "^u"    backward-kill-line # https://stackoverflow.com/questions/3483604/which-shortcut-in-zsh-does-the-same-as-ctrl-u-in-bash
-bindkey -M emacs "^[f"   emacs-forward-word # https://unix.stackexchange.com/questions/106375/make-zsh-alt-f-behave-like-emacs-alt-f
+bindkey -M emacs "^[w"   emacs-forward-word # https://unix.stackexchange.com/questions/106375/make-zsh-alt-f-behave-like-emacs-alt-f
 bindkey -M emacs "^[b"   emacs-backward-word
 bindkey -M emacs "^[[H"  beginning-of-line
 bindkey -M emacs "^[[4~" end-of-line
 bindkey -M emacs "^[[A"  history-beginning-search-backward
 bindkey -M emacs "^[[B"  history-beginning-search-forward
-bindkey -M emacs "^[OP"  open_terminal
-bindkey -M emacs "^[OQ"  edit-command-line
+bindkey -M emacs "^[^M"  open_terminal
+bindkey -M emacs "^[e"   edit-command-line
 
-bindkey -M emacs -s "^[[24~" "^e^u^d"
-bindkey -M emacs -s "^[OR" "^e^uyyy^M"
+bindkey -M emacs -s "^[[27;3u" "^e^u^d"
+bindkey -M emacs -s "^[f" "^e^uyyy^M"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ tmux
 # if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then

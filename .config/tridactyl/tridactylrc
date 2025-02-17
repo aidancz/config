@@ -8,7 +8,6 @@ set editorcmd st -e nvim
 
 
 
-unbind <F1>
 unbind <C-f>
 unbind <C-b>
 

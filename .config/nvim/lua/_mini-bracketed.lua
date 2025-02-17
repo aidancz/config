@@ -3,12 +3,14 @@ require("mini.deps").add({
 })
 
 require("mini.bracketed").setup({
+	buffer   = {suffix = "<tab>", options = {}},
 	jump     = {suffix = "g", options = {}},
 	location = {suffix = "a", options = {}},
-	undo     = {suffix = "", options = {}},
+	undo     = {suffix = "",  options = {}},
 })
 
 for _, i in pairs(require("mini.bracketed").config) do
-	vim.keymap.set("n", string.format("<a-%s>",   i.suffix), string.format("]%s", i.suffix), {remap = true})
-	vim.keymap.set("n", string.format("<a-s-%s>", i.suffix), string.format("[%s", i.suffix), {remap = true})
+	i.suffix_strip = i.suffix:match("^<(.-)>$") or i.suffix
+	vim.keymap.set("n", string.format("<a-%s>",   i.suffix_strip), string.format("]%s", i.suffix), {remap = true})
+	vim.keymap.set("n", string.format("<a-s-%s>", i.suffix_strip), string.format("[%s", i.suffix), {remap = true})
 end
