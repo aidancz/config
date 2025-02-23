@@ -54,7 +54,7 @@ require("outline").setup({
 	},
 	providers = {
 		priority = {
-			"lsp",
+			-- "lsp",
 			-- "markdown",
 			"treesitter",
 		},

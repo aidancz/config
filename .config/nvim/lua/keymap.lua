@@ -41,22 +41,22 @@ vim.keymap.set({"n"}, [[\]], function()
 -- https://github.com/rjayatilleka/vim-insert-char
 -- https://github.com/bagohart/vim-insert-append-single-character
 
-vim.keymap.set("n", ",", "r")
+-- vim.keymap.set("n", "<nop>", "r")
 
--- local compile = function()
--- 	vim.cmd("w")
---
--- 	local filetype = vim.bo.filetype
--- 	if	filetype == "scheme" then
--- 	elseif	filetype == "c" then
--- 	elseif	filetype == "java" then
--- 	elseif	filetype == "python" then
--- 	elseif	filetype == "javascript" then
--- 	else
--- 		vim.cmd("MarkdownPreview")
--- 	end
--- end
--- vim.keymap.set("n", "<f5>", compile)
+local compile = function()
+	vim.cmd("w")
+
+	local filetype = vim.bo.filetype
+	if	filetype == "scheme" then
+	elseif	filetype == "c" then
+	elseif	filetype == "java" then
+	elseif	filetype == "python" then
+	elseif	filetype == "javascript" then
+	else
+		vim.cmd("MarkdownPreview")
+	end
+end
+vim.keymap.set("n", "<leader>c", compile)
 
 
 
@@ -139,7 +139,7 @@ vim.keymap.set({"n", "x"}, "k", function()
 -- vim.keymap.set({"n", "x"}, "<c-b>", function() return math.ceil(vim.api.nvim_win_get_height(0)/1) .. "<c-u>" end, {expr = true})
 -- -- https://stackoverflow.com/questions/8059448/scroll-window-halfway-between-zt-and-zz-in-vim
 
-vim.keymap.set({"n", "x"}, ";", "@:")
+vim.keymap.set({"n", "x"}, "<bs>", "@:")
 
 
 
@@ -166,6 +166,10 @@ vim.keymap.set({"n", "x", "i"}, "<s-esc>", function()
 	end)
 -- `:q` ignore help window, so create this mapping, see `:h edit-window`
 -- https://vi.stackexchange.com/questions/9479/what-is-the-difference-between-quit-and-close-commands
+
+vim.keymap.set({"n", "x", "i"}, "<a-esc>", function()
+	vim.cmd("quitall!")
+	end)
 
 
 
