@@ -52,33 +52,40 @@ require("mini.ai").setup({
 		["0"] = require("mini.extra").gen_ai_spec.number(),
 
 		l = function(ai_type)
-			local row = vim.fn.line(".")
-			local col_end = string.len(vim.fn.getline("."))
+			local lnum_cursor = vim.fn.line(".")
+			local line_cursor = vim.fn.getline(".")
 
-			local to
-			if col_end ~= 0 then
-				to = {
-					line = row,
-					col = col_end,
-				}
+			local col_start = 1
+			local col_first_nonblank = string.find(line_cursor, "%S")
+			local col_end = string.len(line_cursor)
+
+			local from = {
+				line = lnum_cursor,
+				-- col = ?,
+			}
+			local to = {
+				line = lnum_cursor,
+				col = col_end,
+			}
+			if ai_type == "i" then
+				from.col = col_first_nonblank
 			else
+				from.col = col_start
+			end
+
+			if col_end == 0 then
+			-- empty line
+				to = nil
+			end
+			if col_first_nonblank == nil and ai_type == "i" then
+			-- only whitespace
 				to = nil
 			end
 
-			local vis_mode
-			if ai_type == "i" then
-				vis_mode = "v"
-			else
-				vis_mode = "V"
-			end
-
 			return {
-				from = {
-					line = row,
-					col = 1,
-				},
+				from = from,
 				to = to,
-				vis_mode = vis_mode,
+				vis_mode = "v",
 			}
 		end,
 
@@ -97,67 +104,83 @@ require("mini.ai").setup({
 		end,
 
 		i = function(ai_type)
-			local M = {}
+			local para = require("paramo/para3")
 
-			M.match = function(str)
-				return string.match(str, "^(%s*)(.*)$")
+			if ai_type == "i" then
+				para.setup({
+					include_more_indent = false,
+					include_empty_lines = false,
+				})
+			else
+				para.setup({
+					include_more_indent = false,
+					include_empty_lines = true,
+				})
 			end
 
-			M.sibling_or_descendant = function(row)
-				local line = vim.fn.getline(row)
-				local capture1, capture2 = M.match(line)
-				if ai_type == "i" then
-					if M.capture1_dot == "" and M.capture2_dot == "" then
-						return capture1 == "" and capture2 == ""
-					end
-					if M.capture1_dot == "" and M.capture2_dot ~= "" then
-						return capture1 == "" and capture2 ~= ""
-					end
-					return capture1 == M.capture1_dot
-				end
-				if ai_type == "a" then
-					if M.capture1_dot == "" and M.capture2_dot == "" then
-						return capture1 == "" and capture2 == ""
-					end
-					if M.capture1_dot == "" and M.capture2_dot ~= "" then
-						return not (capture1 == "" and capture2 == "")
-					end
-					return string.find(capture1, "^" .. M.capture1_dot)
-				end
+			local lnum_cursor = vim.fn.line(".")
+			local lnum_1
+			if para.head_p(lnum_cursor) then
+				lnum_1 = lnum_cursor
+			else
+				lnum_1 = para.backward_pos(lnum_cursor, para.head_p)
 			end
-
-			M.row_before = function(row)
-				if row == 1 then
-					return row
-				end
-				if not M.sibling_or_descendant(row - 1) then
-					return row
-				end
-				return M.row_before(row - 1)
+			local lnum_2
+			if para.tail_p(lnum_cursor) then
+				lnum_2 = lnum_cursor
+			else
+				lnum_2 = para.forward_pos(lnum_cursor, para.tail_p)
 			end
-
-			M.row_after = function(row)
-				if row == vim.fn.line("$") then
-					return row
-				end
-				if not M.sibling_or_descendant(row + 1) then
-					return row
-				end
-				return M.row_after(row + 1)
-			end
-
-			M.row_dot = vim.fn.line(".")
-			-- `row_dot` means current row
-			M.line_dot = vim.fn.getline(M.row_dot)
-			M.capture1_dot, M.capture2_dot = M.match(M.line_dot)
 
 			return {
 				from = {
-					line = M.row_before(M.row_dot),
+					line = lnum_1,
 					col = 1,
 				},
 				to = {
-					line = M.row_after(M.row_dot),
+					line = lnum_2,
+					col = 1,
+				},
+				vis_mode = "V",
+			}
+		end,
+
+		o = function(ai_type)
+			local para = require("paramo/para3")
+
+			if ai_type == "i" then
+				para.setup({
+					include_more_indent = true,
+					include_empty_lines = false,
+				})
+			else
+				para.setup({
+					include_more_indent = true,
+					include_empty_lines = true,
+				})
+			end
+
+			local lnum_cursor = vim.fn.line(".")
+			local lnum_1
+			if para.head_p(lnum_cursor) then
+				lnum_1 = lnum_cursor
+			else
+				lnum_1 = para.backward_pos(lnum_cursor, para.head_p)
+			end
+			local lnum_2
+			if para.tail_p(lnum_cursor) then
+				lnum_2 = lnum_cursor
+			else
+				lnum_2 = para.forward_pos(lnum_cursor, para.tail_p)
+			end
+
+			return {
+				from = {
+					line = lnum_1,
+					col = 1,
+				},
+				to = {
+					line = lnum_2,
 					col = 1,
 				},
 				vis_mode = "V",
@@ -189,7 +212,7 @@ require("mini.ai").setup({
 				i.vis_mode = "V"
 			end
 			return o
-		end
+		end,
 
 	},
 	mappings = {

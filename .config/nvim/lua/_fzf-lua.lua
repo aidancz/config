@@ -14,7 +14,14 @@ require("fzf-lua").setup({
 	-- files = {
 	-- 	cwd = require("fzf-lua/path").git_root(nil, true)
 	-- 	-- https://github.com/ibhagwan/fzf-lua/issues/140
-	-- }
+	-- },
+	winopts = {
+		border = {"┏", "━", "┓", "┃", "┛", "━", "┗", "┃"},
+		backdrop = 100,
+		preview = {
+			border = {"┏", "━", "┓", "┃", "┛", "━", "┗", "┃"},
+		},
+	},
 })
 
 pcall(function()

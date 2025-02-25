@@ -148,16 +148,16 @@ vim.keymap.set({"n", "x"}, "<bs>", "@:")
 vim.keymap.set({"n", "x", "i"}, "<c-s>", "<cmd>normal zz<cr>")
 vim.keymap.set({"n", "x", "i"}, "<c-j>", "<cmd>normal zt<cr>")
 vim.keymap.set({"n", "x", "i"}, "<c-k>", "<cmd>normal zb<cr>")
-vim.keymap.set({"n"}, "<plug>(quarter-e)", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-e>" end, {expr = true})
-vim.keymap.set({"n"}, "<plug>(quarter-y)", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-y>" end, {expr = true})
+vim.keymap.set({"n", "x", "i"}, "<plug>(quarter-e)", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-e>" end, {expr = true})
+vim.keymap.set({"n", "x", "i"}, "<plug>(quarter-y)", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-y>" end, {expr = true})
 vim.keymap.set({"n", "x", "i"}, "<c-h>", "<cmd>normal zz<plug>(quarter-e)<cr>")
 vim.keymap.set({"n", "x", "i"}, "<c-l>", "<cmd>normal zz<plug>(quarter-y)<cr>")
-vim.keymap.set({"i", "c"}, "<a-v>", "<c-k>")
+vim.keymap.set({"i", "c"}, "<c-s-v>", "<c-k>")
 
 vim.keymap.set({"n", "x", "i"}, "<a-cr>", "<cmd>silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>")
 -- https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
 
-vim.keymap.set({"n", "x", "i"}, "<s-esc>", function()
+vim.keymap.set({"n", "x", "i"}, "<a-esc>", function()
 	if vim.fn.winnr("$") ~= 1 then
 		vim.cmd("close")
 	else
@@ -167,7 +167,7 @@ vim.keymap.set({"n", "x", "i"}, "<s-esc>", function()
 -- `:q` ignore help window, so create this mapping, see `:h edit-window`
 -- https://vi.stackexchange.com/questions/9479/what-is-the-difference-between-quit-and-close-commands
 
-vim.keymap.set({"n", "x", "i"}, "<a-esc>", function()
+vim.keymap.set({"n", "x", "i"}, "<s-esc>", function()
 	vim.cmd("quitall!")
 	end)
 

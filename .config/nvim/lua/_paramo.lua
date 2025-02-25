@@ -5,23 +5,62 @@ vim.opt.runtimepath:prepend("~/sync_git/paramo.nvim")
 -- })
 
 require("paramo").setup({
+	-- {
+	-- 	type = "para0",
+	-- 	type_config = {
+	-- 		empty = true,
+	-- 		include_more_indent = false,
+	-- 		include_empty_lines = false,
+	-- 	},
+	-- 	backward = {
+	-- 		head = "<a-b>",
+	-- 		tail = "<a-g>",
+	-- 		head_or_tail = "<a-p>",
+	-- 	},
+	-- 	forward = {
+	-- 		head = "<a-w>",
+	-- 		tail = "<a-e>",
+	-- 		head_or_tail = "<a-n>",
+	-- 	},
+	-- },
 	{
-		type = "para3",
+		type = "para1",
 		type_config = {
-			-- empty = false,
-			indent = "eq",
-			include_more_indent = true,
-			include_empty = true,
+			empty = false,
 		},
 		backward = {
-			head = "<a-b>",
-			tail = "<a-g>",
-			head_or_tail = "<pageup>",
+			head = "<pageup>",
 		},
 		forward = {
-			head = "<a-w>",
-			tail = "<a-e>",
-			head_or_tail = "<pagedown>",
+			tail = "<pagedown>",
+		},
+	},
+	{
+		type = "para1",
+		type_config = {
+			empty = true,
+		},
+		backward = {
+			head = "(",
+			tail = "{",
+		},
+		forward = {
+			head = "}",
+			tail = ")",
+		},
+	},
+	{
+		type = "para2",
+		type_config = {
+			empty = false,
+		},
+		backward = {
+			head = "<c-s-b>",
+			tail = "<c-s-g>",
+		},
+		forward = {
+			head = "<c-s-w>",
+			tail = "<c-s-e>",
 		},
 	},
 })
