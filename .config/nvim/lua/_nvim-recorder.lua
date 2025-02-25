@@ -3,5 +3,5 @@ require("mini.deps").add({
 })
 
 require("recorder").setup({
-	lessNotifications = true,
+	-- lessNotifications = true,
 })
