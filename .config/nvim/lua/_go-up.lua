@@ -37,7 +37,7 @@ local scroll = function(n, follow)
 	end
 end
 
-scroll_wrapper = function(n)
+local scroll_wrapper = function(n)
 	if n == 0 then return end
 
 	local blank_top    = require("go-up").count_blank_top()
@@ -51,7 +51,13 @@ scroll_wrapper = function(n)
 		scroll(n, false)
 		if n < 0 then require("go-up").align_top() end
 	else
-		scroll(n, true)
+		if n > 0 and blank_top ~= 0 then
+			scroll(math.min(blank_top, n), true)
+		elseif n < 0 and blank_bottom ~= 0 then
+			scroll(math.max(-blank_bottom, n), true)
+		else
+			scroll(n, true)
+		end
 	end
 end
 
