@@ -13,7 +13,7 @@ vim.keymap.set({"n", "x"}, "zb", function()
 		require("go-up").redraw()
 	end)
 
-vim.keymap.set({"n", "x"}, "<c-g>", require("go-up").align)
+vim.keymap.set({"n", "x", "i"}, "<c-g>", require("go-up").align)
 
 
 
@@ -50,6 +50,7 @@ local scroll_wrapper = function(n)
 	then
 		scroll(n, false)
 		if n < 0 then require("go-up").align_top() end
+		if n > 0 then require("go-up").align_bottom() end
 	else
 		if n > 0 and blank_top ~= 0 then
 			scroll(math.min(blank_top, n), true)

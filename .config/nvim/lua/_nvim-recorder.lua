@@ -4,4 +4,7 @@ require("mini.deps").add({
 
 require("recorder").setup({
 	-- lessNotifications = true,
+	useNerdfontIcons = false,
 })
+
+vim.keymap.set("n", "<a-q>", "Q<c-q>", {remap = true})
