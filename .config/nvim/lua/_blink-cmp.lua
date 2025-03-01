@@ -78,7 +78,7 @@ require("blink.cmp").setup({
 			},
 		},
 		menu = {
-			border = {"┏", "━", "┓", "┃", "┛", "━", "┗", "┃"},
+			border = vim.co.border,
 			auto_show = function(ctx)
 				if ctx.mode == "cmdline" then
 					return true

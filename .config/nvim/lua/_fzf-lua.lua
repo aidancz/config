@@ -16,10 +16,10 @@ require("fzf-lua").setup({
 	-- 	-- https://github.com/ibhagwan/fzf-lua/issues/140
 	-- },
 	winopts = {
-		border = {"┏", "━", "┓", "┃", "┛", "━", "┗", "┃"},
+		border = vim.co.border,
 		backdrop = 100,
 		preview = {
-			border = {"┏", "━", "┓", "┃", "┛", "━", "┗", "┃"},
+			border = vim.co.border,
 		},
 	},
 })

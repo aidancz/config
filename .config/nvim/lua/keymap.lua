@@ -171,6 +171,8 @@ vim.keymap.set({"n", "x", "i"}, "<s-esc>", function()
 	vim.cmd("quitall!")
 	end)
 
+vim.keymap.set({"n", "x", "i"}, "<plug>(redrawstatus)", "<cmd>redrawstatus<cr>")
+
 
 
 -- # {"n", "x", "o"}

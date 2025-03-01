@@ -28,7 +28,7 @@ vim.opt.shortmess:remove("S")
 vim.opt.shortmess:append("I")
 vim.opt.showmode = false
 vim.opt.showcmd = true
-vim.opt.showcmdloc = "statusline"
+vim.opt.showcmdloc = "last"
 -- wildmenu	using wildchar (usually <tab>) to perform a command-line completion, shows a menu
 -- wildoptions	pum: popup menu
 -- shortmess	set message form
@@ -220,3 +220,10 @@ vim.opt.autowrite = true
 vim.opt.completeopt = {"menu", "preview"}
 
 -- vim.opt.commentstring = "#%s"
+
+
+
+-- # custom option
+vim.co = {}
+
+vim.co.border = {"┏", "━", "┓", "┃", "┛", "━", "┗", "┃"}

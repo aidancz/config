@@ -23,8 +23,11 @@ require("mini.deps").add({
 
 require("telescope").setup({
 	defaults = {
+		borderchars = {"━", "┃", "━", "┃", "┏", "┓", "┛", "┗"},
+		layout_strategy = "horizontal",
 		layout_config = {
 			horizontal = {
+				prompt_position = "top",
 				preview_cutoff = 0,
 				preview_width = 0.5
 			},

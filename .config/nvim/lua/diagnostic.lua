@@ -3,7 +3,7 @@ vim.diagnostic.config({
 	virtual_text = false,
 	signs = true,
 	float = {
-		border = {"┏", "━", "┓", "┃", "┛", "━", "┗", "┃"},
+		border = vim.co.border,
 	},
 })
 

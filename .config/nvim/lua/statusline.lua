@@ -17,12 +17,13 @@ end
 Statusline.str_active = function()
 	local list = {
 		"%t",
-		"%S",
+		-- "%S",
 		"%<",
 		"%=",
-		Statusline.nvim_recorder(),
 		"(" .. math.max(1, vim.fn.col(".")) .. " " .. vim.fn.col("$") .. ")",
-		"(%l %L)",
+		"(" .. vim.fn.line(".") .. " " .. vim.fn.line("$") .. ")",
+		-- "(%v " .. vim.fn.virtcol("$") .. ")",
+		-- "(%l %L)",
 	}
 	return table.concat(list, " ")
 end
@@ -36,10 +37,18 @@ end
 
 
 
-Statusline.nvim_recorder = function()
-	if package.loaded["recorder"] then
-		return package.loaded["recorder"].displaySlots()
-	else
-		return ""
-	end
-end
+-- Statusline.nvim_recorder = function()
+-- 	if package.loaded["recorder"] then
+-- 		return package.loaded["recorder"].displaySlots()
+-- 	else
+-- 		return ""
+-- 	end
+-- end
+
+-- Statusline.NeoComposer = function()
+-- 	if package.loaded["NeoComposer.ui"] then
+-- 		return package.loaded["NeoComposer.ui"].status_recording()
+-- 	else
+-- 		return ""
+-- 	end
+-- end

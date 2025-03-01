@@ -16,7 +16,7 @@ require("yazi").setup({
 		send_to_quickfix_list                = "<c-q>",
 		change_working_directory             = false,
 	},
-	yazi_floating_window_border = {"┏", "━", "┓", "┃", "┛", "━", "┗", "┃"},
+	yazi_floating_window_border = vim.co.border,
 	clipboard_register = "+",
 	-- hooks = {
 	-- 	yazi_opened = function()
