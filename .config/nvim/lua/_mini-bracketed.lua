@@ -3,10 +3,20 @@ require("mini.deps").add({
 })
 
 require("mini.bracketed").setup({
-	buffer   = {suffix = "<tab>", options = {}},
-	jump     = {suffix = "g", options = {}},
-	location = {suffix = "a", options = {}},
-	undo     = {suffix = "",  options = {}},
+	buffer     = { suffix = "<tab>", options = {} },
+	comment    = { suffix = "c",     options = {} },
+	conflict   = { suffix = "x",     options = {} },
+	diagnostic = { suffix = "d",     options = {} },
+	file       = { suffix = "f",     options = {} },
+	indent     = { suffix = "i",     options = {} },
+	jump       = { suffix = "g",     options = {} },
+	location   = { suffix = "a",     options = {} },
+	oldfile    = { suffix = "o",     options = {} },
+	quickfix   = { suffix = "",      options = {} },
+	treesitter = { suffix = "t",     options = {} },
+	undo       = { suffix = "",      options = {} },
+	window     = { suffix = "w",     options = {} },
+	yank       = { suffix = "y",     options = {} },
 })
 
 for _, i in pairs(require("mini.bracketed").config) do

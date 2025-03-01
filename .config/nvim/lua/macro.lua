@@ -23,6 +23,7 @@ M.cache = {
 	-- 	"b",
 	-- },
 	slot_index = 1,
+	reg_executed = nil,
 }
 
 -- # function: slot
@@ -70,6 +71,7 @@ end
 
 M.set_idx = function(idx)
 	M.cache.slot_index = idx
+	vim.cmd("redrawstatus")
 end
 
 -- # function: macro
@@ -119,6 +121,20 @@ end
 
 M.record_play = function()
 	vim.cmd("normal! @" .. M.get_reg())
+	M.cache.reg_executed = M.get_reg()
+end
+
+M.record_play_and_switch_slot = function()
+	local idx
+	if M.cache.reg_executed then
+		idx = M.reg2idx(M.cache.reg_executed)
+	else
+		idx = M.get_idx_next(M.get_idx())
+	end
+
+	M.record_play()
+
+	M.set_idx(idx)
 end
 
 M.record_edit = function()
@@ -149,6 +165,7 @@ vim.keymap.set(
 	{expr = true}
 )
 vim.keymap.set("n", "Q", M.record_play)
-vim.keymap.set("n", "cq", M.record_edit)
 vim.keymap.set("n", "<c-q>", M.idx_next)
+vim.keymap.set("n", "<a-q>", M.record_play_and_switch_slot)
+vim.keymap.set("n", "cq", M.record_edit)
 return M

@@ -20,6 +20,7 @@ Statusline.str_active = function()
 		-- "%S",
 		"%<",
 		"%=",
+		Statusline.macro(),
 		"(" .. math.max(1, vim.fn.col(".")) .. " " .. vim.fn.col("$") .. ")",
 		"(" .. vim.fn.line(".") .. " " .. vim.fn.line("$") .. ")",
 		-- "(%v " .. vim.fn.virtcol("$") .. ")",
@@ -52,3 +53,14 @@ end
 -- 		return ""
 -- 	end
 -- end
+
+Statusline.macro = function()
+	local M = package.loaded["macro"]
+	if M then
+		local reg = M.get_reg()
+		local macro = M.internal2visual(M.get_macro(M.get_reg()))
+		return string.format("(%s %s)", reg, macro)
+	else
+		return ""
+	end
+end
