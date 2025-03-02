@@ -62,10 +62,10 @@ vim.keymap.set("n", "<leader>c", compile)
 
 -- # "i"
 
-vim.keymap.set("i", "<down>", "<c-n>")
-vim.keymap.set("i", "<up>",   "<c-p>")
-vim.keymap.set("i", "<c-n>",  "<down>")
-vim.keymap.set("i", "<c-p>",  "<up>")
+-- vim.keymap.set("i", "<down>", "<c-n>")
+-- vim.keymap.set("i", "<up>",   "<c-p>")
+-- vim.keymap.set("i", "<c-n>",  "<down>")
+-- vim.keymap.set("i", "<c-p>",  "<up>")
 
 vim.keymap.set("i", "<left>",  "<c-g>U<left>")
 vim.keymap.set("i", "<right>", "<c-g>U<right>")
@@ -161,14 +161,14 @@ vim.keymap.set({"n", "x", "i"}, "<a-esc>", function()
 	if vim.fn.winnr("$") ~= 1 then
 		vim.cmd("close")
 	else
-		vim.cmd("quit!")
+		vim.cmd("q!")
 	end
 	end)
 -- `:q` ignore help window, so create this mapping, see `:h edit-window`
 -- https://vi.stackexchange.com/questions/9479/what-is-the-difference-between-quit-and-close-commands
 
 vim.keymap.set({"n", "x", "i"}, "<s-esc>", function()
-	vim.cmd("quitall!")
+	vim.cmd("qa!")
 	end)
 
 vim.keymap.set({"n", "x", "i"}, "<plug>(redrawstatus)", "<cmd>redrawstatus<cr>")

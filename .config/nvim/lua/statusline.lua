@@ -38,6 +38,14 @@ end
 
 
 
+Statusline.truncate = function(str, max_char_length)
+	if vim.fn.strchars(str) > max_char_length then
+		return vim.fn.strcharpart(str, 0, max_char_length) .. "…"
+	else
+		return str
+	end
+end
+
 -- Statusline.nvim_recorder = function()
 -- 	if package.loaded["recorder"] then
 -- 		return package.loaded["recorder"].displaySlots()
@@ -58,8 +66,8 @@ Statusline.macro = function()
 	local M = package.loaded["macro"]
 	if M then
 		local reg = M.get_reg()
-		local macro = M.internal2visual(M.get_macro(M.get_reg()))
-		return string.format("(%s %s)", reg, macro)
+		local macro = M.get_macro(M.get_reg())
+		return string.format([[(%s "%s")]], reg, Statusline.truncate(macro, 8))
 	else
 		return ""
 	end

@@ -11,58 +11,57 @@ require("mini.deps").add({
 	},
 })
 
-require("blink.cmp").setup({
+local config =
+{
 	sources = {
 	},
 	keymap = {
 		preset = "none",
 		["<down>"] = {
-			function(cmp)
-				cmp.show({
-					callback = function()
-						cmp.select_next()
-					end,
-				})
-				cmp.select_next()
-			end,
+			"show_and_insert",
+			"select_next",
 		},
 		["<up>"] = {
+			"show_and_insert",
+			"select_prev",
+		},
+		["<pagedown>"] = {
+			"hide",
+		},
+		-- ["<pageup>"] = {
+		-- 	"cancel",
+		-- },
+		["<pageup>"] = {
 			function(cmp)
-				cmp.show({
+				return cmp.cancel({
 					callback = function()
-						cmp.select_prev()
+						cmp.show()
 					end,
 				})
-				cmp.select_prev()
 			end,
 		},
-		-- ["<left>"] = {
-		-- 	function(cmp)
-		-- 		return cmp.cancel({
-		-- 			callback = function()
-		-- 				cmp.show()
-		-- 			end,
-		-- 		})
-		-- 	end,
-		-- 	"fallback",
-		-- },
-		-- ["<right>"] = {
-		-- 	"hide",
-		-- 	"fallback",
-		-- },
-		-- ["<c-g>"] = {
-		-- 	"cancel",
-		-- 	"fallback",
-		-- },
 	},
 	cmdline = {
 		keymap = {
 			preset = "none",
 			["<tab>"] = {
+				"show_and_insert",
 				"select_next",
 			},
 			["<s-tab>"] = {
+				"show_and_insert",
 				"select_prev",
+			},
+		},
+		completion = {
+			list = {
+				selection = {
+					auto_insert = true,
+					preselect = false,
+				},
+			},
+			menu = {
+				auto_show = true,
 			},
 		},
 	},
@@ -79,12 +78,7 @@ require("blink.cmp").setup({
 		},
 		menu = {
 			border = vim.co.border,
-			auto_show = function(ctx)
-				if ctx.mode == "cmdline" then
-					return true
-				end
-				return false
-			end,
+			auto_show = false,
 			scrolloff = 0,
 			min_width = 32,
 			max_height = 16,
@@ -96,4 +90,6 @@ require("blink.cmp").setup({
 		-- 	enabled = true,
 		-- },
 	},
-})
+}
+-- config.cmdline.keymap = config.keymap
+require("blink.cmp").setup(config)
