@@ -4,7 +4,7 @@
 
 [[manager.prepend_keymap]]
 on = ["g"]
-run = "arrow -99999999"
+run = "arrow top"
 
 [[manager.prepend_keymap]]
 on = ["<c-o>"]
