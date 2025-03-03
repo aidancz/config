@@ -40,7 +40,7 @@ require("mini.ai").setup({
 		},
 		-- 金铁击石全无力 大圣天蓬遭虎欺 枪刀戟剑浑不避 石猴似你不似你
 
-		d = {
+		Q = {
 			{
 				"%'.-%'",
 				'%".-%"',
@@ -49,7 +49,7 @@ require("mini.ai").setup({
 			'^.().*().$'
 		},
 
-		["0"] = require("mini.extra").gen_ai_spec.number(),
+		x = require("mini.extra").gen_ai_spec.number(),
 
 		l = function(ai_type)
 			local lnum_cursor = vim.fn.line(".")
@@ -104,41 +104,33 @@ require("mini.ai").setup({
 		end,
 
 		i = function(ai_type)
-			local para = require("paramo/para3")
-
+			local head_and_tail
 			if ai_type == "i" then
-				para.setup({
-					include_more_indent = false,
-					include_empty_lines = false,
-				})
+				head_and_tail =
+					require("paramo").get_head_and_tail(
+						"para3",
+						{
+							include_more_indent = false,
+							include_empty_lines = false,
+						}
+					)
 			else
-				para.setup({
-					include_more_indent = false,
-					include_empty_lines = true,
-				})
+				head_and_tail =
+					require("paramo").get_head_and_tail(
+						"para3",
+						{
+							include_more_indent = false,
+							include_empty_lines = true,
+						}
+					)
 			end
-
-			local lnum_cursor = vim.fn.line(".")
-			local lnum_1
-			if para.head_p(lnum_cursor) then
-				lnum_1 = lnum_cursor
-			else
-				lnum_1 = para.backward_pos(lnum_cursor, para.head_p)
-			end
-			local lnum_2
-			if para.tail_p(lnum_cursor) then
-				lnum_2 = lnum_cursor
-			else
-				lnum_2 = para.forward_pos(lnum_cursor, para.tail_p)
-			end
-
 			return {
 				from = {
-					line = lnum_1,
+					line = head_and_tail.head,
 					col = 1,
 				},
 				to = {
-					line = lnum_2,
+					line = head_and_tail.tail,
 					col = 1,
 				},
 				vis_mode = "V",
@@ -146,41 +138,52 @@ require("mini.ai").setup({
 		end,
 
 		o = function(ai_type)
-			local para = require("paramo/para3")
-
+			local head_and_tail
 			if ai_type == "i" then
-				para.setup({
-					include_more_indent = true,
-					include_empty_lines = false,
-				})
+				head_and_tail =
+					require("paramo").get_head_and_tail(
+						"para3",
+						{
+							include_more_indent = true,
+							include_empty_lines = false,
+						}
+					)
 			else
-				para.setup({
-					include_more_indent = true,
-					include_empty_lines = true,
-				})
+				head_and_tail =
+					require("paramo").get_head_and_tail(
+						"para3",
+						{
+							include_more_indent = true,
+							include_empty_lines = true,
+						}
+					)
 			end
-
-			local lnum_cursor = vim.fn.line(".")
-			local lnum_1
-			if para.head_p(lnum_cursor) then
-				lnum_1 = lnum_cursor
-			else
-				lnum_1 = para.backward_pos(lnum_cursor, para.head_p)
-			end
-			local lnum_2
-			if para.tail_p(lnum_cursor) then
-				lnum_2 = lnum_cursor
-			else
-				lnum_2 = para.forward_pos(lnum_cursor, para.tail_p)
-			end
-
 			return {
 				from = {
-					line = lnum_1,
+					line = head_and_tail.head,
 					col = 1,
 				},
 				to = {
-					line = lnum_2,
+					line = head_and_tail.tail,
+					col = 1,
+				},
+				vis_mode = "V",
+			}
+		end,
+
+		C = function(ai_type)
+			local head_and_tail
+			head_and_tail =
+				require("paramo").get_head_and_tail(
+					"para4"
+				)
+			return {
+				from = {
+					line = head_and_tail.head,
+					col = 1,
+				},
+				to = {
+					line = head_and_tail.tail,
 					col = 1,
 				},
 				vis_mode = "V",
@@ -196,7 +199,7 @@ require("mini.ai").setup({
 				},
 				to = {
 					line = vim.fn.line("$"),
-					col = math.max(1, string.len(vim.fn.getline("$"))),
+					col = vim.fn.col({vim.fn.line("$"), "$"}),
 				},
 				vis_mode = "V",
 			}

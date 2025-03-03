@@ -55,12 +55,10 @@ require("paramo").setup({
 			empty = false,
 		},
 		backward = {
-			head = "<c-s-b>",
-			tail = "<c-s-g>",
+			head_or_tail = "<",
 		},
 		forward = {
-			head = "<c-s-w>",
-			tail = "<c-s-e>",
+			head_or_tail = ">",
 		},
 	},
 })
