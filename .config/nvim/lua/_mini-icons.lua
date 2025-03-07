@@ -3,5 +3,5 @@ require("mini.deps").add({
 })
 
 require("mini.icons").setup({
-	style = "ascii",
+	-- style = "ascii",
 })

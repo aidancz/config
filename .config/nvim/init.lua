@@ -44,6 +44,7 @@ require("mini.deps").now(function()
 
 require("variable")
 require("option")
+require("_mini-icons")
 
 
 
@@ -101,7 +102,6 @@ require("_mini-extra")
 -- require("_indent-blankline")
 -- require("_lualine")
 -- require("_mini-comment")
--- require("_mini-icons")
 -- require("_mini-notify")
 -- require("_mini-statusline")
 -- require("_neo-tree")

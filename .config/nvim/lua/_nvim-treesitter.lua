@@ -43,7 +43,10 @@ require("nvim-treesitter.install").prefer_git = true
 -- `:h nvim-treesitter-modules`
 
 require("nvim-treesitter.configs").setup({
-	ensure_installed = {"gitcommit"},
+	ensure_installed = {
+		"gitcommit",
+		"git_rebase",
+	},
 	auto_install = true,
 	highlight = {
 		enable = true,
