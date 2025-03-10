@@ -1,29 +1,39 @@
--- https://vi.stackexchange.com/questions/9455/why-should-i-use-augroup
+--[[
+
+vim.api.nvim_create_augroup("xxx", {clear = true})
+
+means:
+
+if augroup_xxx_is_valid then
+	clear_autocmds_in_augroup_xxx()
+	return augroup_xxx_id
+else
+	create_augroup_xxx()
+	return augroup_xxx_id
+end
+
+--]]
 
 
 
 -- # fix cursor position when changing mode
 
-local cursor_position_augroup = vim.api.nvim_create_augroup("cursor_position", {clear = true})
-
+vim.api.nvim_create_augroup("esc_cursor_position", {clear = true})
 vim.api.nvim_create_autocmd(
-	"InsertLeave",
 	{
-		group = cursor_position_augroup,
+		"InsertLeave",
+	},
+	{
+		group = "esc_cursor_position",
 		command = "normal `^",
-	})
+	}
+)
 
 
 
 -- # auto save
 
--- local timer = vim.uv.new_timer()
--- timer:start(0, 100, vim.schedule_wrap(function()
--- 	vim.cmd("echo mode(1)")
--- 	end))
-
-local auto_save_augroup = vim.api.nvim_create_augroup("auto_save", {clear = true})
-
+vim.api.nvim_create_augroup("auto_save", {clear = true})
 vim.api.nvim_create_autocmd(
 	{
 		"TextChanged",
@@ -31,20 +41,20 @@ vim.api.nvim_create_autocmd(
 		"FocusLost",
 	},
 	{
-		group = auto_save_augroup,
+		group = "auto_save",
 		command = "lockmarks silent! wa",
-	})
-
+	}
+)
 vim.api.nvim_create_autocmd(
 	{
 		"BufLeave",
 	},
 	{
-		group = auto_save_augroup,
+		group = "auto_save",
 		nested = true,
 		command = "lockmarks silent! wa",
-	})
-
+	}
+)
 -- https://vim.fandom.com/wiki/Auto_save_files_when_focus_is_lost
 -- https://github.com/neovim/neovim/issues/8807
 
@@ -52,40 +62,40 @@ vim.api.nvim_create_autocmd(
 
 -- # filetype
 
-local filetype_augroup = vim.api.nvim_create_augroup("filetype", {clear = true})
-
+vim.api.nvim_create_augroup("filetype", {clear = true})
 vim.api.nvim_create_autocmd(
 	"FileType",
 	{
-		group = filetype_augroup,
-		pattern = {"man"},
+		group = "filetype",
+		pattern = "man",
 		callback = function()
 			vim.opt_local.number = false
 			vim.opt_local.relativenumber = false
 			vim.opt_local.signcolumn = "no"
 		end,
-	})
-
+	}
+)
 vim.api.nvim_create_autocmd(
 	"FileType",
 	{
-		group = filetype_augroup,
-		pattern = {"help"},
+		group = "filetype",
+		pattern = "help",
 		callback = function()
 			vim.opt_local.buflisted = true
 		end,
-	})
+	}
+)
 
 
 
 -- # filename
 
-local filename_augroup = vim.api.nvim_create_augroup("filename", {clear = true})
-
+vim.api.nvim_create_augroup("filename", {clear = true})
 vim.api.nvim_create_autocmd(
 	"BufRead",
 	{
-		group = filename_augroup,
-		pattern = {"log.txt"},
+		group = "filename",
+		pattern = "log.txt",
 		command = "silent $",
-	})
+	}
+)

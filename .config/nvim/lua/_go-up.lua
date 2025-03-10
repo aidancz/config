@@ -89,29 +89,32 @@ vim.keymap.set({"n", "x"}, "<c-b>", function()
 
 
 
-local create_autocmd = function()
-	local cursor_center_augroup = vim.api.nvim_create_augroup("cursor_center", {clear = true})
-	vim.api.nvim_create_autocmd(
-		{"CursorMoved", "CursorMovedI", "WinScrolled"},
-		{
-			group = cursor_center_augroup,
-			command = "silent! normal zz",
-		})
-end
-
 vim.keymap.set(
 	{"n", "x"},
 	"<a-s>",
 	function()
+		vim.api.nvim_create_augroup("cursor_center", {clear = false})
+		-- create the augroup if it does not exist, else do nothing
+
 		if
-			pcall(function()
+			next(
 				vim.api.nvim_get_autocmds({group = "cursor_center"})
-			end)
+			) == nil
 		then
-			vim.api.nvim_del_augroup_by_name("cursor_center")
+			vim.api.nvim_create_autocmd(
+				{
+					"CursorMoved",
+					"CursorMovedI",
+					"WinScrolled",
+				},
+				{
+					group = "cursor_center",
+					command = "silent! normal zz",
+				}
+			)
+			vim.api.nvim_exec_autocmds("CursorMoved", {group = "cursor_center"})
 		else
-			create_autocmd()
-			vim.api.nvim_exec_autocmds({"CursorMoved"}, {})
+			vim.api.nvim_clear_autocmds({group = "cursor_center"})
 		end
 	end
 )

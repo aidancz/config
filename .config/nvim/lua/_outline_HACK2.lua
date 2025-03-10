@@ -17,12 +17,12 @@ M.undo_redo_do = function()
 	vim.cmd(M.undo_redo)
 end
 
-local undo_redo_augroup = vim.api.nvim_create_augroup("undo_redo", {clear = true})
+vim.api.nvim_create_augroup("undo_redo", {clear = true})
 M.create_autocmd = function()
 	vim.api.nvim_create_autocmd(
 		"TextChanged",
 		{
-			group = undo_redo_augroup,
+			group = "undo_redo",
 			callback = function()
 				M.undo_redo = "redo"
 			end,
@@ -31,7 +31,7 @@ M.create_autocmd = function()
 	)
 end
 M.delete_autocmd = function()
-	vim.api.nvim_clear_autocmds({group = undo_redo_augroup})
+	vim.api.nvim_clear_autocmds({group = "undo_redo"})
 end
 
 ----------------------------------------------------------------

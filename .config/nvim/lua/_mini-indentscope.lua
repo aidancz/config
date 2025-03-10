@@ -24,17 +24,18 @@ require("mini.indentscope").setup({
 vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", {link = "nofrils-yellow"})
 vim.api.nvim_set_hl(0, "MiniIndentscopeSymbolOff", {link = "nofrils-yellow"})
 
--- local mini_indentscope_augroup = vim.api.nvim_create_augroup("mini_indentscope", {clear = true})
+-- vim.api.nvim_create_augroup("mini_indentscope_config", {clear = true})
 -- vim.api.nvim_create_autocmd(
 -- 	"BufEnter",
 -- 	{
--- 		group = mini_indentscope_augroup,
--- 		pattern = {"*"},
+-- 		group = "mini_indentscope_config",
+-- 		pattern = "*",
 -- 		callback = function()
 -- 			if vim.bo.buftype ~= "" then
 -- 				vim.b.miniindentscope_disable = true
 -- 			end
 -- 		end,
--- 	})
+-- 	}
+-- )
 
 vim.g.miniindentscope_disable = true
