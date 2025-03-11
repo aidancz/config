@@ -76,6 +76,7 @@ require("_guess-indent")
 require("_markdown-preview")
 require("_nvim-lspconfig")
 require("autocmd")
+require("_nvim-fundo")
 
 
 
@@ -155,6 +156,7 @@ require("_vim-table-mode")
 require("_yazi")
 require("macro")
 require("redir")
+require("_auto-save")
 
 
 

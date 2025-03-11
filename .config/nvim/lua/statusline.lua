@@ -16,7 +16,8 @@ end
 
 Statusline.str_active = function()
 	local list = {
-		"%t",
+		"%F",
+		"%m",
 		-- "%S",
 		"%<",
 		"%=",
@@ -31,7 +32,7 @@ end
 
 Statusline.str_inactive = function()
 	local list = {
-		"%t",
+		"%F",
 	}
 	return table.concat(list, " ")
 end

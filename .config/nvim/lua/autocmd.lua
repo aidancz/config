@@ -33,30 +33,30 @@ vim.api.nvim_create_autocmd(
 
 -- # auto save
 
-vim.api.nvim_create_augroup("auto_save", {clear = true})
-vim.api.nvim_create_autocmd(
-	{
-		"TextChanged",
-		"InsertLeave",
-		"FocusLost",
-	},
-	{
-		group = "auto_save",
-		command = "lockmarks silent! wa",
-	}
-)
-vim.api.nvim_create_autocmd(
-	{
-		"BufLeave",
-	},
-	{
-		group = "auto_save",
-		nested = true,
-		command = "lockmarks silent! wa",
-	}
-)
--- https://vim.fandom.com/wiki/Auto_save_files_when_focus_is_lost
--- https://github.com/neovim/neovim/issues/8807
+-- vim.api.nvim_create_augroup("auto_save", {clear = true})
+-- vim.api.nvim_create_autocmd(
+-- 	{
+-- 		"TextChanged",
+-- 		"InsertLeave",
+-- 		"FocusLost",
+-- 	},
+-- 	{
+-- 		group = "auto_save",
+-- 		command = "lockmarks silent! wa",
+-- 	}
+-- )
+-- vim.api.nvim_create_autocmd(
+-- 	{
+-- 		"BufLeave",
+-- 	},
+-- 	{
+-- 		group = "auto_save",
+-- 		nested = true,
+-- 		command = "lockmarks silent! wa",
+-- 	}
+-- )
+-- -- https://vim.fandom.com/wiki/Auto_save_files_when_focus_is_lost
+-- -- https://github.com/neovim/neovim/issues/8807
 
 
 
