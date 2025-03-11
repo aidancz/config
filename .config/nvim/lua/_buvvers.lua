@@ -32,7 +32,7 @@ require("buvvers").setup({
 		name_l = default_function(handle_l)
 
 		for n, name in ipairs(name_l) do
-			name_l[n] = "○ " .. name
+			name_l[n] = "󰈔 " .. name
 		end
 
 		return name_l
@@ -41,7 +41,7 @@ require("buvvers").setup({
 
 vim.keymap.set("n", "<c-s-b>", require("buvvers").toggle)
 
-local buvvers_customize = function()
+local add_buffer_keybindings = function()
 	vim.keymap.set(
 		"n",
 		"d",
@@ -70,13 +70,16 @@ local buvvers_customize = function()
 		}
 	)
 end
+vim.api.nvim_create_augroup("buvvers_config", {clear = true})
 vim.api.nvim_create_autocmd(
 	"User",
 	{
-		group = vim.api.nvim_create_augroup("buvvers_customize", {clear = true}),
-		pattern = "BuvversAttach",
-		callback = buvvers_customize,
+		group = "buvvers_config",
+		pattern = "BuvversBufEnabled",
+		callback = add_buffer_keybindings,
 	}
 )
+-- use `BuvversBufEnabled` to add buffer local keybindings
 
 require("buvvers").open()
+-- enable buvvers at startup

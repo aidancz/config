@@ -11,7 +11,8 @@ require("eolmark").setup({
 		".+",
 	},
 	opts = {
-		virt_text = {{"○", "nofrils-yellow"}},
+		virt_text = {{"󰮯", "nofrils-white"}},
+		-- 󰊠󰮯
 		-- virt_text_pos = "inline",
 		-- hl_mode = "combine",
 		-- priority = 10000,

@@ -168,4 +168,7 @@ vim.keymap.set("n", "Q", M.record_play)
 vim.keymap.set("n", "<c-q>", M.idx_next)
 vim.keymap.set("n", "<a-q>", M.record_play_and_switch_slot)
 vim.keymap.set("n", "cq", M.record_edit)
+vim.keymap.set("n", "f:", "q:")
+vim.keymap.set("n", "f/", "q/")
+vim.keymap.set("n", "f?", "q?")
 return M

@@ -60,6 +60,8 @@ require("statusline")
 -- # ui stable
 
 -- require("_mini-trailspace")
+-- require("_mini-starter")
+-- require("_mini-tabline")
 require("_buvvers")
 require("_eolmark")
 require("_outline_HACK1")
