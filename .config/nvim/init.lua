@@ -36,7 +36,16 @@ require("mini.deps").setup()
 
 ----------------------------------------------------------------
 
-require("mini.deps").now(function()
+local original_require = require
+
+----------------------------------------------------------------
+
+local require = function(modname)
+	original_require("mini.deps").now(function()
+		original_require(modname)
+	end)
+end
+-- !!! WARNING: `require` function is redefined here
 
 
 
@@ -80,11 +89,14 @@ require("_nvim-fundo")
 
 
 
-end)
-
 ----------------------------------------------------------------
 
-require("mini.deps").later(function()
+local require = function(modname)
+	original_require("mini.deps").later(function()
+		original_require(modname)
+	end)
+end
+-- !!! WARNING: `require` function is redefined here
 
 
 
@@ -160,7 +172,9 @@ require("_auto-save")
 
 
 
-end)
+----------------------------------------------------------------
+
+local require = original_require
 
 ----------------------------------------------------------------
 
