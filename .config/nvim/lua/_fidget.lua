@@ -3,14 +3,14 @@ require("mini.deps").add({
 })
 
 require("fidget").setup({
-	-- progress = {
-	-- 	ignore = {
-	-- 		function(msg)
-	-- 			return msg.lsp_client.name == "lua_ls" and string.find(msg.title, "Diagnosing")
-	-- 		end,
-	-- 	},
-	-- 	-- https://github.com/j-hui/fidget.nvim/issues/249
-	-- },
+	progress = {
+		ignore = {
+			function(msg)
+				return msg.lsp_client.name == "lua_ls" and string.find(msg.title, "Diagnosing")
+			end,
+		},
+		-- https://github.com/j-hui/fidget.nvim/issues/249
+	},
 	notification = {
 		poll_rate = 100,
 		override_vim_notify = true,

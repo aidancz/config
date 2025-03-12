@@ -25,6 +25,10 @@ vim.opt.runtimepath:prepend("~/sync_git/buvvers.nvim")
 -- -- HACK: https://github.com/nvim-tree/nvim-tree.lua/wiki/Auto-Close
 
 require("buvvers").setup({
+	buvvers_win = {
+	},
+	buvvers_win_opt = {
+	},
 	buffer_handle_list_to_buffer_name_list = function(handle_l)
 		local name_l
 
