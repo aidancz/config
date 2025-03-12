@@ -6,41 +6,41 @@ require("mini.surround").setup({
 	silent = true,
 	custom_surroundings = {
 
-		['('] = { input = { '%b()', '^.().*().$'       }, output = { left = '(',  right = ')'  } },
-		['['] = { input = { '%b[]', '^.().*().$'       }, output = { left = '[',  right = ']'  } },
-		['{'] = { input = { '%b{}', '^.().*().$'       }, output = { left = '{',  right = '}'  } },
-		['<'] = { input = { '%b<>', '^.().*().$'       }, output = { left = '<',  right = '>'  } },
-		[')'] = { input = { '%b()', '^.%s*().-()%s*.$' }, output = { left = '( ', right = ' )' } },
-		[']'] = { input = { '%b[]', '^.%s*().-()%s*.$' }, output = { left = '[ ', right = ' ]' } },
-		['}'] = { input = { '%b{}', '^.%s*().-()%s*.$' }, output = { left = '{ ', right = ' }' } },
-		['>'] = { input = { '%b<>', '^.%s*().-()%s*.$' }, output = { left = '< ', right = ' >' } },
+		["("] = { input = { "%b()", "^.().*().$"       }, output = { left = "(",  right = ")"  } },
+		["["] = { input = { "%b[]", "^.().*().$"       }, output = { left = "[",  right = "]"  } },
+		["{"] = { input = { "%b{}", "^.().*().$"       }, output = { left = "{",  right = "}"  } },
+		["<"] = { input = { "%b<>", "^.().*().$"       }, output = { left = "<",  right = ">"  } },
+		[")"] = { input = { "%b()", "^.%s*().-()%s*.$" }, output = { left = "( ", right = " )" } },
+		["]"] = { input = { "%b[]", "^.%s*().-()%s*.$" }, output = { left = "[ ", right = " ]" } },
+		["}"] = { input = { "%b{}", "^.%s*().-()%s*.$" }, output = { left = "{ ", right = " }" } },
+		[">"] = { input = { "%b<>", "^.%s*().-()%s*.$" }, output = { left = "< ", right = " >" } },
 		b = {
 			input = {
 				{
-					'%b()',
-					'%b[]',
-					'%b{}',
-					'%b<>',
+					"%b()",
+					"%b[]",
+					"%b{}",
+					"%b<>",
 				},
-				'^.().*().$',
+				"^.().*().$",
 			},
 			output = {
-				left = '(',
-				right = ')',
+				left = "(",
+				right = ")",
 			},
 		},
 
-		["'"] = { input = { "%b''", '^.().*().$' }, output = { left = "'", right = "'" } },
-		['"'] = { input = { '%b""', '^.().*().$' }, output = { left = '"', right = '"' } },
-		['`'] = { input = { '%b``', '^.().*().$' }, output = { left = '`', right = '`' } },
+		["'"] = { input = { "%b''", "^.().*().$" }, output = { left = "'", right = "'" } },
+		['"'] = { input = { '%b""', "^.().*().$" }, output = { left = '"', right = '"' } },
+		["`"] = { input = { "%b``", "^.().*().$" }, output = { left = "`", right = "`" } },
 		q = {
 			input = {
 				{
 					"%b''",
 					'%b""',
-					'%b``',
+					"%b``",
 				},
-				'^.().*().$',
+				"^.().*().$",
 			},
 			output = {
 				left = '"',
@@ -48,14 +48,14 @@ require("mini.surround").setup({
 			},
 		},
 
-		d = {
+		Q = {
 			input = {
 				{
 					"%'.-%'",
 					'%".-%"',
-					'%`.-%`',
+					"%`.-%`",
 				},
-				'^.().*().$',
+				"^.().*().$",
 			},
 			output = {
 				left = '"',
@@ -73,6 +73,7 @@ require("mini.surround").setup({
 		suffix_last = "N",
 	},
 	respect_selection_type = true,
+	n_lines = 1024,
 	search_method = "cover_or_next",
 })
 

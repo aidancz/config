@@ -1,11 +1,15 @@
 --[[
 
-debug:
+-- # exit lua execution
 
 do return end
 os.exit()
-https://stackoverflow.com/questions/20188458/how-to-exit-a-lua-scripts-execution
+-- https://stackoverflow.com/questions/20188458/how-to-exit-a-lua-scripts-execution
 
+-- # print timestamp
+
+print(os.time())
+print(os.date())
 vim.api.nvim_out_write(vim.fn.system({"date", "--iso-8601=ns"}))
 
 --]]
@@ -16,20 +20,20 @@ vim.loader.enable()
 
 ----------------------------------------------------------------
 
-local path_package = vim.fn.stdpath('data') .. '/site/'
-local path_deps = path_package .. 'pack/deps/start/mini.deps'
+local path_package = vim.fn.stdpath("data") .. "/site/"
+local path_deps = path_package .. "pack/deps/start/mini.deps"
 if not vim.uv.fs_stat(path_deps) then
 	vim.system(
 		{
-			'git',
-			'clone',
-			'--filter=blob:none',
-			'https://github.com/echasnovski/mini.deps',
+			"git",
+			"clone",
+			"--filter=blob:none",
+			"https://github.com/echasnovski/mini.deps",
 			path_deps,
 		}
 	):wait()
-	vim.cmd('packadd mini.deps')
-	vim.cmd('helptags ALL')
+	vim.cmd("packadd mini.deps")
+	vim.cmd("helptags ALL")
 end
 
 require("mini.deps").setup()
