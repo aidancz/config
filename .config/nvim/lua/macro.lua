@@ -18,12 +18,9 @@ end
 -- # cache
 
 M.cache = {
-	-- slot_list = {
-	-- 	"a",
-	-- 	"b",
-	-- },
+	slot_list = nil,
 	slot_index = 1,
-	reg_executed = nil,
+	-- reg_executed = nil,
 }
 
 -- # function: slot
@@ -77,22 +74,22 @@ end
 -- # function: macro
 
 M.visual2internal = function(str)
--- e.g. string("<c-f>") to string(^F)
+-- e.g. <c-f> to ^F
 	return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
 M.internal2visual = function(str)
--- e.g. string(^F) to string("<c-f>")
+-- e.g. ^F to <c-f>
 	return vim.fn.keytrans(str)
 end
 
 M.visual2visual = function(str)
--- e.g. string("<c-f>") to string("<C-F>")
+-- e.g. <c-f> to <C-F>
 	return M.internal2visual(M.visual2internal(str))
 end
 
 M.internal2internal = function(str)
--- e.g. string(<80><fc>^DF) to string(^F)
+-- e.g. <80><fc>^DF to ^F
 	return M.visual2internal(M.internal2visual(str))
 end
 
@@ -115,26 +112,20 @@ M.idx_prev = function()
 	M.set_idx(M.get_idx_prev(M.get_idx()))
 end
 
+M.idx_reg = function(reg)
+	reg = reg or vim.fn.getcharstr()
+	if M.reg2idx(reg) then
+		M.set_idx(M.reg2idx(reg))
+	end
+end
+
 M.record_start = function()
 	vim.cmd("normal! q" .. M.get_reg())
 end
 
 M.record_play = function()
 	vim.cmd("normal! @" .. M.get_reg())
-	M.cache.reg_executed = M.get_reg()
-end
-
-M.record_play_and_switch_slot = function()
-	local idx
-	if M.cache.reg_executed then
-		idx = M.reg2idx(M.cache.reg_executed)
-	else
-		idx = M.get_idx_next(M.get_idx())
-	end
-
-	M.record_play()
-
-	M.set_idx(idx)
+	-- M.cache.reg_executed = M.get_reg()
 end
 
 M.record_edit = function()
@@ -151,24 +142,4 @@ end
 
 -- # return
 
-M.setup()
-vim.keymap.set(
-	"n",
-	"q",
-	function()
-		if vim.fn.reg_recording() == "" then
-			return [[<cmd>lua require("macro").record_start()<cr>]]
-		else
-			return "q"
-		end
-	end,
-	{expr = true}
-)
-vim.keymap.set("n", "Q", M.record_play)
-vim.keymap.set("n", "<c-q>", M.idx_next)
-vim.keymap.set("n", "<a-q>", M.record_play_and_switch_slot)
-vim.keymap.set("n", "cq", M.record_edit)
-vim.keymap.set("n", "f:", "q:")
-vim.keymap.set("n", "f/", "q/")
-vim.keymap.set("n", "f?", "q?")
 return M

@@ -1,45 +1,70 @@
-vim.go.statusline = "%{%v:lua.Statusline.str()%}"
+-- https://www.reddit.com/r/neovim/comments/tz6p7i/how_can_we_set_color_for_each_part_of_statusline/
 
-Statusline = {}
+local M = {}
+local H = {}
 
-Statusline.str = function()
+-- # set statusline
+
+vim.go.statusline = "%{%v:lua.statusline()%}"
+
+-- # function: main
+
+M.str = function()
 	if vim.o.laststatus == 3 then
-		return Statusline.str_active()
+		return M.str_active()
 	end
 
 	if vim.api.nvim_get_current_win() == tonumber(vim.g.actual_curwin) then
-		return Statusline.str_active()
+		return M.str_active()
 	else
-		return Statusline.str_inactive()
+		return M.str_inactive()
 	end
 end
 
-Statusline.str_active = function()
+statusline = M.str
+
+M.str_active = function()
 	local list = {
-		"%F",
+		"%t",
 		"%m",
-		-- "%S",
 		"%<",
 		"%=",
-		Statusline.macro(),
-		"(" .. math.max(1, vim.fn.col(".")) .. " " .. vim.fn.col("$") .. ")",
-		"(" .. vim.fn.line(".") .. " " .. vim.fn.line("$") .. ")",
-		-- "(%v " .. vim.fn.virtcol("$") .. ")",
-		-- "(%l %L)",
+		"%=",
+		"%=",
+		"%=",
+		H.pad(
+			M.macro(),
+			16
+		),
+		"%=",
+		H.pad(
+			M.col(),
+			9
+		),
+		"%=",
+		H.pad_r(
+			M.lnum(),
+			13
+		),
 	}
-	return table.concat(list, " ")
+	return table.concat(list, "")
 end
 
-Statusline.str_inactive = function()
+M.str_inactive = function()
 	local list = {
-		"%F",
+		"%t",
 	}
-	return table.concat(list, " ")
+	return table.concat(list, "")
 end
 
+-- # function: help
 
+H.highlight = function(str, hl)
+	return
+	"%#" .. hl .. "#" .. str .. "%*"
+end
 
-Statusline.truncate = function(str, max_char_length)
+H.truncate = function(str, max_char_length)
 	if vim.fn.strchars(str) > max_char_length then
 		return vim.fn.strcharpart(str, 0, max_char_length) .. "…"
 	else
@@ -47,28 +72,144 @@ Statusline.truncate = function(str, max_char_length)
 	end
 end
 
--- Statusline.nvim_recorder = function()
--- 	if package.loaded["recorder"] then
--- 		return package.loaded["recorder"].displaySlots()
--- 	else
--- 		return ""
--- 	end
--- end
+H.truncate_r = function(str, max_char_length)
+	-- local reverse = string.reverse
+	local reverse
+	reverse = function(str)
+		if str == "" then
+			return ""
+		else
+			local len = vim.fn.strchars(str)
+			return
+			vim.fn.strcharpart(str, (len-1), 1)
+			..
+			reverse(vim.fn.strcharpart(str, 0, (len-1)))
+		end
+	end
+	return reverse(H.truncate(reverse(str), max_char_length))
+end
 
--- Statusline.NeoComposer = function()
--- 	if package.loaded["NeoComposer.ui"] then
--- 		return package.loaded["NeoComposer.ui"].status_recording()
--- 	else
--- 		return ""
--- 	end
--- end
+H.pad = function(expr_str, min_screen_width)
+	local width = vim.api.nvim_eval_statusline(expr_str, {}).width
+	if width < min_screen_width then
+		return expr_str .. string.rep(" ", min_screen_width - width)
+	else
+		return expr_str
+	end
+end
 
-Statusline.macro = function()
-	local M = package.loaded["macro"]
-	if M then
-		local reg = M.get_reg()
-		local macro = M.get_macro(M.get_reg())
-		return string.format([[(%s "%s")]], reg, Statusline.truncate(macro, 8))
+H.pad_r = function(expr_str, min_screen_width)
+	local width = vim.api.nvim_eval_statusline(expr_str, {}).width
+	if width < min_screen_width then
+		return string.rep(" ", min_screen_width - width) .. expr_str
+	else
+		return expr_str
+	end
+end
+
+-- # col
+
+M.col = function()
+	local col_cursor = math.max(1, vim.fn.col("."))
+	local col_last = vim.fn.col("$")
+	return
+	string.format(
+		"(%s %s)",
+		col_cursor,
+		H.highlight(col_last, "nofrils-blue")
+	)
+end
+
+-- # lnum
+
+M.lnum = function()
+	local lnum_cursor = vim.fn.line(".")
+	local lnum_last = vim.fn.line("$")
+	return
+	string.format(
+		"(%s %s)",
+		lnum_cursor,
+		H.highlight(lnum_last, "nofrils-blue")
+	)
+end
+
+-- # macro
+
+local keys = {
+-- https://github.com/folke/which-key.nvim
+	["<Up>"]              = "",
+	["<Down>"]            = "",
+	["<Left>"]            = "",
+	["<Right>"]           = "",
+	["<C%-(.-)>"]         = function(capture) return "󰘴" .. capture end,
+	["<M%-(.-)>"]         = function(capture) return "󰘵" .. capture end,
+	["<D%-(.-)>"]         = function(capture) return "󰘳" .. capture end,
+	["<S%-(.-)>"]         = function(capture) return "󰘶" .. capture end,
+	["<CR>"]              = "󰌑",
+	["<Esc>"]             = "󱊷",
+	["<ScrollWheelDown>"] = "󱕐",
+	["<ScrollWheelUp>"]   = "󱕑",
+	["<NL>"]              = "󰌑",
+	["<BS>"]              = "󰁮",
+	["<Space>"]           = "󱁐",
+	["<Tab>"]             = "󰌒",
+	["<F1>"]              = "󱊫",
+	["<F2>"]              = "󱊬",
+	["<F3>"]              = "󱊭",
+	["<F4>"]              = "󱊮",
+	["<F5>"]              = "󱊯",
+	["<F6>"]              = "󱊰",
+	["<F7>"]              = "󱊱",
+	["<F8>"]              = "󱊲",
+	["<F9>"]              = "󱊳",
+	["<F10>"]             = "󱊴",
+	["<F11>"]             = "󱊵",
+	["<F12>"]             = "󱊶",
+}
+
+	-- ## add highlight
+	local literal2pattern = function(str)
+		return string.gsub(str, "%%", "%%%%")
+	end
+	local highlight_replacement = function(repl)
+		if type(repl) == "string" then
+			return literal2pattern(H.highlight(repl, "nofrils-yellow"))
+		elseif type(repl) == "function" then
+			return
+			function(capture)
+				local str = repl(capture)
+				return literal2pattern(H.highlight(str, "nofrils-yellow"))
+			end
+		end
+	end
+
+local format_visual = function(str)
+	for pattern, replacement in pairs(keys) do
+		str = string.gsub(str, pattern, highlight_replacement(replacement))
+	end
+	return str
+end
+
+M.macro = function()
+	local m = package.loaded["macro"]
+	if m then
+		local lis = m.get_lis()
+		local reg = m.get_reg()
+
+		local lis1 = ""
+		for _, i in ipairs(lis) do
+			if i == reg then
+				lis1 = lis1 .. H.highlight(i, "nofrils-blue-bg")
+			else
+				lis1 = lis1 .. i
+			end
+		end
+
+		local macro1 = m.get_macro(reg)
+		local macro2 = m.internal2visual(macro1)
+		local macro3 = format_visual(macro2)
+
+		return string.format([[(%s "%s")]], lis1, H.truncate(macro3, 8))
 	else
 		return ""
 	end

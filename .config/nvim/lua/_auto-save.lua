@@ -3,4 +3,5 @@ require("mini.deps").add({
 })
 
 require("auto-save").setup({
+	lockmarks = true,
 })

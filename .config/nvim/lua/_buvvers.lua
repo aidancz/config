@@ -27,6 +27,7 @@ vim.opt.runtimepath:prepend("~/sync_git/buvvers.nvim")
 require("buvvers").setup({
 	buvvers_win = {
 	},
+	buvvers_win_enter = false,
 	buvvers_win_opt = {
 	},
 	buffer_handle_list_to_buffer_name_list = function(handle_l)
@@ -43,7 +44,7 @@ require("buvvers").setup({
 	end,
 })
 
-vim.keymap.set("n", "<c-s-b>", require("buvvers").toggle)
+vim.keymap.set("n", "fb", require("buvvers").toggle)
 
 local add_buffer_keybindings = function()
 	vim.keymap.set(
@@ -83,7 +84,5 @@ vim.api.nvim_create_autocmd(
 		callback = add_buffer_keybindings,
 	}
 )
--- use `BuvversBufEnabled` to add buffer local keybindings
 
-require("buvvers").open()
--- enable buvvers at startup
+vim.schedule(require("buvvers").open)
