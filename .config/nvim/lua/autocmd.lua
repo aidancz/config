@@ -31,6 +31,78 @@ vim.api.nvim_create_autocmd(
 
 
 
+-- # fix `virtualedit=all` operator-pending mode and visual mode
+
+vim.api.nvim_create_augroup("virtualedit_all", {clear = true})
+
+vim.api.nvim_create_autocmd(
+	{
+		"ModeChanged",
+	},
+	{
+		group = "virtualedit_all",
+		pattern = "*:no*",
+		callback = function()
+			vim.o.virtualedit = "onemore"
+		end,
+	}
+)
+vim.api.nvim_create_autocmd(
+	{
+		"ModeChanged",
+	},
+	{
+		group = "virtualedit_all",
+		pattern = "no*:*",
+		callback = vim.schedule_wrap(function()
+			vim.o.virtualedit = "all"
+		end),
+	}
+)
+
+vim.api.nvim_create_autocmd(
+	{
+		"ModeChanged",
+	},
+	{
+		group = "virtualedit_all",
+		pattern = "*:[vV\x16]*",
+		callback = function()
+			vim.o.virtualedit = "onemore"
+		end,
+	}
+)
+local is_visual = function()
+	local mode = vim.api.nvim_get_mode().mode
+	if
+		mode == "v"
+		or
+		mode == "V"
+		or
+		mode == "\22"
+	then
+		return true
+	else
+		return false
+	end
+end
+vim.api.nvim_create_autocmd(
+	{
+		"ModeChanged",
+	},
+	{
+		group = "virtualedit_all",
+		pattern = "[vV\x16]*:*",
+		callback = vim.schedule_wrap(function()
+			if is_visual() then return end
+			-- `vib` of `mini.ai` actually quit and reenter visual mode, prevent this situation
+			vim.o.virtualedit = "all"
+		end),
+	}
+)
+
+
+
 -- # auto save
 
 -- vim.api.nvim_create_augroup("auto_save", {clear = true})
