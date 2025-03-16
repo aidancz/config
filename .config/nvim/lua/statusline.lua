@@ -24,45 +24,88 @@ end
 statusline = M.str
 
 M.str_active = function()
-	local list = {
-		"%t",
-		"%m",
-		"%<",
-		"%=",
-		"%=",
-		"%=",
-		"%=",
-		H.pad(
+	return
+	table.concat(
+		{
+			"%f",
+			"%m",
+			"%<",
+			"%=",
 			M.macro(),
-			16
-		),
-		"%=",
-		H.pad(
+			" ",
 			M.col(),
-			9
-		),
-		"%=",
-		H.pad_r(
+			" ",
 			M.lnum(),
-			13
-		),
-	}
-	return table.concat(list, "")
+		},
+		""
+	)
 end
 
 M.str_inactive = function()
-	local list = {
-		"%t",
-	}
-	return table.concat(list, "")
+	return
+	table.concat(
+		{
+			"%f",
+		},
+		""
+	)
 end
 
 -- # function: help
 
 H.highlight = function(str, hl)
 	return
-	"%#" .. hl .. "#" .. str .. "%*"
+	table.concat(
+		{
+			"%#",
+			hl,
+			"#",
+			str,
+			"%*",
+		},
+		""
+	)
 end
+
+H.highlight_workaround = function(str, hl)
+-- https://github.com/neovim/neovim/issues/32925
+	return
+	table.concat(
+		{
+			"%#",
+			hl,
+			"#",
+			str,
+			"%#StatusLine#",
+		},
+		""
+	)
+end
+
+---@param str string
+---@param opts {
+---	justify?: "left"|"right",
+---	minwid?: number,
+---	maxwid?: number,
+---}
+H.format = function(str, opts)
+	return
+	table.concat(
+		{
+			"%",
+			opts.justify == "left" and "-" or "",
+			opts.minwid or "",
+			".",
+			opts.maxwid or "",
+			"(",
+			str,
+			"%)",
+		},
+		""
+	)
+end
+
+--[[
 
 H.truncate = function(str, max_char_length)
 	if vim.fn.strchars(str) > max_char_length then
@@ -107,30 +150,64 @@ H.pad_r = function(expr_str, min_screen_width)
 	end
 end
 
--- # col
-
-M.col = function()
-	local col_cursor = math.max(1, vim.fn.col("."))
-	local col_last = vim.fn.col("$")
-	return
-	string.format(
-		"(%s %s)",
-		col_cursor,
-		H.highlight(col_last, "nofrils-blue")
-	)
-end
+--]]
 
 -- # lnum
 
 M.lnum = function()
+	local component
+
 	local lnum_cursor = vim.fn.line(".")
 	local lnum_last = vim.fn.line("$")
-	return
-	string.format(
-		"(%s %s)",
-		lnum_cursor,
-		H.highlight(lnum_last, "nofrils-blue")
+
+	component = table.concat(
+		{
+			"(",
+			H.highlight(lnum_cursor, "nofrils-blue"),
+			" ",
+			lnum_last,
+			")",
+		},
+		""
 	)
+	component = H.format(
+		component,
+		{
+			justify = "right",
+			minwid = (3 + 2 * 4),
+		}
+	)
+
+	return component
+end
+
+-- # col
+
+M.col = function()
+	local component
+
+	local col_cursor = math.max(1, vim.fn.col("."))
+	local col_last = vim.fn.col("$")
+
+	component = table.concat(
+		{
+			"(",
+			H.highlight(col_cursor, "nofrils-blue"),
+			" ",
+			col_last,
+			")",
+		},
+		""
+	)
+	component = H.format(
+		component,
+		{
+			justify = "left",
+			minwid = (3 + 2 * 3),
+		}
+	)
+
+	return component
 end
 
 -- # macro
@@ -168,20 +245,24 @@ local keys = {
 }
 
 	-- ## add highlight
-	local literal2pattern = function(str)
-		return string.gsub(str, "%%", "%%%%")
-	end
 	local highlight_replacement = function(repl)
 		if type(repl) == "string" then
-			return literal2pattern(H.highlight(repl, "nofrils-yellow"))
+			return
+			function()
+				local str = repl
+				return H.highlight(str, "nofrils-yellow")
+			end
 		elseif type(repl) == "function" then
 			return
 			function(capture)
 				local str = repl(capture)
-				return literal2pattern(H.highlight(str, "nofrils-yellow"))
+				return H.highlight(str, "nofrils-yellow")
 			end
 		end
 	end
+	-- string.gsub("<BS>", "<BS>", "%#nofrils-yellow#󰁮%*") => #nofrils-yellow#󰁮*
+	-- string.gsub("<BS>", "<BS>", function() return "%#nofrils-yellow#󰁮%*" end) => %#nofrils-yellow#󰁮%*
+	-- so we use function
 
 local format_visual = function(str)
 	for pattern, replacement in pairs(keys) do
@@ -191,26 +272,54 @@ local format_visual = function(str)
 end
 
 M.macro = function()
+	local component
+
 	local m = package.loaded["macro"]
-	if m then
-		local lis = m.get_lis()
-		local reg = m.get_reg()
-
-		local lis1 = ""
-		for _, i in ipairs(lis) do
-			if i == reg then
-				lis1 = lis1 .. H.highlight(i, "nofrils-blue-bg")
-			else
-				lis1 = lis1 .. i
-			end
-		end
-
-		local macro1 = m.get_macro(reg)
-		local macro2 = m.internal2visual(macro1)
-		local macro3 = format_visual(macro2)
-
-		return string.format([[(%s "%s")]], lis1, H.truncate(macro3, 8))
-	else
-		return ""
+	if not m then
+		component = ""
+		return component
 	end
+
+	local lis = m.get_lis()
+	local reg = m.get_reg()
+
+	local lis1 = ""
+	for _, i in ipairs(lis) do
+		if i == reg then
+			lis1 = lis1 .. H.highlight_workaround(i, "nofrils-blue-bg")
+		else
+			lis1 = lis1 .. i
+		end
+	end
+
+	local macro1 = m.get_macro(reg)
+	local macro2 = m.internal2visual(macro1)
+	local macro3 = format_visual(macro2)
+
+	local macro_maxwid = 8
+	component = table.concat(
+		{
+			"(",
+			lis1,
+			" ",
+			'"',
+			H.format(macro3, {maxwid = macro_maxwid}),
+			'"',
+			")",
+		},
+		""
+	)
+	component = H.format(
+		component,
+		{
+			justify = "left",
+			minwid = (3 + #lis + (2 + macro_maxwid)),
+		}
+	)
+
+	return component
 end
+
+-- # return
+
+return M
