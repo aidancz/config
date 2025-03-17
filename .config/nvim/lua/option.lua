@@ -194,7 +194,7 @@ vim.opt.equalalways = true
 vim.opt.winfixheight = false
 vim.opt.cmdheight = 1
 vim.opt.cmdwinheight = 8
-vim.opt.laststatus = 2
+vim.opt.laststatus = 3
 -- https://github.com/neovim/neovim/issues/18965
 
 

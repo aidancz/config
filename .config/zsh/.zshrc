@@ -37,17 +37,14 @@ open_terminal()
 }
 zle -N open_terminal
 
-function yy() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
 	yazi "$@" --cwd-file="$tmp"
-	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
 		builtin cd -- "$cwd"
 	fi
 	rm -f -- "$tmp"
 }
-function yyy { yy }
-# ugly hack, yyy is a wrapper of yy
-zle -N yyy
 
 eval "$(zoxide init zsh --no-cmd)"
 alias e="__zoxide_z"
@@ -121,8 +118,8 @@ bindkey -M viins "^[OQ" edit-command-line
 
 bindkey -M vicmd -s "^[[24~" "^[dd^d"
 bindkey -M viins -s "^[[24~" "^[dd^d"
-bindkey -M viins -s "^[OR" "^[ddiyyy^M"
-bindkey -M vicmd -s "^[OR" "^[ddiyyy^M" # <esc>cc bug when line is empty...
+bindkey -M viins -s "^[OR" "^[ddiy^M"
+bindkey -M vicmd -s "^[OR" "^[ddiy^M" # <esc>cc bug when line is empty...
 
 #}}}
 
@@ -148,7 +145,7 @@ bindkey -M emacs "^[^M"  open_terminal
 bindkey -M emacs "^[e"   edit-command-line
 
 bindkey -M emacs -s "^[[27;2u" "^e^u^d"
-bindkey -M emacs -s "^[f" "^e^uyyy^M"
+bindkey -M emacs -s "^[f" "^e^uy^M"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ tmux
 # if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then

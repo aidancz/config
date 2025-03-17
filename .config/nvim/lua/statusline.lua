@@ -28,7 +28,7 @@ M.str_active = function()
 	table.concat(
 		{
 			"%f",
-			"%m",
+			-- "%m",
 			"%<",
 			"%=",
 			M.macro(),
@@ -186,7 +186,7 @@ end
 M.col = function()
 	local component
 
-	local col_cursor = math.max(1, vim.fn.col("."))
+	local col_cursor = vim.fn.col(".")
 	local col_last = vim.fn.col("$")
 
 	component = table.concat(

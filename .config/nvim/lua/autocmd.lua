@@ -18,20 +18,77 @@ end
 
 -- # fix cursor position when changing mode
 
-vim.api.nvim_create_augroup("esc_cursor_position", {clear = true})
+vim.api.nvim_create_augroup("switch_mode_cursor_position", {clear = true})
+
 vim.api.nvim_create_autocmd(
 	{
 		"InsertLeave",
 	},
 	{
-		group = "esc_cursor_position",
-		command = "normal `^",
+		group = "switch_mode_cursor_position",
+		callback = function()
+			vim.cmd("normal! `^")
+		end,
 	}
 )
 
+-- local cursor_lnum
+-- local cursor_col
+-- vim.api.nvim_create_autocmd(
+-- 	{
+-- 		"InsertLeavePre",
+-- 	},
+-- 	{
+-- 		group = "switch_mode_cursor_position",
+-- 		callback = function()
+-- 			cursor_lnum = vim.fn.line(".")
+-- 			cursor_col = vim.fn.col(".")
+-- 		end,
+-- 	}
+-- )
+-- vim.api.nvim_create_autocmd(
+-- 	{
+-- 		"InsertLeave",
+-- 	},
+-- 	{
+-- 		group = "switch_mode_cursor_position",
+-- 		callback = function()
+-- 			vim.api.nvim_win_set_cursor(0, {cursor_lnum, cursor_col-1})
+-- 		end,
+-- 	}
+-- )
+
+-- local cursor_lnum
+-- local cursor_virtcol
+-- vim.api.nvim_create_autocmd(
+-- 	{
+-- 		"ModeChanged",
+-- 	},
+-- 	{
+-- 		group = "switch_mode_cursor_position",
+-- 		pattern = "*:no*",
+-- 		callback = function()
+-- 			cursor_lnum = vim.fn.line(".")
+-- 			cursor_virtcol = vim.fn.virtcol(".", true)[1]
+-- 		end,
+-- 	}
+-- )
+-- vim.api.nvim_create_autocmd(
+-- 	{
+-- 		"ModeChanged",
+-- 	},
+-- 	{
+-- 		group = "switch_mode_cursor_position",
+-- 		pattern = "no*:*",
+-- 		callback = vim.schedule_wrap(function()
+-- 			require("virtcol").set_cursor(cursor_lnum, cursor_virtcol)
+-- 		end),
+-- 	}
+-- )
 
 
--- # fix `virtualedit=all` operator-pending mode and visual mode
+
+-- # fix `virtualedit=all` mode
 
 vim.api.nvim_create_augroup("virtualedit_all", {clear = true})
 
@@ -41,7 +98,7 @@ vim.api.nvim_create_autocmd(
 	},
 	{
 		group = "virtualedit_all",
-		pattern = "*:no*",
+		pattern = "n:*",
 		callback = function()
 			vim.o.virtualedit = "onemore"
 		end,
@@ -53,48 +110,9 @@ vim.api.nvim_create_autocmd(
 	},
 	{
 		group = "virtualedit_all",
-		pattern = "no*:*",
+		pattern = "*:n",
 		callback = vim.schedule_wrap(function()
-			vim.o.virtualedit = "all"
-		end),
-	}
-)
-
-vim.api.nvim_create_autocmd(
-	{
-		"ModeChanged",
-	},
-	{
-		group = "virtualedit_all",
-		pattern = "*:[vV\x16]*",
-		callback = function()
-			vim.o.virtualedit = "onemore"
-		end,
-	}
-)
-local is_visual = function()
-	local mode = vim.api.nvim_get_mode().mode
-	if
-		mode == "v"
-		or
-		mode == "V"
-		or
-		mode == "\22"
-	then
-		return true
-	else
-		return false
-	end
-end
-vim.api.nvim_create_autocmd(
-	{
-		"ModeChanged",
-	},
-	{
-		group = "virtualedit_all",
-		pattern = "[vV\x16]*:*",
-		callback = vim.schedule_wrap(function()
-			if is_visual() then return end
+			if vim.api.nvim_get_mode().mode ~= "n" then return end
 			-- `vib` of `mini.ai` actually quit and reenter visual mode, prevent this situation
 			vim.o.virtualedit = "all"
 		end),
