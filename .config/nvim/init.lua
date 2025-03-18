@@ -55,7 +55,7 @@ end
 
 -- # global settings need to be set very first
 
-require("variable")
+require("vim_global_variable")
 require("option")
 require("_mini-icons")
 
@@ -67,6 +67,7 @@ require("_nofrils")
 require("diagnostic")
 require("keymap")
 require("statusline")
+require("virtualedit")
 
 
 

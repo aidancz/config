@@ -80,7 +80,7 @@ vim.opt.fillchars:append({verthoriz = "╋"})
 
 -- # navigation
 
-vim.opt.virtualedit = {"all"}
+-- vim.opt.virtualedit = {"all"}
 vim.opt.startofline = false
 vim.opt.jumpoptions = {"stack", "view"}
 vim.opt.scrolloff = 0
