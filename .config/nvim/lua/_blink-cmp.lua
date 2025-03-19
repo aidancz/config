@@ -14,6 +14,10 @@ require("mini.deps").add({
 local config =
 {
 	sources = {
+		providers = {
+			lsp = {
+			},
+		},
 	},
 	keymap = {
 		preset = "none",
@@ -89,6 +93,9 @@ local config =
 		-- ghost_text = {
 		-- 	enabled = true,
 		-- },
+	},
+	fuzzy = {
+		implementation = "rust",
 	},
 }
 -- config.cmdline.keymap = config.keymap

@@ -27,8 +27,7 @@ M.str_active = function()
 	return
 	table.concat(
 		{
-			"%f",
-			-- "%m",
+			M.buffer_name(),
 			"%<",
 			"%=",
 			M.macro(),
@@ -151,6 +150,52 @@ H.pad_r = function(expr_str, min_screen_width)
 end
 
 --]]
+
+-- # mode
+
+M.mode = function()
+	local component
+
+	component = table.concat(
+		{
+			"(",
+			vim.api.nvim_get_mode().mode,
+			")",
+		},
+		""
+	)
+	component = H.format(
+		component,
+		{
+			justify = "left",
+			minwid = (2 + 1),
+		}
+	)
+
+	return component
+end
+
+-- # buffer_name
+
+M.buffer_name = function()
+	local component
+
+	component = table.concat(
+		{
+			"%f",
+			-- "%m",
+		},
+		""
+	)
+	component = H.format(
+		component,
+		{
+			justify = "left",
+		}
+	)
+
+	return component
+end
 
 -- # lnum
 

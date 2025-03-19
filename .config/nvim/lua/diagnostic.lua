@@ -1,6 +1,11 @@
 vim.diagnostic.config({
 	underline = true,
-	virtual_text = false,
+	virtual_text = {
+		severity = vim.diagnostic.severity.ERROR,
+		source = true,
+		spacing = 0,
+		virt_text_pos = "right_align",
+	},
 	signs = true,
 	float = {
 		border = vim.co.border,

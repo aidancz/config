@@ -28,7 +28,7 @@ require("yazi").setup({
 	-- },
 })
 
-vim.keymap.set({"n"}, "<a-f>", require("yazi").yazi)
+vim.keymap.set("n", "<a-f>", require("yazi").yazi)
 
 vim.api.nvim_create_augroup("yazi_config", {clear = true})
 vim.api.nvim_create_autocmd(
