@@ -3,7 +3,7 @@ require("mini.deps").add({
 })
 
 require("marks").setup({
-	default_mappings = true,
+	default_mappings = false,
 	builtin_marks = {},
 	cyclic = true,
 	force_write_shada = false,

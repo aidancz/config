@@ -37,7 +37,7 @@ require("outline").setup({
 		goto_location    = {"o"},
 		peek_location    = {"i"},
 		goto_and_close   = {},
-		restore_location = {"r"},
+		restore_location = {"s"},
 		hover_symbol     = {},
 		toggle_preview   = {},
 		rename_symbol    = {},

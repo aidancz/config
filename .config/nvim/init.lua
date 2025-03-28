@@ -166,7 +166,7 @@ require("_nvim-colorizer")
 require("_nvim-treesitter") -- slow
 require("_nvim-treesitter-textobjects")
 require("_outline")
-require("_outline_HACK2")
+-- require("_outline_HACK2")
 require("_paramo")
 require("_sentiment")
 require("_tT")
@@ -177,6 +177,7 @@ require("_vim-table-mode")
 require("_yazi")
 require("redir")
 -- require("_harpoon")
+require("_modal_execution")
 
 
 

@@ -35,13 +35,38 @@ vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
 
 -- vim.keymap.set("n", "<f3>", "gO", {remap = true})
 
-vim.keymap.set({"n"}, [[\]], function()
+vim.keymap.set("n", ",", "r")
+vim.keymap.set("n", ";", function()
 	vim.cmd("normal! " .. vim.v.count1 .. "i" .. vim.fn.getcharstr())
 	end)
 -- https://github.com/rjayatilleka/vim-insert-char
 -- https://github.com/bagohart/vim-insert-append-single-character
 
--- vim.keymap.set("n", "<nop>", "r")
+vim.keymap.set(
+	"n",
+	"n",
+	function()
+		if vim.v.searchforward == 1 then
+			return "n"
+		else
+			return "N"
+		end
+	end,
+	{expr = true}
+)
+vim.keymap.set(
+	"n",
+	"N",
+	function()
+		if vim.v.searchforward == 1 then
+			return "N"
+		else
+			return "n"
+		end
+	end,
+	{expr = true}
+)
+-- https://vi.stackexchange.com/questions/2365/how-can-i-get-n-to-go-forward-even-if-i-started-searching-with-or
 
 local compile = function()
 	vim.cmd("w")
@@ -178,6 +203,11 @@ vim.keymap.set({"n", "x", "i"}, "<plug>(redrawstatus)", "<cmd>redrawstatus<cr>")
 -- # {"n", "x", "o"}
 
 vim.keymap.set({"n", "x", "o"}, "<s-cr>", "-")
+
+vim.keymap.set({"n", "x", "o"}, "<a-w>",   "b")
+vim.keymap.set({"n", "x", "o"}, "<a-s-w>", "B")
+vim.keymap.set({"n", "x", "o"}, "<a-e>",   "ge")
+vim.keymap.set({"n", "x", "o"}, "<a-s-e>", "gE")
 
 
 
