@@ -11,7 +11,7 @@ require("eolmark").setup({
 		".+",
 	},
 	opts = {
-		virt_text = {{"󰮯", "nofrils-white"}},
+		virt_text = {{"󰮯", "nofrils_white"}},
 		-- 󰊠󰮯
 		-- virt_text_pos = "inline",
 		-- hl_mode = "combine",

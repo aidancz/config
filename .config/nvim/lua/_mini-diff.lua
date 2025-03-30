@@ -18,5 +18,5 @@ require("mini.diff").setup({
 	},
 })
 
-vim.api.nvim_set_hl(0, "MiniDiffOverChange", {link = "nofrils-yellow"})
-vim.api.nvim_set_hl(0, "MiniDiffOverContext", {link = "nofrils-default"})
+vim.api.nvim_set_hl(0, "MiniDiffOverChange", {link = "nofrils_yellow"})
+vim.api.nvim_set_hl(0, "MiniDiffOverContext", {link = "nofrils_default"})

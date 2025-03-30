@@ -26,7 +26,7 @@ require("fidget").setup({
 			-- https://github.com/j-hui/fidget.nvim/issues/162
 		},
 		window = {
-			normal_hl = "nofrils-white",
+			normal_hl = "nofrils_white",
 			winblend = 0,
 			x_padding = 0,
 		},

@@ -208,7 +208,7 @@ M.lnum = function()
 	component = table.concat(
 		{
 			"(",
-			H.highlight(lnum_cursor, "nofrils-blue"),
+			H.highlight(lnum_cursor, "nofrils_blue"),
 			" ",
 			lnum_last,
 			")",
@@ -237,7 +237,7 @@ M.col = function()
 	component = table.concat(
 		{
 			"(",
-			H.highlight(col_cursor, "nofrils-blue"),
+			H.highlight(col_cursor, "nofrils_blue"),
 			" ",
 			col_last,
 			")",
@@ -300,18 +300,18 @@ local keys = {
 			return
 			function()
 				local str = repl
-				return H.highlight(str, "nofrils-yellow")
+				return H.highlight(str, "nofrils_yellow")
 			end
 		elseif type(repl) == "function" then
 			return
 			function(capture)
 				local str = repl(capture)
-				return H.highlight(str, "nofrils-yellow")
+				return H.highlight(str, "nofrils_yellow")
 			end
 		end
 	end
-	-- string.gsub("<BS>", "<BS>", "%#nofrils-yellow#󰁮%*") => #nofrils-yellow#󰁮*
-	-- string.gsub("<BS>", "<BS>", function() return "%#nofrils-yellow#󰁮%*" end) => %#nofrils-yellow#󰁮%*
+	-- string.gsub("<BS>", "<BS>", "%#nofrils_yellow#󰁮%*") => #nofrils_yellow#󰁮*
+	-- string.gsub("<BS>", "<BS>", function() return "%#nofrils_yellow#󰁮%*" end) => %#nofrils_yellow#󰁮%*
 	-- so we use function
 
 local format_visual = function(str)
@@ -336,7 +336,7 @@ M.macro = function()
 	local lis1 = ""
 	for _, i in ipairs(lis) do
 		if i == reg then
-			lis1 = lis1 .. H.highlight_workaround(i, "nofrils-blue-bg")
+			lis1 = lis1 .. H.highlight_workaround(i, "nofrils_blue_bg")
 		else
 			lis1 = lis1 .. i
 		end

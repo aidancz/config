@@ -74,7 +74,7 @@ require("outline").setup({
 -- pcall(function()
 -- require("nofrils").clear({"^Outline"})
 -- end)
--- vim.api.nvim_set_hl(0, "OutlineCurrent", {link = "nofrils-red-bg"})
+-- vim.api.nvim_set_hl(0, "OutlineCurrent", {link = "nofrils_red_bg"})
 
 vim.keymap.set("n", "fo", "<cmd>Outline<cr>")
 

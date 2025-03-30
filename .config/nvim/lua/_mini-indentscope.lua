@@ -21,8 +21,8 @@ require("mini.indentscope").setup({
 	symbol = "┃",
 })
 
-vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", {link = "nofrils-yellow"})
-vim.api.nvim_set_hl(0, "MiniIndentscopeSymbolOff", {link = "nofrils-yellow"})
+vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", {link = "nofrils_yellow"})
+vim.api.nvim_set_hl(0, "MiniIndentscopeSymbolOff", {link = "nofrils_yellow"})
 
 -- vim.api.nvim_create_augroup("mini_indentscope_config", {clear = true})
 -- vim.api.nvim_create_autocmd(

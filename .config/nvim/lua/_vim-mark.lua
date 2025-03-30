@@ -7,9 +7,9 @@ require("mini.deps").add({
 	},
 })
 
-vim.api.nvim_set_hl(0, "MarkWord1", {link = "nofrils-blue-bg"})
-vim.api.nvim_set_hl(0, "MarkWord2", {link = "nofrils-green-bg"})
-vim.api.nvim_set_hl(0, "MarkWord3", {link = "nofrils-cyan-bg"})
-vim.api.nvim_set_hl(0, "MarkWord4", {link = "nofrils-red-bg"})
-vim.api.nvim_set_hl(0, "MarkWord5", {link = "nofrils-magenta-bg"})
-vim.api.nvim_set_hl(0, "MarkWord6", {link = "nofrils-yellow-bg"})
+vim.api.nvim_set_hl(0, "MarkWord1", {link = "nofrils_blue_bg"})
+vim.api.nvim_set_hl(0, "MarkWord2", {link = "nofrils_green_bg"})
+vim.api.nvim_set_hl(0, "MarkWord3", {link = "nofrils_cyan_bg"})
+vim.api.nvim_set_hl(0, "MarkWord4", {link = "nofrils_red_bg"})
+vim.api.nvim_set_hl(0, "MarkWord5", {link = "nofrils_magenta_bg"})
+vim.api.nvim_set_hl(0, "MarkWord6", {link = "nofrils_yellow_bg"})
