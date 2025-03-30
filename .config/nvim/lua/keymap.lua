@@ -68,6 +68,11 @@ vim.keymap.set(
 )
 -- https://vi.stackexchange.com/questions/2365/how-can-i-get-n-to-go-forward-even-if-i-started-searching-with-or
 
+vim.keymap.set("n", "q", "<nop>")
+vim.keymap.set("n", "f:", "q:")
+vim.keymap.set("n", "f/", "q/")
+vim.keymap.set("n", "f?", "q?")
+
 local compile = function()
 	vim.cmd("w")
 

@@ -15,10 +15,11 @@ vim.g.undotree_CursorLine = 0
 
 vim.keymap.set("n", "fu", vim.cmd.UndotreeToggle)
 
+vim.api.nvim_create_augroup("undotree_config", {clear = true})
 vim.api.nvim_create_autocmd(
 	"FileType",
 	{
-		group = "filetype",
+		group = "undotree_config",
 		pattern = "undotree",
 		callback = function()
 			vim.opt_local.signcolumn = "no"

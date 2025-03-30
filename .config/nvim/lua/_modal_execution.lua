@@ -13,8 +13,8 @@ local mode_list = {
 				count = vim.v.count,
 				wrap = true,
 			}
-			local config1 = self.config1
-			local config2 = config2
+			local config1 = self.config1 or {}
+			local config2 = config2 or {}
 			local config = vim.tbl_extend(
 				"force",
 				config0,
@@ -24,6 +24,7 @@ local mode_list = {
 			vim.notify(vim.inspect(config))
 		end,
 		setup = function(self)
+			vim.keymap.set("n", "x", function() self:func() end)
 			vim.keymap.set("n", "r", function() self:func({direction = "backward"}) end)
 			vim.keymap.set("n", "m", function() self:func({direction = "forward"})  end)
 		end,
@@ -44,8 +45,8 @@ local mode_list = {
 				direction = "backward",
 				count = vim.v.count,
 			}
-			local config1 = self.config1
-			local config2 = config2
+			local config1 = self.config1 or {}
+			local config2 = config2 or {}
 			local config = vim.tbl_extend(
 				"force",
 				config0,
@@ -87,7 +88,7 @@ local map = function(mode, lhs, rhs_expr, opts)
 		lhs,
 		function()
 			require("modal_execution").set_current_mode(mode)
-			return rhs_expr
+			return rhs_expr or ""
 		end,
 		vim.tbl_extend(
 			"force",
@@ -100,10 +101,8 @@ local map = function(mode, lhs, rhs_expr, opts)
 	)
 end
 
-map("buffer", "bj", "r")
-map("buffer", "fj", "m")
+map("buffer", "fj")
 
-map("window", "bk", "r")
-map("window", "fk", "m")
+map("window", "fk")
 
 map("undo", "u", "u")

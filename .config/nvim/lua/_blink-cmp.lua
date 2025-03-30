@@ -81,7 +81,6 @@ local config =
 			},
 		},
 		menu = {
-			border = vim.co.border,
 			auto_show = false,
 			scrolloff = 0,
 			min_width = 32,

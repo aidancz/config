@@ -8,9 +8,6 @@ vim.diagnostic.config({
 	},
 	virtual_lines = false,
 	signs = true,
-	float = {
-		border = vim.co.border,
-	},
 })
 
 vim.api.nvim_set_hl(0, "DiagnosticError", {link = "nofrils_red"})

@@ -44,74 +44,47 @@ local original_require = require
 
 ----------------------------------------------------------------
 
+-- # redefine `require` function
+
 local require = function(modname)
 	original_require("mini.deps").now(function()
 		original_require(modname)
 	end)
 end
--- !!! WARNING: `require` function is redefined here
 
-
-
--- # global settings need to be set very first
+-- # effective before startup
 
 require("vim_global_variable")
-require("option")
+
+-- # library
+
+require("_mini-extra")
 require("_mini-icons")
-
-
-
--- # global settings need to be set first
-
-require("_nofrils")
-require("diagnostic")
-require("keymap")
-require("statusline")
-require("virtualedit")
-
-
+require("_plenary")
+require("_virtcol")
 
 -- # ui stable
 
--- require("_mini-trailspace")
+-- require("_eolmark")
 -- require("_mini-starter")
 -- require("_mini-tabline")
+-- require("_mini-trailspace")
 require("_buvvers")
-require("_eolmark")
+require("_nofrils")
 require("_outline_HACK1")
 require("_whitespace")
-
-
-
--- # contains BufEnter autocmd
-
-require("_go-up")
-require("_guess-indent")
-require("_markdown-preview")
-require("_nvim-lspconfig")
-require("autocmd")
-require("_nvim-fundo")
-
-
+require("option")
+require("statusline")
 
 ----------------------------------------------------------------
+
+-- # redefine `require` function
 
 local require = function(modname)
 	original_require("mini.deps").later(function()
 		original_require(modname)
 	end)
 end
--- !!! WARNING: `require` function is redefined here
-
-
-
--- # library
-
-require("_plenary")
-require("_mini-extra")
-require("_virtcol")
-
-
 
 -- # main
 
@@ -143,15 +116,18 @@ require("_virtcol")
 -- require("_vim-ReplaceWithRegister")
 -- require("_vim-suda")
 -- require("_vuffers")
+-- require("guicursor")
 require("_Comment")
 require("_auto-save")
 require("_blink-cmp")
 require("_conform")
-require("_fcitx")
 require("_fidget")
 require("_fzf-lua")
+require("_go-up")
+require("_guess-indent")
 require("_lfsp")
 require("_macro")
+require("_markdown-preview")
 require("_marks")
 require("_mini-ai")
 require("_mini-align")
@@ -166,6 +142,8 @@ require("_mini-splitjoin")
 require("_mini-surround")
 require("_modal_execution")
 require("_nvim-colorizer")
+require("_nvim-fundo")
+require("_nvim-lspconfig")
 require("_nvim-treesitter") -- slow
 require("_nvim-treesitter-textobjects")
 require("_outline")
@@ -175,12 +153,21 @@ require("_tT")
 require("_telescope")
 require("_text-case")
 require("_undotree-mbbill")
+require("_vim-AdvancedSorters")
 require("_vim-mark")
 require("_vim-table-mode")
 require("_yazi")
+require("autocmd")
+require("diagnostic")
+require("keymap")
 require("redir")
+require("virtualedit")
 
+-- # BufEnter
 
+original_require("mini.deps").later(function()
+	vim.api.nvim_exec_autocmds("BufEnter", {})
+end)
 
 ----------------------------------------------------------------
 
