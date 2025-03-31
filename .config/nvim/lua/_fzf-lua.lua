@@ -1,27 +1,30 @@
+-- https://github.com/ibhagwan/fzf-lua/issues/140
+
 require("mini.deps").add({
 	source = "ibhagwan/fzf-lua",
 })
 
 require("fzf-lua").setup({
+	winopts = {
+		backdrop = 100,
+		preview = {
+			winopts = {
+				number = false,
+			},
+		},
+	},
 	keymap = {
 		builtin = {
+			true,
 		},
 		fzf = {
+			true,
 			["ctrl-a"] = "first",
 			["ctrl-e"] = "last",
 		},
 	},
-	-- files = {
-	-- 	cwd = require("fzf-lua/path").git_root(nil, true)
-	-- 	-- https://github.com/ibhagwan/fzf-lua/issues/140
-	-- },
-	winopts = {
-		backdrop = 100,
-	},
 })
 
-pcall(function()
 require("nofrils").clear({"^FzfLua"})
-end)
 
 vim.keymap.set("n", "ff", require("fzf-lua").builtin)

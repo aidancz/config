@@ -32,6 +32,4 @@ require("mini.snippets").setup({
 	},
 })
 
-pcall(function()
 require("nofrils").clear({"^MiniSnippets"})
-end)
