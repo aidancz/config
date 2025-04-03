@@ -47,6 +47,7 @@ end
 M.set_current_mode = function(name)
 	M.mode = M.get_mode(name)
 	M.mode:setup()
+	vim.cmd("redrawstatus")
 end
 
 -- # return

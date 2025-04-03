@@ -14,19 +14,13 @@ local main = function()
 
 vim.opt.background = "dark"
 
-
-
 -- # clear definition of all existing highlight groups
 
-require("nofrils").clear({".*"})
-
-
+require("nofrils").clear(".*")
 
 -- # get xresources colors and store them in a table named `x`
 
 local x = require("nofrils").get_xresources()
-
-
 
 -- # define basic highlight groups that can be linked later
 
@@ -52,13 +46,9 @@ vim.api.nvim_set_hl(0, "nofrils_gray_bg", {ctermbg = 244, ctermfg = 0,   bg = "#
 
 vim.api.nvim_set_hl(0, "nofrils_reverse", {reverse = true})
 
-
-
 -- # define `Normal` highlight group
 
 vim.api.nvim_set_hl(0, "Normal", {ctermbg = 0, ctermfg = 7, bg = x.color0, fg = x.color7})
-
-
 
 -- # define highlight groups
 -- for detailed information, run `:h highlight-groups`
@@ -97,8 +87,6 @@ vim.api.nvim_set_hl(0, "WarningMsg",   {link = "nofrils_yellow"})
 vim.api.nvim_set_hl(0, "Whitespace",   {link = "nofrils_yellow"})
 vim.api.nvim_set_hl(0, "WinSeparator", {})
 
-
-
 -- # define highlight groups
 -- for detailed information, run `:h group-name`
 
@@ -107,8 +95,6 @@ vim.api.nvim_set_hl(0, "Error",   {link = "nofrils_red_bg"})
 vim.api.nvim_set_hl(0, "Added",   {link = "nofrils_green"})
 vim.api.nvim_set_hl(0, "Changed", {link = "nofrils_yellow"})
 vim.api.nvim_set_hl(0, "Removed", {link = "nofrils_red"})
-
-
 
 -- # define highlight groups
 -- for detailed information, run `:e $VIMRUNTIME/lua/man.lua`

@@ -20,7 +20,6 @@ M.str = function()
 		return M.str_inactive()
 	end
 end
-
 statusline = M.str
 
 M.str_active = function()
@@ -28,9 +27,15 @@ M.str_active = function()
 	table.concat(
 		{
 			M.buffer_name(),
+			" ",
+			M.cwd(),
 			"%<",
 			"%=",
 			M.macro(),
+			" ",
+			M.modal_execution(),
+			" ",
+			M.mode(),
 			" ",
 			M.col(),
 			" ",
@@ -151,30 +156,6 @@ end
 
 --]]
 
--- # mode
-
-M.mode = function()
-	local component
-
-	component = table.concat(
-		{
-			"(",
-			vim.api.nvim_get_mode().mode,
-			")",
-		},
-		""
-	)
-	component = H.format(
-		component,
-		{
-			justify = "left",
-			minwid = (2 + 1),
-		}
-	)
-
-	return component
-end
-
 -- # buffer_name
 
 M.buffer_name = function()
@@ -191,35 +172,6 @@ M.buffer_name = function()
 		component,
 		{
 			justify = "left",
-		}
-	)
-
-	return component
-end
-
--- # lnum
-
-M.lnum = function()
-	local component
-
-	local lnum_cursor = vim.fn.line(".")
-	local lnum_last = vim.fn.line("$")
-
-	component = table.concat(
-		{
-			"(",
-			H.highlight(lnum_cursor, "nofrils_blue"),
-			" ",
-			lnum_last,
-			")",
-		},
-		""
-	)
-	component = H.format(
-		component,
-		{
-			justify = "right",
-			minwid = (3 + 2 * 4),
 		}
 	)
 
@@ -255,71 +207,61 @@ M.col = function()
 	return component
 end
 
--- # macro
+-- # cwd
 
-local keys = {
--- https://github.com/folke/which-key.nvim
-	["<Up>"]              = "",
-	["<Down>"]            = "",
-	["<Left>"]            = "",
-	["<Right>"]           = "",
-	["<PageUp>"]          = "󰳢",
-	["<PageDown>"]        = "󰳜",
-	["<Home>"]            = "󰳞",
-	["<End>"]             = "󰳠",
-	["<C%-(.-)>"]         = function(capture) return "󰘴" .. capture end,
-	["<M%-(.-)>"]         = function(capture) return "󰘵" .. capture end,
-	["<D%-(.-)>"]         = function(capture) return "󰘳" .. capture end,
-	["<S%-(.-)>"]         = function(capture) return "󰘶" .. capture end,
-	["<CR>"]              = "󰌑",
-	["<Esc>"]             = "󰧃",
-	["<ScrollWheelDown>"] = "󱕐",
-	["<ScrollWheelUp>"]   = "󱕑",
-	["<NL>"]              = "󰌑",
-	["<BS>"]              = "󰁮",
-	["<Del>"]             = "󰹾",
-	["<Space>"]           = "󱁐",
-	["<Tab>"]             = "󰌒",
-	["<F1>"]              = "󱊫",
-	["<F2>"]              = "󱊬",
-	["<F3>"]              = "󱊭",
-	["<F4>"]              = "󱊮",
-	["<F5>"]              = "󱊯",
-	["<F6>"]              = "󱊰",
-	["<F7>"]              = "󱊱",
-	["<F8>"]              = "󱊲",
-	["<F9>"]              = "󱊳",
-	["<F10>"]             = "󱊴",
-	["<F11>"]             = "󱊵",
-	["<F12>"]             = "󱊶",
-}
+M.cwd = function()
+	local component
 
-	-- ## add highlight
-	local highlight_replacement = function(repl)
-		if type(repl) == "string" then
-			return
-			function()
-				local str = repl
-				return H.highlight(str, "nofrils_yellow")
-			end
-		elseif type(repl) == "function" then
-			return
-			function(capture)
-				local str = repl(capture)
-				return H.highlight(str, "nofrils_yellow")
-			end
-		end
-	end
-	-- string.gsub("<BS>", "<BS>", "%#nofrils_yellow#󰁮%*") => #nofrils_yellow#󰁮*
-	-- string.gsub("<BS>", "<BS>", function() return "%#nofrils_yellow#󰁮%*" end) => %#nofrils_yellow#󰁮%*
-	-- so we use function
+	local cwd = vim.fn.getcwd()
+	local cwd1 = vim.fs.basename(cwd)
 
-local format_visual = function(str)
-	for pattern, replacement in pairs(keys) do
-		str = string.gsub(str, pattern, highlight_replacement(replacement))
-	end
-	return str
+	component = table.concat(
+		{
+			"(",
+			cwd1,
+			")",
+		},
+		""
+	)
+	component = H.format(
+		component,
+		{
+		}
+	)
+
+	return component
 end
+
+-- # lnum
+
+M.lnum = function()
+	local component
+
+	local lnum_cursor = vim.fn.line(".")
+	local lnum_last = vim.fn.line("$")
+
+	component = table.concat(
+		{
+			"(",
+			H.highlight(lnum_cursor, "nofrils_blue"),
+			" ",
+			lnum_last,
+			")",
+		},
+		""
+	)
+	component = H.format(
+		component,
+		{
+			justify = "right",
+			minwid = (3 + 2 * 4),
+		}
+	)
+
+	return component
+end
+
+-- # macro
 
 M.macro = function()
 	local component
@@ -336,25 +278,46 @@ M.macro = function()
 	local lis1 = ""
 	for _, i in ipairs(lis) do
 		if i == reg then
-			lis1 = lis1 .. H.highlight_workaround(i, "nofrils_blue_bg")
+			lis1 = lis1 .. H.highlight(i, "nofrils_blue")
 		else
 			lis1 = lis1 .. i
 		end
 	end
 
-	local macro1 = m.get_macro(reg)
-	local macro2 = m.internal2visual(macro1)
-	local macro3 = format_visual(macro2)
-
-	local macro_maxwid = 8
 	component = table.concat(
 		{
 			"(",
 			lis1,
-			" ",
-			'"',
-			H.format(macro3, {maxwid = macro_maxwid}),
-			'"',
+			")",
+		},
+		""
+	)
+	component = H.format(
+		component,
+		{
+			-- justify = "left",
+			minwid = (2 + #lis),
+		}
+	)
+
+	return component
+end
+
+-- # modal_execution
+
+M.modal_execution = function()
+	local component
+
+	local m = package.loaded["modal_execution"]
+	if not m then
+		component = ""
+		return component
+	end
+
+	component = table.concat(
+		{
+			"(",
+			m.get_current_mode().name,
 			")",
 		},
 		""
@@ -363,7 +326,32 @@ M.macro = function()
 		component,
 		{
 			justify = "left",
-			minwid = (3 + #lis + (2 + macro_maxwid)),
+			minwid = (2 + 8),
+			maxwid = (2 + 8),
+		}
+	)
+
+	return component
+end
+
+-- # mode
+
+M.mode = function()
+	local component
+
+	component = table.concat(
+		{
+			"(",
+			vim.api.nvim_get_mode().mode,
+			")",
+		},
+		""
+	)
+	component = H.format(
+		component,
+		{
+			justify = "left",
+			minwid = (2 + 1),
 		}
 	)
 

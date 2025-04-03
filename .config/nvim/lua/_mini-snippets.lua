@@ -32,4 +32,4 @@ require("mini.snippets").setup({
 	},
 })
 
-require("nofrils").clear({"^MiniSnippets"})
+require("nofrils").clear("^MiniSnippets")

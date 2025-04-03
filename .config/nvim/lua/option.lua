@@ -17,7 +17,6 @@
 -- vim.opt.listchars:append({trail = "#"})
 -- vim.opt.splitkeep = "topline"
 -- vim.opt.virtualedit = "all"
--- vim.opt.winborder = {"┏", "━", "┓", "┃", "┛", "━", "┗", "┃"}
 vim.opt.autoindent = true
 vim.opt.autoread = true
 vim.opt.autowrite = true
@@ -109,7 +108,7 @@ vim.opt.updatetime = 100
 vim.opt.whichwrap:append("[,]")
 vim.opt.wildmenu = true
 vim.opt.wildoptions = {"pum", "tagfile"}
-vim.opt.winborder = "double"
+vim.opt.winborder = "bold"
 vim.opt.winfixheight = false
 vim.opt.wrapmargin = 0
 

@@ -6,8 +6,10 @@ require("mini.deps").add({
 
 require("fzf-lua").setup({
 	winopts = {
+		border = "bold",
 		backdrop = 100,
 		preview = {
+			border = "bold",
 			winopts = {
 				number = false,
 			},
@@ -25,6 +27,10 @@ require("fzf-lua").setup({
 	},
 })
 
-require("nofrils").clear({"^FzfLua"})
+require("nofrils").clear("^FzfLua")
 
-vim.keymap.set("n", "ff", require("fzf-lua").builtin)
+vim.keymap.set("n", "f/", require("fzf-lua").builtin)
+vim.keymap.set("n", "f.", require("fzf-lua").resume)
+vim.keymap.set("n", "ff", require("fzf-lua").files)
+vim.keymap.set("n", "fn", require("fzf-lua").buffers)
+vim.keymap.set("n", "fh", require("fzf-lua").helptags)

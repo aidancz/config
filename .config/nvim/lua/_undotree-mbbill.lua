@@ -13,7 +13,7 @@ vim.g.undotree_ShortIndicators = 1
 vim.g.undotree_SetFocusWhenToggle = 1
 vim.g.undotree_CursorLine = 0
 
-vim.keymap.set("n", "fu", vim.cmd.UndotreeToggle)
+vim.keymap.set("n", "<leader>wu", vim.cmd.UndotreeToggle)
 
 vim.api.nvim_create_augroup("undotree_config", {clear = true})
 vim.api.nvim_create_autocmd(

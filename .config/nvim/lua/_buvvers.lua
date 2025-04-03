@@ -44,7 +44,7 @@ require("buvvers").setup({
 	end,
 })
 
-vim.keymap.set("n", "fb", require("buvvers").toggle)
+vim.keymap.set("n", "<leader>wb", require("buvvers").toggle)
 
 local add_buffer_keybindings = function()
 	vim.keymap.set(
