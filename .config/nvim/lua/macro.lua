@@ -68,7 +68,9 @@ end
 
 M.set_idx = function(idx)
 	M.cache.slot_index = idx
-	vim.cmd("redrawstatus")
+	vim.schedule(function()
+		vim.cmd("redrawstatus")
+	end)
 end
 
 -- # function: macro

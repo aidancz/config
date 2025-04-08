@@ -60,6 +60,7 @@ require("vim_global_variable")
 
 require("_mini-extra")
 require("_mini-icons")
+require("_modal_execution")
 require("_plenary")
 require("_virtcol")
 
@@ -75,6 +76,14 @@ require("_outline_HACK1")
 require("_whitespace")
 require("option")
 require("statusline")
+
+-- # autocmd
+-- https://github.com/echasnovski/mini.nvim/issues/1378
+
+require("_guess-indent")
+require("_nvim-fundo")
+require("_nvim-lspconfig")
+require("autocmd")
 
 ----------------------------------------------------------------
 
@@ -111,7 +120,6 @@ end
 -- require("_nvim-ufo")
 -- require("_outline_HACK2")
 -- require("_sidebar")
--- require("_snacks")
 -- require("_sniprun")
 -- require("_undotree-jiaoshijie")
 -- require("_vim-ReplaceWithRegister")
@@ -119,13 +127,13 @@ end
 -- require("_vuffers")
 -- require("guicursor")
 require("_Comment")
+require("_auto-cmdheight")
 require("_auto-save")
 require("_blink-cmp")
 require("_conform")
 require("_fidget")
 require("_fzf-lua")
 require("_go-up")
-require("_guess-indent")
 require("_lfsp")
 require("_macro")
 require("_markdown-preview")
@@ -142,15 +150,13 @@ require("_mini-pick")
 require("_mini-snippets")
 require("_mini-splitjoin")
 require("_mini-surround")
-require("_modal_execution")
 require("_nvim-colorizer")
-require("_nvim-fundo")
-require("_nvim-lspconfig")
 require("_nvim-treesitter") -- slow
 require("_nvim-treesitter-textobjects")
 require("_outline")
 require("_paramo")
 require("_sentiment")
+require("_snacks")
 require("_tT")
 require("_telescope")
 require("_text-case")
@@ -159,17 +165,10 @@ require("_vim-AdvancedSorters")
 require("_vim-mark")
 require("_vim-table-mode")
 require("_yazi")
-require("autocmd")
 require("diagnostic")
 require("keymap")
 require("redir")
 require("virtualedit")
-
--- # BufEnter
-
-original_require("mini.deps").later(function()
-	vim.api.nvim_exec_autocmds("BufEnter", {})
-end)
 
 ----------------------------------------------------------------
 
