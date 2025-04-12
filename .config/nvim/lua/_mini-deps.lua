@@ -1,3 +1,10 @@
+local dir = "~/sync_git"
+for name, type in vim.fs.dir(dir) do
+	if type == "directory" and string.find(name, "vim") then
+		vim.opt.runtimepath:prepend(dir .. "/" .. name)
+	end
+end
+
 vim.api.nvim_set_hl(0, "MiniDepsChangeAdded",   {link = "nofrils_green"})
 vim.api.nvim_set_hl(0, "MiniDepsChangeRemoved", {link = "nofrils_red"})
 vim.api.nvim_set_hl(0, "MiniDepsHint",          {})

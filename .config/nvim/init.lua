@@ -38,6 +38,8 @@ end
 
 require("mini.deps").setup()
 
+require("_mini-deps")
+
 ----------------------------------------------------------------
 
 local original_require = require
@@ -142,7 +144,6 @@ require("_marks")
 require("_mini-ai")
 require("_mini-align")
 require("_mini-bufremove")
-require("_mini-deps")
 require("_mini-diff")
 require("_mini-indentscope")
 require("_mini-move")
@@ -158,6 +159,7 @@ require("_outline")
 require("_paramo")
 require("_sentiment")
 require("_snacks")
+require("_snippet")
 require("_tT")
 require("_telescope")
 require("_text-case")

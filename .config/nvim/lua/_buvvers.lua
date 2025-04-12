@@ -1,5 +1,3 @@
-vim.opt.runtimepath:prepend("~/sync_git/buvvers.nvim")
-
 -- require("mini.deps").add({
 -- 	source = "aidancz/buvvers.nvim",
 -- })

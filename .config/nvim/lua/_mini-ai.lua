@@ -1,5 +1,3 @@
--- vim.opt.runtimepath:prepend("~/sync_git/mini.nvim")
-
 require("mini.deps").add({
 	source = "echasnovski/mini.ai",
 })

@@ -1,5 +1,3 @@
-vim.opt.runtimepath:prepend("~/sync_git/whitespace.nvim")
-
 -- require("mini.deps").add({
 -- 	source = "aidancz/whitespace.nvim",
 -- })

@@ -1,7 +1,5 @@
 -- https://github.com/echasnovski/mini.nvim/issues/1326
 
-vim.opt.runtimepath:prepend("~/sync_git/nofrils.nvim")
-
 -- require("mini.deps").add({
 -- 	source = "aidancz/nofrils.nvim",
 -- })

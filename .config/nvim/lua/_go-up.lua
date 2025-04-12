@@ -1,5 +1,3 @@
-vim.opt.runtimepath:prepend("~/sync_git/go-up.nvim")
-
 -- require("mini.deps").add({
 -- 	source = "aidancz/go-up.nvim",
 -- })
