@@ -242,35 +242,8 @@ vim.api.nvim_create_user_command("RegisterUnnamedToSelection", [[let @+ = @" | l
 
 
 
--- vim.api.nvim_create_user_command("Date", [[put =strftime("%F")]], {})
-vim.api.nvim_create_user_command("Date",
-	function()
-		local text = os.date("%F")
-		local lines = {text}
-		vim.api.nvim_put(lines, "l", true, false)
-	end,
-	{})
--- https://cplusplus.com/reference/ctime/strftime/
--- https://www.runoob.com/cprogramming/c-function-strftime.html
-
-
-
 vim.api.nvim_create_user_command("TrailRemove", [[%s/\s\+$//e]], {})
 -- https://vim.fandom.com/wiki/Remove_unwanted_spaces
-
-
-
-vim.api.nvim_create_user_command("SearchMiddleToggle",
-	function()
-		if vim.fn.mapcheck("n") == "" then
-			vim.keymap.set("n", "n", "nzz", {remap = true})
-			vim.keymap.set("n", "N", "Nzz", {remap = true})
-		else
-			vim.keymap.del("n", "n")
-			vim.keymap.del("n", "N")
-		end
-	end,
-	{})
 
 
 

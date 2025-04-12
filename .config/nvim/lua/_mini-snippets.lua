@@ -9,8 +9,9 @@ require("mini.snippets").setup({
 			body = "this is snippet",
 			desc = "snip",
 		},
-		require("mini.snippets").gen_loader.from_file("~/.config/nvim/snippets/global.json"),
+		-- require("mini.snippets").gen_loader.from_file("~/.config/nvim/snippets/global.json"),
 		require("mini.snippets").gen_loader.from_lang(),
+		require("mini.snippets").gen_loader.from_runtime("global.{json,lua}"),
 	},
 	mappings = {
 		expand = "<c-d>",
@@ -24,8 +25,8 @@ require("mini.snippets").setup({
 			require("mini.snippets").default_insert(
 				snippet,
 				{
-					empty_tabstop = "□",
-					empty_tabstop_final = "□",
+					empty_tabstop = "󰊠",
+					empty_tabstop_final = "󰮯",
 				}
 			)
 		end,

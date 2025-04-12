@@ -1,5 +1,7 @@
+-- # add mode
+
 require("modal_execution").add_mode({
-	name = "test",
+	name = "example",
 	config1 = {
 	-- mode specific data here
 	},
@@ -26,7 +28,7 @@ require("modal_execution").add_mode({
 		vim.keymap.set("n", "m", function() self:func({direction = "next"}) end)
 	end,
 })
-require("modal_execution").set_current_mode("test")
+require("modal_execution").set_current_mode("example")
 
 -- require("modal_execution").add_mode({
 -- 	name = "buffer",
@@ -138,8 +140,30 @@ require("modal_execution").add_mode({
 
 -- # keymap
 
-require("modal_execution").map("buffer", "fj")
+vim.keymap.set(
+	"n",
+	"fj",
+	function()
+		require("modal_execution").set_current_mode("buffer")
+	end
+)
 
-require("modal_execution").map("window", "fk")
+vim.keymap.set(
+	"n",
+	"fk",
+	function()
+		require("modal_execution").set_current_mode("window")
+	end
+)
 
-require("modal_execution").map("undo", "u", "u")
+vim.keymap.set(
+	"n",
+	"u",
+	function()
+		require("modal_execution").set_current_mode("undo")
+		return "u"
+	end,
+	{
+		expr = true,
+	}
+)

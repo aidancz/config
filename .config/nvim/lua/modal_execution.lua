@@ -41,25 +41,6 @@ M.get_current_mode = function()
 	return M.current_mode
 end
 
-M.map = function(name, lhs, rhs_expr, opts)
-	vim.keymap.set(
-		"n",
-		lhs,
-		function()
-			require("modal_execution").set_current_mode(name)
-			return rhs_expr or ""
-		end,
-		vim.tbl_extend(
-			"force",
-			{
-				expr = true,
-				remap = true,
-			},
-			opts or {}
-		)
-	)
-end
-
 -- # return
 
 return M

@@ -14,10 +14,21 @@ require("mini.deps").add({
 local config =
 {
 	sources = {
+		default = {
+			"lsp",
+			"buffer",
+			"snippets",
+		},
 		providers = {
 			lsp = {
+				fallbacks = {},
+			},
+			buffer = {
 			},
 		},
+	},
+	snippets = {
+		preset = "mini_snippets",
 	},
 	keymap = {
 		preset = "none",

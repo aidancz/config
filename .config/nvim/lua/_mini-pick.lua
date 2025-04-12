@@ -9,7 +9,7 @@ require("mini.pick").setup({
 		content_from_bottom = true,
 	},
 	window = {
-		prompt_cursor = "█",
+		prompt_caret = "█",
 		prompt_prefix = "",
 	},
 })

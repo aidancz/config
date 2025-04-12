@@ -68,9 +68,7 @@ end
 
 M.set_idx = function(idx)
 	M.cache.slot_index = idx
-	vim.schedule(function()
-		vim.cmd("redrawstatus")
-	end)
+	vim.cmd("redrawstatus")
 end
 
 -- # function: macro
@@ -126,7 +124,7 @@ M.record_start = function()
 end
 
 M.record_play = function()
-	vim.cmd("normal! @" .. M.get_reg())
+	vim.cmd("normal! " .. vim.v.count1 .. "@" .. M.get_reg())
 	-- M.cache.reg_executed = M.get_reg()
 end
 

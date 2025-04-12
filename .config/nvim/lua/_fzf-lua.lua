@@ -31,10 +31,6 @@ require("nofrils").clear("^FzfLua")
 
 vim.api.nvim_set_hl(0, "FzfLuaCursorLine", {link = "nofrils_reverse"})
 
--------------
-do return end
--------------
-
 vim.keymap.set("n", "f/", require("fzf-lua").builtin)
 vim.keymap.set("n", "f.", require("fzf-lua").resume)
 vim.keymap.set("n", "ff", require("fzf-lua").files)
