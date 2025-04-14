@@ -22,6 +22,8 @@ require("mini.pick").setup({
 	},
 })
 
+vim.ui.select = require("mini.pick").ui_select
+
 require("mini.pick").registry.registry = function()
 	local m = require("mini.pick")
 	local items = vim.tbl_keys(m.registry)

@@ -30,12 +30,12 @@ prepend_fetchers = [
 append_fetchers = [
 ]
 prepend_previewers = [
-	{mime = "text/x-diff",            run = "code"},
-	{mime = "text/*",                 run = "head-and-expand"},
-	{mime = "application/javascript", run = "head-and-expand"},
+	{mime = "text/diff",              run = 'code'},
+	{mime = "text/*",                 run = 'piper -- cat "$1"'},
+	{mime = "application/javascript", run = 'piper -- cat "$1"'},
 ]
 append_previewers = [
-	{name = "*", run = "hexyl"},
+	{name = "*", run = 'piper -- hexyl "$1"'},
 ]
 
 [input]

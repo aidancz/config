@@ -27,6 +27,8 @@ require("fzf-lua").setup({
 	},
 })
 
+-- require("fzf-lua").register_ui_select()
+
 require("nofrils").clear("^FzfLua")
 
 vim.api.nvim_set_hl(0, "FzfLuaCursorLine", {link = "nofrils_reverse"})

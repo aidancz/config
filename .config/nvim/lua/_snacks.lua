@@ -5,5 +5,6 @@ require("mini.deps").add({
 require("snacks").setup({
 	picker = {
 		enabled = true,
+		ui_select = false,
 	},
 })
