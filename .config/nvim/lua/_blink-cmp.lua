@@ -41,11 +41,14 @@ local config =
 			"select_prev",
 		},
 		["<pagedown>"] = {
-			"hide",
+			function(cmp)
+				return cmp.hide({
+					callback = function()
+						cmp.show()
+					end,
+				})
+			end,
 		},
-		-- ["<pageup>"] = {
-		-- 	"cancel",
-		-- },
 		["<pageup>"] = {
 			function(cmp)
 				return cmp.cancel({
@@ -66,6 +69,24 @@ local config =
 			["<s-tab>"] = {
 				"show_and_insert",
 				"select_prev",
+			},
+			["<pagedown>"] = {
+				function(cmp)
+					return cmp.hide({
+						callback = function()
+							cmp.show()
+						end,
+					})
+				end,
+			},
+			["<pageup>"] = {
+				function(cmp)
+					return cmp.cancel({
+						callback = function()
+							cmp.show()
+						end,
+					})
+				end,
 			},
 		},
 		completion = {

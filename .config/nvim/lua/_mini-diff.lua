@@ -6,7 +6,7 @@ require("mini.diff").setup({
 	view = {
 		style = "sign",
 		signs = {add = "┃", change = "●", delete = "━"},
-		priority = 0,
+		priority = 1000,
 	},
 	delay = {
 		text_change = 100,

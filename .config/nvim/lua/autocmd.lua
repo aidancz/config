@@ -70,6 +70,17 @@ vim.api.nvim_create_autocmd(
 		end,
 	}
 )
+vim.api.nvim_create_autocmd(
+	"FileType",
+	{
+		group = "filetype",
+		pattern = "qf",
+		callback = function()
+			vim.cmd("wincmd J")
+			-- https://vi.stackexchange.com/questions/38713/quickfix-window-default-postion
+		end,
+	}
+)
 
 
 

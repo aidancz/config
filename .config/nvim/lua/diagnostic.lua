@@ -7,7 +7,9 @@ vim.diagnostic.config({
 		virt_text_pos = "eol_right_align",
 	},
 	virtual_lines = false,
-	signs = true,
+	signs = {
+		priority = 10,
+	},
 })
 
 vim.api.nvim_set_hl(0, "DiagnosticError", {link = "nofrils_red"})

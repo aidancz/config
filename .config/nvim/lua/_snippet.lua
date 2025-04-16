@@ -1,3 +1,0 @@
--- require("mini.deps").add({
--- 	source = "aidancz/snippet.nvim",
--- })
