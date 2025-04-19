@@ -60,9 +60,10 @@ require("vim_global_variable")
 
 -- # library
 
+require("_luaeval")
 require("_mini-extra")
 require("_mini-icons")
-require("_modal_execution")
+require("_modexec")
 require("_plenary")
 require("_virtcol")
 
@@ -139,7 +140,6 @@ require("_friendly-snippets")
 require("_fzf-lua")
 require("_go-up")
 require("_lfsp")
-require("_luaeval")
 require("_macro")
 require("_markdown-preview")
 require("_marks")

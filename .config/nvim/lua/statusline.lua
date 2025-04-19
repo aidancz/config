@@ -33,7 +33,7 @@ M.str_active = function()
 			"%=",
 			M.macro(),
 			" ",
-			M.modal_execution(),
+			M.modexec(),
 			" ",
 			M.mode(),
 			" ",
@@ -303,12 +303,12 @@ M.macro = function()
 	return component
 end
 
--- # modal_execution
+-- # modexec
 
-M.modal_execution = function()
+M.modexec = function()
 	local component
 
-	local m = package.loaded["modal_execution"]
+	local m = package.loaded["modexec"]
 	if not m then
 		component = ""
 		return component

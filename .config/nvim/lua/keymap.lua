@@ -169,7 +169,8 @@ vim.keymap.set({"n", "x"}, "k", function()
 -- -- https://stackoverflow.com/questions/8059448/scroll-window-halfway-between-zt-and-zz-in-vim
 
 -- vim.keymap.set({"n", "x"}, "<bs>", "@:")
-vim.keymap.set({"n", "x"}, "<bs>", ":<up><cr>")
+-- vim.keymap.set({"n", "x"}, "<bs>", ":<up><cr>")
+vim.keymap.set({"n", "x"}, "<bs>", function() vim.cmd(vim.fn.histget("cmd", -1)) end)
 
 
 

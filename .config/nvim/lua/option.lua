@@ -15,6 +15,7 @@
 -- vim.opt.iskeyword:append("-")
 -- vim.opt.iskeyword:append("_")
 -- vim.opt.listchars:append({trail = "#"})
+-- vim.opt.messagesopt = {"wait:0", "history:512"}
 -- vim.opt.splitkeep = "topline"
 -- vim.opt.virtualedit = "all"
 vim.opt.autoindent = true

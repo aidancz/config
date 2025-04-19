@@ -18,11 +18,14 @@ M.config = {
 		winfixwidth = true,
 		winfixheight = true,
 	},
+	hook_open = nil,
+	hook_close = nil,
 }
 
 M.setup = function(config)
 	M.config = vim.tbl_deep_extend("force", M.config, config or {})
 	M.buf_set_true()
+	M.autocmd()
 end
 
 -- # cache
@@ -61,18 +64,6 @@ M.buf_set_true = function()
 		for option, value in pairs(M.config.buf_opt) do
 			vim.api.nvim_set_option_value(option, value, {buf = M.cache.buf_handle})
 		end
-		vim.keymap.set(
-			{"n", "i"},
-			"<c-cr>",
-			function()
-				vim.api.nvim_feedkeys("", "n", false)
-				M.eval()
-				M.close()
-			end,
-			{
-				buffer = M.cache.buf_handle,
-			}
-		)
 	end
 end
 
@@ -110,6 +101,36 @@ end
 
 -- # function: main
 
+-- M.eval = function()
+-- 	local lines_tbl = vim.api.nvim_buf_get_lines(M.cache.buf_handle, 0, -1, true)
+-- 	table.insert(lines_tbl, 1, "lua << EOF")
+-- 	table.insert(lines_tbl, "EOF")
+-- 	local lines_str = table.concat(lines_tbl, "\n")
+-- 	vim.cmd(lines_str)
+-- end
+
+---@param opts? {
+---	inspect?: boolean,
+---}
+M.eval = function(opts)
+	opts = opts or {}
+
+	local lines_tbl = vim.api.nvim_buf_get_lines(M.cache.buf_handle, 0, -1, true)
+	if opts.inspect then
+		table.insert(lines_tbl, 1, "vim.print(")
+		table.insert(lines_tbl, ")")
+	end
+	table.insert(lines_tbl, 1, "lua << EOF")
+	table.insert(lines_tbl, "EOF")
+	local lines_str = vim.inspect(lines_tbl):gsub("\n", " ")
+
+	local cmd
+	cmd = [[lua vim.cmd(table.concat(]] .. lines_str .. [[, "\n"))]]
+	-- print(cmd)
+	vim.cmd(cmd)
+	vim.fn.histadd("cmd", cmd)
+end
+
 M.record_origin_win = function()
 	M.cache.origin_win_handle = vim.api.nvim_get_current_win()
 end
@@ -118,26 +139,36 @@ M.retrieve_origin_win = function()
 	vim.api.nvim_set_current_win(M.cache.origin_win_handle)
 end
 
-M.eval = function()
-	local lines_tbl = vim.api.nvim_buf_get_lines(M.cache.buf_handle, 0, -1, true)
-	local lines_str = table.concat(lines_tbl, " ")
-	local cmd = "lua " .. lines_str
-	vim.cmd(cmd)
-	vim.fn.histadd("cmd", cmd)
-end
-
--- # function: api
-
 M.open = function()
 	M.record_origin_win()
 	-- M.buf_set_true()
 	M.win_set_true()
+	M.config.hook_open()
 end
 
 M.close = function()
 	M.retrieve_origin_win()
 	-- M.buf_set_false()
 	M.win_set_false()
+	M.config.hook_close()
+end
+
+M.autocmd = function()
+	vim.api.nvim_create_augroup("modexec", {clear = true})
+	vim.api.nvim_create_autocmd(
+		{
+			"WinClosed",
+		},
+		{
+			group = "modexec",
+			callback = function(event)
+				local closing_window_handle = tonumber(event.match)
+				if closing_window_handle == M.cache.win_handle then
+					M.close()
+				end
+			end,
+		}
+	)
 end
 
 M.toggle = function()

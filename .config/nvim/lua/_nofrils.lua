@@ -42,7 +42,8 @@ vim.api.nvim_set_hl(0, "nofrils_white_bg",   {ctermbg = 7,      ctermfg = 0, bg 
 vim.api.nvim_set_hl(0, "nofrils_gray",    {ctermbg = 0,   ctermfg = 244, bg = "#808080", fg = "#808080"})
 vim.api.nvim_set_hl(0, "nofrils_gray_bg", {ctermbg = 244, ctermfg = 0,   bg = "#808080", fg = "#808080"})
 
-vim.api.nvim_set_hl(0, "nofrils_reverse", {reverse = true})
+vim.api.nvim_set_hl(0, "nofrils_reverse",     {reverse = true})
+vim.api.nvim_set_hl(0, "nofrils_transparent", {blend = 100, nocombine = true})
 
 -- # define `Normal` highlight group
 
