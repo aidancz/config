@@ -1,4 +1,4 @@
--- # add mode
+-- # example
 
 require("modexec").add_mode({
 	name = "example",
@@ -19,17 +19,7 @@ vim.notify(vim.inspect(config))
 })
 require("modexec").set_current_mode("example")
 
-
-
--- require("modexec").add_mode({
--- 	name = "buffer",
--- 	setup = function(self)
--- 		vim.keymap.set("n", "r", "[b", {remap = true})
--- 		vim.keymap.set("n", "m", "]b", {remap = true})
--- 	end,
--- })
-
-
+-- # buffer
 
 require("modexec").add_mode({
 	name = "buffer",
@@ -101,7 +91,7 @@ vim.api.nvim_set_current_buf(buf)
 	},
 })
 
-
+-- # window
 
 require("modexec").add_mode({
 	name = "window",
@@ -129,41 +119,42 @@ vim.cmd(count .. "wincmd w")
 	},
 })
 
-
+-- # undo
 
 require("modexec").add_mode({
 	name = "undo",
-	setup = function(self)
-		vim.keymap.set("n", "r", "<c-r>")
-	end,
+	chunks = {
+		{
+			code = [[vim.cmd("normal! u")]],
+		},
+		{
+			code = [[vim.cmd("normal! ")]],
+			key = {"n", "r"},
+		},
+	},
 })
 
--- # keymap
+-- # modexec
+-- yes, modexec itself can be a mode
 
-vim.keymap.set(
-	"n",
-	"fj",
-	function()
-		require("modexec").set_current_mode("buffer")
-	end
-)
-
-vim.keymap.set(
-	"n",
-	"fk",
-	function()
-		require("modexec").set_current_mode("window")
-	end
-)
-
-vim.keymap.set(
-	"n",
-	"u",
-	function()
-		require("modexec").set_current_mode("undo")
-		return "u"
-	end,
-	{
-		expr = true,
-	}
-)
+require("modexec").add_mode({
+	name = "modexec",
+	chunks = {
+		{
+			code = [[require("modexec").set_current_mode("buffer")]],
+			gkey = {"n", "fj"},
+		},
+		{
+			code = [[require("modexec").set_current_mode("window")]],
+			gkey = {"n", "fk"},
+		},
+		{
+			code =
+[[
+require("modexec").set_current_mode("undo")
+vim.cmd("normal! u")
+]],
+			gkey = {"n", "u"},
+		},
+	},
+})

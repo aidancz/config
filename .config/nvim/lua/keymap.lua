@@ -170,7 +170,16 @@ vim.keymap.set({"n", "x"}, "k", function()
 
 -- vim.keymap.set({"n", "x"}, "<bs>", "@:")
 -- vim.keymap.set({"n", "x"}, "<bs>", ":<up><cr>")
-vim.keymap.set({"n", "x"}, "<bs>", function() vim.cmd(vim.fn.histget("cmd", -1)) end)
+vim.keymap.set(
+	{"n", "i", "c", "x", "s", "o", "t", "l"},
+	"<c-bs>",
+	function() vim.cmd(vim.fn.histget("cmd", -1)) end
+)
+vim.keymap.set(
+	{"n", "x"},
+	"<bs>",
+	function() vim.cmd(vim.fn.histget("cmd", -1)) end
+)
 
 
 

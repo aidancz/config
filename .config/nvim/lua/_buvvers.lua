@@ -42,7 +42,15 @@ require("buvvers").setup({
 	end,
 })
 
-vim.keymap.set("n", "<leader>wb", require("buvvers").toggle)
+require("modexec").add_mode({
+	name = "buvvers",
+	chunks = {
+		{
+			code = [[require("buvvers").toggle()]],
+			name = "window",
+		},
+	},
+})
 
 local add_buffer_keybindings = function()
 	vim.keymap.set(

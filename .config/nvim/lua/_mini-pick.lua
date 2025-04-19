@@ -33,7 +33,6 @@ require("mini.pick").registry.registry = function()
 			items = items,
 			name = "Registry",
 			choose = function(item)
-				if item == nil then return end
 				m.registry[item]()
 			end,
 		},
@@ -45,7 +44,6 @@ require("mini.pick").registry.modexec_mod = function()
 		source = {
 			items = require("modexec").list_names(),
 			choose = function(item)
-				if item == nil then return end
 				require("modexec").set_current_mode(item)
 			end,
 		},
@@ -54,6 +52,18 @@ end
 
 require("mini.pick").registry.modexec_exec = function()
 	require("mini.pick").start({
+		mappings = {
+			choose_not_stop = {
+				char = "<s-cr>",
+				func = function()
+					local item = require("mini.pick").get_picker_matches().current
+					vim.schedule(function()
+						require("modexec").exec(item.code)
+					end)
+					return false
+				end
+			},
+		},
 		source = {
 			items = vim.tbl_map(
 				function(x)
@@ -68,7 +78,6 @@ require("mini.pick").registry.modexec_exec = function()
 				require("modexec").list_chunks()
 			),
 			choose = function(item)
-				if item == nil then return end
 				vim.schedule(function()
 					require("modexec").exec(item.code)
 				end)
@@ -91,10 +100,20 @@ vim.api.nvim_set_hl(0, "MiniPickMatchRanges",   {link = "nofrils_blue"})
 vim.api.nvim_set_hl(0, "MiniPickPreviewLine",   {link = "nofrils_white_bg"})
 vim.api.nvim_set_hl(0, "MiniPickPreviewRegion", {link = "nofrils_blue_bg"})
 
+vim.keymap.set(
+	{"n", "i", "c", "x", "s", "o", "t", "l"},
+	"<c-cr>",
+	require("mini.pick").registry.modexec_exec
+)
+-- vim.keymap.set(
+-- 	{"n", "x"},
+-- 	"<cr>",
+-- 	require("mini.pick").registry.modexec_exec
+-- )
+vim.keymap.set("n", "fm", require("mini.pick").registry.modexec_mod)
+
 vim.keymap.set("n", "f/", require("mini.pick").registry.registry)
 vim.keymap.set("n", "f.", require("mini.pick").registry.resume)
 vim.keymap.set("n", "ff", require("mini.pick").registry.files)
 vim.keymap.set("n", "fn", require("mini.pick").registry.buffers)
 vim.keymap.set("n", "fh", require("mini.pick").registry.help)
-vim.keymap.set("n", "fm", require("mini.pick").registry.modexec_mod)
-vim.keymap.set("n", "<c-cr>", require("mini.pick").registry.modexec_exec)

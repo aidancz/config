@@ -40,22 +40,50 @@ M.mode_set_key = function(mode)
 	end
 end
 
+M.chunk_set_gkey = function(chunk)
+-- gkey: global key
+	if chunk.gkey == nil then return end
+	vim.keymap.set(
+		chunk.gkey[1],
+		chunk.gkey[2],
+		function()
+			M.exec(chunk.code)
+		end,
+		chunk.gkey[3] or {}
+	)
+end
+
+M.mode_set_gkey = function(mode)
+	for _, i in ipairs(mode.chunks) do
+		M.chunk_set_gkey(i)
+	end
+end
+
 M.add_mode = function(mode)
 	mode = vim.tbl_extend(
 		"force",
 		{
 			name = "",
 			chunks = {},
-			setup = function(self)
-				M.mode_set_key(self)
-			end,
 		},
 		mode
 	)
+	for k, v in pairs(mode) do
+		if vim.is_callable(v) then
+			mode[k] = v()
+		end
+	end
 	for _, i in ipairs(mode.chunks) do
 		i.from = mode.name
 	end
-	table.insert(M.mode_list, mode)
+	M.mode_set_gkey(mode)
+
+	local same_name_mode = M.get_mode(mode.name)
+	if same_name_mode == nil then
+		table.insert(M.mode_list, mode)
+	else
+		vim.list_extend(same_name_mode.chunks, mode.chunks)
+	end
 end
 
 M.get_mode = function(name)
@@ -68,7 +96,7 @@ end
 
 M.set_current_mode = function(name)
 	M.current_mode = M.get_mode(name)
-	M.current_mode.setup(M.current_mode)
+	M.mode_set_key(M.current_mode)
 	vim.schedule(function()
 		vim.cmd("redrawstatus")
 	end)

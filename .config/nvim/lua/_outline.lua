@@ -74,6 +74,14 @@ require("outline").setup({
 -- require("nofrils").clear("^Outline")
 -- vim.api.nvim_set_hl(0, "OutlineCurrent", {link = "nofrils_red_bg"})
 
-vim.keymap.set("n", "<leader>wo", "<cmd>Outline<cr>")
+require("modexec").add_mode({
+	name = "outline",
+	chunks = {
+		{
+			code = [[require("outline").toggle({focus_outline = false})]],
+			name = "window",
+		},
+	},
+})
 
 require("outline").open({focus_outline = false})

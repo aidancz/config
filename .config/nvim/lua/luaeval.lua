@@ -136,6 +136,7 @@ M.record_origin_win = function()
 end
 
 M.retrieve_origin_win = function()
+	if not vim.api.nvim_win_is_valid(M.cache.origin_win_handle) then return end
 	vim.api.nvim_set_current_win(M.cache.origin_win_handle)
 end
 
