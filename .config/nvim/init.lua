@@ -10,7 +10,7 @@ os.exit()
 
 print(os.time())
 print(os.date())
-vim.api.nvim_out_write(vim.fn.system({"date", "--iso-8601=ns"}))
+vim.notify(vim.system({"date", "--iso-8601=ns"}):wait().stdout)
 
 --]]
 

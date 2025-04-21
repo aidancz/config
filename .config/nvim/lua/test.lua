@@ -1,10 +1,7 @@
-vim.api.nvim_create_autocmd(
-	{
-		"BufEnter",
-	},
-	{
-		callback = function()
-			vim.print(os.time())
-		end,
-	}
-)
+local M = {}
+
+M.print = function()
+	print(os.time())
+end
+
+return M

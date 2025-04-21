@@ -2,7 +2,5 @@
 -- 	source = "aidancz/tT.nvim",
 -- })
 
-require("tT").setup({
-	t = "t",
-	T = "T",
-})
+vim.keymap.set({"n", "x", "o"}, "t", function() return require("tT").expr("next") end, {expr = true})
+vim.keymap.set({"n", "x", "o"}, "T", function() return require("tT").expr("prev") end, {expr = true})

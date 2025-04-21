@@ -4,16 +4,12 @@ require("modexec").add_mode({
 	name = "example",
 	chunks = {
 		{
-			code =
-[[
-local config = {
-	count = vim.v.count,
-	time = os.time(),
-}
-vim.notify(vim.inspect(config))
-]],
-			name = "inspect_config",
+			code = [[vim.notify(vim.system({"date", "--iso-8601=ns"}):wait().stdout)]],
 			key = {"n", "r"},
+		},
+		{
+			code = [[vim.notify(tostring(vim.v.count))]],
+			key = {"n", "m"},
 		},
 	},
 })
@@ -119,17 +115,18 @@ vim.cmd(count .. "wincmd w")
 	},
 })
 
--- # undo
+-- # diagnostic
 
 require("modexec").add_mode({
-	name = "undo",
+	name = "diagnostic",
 	chunks = {
 		{
-			code = [[vim.cmd("normal! u")]],
+			code = [[vim.diagnostic.jump({count = -1, float = true})]],
+			key = {"n", "r"},
 		},
 		{
-			code = [[vim.cmd("normal! ")]],
-			key = {"n", "r"},
+			code = [[vim.diagnostic.jump({count = 1, float = true})]],
+			key = {"n", "m"},
 		},
 	},
 })
@@ -142,19 +139,11 @@ require("modexec").add_mode({
 	chunks = {
 		{
 			code = [[require("modexec").set_current_mode("buffer")]],
-			gkey = {"n", "fj"},
+			gkey = {"n", "fs"},
 		},
 		{
 			code = [[require("modexec").set_current_mode("window")]],
-			gkey = {"n", "fk"},
-		},
-		{
-			code =
-[[
-require("modexec").set_current_mode("undo")
-vim.cmd("normal! u")
-]],
-			gkey = {"n", "u"},
+			gkey = {"n", "fw"},
 		},
 	},
 })

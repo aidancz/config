@@ -109,17 +109,32 @@ end
 -- 	vim.cmd(lines_str)
 -- end
 
+M.wrap = function(lines_tbl, wrap)
+	if wrap == nil then
+		return
+	elseif wrap == "vim.print" then
+		table.insert(lines_tbl, 1, "vim.print(")
+		table.insert(lines_tbl, ")")
+	elseif wrap == "vim.cmd" then
+		table.insert(lines_tbl, 1, "vim.cmd([[")
+		table.insert(lines_tbl, "]])")
+	elseif wrap == "vim.cmd.normal" then
+		table.insert(lines_tbl, 1, "vim.cmd.normal([[")
+		lines_tbl[#lines_tbl] = lines_tbl[#lines_tbl] .. "]])"
+	elseif wrap == "vim.api.nvim_feedkeys" then
+		table.insert(lines_tbl, 1, "vim.api.nvim_feedkeys([[")
+		lines_tbl[#lines_tbl] = lines_tbl[#lines_tbl] .. "]], [[t]], true)"
+	end
+end
+
 ---@param opts? {
----	inspect?: boolean,
+---	wrap?: string,
 ---}
 M.eval = function(opts)
 	opts = opts or {}
 
 	local lines_tbl = vim.api.nvim_buf_get_lines(M.cache.buf_handle, 0, -1, true)
-	if opts.inspect then
-		table.insert(lines_tbl, 1, "vim.print(")
-		table.insert(lines_tbl, ")")
-	end
+	M.wrap(lines_tbl, opts.wrap)
 	table.insert(lines_tbl, 1, "lua << EOF")
 	table.insert(lines_tbl, "EOF")
 	local lines_str = vim.inspect(lines_tbl):gsub("\n", " ")

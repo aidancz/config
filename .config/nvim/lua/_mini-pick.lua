@@ -4,6 +4,24 @@ require("mini.deps").add({
 
 require("mini.pick").setup({
 	mappings = {
+		caret_home = {
+		-- https://github.com/echasnovski/mini.nvim/issues/513#issuecomment-1764784504
+			char = "<home>",
+			func = function()
+				local mappings = require("mini.pick").get_picker_opts().mappings
+				local keys = string.rep(mappings.caret_left, 10)
+				vim.api.nvim_input(keys)
+			end,
+		},
+		caret_end = {
+		-- https://github.com/echasnovski/mini.nvim/issues/513#issuecomment-1764784504
+			char = "<end>",
+			func = function()
+				local mappings = require("mini.pick").get_picker_opts().mappings
+				local keys = string.rep(mappings.caret_right, 10)
+				vim.api.nvim_input(keys)
+			end,
+		},
 	},
 	options = {
 		content_from_bottom = false,
@@ -57,9 +75,15 @@ require("mini.pick").registry.modexec_exec = function()
 				char = "<s-cr>",
 				func = function()
 					local item = require("mini.pick").get_picker_matches().current
-					vim.schedule(function()
-						require("modexec").exec(item.code)
-					end)
+
+					local picker_state = require("mini.pick").get_picker_state()
+					vim.api.nvim_win_call(
+						picker_state.windows.target,
+						function()
+							require("modexec").exec(item.code)
+						end
+					)
+
 					return false
 				end
 			},
@@ -78,9 +102,13 @@ require("mini.pick").registry.modexec_exec = function()
 				require("modexec").list_chunks()
 			),
 			choose = function(item)
-				vim.schedule(function()
-					require("modexec").exec(item.code)
-				end)
+				local picker_state = require("mini.pick").get_picker_state()
+				vim.api.nvim_win_call(
+					picker_state.windows.target,
+					function()
+						require("modexec").exec(item.code)
+					end
+				)
 			end,
 			preview = function(buf_id, item)
 				local lines = vim.split(item.code, "\n")
@@ -105,15 +133,15 @@ vim.keymap.set(
 	"<c-cr>",
 	require("mini.pick").registry.modexec_exec
 )
--- vim.keymap.set(
--- 	{"n", "x"},
--- 	"<cr>",
--- 	require("mini.pick").registry.modexec_exec
--- )
+vim.keymap.set(
+	{"n", "x"},
+	"fj",
+	require("mini.pick").registry.modexec_exec
+)
 vim.keymap.set("n", "fm", require("mini.pick").registry.modexec_mod)
 
 vim.keymap.set("n", "f/", require("mini.pick").registry.registry)
 vim.keymap.set("n", "f.", require("mini.pick").registry.resume)
 vim.keymap.set("n", "ff", require("mini.pick").registry.files)
-vim.keymap.set("n", "fn", require("mini.pick").registry.buffers)
+vim.keymap.set("n", "fl", require("mini.pick").registry.buffers)
 vim.keymap.set("n", "fh", require("mini.pick").registry.help)

@@ -17,15 +17,24 @@ require("modexec").add_mode({
 		{
 			code = [[require("luaeval").toggle()]],
 			name = "window",
-			gkey = {"n", "<c-s-:>"},
+			gkey = {"n", "f:"},
 		},
 		{
 			code = [[require("luaeval").eval()]],
 			key = {"n", "r"},
 		},
 		{
-			code = [[require("luaeval").eval({inspect = true})]],
+			code = [[require("luaeval").eval({wrap = "vim.print"})]],
 			key = {"n", "m"},
+		},
+		{
+			code = [[require("luaeval").eval({wrap = "vim.cmd"})]],
+		},
+		{
+			code = [[require("luaeval").eval({wrap = "vim.cmd.normal"})]],
+		},
+		{
+			code = [[require("luaeval").eval({wrap = "vim.api.nvim_feedkeys"})]],
 		},
 	},
 })
