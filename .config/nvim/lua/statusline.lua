@@ -325,9 +325,9 @@ M.modexec = function()
 	component = H.format(
 		component,
 		{
-			justify = "left",
-			minwid = (2 + 8),
-			maxwid = (2 + 8),
+			-- justify = "left",
+			-- minwid = (2 + 8),
+			-- maxwid = (2 + 8),
 		}
 	)
 
