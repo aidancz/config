@@ -102,33 +102,37 @@ require("mini.ai").setup({
 		end,
 
 		i = function(ai_type)
-			local head_and_tail
+			local is_head
+			local is_tail
 			if ai_type == "i" then
-				head_and_tail =
-					require("paramo").get_head_and_tail(
-						"para3",
-						{
-							include_more_indent = false,
-							include_empty_lines = false,
-						}
-					)
+				is_head = require("para_cursor_indent").is_head
+				is_tail = require("para_cursor_indent").is_tail
 			else
-				head_and_tail =
-					require("paramo").get_head_and_tail(
-						"para3",
-						{
-							include_more_indent = false,
-							include_empty_lines = true,
-						}
-					)
+				is_head = require("para_cursor_indent_include_empty_line").is_head
+				is_tail = require("para_cursor_indent_include_empty_line").is_tail
 			end
+
+			local pos_head
+			local pos_tail
+			local pos_cursor = require("virtcol").get_cursor()
+			if is_head(pos_cursor) then
+				pos_head = pos_cursor
+			else
+				pos_head = require("paramo").prev_pos(pos_cursor, is_head)
+			end
+			if is_tail(pos_cursor) then
+				pos_tail = pos_cursor
+			else
+				pos_tail = require("paramo").next_pos(pos_cursor, is_tail)
+			end
+
 			return {
 				from = {
-					line = head_and_tail.head,
+					line = pos_head.lnum,
 					col = 1,
 				},
 				to = {
-					line = head_and_tail.tail,
+					line = pos_tail.lnum,
 					col = 1,
 				},
 				vis_mode = "V",
@@ -136,33 +140,37 @@ require("mini.ai").setup({
 		end,
 
 		o = function(ai_type)
-			local head_and_tail
+			local is_head
+			local is_tail
 			if ai_type == "i" then
-				head_and_tail =
-					require("paramo").get_head_and_tail(
-						"para3",
-						{
-							include_more_indent = true,
-							include_empty_lines = false,
-						}
-					)
+				is_head = require("para_cursor_ondent").is_head
+				is_tail = require("para_cursor_ondent").is_tail
 			else
-				head_and_tail =
-					require("paramo").get_head_and_tail(
-						"para3",
-						{
-							include_more_indent = true,
-							include_empty_lines = true,
-						}
-					)
+				is_head = require("para_cursor_ondent_include_empty_line").is_head
+				is_tail = require("para_cursor_ondent_include_empty_line").is_tail
 			end
+
+			local pos_head
+			local pos_tail
+			local pos_cursor = require("virtcol").get_cursor()
+			if is_head(pos_cursor) then
+				pos_head = pos_cursor
+			else
+				pos_head = require("paramo").prev_pos(pos_cursor, is_head)
+			end
+			if is_tail(pos_cursor) then
+				pos_tail = pos_cursor
+			else
+				pos_tail = require("paramo").next_pos(pos_cursor, is_tail)
+			end
+
 			return {
 				from = {
-					line = head_and_tail.head,
+					line = pos_head.lnum,
 					col = 1,
 				},
 				to = {
-					line = head_and_tail.tail,
+					line = pos_tail.lnum,
 					col = 1,
 				},
 				vis_mode = "V",
@@ -170,18 +178,32 @@ require("mini.ai").setup({
 		end,
 
 		C = function(ai_type)
-			local head_and_tail
-			head_and_tail =
-				require("paramo").get_head_and_tail(
-					"para4"
-				)
+			local is_head
+			local is_tail
+			is_head = require("para_first_nonblank_char").is_head
+			is_tail = require("para_first_nonblank_char").is_tail
+
+			local pos_head
+			local pos_tail
+			local pos_cursor = require("virtcol").get_cursor()
+			if is_head(pos_cursor) then
+				pos_head = pos_cursor
+			else
+				pos_head = require("paramo").prev_pos(pos_cursor, is_head)
+			end
+			if is_tail(pos_cursor) then
+				pos_tail = pos_cursor
+			else
+				pos_tail = require("paramo").next_pos(pos_cursor, is_tail)
+			end
+
 			return {
 				from = {
-					line = head_and_tail.head,
+					line = pos_head.lnum,
 					col = 1,
 				},
 				to = {
-					line = head_and_tail.tail,
+					line = pos_tail.lnum,
 					col = 1,
 				},
 				vis_mode = "V",

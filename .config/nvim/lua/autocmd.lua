@@ -45,6 +45,33 @@ end
 
 
 
+-- # save window view
+
+vim.api.nvim_create_augroup("save_window_view", {clear = true})
+vim.api.nvim_create_autocmd(
+	"BufWinLeave",
+	{
+		group = "save_window_view",
+		callback = function()
+			vim.b.winview = vim.fn.winsaveview()
+		end,
+	}
+)
+vim.api.nvim_create_autocmd(
+	"BufWinEnter",
+	{
+		group = "save_window_view",
+		callback = function()
+			if vim.b.winview then
+				vim.fn.winrestview(vim.b.winview)
+			end
+		end,
+	}
+)
+-- https://www.reddit.com/r/neovim/comments/11dmaed/keep_buffer_view_when_you_return_to_file/
+
+
+
 -- # filetype
 
 vim.api.nvim_create_augroup("filetype", {clear = true})

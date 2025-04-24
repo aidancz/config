@@ -18,25 +18,30 @@ vim.api.nvim_create_autocmd(
 
 -- # fix `virtualedit=all` mode
 
-local pos0 = {
+local M = {}
+
+M.pos = {
 	lnum = 1,
 	virtcol = 1,
 }
-local pos1 = {
-	lnum = 1,
-	virtcol = 1,
-}
 
-local cursor_record = function(pos)
-	pos.lnum, pos.virtcol = require("virtcol").get_cursor()
+M.cursor_record = function()
+	M.pos = require("virtcol").get_cursor()
 end
 
-local cursor_restore = function(pos)
-	require("virtcol").set_cursor(pos.lnum, pos.virtcol)
+M.cursor_restore = function()
+	require("virtcol").set_cursor(M.pos)
 end
 
-vim.keymap.set({"n", "x"}, "fo", function() cursor_restore(pos0) end)
-vim.keymap.set({"n", "x"}, "fi", function() cursor_restore(pos1) end)
+vim.keymap.set(
+	{"n", "x"},
+	"fo",
+	function()
+		vim.cmd([[normal! m']])
+		-- https://stackoverflow.com/questions/27193867/vim-how-can-i-put-my-current-position-in-jumplist
+		M.cursor_restore()
+	end
+)
 
 vim.api.nvim_create_augroup("virtualedit_all", {clear = true})
 
@@ -48,7 +53,7 @@ vim.api.nvim_create_autocmd(
 		group = "virtualedit_all",
 		pattern = "n:*",
 		callback = function()
-			cursor_record(pos0)
+			M.cursor_record()
 			vim.o.virtualedit = "onemore"
 		end,
 	}
@@ -67,7 +72,6 @@ vim.api.nvim_create_autocmd(
 				10,
 				vim.schedule_wrap(function()
 					if vim.api.nvim_get_mode().mode == "n" then
-						cursor_record(pos1)
 						vim.o.virtualedit = "all"
 						timer:stop()
 					end

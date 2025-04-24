@@ -17,7 +17,6 @@
 -- vim.opt.listchars:append({trail = "#"})
 -- vim.opt.messagesopt = {"wait:0", "history:512"}
 -- vim.opt.splitkeep = "topline"
--- vim.opt.virtualedit = "all"
 vim.opt.autoindent = true
 vim.opt.autoread = true
 vim.opt.autowrite = true
@@ -106,6 +105,7 @@ vim.opt.ttimeoutlen = 0
 vim.opt.undofile = true
 vim.opt.undolevels = 1024
 vim.opt.updatetime = 100
+vim.opt.virtualedit = "onemore"
 vim.opt.whichwrap:append("[,]")
 vim.opt.wildmenu = true
 vim.opt.wildoptions = {"pum", "tagfile"}
