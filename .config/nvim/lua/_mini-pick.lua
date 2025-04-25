@@ -91,11 +91,16 @@ require("mini.pick").registry.modexec_exec = function()
 		source = {
 			items = vim.tbl_map(
 				function(x)
-					x.text = string.format(
-						"(%s%s)%s",
+					local tag = string.format(
+						"(%s%s)",
 						x.from,
-						x.name and (" " .. x.name) or "",
-						(" " .. x.code)
+						x.name and (" " .. x.name) or ""
+					)
+					local code = x.code
+					x.text = string.format(
+						"%-31s\n%s",
+						tag,
+						code
 					)
 					return x
 				end,
@@ -111,8 +116,21 @@ require("mini.pick").registry.modexec_exec = function()
 				)
 			end,
 			preview = function(buf_id, item)
-				local lines = vim.split(item.code, "\n")
+				local lines = {}
+
+				local code = vim.split(item.code, "\n", {trimempty = true})
+				vim.list_extend(lines, code)
+
+				if item.desc then
+					local desc = vim.split(item.desc, "\n", {trimempty = true})
+					for n, i in ipairs(desc) do
+						desc[n] = "-- " .. i
+					end
+					vim.list_extend(lines, desc)
+				end
+
 				vim.api.nvim_buf_set_lines(buf_id, 0, -1, true, lines)
+				vim.api.nvim_set_option_value("filetype", "lua", {buf = buf_id})
 			end,
 		},
 	})
@@ -128,20 +146,57 @@ vim.api.nvim_set_hl(0, "MiniPickMatchRanges",   {link = "nofrils_blue"})
 vim.api.nvim_set_hl(0, "MiniPickPreviewLine",   {link = "nofrils_white_bg"})
 vim.api.nvim_set_hl(0, "MiniPickPreviewRegion", {link = "nofrils_blue_bg"})
 
-vim.keymap.set(
-	{"n", "i", "c", "x", "s", "o", "t", "l"},
-	"<c-cr>",
-	require("mini.pick").registry.modexec_exec
-)
-vim.keymap.set(
-	{"n", "x"},
-	"fj",
-	require("mini.pick").registry.modexec_exec
-)
-vim.keymap.set("n", "fm", require("mini.pick").registry.modexec_mod)
+require("modexec").add_mode({
+	name = "modexec",
+	chunks = {
+		{
+			code = [[require("mini.pick").registry.modexec_exec()]],
+			gkey = {{"n", "i", "c", "x", "s", "o", "t", "l"}, "<c-cr>"},
+			gkey_shortcut = {{"n", "x"}, "fj"},
+		},
+		{
+			code = [[require("mini.pick").registry.modexec_mod()]],
+			gkey = {{"n", "x"}, "fm"},
+		},
+	},
+})
 
-vim.keymap.set("n", "f/", require("mini.pick").registry.registry)
-vim.keymap.set("n", "f.", require("mini.pick").registry.resume)
-vim.keymap.set("n", "ff", require("mini.pick").registry.files)
-vim.keymap.set("n", "fl", require("mini.pick").registry.buffers)
-vim.keymap.set("n", "fh", require("mini.pick").registry.help)
+require("modexec").add_mode({
+	name = "mini.pick",
+	chunks = {
+		{
+			code = [[require("mini.pick").registry.registry()]],
+			gkey = {"n", "f/"},
+		},
+		{
+			code = [[require("mini.pick").registry.resume()]],
+			gkey = {"n", "f."},
+		},
+		{
+			code = [[require("mini.pick").registry.files()]],
+			gkey = {"n", "ff"},
+		},
+		{
+			code =
+[[
+require("mini.pick").builtin.files(
+	nil,
+	{
+		source = {
+			cwd = require("mini.misc").find_root(),
+		},
+	}
+)
+]],
+			gkey = {"n", "fd"},
+		},
+		{
+			code = [[require("mini.pick").registry.buffers()]],
+			gkey = {"n", "fl"},
+		},
+		{
+			code = [[require("mini.pick").registry.help()]],
+			gkey = {"n", "fh"},
+		},
+	},
+})

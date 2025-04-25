@@ -5,14 +5,26 @@ require("modexec").add_mode({
 	chunks = {
 		{
 			code = [[vim.notify(vim.system({"date", "--iso-8601=ns"}):wait().stdout)]],
-			key = {"n", "r"},
+			from = "example",
+			name = "print_time",
+			desc = "shows a nanosecond-precision timestamp in a neovim notification",
+			lkey = {"n", "r"},
+			gkey = {"n", "<c-s-t>"},
 		},
 		{
 			code = [[vim.notify(tostring(vim.v.count))]],
-			key = {"n", "m"},
+			lkey = {"n", "m"},
 		},
 	},
 })
+--[[
+chunk.code: required
+chunk.from: not required, add automatically
+chunk.name: optional
+chunk.desc: optional
+chunk.lkey: optional, means local key, {code = ..., lkey = ..., lkey_another = ...} is okay, as long as the prefix is "lkey"
+chunk.gkey: optional, means global key, {code = ..., gkey = ..., gkey_another = ...} is okay, as long as the prefix is "gkey"
+--]]
 require("modexec").set_current_mode("example")
 
 -- # buffer
@@ -50,7 +62,7 @@ end
 vim.api.nvim_set_current_buf(buf)
 ]],
 			name = "prev",
-			key = {"n", "r"},
+			lkey = {"n", "r"},
 		},
 		{
 			code =
@@ -82,7 +94,7 @@ end
 vim.api.nvim_set_current_buf(buf)
 ]],
 			name = "next",
-			key = {"n", "m"},
+			lkey = {"n", "m"},
 		},
 	},
 })
@@ -100,7 +112,7 @@ if count == 0 then count = "" end
 vim.cmd(count .. "wincmd W")
 ]],
 			name = "prev",
-			key = {"n", "r"},
+			lkey = {"n", "r"},
 		},
 		{
 			code =
@@ -110,7 +122,7 @@ if count == 0 then count = "" end
 vim.cmd(count .. "wincmd w")
 ]],
 			name = "next",
-			key = {"n", "m"},
+			lkey = {"n", "m"},
 		},
 	},
 })
@@ -122,11 +134,11 @@ require("modexec").add_mode({
 	chunks = {
 		{
 			code = [[vim.diagnostic.jump({count = -1, float = true})]],
-			key = {"n", "r"},
+			lkey = {"n", "r"},
 		},
 		{
 			code = [[vim.diagnostic.jump({count = 1, float = true})]],
-			key = {"n", "m"},
+			lkey = {"n", "m"},
 		},
 	},
 })

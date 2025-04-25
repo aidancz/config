@@ -1,0 +1,9 @@
+# https://github.com/echasnovski/mini.nvim/issues/516
+# https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md#configuration-file
+
+--hidden
+
+--smart-case
+
+--glob
+!.git/*

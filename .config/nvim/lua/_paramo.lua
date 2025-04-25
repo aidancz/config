@@ -41,7 +41,7 @@ map(
 	"next",
 	function(pos)
 		return
-		require("para_cursor_indent").is_head(
+		require("para_cursor_indent").is_head_or_tail(
 			pos,
 			function(a, b)
 				return a < b
@@ -55,7 +55,7 @@ map(
 	"next",
 	function(pos)
 		return
-		require("para_cursor_indent").is_head(
+		require("para_cursor_indent").is_head_or_tail(
 			pos,
 			function(a, b)
 				return a > b
@@ -69,7 +69,7 @@ map(
 	"prev",
 	function(pos)
 		return
-		require("para_cursor_indent").is_head(
+		require("para_cursor_indent").is_head_or_tail(
 			pos,
 			function(a, b)
 				return a < b
@@ -83,7 +83,7 @@ map(
 	"prev",
 	function(pos)
 		return
-		require("para_cursor_indent").is_head(
+		require("para_cursor_indent").is_head_or_tail(
 			pos,
 			function(a, b)
 				return a > b
@@ -92,17 +92,3 @@ map(
 	end,
 	caret
 )
-
--- require("modexec").add_mode({
--- 	name = "modexec",
--- 	chunks = {
--- 		{
--- 			code = [[require("modexec").set_current_mode("buffer")]],
--- 			gkey = {"n", "fs"},
--- 		},
--- 		{
--- 			code = [[require("modexec").set_current_mode("window")]],
--- 			gkey = {"n", "fw"},
--- 		},
--- 	},
--- })

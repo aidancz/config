@@ -5,11 +5,11 @@ require("modexec").add_mode({
 	chunks = {
 		{
 			code = [[require("macro").record_play()]],
-			key = {"n", "r"},
+			lkey = {"n", "r"},
 		},
 		{
 			code = [[require("macro").idx_next()]],
-			key = {"n", "m"},
+			lkey = {"n", "m"},
 		},
 		{
 			code = [[require("macro").idx_reg()]],

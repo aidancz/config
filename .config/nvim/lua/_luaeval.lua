@@ -17,15 +17,15 @@ require("modexec").add_mode({
 		{
 			code = [[require("luaeval").toggle()]],
 			name = "window",
-			gkey = {"n", "f:"},
+			gkey = {"n", "fi"},
 		},
 		{
 			code = [[require("luaeval").eval()]],
-			key = {"n", "r"},
+			lkey = {"n", "r"},
 		},
 		{
 			code = [[require("luaeval").eval({wrap = "vim.print"})]],
-			key = {"n", "m"},
+			lkey = {"n", "m"},
 		},
 		{
 			code = [[require("luaeval").eval({wrap = "vim.cmd"})]],

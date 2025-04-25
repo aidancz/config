@@ -17,6 +17,7 @@
 -- vim.opt.listchars:append({trail = "#"})
 -- vim.opt.messagesopt = {"wait:0", "history:512"}
 -- vim.opt.splitkeep = "topline"
+vim.opt.autochdir = true
 vim.opt.autoindent = true
 vim.opt.autoread = true
 vim.opt.autowrite = true

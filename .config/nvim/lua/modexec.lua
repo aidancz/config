@@ -9,65 +9,69 @@ M.current_mode = nil
 
 -- # function
 
-M.exec = function(code)
-	local lines_tbl = vim.split(code, "\n")
-	table.insert(lines_tbl, 1, "lua << EOF")
-	table.insert(lines_tbl, "EOF")
-	local lines_str = vim.inspect(lines_tbl):gsub("\n", " ")
+---@param code_tbl string[]
+---@return string cmd
+M.code2cmd = function(code_tbl)
+	table.insert(code_tbl, 1, "lua << EOF")
+	table.insert(code_tbl, "EOF")
+
+	local code_str
+	code_str = vim.inspect(code_tbl):gsub("\n", " ")
 
 	local cmd
-	cmd = [[lua vim.cmd(table.concat(]] .. lines_str .. [[, "\n"))]]
-	-- print(cmd)
+	cmd = [[lua vim.cmd(table.concat(]] .. code_str .. [[, "\n"))]]
+	return cmd
+end
+
+---@param cmd string
+---@return string[]|nil code_tbl
+M.cmd2code = function(cmd)
+	if string.sub(cmd, 1, 25) ~= [[lua vim.cmd(table.concat(]] then return end
+
+	local code_str = string.sub(cmd, 1+25, -(1+8))
+
+	local code_tbl = (load("return " .. code_str))()
+	table.remove(code_tbl, 1)
+	table.remove(code_tbl)
+	return code_tbl
+end
+
+M.exec = function(code_str, histadd)
+	if histadd == nil then
+		histadd = true
+	end
+
+	local code_tbl = vim.split(code_str, "\n", {trimempty = true})
+
+	local cmd = M.code2cmd(code_tbl)
 	vim.cmd(cmd)
-	vim.fn.histadd("cmd", cmd)
-end
-
-M.chunk_set_key = function(chunk)
-	if chunk.key == nil then return end
-	vim.keymap.set(
-		chunk.key[1],
-		chunk.key[2],
-		function()
-			M.exec(chunk.code)
-		end,
-		chunk.key[3] or {}
-	)
-end
-
-M.mode_set_key = function(mode)
-	for _, i in ipairs(mode.chunks) do
-		M.chunk_set_key(i)
+	if histadd then
+		vim.fn.histadd("cmd", cmd)
 	end
 end
 
-M.chunk_set_gkey = function(chunk)
--- gkey: global key
-	if chunk.gkey == nil then return end
-	vim.keymap.set(
-		chunk.gkey[1],
-		chunk.gkey[2],
-		function()
-			M.exec(chunk.code)
-		end,
-		chunk.gkey[3] or {}
-	)
+M.chunk_set_key = function(chunk, prefix)
+	for _, i in pairs(vim.tbl_keys(chunk)) do
+		if type(i) == "string" and string.match(i, "^" .. prefix) then
+			vim.keymap.set(
+				chunk[i][1],
+				chunk[i][2],
+				function()
+					M.exec(chunk.code, false)
+				end,
+				chunk[i][3] or {}
+			)
+		end
+	end
 end
 
-M.mode_set_gkey = function(mode)
+M.mode_set_key = function(mode, prefix)
 	for _, i in ipairs(mode.chunks) do
-		M.chunk_set_gkey(i)
+		M.chunk_set_key(i, prefix)
 	end
 end
 
 M.add_mode = function(mode)
-	mode = vim.tbl_extend(
-		"force",
-		{
-			name = "",
-			chunks = {},
-		},
-		mode
-	)
 	for k, v in pairs(mode) do
 		if vim.is_callable(v) then
 			mode[k] = v()
@@ -76,7 +80,7 @@ M.add_mode = function(mode)
 	for _, i in ipairs(mode.chunks) do
 		i.from = mode.name
 	end
-	M.mode_set_gkey(mode)
+	M.mode_set_key(mode, "gkey")
 
 	local same_name_mode = M.get_mode(mode.name)
 	if same_name_mode == nil then
@@ -96,7 +100,7 @@ end
 
 M.set_current_mode = function(name)
 	M.current_mode = M.get_mode(name)
-	M.mode_set_key(M.current_mode)
+	M.mode_set_key(M.current_mode, "lkey")
 	vim.schedule(function()
 		vim.cmd("redrawstatus")
 	end)

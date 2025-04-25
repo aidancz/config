@@ -9,8 +9,12 @@ M.config = {
 		filetype = "lua",
 	},
 	win = {
-		win = -1,
-		split = "below",
+		relative = "editor",
+		row = 0,
+		col = 0,
+		width = vim.o.columns - 2,
+		height = vim.o.lines - vim.o.cmdheight - 2,
+		title = "luaeval",
 	},
 	win_enter = true,
 	win_opt = {
@@ -25,7 +29,7 @@ M.config = {
 M.setup = function(config)
 	M.config = vim.tbl_deep_extend("force", M.config, config or {})
 	M.buf_set_true()
-	M.autocmd()
+	-- M.autocmd()
 end
 
 -- # cache
@@ -101,29 +105,48 @@ end
 
 -- # function: main
 
--- M.eval = function()
--- 	local lines_tbl = vim.api.nvim_buf_get_lines(M.cache.buf_handle, 0, -1, true)
--- 	table.insert(lines_tbl, 1, "lua << EOF")
--- 	table.insert(lines_tbl, "EOF")
--- 	local lines_str = table.concat(lines_tbl, "\n")
--- 	vim.cmd(lines_str)
--- end
+---@param code_tbl string[]
+---@return string cmd
+M.code2cmd = function(code_tbl)
+	table.insert(code_tbl, 1, "lua << EOF")
+	table.insert(code_tbl, "EOF")
 
-M.wrap = function(lines_tbl, wrap)
+	local code_str
+	code_str = vim.inspect(code_tbl):gsub("\n", " ")
+
+	local cmd
+	cmd = [[lua vim.cmd(table.concat(]] .. code_str .. [[, "\n"))]]
+	return cmd
+end
+
+---@param cmd string
+---@return string[]|nil code_tbl
+M.cmd2code = function(cmd)
+	if string.sub(cmd, 1, 25) ~= [[lua vim.cmd(table.concat(]] then return end
+
+	local code_str = string.sub(cmd, 1+25, -(1+8))
+
+	local code_tbl = (load("return " .. code_str))()
+	table.remove(code_tbl, 1)
+	table.remove(code_tbl)
+	return code_tbl
+end
+
+M.wrap = function(code_tbl, wrap)
 	if wrap == nil then
 		return
 	elseif wrap == "vim.print" then
-		table.insert(lines_tbl, 1, "vim.print(")
-		table.insert(lines_tbl, ")")
+		table.insert(code_tbl, 1, "vim.print(")
+		table.insert(code_tbl, ")")
 	elseif wrap == "vim.cmd" then
-		table.insert(lines_tbl, 1, "vim.cmd([[")
-		table.insert(lines_tbl, "]])")
+		table.insert(code_tbl, 1, "vim.cmd([[")
+		table.insert(code_tbl, "]])")
 	elseif wrap == "vim.cmd.normal" then
-		table.insert(lines_tbl, 1, "vim.cmd.normal([[")
-		lines_tbl[#lines_tbl] = lines_tbl[#lines_tbl] .. "]])"
+		table.insert(code_tbl, 1, "vim.cmd.normal([[")
+		code_tbl[#code_tbl] = code_tbl[#code_tbl] .. "]])"
 	elseif wrap == "vim.api.nvim_feedkeys" then
-		table.insert(lines_tbl, 1, "vim.api.nvim_feedkeys([[")
-		lines_tbl[#lines_tbl] = lines_tbl[#lines_tbl] .. "]], [[t]], true)"
+		table.insert(code_tbl, 1, "vim.api.nvim_feedkeys([[")
+		code_tbl[#code_tbl] = code_tbl[#code_tbl] .. "]], [[t]], true)"
 	end
 end
 
@@ -133,59 +156,54 @@ end
 M.eval = function(opts)
 	opts = opts or {}
 
-	local lines_tbl = vim.api.nvim_buf_get_lines(M.cache.buf_handle, 0, -1, true)
-	M.wrap(lines_tbl, opts.wrap)
-	table.insert(lines_tbl, 1, "lua << EOF")
-	table.insert(lines_tbl, "EOF")
-	local lines_str = vim.inspect(lines_tbl):gsub("\n", " ")
+	local code_tbl = vim.api.nvim_buf_get_lines(M.cache.buf_handle, 0, -1, true)
+	M.wrap(code_tbl, opts.wrap)
 
-	local cmd
-	cmd = [[lua vim.cmd(table.concat(]] .. lines_str .. [[, "\n"))]]
-	-- print(cmd)
+	local cmd = M.code2cmd(code_tbl)
 	vim.cmd(cmd)
 	vim.fn.histadd("cmd", cmd)
 end
 
-M.record_origin_win = function()
-	M.cache.origin_win_handle = vim.api.nvim_get_current_win()
-end
+-- M.record_origin_win = function()
+-- 	M.cache.origin_win_handle = vim.api.nvim_get_current_win()
+-- end
 
-M.retrieve_origin_win = function()
-	if not vim.api.nvim_win_is_valid(M.cache.origin_win_handle) then return end
-	vim.api.nvim_set_current_win(M.cache.origin_win_handle)
-end
+-- M.retrieve_origin_win = function()
+-- 	if not vim.api.nvim_win_is_valid(M.cache.origin_win_handle) then return end
+-- 	vim.api.nvim_set_current_win(M.cache.origin_win_handle)
+-- end
 
 M.open = function()
-	M.record_origin_win()
+	-- M.record_origin_win()
 	-- M.buf_set_true()
 	M.win_set_true()
 	M.config.hook_open()
 end
 
 M.close = function()
-	M.retrieve_origin_win()
+	-- M.retrieve_origin_win()
 	-- M.buf_set_false()
 	M.win_set_false()
 	M.config.hook_close()
 end
 
-M.autocmd = function()
-	vim.api.nvim_create_augroup("modexec", {clear = true})
-	vim.api.nvim_create_autocmd(
-		{
-			"WinClosed",
-		},
-		{
-			group = "modexec",
-			callback = function(event)
-				local closing_window_handle = tonumber(event.match)
-				if closing_window_handle == M.cache.win_handle then
-					M.close()
-				end
-			end,
-		}
-	)
-end
+-- M.autocmd = function()
+-- 	vim.api.nvim_create_augroup("modexec", {clear = true})
+-- 	vim.api.nvim_create_autocmd(
+-- 		{
+-- 			"WinClosed",
+-- 		},
+-- 		{
+-- 			group = "modexec",
+-- 			callback = function(event)
+-- 				local closing_window_handle = tonumber(event.match)
+-- 				if closing_window_handle == M.cache.win_handle then
+-- 					M.close()
+-- 				end
+-- 			end,
+-- 		}
+-- 	)
+-- end
 
 M.toggle = function()
 	if M.win_is_valid() then
