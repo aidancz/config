@@ -136,6 +136,64 @@ require("mini.pick").registry.modexec_exec = function()
 	})
 end
 
+require("mini.pick").registry.modexec_luaeval_history = function()
+-- borrow code from `require("mini.extra").pickers.history`
+	local history0 = vim.api.nvim_exec2("history cmd", {output = true}).output
+	local history1 = vim.split(history0, "\n", {trimempty = true})
+	local history2 = {}
+	for i = #history1, 2, -1 do
+		table.insert(
+			history2,
+			string.match(history1[i], "^.-%-?%d+%s+(.*)$")
+		)
+	end
+	local history3 = vim.tbl_filter(
+		function(cmd)
+			return
+			string.sub(cmd, 1, 25) == [[lua vim.cmd(table.concat(]]
+		end,
+		history2
+	)
+	local history4 = vim.tbl_map(
+		function(cmd)
+			local code_tbl = require("modexec").cmd2code(cmd)
+			if code_tbl then
+				return code_tbl
+			else
+				return {}
+			end
+		end,
+		history3
+	)
+
+	local items = {}
+	for _, i in ipairs(history4) do
+		table.insert(
+			items,
+			{
+				code_tbl = i,
+				text = table.concat(i, ""),
+			}
+		)
+	end
+
+	require("mini.pick").start({
+		source = {
+			items = items,
+			choose = function(item)
+				require("luaeval").buf_set_lines(item.code_tbl)
+				vim.schedule(function()
+					require("luaeval").open()
+				end)
+			end,
+			preview = function(buf_id, item)
+				vim.api.nvim_buf_set_lines(buf_id, 0, -1, true, item.code_tbl)
+				vim.api.nvim_set_option_value("filetype", "lua", {buf = buf_id})
+			end,
+		},
+	})
+end
+
 require("nofrils").clear("^MiniPick")
 
 vim.api.nvim_set_hl(0, "MiniPickBorderBusy",    {link = "nofrils_yellow"})
@@ -197,6 +255,10 @@ require("mini.pick").builtin.files(
 		{
 			code = [[require("mini.pick").registry.help()]],
 			gkey = {"n", "fh"},
+		},
+		{
+			code = [[require("mini.pick").registry.modexec_luaeval_history()]],
+			gkey = {"n", "f<up>"},
 		},
 	},
 })

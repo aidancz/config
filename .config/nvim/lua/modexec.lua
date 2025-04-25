@@ -30,7 +30,9 @@ M.cmd2code = function(cmd)
 
 	local code_str = string.sub(cmd, 1+25, -(1+8))
 
-	local code_tbl = (load("return " .. code_str))()
+	local f = load("return " .. code_str)
+	if not f then return end
+	local code_tbl = f()
 	table.remove(code_tbl, 1)
 	table.remove(code_tbl)
 	return code_tbl

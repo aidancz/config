@@ -13,7 +13,7 @@ M.config = {
 		row = 0,
 		col = 0,
 		width = vim.o.columns - 2,
-		height = vim.o.lines - vim.o.cmdheight - 2,
+		height = vim.o.lines - vim.o.cmdheight - 2 - 1,
 		title = "luaeval",
 	},
 	win_enter = true,
@@ -71,6 +71,16 @@ M.buf_set_true = function()
 	end
 end
 
+M.buf_set_lines = function(lines)
+	vim.api.nvim_buf_set_lines(
+		M.cache.buf_handle,
+		0,
+		-1,
+		true,
+		lines
+	)
+end
+
 -- # function: window
 
 M.win_is_valid = function()
@@ -126,7 +136,9 @@ M.cmd2code = function(cmd)
 
 	local code_str = string.sub(cmd, 1+25, -(1+8))
 
-	local code_tbl = (load("return " .. code_str))()
+	local f = load("return " .. code_str)
+	if not f then return end
+	local code_tbl = f()
 	table.remove(code_tbl, 1)
 	table.remove(code_tbl)
 	return code_tbl
