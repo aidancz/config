@@ -138,48 +138,58 @@ end
 
 require("mini.pick").registry.modexec_luaeval_history = function()
 -- borrow code from `require("mini.extra").pickers.history`
-	local history0 = vim.api.nvim_exec2("history cmd", {output = true}).output
-	local history1 = vim.split(history0, "\n", {trimempty = true})
+	local history1 = {}
+	for i = vim.fn.histnr("cmd"), 1, -1 do
+		local cmd = vim.fn.histget("cmd", i)
+		if cmd ~= "" then
+			table.insert(
+				history1,
+				{
+					histnr = i,
+					cmd = cmd,
+				}
+			)
+		end
+	end
 	local history2 = {}
-	for i = #history1, 2, -1 do
-		table.insert(
-			history2,
-			string.match(history1[i], "^.-%-?%d+%s+(.*)$")
+	for _, i in ipairs(history1) do
+		local code_tbl = require("modexec").cmd2code(i.cmd)
+		if code_tbl then
+			i.code_tbl = code_tbl
+			table.insert(history2, i)
+		end
+	end
+	for _, i in ipairs(history2) do
+		i.text = string.format(
+			"%8s\n%s",
+			i.histnr,
+			table.concat(i.code_tbl, "")
 		)
 	end
-	local history3 = vim.tbl_filter(
-		function(cmd)
-			return
-			string.sub(cmd, 1, 25) == [[lua vim.cmd(table.concat(]]
-		end,
-		history2
-	)
-	local history4 = vim.tbl_map(
-		function(cmd)
-			local code_tbl = require("modexec").cmd2code(cmd)
-			if code_tbl then
-				return code_tbl
-			else
-				return {}
-			end
-		end,
-		history3
-	)
 
-	local items = {}
-	for _, i in ipairs(history4) do
-		table.insert(
-			items,
-			{
-				code_tbl = i,
-				text = table.concat(i, ""),
-			}
-		)
-	end
+	local timer = vim.uv.new_timer()
+	timer:start(
+		0,
+		5,
+		function()
+			local picker_state = require("mini.pick").get_picker_state()
+			if
+				picker_state
+				and
+				not picker_state.is_busy
+			then
+				timer:stop()
+				vim.api.nvim_input("\t")
+			end
+		end
+	)
 
 	require("mini.pick").start({
+		options = {
+			content_from_bottom = true,
+		},
 		source = {
-			items = items,
+			items = history2,
 			choose = function(item)
 				require("luaeval").buf_set_lines(item.code_tbl)
 				vim.schedule(function()

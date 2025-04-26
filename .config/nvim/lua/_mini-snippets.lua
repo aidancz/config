@@ -58,3 +58,39 @@ require("mini.snippets").setup({
 })
 
 -- require("nofrils").clear("^MiniSnippets")
+
+require("modexec").add_mode({
+	name = "mini.snippets",
+	chunks = {
+		{
+			code =
+[=[
+if vim.api.nvim_get_current_line() ~= "" then
+	local pos = vim.api.nvim_win_get_cursor(0)
+	local row0 = pos[1] - 1
+	vim.api.nvim_buf_set_lines(
+		0,
+		row0 + 1,
+		row0 + 1,
+		true,
+		{""}
+	)
+	vim.api.nvim_win_set_cursor(0, {pos[1]+1, 0})
+end
+require("mini.snippets").expand({
+	match = false,
+	-- select = false,
+	-- insert = false,
+})
+while require("mini.snippets").session.get() do
+	require("mini.snippets").session.stop()
+end
+vim.schedule(function()
+	local key = vim.api.nvim_replace_termcodes([[<c-\><c-n>^]], true, true, true)
+	vim.api.nvim_feedkeys(key, "n", false)
+end)
+]=],
+			gkey = {"n", "fe"},
+		},
+	},
+})

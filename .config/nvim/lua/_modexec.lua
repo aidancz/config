@@ -127,22 +127,6 @@ vim.cmd(count .. "wincmd w")
 	},
 })
 
--- # diagnostic
-
-require("modexec").add_mode({
-	name = "diagnostic",
-	chunks = {
-		{
-			code = [[vim.diagnostic.jump({count = -1, float = true})]],
-			lkey = {"n", "r"},
-		},
-		{
-			code = [[vim.diagnostic.jump({count = 1, float = true})]],
-			lkey = {"n", "m"},
-		},
-	},
-})
-
 -- # modexec
 -- yes, modexec itself can be a mode
 

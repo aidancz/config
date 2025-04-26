@@ -171,11 +171,12 @@ require("_undotree-mbbill")
 require("_vim-AdvancedSorters")
 require("_vim-mark")
 require("_vim-table-mode")
+require("_virtualedit_all")
 require("_yazi")
 require("diagnostic")
 require("keymap")
 require("redir")
-require("virtualedit")
+require("virtualedit_all")
 
 ----------------------------------------------------------------
 
