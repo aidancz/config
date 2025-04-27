@@ -147,7 +147,7 @@ https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silent
 )
 vim.keymap.set(
 	{"n", "x", "i"},
-	"<a-esc>",
+	"<c-esc>",
 	function()
 		if vim.fn.winnr("$") ~= 1 then
 			vim.cmd("close")
@@ -204,6 +204,7 @@ vim.keymap.set("i", "<left>",  "<c-g>U<left>")
 vim.keymap.set("i", "<right>", "<c-g>U<right>")
 vim.keymap.set("n", ",", "r")
 vim.keymap.set("n", "-", "<c-r>")
+vim.keymap.set("n", "fk", "m")
 vim.keymap.set("n", "<leader>/", "q/")
 vim.keymap.set("n", "<leader>:", "q:")
 vim.keymap.set("n", "<leader>?", "q?")

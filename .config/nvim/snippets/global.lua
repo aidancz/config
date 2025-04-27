@@ -1,9 +1,8 @@
 return
 {
-
-{
-	prefix = "aidan",
-	body = "aidan is the best!",
-},
-
+	{
+		body = "aidan is the best!",
+		prefix = "aidan",
+		desc = "truth",
+	},
 }

@@ -70,24 +70,6 @@ end
 
 require("mini.pick").registry.modexec_exec = function()
 	require("mini.pick").start({
-		mappings = {
-			choose_not_stop = {
-				char = "<s-cr>",
-				func = function()
-					local item = require("mini.pick").get_picker_matches().current
-
-					local picker_state = require("mini.pick").get_picker_state()
-					vim.api.nvim_win_call(
-						picker_state.windows.target,
-						function()
-							require("modexec").exec(item.code)
-						end
-					)
-
-					return false
-				end
-			},
-		},
 		source = {
 			items = vim.tbl_map(
 				function(x)
@@ -107,13 +89,9 @@ require("mini.pick").registry.modexec_exec = function()
 				require("modexec").list_chunks()
 			),
 			choose = function(item)
-				local picker_state = require("mini.pick").get_picker_state()
-				vim.api.nvim_win_call(
-					picker_state.windows.target,
-					function()
-						require("modexec").exec(item.code)
-					end
-				)
+				vim.schedule(function()
+					require("modexec").exec(item.code)
+				end)
 			end,
 			preview = function(buf_id, item)
 				local lines = {}
