@@ -97,6 +97,9 @@
 [[manager.prepend_keymap]]
 	run = ["toggle", "arrow 1"]
 	on = "<down>"
+[[manager.prepend_keymap]]
+	run = "tasks:show"
+	on = "b"
 
 ################################################################ input
 

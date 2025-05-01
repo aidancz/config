@@ -23,11 +23,37 @@
 -- -- HACK: https://github.com/nvim-tree/nvim-tree.lua/wiki/Auto-Close
 
 require("buvvers").setup({
-	buvvers_win = {
-	},
-	buvvers_win_enter = false,
-	buvvers_win_opt = {
-	},
+	buf_hook = function(buf)
+		vim.keymap.set(
+			"n",
+			"x",
+			function()
+				local listed_bufs = require("buvvers").get_listed_bufs()
+				local buf_cursor = listed_bufs[vim.fn.line(".")]
+				require("mini.bufremove").delete(buf_cursor, false)
+			end,
+			{
+				buffer = buf,
+				nowait = true,
+			}
+		)
+		vim.keymap.set(
+			"n",
+			"o",
+			function()
+				local listed_bufs = require("buvvers").get_listed_bufs()
+				local buf_cursor = listed_bufs[vim.fn.line(".")]
+				local win_previous = vim.fn.win_getid(vim.fn.winnr("#"))
+				-- https://github.com/nvim-neo-tree/neo-tree.nvim/blob/0b44040ec7b8472dfc504bbcec735419347797ad/lua/neo-tree/utils/init.lua#L643
+				vim.api.nvim_win_set_buf(win_previous, buf_cursor)
+				vim.api.nvim_set_current_win(win_previous)
+			end,
+			{
+				buffer = buf,
+				nowait = true,
+			}
+		)
+	end,
 	buffer_handle_list_to_buffer_name_list = function(handle_l)
 		local name_l
 
@@ -42,6 +68,8 @@ require("buvvers").setup({
 	end,
 })
 
+require("buvvers").open()
+
 require("modexec").add_mode({
 	name = "buvvers",
 	chunks = {
@@ -51,44 +79,3 @@ require("modexec").add_mode({
 		},
 	},
 })
-
-local add_buffer_keybindings = function()
-	vim.keymap.set(
-		"n",
-		"d",
-		function()
-			local cursor_buf_handle = require("buvvers").buvvers_buf_get_buf(vim.fn.line("."))
-			MiniBufremove.delete(cursor_buf_handle, false)
-		end,
-		{
-			buffer = require("buvvers").buvvers_get_buf(),
-			nowait = true,
-		}
-	)
-	vim.keymap.set(
-		"n",
-		"o",
-		function()
-			local cursor_buf_handle = require("buvvers").buvvers_buf_get_buf(vim.fn.line("."))
-			local previous_win_handle = vim.fn.win_getid(vim.fn.winnr("#"))
-			-- https://github.com/nvim-neo-tree/neo-tree.nvim/blob/0b44040ec7b8472dfc504bbcec735419347797ad/lua/neo-tree/utils/init.lua#L643
-			vim.api.nvim_win_set_buf(previous_win_handle, cursor_buf_handle)
-			vim.api.nvim_set_current_win(previous_win_handle)
-		end,
-		{
-			buffer = require("buvvers").buvvers_get_buf(),
-			nowait = true,
-		}
-	)
-end
-vim.api.nvim_create_augroup("buvvers_config", {clear = true})
-vim.api.nvim_create_autocmd(
-	"User",
-	{
-		group = "buvvers_config",
-		pattern = "BuvversBufEnabled",
-		callback = add_buffer_keybindings,
-	}
-)
-
-vim.schedule(require("buvvers").open)

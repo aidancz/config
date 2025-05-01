@@ -148,7 +148,7 @@ require("mini.pick").registry.modexec_luaeval_history = function()
 	local timer = vim.uv.new_timer()
 	timer:start(
 		0,
-		5,
+		2,
 		function()
 			local picker_state = require("mini.pick").get_picker_state()
 			if

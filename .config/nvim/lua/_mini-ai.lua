@@ -177,7 +177,7 @@ require("mini.ai").setup({
 			}
 		end,
 
-		C = function(ai_type)
+		["^"] = function(ai_type)
 			local is_head
 			local is_tail
 			is_head = require("para_first_nonblank_char").is_head
@@ -225,16 +225,34 @@ require("mini.ai").setup({
 			}
 		end,
 
-		c = function(ai_type, id, opts)
-			local f = require("mini.ai").gen_spec.treesitter({
-				i = "@block.inner",
-				a = "@block.outer",
-			})
-			local o = f(ai_type, id, opts)
-			for _, i in pairs(o) do
-				i.vis_mode = "V"
+		c = function(ai_type)
+		-- markdown fenced code block
+			local lnum_3backticks_prev = vim.fn.search("```", "ncWb")
+			local lnum_3backticks_next = vim.fn.search("```", "ncW")
+			if
+				lnum_3backticks_prev == 0
+				or
+				lnum_3backticks_next == 0
+				or
+				lnum_3backticks_next - lnum_3backticks_prev == 0
+			then
+				return
 			end
-			return o
+			if ai_type == "i" then
+				lnum_3backticks_prev = lnum_3backticks_prev + 1
+				lnum_3backticks_next = lnum_3backticks_next - 1
+			end
+			return {
+				from = {
+					line = lnum_3backticks_prev,
+					col = 1,
+				},
+				to = {
+					line = lnum_3backticks_next,
+					col = 1,
+				},
+				vis_mode = "V",
+			}
 		end,
 
 	},

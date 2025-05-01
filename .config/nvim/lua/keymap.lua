@@ -149,10 +149,21 @@ vim.keymap.set(
 	{"n", "x", "i"},
 	"<c-esc>",
 	function()
-		if vim.fn.winnr("$") ~= 1 then
-			vim.cmd("close")
-		else
+		local is_not_floating_window = function(win)
+			return
+			vim.api.nvim_win_get_config(win).relative == ""
+		end
+		local win_current = vim.api.nvim_get_current_win()
+		local wins = vim.api.nvim_list_wins()
+		local wins_without_floating = vim.tbl_filter(is_not_floating_window, wins)
+		if
+			is_not_floating_window(win_current)
+			and
+			#wins_without_floating == 1
+		then
 			vim.cmd("q!")
+		else
+			vim.cmd("close")
 		end
 	end,
 	{
