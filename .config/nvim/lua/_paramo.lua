@@ -34,59 +34,29 @@ map("<a-e>", "next", require("para_cursor_column").is_tail)
 map("<a-b>", "prev", require("para_cursor_column").is_head)
 
 local caret = function() vim.cmd("normal! ^") end
-map("<pageup>",   "prev", require("para_cursor_indent").is_head_or_tail, caret)
-map("<pagedown>", "next", require("para_cursor_indent").is_head_or_tail, caret)
 map(
-	"<",
-	"next",
-	function(pos)
-		return
-		require("para_cursor_indent").is_head_or_tail(
-			pos,
-			function(a, b)
-				return a < b
-			end
-		)
-	end,
-	caret
-)
-map(
-	">",
-	"next",
-	function(pos)
-		return
-		require("para_cursor_indent").is_head_or_tail(
-			pos,
-			function(a, b)
-				return a > b
-			end
-		)
-	end,
-	caret
-)
-map(
-	"(",
+	"<pageup>",
 	"prev",
 	function(pos)
 		return
 		require("para_cursor_indent").is_head_or_tail(
 			pos,
 			function(a, b)
-				return a < b
+				return true
 			end
 		)
 	end,
 	caret
 )
 map(
-	")",
-	"prev",
+	"<pagedown>",
+	"next",
 	function(pos)
 		return
 		require("para_cursor_indent").is_head_or_tail(
 			pos,
 			function(a, b)
-				return a > b
+				return true
 			end
 		)
 	end,

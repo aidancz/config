@@ -88,7 +88,10 @@ require("mini.pick").registry.modexec_exec = function()
 		source = {
 			items = chunks,
 			choose = function(item)
+				local cache_eventignore = vim.o.eventignore
+				vim.o.eventignore = "all"
 				vim.schedule(function()
+					vim.o.eventignore = cache_eventignore
 					require("modexec").exec(item.code)
 				end)
 			end,
@@ -146,22 +149,34 @@ require("mini.pick").registry.modexec_luaeval_history = function()
 		)
 	end
 
-	local timer = vim.uv.new_timer()
-	timer:start(
-		0,
-		2,
-		function()
-			local picker_state = require("mini.pick").get_picker_state()
-			if
-				picker_state
-				and
-				not picker_state.is_busy
-			then
-				timer:stop()
+	-- local timer = vim.uv.new_timer()
+	-- timer:start(
+	-- 	0,
+	-- 	2,
+	-- 	function()
+	-- 		local picker_state = require("mini.pick").get_picker_state()
+	-- 		if
+	-- 			picker_state
+	-- 			and
+	-- 			not picker_state.is_busy
+	-- 		then
+	-- 			timer:stop()
+	-- 			vim.api.nvim_input("\t")
+	-- 		end
+	-- 	end
+	-- )
+
+	vim.api.nvim_create_autocmd(
+		"User",
+		{
+			pattern = "MiniPickStart",
+			callback = function()
 				vim.api.nvim_input("\t")
-			end
-		end
+			end,
+			once = true,
+		}
 	)
+	-- i am the smartest human on the planet, okay, okay...
 
 	require("mini.pick").start({
 		options = {
