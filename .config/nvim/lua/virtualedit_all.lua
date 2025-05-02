@@ -133,35 +133,37 @@ end
 -- # fix_paste
 
 M.fix_paste_on = function()
-	vim.keymap.set(
-		"n",
-		"p",
-		function()
-			vim.o.virtualedit = "onemore"
-			vim.schedule(function()
-				vim.o.virtualedit = "all"
-			end)
-			return "p"
-		end,
-		{expr = true}
-	)
-	vim.keymap.set(
-		"n",
-		"P",
-		function()
-			vim.o.virtualedit = "onemore"
-			vim.schedule(function()
-				vim.o.virtualedit = "all"
-			end)
-			return "P"
-		end,
-		{expr = true}
-	)
+	local map = function(mode, lhs, paste_key)
+		vim.keymap.set(
+			mode,
+			lhs,
+			function()
+				vim.o.virtualedit = "onemore"
+				vim.schedule(function()
+					vim.o.virtualedit = "all"
+				end)
+				return paste_key
+			end,
+			{
+				expr = true,
+			}
+		)
+	end
+	map({"n", "x"}, "p", "<Plug>(YankyPutAfter)")
+	map({"n", "x"}, "P", "<Plug>(YankyPutBefore)")
+	map({"n", "x"}, "gp", "<Plug>(YankyGPutAfter)")
+	map({"n", "x"}, "gP", "<Plug>(YankyGPutBefore)")
 end
 
 M.fix_paste_off = function()
 	vim.api.nvim_del_keymap("n", "p")
 	vim.api.nvim_del_keymap("n", "P")
+	vim.api.nvim_del_keymap("n", "gp")
+	vim.api.nvim_del_keymap("n", "gP")
+	vim.api.nvim_del_keymap("x", "p")
+	vim.api.nvim_del_keymap("x", "P")
+	vim.api.nvim_del_keymap("x", "gp")
+	vim.api.nvim_del_keymap("x", "gP")
 end
 
 M.fix_paste_is_on = function()

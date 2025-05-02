@@ -213,7 +213,7 @@ vim.keymap.set(
 )
 vim.keymap.set("i", "<left>",  "<c-g>U<left>")
 vim.keymap.set("i", "<right>", "<c-g>U<right>")
-vim.keymap.set("n", ",", "r")
+vim.keymap.set({"n", "x"}, ",", "r")
 vim.keymap.set("n", "-", "<c-r>")
 vim.keymap.set("n", "fk", "m")
 vim.keymap.set("n", "<leader>/", "q/")
