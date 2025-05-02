@@ -26,6 +26,9 @@ require("mini.pick").setup({
 	options = {
 		content_from_bottom = false,
 	},
+	source = {
+		name = "<no name>",
+	},
 	window = {
 		config = {
 			relative = "editor",
@@ -43,15 +46,13 @@ require("mini.pick").setup({
 vim.ui.select = require("mini.pick").ui_select
 
 require("mini.pick").registry.registry = function()
-	local m = require("mini.pick")
-	local items = vim.tbl_keys(m.registry)
+	local items = vim.tbl_keys(require("mini.pick").registry)
 	table.sort(items)
-	m.start({
+	require("mini.pick").start({
 		source = {
 			items = items,
-			name = "Registry",
 			choose = function(item)
-				m.registry[item]()
+				require("mini.pick").registry[item]()
 			end,
 		},
 	})
@@ -69,25 +70,23 @@ require("mini.pick").registry.modexec_mod = function()
 end
 
 require("mini.pick").registry.modexec_exec = function()
+	local chunks = require("modexec").list_chunks()
+	for _, i in ipairs(chunks) do
+		i.tag = string.format(
+			"(%s%s)",
+			i.from,
+			i.name and (" " .. i.name) or ""
+		)
+		i.text = string.format(
+			"%-32s %s %s",
+			i.tag,
+			i.code,
+			i.desc or ""
+		)
+	end
 	require("mini.pick").start({
 		source = {
-			items = vim.tbl_map(
-				function(x)
-					local tag = string.format(
-						"(%s%s)",
-						x.from,
-						x.name and (" " .. x.name) or ""
-					)
-					local code = x.code
-					x.text = string.format(
-						"%-31s\n%s",
-						tag,
-						code
-					)
-					return x
-				end,
-				require("modexec").list_chunks()
-			),
+			items = chunks,
 			choose = function(item)
 				vim.schedule(function()
 					require("modexec").exec(item.code)
@@ -96,19 +95,21 @@ require("mini.pick").registry.modexec_exec = function()
 			preview = function(buf_id, item)
 				local lines = {}
 
-				local code = vim.split(item.code, "\n", {trimempty = true})
-				vim.list_extend(lines, code)
-
-				if item.desc then
-					local desc = vim.split(item.desc, "\n", {trimempty = true})
-					for n, i in ipairs(desc) do
-						desc[n] = "-- " .. i
+				local split = function(s)
+					if s == nil or s == "" then
+						return {""}
+					else
+						return vim.split(s, "\n", {trimempty = true})
 					end
-					vim.list_extend(lines, desc)
 				end
+				vim.list_extend(lines, split(item.tag))
+				vim.list_extend(lines, {"■"})
+				vim.list_extend(lines, split(item.code))
+				vim.list_extend(lines, {"■"})
+				vim.list_extend(lines, split(item.desc))
 
 				vim.api.nvim_buf_set_lines(buf_id, 0, -1, true, lines)
-				vim.api.nvim_set_option_value("filetype", "lua", {buf = buf_id})
+				-- vim.api.nvim_set_option_value("filetype", "lua", {buf = buf_id})
 			end,
 		},
 	})
@@ -139,9 +140,9 @@ require("mini.pick").registry.modexec_luaeval_history = function()
 	end
 	for _, i in ipairs(history2) do
 		i.text = string.format(
-			"%8s\n%s",
+			"%8s %s",
 			i.histnr,
-			table.concat(i.code_tbl, "")
+			table.concat(i.code_tbl, "\n")
 		)
 	end
 
@@ -175,8 +176,13 @@ require("mini.pick").registry.modexec_luaeval_history = function()
 				end)
 			end,
 			preview = function(buf_id, item)
-				vim.api.nvim_buf_set_lines(buf_id, 0, -1, true, item.code_tbl)
-				vim.api.nvim_set_option_value("filetype", "lua", {buf = buf_id})
+				local lines = {}
+
+				vim.list_extend(lines, {tostring(item.histnr)})
+				vim.list_extend(lines, {"■"})
+				vim.list_extend(lines, item.code_tbl)
+
+				vim.api.nvim_buf_set_lines(buf_id, 0, -1, true, lines)
 			end,
 		},
 	})

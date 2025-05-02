@@ -1,8 +1,9 @@
-return
+local contents =
 {
+----------------------------------------------------------------
 	{
 		body =
-([[
+[[
 local timer = vim.uv.new_timer()
 timer:start(
 	0,
@@ -11,35 +12,32 @@ timer:start(
 		print(os.time())
 	end)
 )
-]]):sub(1, -2),
+]],
 	},
+----------------------------------------------------------------
 	{
 		body =
-([[
-local border_offset
-local winborder = vim.o.winborder
-if winborder == "" or winborder == "none" then
-	border_offset = 0
-else
-	border_offset = 2
-end
+[[
 vim.api.nvim_open_win(
 	0,
 	true,
 	{
 		relative = "editor",
 		anchor = "NW",
+		border = "none",
 		row = 0,
 		col = 0,
-		width = vim.o.columns - border_offset,
-		height = vim.o.lines - vim.o.cmdheight - border_offset,
+		width = math.floor(vim.o.columns / 4),
+		height = math.floor(vim.o.lines / 4),
+		style = "minimal",
 	}
 )
-]]):sub(1, -2),
+]],
 	},
+----------------------------------------------------------------
 	{
 		body =
-([[
+[[
 vim.keymap.set(
 	{"n", "x"},
 	-- {"n", "x", "s", "i", "c", "t", "o"},
@@ -52,11 +50,12 @@ vim.keymap.set(
 		-- remap = true,
 	}
 )
-]]):sub(1, -2),
+]],
 	},
+----------------------------------------------------------------
 	{
 		body =
-([[
+[[
 vim.api.nvim_create_augroup("test", {clear = true})
 vim.api.nvim_create_autocmd(
 	{
@@ -72,6 +71,25 @@ vim.api.nvim_create_autocmd(
 		-- once = true,
 	}
 )
-]]):sub(1, -2),
+]],
 	},
+----------------------------------------------------------------
 }
+
+----------------------------------------------------------------
+----------------------------------------------------------------
+----------------------------------------------------------------
+
+for _, i in ipairs(contents) do
+	if string.sub(i.body, -1, -1) == "\n" then
+		i.body = string.sub(i.body, 1, -2)
+	end
+	if i.prefix == nil then
+		i.prefix = ""
+	end
+	if i.desc == nil then
+		i.desc = ""
+	end
+end
+
+return contents
