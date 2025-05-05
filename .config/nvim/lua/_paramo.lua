@@ -26,8 +26,9 @@ end
 map("{", "prev", require("para_nonempty_reverse").is_head_or_tail)
 map("}", "next", require("para_nonempty_reverse").is_head_or_tail)
 
+map("<a-d>", "next", require("para_nonempty").is_head)
+map("<a-r>", "next", require("para_nonempty").is_tail)
 map("<a-u>", "prev", require("para_nonempty").is_head)
-map("<a-d>", "next", require("para_nonempty").is_tail)
 
 map("<a-w>", "next", require("para_cursor_column").is_head)
 map("<a-e>", "next", require("para_cursor_column").is_tail)

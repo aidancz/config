@@ -18,6 +18,15 @@ vim.notify(vim.system({"date", "--iso-8601=ns"}):wait().stdout)
 
 vim.loader.enable()
 
+require("vim._extui").enable({
+	msg = {
+		pos = "cmd",
+		box = {
+			timeout = 4000,
+		},
+	},
+})
+
 ----------------------------------------------------------------
 
 local path_package = vim.fn.stdpath("data") .. "/site/"
@@ -135,6 +144,7 @@ end
 -- require("_vuffers")
 -- require("_zen-mode")
 -- require("guicursor")
+-- require("redir")
 require("_Comment")
 require("_auto-save")
 require("_blink-cmp")
@@ -150,6 +160,7 @@ require("_mini-align")
 require("_mini-bufremove")
 require("_mini-diff")
 require("_mini-indentscope")
+require("_mini-keymap")
 require("_mini-move")
 require("_mini-operators")
 require("_mini-pick")
@@ -164,6 +175,7 @@ require("_paramo")
 require("_quicker")
 require("_sentiment")
 require("_snacks")
+require("_substitute")
 require("_tT")
 require("_telescope")
 require("_text-case")
@@ -176,7 +188,6 @@ require("_yanky")
 require("_yazi")
 require("diagnostic")
 require("keymap")
-require("redir")
 require("virtualedit_all")
 
 ----------------------------------------------------------------

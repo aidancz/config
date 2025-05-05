@@ -2,6 +2,28 @@ require("mini.deps").add({
 	source = "echasnovski/mini.pick",
 })
 
+require("mini.pick").gen_yank = function(item2str_or_strs)
+	local func = function()
+		local item = require("mini.pick").get_picker_matches().current
+		local str_or_strs = item2str_or_strs(item)
+		local text
+		if type(str_or_strs) == "string" then
+			text = str_or_strs
+		elseif type(str_or_strs) == "table" then
+			text = table.concat(str_or_strs, "\n") .. "\n"
+		else
+			return
+		end
+		vim.fn.setreg(vim.v.register, text)
+		return true
+	end
+	return
+	{
+		char = "<c-y>",
+		func = func,
+	}
+end
+
 require("mini.pick").setup({
 	mappings = {
 		caret_home = {
@@ -22,6 +44,34 @@ require("mini.pick").setup({
 				vim.api.nvim_input(keys)
 			end,
 		},
+		print = {
+			char = "<c-=>",
+			func = function()
+				local items = require("mini.pick").get_picker_items()
+				local stritems = require("mini.pick").get_picker_stritems()
+				local matches = require("mini.pick").get_picker_matches()
+				local opts = require("mini.pick").get_picker_opts()
+				local state = require("mini.pick").get_picker_state()
+				local query = require("mini.pick").get_picker_query()
+
+				vim.print(opts.source.choose_marked)
+			end,
+		},
+		-- pick_actions = {
+		-- 	char = "<c-cr>",
+		-- 	func = function()
+		-- 		local opts = require("mini.pick").get_picker_opts()
+		-- 	end,
+		-- },
+		yank = require("mini.pick").gen_yank(
+			function(item)
+				if type(item) == "string" then
+					return item
+				else
+					return vim.inspect(item)
+				end
+			end
+		),
 	},
 	options = {
 		content_from_bottom = false,
@@ -85,6 +135,9 @@ require("mini.pick").registry.modexec_exec = function()
 		)
 	end
 	require("mini.pick").start({
+		mappings = {
+			yank = require("mini.pick").gen_yank(function(item) return item.code end),
+		},
 		source = {
 			items = chunks,
 			choose = function(item)
@@ -179,6 +232,9 @@ require("mini.pick").registry.modexec_luaeval_history = function()
 	-- i am the smartest human on the planet, okay, okay...
 
 	require("mini.pick").start({
+		mappings = {
+			yank = require("mini.pick").gen_yank(function(item) return item.code_tbl end),
+		},
 		options = {
 			content_from_bottom = true,
 		},
@@ -239,10 +295,10 @@ require("modexec").add_mode({
 			code = [[require("mini.pick").registry.resume()]],
 			gkey = {"n", "f."},
 		},
-		{
-			code = [[require("mini.pick").registry.files()]],
-			gkey = {"n", "ff"},
-		},
+		-- {
+		-- 	code = [[require("mini.pick").registry.files()]],
+		-- 	gkey = {"n", "ff"},
+		-- },
 		{
 			code =
 [[
@@ -255,7 +311,7 @@ require("mini.pick").builtin.files(
 	}
 )
 ]],
-			gkey = {"n", "fd"},
+			gkey = {"n", "ff"},
 		},
 		{
 			code = [[require("mini.pick").registry.buffers()]],

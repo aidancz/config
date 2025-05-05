@@ -11,22 +11,22 @@ require("mini.snippets").setup({
 		},
 		-- require("mini.snippets").gen_loader.from_file("~/.config/nvim/snippets/global.json"),
 		require("mini.snippets").gen_loader.from_runtime("global.{json,lua}"),
-		function(context)
-			local chunks = require("modexec").list_chunks()
-			for _, i in ipairs(chunks) do
-				i.body = i.code
-				i.prefix = ""
-				i.tag = string.format(
-					"(%s%s)",
-					i.from,
-					i.name and (" " .. i.name) or ""
-				)
-				i.desc = i.tag
-			end
-			return chunks
-			-- it is okay to have extra fields, so we modify the `chunks` table
-			-- of course we can use `vim.tbl_map` instead
-		end,
+		-- function(context)
+		-- 	local chunks = require("modexec").list_chunks()
+		-- 	for _, i in ipairs(chunks) do
+		-- 		i.body = i.code
+		-- 		i.prefix = ""
+		-- 		i.tag = string.format(
+		-- 			"(%s%s)",
+		-- 			i.from,
+		-- 			i.name and (" " .. i.name) or ""
+		-- 		)
+		-- 		i.desc = i.tag
+		-- 	end
+		-- 	return chunks
+		-- 	-- it is okay to have extra fields, so we modify the `chunks` table
+		-- 	-- of course we can use `vim.tbl_map` instead
+		-- end,
 		require("mini.snippets").gen_loader.from_lang(),
 	},
 	mappings = {

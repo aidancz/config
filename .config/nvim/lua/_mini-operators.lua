@@ -4,9 +4,10 @@ require("mini.deps").add({
 
 require("mini.operators").setup({
 	replace = {
-		prefix = "s",
+		-- prefix = "s",
+		prefix = "",
 		reindent_linewise = false,
 	},
 })
 
-vim.keymap.set("n", "S", "s$", {remap = true})
+-- vim.keymap.set("n", "S", "s$", {remap = true})
