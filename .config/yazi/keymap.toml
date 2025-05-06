@@ -62,10 +62,10 @@
 	run = "plugin fzf"
 	on = "i"
 [[manager.prepend_keymap]]
-	run = "plugin parent-arrow --args=-1"
+	run = "plugin parent-arrow -1"
 	on = "<pageup>"
 [[manager.prepend_keymap]]
-	run = "plugin parent-arrow --args=1"
+	run = "plugin parent-arrow 1"
 	on = "<pagedown>"
 [[manager.prepend_keymap]]
 	run = "plugin zoxide"

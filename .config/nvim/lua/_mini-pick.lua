@@ -26,12 +26,20 @@ end
 
 require("mini.pick").setup({
 	mappings = {
+		stop1 = {
+			char = "<c-esc>",
+			func = require("mini.pick").stop,
+		},
+		stop2 = {
+			char = "<s-esc>",
+			func = require("mini.pick").stop,
+		},
 		caret_home = {
 		-- https://github.com/echasnovski/mini.nvim/issues/513#issuecomment-1764784504
 			char = "<home>",
 			func = function()
 				local mappings = require("mini.pick").get_picker_opts().mappings
-				local keys = string.rep(mappings.caret_left, 10)
+				local keys = string.rep(mappings.caret_left, 32)
 				vim.api.nvim_input(keys)
 			end,
 		},
@@ -40,7 +48,7 @@ require("mini.pick").setup({
 			char = "<end>",
 			func = function()
 				local mappings = require("mini.pick").get_picker_opts().mappings
-				local keys = string.rep(mappings.caret_right, 10)
+				local keys = string.rep(mappings.caret_right, 32)
 				vim.api.nvim_input(keys)
 			end,
 		},
@@ -57,12 +65,22 @@ require("mini.pick").setup({
 				vim.print(opts.source.choose_marked)
 			end,
 		},
-		-- pick_actions = {
-		-- 	char = "<c-cr>",
-		-- 	func = function()
-		-- 		local opts = require("mini.pick").get_picker_opts()
-		-- 	end,
-		-- },
+		pick_actions = {
+			char = "<c-cr>",
+			func = function()
+				local opts = require("mini.pick").get_picker_opts()
+				local actions = vim.tbl_keys(opts.mappings)
+				table.sort(actions)
+				require("mini.pick").start({
+					source = {
+						items = actions,
+						choose = function(item)
+							-- <execute the chosen action in the previous picker>
+						end,
+					},
+				})
+			end,
+		},
 		yank = require("mini.pick").gen_yank(
 			function(item)
 				if type(item) == "string" then

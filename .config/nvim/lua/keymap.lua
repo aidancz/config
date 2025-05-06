@@ -306,6 +306,14 @@ https://stackoverflow.com/questions/1050640/how-to-stop-vim-from-adding-a-newlin
 ]],
 		},
 		{
+			code = [[vim.cmd("%!cat -s")]],
+			name = "multiple_blank_lines_deduplicate",
+			desc =
+[[
+https://unix.stackexchange.com/questions/12812/replacing-multiple-blank-lines-with-a-single-blank-line-in-vim-sed
+]],
+		},
+		{
 			code =
 [[
 vim.opt.foldcolumn = "0"

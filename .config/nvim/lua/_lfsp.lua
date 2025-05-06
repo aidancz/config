@@ -3,7 +3,7 @@
 -- })
 
 vim.keymap.set(
-	{"n", "x", "o"},
+	"n",
 	"<down>",
 	function()
 		return
@@ -15,7 +15,7 @@ vim.keymap.set(
 	{expr = true}
 )
 vim.keymap.set(
-	{"n", "x", "o"},
+	"n",
 	"<up>",
 	function()
 		return
@@ -27,7 +27,7 @@ vim.keymap.set(
 	{expr = true}
 )
 vim.keymap.set(
-	{"n", "x", "o"},
+	"n",
 	"<left>",
 	function()
 		return
@@ -39,7 +39,7 @@ vim.keymap.set(
 	{expr = true}
 )
 vim.keymap.set(
-	{"n", "x", "o"},
+	"n",
 	"<right>",
 	function()
 		return
