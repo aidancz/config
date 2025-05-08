@@ -1,6 +1,6 @@
 require("macro").setup()
 
-require("modexec").add_mode({
+require("luaexec").add_mode({
 	name = "macro",
 	chunks = {
 		{
@@ -24,7 +24,7 @@ vim.keymap.set(
 	"n",
 	"q",
 	function()
-		require("modexec").set_current_mode("macro")
+		require("luaexec").set_current_mode("macro")
 		if vim.fn.reg_recording() == "" then
 			return [[<cmd>lua require("macro").record_start()<cr>]]
 		else

@@ -12,7 +12,7 @@ require("mini.snippets").setup({
 		-- require("mini.snippets").gen_loader.from_file("~/.config/nvim/snippets/global.json"),
 		require("mini.snippets").gen_loader.from_runtime("global.{json,lua}"),
 		-- function(context)
-		-- 	local chunks = require("modexec").list_chunks()
+		-- 	local chunks = require("luaexec").list_chunks()
 		-- 	for _, i in ipairs(chunks) do
 		-- 		i.body = i.code
 		-- 		i.prefix = ""
@@ -98,7 +98,7 @@ require("mini.snippets").setup({
 
 -- require("nofrils").clear("^MiniSnippets")
 
-require("modexec").add_mode({
+require("luaexec").add_mode({
 	name = "mini.snippets",
 	chunks = {
 		{

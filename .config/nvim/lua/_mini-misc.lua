@@ -7,7 +7,7 @@ require("mini.misc").setup({
 
 -- require("mini.misc").setup_auto_root()
 
-require("modexec").add_mode({
+require("luaexec").add_mode({
 	name = "mini.misc",
 	chunks = {
 		{

@@ -11,7 +11,7 @@ require("yanky").setup({
 
 -- vim.keymap.set({"n", "x"}, "y", "<plug>(YankyYank)")
 
-require("modexec").add_mode({
+require("luaexec").add_mode({
 	name = "yanky",
 	chunks = {
 		{

@@ -13,7 +13,7 @@ vim.g.undotree_ShortIndicators = 1
 vim.g.undotree_SetFocusWhenToggle = 1
 vim.g.undotree_CursorLine = 0
 
-require("modexec").add_mode({
+require("luaexec").add_mode({
 	name = "undotree",
 	chunks = {
 		{

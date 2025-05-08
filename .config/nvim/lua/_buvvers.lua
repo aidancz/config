@@ -70,7 +70,7 @@ require("buvvers").setup({
 
 require("buvvers").open()
 
-require("modexec").add_mode({
+require("luaexec").add_mode({
 	name = "buvvers",
 	chunks = {
 		{

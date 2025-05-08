@@ -73,7 +73,7 @@ require("_luaeval")
 require("_mini-extra")
 require("_mini-icons")
 require("_mini-misc")
-require("_modexec")
+require("_luaexec")
 require("_plenary")
 require("_virtcol")
 

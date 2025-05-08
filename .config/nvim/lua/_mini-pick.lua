@@ -126,19 +126,19 @@ require("mini.pick").registry.registry = function()
 	})
 end
 
-require("mini.pick").registry.modexec_mod = function()
+require("mini.pick").registry.luaexec_mod = function()
 	require("mini.pick").start({
 		source = {
-			items = require("modexec").list_names(),
+			items = require("luaexec").list_names(),
 			choose = function(item)
-				require("modexec").set_current_mode(item)
+				require("luaexec").set_current_mode(item)
 			end,
 		},
 	})
 end
 
-require("mini.pick").registry.modexec_exec = function()
-	local chunks = require("modexec").list_chunks()
+require("mini.pick").registry.luaexec_exec = function()
+	local chunks = require("luaexec").list_chunks()
 	for _, i in ipairs(chunks) do
 		i.tag = string.format(
 			"(%s%s)",
@@ -163,7 +163,7 @@ require("mini.pick").registry.modexec_exec = function()
 				vim.o.eventignore = "all"
 				vim.schedule(function()
 					vim.o.eventignore = cache_eventignore
-					require("modexec").exec(item.code)
+					require("luaexec").exec(item.code)
 				end)
 			end,
 			preview = function(buf_id, item)
@@ -189,7 +189,7 @@ require("mini.pick").registry.modexec_exec = function()
 	})
 end
 
-require("mini.pick").registry.modexec_luaeval_history = function()
+require("mini.pick").registry.luaexec_luaeval_history = function()
 -- borrow code from `require("mini.extra").pickers.history`
 	local history1 = {}
 	for i = vim.fn.histnr("cmd"), 1, -1 do
@@ -206,7 +206,7 @@ require("mini.pick").registry.modexec_luaeval_history = function()
 	end
 	local history2 = {}
 	for _, i in ipairs(history1) do
-		local code_tbl = require("modexec").cmd2code(i.cmd)
+		local code_tbl = require("luaexec").cmd2code(i.cmd)
 		if code_tbl then
 			i.code_tbl = code_tbl
 			table.insert(history2, i)
@@ -287,22 +287,22 @@ vim.api.nvim_set_hl(0, "MiniPickMatchRanges",   {link = "nofrils_blue"})
 vim.api.nvim_set_hl(0, "MiniPickPreviewLine",   {link = "nofrils_white_bg"})
 vim.api.nvim_set_hl(0, "MiniPickPreviewRegion", {link = "nofrils_blue_bg"})
 
-require("modexec").add_mode({
-	name = "modexec",
+require("luaexec").add_mode({
+	name = "luaexec",
 	chunks = {
 		{
-			code = [[require("mini.pick").registry.modexec_exec()]],
+			code = [[require("mini.pick").registry.luaexec_exec()]],
 			gkey = {{"n", "i", "c", "x", "s", "o", "t", "l"}, "<c-cr>"},
 			gkey_shortcut = {{"n", "x"}, "fj"},
 		},
 		{
-			code = [[require("mini.pick").registry.modexec_mod()]],
+			code = [[require("mini.pick").registry.luaexec_mod()]],
 			gkey = {{"n", "x"}, "fm"},
 		},
 	},
 })
 
-require("modexec").add_mode({
+require("luaexec").add_mode({
 	name = "mini.pick",
 	chunks = {
 		{
@@ -340,7 +340,7 @@ require("mini.pick").builtin.files(
 			gkey = {"n", "fh"},
 		},
 		{
-			code = [[require("mini.pick").registry.modexec_luaeval_history()]],
+			code = [[require("mini.pick").registry.luaexec_luaeval_history()]],
 			gkey = {"n", "f<up>"},
 		},
 	},

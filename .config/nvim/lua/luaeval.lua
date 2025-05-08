@@ -200,13 +200,13 @@ M.close = function()
 end
 
 -- M.autocmd = function()
--- 	vim.api.nvim_create_augroup("modexec", {clear = true})
+-- 	vim.api.nvim_create_augroup("luaexec", {clear = true})
 -- 	vim.api.nvim_create_autocmd(
 -- 		{
 -- 			"WinClosed",
 -- 		},
 -- 		{
--- 			group = "modexec",
+-- 			group = "luaexec",
 -- 			callback = function(event)
 -- 				local closing_window_handle = tonumber(event.match)
 -- 				if closing_window_handle == M.cache.win_handle then

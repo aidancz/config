@@ -48,11 +48,11 @@ vim.keymap.set(
 	"fm",
 	function()
 		require("fzf-lua").fzf_exec(
-			require("modexec").list_names(),
+			require("luaexec").list_names(),
 			{
 				actions = {
 					default = function(selected, opts)
-						require("modexec").set_current_mode(selected[1])
+						require("luaexec").set_current_mode(selected[1])
 					end,
 				},
 			}

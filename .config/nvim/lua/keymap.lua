@@ -234,9 +234,9 @@ vim.keymap.set({"n", "x", "i"}, "<plug>(quarter-y)", function() return math.ceil
 vim.keymap.set({"n", "x", "o"}, "<s-cr>", "-")
 vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
 
--- # modexec
+-- # luaexec
 
-require("modexec").add_mode({
+require("luaexec").add_mode({
 	name = "default",
 	chunks = {
 		{

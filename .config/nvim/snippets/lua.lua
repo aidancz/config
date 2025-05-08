@@ -77,7 +77,7 @@ vim.api.nvim_create_autocmd(
 	{
 		body =
 [=[
-require("modexec").add_mode({
+require("luaexec").add_mode({
 	name = "test",
 	chunks = {
 		{

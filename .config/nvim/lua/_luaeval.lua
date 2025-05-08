@@ -1,6 +1,6 @@
 require("luaeval").setup({
 	hook_open = function()
-		require("modexec").set_current_mode("luaeval")
+		require("luaexec").set_current_mode("luaeval")
 		-- vim.cmd("$")
 		-- vim.cmd("startinsert!")
 	end,
@@ -11,7 +11,7 @@ require("luaeval").setup({
 	end,
 })
 
-require("modexec").add_mode({
+require("luaexec").add_mode({
 	name = "luaeval",
 	chunks = {
 		{

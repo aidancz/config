@@ -45,7 +45,7 @@ vim.api.nvim_set_hl(0, "DiagnosticSignOk",    {link = "nofrils_green"})
 vim.api.nvim_set_hl(0, "DiagnosticDeprecated",  {link = "nofrils_yellow"})
 vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", {link = "nofrils_yellow"})
 
-require("modexec").add_mode({
+require("luaexec").add_mode({
 	name = "diagnostic",
 	chunks = {
 		{

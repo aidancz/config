@@ -33,7 +33,7 @@ M.str_active = function()
 			"%=",
 			M.macro(),
 			" ",
-			M.modexec(),
+			M.luaexec(),
 			" ",
 			M.mode(),
 			" ",
@@ -303,12 +303,12 @@ M.macro = function()
 	return component
 end
 
--- # modexec
+-- # luaexec
 
-M.modexec = function()
+M.luaexec = function()
 	local component
 
-	local m = package.loaded["modexec"]
+	local m = package.loaded["luaexec"]
 	if not m then
 		component = ""
 		return component

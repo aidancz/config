@@ -1,6 +1,6 @@
 -- # example
 
-require("modexec").add_mode({
+require("luaexec").add_mode({
 	name = "example",
 	chunks = {
 		{
@@ -25,11 +25,11 @@ chunk.desc: optional
 chunk.lkey: optional, means local key, {code = ..., lkey = ..., lkey_another = ...} is okay, as long as the prefix is "lkey"
 chunk.gkey: optional, means global key, {code = ..., gkey = ..., gkey_another = ...} is okay, as long as the prefix is "gkey"
 --]]
-require("modexec").set_current_mode("example")
+require("luaexec").set_current_mode("example")
 
 -- # buffer
 
-require("modexec").add_mode({
+require("luaexec").add_mode({
 	name = "buffer",
 	chunks = {
 		{
@@ -101,7 +101,7 @@ vim.api.nvim_set_current_buf(buf)
 
 -- # window
 
-require("modexec").add_mode({
+require("luaexec").add_mode({
 	name = "window",
 	chunks = {
 		{
@@ -127,18 +127,18 @@ vim.cmd(count .. "wincmd w")
 	},
 })
 
--- # modexec
--- yes, modexec itself can be a mode
+-- # luaexec
+-- yes, luaexec itself can be a mode
 
-require("modexec").add_mode({
-	name = "modexec",
+require("luaexec").add_mode({
+	name = "luaexec",
 	chunks = {
 		{
-			code = [[require("modexec").set_current_mode("buffer")]],
+			code = [[require("luaexec").set_current_mode("buffer")]],
 			gkey = {"n", "fs"},
 		},
 		{
-			code = [[require("modexec").set_current_mode("window")]],
+			code = [[require("luaexec").set_current_mode("window")]],
 			gkey = {"n", "fw"},
 		},
 	},

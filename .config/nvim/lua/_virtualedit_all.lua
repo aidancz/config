@@ -1,6 +1,6 @@
 require("virtualedit_all").setup()
 
-require("modexec").add_mode({
+require("luaexec").add_mode({
 	name = "virtualedit_all",
 	chunks = {
 		{

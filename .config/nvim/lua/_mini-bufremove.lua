@@ -5,7 +5,7 @@ require("mini.deps").add({
 require("mini.bufremove").setup({
 })
 
-require("modexec").add_mode({
+require("luaexec").add_mode({
 	name = "mini.bufremove",
 	chunks = {
 		{
