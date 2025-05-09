@@ -1,11 +1,7 @@
 local M = {}
 
 M.config = {
-	extmark_opts = {
-		hl_eol = true,
-		hl_group = "Visual",
-		priority = 101,
-	},
+	hl_group = "Visual",
 }
 
 M.setup = function(config)
@@ -13,10 +9,9 @@ M.setup = function(config)
 end
 
 M.cache = {
-	extmark_ns_id = vim.api.nvim_create_namespace("hl"),
-	extmark_id = {
-		-- buf1 = {id1, id2, id3, ...},
-		-- buf2 = {id1, id2, id3, ...},
+	match_id = {
+		-- win1 = {id1, id2, id3, ...},
+		-- win2 = {id1, id2, id3, ...},
 		-- ...
 	},
 }
@@ -135,115 +130,128 @@ M.get_operator_inclusive_ranges = function(mode)
 	return ranges
 end
 
--- # hl
+-- # hls
 
----@param line number
----@param col number
----@param opts {
----	end_row: number,
----	end_col: number,
----}
-M.set_extmark = function(line, col, opts)
-	local buf = vim.api.nvim_get_current_buf()
-	if not vim.list_contains(vim.tbl_keys(M.cache.extmark_id), buf) then
-		M.cache.extmark_id[buf] = {}
+M.add_match = function(pattern)
+	local win = vim.api.nvim_get_current_win()
+	if not vim.list_contains(vim.tbl_keys(M.cache.match_id), win) then
+		M.cache.match_id[win] = {}
 	end
 
 	local id =
-	vim.api.nvim_buf_set_extmark(
-		buf,
-		M.cache.extmark_ns_id,
-		line,
-		col,
-		vim.tbl_deep_extend(
-			"force",
-			M.config.extmark_opts,
-			opts
-		)
+	vim.fn.matchadd(
+		M.config.hl_group,
+		pattern
 	)
 
-	if not vim.list_contains(M.cache.extmark_id[buf], id) then
-		table.insert(M.cache.extmark_id[buf], id)
+	if not vim.list_contains(M.cache.match_id[win], id) then
+		table.insert(M.cache.match_id[win], id)
 	end
 end
 
-M.ranges_set_extmarks = function(ranges)
+M.ranges_set_matches = function(ranges)
 	for _, range in ipairs(ranges) do
 		local pos_a = range[1]
 		local pos_b = M.pos_inclusive2exclusive(range[2])
-		M.set_extmark(
+		local text = vim.api.nvim_buf_get_text(
+			0,
 			pos_a[1],
 			pos_a[2],
-			{
-				end_row = pos_b[1],
-				end_col = pos_b[2],
-			}
+			pos_b[1],
+			pos_b[2],
+			{}
 		)
+		local pattern = [[\V\C]] .. table.concat(text, [[\n]])
+		M.add_match(pattern)
 	end
 end
 
-M.ranges_get_extmarks = function(ranges)
-	local extmarks = {}
+M.is_range_contain_pos = function(range, pos)
+	local pos_a = range[1]
+	local pos_b = range[2]
+	local after_pos_a =
+		pos[1] > pos_a[1]
+		or
+		pos[1] == pos_a[1] and pos[2] >= pos_a[2]
+	local before_pos_b =
+		pos[1] < pos_b[1]
+		or
+		pos[1] == pos_b[1] and pos[2] <= pos_b[2]
+	return
+	after_pos_a and before_pos_b
+end
+
+M.is_range_contain_pattern = function(range, pattern)
+	local pos_a = range[1]
+	local pos_b = range[2]
+	local matches = vim.fn.matchbufline(
+		vim.api.nvim_get_current_buf(),
+		pattern,
+		pos_a[1] + 1,
+		pos_b[1] + 1
+	)
+	for _, i in ipairs(matches) do
+		local pos = {
+			i.lnum - 1,
+			i.byteidx,
+		}
+		if M.is_range_contain_pos(range, pos) then
+			return true
+		end
+	end
+	return false
+end
+
+M.is_ranges_contain_pattern = function(ranges, pattern)
 	for _, range in ipairs(ranges) do
-		local pos_a = range[1]
-		local pos_b = range[2]
-		local extmarks_range
-		extmarks_range = vim.api.nvim_buf_get_extmarks(
-			0,
-			M.cache.extmark_ns_id,
-			pos_a,
-			pos_b,
-			{
-				details = true,
-				overlap = true,
-				type = "highlight",
-			}
-		)
-		extmarks_range = vim.tbl_filter(
-		-- we want `exclusive overlap`
-			function(x)
-				local pos_extmark_end = {
-					x[4].end_row,
-					x[4].end_col,
-				}
-				return
-				not vim.deep_equal(pos_extmark_end, pos_a)
-			end,
-			extmarks_range
-		)
-		vim.list_extend(extmarks, extmarks_range)
+		if M.is_range_contain_pattern(range, pattern) then
+			return true
+		end
 	end
-	return extmarks
+	return false
 end
 
-M.del_extmarks = function(extmarks)
-	for _, i in ipairs(extmarks) do
-		vim.api.nvim_buf_del_extmark(
-			0,
-			M.cache.extmark_ns_id,
-			i[1]
-		)
+M.ranges_get_matches = function(ranges)
+	local win = vim.api.nvim_get_current_win()
+
+	return
+	vim.tbl_filter(
+		function(x)
+			return
+			vim.list_contains(vim.tbl_keys(M.cache.match_id), win)
+			and
+			vim.list_contains(M.cache.match_id[win], x.id)
+			and
+			M.is_ranges_contain_pattern(ranges, x.pattern)
+		end,
+		vim.fn.getmatches(win)
+	)
+end
+
+M.del_matches = function(matches)
+	for _, i in ipairs(matches) do
+		vim.fn.matchdelete(i.id)
 	end
 end
 
 M.hl = function(mode)
 	local ranges = M.get_operator_inclusive_ranges(mode)
-	M.ranges_set_extmarks(ranges)
+	M.ranges_set_matches(ranges)
 end
 
 M.hl_not = function(mode)
 	local ranges = M.get_operator_inclusive_ranges(mode)
-	local extmarks = M.ranges_get_extmarks(ranges)
-	M.del_extmarks(extmarks)
+	local matches = M.ranges_get_matches(ranges)
+	M.del_matches(matches)
 end
 
 M.hl_tog = function(mode)
 	local ranges = M.get_operator_inclusive_ranges(mode)
-	local extmarks = M.ranges_get_extmarks(ranges)
-	if next(extmarks) ~= nil then
-		M.del_extmarks(extmarks)
+	local matches = M.ranges_get_matches(ranges)
+	if next(matches) ~= nil then
+		M.del_matches(matches)
 	else
-		M.ranges_set_extmarks(ranges)
+		M.ranges_set_matches(ranges)
 	end
 end
 

@@ -3,7 +3,10 @@ require("hl").setup()
 vim.keymap.set(
 	{"n", "x"},
 	"<leader>x",
-	require("hl").expr,
+	function()
+		vim.o.operatorfunc = [[v:lua.require'hl'.hl_tog]]
+		return "g@"
+	end,
 	{
 		expr = true,
 	}
@@ -15,7 +18,7 @@ require("luaexec").add_mode({
 	name = "hl",
 	chunks = {
 		{
-			code = [[require("hl").del_extmark()]],
+			code = [[]],
 		},
 	},
 })

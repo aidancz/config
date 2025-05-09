@@ -21,9 +21,9 @@ vim.loader.enable()
 require("vim._extui").enable({
 	msg = {
 		pos = "cmd",
-		box = {
-			timeout = 4000,
-		},
+		-- box = {
+		-- 	timeout = 4000,
+		-- },
 	},
 })
 
@@ -152,6 +152,7 @@ require("_conform")
 require("_friendly-snippets")
 require("_fzf-lua")
 require("_hl")
+require("_hls")
 require("_lfsp")
 require("_macro")
 require("_markdown-preview")
