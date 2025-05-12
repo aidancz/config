@@ -63,9 +63,10 @@ local require = function(modname)
 	end)
 end
 
--- # effective before startup
+-- # global variable
 
 require("vim_global_variable")
+require("option")
 
 -- # library
 
@@ -87,7 +88,6 @@ require("_virtcol")
 require("_buvvers")
 require("_nofrils")
 require("_whitespace")
-require("option")
 require("statusline")
 
 -- # autocmd

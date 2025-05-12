@@ -10,10 +10,12 @@ M.config = {
 	},
 	win = {
 		relative = "editor",
+		anchor = "NE",
+		-- border = "bold",
 		row = 0,
-		col = 0,
-		width = vim.o.columns - 2,
-		height = vim.o.lines - vim.o.cmdheight - 2 - 1,
+		col = vim.o.columns,
+		width = math.floor(vim.o.columns / 2),
+		height = vim.o.lines - vim.o.cmdheight - 1 - 2,
 		title = "luaeval",
 	},
 	win_enter = true,
@@ -29,7 +31,6 @@ M.config = {
 M.setup = function(config)
 	M.config = vim.tbl_deep_extend("force", M.config, config or {})
 	M.buf_set_true()
-	-- M.autocmd()
 end
 
 -- # cache
@@ -176,46 +177,15 @@ M.eval = function(opts)
 	vim.fn.histadd("cmd", cmd)
 end
 
--- M.record_origin_win = function()
--- 	M.cache.origin_win_handle = vim.api.nvim_get_current_win()
--- end
-
--- M.retrieve_origin_win = function()
--- 	if not vim.api.nvim_win_is_valid(M.cache.origin_win_handle) then return end
--- 	vim.api.nvim_set_current_win(M.cache.origin_win_handle)
--- end
-
 M.open = function()
-	-- M.record_origin_win()
-	-- M.buf_set_true()
 	M.win_set_true()
 	M.config.hook_open()
 end
 
 M.close = function()
-	-- M.retrieve_origin_win()
-	-- M.buf_set_false()
 	M.win_set_false()
 	M.config.hook_close()
 end
-
--- M.autocmd = function()
--- 	vim.api.nvim_create_augroup("luaexec", {clear = true})
--- 	vim.api.nvim_create_autocmd(
--- 		{
--- 			"WinClosed",
--- 		},
--- 		{
--- 			group = "luaexec",
--- 			callback = function(event)
--- 				local closing_window_handle = tonumber(event.match)
--- 				if closing_window_handle == M.cache.win_handle then
--- 					M.close()
--- 				end
--- 			end,
--- 		}
--- 	)
--- end
 
 M.toggle = function()
 	if M.win_is_valid() then

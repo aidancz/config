@@ -130,6 +130,43 @@ M.get_operator_inclusive_ranges = function(mode)
 	return ranges
 end
 
+-- # nvim_buf_set_text
+-- https://github.com/neovim/neovim/issues/33935
+
+M.nvim_buf_get_text = function(buffer, start_row, start_col, end_row, end_col, opts)
+	local end_pos = {
+		end_row,
+		end_col,
+	}
+	local last_pos = {
+		vim.api.nvim_buf_line_count(buffer),
+		0,
+	}
+	if vim.deep_equal(end_pos, last_pos) then
+		local last_pos_pre = M.pos_exclusive2inclusive(last_pos)
+		local texts = vim.api.nvim_buf_get_text(
+			buffer,
+			start_row,
+			start_col,
+			last_pos_pre[1],
+			last_pos_pre[2],
+			opts
+		)
+		table.insert(texts, "")
+		return texts
+	else
+		local texts = vim.api.nvim_buf_get_text(
+			buffer,
+			start_row,
+			start_col,
+			end_row,
+			end_col,
+			opts
+		)
+		return texts
+	end
+end
+
 -- # hls
 
 M.add_match = function(pattern)
@@ -153,7 +190,8 @@ M.ranges_set_matches = function(ranges)
 	for _, range in ipairs(ranges) do
 		local pos_a = range[1]
 		local pos_b = M.pos_inclusive2exclusive(range[2])
-		local text = vim.api.nvim_buf_get_text(
+		local text
+		text = M.nvim_buf_get_text(
 			0,
 			pos_a[1],
 			pos_a[2],
@@ -161,45 +199,73 @@ M.ranges_set_matches = function(ranges)
 			pos_b[2],
 			{}
 		)
-		local pattern = [[\V\C]] .. table.concat(text, [[\n]])
-		M.add_match(pattern)
+		text = vim.tbl_map(
+			function(x)
+				return
+				vim.fn.escape(x, [[\]])
+			end,
+			text
+		)
+		text = [[\V\C]] .. table.concat(text, [[\n]])
+		M.add_match(text)
 	end
 end
 
-M.is_range_contain_pos = function(range, pos)
-	local pos_a = range[1]
-	local pos_b = range[2]
-	local after_pos_a =
-		pos[1] > pos_a[1]
-		or
-		pos[1] == pos_a[1] and pos[2] >= pos_a[2]
-	local before_pos_b =
-		pos[1] < pos_b[1]
-		or
-		pos[1] == pos_b[1] and pos[2] <= pos_b[2]
-	return
-	after_pos_a and before_pos_b
-end
+-- M.is_range_contain_pos = function(range, pos)
+-- 	local pos_a = range[1]
+-- 	local pos_b = range[2]
+-- 	local after_pos_a =
+-- 		pos[1] > pos_a[1]
+-- 		or
+-- 		pos[1] == pos_a[1] and pos[2] >= pos_a[2]
+-- 	local before_pos_b =
+-- 		pos[1] < pos_b[1]
+-- 		or
+-- 		pos[1] == pos_b[1] and pos[2] <= pos_b[2]
+-- 	return
+-- 	after_pos_a and before_pos_b
+-- end
+
+-- M.is_range_contain_pattern = function(range, pattern)
+-- 	local pos_a = range[1]
+-- 	local pos_b = range[2]
+-- 	local matches = vim.fn.matchbufline(
+-- 		vim.api.nvim_get_current_buf(),
+-- 		pattern,
+-- 		pos_a[1] + 1,
+-- 		pos_b[1] + 1
+-- 	)
+-- 	for _, i in ipairs(matches) do
+-- 		local pos = {
+-- 			i.lnum - 1,
+-- 			i.byteidx,
+-- 		}
+-- 		if M.is_range_contain_pos(range, pos) then
+-- 			return true
+-- 		end
+-- 	end
+-- 	return false
+-- end
 
 M.is_range_contain_pattern = function(range, pattern)
 	local pos_a = range[1]
-	local pos_b = range[2]
-	local matches = vim.fn.matchbufline(
-		vim.api.nvim_get_current_buf(),
-		pattern,
-		pos_a[1] + 1,
-		pos_b[1] + 1
+	local pos_b = M.pos_inclusive2exclusive(range[2])
+	local text
+	text = M.nvim_buf_get_text(
+		0,
+		pos_a[1],
+		pos_a[2],
+		pos_b[1],
+		pos_b[2],
+		{}
 	)
-	for _, i in ipairs(matches) do
-		local pos = {
-			i.lnum - 1,
-			i.byteidx,
-		}
-		if M.is_range_contain_pos(range, pos) then
-			return true
-		end
+	text = table.concat(text, "\n")
+	local match_idx = vim.fn.match(text, pattern)
+	if match_idx == -1 then
+		return false
+	else
+		return true
 	end
-	return false
 end
 
 M.is_ranges_contain_pattern = function(ranges, pattern)
