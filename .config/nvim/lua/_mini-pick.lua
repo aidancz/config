@@ -158,13 +158,26 @@ require("mini.pick").registry.luaexec_exec = function()
 		},
 		source = {
 			items = chunks,
+			-- choose = function(item)
+			-- 	require("luaexec").exec(item.code)
+			-- end,
 			choose = function(item)
-				local cache_eventignore = vim.o.eventignore
-				vim.o.eventignore = "all"
-				vim.schedule(function()
-					vim.o.eventignore = cache_eventignore
-					require("luaexec").exec(item.code)
-				end)
+				vim.keymap.set(
+					{"n", "x", "s", "i", "c", "t", "o"},
+					"<plug>(luaexec_temp_key)",
+					function()
+						require("luaexec").exec(item.code)
+					end
+				)
+				vim.api.nvim_create_autocmd(
+					"BufEnter",
+					{
+						callback = vim.schedule_wrap(function()
+							vim.api.nvim_input("<plug>(luaexec_temp_key)")
+						end),
+						once = true,
+					}
+				)
 			end,
 			preview = function(buf_id, item)
 				local lines = {}
