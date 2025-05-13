@@ -1,4 +1,6 @@
 [Hotkey]
+# Trigger Input Method
+TriggerKeys=
 # Enumerate when press trigger key repeatedly
 EnumerateWithTriggerKeys=False
 # Temporally switch between first and current Input Method
@@ -13,10 +15,6 @@ EnumerateSkipFirst=False
 EnumerateGroupForwardKeys=
 # Enumerate Input Method Group Backward
 EnumerateGroupBackwardKeys=
-# Activate Input Method
-ActivateKeys=
-# Deactivate Input Method
-DeactivateKeys=
 # Default Previous page
 PrevPage=
 # Default Next page
@@ -27,8 +25,13 @@ PrevCandidate=
 NextCandidate=
 # Toggle embedded preedit
 TogglePreedit=
+# Time limit in milliseconds for triggering modifier key shortcuts
+ModifierOnlyKeyTimeout=250
 
-[Hotkey/TriggerKeys]
+[Hotkey/ActivateKeys]
+0=Hangul_Hanja
+
+[Hotkey/DeactivateKeys]
 0=Hangul
 
 [Behavior]

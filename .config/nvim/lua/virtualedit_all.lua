@@ -23,9 +23,9 @@ M.fix_insertleave_cursor_on = function()
 		},
 		{
 			group = "virtualedit_all_insertleave_cursor",
-			callback = function()
+			callback = vim.schedule_wrap(function()
 				vim.cmd("normal! `^")
-			end,
+			end),
 		}
 	)
 end
