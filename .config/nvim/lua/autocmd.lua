@@ -75,6 +75,7 @@ vim.api.nvim_create_autocmd(
 -- # filetype
 
 vim.api.nvim_create_augroup("filetype", {clear = true})
+
 vim.api.nvim_create_autocmd(
 	"FileType",
 	{
@@ -87,6 +88,7 @@ vim.api.nvim_create_autocmd(
 		end,
 	}
 )
+
 vim.api.nvim_create_autocmd(
 	"FileType",
 	{
@@ -97,6 +99,7 @@ vim.api.nvim_create_autocmd(
 		end,
 	}
 )
+
 vim.api.nvim_create_autocmd(
 	"FileType",
 	{
@@ -109,11 +112,27 @@ vim.api.nvim_create_autocmd(
 	}
 )
 
+vim.api.nvim_create_autocmd(
+	"FileType",
+	{
+		group = "filetype",
+		pattern = "query",
+		callback = function()
+			vim.cmd([[setl iskeyword+=+,-,*,/,%,<,=,>,:,$,?,!,@-@,94]])
+		end,
+	}
+)
+-- :autocmd InsertLeave
+-- $VIMRUNTIME/lua/vim/treesitter/dev.lua	local cursor_word = vim.fn.expand('<cword>') --[[@as string]]
+-- $VIMRUNTIME/ftplugin/query.lua		vim.cmd([[runtime! ftplugin/lisp.vim]])
+-- $VIMRUNTIME/ftplugin/lisp.vim		setl iskeyword+=+,-,*,/,%,<,=,>,:,$,?,!,@-@,94
+
 
 
 -- # filename
 
 vim.api.nvim_create_augroup("filename", {clear = true})
+
 vim.api.nvim_create_autocmd(
 	"BufRead",
 	{

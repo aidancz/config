@@ -3,4 +3,5 @@ require("mini.deps").add({
 })
 
 require("guess-indent").setup({
+	auto_cmd = false,
 })
