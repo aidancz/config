@@ -46,10 +46,10 @@ M.exec = function(code_str, histadd)
 	local code_tbl = vim.split(code_str, "\n", {trimempty = true})
 
 	local cmd = M.code2cmd(code_tbl)
-	vim.cmd(cmd)
 	if histadd then
 		vim.fn.histadd("cmd", cmd)
 	end
+	vim.cmd(cmd)
 end
 
 M.chunk_set_key = function(chunk, prefix)

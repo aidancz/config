@@ -173,8 +173,8 @@ M.eval = function(opts)
 	M.wrap(code_tbl, opts.wrap)
 
 	local cmd = M.code2cmd(code_tbl)
-	vim.cmd(cmd)
 	vim.fn.histadd("cmd", cmd)
+	vim.cmd(cmd)
 end
 
 M.open = function()

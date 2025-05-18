@@ -48,7 +48,7 @@ https://stackoverflow.com/questions/8059448/scroll-window-halfway-between-zt-and
 -- vim.keymap.set({"n", "x"}, "<c-y>", function() return 1                                           .. "<c-u>" end, {expr = true})
 vim.keymap.set(
 	"n",
-	";",
+	[[\]],
 	function()
 		vim.cmd("normal! " .. vim.v.count1 .. "i" .. vim.fn.getcharstr())
 	end,
@@ -213,12 +213,12 @@ vim.keymap.set(
 )
 vim.keymap.set("i", "<left>",  "<c-g>U<left>")
 vim.keymap.set("i", "<right>", "<c-g>U<right>")
-vim.keymap.set({"n", "x"}, ",", "r")
+vim.keymap.set({"n", "x"}, "|", "r")
 vim.keymap.set("n", "-", "<c-r>")
-vim.keymap.set("n", "fk", "m")
-vim.keymap.set("n", "<leader>/", "q/")
-vim.keymap.set("n", "<leader>:", "q:")
-vim.keymap.set("n", "<leader>?", "q?")
+vim.keymap.set("n", "gk", "m")
+vim.keymap.set("n", "g/", "q/")
+vim.keymap.set("n", "g:", "q:")
+vim.keymap.set("n", "g?", "q?")
 vim.keymap.set({"i", "c"}, "<c-s-v>", "<c-k>")
 vim.keymap.set({"n", "x", "i"}, "<c-h>", "<cmd>normal zz<plug>(quarter-e)<cr>")
 vim.keymap.set({"n", "x", "i"}, "<c-j>", "<cmd>normal zt<cr>")

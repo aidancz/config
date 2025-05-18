@@ -65,7 +65,7 @@ require("mini.surround").setup({
 
 	},
 	mappings = {
-		add            = "ys",
+		add            = ",s",
 		delete         = "ds",
 		find           = "",
 		find_left      = "",
@@ -83,8 +83,8 @@ require("mini.surround").setup({
 
 
 
-vim.keymap.del("x", "ys")
-vim.keymap.set("x", "S", [[:<C-u>lua MiniSurround.add("visual")<CR>]], {silent = true})
-vim.keymap.set("n", "yss", "ysil", {remap = true})
-vim.keymap.set("n", "yS", "ys$", {remap = true})
+-- vim.keymap.del("x", "ys")
+-- vim.keymap.set("x", "S", [[:<C-u>lua MiniSurround.add("visual")<CR>]], {silent = true})
+vim.keymap.set("n", ",ss", ",s_", {remap = true})
+vim.keymap.set("n", ",S", ",s$", {remap = true})
 -- vim.keymap.set("", "s", "<nop>") -- if using `s` for prefix
