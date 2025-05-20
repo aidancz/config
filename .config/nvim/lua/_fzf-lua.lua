@@ -48,7 +48,7 @@ vim.keymap.set(
 	"fm",
 	function()
 		require("fzf-lua").fzf_exec(
-			require("luaexec").list_names(),
+			require("luaexec").list_mode_names(),
 			{
 				actions = {
 					default = function(selected, opts)

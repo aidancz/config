@@ -12,8 +12,8 @@ require("mini.snippets").setup({
 		-- require("mini.snippets").gen_loader.from_file("~/.config/nvim/snippets/global.json"),
 		require("mini.snippets").gen_loader.from_runtime("global.{json,lua}"),
 		-- function(context)
-		-- 	local chunks = require("luaexec").list_chunks()
-		-- 	for _, i in ipairs(chunks) do
+		-- 	local nodes = require("luaexec").list_nodes()
+		-- 	for _, i in ipairs(nodes) do
 		-- 		i.body = i.code
 		-- 		i.prefix = ""
 		-- 		i.tag = string.format(
@@ -23,8 +23,8 @@ require("mini.snippets").setup({
 		-- 		)
 		-- 		i.desc = i.tag
 		-- 	end
-		-- 	return chunks
-		-- 	-- it is okay to have extra fields, so we modify the `chunks` table
+		-- 	return nodes
+		-- 	-- it is okay to have extra fields, so we modify the `nodes` table
 		-- 	-- of course we can use `vim.tbl_map` instead
 		-- end,
 		require("mini.snippets").gen_loader.from_lang(),
@@ -98,11 +98,8 @@ require("mini.snippets").setup({
 
 -- require("nofrils").clear("^MiniSnippets")
 
-require("luaexec").add_mode({
-	name = "mini.snippets",
-	chunks = {
-		{
-			code =
+require("luaexec").add({
+	code =
 [=[
 -- if vim.api.nvim_get_current_line() ~= "" then
 -- 	local pos = vim.api.nvim_win_get_cursor(0)
@@ -129,7 +126,6 @@ vim.schedule(function()
 	vim.api.nvim_feedkeys(key, "n", false)
 end)
 ]=],
-			gkey = {"n", "fe"},
-		},
-	},
+	from = "mini.snippets",
+	gkey = {"n", "fe"},
 })

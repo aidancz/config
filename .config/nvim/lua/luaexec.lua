@@ -2,7 +2,41 @@ local M = {}
 
 -- # data
 
-M.mode_list = {
+M.mode_registry = {
+--[[
+	mode1 = {
+		node1 = {
+			code = ...,
+			from = "mode1",
+			name = "node1",
+			desc = ...,
+			lkey = ...,
+			gkey = ...,
+		},
+		node2 = {
+			...
+		},
+		...
+		<metatable> = {
+			__index = {
+				name = "mode1",
+			},
+		},
+	},
+	mode2 = {
+		node1 = {
+			...
+		},
+		node2 = {
+			...
+		},
+		...
+		<metatable> = {
+			...
+		},
+	},
+	...
+--]]
 }
 
 M.current_mode = nil
@@ -12,29 +46,44 @@ M.current_mode = nil
 ---@param code_tbl string[]
 ---@return string cmd
 M.code2cmd = function(code_tbl)
-	table.insert(code_tbl, 1, "lua << EOF")
-	table.insert(code_tbl, "EOF")
-
-	local code_str
-	code_str = vim.inspect(code_tbl):gsub("\n", " ")
-
+	local cmd_tbl
+	local cmd_tbl_inspect
 	local cmd
-	cmd = [[lua vim.cmd(table.concat(]] .. code_str .. [[, "\n"))]]
+
+	cmd_tbl = code_tbl
+	table.insert(cmd_tbl, 1, "lua << EOF")
+	table.insert(cmd_tbl, "EOF")
+
+	cmd_tbl_inspect = vim.inspect(cmd_tbl):gsub("\n", " ")
+
+	cmd =
+		[[lua vim.cmd(table.concat(]]
+		..
+		cmd_tbl_inspect
+		..
+		[[, "\n"))]]
+
 	return cmd
 end
 
 ---@param cmd string
 ---@return string[]|nil code_tbl
 M.cmd2code = function(cmd)
+	local cmd_tbl_inspect
+	local cmd_tbl
+	local code_tbl
+
 	if string.sub(cmd, 1, 25) ~= [[lua vim.cmd(table.concat(]] then return end
+	cmd_tbl_inspect = string.sub(cmd, 1+25, -(1+8))
 
-	local code_str = string.sub(cmd, 1+25, -(1+8))
-
-	local f = load("return " .. code_str)
+	local f = load("return " .. cmd_tbl_inspect)
 	if not f then return end
-	local code_tbl = f()
+	cmd_tbl = f()
+
+	code_tbl = cmd_tbl
 	table.remove(code_tbl, 1)
 	table.remove(code_tbl)
+
 	return code_tbl
 end
 
@@ -52,56 +101,65 @@ M.exec = function(code_str, histadd)
 	vim.cmd(cmd)
 end
 
-M.chunk_set_key = function(chunk, prefix)
-	for _, i in pairs(vim.tbl_keys(chunk)) do
-		if type(i) == "string" and string.match(i, "^" .. prefix) then
+M.node_set_key = function(node, prefix)
+	for _, i in pairs(vim.tbl_keys(node)) do
+		if string.match(i, "^" .. prefix) then
 			vim.keymap.set(
-				chunk[i][1],
-				chunk[i][2],
+				node[i][1],
+				node[i][2],
 				function()
-					M.exec(chunk.code, false)
+					M.exec(node.code, false)
 				end,
-				chunk[i][3] or {}
+				node[i][3] or {}
 			)
 		end
 	end
 end
 
 M.mode_set_key = function(mode, prefix)
-	for _, i in ipairs(mode.chunks) do
-		M.chunk_set_key(i, prefix)
+	for _, i in pairs(mode) do
+		M.node_set_key(i, prefix)
 	end
 end
 
-M.add_mode = function(mode)
-	for k, v in pairs(mode) do
-		if vim.is_callable(v) then
-			mode[k] = v()
-		end
-	end
-	for _, i in ipairs(mode.chunks) do
-		i.from = mode.name
-	end
-	M.mode_set_key(mode, "gkey")
+M.add = function(node)
+	-- for k, v in pairs(node) do
+	-- 	if vim.is_callable(v) then
+	-- 		node[k] = v()
+	-- 	end
+	-- end
 
-	local same_name_mode = M.get_mode(mode.name)
-	if same_name_mode == nil then
-		table.insert(M.mode_list, mode)
+	node = vim.tbl_deep_extend(
+		"force",
+		{
+			from = "default",
+		},
+		node
+	)
+
+	M.node_set_key(node, "gkey")
+
+	if M.mode_registry[node.from] == nil then
+		M.mode_registry[node.from] = setmetatable(
+			{
+			},
+			{
+				__index = {
+					name = node.from
+				},
+			}
+		)
+	end
+
+	if node.name == nil then
+		table.insert(M.mode_registry[node.from], node)
 	else
-		vim.list_extend(same_name_mode.chunks, mode.chunks)
+		M.mode_registry[node.from][node.name] = node
 	end
 end
 
-M.get_mode = function(name)
-	for _, i in ipairs(M.mode_list) do
-		if i.name == name then
-			return i
-		end
-	end
-end
-
-M.set_current_mode = function(name)
-	M.current_mode = M.get_mode(name)
+M.set_current_mode = function(mode_name)
+	M.current_mode = M.mode_registry[mode_name]
 	M.mode_set_key(M.current_mode, "lkey")
 	vim.schedule(function()
 		vim.cmd("redrawstatus")
@@ -112,27 +170,23 @@ M.get_current_mode = function()
 	return M.current_mode
 end
 
-M.list_names = function()
-	local names = {}
-	for _, i in ipairs(M.mode_list) do
-		table.insert(names, i.name)
-	end
-	return names
+M.list_mode_names = function()
+	return
+	vim.tbl_keys(M.mode_registry)
 end
 
-M.list_chunks = function()
-	local chunks
-	chunks = vim.deepcopy(M.current_mode.chunks)
+M.list_nodes = function()
+	local nodes
 
-	for _, i in ipairs(M.mode_list) do
-		if i.name == M.current_mode.name then goto continue end
-		for _, j in ipairs(i.chunks) do
-			table.insert(chunks, vim.deepcopy(j))
-		end
+	nodes = vim.deepcopy(vim.tbl_values(M.current_mode))
+
+	for mode_name, mode in pairs(M.mode_registry) do
+		if mode_name == M.current_mode.name then goto continue end
+		vim.list_extend(nodes, vim.tbl_values(mode))
 		::continue::
 	end
 
-	return chunks
+	return nodes
 end
 
 -- # return

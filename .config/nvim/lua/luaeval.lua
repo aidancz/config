@@ -116,34 +116,9 @@ end
 
 -- # function: main
 
----@param code_tbl string[]
----@return string cmd
-M.code2cmd = function(code_tbl)
-	table.insert(code_tbl, 1, "lua << EOF")
-	table.insert(code_tbl, "EOF")
+M.code2cmd = require("luaexec").code2cmd
 
-	local code_str
-	code_str = vim.inspect(code_tbl):gsub("\n", " ")
-
-	local cmd
-	cmd = [[lua vim.cmd(table.concat(]] .. code_str .. [[, "\n"))]]
-	return cmd
-end
-
----@param cmd string
----@return string[]|nil code_tbl
-M.cmd2code = function(cmd)
-	if string.sub(cmd, 1, 25) ~= [[lua vim.cmd(table.concat(]] then return end
-
-	local code_str = string.sub(cmd, 1+25, -(1+8))
-
-	local f = load("return " .. code_str)
-	if not f then return end
-	local code_tbl = f()
-	table.remove(code_tbl, 1)
-	table.remove(code_tbl)
-	return code_tbl
-end
+M.cmd2code = require("luaexec").cmd2code
 
 M.wrap = function(code_tbl, wrap)
 	if wrap == nil then

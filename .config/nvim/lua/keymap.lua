@@ -236,11 +236,8 @@ vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
 
 -- # luaexec
 
-require("luaexec").add_mode({
-	name = "default",
-	chunks = {
-		{
-			code =
+require("luaexec").add({
+	code =
 [[
 vim.cmd("w")
 local filetype = vim.bo.filetype
@@ -253,18 +250,21 @@ else
 	vim.cmd("MarkdownPreview")
 end
 ]],
-			name = "compile",
-		},
-		{
-			code =
+	name = "compile",
+})
+
+---
+
+require("luaexec").add({
+	code =
 [=[
 vim.cmd([[
 let @+ = @"
 let @* = @"
 ]])
 ]=],
-			name = "register_transfer",
-			desc =
+	name = "register_transfer",
+	desc =
 [[
 how shall we yank all lines except for the commented lines?
 	:v/--/y
@@ -280,48 +280,58 @@ this is okay, but since the unnamed register's content get updated together with
 we can simply:
 	:let @+ = @"
 ]],
-		},
-		{
-			code =
+})
+
+---
+
+require("luaexec").add({
+	code =
 [=[
 vim.cmd([[%s/\s\+$//e]])
 ]=],
-			name = "trail_remove",
-			desc =
+	name = "trail_remove",
+	desc =
 [[
 https://vim.fandom.com/wiki/Remove_unwanted_spaces
 ]],
-		},
-		{
-			code =
+})
+
+---
+
+require("luaexec").add({
+	code =
 [[
 vim.opt.binary = true
 vim.opt.fixendofline = false
 vim.opt.endofline = false
 ]],
-			name = "last_eol_remove",
-			desc =
+	name = "last_eol_remove",
+	desc =
 [[
 https://stackoverflow.com/questions/1050640/how-to-stop-vim-from-adding-a-newline-at-end-of-file
 ]],
-		},
-		{
-			code = [[vim.cmd("%!cat -s")]],
-			name = "multiple_blank_lines_deduplicate",
-			desc =
+})
+
+---
+
+require("luaexec").add({
+	code = [[vim.cmd("%!cat -s")]],
+	name = "multiple_blank_lines_deduplicate",
+	desc =
 [[
 https://unix.stackexchange.com/questions/12812/replacing-multiple-blank-lines-with-a-single-blank-line-in-vim-sed
 ]],
-		},
-		{
-			code =
+})
+
+---
+
+require("luaexec").add({
+	code =
 [[
 vim.opt.foldcolumn = "0"
 vim.opt.signcolumn = "no"
 vim.opt.number = false
 vim.opt.relativenumber = false
 ]],
-			name = "zen",
-		},
-	},
+	name = "zen",
 })

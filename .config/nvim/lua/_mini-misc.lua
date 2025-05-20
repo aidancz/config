@@ -7,12 +7,8 @@ require("mini.misc").setup({
 
 -- require("mini.misc").setup_auto_root()
 
-require("luaexec").add_mode({
-	name = "mini.misc",
-	chunks = {
-		{
-			code = [[require("mini.misc").zoom()]],
-			name = "zoom",
-		},
-	},
+require("luaexec").add({
+	code = [[require("mini.misc").zoom()]],
+	from = "mini.misc",
+	name = "zoom",
 })

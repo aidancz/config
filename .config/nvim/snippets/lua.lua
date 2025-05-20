@@ -77,13 +77,13 @@ vim.api.nvim_create_autocmd(
 	{
 		body =
 [=[
-require("luaexec").add_mode({
+require("luaexec").add({
+	code = [[print(os.time())]],
+	from = "default",
 	name = "test",
-	chunks = {
-		{
-			code = [[print(os.time())]],
-		},
-	},
+	desc = "print time number",
+	lkey = {"n", "r"},
+	gkey = {"n", "<c-s-t>"},
 })
 ]=],
 	},

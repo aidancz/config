@@ -74,14 +74,10 @@ require("outline").setup({
 -- require("nofrils").clear("^Outline")
 -- vim.api.nvim_set_hl(0, "OutlineCurrent", {link = "nofrils_red_bg"})
 
-require("luaexec").add_mode({
-	name = "outline",
-	chunks = {
-		{
-			code = [[require("outline").toggle({focus_outline = false})]],
-			name = "window",
-		},
-	},
+require("luaexec").add({
+	code = [[require("outline").toggle({focus_outline = false})]],
+	from = "outline",
+	name = "window",
 })
 
 require("outline").open({focus_outline = false})

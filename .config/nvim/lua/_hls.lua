@@ -13,12 +13,3 @@ vim.keymap.set(
 )
 vim.keymap.set("n", "<leader>ss", "<leader>s_", {remap = true})
 vim.keymap.set("n", "<leader>S", "<leader>s$", {remap = true})
-
-require("luaexec").add_mode({
-	name = "hls",
-	chunks = {
-		{
-			code = [[]],
-		},
-	},
-})

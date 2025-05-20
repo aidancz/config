@@ -70,12 +70,8 @@ require("buvvers").setup({
 
 require("buvvers").open()
 
-require("luaexec").add_mode({
-	name = "buvvers",
-	chunks = {
-		{
-			code = [[require("buvvers").toggle()]],
-			name = "window",
-		},
-	},
+require("luaexec").add({
+	code = [[require("buvvers").toggle()]],
+	from = "buvvers",
+	name = "window",
 })

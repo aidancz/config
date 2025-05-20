@@ -11,30 +11,36 @@ require("luaeval").setup({
 	end,
 })
 
-require("luaexec").add_mode({
-	name = "luaeval",
-	chunks = {
-		{
-			code = [[require("luaeval").toggle()]],
-			name = "window",
-			gkey = {"n", "fi"},
-		},
-		{
-			code = [[require("luaeval").eval()]],
-			lkey = {"n", "r"},
-		},
-		{
-			code = [[require("luaeval").eval({wrap = "vim.print"})]],
-			lkey = {"n", "m"},
-		},
-		{
-			code = [[require("luaeval").eval({wrap = "vim.cmd"})]],
-		},
-		{
-			code = [[require("luaeval").eval({wrap = "vim.cmd.normal"})]],
-		},
-		{
-			code = [[require("luaeval").eval({wrap = "vim.api.nvim_feedkeys"})]],
-		},
-	},
+require("luaexec").add({
+	code = [[require("luaeval").toggle()]],
+	from = "luaeval",
+	name = "window",
+	gkey = {"n", "fi"},
+})
+
+require("luaexec").add({
+	code = [[require("luaeval").eval()]],
+	from = "luaeval",
+	lkey = {"n", "r"},
+})
+
+require("luaexec").add({
+	code = [[require("luaeval").eval({wrap = "vim.print"})]],
+	from = "luaeval",
+	lkey = {"n", "m"},
+})
+
+require("luaexec").add({
+	code = [[require("luaeval").eval({wrap = "vim.cmd"})]],
+	from = "luaeval",
+})
+
+require("luaexec").add({
+	code = [[require("luaeval").eval({wrap = "vim.cmd.normal"})]],
+	from = "luaeval",
+})
+
+require("luaexec").add({
+	code = [[require("luaeval").eval({wrap = "vim.api.nvim_feedkeys"})]],
+	from = "luaeval",
 })

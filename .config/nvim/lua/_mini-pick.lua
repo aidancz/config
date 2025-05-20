@@ -126,10 +126,10 @@ require("mini.pick").registry.registry = function()
 	})
 end
 
-require("mini.pick").registry.luaexec_mod = function()
+require("mini.pick").registry.luaexec_mode = function()
 	require("mini.pick").start({
 		source = {
-			items = require("luaexec").list_names(),
+			items = require("luaexec").list_mode_names(),
 			choose = function(item)
 				require("luaexec").set_current_mode(item)
 			end,
@@ -138,8 +138,8 @@ require("mini.pick").registry.luaexec_mod = function()
 end
 
 require("mini.pick").registry.luaexec_exec = function()
-	local chunks = require("luaexec").list_chunks()
-	for _, i in ipairs(chunks) do
+	local nodes = require("luaexec").list_nodes()
+	for _, i in ipairs(nodes) do
 		i.tag = string.format(
 			"(%s%s)",
 			i.from,
@@ -157,7 +157,7 @@ require("mini.pick").registry.luaexec_exec = function()
 			yank = require("mini.pick").gen_yank(function(item) return item.code end),
 		},
 		source = {
-			items = chunks,
+			items = nodes,
 			-- choose = function(item)
 			-- 	require("luaexec").exec(item.code)
 			-- end,
@@ -300,38 +300,39 @@ vim.api.nvim_set_hl(0, "MiniPickMatchRanges",   {link = "nofrils_blue"})
 vim.api.nvim_set_hl(0, "MiniPickPreviewLine",   {link = "nofrils_white_bg"})
 vim.api.nvim_set_hl(0, "MiniPickPreviewRegion", {link = "nofrils_blue_bg"})
 
-require("luaexec").add_mode({
-	name = "luaexec",
-	chunks = {
-		{
-			code = [[require("mini.pick").registry.luaexec_exec()]],
-			gkey = {{"n", "i", "c", "x", "s", "o", "t", "l"}, "<c-cr>"},
-			gkey_shortcut = {{"n", "x"}, "fj"},
-		},
-		{
-			code = [[require("mini.pick").registry.luaexec_mod()]],
-			gkey = {{"n", "x"}, "fm"},
-		},
-	},
+require("luaexec").add({
+	code = [[require("mini.pick").registry.luaexec_exec()]],
+	from = "luaexec",
+	gkey = {{"n", "i", "c", "x", "s", "o", "t", "l"}, "<c-cr>"},
+	gkey_shortcut = {{"n", "x"}, "fj"},
 })
 
-require("luaexec").add_mode({
-	name = "mini.pick",
-	chunks = {
-		{
-			code = [[require("mini.pick").registry.registry()]],
-			gkey = {"n", "f/"},
-		},
-		{
-			code = [[require("mini.pick").registry.resume()]],
-			gkey = {"n", "f."},
-		},
-		-- {
-		-- 	code = [[require("mini.pick").registry.files()]],
-		-- 	gkey = {"n", "ff"},
-		-- },
-		{
-			code =
+require("luaexec").add({
+	code = [[require("mini.pick").registry.luaexec_mode()]],
+	from = "luaexec",
+	gkey = {{"n", "x"}, "fm"},
+})
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.registry()]],
+	from = "mini.pick",
+	gkey = {"n", "f/"},
+})
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.resume()]],
+	from = "mini.pick",
+	gkey = {"n", "f."},
+})
+
+-- require("luaexec").add({
+-- 	code = [[require("mini.pick").registry.files()]],
+-- 	from = "mini.pick",
+-- 	gkey = {"n", "ff"},
+-- })
+
+require("luaexec").add({
+	code =
 [[
 require("mini.pick").builtin.files(
 	nil,
@@ -342,19 +343,24 @@ require("mini.pick").builtin.files(
 	}
 )
 ]],
-			gkey = {"n", "ff"},
-		},
-		{
-			code = [[require("mini.pick").registry.buffers()]],
-			gkey = {"n", "fl"},
-		},
-		{
-			code = [[require("mini.pick").registry.help()]],
-			gkey = {"n", "fh"},
-		},
-		{
-			code = [[require("mini.pick").registry.luaexec_luaeval_history()]],
-			gkey = {"n", "f<up>"},
-		},
-	},
+	from = "mini.pick",
+	gkey = {"n", "ff"},
+})
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.buffers()]],
+	from = "mini.pick",
+	gkey = {"n", "fl"},
+})
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.help()]],
+	from = "mini.pick",
+	gkey = {"n", "fh"},
+})
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.luaexec_luaeval_history()]],
+	from = "mini.pick",
+	gkey = {"n", "f<up>"},
 })

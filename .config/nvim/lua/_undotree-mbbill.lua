@@ -13,14 +13,10 @@ vim.g.undotree_ShortIndicators = 1
 vim.g.undotree_SetFocusWhenToggle = 1
 vim.g.undotree_CursorLine = 0
 
-require("luaexec").add_mode({
-	name = "undotree",
-	chunks = {
-		{
-			code = [[vim.cmd.UndotreeToggle()]],
-			name = "window",
-		},
-	},
+require("luaexec").add({
+	code = [[vim.cmd.UndotreeToggle()]],
+	from = "undotree",
+	name = "window",
 })
 
 vim.api.nvim_create_augroup("undotree_config", {clear = true})

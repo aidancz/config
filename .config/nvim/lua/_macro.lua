@@ -1,25 +1,5 @@
 require("macro").setup()
 
-require("luaexec").add_mode({
-	name = "macro",
-	chunks = {
-		{
-			code = [[require("macro").record_play()]],
-			lkey = {"n", "r"},
-		},
-		{
-			code = [[require("macro").idx_next()]],
-			lkey = {"n", "m"},
-		},
-		{
-			code = [[require("macro").idx_reg()]],
-		},
-		{
-			code = [[require("macro").record_edit()]],
-		},
-	},
-})
-
 vim.keymap.set(
 	"n",
 	"q",
@@ -33,3 +13,25 @@ vim.keymap.set(
 	end,
 	{expr = true}
 )
+
+require("luaexec").add({
+	code = [[require("macro").record_play()]],
+	from = "macro",
+	lkey = {"n", "r"},
+})
+
+require("luaexec").add({
+	code = [[require("macro").idx_next()]],
+	from = "macro",
+	lkey = {"n", "m"},
+})
+
+require("luaexec").add({
+	code = [[require("macro").idx_reg()]],
+	from = "macro",
+})
+
+require("luaexec").add({
+	code = [[require("macro").record_edit()]],
+	from = "macro",
+})

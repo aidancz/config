@@ -11,22 +11,22 @@ require("yanky").setup({
 
 -- vim.keymap.set({"n", "x"}, "y", "<plug>(YankyYank)")
 
-require("luaexec").add_mode({
-	name = "yanky",
-	chunks = {
-		{
-			code = [[require("yanky").cycle(1)]],
-			name = "prev",
-			gkey = {{"n", "x"}, "<c-up>"},
-		},
-		{
-			code = [[require("yanky").cycle(-1)]],
-			name = "next",
-			gkey = {{"n", "x"}, "<c-down>"},
-		},
-		{
-			code = [[require("yanky.picker").select_in_history()]],
-			name = "history",
-		},
-	},
+require("luaexec").add({
+	code = [[require("yanky").cycle(1)]],
+	from = "yanky",
+	name = "prev",
+	gkey = {{"n", "x"}, "<c-up>"},
+})
+
+require("luaexec").add({
+	code = [[require("yanky").cycle(-1)]],
+	from = "yanky",
+	name = "next",
+	gkey = {{"n", "x"}, "<c-down>"},
+})
+
+require("luaexec").add({
+	code = [[require("yanky.picker").select_in_history()]],
+	from = "yanky",
+	name = "history",
 })

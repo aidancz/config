@@ -45,18 +45,16 @@ vim.api.nvim_set_hl(0, "DiagnosticSignOk",    {link = "nofrils_green"})
 vim.api.nvim_set_hl(0, "DiagnosticDeprecated",  {link = "nofrils_yellow"})
 vim.api.nvim_set_hl(0, "DiagnosticUnnecessary", {link = "nofrils_yellow"})
 
-require("luaexec").add_mode({
-	name = "diagnostic",
-	chunks = {
-		{
-			code = [[vim.diagnostic.jump({count = -1, float = true})]],
-			name = "prev",
-			lkey = {"n", "r"},
-		},
-		{
-			code = [[vim.diagnostic.jump({count = 1, float = true})]],
-			name = "next",
-			lkey = {"n", "m"},
-		},
-	},
+require("luaexec").add({
+	code = [[vim.diagnostic.jump({count = -1, float = true})]],
+	from = "diagnostic",
+	name = "prev",
+	lkey = {"n", "r"},
+})
+
+require("luaexec").add({
+	code = [[vim.diagnostic.jump({count = 1, float = true})]],
+	from = "diagnostic",
+	name = "next",
+	lkey = {"n", "m"},
 })

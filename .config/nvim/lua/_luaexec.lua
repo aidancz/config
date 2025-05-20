@@ -1,39 +1,35 @@
 -- # example
 
-require("luaexec").add_mode({
-	name = "example",
-	chunks = {
-		{
-			code = [[vim.notify(vim.system({"date", "--iso-8601=ns"}):wait().stdout)]],
-			from = "example",
-			name = "print_time",
-			desc = "shows a nanosecond-precision timestamp in a neovim notification",
-			lkey = {"n", "r"},
-			gkey = {"n", "<c-s-t>"},
-		},
-		{
-			code = [[vim.notify(tostring(vim.v.count))]],
-			lkey = {"n", "m"},
-		},
-	},
+require("luaexec").add({
+	code = [[vim.notify(vim.system({"date", "--iso-8601=ns"}):wait().stdout)]],
+	from = "example",
+	name = "print_time",
+	desc = "shows a nanosecond-precision timestamp in a neovim notification",
+	lkey = {"n", "r"},
+	gkey = {"n", "<c-s-t>"},
 })
+
 --[[
 chunk.code: required
-chunk.from: not required, add automatically
+chunk.from: optional
 chunk.name: optional
 chunk.desc: optional
 chunk.lkey: optional, means local key, {code = ..., lkey = ..., lkey_another = ...} is okay, as long as the prefix is "lkey"
 chunk.gkey: optional, means global key, {code = ..., gkey = ..., gkey_another = ...} is okay, as long as the prefix is "gkey"
 --]]
+
+require("luaexec").add({
+	code = [[vim.notify(tostring(vim.v.count))]],
+	from = "example",
+	lkey = {"n", "m"},
+})
+
 require("luaexec").set_current_mode("example")
 
 -- # buffer
 
-require("luaexec").add_mode({
-	name = "buffer",
-	chunks = {
-		{
-			code =
+require("luaexec").add({
+	code =
 [[
 local count = vim.v.count
 if count == 0 then count = 1 end
@@ -61,11 +57,13 @@ for i = 1, count do
 end
 vim.api.nvim_set_current_buf(buf)
 ]],
-			name = "prev",
-			lkey = {"n", "r"},
-		},
-		{
-			code =
+	from = "buffer",
+	name = "prev",
+	lkey = {"n", "r"},
+})
+
+require("luaexec").add({
+	code =
 [[
 local count = vim.v.count
 if count == 0 then count = 1 end
@@ -93,53 +91,48 @@ for i = 1, count do
 end
 vim.api.nvim_set_current_buf(buf)
 ]],
-			name = "next",
-			lkey = {"n", "m"},
-		},
-	},
+	from = "buffer",
+	name = "next",
+	lkey = {"n", "m"},
 })
 
 -- # window
 
-require("luaexec").add_mode({
-	name = "window",
-	chunks = {
-		{
-			code =
+require("luaexec").add({
+	code =
 [[
 local count = vim.v.count
 if count == 0 then count = "" end
 vim.cmd(count .. "wincmd W")
 ]],
-			name = "prev",
-			lkey = {"n", "r"},
-		},
-		{
-			code =
+	from = "window",
+	name = "prev",
+	lkey = {"n", "r"},
+})
+
+require("luaexec").add({
+	code =
 [[
 local count = vim.v.count
 if count == 0 then count = "" end
 vim.cmd(count .. "wincmd w")
 ]],
-			name = "next",
-			lkey = {"n", "m"},
-		},
-	},
+	from = "window",
+	name = "next",
+	lkey = {"n", "m"},
 })
 
 -- # luaexec
 -- yes, luaexec itself can be a mode
 
-require("luaexec").add_mode({
-	name = "luaexec",
-	chunks = {
-		{
-			code = [[require("luaexec").set_current_mode("buffer")]],
-			gkey = {"n", "fs"},
-		},
-		{
-			code = [[require("luaexec").set_current_mode("window")]],
-			gkey = {"n", "fw"},
-		},
-	},
+require("luaexec").add({
+	code = [[require("luaexec").set_current_mode("buffer")]],
+	from = "luaexec",
+	gkey = {"n", "fs"},
+})
+
+require("luaexec").add({
+	code = [[require("luaexec").set_current_mode("window")]],
+	from = "luaexec",
+	gkey = {"n", "fw"},
 })
