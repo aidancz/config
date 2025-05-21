@@ -2,7 +2,7 @@ local M = {}
 
 M.cache = {
 	original_virtualedit = nil,
-	fix_modechanged_cursor_pos = {
+	modechanged_cursor_pos = {
 		lnum = 1,
 		virtcol = 1,
 	},
@@ -13,9 +13,9 @@ M.setup = function()
 	M.on()
 end
 
--- # fix_insertleave_cursor
+-- # insertleave_cursor
 
-M.fix_insertleave_cursor_on = function()
+M.insertleave_cursor_on = function()
 	vim.api.nvim_create_augroup("virtualedit_all_insertleave_cursor", {clear = true})
 	vim.api.nvim_create_autocmd(
 		{
@@ -30,11 +30,11 @@ M.fix_insertleave_cursor_on = function()
 	)
 end
 
-M.fix_insertleave_cursor_off = function()
+M.insertleave_cursor_off = function()
 	vim.api.nvim_del_augroup_by_name("virtualedit_all_insertleave_cursor")
 end
 
-M.fix_insertleave_cursor_is_on = function()
+M.insertleave_cursor_is_on = function()
 	return
 	pcall(
 		function()
@@ -43,29 +43,29 @@ M.fix_insertleave_cursor_is_on = function()
 	)
 end
 
-M.fix_insertleave_cursor_tog = function()
+M.insertleave_cursor_tog = function()
 	if
-		M.fix_insertleave_cursor_is_on()
+		M.insertleave_cursor_is_on()
 	then
-		M.fix_insertleave_cursor_off()
+		M.insertleave_cursor_off()
 	else
-		M.fix_insertleave_cursor_on()
+		M.insertleave_cursor_on()
 	end
 end
 
--- # fix_modechanged
+-- # modechanged
 
-M.fix_modechanged_cursor_record = function()
-	M.cache.modechanged_pos_cursor = require("virtcol").get_cursor()
+M.modechanged_cursor_record = function()
+	M.cache.modechanged_cursor_pos = require("virtcol").get_cursor()
 end
 
-M.fix_modechanged_cursor_restore = function()
+M.modechanged_cursor_restore = function()
 	vim.cmd([[normal! m']])
 	-- https://stackoverflow.com/questions/27193867/vim-how-can-i-put-my-current-position-in-jumplist
-	require("virtcol").set_cursor(M.cache.modechanged_pos_cursor)
+	require("virtcol").set_cursor(M.cache.modechanged_cursor_pos)
 end
 
-M.fix_modechanged_on = function()
+M.modechanged_on = function()
 -- `vim.o.virtualedit = "all"` is not apropriate for other mode than normal mode
 	vim.api.nvim_create_augroup("virtualedit_all_modechanged", {clear = true})
 	vim.api.nvim_create_autocmd(
@@ -76,7 +76,7 @@ M.fix_modechanged_on = function()
 			group = "virtualedit_all_modechanged",
 			pattern = "n:*",
 			callback = function()
-				M.fix_modechanged_cursor_record()
+				M.modechanged_cursor_record()
 				vim.o.virtualedit = "onemore"
 			end,
 		}
@@ -107,11 +107,11 @@ M.fix_modechanged_on = function()
 	)
 end
 
-M.fix_modechanged_off = function()
+M.modechanged_off = function()
 	vim.api.nvim_del_augroup_by_name("virtualedit_all_modechanged")
 end
 
-M.fix_modechanged_is_on = function()
+M.modechanged_is_on = function()
 	return
 	pcall(
 		function()
@@ -120,19 +120,19 @@ M.fix_modechanged_is_on = function()
 	)
 end
 
-M.fix_modechanged_tog = function()
+M.modechanged_tog = function()
 	if
-		M.fix_modechanged_is_on()
+		M.modechanged_is_on()
 	then
-		M.fix_modechanged_off()
+		M.modechanged_off()
 	else
-		M.fix_modechanged_on()
+		M.modechanged_on()
 	end
 end
 
--- # fix_paste
+-- # paste
 
-M.fix_paste_on = function()
+M.paste_on = function()
 	local map = function(mode, lhs, paste_key)
 		vim.keymap.set(
 			mode,
@@ -155,7 +155,7 @@ M.fix_paste_on = function()
 	map({"n", "x"}, "gP", "<Plug>(YankyGPutBefore)")
 end
 
-M.fix_paste_off = function()
+M.paste_off = function()
 	vim.api.nvim_del_keymap("n", "p")
 	vim.api.nvim_del_keymap("n", "P")
 	vim.api.nvim_del_keymap("n", "gp")
@@ -166,19 +166,19 @@ M.fix_paste_off = function()
 	vim.api.nvim_del_keymap("x", "gP")
 end
 
-M.fix_paste_is_on = function()
+M.paste_is_on = function()
 	local output = vim.api.nvim_exec2("nmap p", {output = true}).output
 	local start = string.find(output, "No mapping found")
 	return start == nil
 end
 
-M.fix_paste_tog = function()
+M.paste_tog = function()
 	if
-		M.fix_paste_is_on()
+		M.paste_is_on()
 	then
-		M.fix_paste_off()
+		M.paste_off()
 	else
-		M.fix_paste_on()
+		M.paste_on()
 	end
 end
 
@@ -186,25 +186,25 @@ end
 
 M.on = function()
 	vim.o.virtualedit = "all"
-	require("virtualedit_all").fix_insertleave_cursor_on()
-	require("virtualedit_all").fix_modechanged_on()
-	require("virtualedit_all").fix_paste_on()
+	require("virtualedit_all").insertleave_cursor_on()
+	require("virtualedit_all").modechanged_on()
+	require("virtualedit_all").paste_on()
 end
 
 M.off = function()
-	require("virtualedit_all").fix_insertleave_cursor_off()
-	require("virtualedit_all").fix_modechanged_off()
-	require("virtualedit_all").fix_paste_off()
+	require("virtualedit_all").insertleave_cursor_off()
+	require("virtualedit_all").modechanged_off()
+	require("virtualedit_all").paste_off()
 	vim.o.virtualedit = M.cache.original_virtualedit
 end
 
 M.is_on = function()
 	return
-	M.fix_insertleave_cursor_is_on()
+	M.insertleave_cursor_is_on()
 	and
-	M.fix_modechanged_is_on()
+	M.modechanged_is_on()
 	and
-	M.fix_paste_is_on()
+	M.paste_is_on()
 end
 
 M.tog = function()

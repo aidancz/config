@@ -6,22 +6,22 @@ require("luaexec").add({
 })
 
 require("luaexec").add({
-	code = [[require("virtualedit_all").fix_insertleave_cursor_tog()]],
+	code = [[require("virtualedit_all").insertleave_cursor_tog()]],
 	from = "virtualedit_all",
 })
 
 require("luaexec").add({
-	code = [[require("virtualedit_all").fix_modechanged_tog()]],
+	code = [[require("virtualedit_all").modechanged_tog()]],
 	from = "virtualedit_all",
 })
 
 require("luaexec").add({
-	code = [[require("virtualedit_all").fix_modechanged_cursor_restore()]],
+	code = [[require("virtualedit_all").modechanged_cursor_restore()]],
 	from = "virtualedit_all",
-	gkey = {"n", "fo"},
+	gkey = {"n", "go"},
 })
 
 require("luaexec").add({
-	code = [[require("virtualedit_all").fix_paste_tog()]],
+	code = [[require("virtualedit_all").paste_tog()]],
 	from = "virtualedit_all",
 })

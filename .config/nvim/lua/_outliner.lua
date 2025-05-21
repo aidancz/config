@@ -1,9 +1,19 @@
 require("mini.pick").registry.outliner = function()
 	local headings = require("outliner").list_headings()
+	local indent_default = string.rep("\t", 0)
 	for _, i in ipairs(headings) do
+		local indent_level = string.match(i.name, "^h(%d)$")
+		if indent_level == nil then
+			indent         = indent_default
+			indent_default = indent_default
+		else
+			indent         = string.rep("\t", indent_level - 1)
+			indent_default = string.rep("\t", indent_level)
+		end
 		i.text = string.format(
-			"@%-16s %s",
+			"@%-16s %s%s",
 			i.name,
+			indent,
 			i.node_text
 		)
 		i.buf = i.buf
@@ -24,5 +34,5 @@ end
 require("luaexec").add({
 	code = [[require("mini.pick").registry.outliner()]],
 	from = "mini.pick",
-	gkey = {"n", "fk"},
+	gkey = {"n", "fo"},
 })

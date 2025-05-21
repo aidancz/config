@@ -20,11 +20,23 @@ M.query_registry.vimdoc = vim.treesitter.query.parse(
 ]]
 )
 
+M.query_registry.markdown = vim.treesitter.query.parse(
+	"markdown",
+[[
+(atx_heading (atx_h1_marker) heading_content: (_) @h1)
+(atx_heading (atx_h2_marker) heading_content: (_) @h2)
+(atx_heading (atx_h3_marker) heading_content: (_) @h3)
+(atx_heading (atx_h4_marker) heading_content: (_) @h4)
+(atx_heading (atx_h5_marker) heading_content: (_) @h5)
+(atx_heading (atx_h6_marker) heading_content: (_) @h6)
+]]
+)
+
 M.query_registry.lua = vim.treesitter.query.parse(
 	"lua",
 [[
-(chunk (comment) @comment)
-(chunk (assignment_statement) @assign)
+(chunk (comment) @h1 (#match? @h1 "^-- #"))
+(chunk (assignment_statement (variable_list) @variable))
 ]]
 )
 

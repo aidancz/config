@@ -113,18 +113,18 @@ require("mini.pick").setup({
 
 vim.ui.select = require("mini.pick").ui_select
 
-require("mini.pick").registry.registry = function()
-	local items = vim.tbl_keys(require("mini.pick").registry)
-	table.sort(items)
-	require("mini.pick").start({
-		source = {
-			items = items,
-			choose = function(item)
-				require("mini.pick").registry[item]()
-			end,
-		},
-	})
-end
+-- require("mini.pick").registry.registry = function()
+-- 	local items = vim.tbl_keys(require("mini.pick").registry)
+-- 	table.sort(items)
+-- 	require("mini.pick").start({
+-- 		source = {
+-- 			items = items,
+-- 			choose = function(item)
+-- 				require("mini.pick").registry[item]()
+-- 			end,
+-- 		},
+-- 	})
+-- end
 
 require("mini.pick").registry.luaexec_mode = function()
 	require("mini.pick").start({
@@ -313,16 +313,16 @@ require("luaexec").add({
 	gkey = {{"n", "x"}, "fm"},
 })
 
-require("luaexec").add({
-	code = [[require("mini.pick").registry.registry()]],
-	from = "mini.pick",
-	gkey = {"n", "f/"},
-})
+-- require("luaexec").add({
+-- 	code = [[require("mini.pick").registry.registry()]],
+-- 	from = "mini.pick",
+-- 	gkey = {"n", "f/"},
+-- })
 
 require("luaexec").add({
 	code = [[require("mini.pick").registry.resume()]],
 	from = "mini.pick",
-	gkey = {"n", "f."},
+	gkey = {"n", "fk"},
 })
 
 -- require("luaexec").add({
