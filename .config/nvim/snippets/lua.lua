@@ -5,13 +5,33 @@ local contents =
 		body =
 [[
 local timer = vim.uv.new_timer()
-timer:start(
-	0,
-	10,
-	vim.schedule_wrap(function()
-		print(os.time())
-	end)
+local running = false
+
+local start = function()
+	timer:start(
+		0,
+		100,
+		vim.schedule_wrap(function()
+			print(os.time())
+		end)
+	)
+	running = true
+end
+local stop = function()
+	timer:stop()
+	running = false
+end
+local toggle = function()
+	if running then stop() else start() end
+end
+
+vim.keymap.set(
+	{"n", "x", "s", "i", "c", "t", "o"},
+	"<del>",
+	toggle
 )
+
+start()
 ]],
 	},
 ----------------------------------------------------------------

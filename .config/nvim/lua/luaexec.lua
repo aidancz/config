@@ -74,7 +74,8 @@ M.cmd2code = function(cmd)
 	local code_tbl
 
 	if string.sub(cmd, 1, 25) ~= [[lua vim.cmd(table.concat(]] then return end
-	cmd_tbl_inspect = string.sub(cmd, 1+25, -(1+8))
+	if string.sub(cmd, -8, -1) ~= [[, "\n"))]] then return end
+	cmd_tbl_inspect = string.sub(cmd, 25+1, -(8+1))
 
 	local f = load("return " .. cmd_tbl_inspect)
 	if not f then return end

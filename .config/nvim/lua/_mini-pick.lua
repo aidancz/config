@@ -113,18 +113,72 @@ require("mini.pick").setup({
 
 vim.ui.select = require("mini.pick").ui_select
 
--- require("mini.pick").registry.registry = function()
--- 	local items = vim.tbl_keys(require("mini.pick").registry)
--- 	table.sort(items)
--- 	require("mini.pick").start({
--- 		source = {
--- 			items = items,
--- 			choose = function(item)
--- 				require("mini.pick").registry[item]()
--- 			end,
--- 		},
--- 	})
--- end
+require("mini.pick").registry.registry = function()
+	local items = vim.tbl_keys(require("mini.pick").registry)
+	table.sort(items)
+	require("mini.pick").start({
+		source = {
+			items = items,
+			choose = function(item)
+				require("mini.pick").registry[item]()
+			end,
+		},
+	})
+end
+
+---@param local_opts {
+---	histname: ":"|"/"|"?", -- `:h hist-names`
+---}
+require("mini.pick").registry.history = function(local_opts)
+	local history = {}
+	for i = vim.fn.histnr(local_opts.histname), 1, -1 do
+		local entry = vim.fn.histget(local_opts.histname, i)
+		if entry ~= "" then
+			table.insert(
+				history,
+				{
+					histnr = i,
+					histname = local_opts.histname,
+					entry = entry,
+				}
+			)
+		end
+	end
+	for _, i in ipairs(history) do
+		i.text = string.format(
+			"%8s %s%s",
+			i.histnr,
+			i.histname,
+			i.entry
+		)
+	end
+
+	require("mini.pick").start({
+		mappings = {
+			yank = require("mini.pick").gen_yank(function(item) return item.entry end),
+		},
+		options = {
+			content_from_bottom = true,
+		},
+		source = {
+			items = history,
+			choose = function(item)
+				vim.schedule(function()
+					vim.api.nvim_feedkeys(item.histname .. item.entry .. "\n", "nxt", true)
+				end)
+			end,
+			preview = function(buf_id, item)
+				local lines = {}
+
+				vim.list_extend(lines, {tostring(item.histnr)})
+				vim.list_extend(lines, {"■"})
+				vim.list_extend(lines, {item.histname .. item.entry})
+
+				vim.api.nvim_buf_set_lines(buf_id, 0, -1, true, lines)
+			end,
+		},
+	})
+end
 
 require("mini.pick").registry.luaexec_mode = function()
 	require("mini.pick").start({
@@ -301,23 +355,9 @@ vim.api.nvim_set_hl(0, "MiniPickPreviewLine",   {link = "nofrils_white_bg"})
 vim.api.nvim_set_hl(0, "MiniPickPreviewRegion", {link = "nofrils_blue_bg"})
 
 require("luaexec").add({
-	code = [[require("mini.pick").registry.luaexec_exec()]],
-	from = "luaexec",
-	gkey = {{"n", "i", "c", "x", "s", "o", "t", "l"}, "<c-cr>"},
-	gkey_shortcut = {{"n", "x"}, "fj"},
+	code = [[require("mini.pick").registry.registry()]],
+	from = "mini.pick",
 })
-
-require("luaexec").add({
-	code = [[require("mini.pick").registry.luaexec_mode()]],
-	from = "luaexec",
-	gkey = {{"n", "x"}, "fm"},
-})
-
--- require("luaexec").add({
--- 	code = [[require("mini.pick").registry.registry()]],
--- 	from = "mini.pick",
--- 	gkey = {"n", "f/"},
--- })
 
 require("luaexec").add({
 	code = [[require("mini.pick").registry.resume()]],
@@ -357,6 +397,39 @@ require("luaexec").add({
 	code = [[require("mini.pick").registry.help()]],
 	from = "mini.pick",
 	gkey = {"n", "fh"},
+})
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.history({histname = ":"})]],
+	from = "mini.pick",
+	gkey = {"n", "f:"},
+})
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.history({histname = "/"})]],
+	from = "mini.pick",
+	gkey = {"n", "f/"},
+})
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.history({histname = "?"})]],
+	from = "mini.pick",
+	gkey = {"n", "f?"},
+})
+
+-- # luaexec
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.luaexec_exec()]],
+	from = "luaexec",
+	gkey = {{"n", "i", "c", "x", "s", "o", "t", "l"}, "<c-cr>"},
+	gkey_shortcut = {{"n", "x"}, "fj"},
+})
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.luaexec_mode()]],
+	from = "luaexec",
+	gkey = {{"n", "x"}, "fm"},
 })
 
 require("luaexec").add({
