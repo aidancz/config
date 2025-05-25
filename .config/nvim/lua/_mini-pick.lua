@@ -62,7 +62,7 @@ require("mini.pick").setup({
 				local state = require("mini.pick").get_picker_state()
 				local query = require("mini.pick").get_picker_query()
 
-				vim.print(opts.source.choose_marked)
+				vim.print(matches)
 			end,
 		},
 		pick_actions = {
@@ -357,6 +357,7 @@ vim.api.nvim_set_hl(0, "MiniPickPreviewRegion", {link = "nofrils_blue_bg"})
 require("luaexec").add({
 	code = [[require("mini.pick").registry.registry()]],
 	from = "mini.pick",
+	gkey = {"n", "f<space>"},
 })
 
 require("luaexec").add({

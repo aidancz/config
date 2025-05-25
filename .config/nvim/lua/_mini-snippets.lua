@@ -84,6 +84,7 @@ require("mini.snippets").setup({
 			})
 		end,
 		insert = function(snippet)
+		-- https://github.com/echasnovski/mini.nvim/issues/1730
 			return
 			require("mini.snippets").default_insert(
 				snippet,

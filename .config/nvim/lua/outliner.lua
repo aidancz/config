@@ -61,10 +61,9 @@ end
 
 -- # main
 
-M.list_headings = function()
+M.buf_list_headings = function(buf)
 	local headings = {}
 
-	local buf = vim.api.nvim_get_current_buf()
 	local query = M.buf_get_query(buf)
 	local tree = M.buf_get_tree(buf)
 
@@ -87,6 +86,26 @@ M.list_headings = function()
 	end
 
 	return headings
+end
+
+-- M.buf_get_cursor = function(buf)
+-- 	for _, win in ipairs(vim.api.nvim_list_wins()) do
+-- 		if vim.api.nvim_win_get_buf(win) == buf then
+-- 			return vim.api.nvim_win_get_cursor(win)
+-- 		end
+-- 	end
+-- 	return vim.api.nvim_buf_get_mark(buf, [["]])
+-- end
+
+M.pos_get_heading_idx = function(headings, pos)
+	if #headings == 0 then
+		return nil
+	elseif headings[#headings].row1 <= pos[1] then
+		return #headings
+	else
+		table.remove(headings)
+		return M.pos_get_heading_idx(headings, pos)
+	end
 end
 
 return M
