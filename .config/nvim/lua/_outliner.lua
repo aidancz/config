@@ -65,7 +65,7 @@ require("mini.pick").registry.outliner = function()
 				char = "<c-r>",
 				func = restore,
 			},
-			sync = {
+			set = {
 				char = "<c-s>",
 				func = function()
 					local matches = require("mini.pick").get_picker_matches()

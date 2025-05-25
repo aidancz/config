@@ -2,6 +2,8 @@ config repo
 
 # install
 
+`git clone --recurse-submodules https://github.com/aidancz/config.git`
+
 shell scripts are placed in .local/bin
 run `.local/bin/set-symbolic-link` to set symbolic link
 
