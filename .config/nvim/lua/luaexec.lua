@@ -2,16 +2,15 @@ local M = {}
 
 -- # data
 
-M.mode_registry = {
+M.registry = {
 --[[
-	mode1 = {
+	group1 = {
 		node1 = {
 			code = ...,
-			from = "mode1",
+			from = "group1",
 			name = "node1",
 			desc = ...,
-			lkey = ...,
-			gkey = ...,
+			keys = ...,
 		},
 		node2 = {
 			...
@@ -19,11 +18,11 @@ M.mode_registry = {
 		...
 		<metatable> = {
 			__index = {
-				name = "mode1",
+				name = "group1",
 			},
 		},
 	},
-	mode2 = {
+	group2 = {
 		node1 = {
 			...
 		},
@@ -38,8 +37,6 @@ M.mode_registry = {
 	...
 --]]
 }
-
-M.current_mode = nil
 
 -- # function
 
@@ -102,24 +99,37 @@ M.exec = function(code_str, histadd)
 	vim.cmd(cmd)
 end
 
-M.node_set_key = function(node, prefix)
-	for _, i in pairs(vim.tbl_keys(node)) do
-		if string.match(i, "^" .. prefix) then
-			vim.keymap.set(
-				node[i][1],
-				node[i][2],
-				function()
-					M.exec(node.code, false)
-				end,
-				node[i][3] or {}
-			)
+M.is_list_of_list = function(tbl)
+	if not vim.islist(tbl) then
+		return false
+	end
+	for _, i in ipairs(tbl) do
+		if not vim.islist(i) then
+			return false
 		end
 	end
+	return true
 end
 
-M.mode_set_key = function(mode, prefix)
-	for _, i in pairs(mode) do
-		M.node_set_key(i, prefix)
+M.node_set_keys = function(node)
+	if node.keys == nil then return end
+
+	local keys
+	if M.is_list_of_list(node.keys) then
+		keys = node.keys
+	else
+		keys = {node.keys}
+	end
+
+	for _, i in ipairs(keys) do
+		vim.keymap.set(
+			i[1],
+			i[2],
+			function()
+				M.exec(node.code, false)
+			end,
+			i[3] or {}
+		)
 	end
 end
 
@@ -138,10 +148,10 @@ M.add = function(node)
 		node
 	)
 
-	M.node_set_key(node, "gkey")
+	M.node_set_keys(node)
 
-	if M.mode_registry[node.from] == nil then
-		M.mode_registry[node.from] = setmetatable(
+	if M.registry[node.from] == nil then
+		M.registry[node.from] = setmetatable(
 			{
 			},
 			{
@@ -153,40 +163,17 @@ M.add = function(node)
 	end
 
 	if node.name == nil then
-		table.insert(M.mode_registry[node.from], node)
+		table.insert(M.registry[node.from], node)
 	else
-		M.mode_registry[node.from][node.name] = node
+		M.registry[node.from][node.name] = node
 	end
-end
-
-M.set_current_mode = function(mode_name)
-	M.current_mode = M.mode_registry[mode_name]
-	M.mode_set_key(M.current_mode, "lkey")
-	vim.schedule(function()
-		vim.cmd("redrawstatus")
-	end)
-end
-
-M.get_current_mode = function()
-	return M.current_mode
-end
-
-M.list_mode_names = function()
-	return
-	vim.tbl_keys(M.mode_registry)
 end
 
 M.list_nodes = function()
-	local nodes
-
-	nodes = vim.deepcopy(vim.tbl_values(M.current_mode))
-
-	for mode_name, mode in pairs(M.mode_registry) do
-		if mode_name == M.current_mode.name then goto continue end
-		vim.list_extend(nodes, vim.tbl_values(mode))
-		::continue::
+	local nodes = {}
+	for group_name, group in pairs(M.registry) do
+		vim.list_extend(nodes, vim.tbl_values(group))
 	end
-
 	return nodes
 end
 

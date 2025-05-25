@@ -33,8 +33,6 @@ M.str_active = function()
 			"%=",
 			M.macro(),
 			" ",
-			M.luaexec(),
-			" ",
 			M.mode(),
 			" ",
 			M.col(),
@@ -297,37 +295,6 @@ M.macro = function()
 		{
 			-- justify = "left",
 			minwid = (2 + #lis),
-		}
-	)
-
-	return component
-end
-
--- # luaexec
-
-M.luaexec = function()
-	local component
-
-	local m = package.loaded["luaexec"]
-	if not m then
-		component = ""
-		return component
-	end
-
-	component = table.concat(
-		{
-			"(",
-			m.get_current_mode().name,
-			")",
-		},
-		""
-	)
-	component = H.format(
-		component,
-		{
-			-- justify = "left",
-			-- minwid = (2 + 8),
-			-- maxwid = (2 + 8),
 		}
 	)
 

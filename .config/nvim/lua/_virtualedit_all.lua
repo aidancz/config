@@ -18,7 +18,7 @@ require("luaexec").add({
 require("luaexec").add({
 	code = [[require("virtualedit_all").modechanged_cursor_restore()]],
 	from = "virtualedit_all",
-	gkey = {"n", "go"},
+	keys = {"n", "go"},
 })
 
 require("luaexec").add({

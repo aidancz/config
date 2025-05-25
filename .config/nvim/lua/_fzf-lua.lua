@@ -43,19 +43,19 @@ vim.keymap.set("n", "ff", require("fzf-lua").files)
 vim.keymap.set("n", "fn", require("fzf-lua").buffers)
 vim.keymap.set("n", "fh", require("fzf-lua").helptags)
 
-vim.keymap.set(
-	"n",
-	"fm",
-	function()
-		require("fzf-lua").fzf_exec(
-			require("luaexec").list_mode_names(),
-			{
-				actions = {
-					default = function(selected, opts)
-						require("luaexec").set_current_mode(selected[1])
-					end,
-				},
-			}
-		)
-	end
-)
+-- vim.keymap.set(
+-- 	"n",
+-- 	"fm",
+-- 	function()
+-- 		require("fzf-lua").fzf_exec(
+-- 			require("luaexec").list_mode_names(),
+-- 			{
+-- 				actions = {
+-- 					default = function(selected, opts)
+-- 						require("luaexec").set_current_mode(selected[1])
+-- 					end,
+-- 				},
+-- 			}
+-- 		)
+-- 	end
+-- )

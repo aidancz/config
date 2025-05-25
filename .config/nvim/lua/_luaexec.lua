@@ -5,8 +5,7 @@ require("luaexec").add({
 	from = "example",
 	name = "print_time",
 	desc = "shows a nanosecond-precision timestamp in a neovim notification",
-	lkey = {"n", "r"},
-	gkey = {"n", "<c-s-t>"},
+	keys = {"n", "<c-s-t>"},
 })
 
 --[[
@@ -14,17 +13,13 @@ chunk.code: required
 chunk.from: optional
 chunk.name: optional
 chunk.desc: optional
-chunk.lkey: optional, means local key, {code = ..., lkey = ..., lkey_another = ...} is okay, as long as the prefix is "lkey"
-chunk.gkey: optional, means global key, {code = ..., gkey = ..., gkey_another = ...} is okay, as long as the prefix is "gkey"
+chunk.keys: optional
 --]]
 
 require("luaexec").add({
 	code = [[vim.notify(tostring(vim.v.count))]],
 	from = "example",
-	lkey = {"n", "m"},
 })
-
-require("luaexec").set_current_mode("example")
 
 -- # buffer
 
@@ -59,7 +54,6 @@ vim.api.nvim_set_current_buf(buf)
 ]],
 	from = "buffer",
 	name = "prev",
-	lkey = {"n", "r"},
 })
 
 require("luaexec").add({
@@ -93,7 +87,6 @@ vim.api.nvim_set_current_buf(buf)
 ]],
 	from = "buffer",
 	name = "next",
-	lkey = {"n", "m"},
 })
 
 -- # window
@@ -107,7 +100,6 @@ vim.cmd(count .. "wincmd W")
 ]],
 	from = "window",
 	name = "prev",
-	lkey = {"n", "r"},
 })
 
 require("luaexec").add({
@@ -119,20 +111,4 @@ vim.cmd(count .. "wincmd w")
 ]],
 	from = "window",
 	name = "next",
-	lkey = {"n", "m"},
-})
-
--- # luaexec
--- yes, luaexec itself can be a mode
-
-require("luaexec").add({
-	code = [[require("luaexec").set_current_mode("buffer")]],
-	from = "luaexec",
-	gkey = {"n", "fs"},
-})
-
-require("luaexec").add({
-	code = [[require("luaexec").set_current_mode("window")]],
-	from = "luaexec",
-	gkey = {"n", "fw"},
 })

@@ -111,5 +111,5 @@ end
 require("luaexec").add({
 	code = [[require("mini.pick").registry.outliner()]],
 	from = "mini.pick",
-	gkey = {"n", "fo"},
+	keys = {"n", "fo"},
 })

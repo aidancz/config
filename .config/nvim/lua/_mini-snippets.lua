@@ -128,5 +128,5 @@ vim.schedule(function()
 end)
 ]=],
 	from = "mini.snippets",
-	gkey = {"n", "fe"},
+	keys = {"n", "fe"},
 })

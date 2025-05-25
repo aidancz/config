@@ -102,8 +102,7 @@ require("luaexec").add({
 	from = "default",
 	name = "test",
 	desc = "print time number",
-	lkey = {"n", "r"},
-	gkey = {"n", "<c-s-t>"},
+	keys = {"n", "<c-s-t>"},
 })
 ]=],
 	},

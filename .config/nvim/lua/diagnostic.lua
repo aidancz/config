@@ -49,12 +49,10 @@ require("luaexec").add({
 	code = [[vim.diagnostic.jump({count = -1, float = true})]],
 	from = "diagnostic",
 	name = "prev",
-	lkey = {"n", "r"},
 })
 
 require("luaexec").add({
 	code = [[vim.diagnostic.jump({count = 1, float = true})]],
 	from = "diagnostic",
 	name = "next",
-	lkey = {"n", "m"},
 })
