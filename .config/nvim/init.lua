@@ -93,11 +93,12 @@ require("statusline")
 -- # autocmd
 -- https://github.com/echasnovski/mini.nvim/issues/1378
 
+-- require("_nvim-lspconfig")
 require("_go-up")
 require("_guess-indent")
 require("_nvim-fundo")
-require("_nvim-lspconfig")
 require("autocmd")
+require("lsp")
 
 ----------------------------------------------------------------
 
@@ -142,6 +143,7 @@ end
 -- require("_vim-mark")
 -- require("_vim-suda")
 -- require("_vuffers")
+-- require("_which-key")
 -- require("_zen-mode")
 -- require("guicursor")
 -- require("redir")

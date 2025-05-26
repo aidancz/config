@@ -7,4 +7,7 @@ require("snacks").setup({
 		enabled = true,
 		ui_select = false,
 	},
+	scratch = {
+		enabled = true,
+	},
 })

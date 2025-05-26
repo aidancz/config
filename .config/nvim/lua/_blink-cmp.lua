@@ -24,6 +24,9 @@ local config =
 				fallbacks = {},
 			},
 			buffer = {
+				opts = {
+					get_bufnrs = vim.api.nvim_list_bufs,
+				},
 			},
 		},
 	},

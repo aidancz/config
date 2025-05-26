@@ -37,6 +37,7 @@ M.query_registry.lua = vim.treesitter.query.parse(
 [[
 (chunk (comment) @h1 (#match? @h1 "^-- #"))
 (chunk (assignment_statement (variable_list) @variable))
+(chunk (function_call name: (_) @function))
 ]]
 )
 

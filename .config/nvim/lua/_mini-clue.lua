@@ -25,7 +25,9 @@ require("mini.clue").setup({
 		require("mini.clue").gen_clues.builtin_completion(),
 		require("mini.clue").gen_clues.g(),
 		require("mini.clue").gen_clues.marks(),
-		require("mini.clue").gen_clues.registers(),
+		require("mini.clue").gen_clues.registers({
+			-- show_contents = true,
+		}),
 		require("mini.clue").gen_clues.windows({
 			submode_move = true,
 			submode_navigate = true,
