@@ -24,6 +24,25 @@ require("mini.pick").gen_yank = function(item2str_or_strs)
 	}
 end
 
+local query = {}
+vim.api.nvim_create_augroup("mini_pick_config", {clear = true})
+vim.api.nvim_create_autocmd(
+	"User",
+	{
+		group = "mini_pick_config",
+		pattern = "MiniPickStop",
+		callback = function()
+			local current_query = require("mini.pick").get_picker_query()
+			if next(current_query) ~= nil then
+				query = current_query
+			end
+		end,
+	}
+)
+local resume_query = function()
+	require("mini.pick").set_picker_query(vim.deepcopy(query))
+end
+
 require("mini.pick").setup({
 	mappings = {
 		stop1 = {
@@ -62,7 +81,7 @@ require("mini.pick").setup({
 				local state = require("mini.pick").get_picker_state()
 				local query = require("mini.pick").get_picker_query()
 
-				vim.print(matches)
+				vim.print(query)
 			end,
 		},
 		pick_actions = {
@@ -90,6 +109,10 @@ require("mini.pick").setup({
 				end
 			end
 		),
+		resume_query = {
+			char = "<c-k>",
+			func = resume_query,
+		},
 	},
 	options = {
 		content_from_bottom = false,
@@ -180,6 +203,88 @@ require("mini.pick").registry.history = function(local_opts)
 	})
 end
 
+require("nofrils").clear("^MiniPick")
+
+vim.api.nvim_set_hl(0, "MiniPickBorderBusy",    {link = "nofrils_yellow"})
+vim.api.nvim_set_hl(0, "MiniPickCursor",        {link = "nofrils_transparent"})
+vim.api.nvim_set_hl(0, "MiniPickMatchCurrent",  {link = "nofrils_reverse"})
+vim.api.nvim_set_hl(0, "MiniPickMatchMarked",   {link = "nofrils_blue_bg"})
+vim.api.nvim_set_hl(0, "MiniPickMatchRanges",   {link = "nofrils_blue"})
+vim.api.nvim_set_hl(0, "MiniPickPreviewLine",   {link = "nofrils_white_bg"})
+vim.api.nvim_set_hl(0, "MiniPickPreviewRegion", {link = "nofrils_blue_bg"})
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.registry()]],
+	from = "mini.pick",
+	keys = {"n", "f<space>"},
+})
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.resume()]],
+	from = "mini.pick",
+	keys = {"n", "fk"},
+})
+
+-- require("luaexec").add({
+-- 	code = [[require("mini.pick").registry.files()]],
+-- 	from = "mini.pick",
+-- 	keys = {"n", "ff"},
+-- })
+
+require("luaexec").add({
+	code =
+[[
+require("mini.pick").builtin.files(
+	nil,
+	{
+		source = {
+			cwd = require("mini.misc").find_root(),
+		},
+	}
+)
+]],
+	from = "mini.pick",
+	keys = {"n", "ff"},
+})
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.buffers()]],
+	from = "mini.pick",
+	keys = {"n", "fb"},
+})
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.help()]],
+	from = "mini.pick",
+	keys = {"n", "fh"},
+})
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.history({histname = ":"})]],
+	from = "mini.pick",
+	keys = {"n", "f:"},
+})
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.history({histname = "/"})]],
+	from = "mini.pick",
+	keys = {"n", "f/"},
+})
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.history({histname = "?"})]],
+	from = "mini.pick",
+	keys = {"n", "f?"},
+})
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.buf_lines()]],
+	from = "mini.pick",
+	keys = {"n", "fl"},
+})
+
+-- # luaexec
+
 require("mini.pick").registry.luaexec_exec = function()
 	local nodes = require("luaexec").list_nodes()
 	for _, i in ipairs(nodes) do
@@ -244,6 +349,15 @@ require("mini.pick").registry.luaexec_exec = function()
 		},
 	})
 end
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.luaexec_exec()]],
+	from = "luaexec",
+	keys = {
+		{{"n", "i", "c", "x", "s", "o", "t", "l"}, "<c-cr>"},
+		{{"n", "x"}, "fj"},
+	},
+})
 
 require("mini.pick").registry.luaexec_luaeval_history = function()
 -- borrow code from `require("mini.extra").pickers.history`
@@ -332,91 +446,6 @@ require("mini.pick").registry.luaexec_luaeval_history = function()
 		},
 	})
 end
-
-require("nofrils").clear("^MiniPick")
-
-vim.api.nvim_set_hl(0, "MiniPickBorderBusy",    {link = "nofrils_yellow"})
-vim.api.nvim_set_hl(0, "MiniPickCursor",        {link = "nofrils_transparent"})
-vim.api.nvim_set_hl(0, "MiniPickMatchCurrent",  {link = "nofrils_reverse"})
-vim.api.nvim_set_hl(0, "MiniPickMatchMarked",   {link = "nofrils_blue_bg"})
-vim.api.nvim_set_hl(0, "MiniPickMatchRanges",   {link = "nofrils_blue"})
-vim.api.nvim_set_hl(0, "MiniPickPreviewLine",   {link = "nofrils_white_bg"})
-vim.api.nvim_set_hl(0, "MiniPickPreviewRegion", {link = "nofrils_blue_bg"})
-
-require("luaexec").add({
-	code = [[require("mini.pick").registry.registry()]],
-	from = "mini.pick",
-	keys = {"n", "f<space>"},
-})
-
-require("luaexec").add({
-	code = [[require("mini.pick").registry.resume()]],
-	from = "mini.pick",
-	keys = {"n", "fk"},
-})
-
--- require("luaexec").add({
--- 	code = [[require("mini.pick").registry.files()]],
--- 	from = "mini.pick",
--- 	keys = {"n", "ff"},
--- })
-
-require("luaexec").add({
-	code =
-[[
-require("mini.pick").builtin.files(
-	nil,
-	{
-		source = {
-			cwd = require("mini.misc").find_root(),
-		},
-	}
-)
-]],
-	from = "mini.pick",
-	keys = {"n", "ff"},
-})
-
-require("luaexec").add({
-	code = [[require("mini.pick").registry.buffers()]],
-	from = "mini.pick",
-	keys = {"n", "fl"},
-})
-
-require("luaexec").add({
-	code = [[require("mini.pick").registry.help()]],
-	from = "mini.pick",
-	keys = {"n", "fh"},
-})
-
-require("luaexec").add({
-	code = [[require("mini.pick").registry.history({histname = ":"})]],
-	from = "mini.pick",
-	keys = {"n", "f:"},
-})
-
-require("luaexec").add({
-	code = [[require("mini.pick").registry.history({histname = "/"})]],
-	from = "mini.pick",
-	keys = {"n", "f/"},
-})
-
-require("luaexec").add({
-	code = [[require("mini.pick").registry.history({histname = "?"})]],
-	from = "mini.pick",
-	keys = {"n", "f?"},
-})
-
--- # luaexec
-
-require("luaexec").add({
-	code = [[require("mini.pick").registry.luaexec_exec()]],
-	from = "luaexec",
-	keys = {
-		{{"n", "i", "c", "x", "s", "o", "t", "l"}, "<c-cr>"},
-		{{"n", "x"}, "fj"},
-	},
-})
 
 require("luaexec").add({
 	code = [[require("mini.pick").registry.luaexec_luaeval_history()]],

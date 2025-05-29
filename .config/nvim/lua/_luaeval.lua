@@ -9,7 +9,7 @@ require("luaexec").add({
 	code = [[require("luaeval").toggle()]],
 	from = "luaeval",
 	name = "window",
-	keys = {"n", "fi"},
+	keys = {"n", "ri"},
 })
 
 require("luaexec").add({

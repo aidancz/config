@@ -36,6 +36,10 @@ https://stackoverflow.com/questions/8059448/scroll-window-halfway-between-zt-and
 -- vim.keymap.set("n", "<left>",  [["=" "<cr>P]], {silent = true})
 -- vim.keymap.set("n", "<right>", [["=" "<cr>p]], {silent = true})
 -- vim.keymap.set("n", "<up>",   ":put! _<cr>", {silent = true})
+-- vim.keymap.set({"n", "x", "o"}, "<a-e>",   "ge")
+-- vim.keymap.set({"n", "x", "o"}, "<a-s-e>", "gE")
+-- vim.keymap.set({"n", "x", "o"}, "<a-s-w>", "B")
+-- vim.keymap.set({"n", "x", "o"}, "<a-w>",   "b")
 -- vim.keymap.set({"n", "x"}, "<bs>", ":<up><cr>")
 -- vim.keymap.set({"n", "x"}, "<bs>", "@:")
 -- vim.keymap.set({"n", "x"}, "<c-b>", function() return math.ceil(vim.api.nvim_win_get_height(0)/1) .. "<c-u>" end, {expr = true})
@@ -46,20 +50,6 @@ https://stackoverflow.com/questions/8059448/scroll-window-halfway-between-zt-and
 -- vim.keymap.set({"n", "x"}, "<c-p>", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-u>" end, {expr = true})
 -- vim.keymap.set({"n", "x"}, "<c-u>", function() return math.ceil(vim.api.nvim_win_get_height(0)/2) .. "<c-u>" end, {expr = true})
 -- vim.keymap.set({"n", "x"}, "<c-y>", function() return 1                                           .. "<c-u>" end, {expr = true})
-vim.keymap.set(
-	"n",
-	[[\]],
-	function()
-		vim.cmd("normal! " .. vim.v.count1 .. "i" .. vim.fn.getcharstr())
-	end,
-	{
-		desc =
-[[
-https://github.com/rjayatilleka/vim-insert-char
-https://github.com/bagohart/vim-insert-append-single-character
-]],
-	}
-)
 vim.keymap.set(
 	"n",
 	"N",
@@ -93,6 +83,20 @@ vim.keymap.set(
 		desc =
 [[
 https://vi.stackexchange.com/questions/2365/how-can-i-get-n-to-go-forward-even-if-i-started-searching-with-or
+]],
+	}
+)
+vim.keymap.set(
+	"n",
+	[[\]],
+	function()
+		vim.cmd("normal! " .. vim.v.count1 .. "i" .. vim.fn.getcharstr())
+	end,
+	{
+		desc =
+[[
+https://github.com/rjayatilleka/vim-insert-char
+https://github.com/bagohart/vim-insert-append-single-character
 ]],
 	}
 )
@@ -213,12 +217,11 @@ vim.keymap.set(
 )
 vim.keymap.set("i", "<left>",  "<c-g>U<left>")
 vim.keymap.set("i", "<right>", "<c-g>U<right>")
-vim.keymap.set({"n", "x"}, "|", "r")
 vim.keymap.set("n", "-", "<c-r>")
-vim.keymap.set("n", "gk", "m")
 vim.keymap.set("n", "g/", "q/")
 vim.keymap.set("n", "g:", "q:")
 vim.keymap.set("n", "g?", "q?")
+vim.keymap.set("n", "gk", "m")
 vim.keymap.set({"i", "c"}, "<c-s-v>", "<c-k>")
 vim.keymap.set({"n", "x", "i"}, "<c-h>", "<cmd>normal zz<plug>(quarter-e)<cr>")
 vim.keymap.set({"n", "x", "i"}, "<c-j>", "<cmd>normal zt<cr>")
@@ -227,12 +230,12 @@ vim.keymap.set({"n", "x", "i"}, "<c-l>", "<cmd>normal zz<plug>(quarter-y)<cr>")
 vim.keymap.set({"n", "x", "i"}, "<c-s>", "<cmd>normal zz<cr>")
 vim.keymap.set({"n", "x", "i"}, "<plug>(quarter-e)", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-e>" end, {expr = true})
 vim.keymap.set({"n", "x", "i"}, "<plug>(quarter-y)", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-y>" end, {expr = true})
--- vim.keymap.set({"n", "x", "o"}, "<a-e>",   "ge")
--- vim.keymap.set({"n", "x", "o"}, "<a-s-e>", "gE")
--- vim.keymap.set({"n", "x", "o"}, "<a-s-w>", "B")
--- vim.keymap.set({"n", "x", "o"}, "<a-w>",   "b")
 vim.keymap.set({"n", "x", "o"}, "<s-cr>", "-")
 vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
+vim.keymap.set({"n", "x", "o"}, "f", "<nop>")
+vim.keymap.set({"n", "x", "o"}, "m", "<nop>")
+vim.keymap.set({"n", "x", "o"}, "r", "<nop>")
+vim.keymap.set({"n", "x"}, "|", "r")
 
 -- # luaexec
 
