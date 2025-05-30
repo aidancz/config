@@ -6,4 +6,4 @@
 --smart-case
 
 --glob
-!.git/*
+!**/.git/**

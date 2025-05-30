@@ -306,7 +306,7 @@ end
 M.mode = function()
 	local component
 
-	local m = package.loaded["hydra"]
+	-- local m = package.loaded["hydra"]
 
 	component = table.concat(
 		{

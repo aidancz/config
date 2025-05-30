@@ -54,6 +54,7 @@ vim.api.nvim_set_current_buf(buf)
 ]],
 	from = "buffer",
 	name = "prev",
+	keys = {"n", "mB"},
 })
 
 require("luaexec").add({
@@ -87,6 +88,7 @@ vim.api.nvim_set_current_buf(buf)
 ]],
 	from = "buffer",
 	name = "next",
+	keys = {"n", "mb"},
 })
 
 -- # window
@@ -100,6 +102,7 @@ vim.cmd(count .. "wincmd W")
 ]],
 	from = "window",
 	name = "prev",
+	keys = {"n", "mW"},
 })
 
 require("luaexec").add({
@@ -111,4 +114,5 @@ vim.cmd(count .. "wincmd w")
 ]],
 	from = "window",
 	name = "next",
+	keys = {"n", "mw"},
 })

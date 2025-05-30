@@ -40,7 +40,7 @@ vim.api.nvim_create_autocmd(
 	}
 )
 local resume_query = function()
-	require("mini.pick").set_picker_query(vim.deepcopy(query))
+	require("mini.pick").set_picker_query(query)
 end
 
 require("mini.pick").setup({
@@ -281,6 +281,12 @@ require("luaexec").add({
 	code = [[require("mini.pick").registry.buf_lines()]],
 	from = "mini.pick",
 	keys = {"n", "fl"},
+})
+
+require("luaexec").add({
+	code = [[require("mini.pick").registry.grep_live()]],
+	from = "mini.pick",
+	keys = {"n", "fs"},
 })
 
 -- # luaexec
