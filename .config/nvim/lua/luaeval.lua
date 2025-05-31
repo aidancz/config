@@ -120,6 +120,8 @@ M.code2cmd = require("luaexec").code2cmd
 
 M.cmd2code = require("luaexec").cmd2code
 
+M.exec = require("luaexec").exec
+
 M.wrap = function(code_tbl, wrap)
 	if wrap == nil then
 		return
@@ -138,18 +140,10 @@ M.wrap = function(code_tbl, wrap)
 	end
 end
 
----@param opts? {
----	wrap?: string,
----}
-M.eval = function(opts)
-	opts = opts or {}
-
+M.eval = function(wrap)
 	local code_tbl = vim.api.nvim_buf_get_lines(M.cache.buf_handle, 0, -1, true)
-	M.wrap(code_tbl, opts.wrap)
-
-	local cmd = M.code2cmd(code_tbl)
-	vim.fn.histadd("cmd", cmd)
-	vim.cmd(cmd)
+	M.wrap(code_tbl, wrap)
+	M.exec(code_tbl, true)
 end
 
 M.open = function()

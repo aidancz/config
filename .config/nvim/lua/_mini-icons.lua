@@ -4,4 +4,7 @@ require("mini.deps").add({
 
 require("mini.icons").setup({
 	-- style = "ascii",
+	file = {
+		["init.lua"] = {glyph = "󰢱"},
+	},
 })

@@ -4,10 +4,15 @@ require("mini.deps").add({
 })
 
 require("hydra").setup({
-	hint = {
-		type = "statusline",
-		show_name = false,
-	},
+	hint = false,
+	on_enter = function()
+		vim.cmd("redrawstatus")
+	end,
+	on_exit = function()
+		vim.schedule(function()
+			vim.cmd("redrawstatus")
+		end)
+	end,
 })
 
 vim.api.nvim_set_hl(0, "HydraRed",      {link = "nofrils_red"})
@@ -18,14 +23,15 @@ vim.api.nvim_set_hl(0, "HydraPink",     {link = "nofrils_green"})
 
 require("hydra")({
 	name = "scroll horizontal",
-	-- hint = [[]],
-	-- config = {
-	-- 	on_key = function()
-	-- 	-- https://github.com/nvimtools/hydra.nvim?tab=readme-ov-file#meta-accessors
-	-- 		vim.wo.wrap = false
-	-- 	end,
-	-- },
-	-- mode = "n",
+	hint = nil,
+	config = {
+		-- color = "amaranth",
+		-- on_enter = function()
+		-- -- https://github.com/nvimtools/hydra.nvim?tab=readme-ov-file#meta-accessors
+		-- 	vim.wo.wrap = false
+		-- end,
+	},
+	mode = "n",
 	body = "z",
 	heads = {
 		{
@@ -39,10 +45,39 @@ require("hydra")({
 	},
 })
 
--- require("hydra")({
--- 	body = "m",
--- 	heads = {
--- 		{"B", "[b", {remap = true}},
--- 		{"b", "]b", {remap = true}},
--- 	},
--- })
+require("hydra")({
+	config = {
+		on_key = function()
+			vim.wait(0) -- https://github.com/anuvyklack/hydra.nvim/issues/36
+		end,
+	},
+	body = "m",
+	heads = {
+		{
+			"B",
+			function()
+				require("luaexec").registry.buffer.prev()
+			end,
+		},
+		{
+			"b",
+			function()
+				require("luaexec").registry.buffer.next()
+			end,
+		},
+		{
+			"W",
+			function()
+				require("luaexec").registry.window.prev()
+			end,
+		},
+		{
+			"w",
+			function()
+				require("luaexec").registry.window.next()
+			end,
+		},
+		{"T", "gT"},
+		{"t", "gt"},
+	},
+})

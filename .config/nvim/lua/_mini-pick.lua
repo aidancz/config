@@ -278,7 +278,7 @@ require("luaexec").add({
 })
 
 require("luaexec").add({
-	code = [[require("mini.pick").registry.buf_lines()]],
+	code = [[require("mini.pick").registry.buf_lines({scope = "current"})]],
 	from = "mini.pick",
 	keys = {"n", "fl"},
 })
@@ -305,6 +305,7 @@ require("mini.pick").registry.luaexec_exec = function()
 			i.code,
 			i.desc or ""
 		)
+		setmetatable(i, nil) -- callable item will be called when: item -> stritem
 	end
 	require("mini.pick").start({
 		mappings = {
@@ -313,14 +314,14 @@ require("mini.pick").registry.luaexec_exec = function()
 		source = {
 			items = nodes,
 			-- choose = function(item)
-			-- 	require("luaexec").exec(item.code)
+			-- 	require("luaexec").node_exec(item, true)
 			-- end,
 			choose = function(item)
 				vim.keymap.set(
 					{"n", "x", "s", "i", "c", "t", "o"},
 					"<plug>(luaexec_temp_key)",
 					function()
-						require("luaexec").exec(item.code)
+						require("luaexec").node_exec(item, true)
 					end
 				)
 				vim.api.nvim_create_autocmd(

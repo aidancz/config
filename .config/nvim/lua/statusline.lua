@@ -306,12 +306,18 @@ end
 M.mode = function()
 	local component
 
-	-- local m = package.loaded["hydra"]
+	local hydra_is_active = 0
+	local m = package.loaded["hydra"]
+	if m and require("hydra.statusline").is_active() then
+		hydra_is_active = 1
+	end
 
 	component = table.concat(
 		{
 			"(",
 			vim.api.nvim_get_mode().mode,
+			" ",
+			hydra_is_active,
 			")",
 		},
 		""
@@ -320,7 +326,7 @@ M.mode = function()
 		component,
 		{
 			justify = "left",
-			minwid = (2 + 1),
+			minwid = (3 + 2),
 		}
 	)
 

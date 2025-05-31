@@ -11,6 +11,9 @@ M.registry = {
 			name = "node1",
 			desc = ...,
 			keys = ...,
+			<metatable> = {
+				__call = M.node_exec,
+			},
 		},
 		node2 = {
 			...
@@ -38,7 +41,7 @@ M.registry = {
 --]]
 }
 
--- # function
+-- # core
 
 ---@param code_tbl string[]
 ---@return string cmd
@@ -85,18 +88,23 @@ M.cmd2code = function(cmd)
 	return code_tbl
 end
 
-M.exec = function(code_str, histadd)
-	if histadd == nil then
-		histadd = true
-	end
-
-	local code_tbl = vim.split(code_str, "\n", {trimempty = true})
-
+M.exec = function(code_tbl, histadd)
 	local cmd = M.code2cmd(code_tbl)
 	if histadd then
 		vim.fn.histadd("cmd", cmd)
 	end
 	vim.cmd(cmd)
+end
+
+-- # api
+
+M.node_exec = function(node, histadd)
+	if histadd == nil then
+		histadd = false
+	end
+
+	local code_tbl = vim.split(node.code, "\n", {trimempty = true})
+	M.exec(code_tbl, histadd)
 end
 
 M.is_list_of_list = function(tbl)
@@ -126,29 +134,29 @@ M.node_set_keys = function(node)
 			i[1],
 			i[2],
 			function()
-				M.exec(node.code, false)
+				M.node_exec(node, false)
 			end,
 			i[3] or {}
 		)
 	end
 end
 
+M.node_template = {
+	from = "default",
+}
+
+M.node_metatable = {
+	__call = M.node_exec,
+}
+
 M.add = function(node)
-	-- for k, v in pairs(node) do
-	-- 	if vim.is_callable(v) then
-	-- 		node[k] = v()
-	-- 	end
-	-- end
+	-- setup node
 
-	node = vim.tbl_deep_extend(
-		"force",
-		{
-			from = "default",
-		},
-		node
-	)
-
+	node = vim.tbl_deep_extend("force", M.node_template, node)
+	setmetatable(node, M.node_metatable)
 	M.node_set_keys(node)
+
+	-- register node
 
 	if M.registry[node.from] == nil then
 		M.registry[node.from] = setmetatable(
@@ -161,7 +169,6 @@ M.add = function(node)
 			}
 		)
 	end
-
 	if node.name == nil then
 		table.insert(M.registry[node.from], node)
 	else

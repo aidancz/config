@@ -61,7 +61,11 @@ require("buvvers").setup({
 		name_l = default_function(handle_l)
 
 		for n, name in ipairs(name_l) do
-			name_l[n] = "󰈔 " .. name
+			local icon, hl = require("mini.icons").get("file", name)
+			name_l[n] = {
+				{icon .. " ", hl},
+				name,
+			}
 		end
 
 		return name_l

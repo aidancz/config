@@ -15,24 +15,25 @@ require("luaexec").add({
 require("luaexec").add({
 	code = [[require("luaeval").eval()]],
 	from = "luaeval",
+	keys = {"n", "m<bs>"},
 })
 
 require("luaexec").add({
-	code = [[require("luaeval").eval({wrap = "vim.print"})]],
+	code = [[require("luaeval").eval("vim.print")]],
 	from = "luaeval",
 })
 
 require("luaexec").add({
-	code = [[require("luaeval").eval({wrap = "vim.cmd"})]],
+	code = [[require("luaeval").eval("vim.cmd")]],
 	from = "luaeval",
 })
 
 require("luaexec").add({
-	code = [[require("luaeval").eval({wrap = "vim.cmd.normal"})]],
+	code = [[require("luaeval").eval("vim.cmd.normal")]],
 	from = "luaeval",
 })
 
 require("luaexec").add({
-	code = [[require("luaeval").eval({wrap = "vim.api.nvim_feedkeys"})]],
+	code = [[require("luaeval").eval("vim.api.nvim_feedkeys")]],
 	from = "luaeval",
 })
