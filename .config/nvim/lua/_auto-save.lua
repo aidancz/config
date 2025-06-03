@@ -5,3 +5,8 @@ require("mini.deps").add({
 require("auto-save").setup({
 	lockmarks = true,
 })
+
+require("luaexec").add({
+	code = [[require("auto-save").toggle()]],
+	from = "auto-save",
+})

@@ -14,6 +14,19 @@ vim.notify(vim.system({"date", "--iso-8601=ns"}):wait().stdout)
 
 --]]
 
+get_time = function()
+	local second, microsecond = vim.uv.gettimeofday()
+	local second_format = os.date("%Y-%m-%d %H:%M:%S", second)
+	local microsecond_format = string.format("%06d", microsecond)
+	local time = second_format .. " " .. microsecond_format
+	return time
+end
+-- https://github.com/neovim/neovim/issues/4433
+
+print_time = function()
+	print(get_time())
+end
+
 ----------------------------------------------------------------
 
 vim.loader.enable()
@@ -99,6 +112,7 @@ require("_guess-indent")
 require("_nvim-fundo")
 require("autocmd")
 require("lsp")
+require("signcolumn")
 
 ----------------------------------------------------------------
 
@@ -128,6 +142,7 @@ end
 -- require("_mini-statusline")
 -- require("_neo-tree")
 -- require("_nvim-better-n")
+-- require("_nvim-bqf")
 -- require("_nvim-cmp")
 -- require("_nvim-ghost")
 -- require("_nvim-next")
@@ -137,6 +152,7 @@ end
 -- require("_nvim-ufo")
 -- require("_outline")
 -- require("_outline_HACK2")
+-- require("_quicker")
 -- require("_sidebar")
 -- require("_sniprun")
 -- require("_undotree-jiaoshijie")
@@ -175,13 +191,12 @@ require("_mini-pick")
 require("_mini-snippets")
 require("_mini-splitjoin")
 require("_mini-surround")
-require("_nvim-bqf")
+require("_mini-visits")
 require("_nvim-colorizer")
 require("_nvim-treesitter") -- slow
 require("_nvim-treesitter-textobjects")
 require("_outliner")
 require("_paramo")
-require("_quicker")
 require("_sentiment")
 require("_snacks")
 require("_substitute")

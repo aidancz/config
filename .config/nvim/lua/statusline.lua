@@ -29,6 +29,10 @@ M.str_active = function()
 			M.buffer_name(),
 			" ",
 			M.cwd(),
+			" ",
+			M.undotree(),
+			-- " ",
+			-- M.test(),
 			"%<",
 			"%=",
 			M.macro(),
@@ -154,7 +158,27 @@ end
 
 --]]
 
--- # buffer_name
+-- # component
+
+M.test = function()
+	local component
+
+	component = table.concat(
+		{
+			"(",
+			get_time(),
+			")",
+		},
+		""
+	)
+	component = H.format(
+		component,
+		{
+		}
+	)
+
+	return component
+end
 
 M.buffer_name = function()
 	local component
@@ -175,8 +199,6 @@ M.buffer_name = function()
 
 	return component
 end
-
--- # col
 
 M.col = function()
 	local component
@@ -205,8 +227,6 @@ M.col = function()
 	return component
 end
 
--- # cwd
-
 M.cwd = function()
 	local component
 
@@ -229,8 +249,6 @@ M.cwd = function()
 
 	return component
 end
-
--- # lnum
 
 M.lnum = function()
 	local component
@@ -258,8 +276,6 @@ M.lnum = function()
 
 	return component
 end
-
--- # macro
 
 M.macro = function()
 	local component
@@ -301,8 +317,6 @@ M.macro = function()
 	return component
 end
 
--- # mode
-
 M.mode = function()
 	local component
 
@@ -327,6 +341,51 @@ M.mode = function()
 		{
 			justify = "left",
 			minwid = (3 + 2),
+		}
+	)
+
+	return component
+end
+
+M.undotree = function()
+	local component
+
+	if vim.bo.buftype ~= "" then
+		component = ""
+		return component
+	end
+
+	local undotree = vim.fn.undotree()
+	local first = 0
+	local last = #undotree.entries
+	local current
+	if undotree.seq_cur == 0 then
+		current = 0
+	else
+		for index, undo_item in ipairs(undotree.entries) do
+			if undo_item.seq == undotree.seq_cur then
+				current = index
+				break
+			end
+		end
+	end
+	local undo = first - current
+	undo = math.abs(undo)
+	local redo = last - current
+
+	component = table.concat(
+		{
+			"(",
+			undo,
+			" ",
+			redo,
+			")",
+		},
+		""
+	)
+	component = H.format(
+		component,
+		{
 		}
 	)
 

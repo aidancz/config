@@ -65,6 +65,17 @@ require("hydra")({
 				require("luaexec").registry.buffer.next()
 			end,
 		},
+	},
+})
+
+require("hydra")({
+	config = {
+		on_key = function()
+			vim.wait(0) -- https://github.com/anuvyklack/hydra.nvim/issues/36
+		end,
+	},
+	body = "m",
+	heads = {
 		{
 			"W",
 			function()
@@ -77,6 +88,17 @@ require("hydra")({
 				require("luaexec").registry.window.next()
 			end,
 		},
+	},
+})
+
+require("hydra")({
+	config = {
+		on_key = function()
+			vim.wait(0) -- https://github.com/anuvyklack/hydra.nvim/issues/36
+		end,
+	},
+	body = "m",
+	heads = {
 		{"T", "gT"},
 		{"t", "gt"},
 	},

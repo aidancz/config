@@ -1,10 +1,10 @@
 -- # example
 
 require("luaexec").add({
-	code = [[vim.notify(vim.system({"date", "--iso-8601=ns"}):wait().stdout)]],
+	code = [[print_time()]],
 	from = "example",
 	name = "print_time",
-	desc = "shows a nanosecond-precision timestamp in a neovim notification",
+	desc = "print the current time with microsecond precision",
 	keys = {"n", "<c-s-t>"},
 })
 
