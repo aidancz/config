@@ -103,3 +103,19 @@ require("hydra")({
 		{"t", "gt"},
 	},
 })
+
+require("hydra")({
+	body = "<c-w>",
+	heads = {
+		{"-", "<c-w>-"},
+		{"+", "<c-w>+"},
+	},
+})
+
+require("hydra")({
+	body = "<c-w>",
+	heads = {
+		{"<", "<c-w><"},
+		{">", "<c-w>>"},
+	},
+})

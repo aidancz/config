@@ -179,7 +179,9 @@ end
 M.list_nodes = function()
 	local nodes = {}
 	for group_name, group in pairs(M.registry) do
-		vim.list_extend(nodes, vim.tbl_values(group))
+		for node_name, node in pairs(group) do
+			table.insert(nodes, vim.deepcopy(node))
+		end
 	end
 	return nodes
 end

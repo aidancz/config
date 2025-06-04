@@ -76,15 +76,20 @@ vim.api.nvim_create_autocmd(
 
 vim.api.nvim_create_augroup("filetype", {clear = true})
 
+local clear_gutter = function()
+	vim.opt_local.foldcolumn = "0"
+	vim.opt_local.signcolumn = "no"
+	vim.opt_local.number = false
+	vim.opt_local.relativenumber = false
+end
+
 vim.api.nvim_create_autocmd(
 	"FileType",
 	{
 		group = "filetype",
 		pattern = "man",
 		callback = function()
-			vim.opt_local.number = false
-			vim.opt_local.relativenumber = false
-			vim.opt_local.signcolumn = "no"
+			clear_gutter()
 		end,
 	}
 )
@@ -96,6 +101,7 @@ vim.api.nvim_create_autocmd(
 		pattern = "help",
 		callback = function()
 			vim.opt_local.buflisted = true
+			clear_gutter()
 		end,
 	}
 )
