@@ -111,8 +111,8 @@ require("_go-up")
 require("_guess-indent")
 require("_nvim-fundo")
 require("autocmd")
+require("gutter")
 require("lsp")
-require("signcolumn")
 
 ----------------------------------------------------------------
 

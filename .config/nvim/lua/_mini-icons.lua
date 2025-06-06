@@ -5,6 +5,7 @@ require("mini.deps").add({
 require("mini.icons").setup({
 	-- style = "ascii",
 	file = {
-		["init.lua"] = {glyph = "󰢱"},
+		["init.lua"] = {glyph = "󰢱", hl = "MiniIconsAzure"},
+		-- https://github.com/echasnovski/mini.nvim/issues/1384
 	},
 })
