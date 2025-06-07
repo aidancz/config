@@ -21,6 +21,7 @@ require("luaexec").add({
 require("luaexec").add({
 	code = [[require("luaeval").eval("vim.print")]],
 	from = "luaeval",
+	keys = {"n", ",<bs>"},
 })
 
 require("luaexec").add({

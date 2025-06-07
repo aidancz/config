@@ -119,3 +119,11 @@ require("hydra")({
 		{">", "<c-w>>"},
 	},
 })
+
+require("hydra")({
+	body = "m",
+	heads = {
+		{"C", "<cmd>cprevious<cr>"},
+		{"c", "<cmd>cnext<cr>"},
+	},
+})

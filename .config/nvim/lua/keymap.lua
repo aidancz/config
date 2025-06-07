@@ -51,6 +51,18 @@ https://stackoverflow.com/questions/8059448/scroll-window-halfway-between-zt-and
 -- vim.keymap.set({"n", "x"}, "<c-u>", function() return math.ceil(vim.api.nvim_win_get_height(0)/2) .. "<c-u>" end, {expr = true})
 -- vim.keymap.set({"n", "x"}, "<c-y>", function() return 1                                           .. "<c-u>" end, {expr = true})
 vim.keymap.set(
+	"c",
+	"<c-w>",
+	function()
+		local cache_iskeyword = vim.bo.iskeyword
+		vim.bo.iskeyword = vim.go.iskeyword
+		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<c-w>", true, true, true), "n", false)
+		vim.schedule(function()
+			vim.bo.iskeyword = cache_iskeyword
+		end)
+	end
+)
+vim.keymap.set(
 	"n",
 	"N",
 	function()
@@ -333,10 +345,11 @@ https://unix.stackexchange.com/questions/12812/replacing-multiple-blank-lines-wi
 require("luaexec").add({
 	code =
 [[
-vim.opt.foldcolumn = "0"
-vim.opt.signcolumn = "no"
-vim.opt.number = false
-vim.opt.relativenumber = false
+vim.opt_local.foldcolumn = "0"
+vim.opt_local.signcolumn = "no"
+vim.opt_local.number = false
+vim.opt_local.relativenumber = false
+vim.opt_local.statuscolumn = ""
 ]],
 	name = "zen",
 })
