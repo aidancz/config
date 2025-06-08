@@ -119,6 +119,16 @@ require("mini.pick").setup({
 	},
 	source = {
 		name = "<no name>",
+		preview = function(buf_id, item)
+			return
+			require("mini.pick").default_preview(
+				buf_id,
+				item,
+				{
+					line_position = "center",
+				}
+			)
+		end,
 	},
 	window = {
 		config = {

@@ -60,9 +60,9 @@ require("nvim-treesitter.configs").setup({
 		end,
 		additional_vim_regex_highlighting = false,
 	},
-	-- indent = {
-	-- 	enable = true,
-	-- },
+	indent = {
+		enable = true,
+	},
 })
 
 vim.api.nvim_set_hl(0, "@comment",          {link = "nofrils_blue"})

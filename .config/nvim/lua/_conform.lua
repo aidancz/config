@@ -9,3 +9,10 @@ require("conform").setup({
 		},
 	},
 })
+
+vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+
+require("luaexec").add({
+	code = [[require("conform").format()]],
+	from = "conform",
+})
