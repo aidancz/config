@@ -5,7 +5,7 @@ Pipe any shell command as a previewer.
 ## Installation
 
 ```sh
-ya pack -a yazi-rs/plugins:piper
+ya pkg add yazi-rs/plugins:piper
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ Piper is a general-purpose previewer - you can pass any shell command to `piper`
 It accepts a string parameter, which is the shell command to be executed, for example:
 
 ```toml
-# ~/.config/yazi/yaiz.toml
+# ~/.config/yazi/yazi.toml
 [[plugin.prepend_previewers]]
 name = "*"
 run  = 'piper -- echo "$1"'
@@ -52,6 +52,8 @@ In this example, `--format=url` tells `piper` to parse the `tar` output as file 
 name = "*.csv"
 run  = 'piper -- bat -p --color=always "$1"'
 ```
+
+Note that certain distributions might use a different name for `bat`, like Debian and Ubuntu uses `batcat` instead, so please adjust accordingly.
 
 ### Preview Markdown with [`glow`](https://github.com/charmbracelet/glow)
 

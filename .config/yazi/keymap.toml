@@ -3,101 +3,101 @@
 
 ################################################################ manager
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = """ shell '' """
 	on = "<a-o>"
 	desc = "test"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = """ shell 'open-with-program "$@"' """
 	on = "O"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = """ shell 'setsid -f $TERMINAL >/dev/null 2>&1' """
 	on = "<a-enter>"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = """ shell 'setsid -f $TERMINAL >/dev/null 2>&1' """
 	on = "<enter>"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = """ shell 'ya emit cd "$(git rev-parse --show-toplevel)"' """
 	on = "<home>"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = """ shell --block 'yazi-execute "$0" "$@"' """
 	on = "<a-x>"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "arrow -1"
 	on = "k"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "arrow 1"
 	on = "j"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "arrow top"
 	on = "g"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "back"
 	on = "<c-o>"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "create --dir"
 	on = "A"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "forward"
 	on = "<c-i>"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "noop"
 	on = "<space>"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "noop"
 	on = "D"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "noop"
 	on = "S"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "noop"
 	on = "q"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "noop"
 	on = "z"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "plugin diff"
 	on = "<a-d>"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "plugin fzf"
 	on = "i"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "plugin parent-arrow -1"
 	on = "<pageup>"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "plugin parent-arrow 1"
 	on = "<pagedown>"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "plugin zoxide"
 	on = "e"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "quit"
 	on = "<s-esc>"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "close"
 	on = "<c-esc>"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "remove --permanently"
 	on = "X"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "remove"
 	on = "x"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "search --via=rg"
 	on = "w"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "unyank"
 	on = "<c-g>"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "yank --cut"
 	on = "d"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = ["toggle", "arrow -1"]
 	on = "<up>"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = ["toggle", "arrow 1"]
 	on = "<down>"
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 	run = "tasks:show"
 	on = "b"
 
