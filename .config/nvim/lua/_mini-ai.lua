@@ -6,6 +6,9 @@ require("mini.ai").setup({
 	silent = true,
 	custom_textobjects = {
 
+		a = false,
+		f = false,
+
 		["("] = { "%b()", "^.().*().$" },
 		["["] = { "%b[]", "^.().*().$" },
 		["{"] = { "%b{}", "^.().*().$" },

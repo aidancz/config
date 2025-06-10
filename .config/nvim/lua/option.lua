@@ -60,12 +60,13 @@ vim.opt.hlsearch = false
 vim.opt.ignorecase = true
 vim.opt.inccommand = ""
 vim.opt.incsearch = false
+vim.opt.indentkeys = ""
 vim.opt.iskeyword:remove("_")
 vim.opt.jumpoptions = {"stack", "view"}
 vim.opt.laststatus = 3
 vim.opt.list = true
 vim.opt.listchars = ""
--- vim.opt.listchars:append({eol = " "})
+vim.opt.listchars:append({eol = " "})
 vim.opt.listchars:append({nbsp = "▪"})
 vim.opt.listchars:append({tab = "  "})
 vim.opt.magic = true

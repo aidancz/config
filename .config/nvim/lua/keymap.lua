@@ -230,6 +230,8 @@ vim.keymap.set(
 vim.keymap.set("i", "<left>",  "<c-g>U<left>")
 vim.keymap.set("i", "<right>", "<c-g>U<right>")
 vim.keymap.set("n", "-", "<c-r><plug>(redrawstatus)")
+vim.keymap.set("n", "<c-i>", "<c-i>")
+vim.keymap.set("n", "<c-m>", "<c-m>")
 vim.keymap.set("n", "<plug>(redrawstatus)", function() vim.cmd("redrawstatus") end)
 vim.keymap.set("n", "g/", "q/")
 vim.keymap.set("n", "g:", "q:")
