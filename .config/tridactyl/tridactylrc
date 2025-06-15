@@ -23,3 +23,5 @@ bind i focusinput -l
 " https://github.com/tridactyl/tridactyl/blob/master/.tridactylrc
 
 bind gm tabduplicate
+
+bind F hint -t

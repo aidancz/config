@@ -32,12 +32,6 @@ end
 vim.loader.enable()
 
 require("vim._extui").enable({
-	msg = {
-		pos = "cmd",
-		-- box = {
-		-- 	timeout = 4000,
-		-- },
-	},
 })
 
 ----------------------------------------------------------------

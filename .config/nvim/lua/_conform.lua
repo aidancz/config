@@ -7,6 +7,10 @@ require("conform").setup({
 		lua = {
 			"stylua",
 		},
+		go = {
+			"gofumpt",
+			-- https://github.com/jesseduffield/lazygit/blob/master/CONTRIBUTING.md#code-formatting
+		},
 	},
 })
 
