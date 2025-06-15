@@ -31,28 +31,91 @@ setopt SHARE_HISTORY
 setopt PRINT_EXIT_VALUE
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ function
-open_terminal()
-{
-	setsid -f $TERMINAL >/dev/null 2>&1
-}
-zle -N open_terminal
 
-function y() {
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zle_eval
+
+# zle_eval() {
+# 	echo -en "\e[2K\r"
+# 	eval "$@"
+# 	zle redisplay
+# }
+# # posix
+
+# function zle_eval {
+# 	echo -en "\e[2K\r"
+# 	eval "$@"
+# 	zle redisplay
+# }
+# # bash / zsh only
+
+# https://www.reddit.com/r/zsh/comments/96asgu/how_to_bindkey_shell_commands_a_quick_guide/
+# https://github.com/theniceboy/.config/blob/master/zsh/mappings.zsh
+
+zle_eval() {
+	echo -en "\e[2K\r"
+	eval "$@" </dev/tty
+	# </dev/tty is for zle widget
+	zle reset-prompt
+}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ _exit
+
+_exit() {
+	zle_eval exit
+}
+zle -N _exit
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ _term
+
+_term() {
+	zle_eval setsid -f $TERMINAL >/dev/null 2>&1
+}
+zle -N _term
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ _yazi
+
+y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
 	yazi "$@" --cwd-file="$tmp"
-	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		builtin cd -- "$cwd"
-	fi
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
 	rm -f -- "$tmp"
 }
+_yazi() {
+	zle_eval y
+}
+zle -N _yazi
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ _nvim
+
+_nvim() {
+	zle_eval nvim
+}
+zle -N _nvim
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ _lazygit
+
+_lazygit() {
+	zle_eval lazygit
+}
+zle -N _lazygit
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ _zoxide
 
 eval "$(zoxide init zsh --no-cmd)"
-alias e="__zoxide_z"
-alias ei="__zoxide_zi"
+# __zoxide_z
+# __zoxide_zi
+_zoxide() {
+	zle_eval __zoxide_zi
+}
+zle -N _zoxide
 
-function fzf_cd() {
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ _fzf
+
+fzf_cd() {
 	local p
-	p="$(fzf +m -q "$1")"
+	# p means path
+	p="$(fzf --no-multi --query="$1")"
 	if [ -d "$p" ]; then
 		p="$p"
 	else
@@ -60,11 +123,18 @@ function fzf_cd() {
 	fi
 	cd "$p"
 }
+_fzf() {
+	zle_eval fzf_cd
+}
+zle -N _fzf
 # can't use $path in zsh
 # https://superuser.com/questions/1733936/why-does-assigning-to-path-break-my-path-in-zsh
-alias i="fzf_cd"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ atuin
 
 eval "$(atuin init zsh)"
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ starship
 
 # eval "$(starship init zsh)"
 
@@ -141,12 +211,16 @@ bindkey -M emacs "^[[H"  beginning-of-line
 bindkey -M emacs "^[[4~" end-of-line
 bindkey -M emacs "^[[A"  history-beginning-search-backward
 bindkey -M emacs "^[[B"  history-beginning-search-forward
-bindkey -M emacs "^[^M"  open_terminal
-bindkey -M emacs "^[e"   edit-command-line
 
-bindkey -M emacs -s "^[[27;5u" "^e^u^d"
-bindkey -M emacs -s "^[[27;2u" "^e^u^d"
-bindkey -M emacs -s "^[f" "^e^uy^M"
+bindkey -M emacs "^[[27;2u" _exit
+bindkey -M emacs "^[[27;5u" _exit
+bindkey -M emacs "^[^M"     _term
+bindkey -M emacs "^[e"      _zoxide
+bindkey -M emacs "^[f"      _yazi
+bindkey -M emacs "^[g"      _lazygit
+bindkey -M emacs "^[i"      _fzf
+bindkey -M emacs "^[v"      _nvim
+bindkey -M emacs "^x^e"     edit-command-line
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ tmux
 # if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
