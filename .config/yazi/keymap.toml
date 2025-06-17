@@ -42,7 +42,7 @@
 	on = "<c-o>"
 [[mgr.prepend_keymap]]
 	run = "close"
-	on = "<c-esc>"
+	on = "<s-f1>"
 [[mgr.prepend_keymap]]
 	run = "create --dir"
 	on = "A"
@@ -81,7 +81,7 @@
 	on = "e"
 [[mgr.prepend_keymap]]
 	run = "quit"
-	on = "<s-esc>"
+	on = "<c-esc>"
 [[mgr.prepend_keymap]]
 	run = "remove --permanently"
 	on = "X"

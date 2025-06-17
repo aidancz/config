@@ -163,7 +163,7 @@ https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silent
 )
 vim.keymap.set(
 	{"n", "x", "i"},
-	"<c-esc>",
+	"<f13>",
 	function()
 		local is_not_floating_window = function(win)
 			return
@@ -192,7 +192,7 @@ https://vi.stackexchange.com/questions/9479/what-is-the-difference-between-quit-
 )
 vim.keymap.set(
 	{"n", "x", "i"},
-	"<s-esc>",
+	"<c-esc>",
 	function()
 		vim.cmd("qa!")
 	end
