@@ -14,8 +14,6 @@ end
 
 --]]
 
-
-
 -- # auto save
 
 -- vim.api.nvim_create_augroup("auto_save", {clear = true})
@@ -43,8 +41,6 @@ end
 -- -- https://vim.fandom.com/wiki/Auto_save_files_when_focus_is_lost
 -- -- https://github.com/neovim/neovim/issues/8807
 
-
-
 -- # save window view
 
 vim.api.nvim_create_augroup("save_window_view", {clear = true})
@@ -70,7 +66,31 @@ vim.api.nvim_create_autocmd(
 )
 -- https://www.reddit.com/r/neovim/comments/11dmaed/keep_buffer_view_when_you_return_to_file/
 
+-- # floating window zindex
 
+vim.api.nvim_create_augroup("floating_window_zindex", {clear = true})
+vim.api.nvim_create_autocmd(
+	"WinNew",
+	{
+		group = "floating_window_zindex",
+		callback = function()
+			local win = vim.api.nvim_get_current_win()
+			local win_config = vim.api.nvim_win_get_config(win)
+			if
+				win_config.relative ~= ""
+				and
+				win_config.zindex < 200
+			then
+				vim.api.nvim_win_set_config(
+					win,
+					{
+						zindex = 200,
+					}
+				)
+			end
+		end,
+	}
+)
 
 -- # filetype
 
@@ -133,8 +153,6 @@ vim.api.nvim_create_autocmd(
 -- $VIMRUNTIME/lua/vim/treesitter/dev.lua	local cursor_word = vim.fn.expand('<cword>') --[[@as string]]
 -- $VIMRUNTIME/ftplugin/query.lua		vim.cmd([[runtime! ftplugin/lisp.vim]])
 -- $VIMRUNTIME/ftplugin/lisp.vim		setl iskeyword+=+,-,*,/,%,<,=,>,:,$,?,!,@-@,94
-
-
 
 -- # filename
 

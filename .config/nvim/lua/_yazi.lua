@@ -29,20 +29,3 @@ require("yazi").setup({
 })
 
 vim.keymap.set("n", "<a-f>", require("yazi").yazi)
-
-vim.api.nvim_create_augroup("yazi_config", {clear = true})
-vim.api.nvim_create_autocmd(
-	"BufEnter",
-	{
-		group = "yazi_config",
-		callback = function()
-			vim.schedule(function()
-				if vim.bo.filetype == "yazi" then
-					vim.opt.cmdheight = 0
-				else
-					vim.opt.cmdheight = 1
-				end
-			end)
-		end,
-	}
-)
