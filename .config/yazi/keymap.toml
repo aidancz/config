@@ -12,19 +12,16 @@
 	on = "O"
 [[mgr.prepend_keymap]]
 	run = """ shell 'setsid -f $TERMINAL >/dev/null 2>&1' """
-	on = "<a-enter>"
-[[mgr.prepend_keymap]]
-	run = """ shell 'setsid -f $TERMINAL >/dev/null 2>&1' """
 	on = "<enter>"
 [[mgr.prepend_keymap]]
 	run = """ shell 'ya emit cd "$(git rev-parse --show-toplevel)"' """
 	on = "<home>"
 [[mgr.prepend_keymap]]
 	run = """ shell --block 'lazygit' """
-	on = "<a-g>"
+	on = ["<f2>", "g"]
 [[mgr.prepend_keymap]]
 	run = """ shell --block 'nvim' """
-	on = "<a-v>"
+	on = "v"
 [[mgr.prepend_keymap]]
 	run = """ shell --block 'yazi-execute "$0" "$@"' """
 	on = "<a-x>"
@@ -69,7 +66,7 @@
 	on = "<a-d>"
 [[mgr.prepend_keymap]]
 	run = "plugin fzf"
-	on = "i"
+	on = "r"
 [[mgr.prepend_keymap]]
 	run = "plugin parent-arrow -1"
 	on = "<pageup>"
@@ -89,6 +86,9 @@
 	run = "remove"
 	on = "x"
 [[mgr.prepend_keymap]]
+	run = "rename --cursor=before_ext"
+	on = "i"
+[[mgr.prepend_keymap]]
 	run = "search --via=rg"
 	on = "w"
 [[mgr.prepend_keymap]]
@@ -97,6 +97,12 @@
 [[mgr.prepend_keymap]]
 	run = "unyank"
 	on = "<c-g>"
+[[mgr.prepend_keymap]]
+	run = "visual_mode --unset"
+	on = "<a-v>"
+[[mgr.prepend_keymap]]
+	run = "visual_mode"
+	on = "<c-v>"
 [[mgr.prepend_keymap]]
 	run = "yank --cut"
 	on = "d"

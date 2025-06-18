@@ -28,4 +28,4 @@ require("yazi").setup({
 	-- },
 })
 
-vim.keymap.set("n", "<a-f>", require("yazi").yazi)
+vim.keymap.set("n", "<f2>f", require("yazi").yazi)

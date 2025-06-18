@@ -152,14 +152,10 @@ vim.keymap.set(
 )
 vim.keymap.set(
 	{"n", "x", "i"},
-	"<a-cr>",
-	"<cmd>silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>",
-	{
-		desc =
-[[
-https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
-]],
-	}
+	"<c-esc>",
+	function()
+		vim.cmd("qa!")
+	end
 )
 vim.keymap.set(
 	{"n", "x", "i"},
@@ -192,10 +188,14 @@ https://vi.stackexchange.com/questions/9479/what-is-the-difference-between-quit-
 )
 vim.keymap.set(
 	{"n", "x", "i"},
-	"<c-esc>",
-	function()
-		vim.cmd("qa!")
-	end
+	"<f2><cr>",
+	"<cmd>silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>",
+	{
+		desc =
+[[
+https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
+]],
+	}
 )
 vim.keymap.set(
 	{"n", "x", "s", "i", "c", "t", "o"},

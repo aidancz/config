@@ -201,7 +201,7 @@ bindkey -e
 # bindkey -M emacs "^[" undefined-key
 # bindkey -M emacs "^[" self-insert
 # bindkey -M emacs "^[" redisplay
-bindkey -M emacs "^[" beep
+# bindkey -M emacs "^[" beep
 # bindkey -M emacs -s "^[" ""
 
 bindkey -M emacs "^u"    backward-kill-line # https://stackoverflow.com/questions/3483604/which-shortcut-in-zsh-does-the-same-as-ctrl-u-in-bash
@@ -211,16 +211,16 @@ bindkey -M emacs "^[[H"  beginning-of-line
 bindkey -M emacs "^[[4~" end-of-line
 bindkey -M emacs "^[[A"  history-beginning-search-backward
 bindkey -M emacs "^[[B"  history-beginning-search-forward
+bindkey -M emacs "^x^e"  edit-command-line
 
 bindkey -M emacs "^[OP"     _exit
 bindkey -M emacs "^[[27;5u" _exit
-bindkey -M emacs "^[^M"     _term
-bindkey -M emacs "^[e"      _zoxide
-bindkey -M emacs "^[f"      _yazi
-bindkey -M emacs "^[g"      _lazygit
-bindkey -M emacs "^[i"      _fzf
-bindkey -M emacs "^[v"      _nvim
-bindkey -M emacs "^x^e"     edit-command-line
+bindkey -M emacs "^[OQ^M"   _term
+bindkey -M emacs "^[OQe"    _zoxide
+bindkey -M emacs "^[OQr"    _fzf
+bindkey -M emacs "^[OQf"    _yazi
+bindkey -M emacs "^[OQv"    _nvim
+bindkey -M emacs "^[OQg"    _lazygit
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ tmux
 # if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
