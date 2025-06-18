@@ -9,7 +9,7 @@ markdown-attach-mv-file
 back-up-file
 "
 
-i="$(printf "%s" "$menu" | dmenu -l 64 -i -p "script")"
+i="$(printf "%s" "$menu" | dmenu -l 64 -i -p "run")"
 
 case "$i" in
 	"markdown-attach-mv-file")

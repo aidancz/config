@@ -1,0 +1,21 @@
+super + F5
+	pkill -usr1 -x sxhkd && notify-send "sxhkd reload config"
+# https://my-take-on.tech/2020/07/03/some-tricks-for-sxhkd-and-bspwm/#reloading-sxhkdrc
+
+super + z
+	system-settings
+
+super + x
+	dmenu_run
+
+super + c
+	screen-cast
+
+super + v
+	killall gromit-mpx || gromit-mpx -o 1 -a &
+
+super + b
+	pick-sxhkd
+
+super + BackSpace
+	$BROWSER

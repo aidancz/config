@@ -23,7 +23,7 @@
 	run = """ shell --block 'nvim' """
 	on = "v"
 [[mgr.prepend_keymap]]
-	run = """ shell --block 'yazi-execute "$0" "$@"' """
+	run = """ shell --block 'pick-yazi "$0" "$@"' """
 	on = "<a-x>"
 [[mgr.prepend_keymap]]
 	run = "arrow -1"

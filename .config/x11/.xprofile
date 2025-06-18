@@ -35,6 +35,7 @@ xwallpaper --zoom "${XDG_DATA_HOME:-$HOME/.local/share}/wallpapers/000000.png"
 
 
 
+sxhkd                             &
 picom                             &
 dunst                             &
 unclutter                         &

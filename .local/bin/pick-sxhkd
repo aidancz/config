@@ -1,0 +1,25 @@
+#!/bin/sh
+
+menu="\
+screenkey
+screenkey --show-settings
+screen-shot
+stalonetray
+"
+
+i="$(printf "%s" "$menu" | dmenu -l 64 -i -p "run")"
+
+case "$i" in
+	"screenkey")
+		killall screenkey || screenkey &
+		;;
+	"screenkey --show-settings")
+		killall screenkey || screenkey --show-settings &
+		;;
+	"screen-shot")
+		screen-shot
+		;;
+	"stalonetray")
+		killall stalonetray || stalonetray &
+		;;
+esac
