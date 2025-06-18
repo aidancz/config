@@ -42,7 +42,7 @@
 	on = "<c-o>"
 [[mgr.prepend_keymap]]
 	run = "close"
-	on = "<s-f1>"
+	on = "<f1>"
 [[mgr.prepend_keymap]]
 	run = "create --dir"
 	on = "A"

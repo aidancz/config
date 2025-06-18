@@ -163,7 +163,7 @@ https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silent
 )
 vim.keymap.set(
 	{"n", "x", "i"},
-	"<f13>",
+	"<f1>",
 	function()
 		local is_not_floating_window = function(win)
 			return

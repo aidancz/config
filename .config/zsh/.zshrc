@@ -212,7 +212,7 @@ bindkey -M emacs "^[[4~" end-of-line
 bindkey -M emacs "^[[A"  history-beginning-search-backward
 bindkey -M emacs "^[[B"  history-beginning-search-forward
 
-bindkey -M emacs "^[[1;2P"  _exit
+bindkey -M emacs "^[OP"     _exit
 bindkey -M emacs "^[[27;5u" _exit
 bindkey -M emacs "^[^M"     _term
 bindkey -M emacs "^[e"      _zoxide
