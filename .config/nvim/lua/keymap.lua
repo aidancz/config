@@ -100,7 +100,7 @@ https://vi.stackexchange.com/questions/2365/how-can-i-get-n-to-go-forward-even-i
 )
 vim.keymap.set(
 	"n",
-	[[\]],
+	"mi",
 	function()
 		vim.cmd("normal! " .. vim.v.count1 .. "i" .. vim.fn.getcharstr())
 	end,
@@ -239,19 +239,12 @@ vim.keymap.set("n", "g?", "q?")
 vim.keymap.set("n", "gk", "m")
 vim.keymap.set("n", "u", "u<plug>(redrawstatus)")
 vim.keymap.set({"i", "c"}, "<c-s-v>", "<c-k>")
-vim.keymap.set({"n", "x", "i"}, "<c-h>", "<cmd>normal zz<plug>(quarter-e)<cr>")
-vim.keymap.set({"n", "x", "i"}, "<c-j>", "<cmd>normal zt<cr>")
-vim.keymap.set({"n", "x", "i"}, "<c-k>", "<cmd>normal zb<cr>")
-vim.keymap.set({"n", "x", "i"}, "<c-l>", "<cmd>normal zz<plug>(quarter-y)<cr>")
-vim.keymap.set({"n", "x", "i"}, "<c-s>", "<cmd>normal zz<cr>")
-vim.keymap.set({"n", "x", "i"}, "<plug>(quarter-e)", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-e>" end, {expr = true})
-vim.keymap.set({"n", "x", "i"}, "<plug>(quarter-y)", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-y>" end, {expr = true})
 vim.keymap.set({"n", "x", "o"}, "<s-cr>", "-")
 vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
 vim.keymap.set({"n", "x", "o"}, "f", "<nop>")
 vim.keymap.set({"n", "x", "o"}, "m", "<nop>")
 vim.keymap.set({"n", "x", "o"}, "r", "<nop>")
-vim.keymap.set({"n", "x"}, "|", "r")
+vim.keymap.set({"n", "x"}, "mr", "r")
 
 -- # luaexec
 

@@ -21,8 +21,10 @@ vim.api.nvim_set_hl(0, "HydraAmaranth", {link = "nofrils_magenta"})
 vim.api.nvim_set_hl(0, "HydraTeal",     {link = "nofrils_cyan"})
 vim.api.nvim_set_hl(0, "HydraPink",     {link = "nofrils_green"})
 
+-- # window scroll
+
 require("hydra")({
-	name = "scroll horizontal",
+	name = "scroll horizontally",
 	hint = nil,
 	config = {
 		-- color = "amaranth",
@@ -34,16 +36,87 @@ require("hydra")({
 	mode = "n",
 	body = "z",
 	heads = {
-		{
-			"w",
-			function()
-				vim.wo.wrap = not vim.wo.wrap
-			end
-		},
 		{"h", "5zh"},
 		{"l", "5zl"},
 	},
 })
+
+require("hydra")({
+	name = "scroll vertically",
+	body = "f",
+	heads = {
+		{
+			"u",
+			function()
+				require("luaexec").registry["go-up"]["scroll -2/4"]()
+			end,
+		},
+		{
+			"d",
+			function()
+				require("luaexec").registry["go-up"]["scroll +2/4"]()
+			end,
+		},
+	},
+})
+
+-- # window recenter
+
+require("hydra")({
+	body = "f",
+	heads = {
+		{
+			"j",
+			function()
+				require("luaexec").registry["go-up"]["recenter 0/4"]()
+			end,
+		},
+		{
+			"k",
+			function()
+				require("luaexec").registry["go-up"]["recenter 4/4"]()
+			end,
+		},
+	},
+})
+
+require("hydra")({
+	body = "f",
+	heads = {
+		{
+			"h",
+			function()
+				require("luaexec").registry["go-up"]["recenter 1/4"]()
+			end,
+		},
+		{
+			"l",
+			function()
+				require("luaexec").registry["go-up"]["recenter 3/4"]()
+			end,
+		},
+	},
+})
+
+-- # window resize
+
+require("hydra")({
+	body = "<c-w>",
+	heads = {
+		{"-", "<c-w>-"},
+		{"+", "<c-w>+"},
+	},
+})
+
+require("hydra")({
+	body = "<c-w>",
+	heads = {
+		{"<", "<c-w><"},
+		{">", "<c-w>>"},
+	},
+})
+
+-- # prev & next
 
 require("hydra")({
 	config = {
@@ -101,22 +174,6 @@ require("hydra")({
 	heads = {
 		{"T", "gT"},
 		{"t", "gt"},
-	},
-})
-
-require("hydra")({
-	body = "<c-w>",
-	heads = {
-		{"-", "<c-w>-"},
-		{"+", "<c-w>+"},
-	},
-})
-
-require("hydra")({
-	body = "<c-w>",
-	heads = {
-		{"<", "<c-w><"},
-		{">", "<c-w>>"},
 	},
 })
 
