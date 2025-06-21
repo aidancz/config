@@ -82,6 +82,20 @@ https://vi.stackexchange.com/questions/2365/how-can-i-get-n-to-go-forward-even-i
 )
 vim.keymap.set(
 	"n",
+	"mi",
+	function()
+		vim.cmd("normal! " .. vim.v.count1 .. "i" .. vim.fn.getcharstr())
+	end,
+	{
+		desc =
+[[
+https://github.com/rjayatilleka/vim-insert-char
+https://github.com/bagohart/vim-insert-append-single-character
+]],
+	}
+)
+vim.keymap.set(
+	"n",
 	"n",
 	function()
 		if vim.v.searchforward == 1 then
@@ -95,20 +109,6 @@ vim.keymap.set(
 		desc =
 [[
 https://vi.stackexchange.com/questions/2365/how-can-i-get-n-to-go-forward-even-if-i-started-searching-with-or
-]],
-	}
-)
-vim.keymap.set(
-	"n",
-	"mi",
-	function()
-		vim.cmd("normal! " .. vim.v.count1 .. "i" .. vim.fn.getcharstr())
-	end,
-	{
-		desc =
-[[
-https://github.com/rjayatilleka/vim-insert-char
-https://github.com/bagohart/vim-insert-append-single-character
 ]],
 	}
 )
@@ -236,7 +236,7 @@ vim.keymap.set("n", "<plug>(redrawstatus)", function() vim.cmd("redrawstatus") e
 vim.keymap.set("n", "g/", "q/")
 vim.keymap.set("n", "g:", "q:")
 vim.keymap.set("n", "g?", "q?")
-vim.keymap.set("n", "gk", "m")
+vim.keymap.set("n", "mm", "m")
 vim.keymap.set("n", "u", "u<plug>(redrawstatus)")
 vim.keymap.set({"i", "c"}, "<c-s-v>", "<c-k>")
 vim.keymap.set({"n", "x", "o"}, "<s-cr>", "-")

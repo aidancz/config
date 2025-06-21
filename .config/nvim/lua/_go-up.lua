@@ -5,6 +5,8 @@
 require("go-up").setup({
 })
 
+-- # recenter
+
 require("luaexec").add({
 	code = [[require("go-up").recenter(vim.api.nvim_win_get_height(0) * (0 / 4))]],
 	from = "go-up",
@@ -33,11 +35,48 @@ require("luaexec").add({
 })
 
 require("luaexec").add({
+	code =
+[[
+vim.api.nvim_create_augroup("cursor_center", {clear = false})
+-- create the augroup if it does not exist, else do nothing
+if
+	next(
+		vim.api.nvim_get_autocmds({group = "cursor_center"})
+	) == nil
+then
+	vim.api.nvim_create_autocmd(
+		{
+			"CursorMoved",
+			"CursorMovedI",
+			"WinScrolled",
+		},
+		{
+			group = "cursor_center",
+			callback = function()
+				require("luaexec").registry["go-up"]["recenter 2/4"]()
+			end,
+		}
+	)
+	vim.api.nvim_exec_autocmds("CursorMoved", {group = "cursor_center"})
+else
+	vim.api.nvim_clear_autocmds({group = "cursor_center"})
+end
+]],
+	from = "go-up",
+	name = "recenter 2/4 lock",
+	keys = {"n", "fn"},
+})
+
+-- # align
+
+require("luaexec").add({
 	code = [[require("go-up").align()]],
 	from = "go-up",
 	name = "align",
-	keys = {"n", "fi"},
+	keys = {"n", "ff"},
 })
+
+-- # scroll
 
 require("luaexec").add({
 	code = [[require("go-up").scroll(vim.api.nvim_win_get_height(0) * (1 / 4), true)]],
@@ -71,35 +110,12 @@ require("luaexec").add({
 })
 
 require("luaexec").add({
-	code =
-[[
-vim.api.nvim_create_augroup("cursor_center", {clear = false})
--- create the augroup if it does not exist, else do nothing
-
-if
-	next(
-		vim.api.nvim_get_autocmds({group = "cursor_center"})
-	) == nil
-then
-	vim.api.nvim_create_autocmd(
-		{
-			"CursorMoved",
-			"CursorMovedI",
-			"WinScrolled",
-		},
-		{
-			group = "cursor_center",
-			callback = function()
-				require("luaexec").registry["go-up"]["recenter 2/4"]()
-			end,
-		}
-	)
-	vim.api.nvim_exec_autocmds("CursorMoved", {group = "cursor_center"})
-else
-	vim.api.nvim_clear_autocmds({group = "cursor_center"})
-end
-]],
+	code = [[require("go-up").scroll(1, false)]],
 	from = "go-up",
-	name = "recenter 2/4 lock",
-	keys = {"n", "fn"},
+	name = "scroll +1",
+})
+require("luaexec").add({
+	code = [[require("go-up").scroll(-1, false)]],
+	from = "go-up",
+	name = "scroll -1",
 })

@@ -42,7 +42,42 @@ require("hydra")({
 })
 
 require("hydra")({
-	name = "scroll vertically",
+	body = "f",
+	heads = {
+		{
+			"y",
+			function()
+				require("luaexec").registry["go-up"]["scroll -1"]()
+			end,
+		},
+		{
+			"e",
+			function()
+				require("luaexec").registry["go-up"]["scroll +1"]()
+			end,
+		},
+	},
+})
+
+require("hydra")({
+	body = "f",
+	heads = {
+		{
+			"o",
+			function()
+				require("luaexec").registry["go-up"]["scroll -1/4"]()
+			end,
+		},
+		{
+			"s",
+			function()
+				require("luaexec").registry["go-up"]["scroll +1/4"]()
+			end,
+		},
+	},
+})
+
+require("hydra")({
 	body = "f",
 	heads = {
 		{
@@ -55,6 +90,24 @@ require("hydra")({
 			"d",
 			function()
 				require("luaexec").registry["go-up"]["scroll +2/4"]()
+			end,
+		},
+	},
+})
+
+require("hydra")({
+	body = "f",
+	heads = {
+		{
+			"i",
+			function()
+				require("luaexec").registry["go-up"]["scroll -4/4"]()
+			end,
+		},
+		{
+			"w",
+			function()
+				require("luaexec").registry["go-up"]["scroll +4/4"]()
 			end,
 		},
 	},

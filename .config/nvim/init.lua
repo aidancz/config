@@ -126,6 +126,7 @@ end
 -- require("_auto-cmdheight")
 -- require("_bufferline")
 -- require("_fidget")
+-- require("_fzfx")
 -- require("_gitsigns")
 -- require("_harpoon")
 -- require("_indent-blankline")

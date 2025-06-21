@@ -5,18 +5,18 @@ hash = "50da29476e744dba37d77fb209328fd1"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "63f9650"
-hash = "bf6f074cd41ee33c3360341d168f9733"
+rev = "3d1efb7"
+hash = "e01006bfb38951ea89031bd918b20dbb"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:diff"
-rev = "63f9650"
+rev = "3d1efb7"
 hash = "47865a70cade14a0b9b6bc6a54f16bdb"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:piper"
-rev = "63f9650"
-hash = "2bdc137505b8d9a0cc867a57d0e99b01"
+rev = "3d1efb7"
+hash = "2143a53182dbbe935a1abd1623424aa5"
 
 [flavor]
 deps = []

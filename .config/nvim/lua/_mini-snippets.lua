@@ -99,6 +99,10 @@ require("mini.snippets").setup({
 
 -- require("nofrils").clear("^MiniSnippets")
 
+-- # mini.pick
+
+--[================================================================[
+
 require("luaexec").add({
 	code =
 [=[
@@ -130,3 +134,5 @@ end)
 	from = "mini.snippets",
 	keys = {"n", "fe"},
 })
+
+--]================================================================]
