@@ -99,10 +99,6 @@ require("mini.snippets").setup({
 
 -- require("nofrils").clear("^MiniSnippets")
 
--- # mini.pick
-
---[================================================================[
-
 require("luaexec").add({
 	code =
 [=[
@@ -132,7 +128,5 @@ vim.schedule(function()
 end)
 ]=],
 	from = "mini.snippets",
-	keys = {"n", "fe"},
+	keys = {"n", "re"},
 })
-
---]================================================================]

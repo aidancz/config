@@ -11,11 +11,13 @@ require("luaexec").add({
 	code = [[require("go-up").recenter(vim.api.nvim_win_get_height(0) * (0 / 4))]],
 	from = "go-up",
 	name = "recenter 0/4",
+	keys = {"n", "fj"},
 })
 require("luaexec").add({
 	code = [[require("go-up").recenter(vim.api.nvim_win_get_height(0) * (1 / 4))]],
 	from = "go-up",
 	name = "recenter 1/4",
+	keys = {"n", "fh"},
 })
 require("luaexec").add({
 	code = [[require("go-up").recenter(vim.api.nvim_win_get_height(0) * (2 / 4))]],
@@ -27,11 +29,13 @@ require("luaexec").add({
 	code = [[require("go-up").recenter(vim.api.nvim_win_get_height(0) * (3 / 4))]],
 	from = "go-up",
 	name = "recenter 3/4",
+	keys = {"n", "fl"},
 })
 require("luaexec").add({
 	code = [[require("go-up").recenter(vim.api.nvim_win_get_height(0) * (4 / 4))]],
 	from = "go-up",
 	name = "recenter 4/4",
+	keys = {"n", "fk"},
 })
 
 require("luaexec").add({

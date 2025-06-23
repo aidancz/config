@@ -142,7 +142,11 @@ M.node_set_keys = function(node)
 end
 
 M.node_template = {
+	code = nil,
 	from = "default",
+	name = nil,
+	desc = "",
+	keys = {},
 }
 
 M.node_metatable = {
@@ -170,10 +174,9 @@ M.add = function(node)
 		)
 	end
 	if node.name == nil then
-		table.insert(M.registry[node.from], node)
-	else
-		M.registry[node.from][node.name] = node
+		node.name = #M.registry[node.from] + 1
 	end
+	M.registry[node.from][node.name] = node
 end
 
 M.list_nodes = function()

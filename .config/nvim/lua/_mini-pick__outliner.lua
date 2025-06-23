@@ -1,7 +1,3 @@
--- # mini.pick
-
---[================================================================[
-
 require("mini.pick").registry.outliner = function()
 	local restore = function()
 		local matches = require("mini.pick").get_picker_matches()
@@ -117,5 +113,3 @@ require("luaexec").add({
 	from = "mini.pick",
 	keys = {"n", "fo"},
 })
-
---]================================================================]

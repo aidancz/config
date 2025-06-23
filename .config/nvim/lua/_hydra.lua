@@ -113,44 +113,6 @@ require("hydra")({
 	},
 })
 
--- # window recenter
-
-require("hydra")({
-	body = "f",
-	heads = {
-		{
-			"j",
-			function()
-				require("luaexec").registry["go-up"]["recenter 0/4"]()
-			end,
-		},
-		{
-			"k",
-			function()
-				require("luaexec").registry["go-up"]["recenter 4/4"]()
-			end,
-		},
-	},
-})
-
-require("hydra")({
-	body = "f",
-	heads = {
-		{
-			"h",
-			function()
-				require("luaexec").registry["go-up"]["recenter 1/4"]()
-			end,
-		},
-		{
-			"l",
-			function()
-				require("luaexec").registry["go-up"]["recenter 3/4"]()
-			end,
-		},
-	},
-})
-
 -- # window resize
 
 require("hydra")({
