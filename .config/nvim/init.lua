@@ -31,9 +31,6 @@ end
 
 vim.loader.enable()
 
-require("vim._extui").enable({
-})
-
 ----------------------------------------------------------------
 
 local path_package = vim.fn.stdpath("data") .. "/site/"
@@ -72,16 +69,19 @@ end
 
 -- # global variable
 
-require("vim_global_variable")
+require("_nofrils")
 require("option")
+require("vim_global_variable")
 
 -- # library
 
+-- require("_mini-pick")
+require("_fzf-lua")
 require("_luaeval")
+require("_luaexec")
 require("_mini-extra")
 require("_mini-icons")
 require("_mini-misc")
-require("_luaexec")
 require("_plenary")
 require("_virtcol")
 
@@ -93,7 +93,6 @@ require("_virtcol")
 -- require("_mini-trailspace")
 -- require("_outline_HACK1")
 require("_buvvers")
-require("_nofrils")
 require("_whitespace")
 require("statusline")
 
@@ -134,7 +133,6 @@ end
 -- require("_mini-bracketed")
 -- require("_mini-clue")
 -- require("_mini-notify")
--- require("_mini-pick")
 -- require("_mini-pick__luaexec")
 -- require("_mini-pick__outliner")
 -- require("_mini-statusline")
@@ -171,8 +169,8 @@ require("_blink-cmp")
 require("_comment-multiply")
 require("_conform")
 require("_friendly-snippets")
-require("_fzf-lua")
 require("_fzf-lua__luaexec")
+require("_fzf-lua__outliner")
 require("_hl")
 require("_hls")
 require("_hydra")

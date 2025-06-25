@@ -13,8 +13,11 @@ require("fzf-lua").setup({
 		fullscreen = true,
 		preview = {
 			border = "none",
-			vertical = "down:50%",
+			vertical = "up:50%",
 			horizontal = "right:50%",
+			layout = "horizontal",
+			-- flip_columns = math.floor(vim.o.columns / 2),
+			delay = 0,
 			winopts = {
 				number = false,
 			},
@@ -23,10 +26,15 @@ require("fzf-lua").setup({
 	keymap = {
 		builtin = {
 			true,
+			["<pageup>"]     = "preview-half-page-up",
+			["<pagedown>"]   = "preview-half-page-down",
+			["<del>"]        = "preview-reset",
+			["<c-pageup>"]   = "preview-top",
+			["<c-pagedown>"] = "preview-bottom",
 		},
 		fzf = {
 			true,
-			["ctrl-a"] = "first",
+			["ctrl-s"] = "first",
 			["ctrl-e"] = "last",
 		},
 	},

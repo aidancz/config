@@ -68,29 +68,29 @@ vim.api.nvim_create_autocmd(
 
 -- # floating window zindex
 
-vim.api.nvim_create_augroup("floating_window_zindex", {clear = true})
-vim.api.nvim_create_autocmd(
-	"WinNew",
-	{
-		group = "floating_window_zindex",
-		callback = function()
-			local win = vim.api.nvim_get_current_win()
-			local win_config = vim.api.nvim_win_get_config(win)
-			if
-				win_config.relative ~= ""
-				and
-				win_config.zindex < 200
-			then
-				vim.api.nvim_win_set_config(
-					win,
-					{
-						zindex = 200,
-					}
-				)
-			end
-		end,
-	}
-)
+-- vim.api.nvim_create_augroup("floating_window_zindex", {clear = true})
+-- vim.api.nvim_create_autocmd(
+-- 	"WinNew",
+-- 	{
+-- 		group = "floating_window_zindex",
+-- 		callback = function()
+-- 			local win = vim.api.nvim_get_current_win()
+-- 			local win_config = vim.api.nvim_win_get_config(win)
+-- 			if
+-- 				win_config.relative ~= ""
+-- 				and
+-- 				win_config.zindex < 200
+-- 			then
+-- 				vim.api.nvim_win_set_config(
+-- 					win,
+-- 					{
+-- 						zindex = 200,
+-- 					}
+-- 				)
+-- 			end
+-- 		end,
+-- 	}
+-- )
 
 -- # filetype
 
