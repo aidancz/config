@@ -39,7 +39,6 @@ require("telescope").setup({
 	defaults = {
 		border = true,
 		borderchars = {"━", "┃", "━", "┃", "┏", "┓", "┛", "┗"},
-		sorting_strategy = "ascending",
 		layout_strategy = "horizontal",
 		layout_config = {
 			horizontal = {
@@ -63,11 +62,13 @@ require("telescope").setup({
 				["<esc>"] = false,
 			},
 		},
+		sorting_strategy = "ascending",
+		wrap_results = false,
 	},
 	extensions = {
-		["ui-select"] = {
-			-- require("telescope.themes").get_dropdown(),
-		},
+		-- ["ui-select"] = {
+		-- 	require("telescope.themes").get_dropdown(),
+		-- },
 	},
 })
 

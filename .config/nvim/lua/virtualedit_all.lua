@@ -6,6 +6,7 @@ M.cache = {
 		lnum = 1,
 		virtcol = 1,
 	},
+	timer = vim.uv.new_timer(),
 }
 
 M.setup = function()
@@ -93,13 +94,12 @@ M.modechanged_on = function()
 			group = "virtualedit_all_modechanged",
 			pattern = "*:n",
 			callback = function()
-				local timer = vim.uv.new_timer()
-				timer:start(
+				M.cache.timer:start(
 					0,
 					10,
 					function()
 						if vim.api.nvim_get_mode().mode == "n" then
-							timer:stop()
+							M.cache.timer:stop()
 							vim.schedule(function()
 								vim.o.virtualedit = "all"
 							end)
@@ -190,15 +190,17 @@ end
 
 M.on = function()
 	vim.o.virtualedit = "all"
-	require("virtualedit_all").insertleave_cursor_on()
-	require("virtualedit_all").modechanged_on()
-	require("virtualedit_all").paste_on()
+	M.insertleave_cursor_on()
+	M.modechanged_on()
+	M.paste_on()
 end
 
 M.off = function()
-	require("virtualedit_all").insertleave_cursor_off()
-	require("virtualedit_all").modechanged_off()
-	require("virtualedit_all").paste_off()
+	M.insertleave_cursor_off()
+	M.modechanged_off()
+	M.paste_off()
+
+	M.cache.timer:stop()
 	vim.o.virtualedit = M.cache.original_virtualedit
 end
 
