@@ -26,6 +26,9 @@ require("fzf-lua").setup({
 	keymap = {
 		builtin = {
 			true,
+			["<f1>"]         = "hide",
+			["<c-h>"]        = "toggle-help",
+			["<f11>"]        = "toggle-fullscreen",
 			["<pageup>"]     = "preview-half-page-up",
 			["<pagedown>"]   = "preview-half-page-down",
 			["<del>"]        = "preview-reset",

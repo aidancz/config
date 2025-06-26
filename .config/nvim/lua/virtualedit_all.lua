@@ -93,19 +93,25 @@ M.modechanged_on = function()
 			group = "virtualedit_all_modechanged",
 			pattern = "*:n",
 			callback = function()
-				local timer = vim.uv.new_timer()
-				timer:start(
-					0,
-					10,
+				vim.keymap.set(
+					{"n", "x", "s", "i", "c", "t", "o"},
+					"<plug>(virtualedit_all_temp_key1)",
 					function()
-						if vim.api.nvim_get_mode().mode == "n" then
-							timer:stop()
-							vim.schedule(function()
-								vim.o.virtualedit = "all"
-							end)
-						end
+						vim.o.virtualedit = "all"
 					end
 				)
+				vim.schedule(function()
+					vim.api.nvim_feedkeys(
+						vim.api.nvim_replace_termcodes(
+							"<plug>(virtualedit_all_temp_key1)",
+							true,
+							true,
+							true
+						),
+						"",
+						false
+					)
+				end)
 			end,
 		}
 	)
@@ -199,7 +205,25 @@ M.off = function()
 	require("virtualedit_all").insertleave_cursor_off()
 	require("virtualedit_all").modechanged_off()
 	require("virtualedit_all").paste_off()
-	vim.o.virtualedit = M.cache.original_virtualedit
+	vim.keymap.set(
+		{"n", "x", "s", "i", "c", "t", "o"},
+		"<plug>(virtualedit_all_temp_key0)",
+		function()
+			vim.o.virtualedit = M.cache.original_virtualedit
+		end
+	)
+	vim.schedule(function()
+		vim.api.nvim_feedkeys(
+			vim.api.nvim_replace_termcodes(
+				"<plug>(virtualedit_all_temp_key0)",
+				true,
+				true,
+				true
+			),
+			"",
+			false
+		)
+	end)
 end
 
 M.is_on = function()

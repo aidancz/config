@@ -5,6 +5,13 @@
 require("go-up").setup({
 })
 
+-- # virtual lines
+
+require("luaexec").add({
+	code = [[require("go-up").toggle()]],
+	from = "go-up",
+})
+
 -- # recenter
 
 require("luaexec").add({

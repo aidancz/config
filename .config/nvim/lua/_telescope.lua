@@ -21,12 +21,29 @@ require("mini.deps").add({
 	},
 })
 
+-- HACK: https://github.com/nvim-telescope/telescope.nvim/issues/3436
+vim.api.nvim_create_autocmd("User", {
+	pattern = "TelescopeFindPre",
+	callback = function()
+		vim.opt_local.winborder = "none"
+		vim.api.nvim_create_autocmd("WinLeave", {
+			once = true,
+			callback = function()
+				vim.opt_local.winborder = "bold"
+			end,
+		})
+	end,
+})
+
 require("telescope").setup({
 	defaults = {
+		border = true,
 		borderchars = {"━", "┃", "━", "┃", "┏", "┓", "┛", "┗"},
 		layout_strategy = "horizontal",
 		layout_config = {
 			horizontal = {
+				height = vim.o.lines,
+				width = vim.o.columns,
 				prompt_position = "top",
 				preview_cutoff = 0,
 				preview_width = 0.5
@@ -34,18 +51,27 @@ require("telescope").setup({
 		},
 		mappings = {
 			i = {
-				["<esc>"] = "close",
+				["<f1>"] = "close",
+				-- ["<esc>"] = "close",
 				["<c-u>"] = false,
+				["<pageup>"] = "preview_scrolling_up",
+				["<pagedown>"] = "preview_scrolling_down",
+			},
+			n = {
+				["<f1>"] = "close",
+				["<esc>"] = false,
 			},
 		},
 	},
 	extensions = {
 		["ui-select"] = {
-			require("telescope.themes").get_dropdown(),
+			-- require("telescope.themes").get_dropdown(),
 		},
 	},
 })
 
-require("telescope").load_extension("fzf")
+vim.api.nvim_set_hl(0, "TelescopeMatching",  {link = "nofrils_blue"})
+vim.api.nvim_set_hl(0, "TelescopeSelection", {link = "nofrils_reverse"})
 
+require("telescope").load_extension("fzf")
 -- require("telescope").load_extension("ui-select")

@@ -80,6 +80,7 @@ require("fzf-lua").custom_luaexec_exec = function(opts)
 					-- can also use vim.split
 					local from = iter()
 					local name = iter()
+					name = tonumber(name) or name
 					vim.keymap.set(
 						{"n", "x", "s", "i", "c", "t", "o"},
 						"<plug>(luaexec_temp_key)",
@@ -87,9 +88,16 @@ require("fzf-lua").custom_luaexec_exec = function(opts)
 							require("luaexec").registry[from][name](true)
 						end
 					)
-					vim.schedule(function()
-						vim.api.nvim_input("<plug>(luaexec_temp_key)")
-					end)
+					vim.api.nvim_feedkeys(
+						vim.api.nvim_replace_termcodes(
+							"<plug>(luaexec_temp_key)",
+							true,
+							true,
+							true
+						),
+						"",
+						false
+					)
 				end,
 			},
 			previewer = previewer,

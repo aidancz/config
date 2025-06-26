@@ -115,9 +115,6 @@ vim.opt.winborder = "bold"
 vim.opt.winfixheight = false
 vim.opt.wrapmargin = 0
 
-require("vim._extui").enable({
-})
-
 ----------------------------------------------------------------
 
 -- # autoindent copyindent

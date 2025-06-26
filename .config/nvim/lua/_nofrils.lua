@@ -89,11 +89,12 @@ vim.api.nvim_set_hl(0, "WinSeparator", {})
 -- # define highlight groups
 -- for detailed information, run `:h group-name`
 
-vim.api.nvim_set_hl(0, "Comment", {link = "nofrils_blue"})
-vim.api.nvim_set_hl(0, "Error",   {link = "nofrils_red_bg"})
 vim.api.nvim_set_hl(0, "Added",   {link = "nofrils_green"})
 vim.api.nvim_set_hl(0, "Changed", {link = "nofrils_yellow"})
+vim.api.nvim_set_hl(0, "Comment", {link = "nofrils_blue"})
+vim.api.nvim_set_hl(0, "Error",   {link = "nofrils_red_bg"})
 vim.api.nvim_set_hl(0, "Removed", {link = "nofrils_red"})
+vim.api.nvim_set_hl(0, "Special", {link = "nofrils_magenta"})
 
 -- # define highlight groups
 -- for detailed information, run `:e $VIMRUNTIME/lua/man.lua`

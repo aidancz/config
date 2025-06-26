@@ -75,8 +75,6 @@ require("vim_global_variable")
 
 -- # library
 
--- require("_mini-pick")
-require("_fzf-lua")
 require("_luaeval")
 require("_luaexec")
 require("_mini-extra")
@@ -117,6 +115,12 @@ local require = function(modname)
 	end)
 end
 
+-- # library
+
+-- require("_mini-pick")
+require("_fzf-lua")
+require("_telescope")
+
 -- # main
 
 -- require("_LuaSnip")
@@ -153,7 +157,6 @@ end
 -- require("_sidebar")
 -- require("_snacks")
 -- require("_sniprun")
--- require("_telescope")
 -- require("_undotree-jiaoshijie")
 -- require("_vim-ReplaceWithRegister")
 -- require("_vim-mark")
@@ -208,6 +211,7 @@ require("_virtualedit_all")
 require("_yanky")
 require("_yazi")
 require("diagnostic")
+require("extui")
 require("hl")
 require("keymap")
 require("virtualedit_all")
