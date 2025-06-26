@@ -203,6 +203,11 @@ vim.keymap.set(
 	function() vim.cmd(vim.fn.histget("cmd", -1)) end
 )
 vim.keymap.set(
+	{"n", "x", "s", "i", "c", "t", "o"},
+	"<f2><bs>",
+	function() vim.cmd("restart") end
+)
+vim.keymap.set(
 	{"n", "x"},
 	"<bs>",
 	function() vim.cmd(vim.fn.histget("cmd", -1)) end

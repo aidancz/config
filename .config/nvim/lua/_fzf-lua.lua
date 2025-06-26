@@ -6,6 +6,23 @@ require("mini.deps").add({
 
 require("fzf-lua").setup({
 	"hide",
+	help_open_win = function(buffer, enter, config)
+		config = vim.tbl_extend(
+			"force",
+			config,
+			{
+				relative = "editor",
+				anchor = "NW",
+				border = "none",
+				row = 0,
+				col = 0,
+				width = vim.o.columns,
+				height = vim.o.lines,
+				style = "minimal",
+			}
+		)
+		return vim.api.nvim_open_win(buffer, enter, config)
+	end,
 	winopts = {
 		border = "none",
 		zindex = 200,
@@ -39,6 +56,13 @@ require("fzf-lua").setup({
 			true,
 			["ctrl-s"] = "first",
 			["ctrl-e"] = "last",
+			["f10"]    = "toggle-sort",
+		},
+	},
+	actions = {
+		files = {
+			true,
+			["ctrl-s"] = false,
 		},
 	},
 	fzf_opts = {

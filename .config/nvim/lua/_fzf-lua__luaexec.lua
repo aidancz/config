@@ -95,7 +95,7 @@ require("fzf-lua").custom_luaexec_exec = function(opts)
 							true,
 							true
 						),
-						"",
+						"x",
 						false
 					)
 				end,

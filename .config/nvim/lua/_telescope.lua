@@ -39,6 +39,7 @@ require("telescope").setup({
 	defaults = {
 		border = true,
 		borderchars = {"━", "┃", "━", "┃", "┏", "┓", "┛", "┗"},
+		sorting_strategy = "ascending",
 		layout_strategy = "horizontal",
 		layout_config = {
 			horizontal = {
