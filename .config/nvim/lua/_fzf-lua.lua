@@ -64,10 +64,20 @@ require("fzf-lua").setup({
 			true,
 			["ctrl-s"] = false,
 		},
+		-- buffers = {
+		-- 	true,
+		-- 	["ctrl-s"] = false,
+		-- },
 	},
 	fzf_opts = {
 		["--history"] = vim.fn.stdpath("data") .. "/fzf-lua-history",
 		-- https://github.com/ibhagwan/fzf-lua/wiki#custom-history
+	},
+
+	-- # picker options
+
+	grep = {
+		RIPGREP_CONFIG_PATH = vim.env.RIPGREP_CONFIG_PATH,
 	},
 })
 
@@ -207,7 +217,14 @@ require("luaexec").add({
 })
 
 require("luaexec").add({
-	code = [[require("fzf-lua").helptags()]],
+	code =
+[[
+require("fzf-lua").helptags({
+	actions = {
+		["ctrl-s"] = false,
+	},
+})
+]],
 	from = "fzf-lua",
 	keys = {"n", "rh"},
 })
@@ -243,7 +260,7 @@ require("luaexec").add({
 })
 
 require("luaexec").add({
-	code = [[require("fzf-lua").live_grep()]],
+	code = [[require("fzf-lua").live_grep({cwd = vim.fs.root(0, ".git") or vim.fn.getcwd()})]],
 	from = "fzf-lua",
 	keys = {"n", "rw"},
 })

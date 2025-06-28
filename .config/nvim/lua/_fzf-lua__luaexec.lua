@@ -88,16 +88,18 @@ require("fzf-lua").custom_luaexec_exec = function(opts)
 							require("luaexec").registry[from][name](true)
 						end
 					)
-					vim.api.nvim_feedkeys(
-						vim.api.nvim_replace_termcodes(
-							"<plug>(luaexec_temp_key)",
-							true,
-							true,
-							true
-						),
-						"x",
-						false
-					)
+					vim.schedule(function()
+						vim.api.nvim_feedkeys(
+							vim.api.nvim_replace_termcodes(
+								"<plug>(luaexec_temp_key)",
+								true,
+								true,
+								true
+							),
+							"x",
+							false
+						)
+					end)
 				end,
 			},
 			previewer = previewer,

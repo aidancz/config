@@ -220,7 +220,7 @@ bindkey -M emacs "^[OQe"    _zoxide
 bindkey -M emacs "^[OQr"    _fzf
 bindkey -M emacs "^[OQf"    _yazi
 bindkey -M emacs "^[OQv"    _nvim
-bindkey -M emacs "^[OQg"    _lazygit
+bindkey -M emacs "^[OQ "    _lazygit
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ tmux
 # if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then

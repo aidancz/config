@@ -59,28 +59,100 @@ require("fzf-lua").custom_outliner = function(opts)
 		}
 	end
 
+	local fzf_get_port = function()
+		return "localhost:" .. vim.env.FZF_PORT
+	end
+	local fzf_get_state = function()
+		local port = fzf_get_port()
+		local json = vim.system({"curl", "-sL", port}):wait().stdout
+		local state = vim.json.decode(json)
+		return state
+	end
+	local get_matches = function()
+		local state = fzf_get_state()
+		local match_indexes = vim.tbl_map(
+			function(x)
+				return x.index + 1
+			end,
+			state.matches
+		)
+		local matches = {}
+		for _, i in ipairs(match_indexes) do
+			table.insert(matches, headings[i])
+		end
+		return matches
+	end
+	local nvim_get_cursor = function(win)
+		local pos10 = vim.api.nvim_win_get_cursor(win)
+		local pos00 = {
+			pos10[1] - 1,
+			pos10[2],
+		}
+		return pos00
+	end
+	local fzf_set_cursor = function(idx)
+		local port = fzf_get_port()
+		vim.system({
+			"curl",
+			"-XPOST",
+			port,
+			"-d",
+			string.format("pos(%s)", idx)
+		}):wait()
+	end
+	local fzf_restore_cursor = function(selected, opts)
+		local matches = get_matches()
+		local nvim_cursor = nvim_get_cursor(opts.__CTX.winid)
+		local idx_matches = require("outliner").pos_get_heading_idx(matches, nvim_cursor)
+		if idx_matches == nil then return end
+		fzf_set_cursor(idx_matches)
+	end
+	local nvim_set_cursor = function(selected, opts)
+		local components = vim.split(selected[1], require("fzf-lua").utils.nbsp)
+		local buf = tonumber(components[2])
+		local row1 = tonumber(components[3])
+		local col1 = tonumber(components[4])
+
+		local win = opts.__CTX.winid
+		vim.api.nvim_win_set_cursor(win, {row1 + 1, col1})
+		vim.api.nvim_win_call(win, function() vim.cmd("normal! zz") end)
+	end
+
 	opts = vim.tbl_deep_extend(
 		"force",
 		{
 			fzf_opts = {
 				["--delimiter"] = string.format("[%s]", require("fzf-lua").utils.nbsp),
 				["--with-nth"] = "5..",
+				["--read0"] = true,
+				["--no-multi-line"] = true,
 				["--no-sort"] = true,
+				["--listen"] = 0,
+			},
+			keymap = {
+				fzf = {
+					["start"] = string.format(
+						"%s+%s:%s",
+						"unbind(change)", -- since FZF_DEFAULT_OPTS --bind=change:first
+						"execute-silent",
+						string.format(
+							"nvim --server %s --remote-expr %s",
+							vim.v.servername,
+							[["luaeval('(function() vim.env.FZF_PORT = $FZF_PORT end)()')"]]
+						)
+					),
+				},
 			},
 			actions = {
-				["default"] = function(selected, opts)
-					local components = vim.split(selected[1], require("fzf-lua").utils.nbsp)
-					local buf = tonumber(components[2])
-					local row1 = tonumber(components[3])
-					local col1 = tonumber(components[4])
-					vim.api.nvim_win_set_cursor(0, {row1 + 1, col1})
-					vim.cmd("normal! zz")
-				end,
-				["load,change"] = {
+				["default"] = nvim_set_cursor,
+				["result,ctrl-r"] = {
+					fn = fzf_restore_cursor,
 					exec_silent = true,
-					fn = function(selected, opts)
-					end,
-				}
+				},
+				["ctrl-a"] = {
+					fn = nvim_set_cursor,
+					exec_silent = true,
+				},
 			},
 			previewer = previewer,
 		},
