@@ -35,7 +35,10 @@ M.query_registry.markdown = vim.treesitter.query.parse(
 M.query_registry.lua = vim.treesitter.query.parse(
 	"lua",
 [[
-(chunk (comment) @h1 (#match? @h1 "^-- #"))
+(chunk (comment) @h1 (#match? @h1 "^-- # "))
+(chunk (comment) @h2 (#match? @h2 "^-- ## "))
+(chunk (comment) @h3 (#match? @h3 "^-- ### "))
+(chunk (comment) @h4 (#match? @h4 "^-- #### "))
 (chunk (variable_declaration
   [
     (variable_list) @variable

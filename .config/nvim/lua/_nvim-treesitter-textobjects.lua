@@ -1,28 +1,117 @@
 require("mini.deps").add({
 	source = "nvim-treesitter/nvim-treesitter-textobjects",
+	checkout = "main",
 })
 
-require("nvim-treesitter.configs").setup({
-	textobjects = {
-		select = {
-			enable = true,
-			lookahead = true,
-			keymaps = {
-				-- custom capture:
-				["ic"] = "@code_block.inner",
-				["ac"] = "@code_block.outer",
-				["iF"] = "@call.name",
-				["aF"] = "@call.name",
-				-- builtin capture:
-				["ia"] = "@parameter.inner",
-				["aa"] = "@parameter.outer",
-				["if"] = "@call.inner",
-				["af"] = "@call.outer",
-			},
-			selection_modes = {
-				["@code_block.inner"] = "V",
-				["@code_block.outer"] = "V",
-			},
+require("nvim-treesitter-textobjects").setup({
+	select = {
+		lookahead = true,
+		selection_modes = {
+			["@code_block.inner"] = "V",
+			["@code_block.outer"] = "V",
 		},
+		include_surrounding_whitespace = function(opts)
+			if
+				opts.query_string == "@parameter.outer"
+			then
+				return true
+			else
+				return false
+			end
+		end
 	},
 })
+
+-- # select
+
+-- ## builtin capture
+
+vim.keymap.set(
+	{"x", "o"},
+	"ia",
+	function()
+		require("nvim-treesitter-textobjects.select").select_textobject(
+			"@parameter.inner",
+			"textobjects"
+		)
+	end
+)
+
+vim.keymap.set(
+	{"x", "o"},
+	"aa",
+	function()
+		require("nvim-treesitter-textobjects.select").select_textobject(
+			"@parameter.outer",
+			"textobjects"
+		)
+	end
+)
+
+vim.keymap.set(
+	{"x", "o"},
+	"if",
+	function()
+		require("nvim-treesitter-textobjects.select").select_textobject(
+			"@call.inner",
+			"textobjects"
+		)
+	end
+)
+
+vim.keymap.set(
+	{"x", "o"},
+	"af",
+	function()
+		require("nvim-treesitter-textobjects.select").select_textobject(
+			"@call.outer",
+			"textobjects"
+		)
+	end
+)
+
+-- ## custom capture
+
+vim.keymap.set(
+	{"x", "o"},
+	"ic",
+	function()
+		require("nvim-treesitter-textobjects.select").select_textobject(
+			"@code_block.inner",
+			"textobjects"
+		)
+	end
+)
+
+vim.keymap.set(
+	{"x", "o"},
+	"ac",
+	function()
+		require("nvim-treesitter-textobjects.select").select_textobject(
+			"@code_block.outer",
+			"textobjects"
+		)
+	end
+)
+
+vim.keymap.set(
+	{"x", "o"},
+	"iF",
+	function()
+		require("nvim-treesitter-textobjects.select").select_textobject(
+			"@call.name",
+			"textobjects"
+		)
+	end
+)
+
+vim.keymap.set(
+	{"x", "o"},
+	"aF",
+	function()
+		require("nvim-treesitter-textobjects.select").select_textobject(
+			"@call.name",
+			"textobjects"
+		)
+	end
+)

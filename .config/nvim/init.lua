@@ -105,6 +105,13 @@ require("autocmd")
 require("gutter")
 require("lsp")
 
+-- # fast & pain to live without
+
+require("keymap")
+require("virtualedit_all")
+require("_nvim-treesitter") -- slow
+require("_nvim-treesitter-textobjects")
+
 ----------------------------------------------------------------
 
 -- # redefine `require` function
@@ -196,8 +203,6 @@ require("_mini-snippets")
 require("_mini-splitjoin")
 require("_mini-surround")
 require("_mini-visits")
-require("_nvim-treesitter") -- slow
-require("_nvim-treesitter-textobjects")
 require("_paramo")
 require("_sentiment")
 require("_substitute")
@@ -213,8 +218,6 @@ require("_yazi")
 require("diagnostic")
 require("extui")
 require("hl")
-require("keymap")
-require("virtualedit_all")
 
 ----------------------------------------------------------------
 
