@@ -88,23 +88,56 @@ M.cmd2code = function(cmd)
 	return code_tbl
 end
 
-M.exec = function(code_tbl, histadd)
+---@param opts? {
+---	run?: boolean|true,
+---	histadd?: boolean|false,
+---}
+M.exec = function(code_tbl, opts)
+	opts = vim.tbl_extend(
+		"force",
+		{
+			run = true,
+			histadd = false,
+		},
+		opts or {}
+	)
+
 	local cmd = M.code2cmd(code_tbl)
-	if histadd then
+
+	if opts.histadd then
 		vim.fn.histadd("cmd", cmd)
 	end
-	vim.cmd(cmd)
+	if opts.run then
+		vim.cmd(cmd)
+	end
+end
+
+M.list_history = function()
+	local history = {}
+	for i = vim.fn.histnr(":"), 1, -1 do
+		local entry = vim.fn.histget(":", i)
+		if entry == "" then goto continue end
+		local code_tbl = require("luaexec").cmd2code(entry)
+		if code_tbl == nil then goto continue end
+
+		table.insert(
+			history,
+			{
+				histnr = i,
+				code_tbl = code_tbl,
+			}
+		)
+
+		::continue::
+	end
+	return history
 end
 
 -- # api
 
-M.node_exec = function(node, histadd)
-	if histadd == nil then
-		histadd = false
-	end
-
+M.node_exec = function(node, opts)
 	local code_tbl = vim.split(node.code, "\n", {trimempty = true})
-	M.exec(code_tbl, histadd)
+	M.exec(code_tbl, opts)
 end
 
 M.is_list_of_list = function(tbl)
@@ -134,7 +167,7 @@ M.node_set_keys = function(node)
 			i[1],
 			i[2],
 			function()
-				M.node_exec(node, false)
+				M.node_exec(node)
 			end,
 			i[3] or {}
 		)

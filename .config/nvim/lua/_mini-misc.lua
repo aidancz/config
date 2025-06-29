@@ -14,6 +14,7 @@ require("mini.misc").zoom(
 	nil,
 	{
 		height = vim.o.lines - 4,
+		title = "",
 	}
 )
 ]],

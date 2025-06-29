@@ -1,2 +1,6 @@
 gui:
-  border: double
+  border: bold
+
+keybinding:
+  universal:
+    quit: <f1>

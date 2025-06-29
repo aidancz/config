@@ -85,7 +85,7 @@ require("fzf-lua").custom_luaexec_exec = function(opts)
 						{"n", "x", "s", "i", "c", "t", "o"},
 						"<plug>(luaexec_temp_key)",
 						function()
-							require("luaexec").registry[from][name](true)
+							require("luaexec").registry[from][name]({histadd = true})
 						end
 					)
 					vim.schedule(function()
@@ -122,36 +122,7 @@ require("luaexec").add({
 require("fzf-lua").custom_luaexec_hist = function(opts)
 	opts = opts or {}
 
-	local list_history = function(histname)
-		local history = {}
-		for i = vim.fn.histnr(histname), 1, -1 do
-			local entry = vim.fn.histget(histname, i)
-			if entry ~= "" then
-				table.insert(
-					history,
-					{
-						histnr = i,
-						histname = histname,
-						entry = entry,
-					}
-				)
-			end
-		end
-		return history
-	end
-	local history = list_history(":")
-	local list_history_luaexec = function(history)
-		local history_luaexec = {}
-		for _, i in ipairs(history) do
-			local code_tbl = require("luaexec").cmd2code(i.entry)
-			if code_tbl then
-				i.code_tbl = code_tbl
-				table.insert(history_luaexec, i)
-			end
-		end
-		return history_luaexec
-	end
-	local history_luaexec = list_history_luaexec(history)
+	local history = require("luaexec").list_history()
 
 	local contents = vim.tbl_map(
 		function(x)
@@ -163,7 +134,7 @@ require("fzf-lua").custom_luaexec_hist = function(opts)
 				table.concat(x.code_tbl, "\n")
 			)
 		end,
-		history_luaexec
+		history
 	)
 
 	local previewer = require("fzf-lua.previewer.builtin").base:extend()

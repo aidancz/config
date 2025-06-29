@@ -10,4 +10,7 @@ require("snacks").setup({
 	scratch = {
 		enabled = true,
 	},
+	lazygit = {
+		enabled = true,
+	},
 })

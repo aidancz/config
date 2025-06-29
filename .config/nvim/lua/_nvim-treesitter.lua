@@ -25,6 +25,7 @@ local parsers = {
 	"python",
 	"javascript",
 
+	"bash",
 	"css",
 	"git_rebase",
 	"gitcommit",
@@ -36,11 +37,12 @@ local parsers = {
 
 require("nvim-treesitter").install(parsers)
 
--- ## filetype -> parser
+-- ## parser -> filetype
 
 vim.treesitter.language.register("bash",     "zsh")
 vim.treesitter.language.register("ini",      "conf")
 vim.treesitter.language.register("markdown", "text")
+vim.treesitter.language.register("scheme",   "lisp")
 
 -- # highlights
 
@@ -69,14 +71,18 @@ vim.api.nvim_set_hl(0, "@markup.raw",       {link = "nofrils_blue"})
 
 -- ## enable
 
+local highlights_enable = function()
+	pcall(function()
+		vim.treesitter.start()
+	end)
+end
+
+highlights_enable()
+
 vim.api.nvim_create_autocmd(
 	"FileType",
 	{
-		callback = function()
-			pcall(function()
-				vim.treesitter.start()
-			end)
-		end,
+		callback = highlights_enable,
 	}
 )
 

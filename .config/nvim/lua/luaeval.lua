@@ -24,6 +24,7 @@ M.config = {
 		winfixwidth = true,
 		winfixheight = true,
 	},
+	hook_bufadd = nil,
 	hook_open = nil,
 	hook_close = nil,
 }
@@ -70,6 +71,8 @@ M.buf_set_true = function()
 			vim.api.nvim_set_option_value(option, value, {buf = M.cache.buf_handle})
 		end
 	end
+
+	M.config.hook_bufadd()
 end
 
 M.buf_set_lines = function(lines)
@@ -122,28 +125,33 @@ M.cmd2code = require("luaexec").cmd2code
 
 M.exec = require("luaexec").exec
 
-M.wrap = function(code_tbl, wrap)
-	if wrap == nil then
-		return
-	elseif wrap == "vim.print" then
-		table.insert(code_tbl, 1, "vim.print(")
-		table.insert(code_tbl, ")")
-	elseif wrap == "vim.cmd" then
-		table.insert(code_tbl, 1, "vim.cmd([[")
-		table.insert(code_tbl, "]])")
-	elseif wrap == "vim.cmd.normal" then
-		table.insert(code_tbl, 1, "vim.cmd.normal([[")
-		code_tbl[#code_tbl] = code_tbl[#code_tbl] .. "]])"
-	elseif wrap == "vim.api.nvim_feedkeys" then
-		table.insert(code_tbl, 1, "vim.api.nvim_feedkeys([[")
-		code_tbl[#code_tbl] = code_tbl[#code_tbl] .. "]], [[t]], true)"
-	end
+M.list_history = require("luaexec").list_history
+
+M.buf_get_lines = function()
+	return vim.api.nvim_buf_get_lines(M.cache.buf_handle, 0, -1, true)
 end
 
-M.eval = function(wrap)
-	local code_tbl = vim.api.nvim_buf_get_lines(M.cache.buf_handle, 0, -1, true)
-	M.wrap(code_tbl, wrap)
-	M.exec(code_tbl, true)
+M.eval = function()
+	local code_tbl = M.buf_get_lines()
+	M.exec(
+		code_tbl,
+		{
+			run = true,
+			histadd = true,
+		}
+	)
+end
+
+M.histadd = function()
+	local code_tbl = M.buf_get_lines()
+	if vim.deep_equal(code_tbl, {""}) then return end
+	M.exec(
+		code_tbl,
+		{
+			run = false,
+			histadd = true,
+		}
+	)
 end
 
 M.open = function()

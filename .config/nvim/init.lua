@@ -109,8 +109,6 @@ require("lsp")
 
 require("keymap")
 require("virtualedit_all")
-require("_nvim-treesitter") -- slow
-require("_nvim-treesitter-textobjects")
 
 ----------------------------------------------------------------
 
@@ -126,6 +124,7 @@ end
 
 -- require("_mini-pick")
 require("_fzf-lua")
+require("_hydra")
 require("_telescope")
 
 -- # main
@@ -183,7 +182,6 @@ require("_fzf-lua__luaexec")
 require("_fzf-lua__outliner")
 require("_hl")
 require("_hls")
-require("_hydra")
 require("_lazygit")
 require("_lfsp")
 require("_macro")
@@ -203,6 +201,8 @@ require("_mini-snippets")
 require("_mini-splitjoin")
 require("_mini-surround")
 require("_mini-visits")
+require("_nvim-treesitter") -- slow
+require("_nvim-treesitter-textobjects")
 require("_paramo")
 require("_sentiment")
 require("_substitute")

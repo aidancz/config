@@ -33,7 +33,7 @@ require("hydra")({
 		-- 	vim.wo.wrap = false
 		-- end,
 	},
-	mode = "n",
+	mode = {"n", "x"},
 	body = "z",
 	heads = {
 		{"h", "5zh"},
@@ -42,6 +42,7 @@ require("hydra")({
 })
 
 require("hydra")({
+	mode = {"n", "x"},
 	body = "f",
 	heads = {
 		{
@@ -60,6 +61,7 @@ require("hydra")({
 })
 
 require("hydra")({
+	mode = {"n", "x"},
 	body = "f",
 	heads = {
 		{
@@ -78,6 +80,7 @@ require("hydra")({
 })
 
 require("hydra")({
+	mode = {"n", "x"},
 	body = "f",
 	heads = {
 		{
@@ -96,6 +99,7 @@ require("hydra")({
 })
 
 require("hydra")({
+	mode = {"n", "x"},
 	body = "f",
 	heads = {
 		{
@@ -116,6 +120,7 @@ require("hydra")({
 -- # window resize
 
 require("hydra")({
+	mode = {"n", "x"},
 	body = "<c-w>",
 	heads = {
 		{"-", "<c-w>-"},
@@ -124,6 +129,7 @@ require("hydra")({
 })
 
 require("hydra")({
+	mode = {"n", "x"},
 	body = "<c-w>",
 	heads = {
 		{"<", "<c-w><"},
@@ -197,5 +203,23 @@ require("hydra")({
 	heads = {
 		{"C", "<cmd>cprevious<cr>"},
 		{"c", "<cmd>cnext<cr>"},
+	},
+})
+
+-- # motion
+
+require("hydra")({
+	mode = {"n", "x"},
+	body = "g",
+	heads = {
+		{"e", "ge"},
+	},
+})
+
+require("hydra")({
+	mode = {"n", "x"},
+	body = "g",
+	heads = {
+		{"E", "gE"},
 	},
 })

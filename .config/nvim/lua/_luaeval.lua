@@ -1,4 +1,22 @@
 require("luaeval").setup({
+	hook_bufadd = function()
+		vim.schedule(function()
+			local history = require("luaeval").list_history()
+			require("luaeval").buf_set_lines(history[1].code_tbl)
+		end)
+
+		vim.api.nvim_create_augroup("luaeval_config", {clear = true})
+		vim.api.nvim_create_autocmd(
+			"VimLeavePre",
+			{
+				group = "luaeval_config",
+				pattern = "*",
+				callback = function()
+					require("luaeval").histadd()
+				end,
+			}
+		)
+	end,
 	hook_open = function()
 	end,
 	hook_close = function()
@@ -19,25 +37,4 @@ require("luaexec").add({
 		{{"n", "i", "c", "x", "s", "o", "t", "l"}, "<c-cr>"},
 		{{"n", "x"}, "m<cr>"},
 	},
-})
-
-require("luaexec").add({
-	code = [[require("luaeval").eval("vim.print")]],
-	from = "luaeval",
-	keys = {"n", ",<bs>"},
-})
-
-require("luaexec").add({
-	code = [[require("luaeval").eval("vim.cmd")]],
-	from = "luaeval",
-})
-
-require("luaexec").add({
-	code = [[require("luaeval").eval("vim.cmd.normal")]],
-	from = "luaeval",
-})
-
-require("luaexec").add({
-	code = [[require("luaeval").eval("vim.api.nvim_feedkeys")]],
-	from = "luaeval",
 })
