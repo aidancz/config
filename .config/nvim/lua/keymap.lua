@@ -200,7 +200,7 @@ vim.keymap.set(
 )
 vim.keymap.set(
 	{"n", "x", "s", "i", "c", "t", "o"},
-	"<f2><bs>",
+	"<f2><f1>",
 	function() vim.cmd("restart") end
 )
 vim.keymap.set(

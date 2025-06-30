@@ -5,6 +5,7 @@ require("mini.deps").add({
 require("yazi").setup({
 	floating_window_scaling_factor = 1,
 	yazi_floating_window_border = "none",
+	yazi_floating_window_zindex = 200,
 	keymaps = {
 		show_help                            = false,
 		open_file_in_vertical_split          = "<c-v>",

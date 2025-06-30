@@ -93,40 +93,48 @@ require("luaexec").add({
 	code = [[require("go-up").scroll(vim.api.nvim_win_get_height(0) * (1 / 4), true)]],
 	from = "go-up",
 	name = "scroll +1/4",
+	keys = {{"n", "x"}, "fs"},
 })
 require("luaexec").add({
 	code = [[require("go-up").scroll(-vim.api.nvim_win_get_height(0) * (1 / 4), true)]],
 	from = "go-up",
 	name = "scroll -1/4",
+	keys = {{"n", "x"}, "fo"},
 })
 require("luaexec").add({
 	code = [[require("go-up").scroll(vim.api.nvim_win_get_height(0) * (2 / 4), true)]],
 	from = "go-up",
 	name = "scroll +2/4",
+	keys = {{"n", "x"}, "fd"},
 })
 require("luaexec").add({
 	code = [[require("go-up").scroll(-vim.api.nvim_win_get_height(0) * (2 / 4), true)]],
 	from = "go-up",
 	name = "scroll -2/4",
+	keys = {{"n", "x"}, "fu"},
 })
 require("luaexec").add({
 	code = [[require("go-up").scroll(vim.api.nvim_win_get_height(0) * (4 / 4), true)]],
 	from = "go-up",
 	name = "scroll +4/4",
+	keys = {{"n", "x"}, "fw"},
 })
 require("luaexec").add({
 	code = [[require("go-up").scroll(-vim.api.nvim_win_get_height(0) * (4 / 4), true)]],
 	from = "go-up",
 	name = "scroll -4/4",
+	keys = {{"n", "x"}, "fi"},
 })
 
 require("luaexec").add({
 	code = [[require("go-up").scroll(1, false)]],
 	from = "go-up",
 	name = "scroll +1",
+	keys = {{"n", "x"}, "fe"},
 })
 require("luaexec").add({
 	code = [[require("go-up").scroll(-1, false)]],
 	from = "go-up",
 	name = "scroll -1",
+	keys = {{"n", "x"}, "fy"},
 })

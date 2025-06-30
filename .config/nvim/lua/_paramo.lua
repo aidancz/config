@@ -26,13 +26,13 @@ end
 map("{", "prev", require("para_nonempty_reverse").is_head_or_tail)
 map("}", "next", require("para_nonempty_reverse").is_head_or_tail)
 
-map("<a-d>", "next", require("para_nonempty").is_head)
-map("<a-r>", "next", require("para_nonempty").is_tail)
-map("<a-u>", "prev", require("para_nonempty").is_head)
+map("md", "next", require("para_nonempty").is_head)
+map("mu", "prev", require("para_nonempty").is_head)
+map("me", "next", require("para_nonempty").is_tail)
 
-map("<a-w>", "next", require("para_cursor_column").is_head)
-map("<a-e>", "next", require("para_cursor_column").is_tail)
-map("<a-b>", "prev", require("para_cursor_column").is_head)
+map("ms", "next", require("para_cursor_column").is_head)
+map("mo", "prev", require("para_cursor_column").is_head)
+map("mx", "next", require("para_cursor_column").is_tail)
 
 local caret = function() vim.cmd("normal! ^") end
 map(
@@ -40,7 +40,7 @@ map(
 	"prev",
 	function(pos)
 		return
-		require("para_cursor_indent").is_head_or_tail(
+		require("para_cursor_indent").is_head(
 			pos,
 			function(a, b)
 				return true
@@ -54,7 +54,7 @@ map(
 	"next",
 	function(pos)
 		return
-		require("para_cursor_indent").is_head_or_tail(
+		require("para_cursor_indent").is_head(
 			pos,
 			function(a, b)
 				return true

@@ -14,9 +14,6 @@ super + c
 super + v
 	killall gromit-mpx || gromit-mpx -o 1 -a &
 
-super + ctrl + v
-	gromit-mpx --toggle
-
 super + b
 	pick-sxhkd
 

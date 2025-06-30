@@ -108,7 +108,7 @@ require("lsp")
 -- # fast & pain to live without
 
 require("keymap")
-require("virtualedit_all")
+require("_virtualedit_all")
 
 ----------------------------------------------------------------
 
@@ -124,7 +124,6 @@ end
 
 -- require("_mini-pick")
 require("_fzf-lua")
-require("_hydra")
 require("_telescope")
 
 -- # main
@@ -212,12 +211,13 @@ require("_toggleterm")
 require("_undotree-mbbill")
 require("_vim-AdvancedSorters")
 require("_vim-table-mode")
-require("_virtualedit_all")
 require("_yanky")
 require("_yazi")
 require("diagnostic")
 require("extui")
 require("hl")
+
+require("_hydra")
 
 ----------------------------------------------------------------
 

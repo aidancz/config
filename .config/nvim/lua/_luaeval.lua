@@ -34,7 +34,7 @@ require("luaexec").add({
 	code = [[require("luaeval").eval()]],
 	from = "luaeval",
 	keys = {
-		{{"n", "i", "c", "x", "s", "o", "t", "l"}, "<c-cr>"},
-		{{"n", "x"}, "m<cr>"},
+		{{"n", "i", "c", "x", "s", "o", "t", "l"}, "<f2><bs>"},
+		{{"n", "x"}, "m<bs>"},
 	},
 })

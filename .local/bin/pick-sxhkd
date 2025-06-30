@@ -3,6 +3,7 @@
 menu="\
 screenkey
 screenkey --show-settings
+gromit-mpx --toggle
 screen-shot
 stalonetray
 "
@@ -15,6 +16,9 @@ case "$i" in
 		;;
 	"screenkey --show-settings")
 		killall screenkey || screenkey --show-settings &
+		;;
+	"gromit-mpx --toggle")
+		gromit-mpx --toggle &
 		;;
 	"screen-shot")
 		screen-shot

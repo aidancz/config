@@ -26,6 +26,7 @@ local parsers = {
 	"javascript",
 
 	"bash",
+	"cpp",
 	"css",
 	"git_rebase",
 	"gitcommit",
