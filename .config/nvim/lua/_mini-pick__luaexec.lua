@@ -68,7 +68,7 @@ require("luaexec").add({
 	code = [[require("mini.pick").registry.luaexec_exec()]],
 	from = "luaexec",
 	keys = {
-		{{"n", "i", "c", "x", "s", "o", "t", "l"}, "<c-cr>"},
+		{{"n", "x", "s", "i", "c", "t", "o"}, "<c-cr>"},
 		{{"n", "x"}, "fj"},
 	},
 })

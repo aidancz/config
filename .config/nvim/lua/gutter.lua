@@ -8,8 +8,10 @@ M.get_gutter = function(width)
 		statuscolumn = "%C%s%l ",
 		-- https://github.com/neovim/neovim/pull/20621
 	}
+
 	local width_delta = width - (1 + 2 * 2 + 3)
-	assert(width_delta >= 0)
+	-- assert(width_delta >= 0)
+	if width_delta <= 0 then return gutter end
 	local width_delta_signcolumn_can_provide = 7 * 2
 	-- "yes:2" ~ "yes:9"
 	if width_delta <= width_delta_signcolumn_can_provide then
@@ -18,6 +20,7 @@ M.get_gutter = function(width)
 		gutter.signcolumn = "yes:9"
 		gutter.statuscolumn = string.rep(" ", width_delta - width_delta_signcolumn_can_provide) .. "%C%s%l "
 	end
+
 	return gutter
 end
 

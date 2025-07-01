@@ -89,16 +89,7 @@ require("fzf-lua").custom_luaexec_exec = function(opts)
 						end
 					)
 					vim.schedule(function()
-						vim.api.nvim_feedkeys(
-							vim.api.nvim_replace_termcodes(
-								"<plug>(luaexec_temp_key)",
-								true,
-								true,
-								true
-							),
-							"x",
-							false
-						)
+						vim.api.nvim_input("<plug>(luaexec_temp_key)")
 					end)
 				end,
 			},
@@ -114,7 +105,7 @@ require("luaexec").add({
 	code = [[require("fzf-lua").custom_luaexec_exec()]],
 	from = "luaexec",
 	keys = {
-		{{"n", "i", "c", "x", "s", "o", "t", "l"}, "<f2>j"},
+		{{"n", "x", "s", "i", "c", "t", "o"}, "<f2>j"},
 		{{"n", "x"}, "rj"},
 	},
 })

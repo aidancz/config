@@ -147,14 +147,19 @@ vim.keymap.set(
 	{expr = true}
 )
 vim.keymap.set(
-	{"n", "x", "i"},
+	{"n", "x", "s", "i", "c", "t", "o"},
+	"<c-bs>",
+	function() vim.cmd(vim.fn.histget("cmd", -1)) end
+)
+vim.keymap.set(
+	{"n", "x", "s", "i", "c", "t", "o"},
 	"<c-esc>",
 	function()
 		vim.cmd("qa!")
 	end
 )
 vim.keymap.set(
-	{"n", "x", "i"},
+	{"n", "x", "s", "i", "c", "t", "o"},
 	"<f1>",
 	function()
 		local is_not_floating_window = function(win)
@@ -183,7 +188,7 @@ https://vi.stackexchange.com/questions/9479/what-is-the-difference-between-quit-
 	}
 )
 vim.keymap.set(
-	{"n", "x", "i"},
+	{"n", "x", "s", "i", "c", "t", "o"},
 	"<f2><cr>",
 	"<cmd>silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>",
 	{
@@ -192,11 +197,6 @@ vim.keymap.set(
 https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
 ]],
 	}
-)
-vim.keymap.set(
-	{"n", "x", "s", "i", "c", "t", "o"},
-	"<c-bs>",
-	function() vim.cmd(vim.fn.histget("cmd", -1)) end
 )
 vim.keymap.set(
 	{"n", "x", "s", "i", "c", "t", "o"},

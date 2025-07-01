@@ -6,7 +6,6 @@ M.cache = {
 		lnum = 1,
 		virtcol = 1,
 	},
-	timer = vim.uv.new_timer(),
 }
 
 M.setup = function()
@@ -27,9 +26,16 @@ M.insertleave_cursor_on = function()
 			callback = function()
 				-- vim.schedule(function()
 				-- 	pcall(function()
-						vim.cmd("normal! `^")
+				-- 		vim.cmd("normal! `^")
 				-- 	end)
 				-- end)
+
+				-- vim.cmd("normal! `^")
+				-- NOTE: does not work well with modechanged autocmd below when `cc aidan <esc>`, don't know why
+
+				local pos = vim.fn.getpos("'^")
+				table.remove(pos, 1)
+				vim.fn.cursor(pos)
 			end,
 		}
 	)
@@ -94,18 +100,7 @@ M.modechanged_on = function()
 			group = "virtualedit_all_modechanged",
 			pattern = "*:n",
 			callback = function()
-				M.cache.timer:start(
-					0,
-					10,
-					function()
-						if vim.api.nvim_get_mode().mode == "n" then
-							M.cache.timer:stop()
-							vim.schedule(function()
-								vim.o.virtualedit = "all"
-							end)
-						end
-					end
-				)
+				vim.o.virtualedit = "all"
 			end,
 		}
 	)
@@ -190,6 +185,7 @@ end
 
 M.on = function()
 	vim.o.virtualedit = "all"
+
 	M.insertleave_cursor_on()
 	M.modechanged_on()
 	M.paste_on()
@@ -200,7 +196,6 @@ M.off = function()
 	M.modechanged_off()
 	M.paste_off()
 
-	M.cache.timer:stop()
 	vim.o.virtualedit = M.cache.original_virtualedit
 end
 

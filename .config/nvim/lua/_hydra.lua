@@ -73,6 +73,11 @@ require("hydra")({
 })
 
 require("hydra")({
+	config = {
+		on_key = function()
+			vim.wait(0) -- https://github.com/anuvyklack/hydra.nvim/issues/36
+		end,
+	},
 	body = "m",
 	heads = {
 		{"C", "<cmd>cprevious<cr>"},

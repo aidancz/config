@@ -44,6 +44,7 @@ require("fzf-lua").setup({
 		builtin = {
 			true,
 			["<f1>"]         = "hide",
+			["<f2>"]         = false,
 			["<c-h>"]        = "toggle-help",
 			["<f11>"]        = "toggle-fullscreen",
 			["<pageup>"]     = "preview-half-page-up",

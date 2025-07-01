@@ -23,8 +23,8 @@ local map = function(key, direction, is, hook)
 	)
 end
 
-map("{", "prev", require("para_nonempty_reverse").is_head_or_tail)
-map("}", "next", require("para_nonempty_reverse").is_head_or_tail)
+map("{", "prev", require("para_nonempty_reverse").is_tail)
+map("}", "next", require("para_nonempty_reverse").is_head)
 
 map("md", "next", require("para_nonempty").is_head)
 map("mu", "prev", require("para_nonempty").is_head)
