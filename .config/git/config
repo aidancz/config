@@ -10,8 +10,12 @@
 [color]
 	ui = auto
 [color "diff"]
+	old = red
+	new = green
+	commit = yellow
 	meta = blue
-	frag = normal
+	frag = blue
+	func = blue
 # https://stackoverflow.com/questions/26941144/how-do-you-customize-the-color-of-the-diff-header-in-git-diff
 # https://stackoverflow.com/questions/26941144/how-do-you-customize-the-color-of-the-diff-header-in-git-diff/61993060#61993060
 [advice]
@@ -23,3 +27,6 @@
 	pager = diff-so-fancy | less
 [interactive]
 	diffFilter = diff-so-fancy --patch
+
+[diff-so-fancy]
+	useUnicodeRuler = false

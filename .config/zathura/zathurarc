@@ -15,4 +15,5 @@ map f navigate next
 map b navigate previous
 
 map <C-a> toggle_page_mode
-map <A-Esc> quit
+map <F1> quit
+map <C-Esc> quit

@@ -20,6 +20,12 @@ require("toggleterm").registry = {}
 
 local lazygit = require("toggleterm.terminal").Terminal:new({
 	cmd = "lazygit",
+	-- hidden = true,
+	-- close_on_exit = true,
+	on_close = function()
+		vim.cmd("checktime")
+		-- reload buffers
+	end,
 })
 require("toggleterm").registry.lazygit = function()
 	lazygit:toggle()

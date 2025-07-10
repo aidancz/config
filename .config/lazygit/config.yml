@@ -1,6 +1,42 @@
 gui:
+  scrollHeight: 20
+  scrollPastBottom: false
+  scrollOffMargin: 0
+  sidePanelWidth: 0.3333
+  expandFocusedSidePanel: false
+  expandedSidePanelWeight: 2
   border: bold
+  theme:
+    activeBorderColor:
+      - blue
+    inactiveBorderColor:
+      - white
+    searchingActiveBorderColor:
+      - yellow
+    selectedLineBgColor:
+      - reverse
+  screenMode: normal
+
+git:
+  paging:
+    colorArg: always
+    pager: diff-so-fancy
+    useConfig: false
+
+quitOnTopLevelReturn: true
+
+notARepository: quit
 
 keybinding:
   universal:
     quit: <f1>
+    togglePanel: <tab>
+    optionMenu: <disabled>
+    optionMenu-alt1: m
+    gotoTop: g
+    gotoBottom: G
+    createRebaseOptionsMenu: <disabled>
+  commits:
+    viewResetOptions: <disabled>
+  stash:
+    popStash: p

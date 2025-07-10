@@ -2,6 +2,11 @@
 
 require("mini.deps").add({
 	source = "ibhagwan/fzf-lua",
+	depends = {
+		{
+			source = "otavioschwanck/fzf-lua-enchanted-files",
+		},
+	},
 })
 
 require("fzf-lua").setup({
@@ -210,6 +215,12 @@ require("luaexec").add({
 	from = "fzf-lua",
 	keys = {"n", "rk"},
 })
+
+-- require("luaexec").add({
+-- 	code = [[require("fzf-lua-enchanted-files").files({cwd = vim.fs.root(0, ".git") or vim.fn.getcwd()})]],
+-- 	from = "fzf-lua",
+-- 	keys = {"n", "rk"},
+-- })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").buffers()]],
