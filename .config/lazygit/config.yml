@@ -15,6 +15,7 @@ gui:
       - yellow
     selectedLineBgColor:
       - reverse
+  nerdFontsVersion: ""
   screenMode: normal
 
 git:
@@ -24,6 +25,11 @@ git:
     useConfig: false
 
 quitOnTopLevelReturn: true
+
+customCommands:
+  - key: C
+    context: files
+    command: git commit --allow-empty --allow-empty-message -m ""
 
 notARepository: quit
 
@@ -36,6 +42,8 @@ keybinding:
     gotoTop: g
     gotoBottom: G
     createRebaseOptionsMenu: <disabled>
+  files:
+    commitChangesWithEditor: <disabled>
   commits:
     viewResetOptions: <disabled>
   stash:

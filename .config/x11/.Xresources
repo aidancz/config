@@ -365,8 +365,8 @@ dmenu.selfgcolor:	black
 
 ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ not color
 *font: monospace:size=15
-*fonta: Twemoji
-*fontb: Twemoji
+! *fonta: Twemoji
+! *fontb: Twemoji
 ! 4 pixel = 3 point
 
 *alpha: 1

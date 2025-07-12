@@ -28,11 +28,13 @@ local parsers = {
 	"bash",
 	"cpp",
 	"css",
+	"diff",
 	"git_rebase",
 	"gitcommit",
 	"lua",
 	"markdown",
 	"markdown_inline",
+	"xml",
 
 }
 
