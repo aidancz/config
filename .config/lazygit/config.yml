@@ -45,6 +45,6 @@ keybinding:
   files:
     commitChangesWithEditor: <disabled>
   commits:
-    viewResetOptions: <disabled>
+    viewResetOptions: <c-g>
   stash:
     popStash: p

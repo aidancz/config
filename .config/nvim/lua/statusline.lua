@@ -359,7 +359,11 @@ M.undotree = function()
 	local first = 0
 	local last = #undotree.entries
 	local current
-	if undotree.seq_cur == 0 then
+	if
+		undotree.seq_cur == 0
+		or
+		last == 0
+	then
 		current = 0
 	else
 		for index, undo_item in ipairs(undotree.entries) do

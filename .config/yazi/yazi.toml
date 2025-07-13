@@ -10,15 +10,15 @@ tab_size = 8
 max_width = 10000
 max_height = 10000
 
-[opener]
-default = [
-	{ run = 'xdg-open "$@"', block = true },
-]
+# [opener]
+# default = [
+# 	{ run = 'xdg-open "$@"', block = true },
+# ]
 
-[open]
-rules = [
-	{ name = "*", use = [ "default" ] },
-]
+# [open]
+# rules = [
+# 	{ name = "*", use = [ "default" ] },
+# ]
 
 [tasks]
 
