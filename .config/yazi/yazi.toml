@@ -10,15 +10,34 @@ tab_size = 8
 max_width = 10000
 max_height = 10000
 
-# [opener]
+[opener]
 # default = [
 # 	{ run = 'xdg-open "$@"', block = true },
 # ]
 
-# [open]
+archive = [ { run = 'ouch decompress "$@"', block = true }, ]
+audio   = [ { run = 'mpv "$@"', block = true }, ]
+dir     = [ { run = 'nvim "$@"', block = true }, ]
+image   = [ { run = 'nsxiv -a "$@"' }, ]
+pdf     = [ { run = 'zathura "$@"' }, ]
+text    = [ { run = 'nvim "$@"', block = true }, ]
+video   = [ { run = 'mpv "$@"', block = true }, ]
+
+[open]
 # rules = [
 # 	{ name = "*", use = [ "default" ] },
 # ]
+rules = [
+	{ name = "*/", use = "dir" },
+
+	{ mime = "application/pdf", use = "pdf" },
+	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", use = "archive" },
+	{ mime = "audio/*", use = "audio" },
+	{ mime = "image/*", use = "image" },
+	{ mime = "video/*", use = "video" },
+
+	{ name = "*", use = "text" },
+]
 
 [tasks]
 

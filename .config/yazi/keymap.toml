@@ -81,10 +81,10 @@
 	on = ["<f2>", "f"]
 [[mgr.prepend_keymap]]
 	run = "plugin parent-arrow -1"
-	on = "<pageup>"
+	on = "K"
 [[mgr.prepend_keymap]]
 	run = "plugin parent-arrow 1"
-	on = "<pagedown>"
+	on = "J"
 [[mgr.prepend_keymap]]
 	run = "plugin zoxide"
 	on = "e"
@@ -106,6 +106,12 @@
 [[mgr.prepend_keymap]]
 	run = "search --via=rg"
 	on = "w"
+[[mgr.prepend_keymap]]
+	run = "seek -5"
+	on = "<pageup>"
+[[mgr.prepend_keymap]]
+	run = "seek 5"
+	on = "<pagedown>"
 [[mgr.prepend_keymap]]
 	run = "tasks:show"
 	on = "b"

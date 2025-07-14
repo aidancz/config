@@ -31,9 +31,11 @@ local parsers = {
 	"diff",
 	"git_rebase",
 	"gitcommit",
+	"ini",
 	"lua",
 	"markdown",
 	"markdown_inline",
+	"toml",
 	"xml",
 
 }
