@@ -4,6 +4,7 @@ require("mini.deps").add({
 })
 
 require("hydra").setup({
+	color = "pink",
 	hint = false,
 	on_enter = function()
 		vim.cmd("redrawstatus")
@@ -36,8 +37,8 @@ require("hydra")({
 	mode = {"n", "x"},
 	body = "z",
 	heads = {
-		{"h", "5zh"},
-		{"l", "5zl"},
+		{"h", "5zh", {nowait = true}},
+		{"l", "5zl", {nowait = true}},
 	},
 })
 
@@ -45,8 +46,8 @@ require("hydra")({
 	mode = {"n", "x"},
 	body = "<c-w>",
 	heads = {
-		{"-", "<c-w>-"},
-		{"+", "<c-w>+"},
+		{"-", "<c-w>-", {nowait = true}},
+		{"+", "<c-w>+", {nowait = true}},
 	},
 })
 
@@ -54,34 +55,24 @@ require("hydra")({
 	mode = {"n", "x"},
 	body = "<c-w>",
 	heads = {
-		{"<", "<c-w><"},
-		{">", "<c-w>>"},
+		{"<", "<c-w><", {nowait = true}},
+		{">", "<c-w>>", {nowait = true}},
 	},
 })
 
 require("hydra")({
-	config = {
-		on_key = function()
-			vim.wait(0) -- https://github.com/anuvyklack/hydra.nvim/issues/36
-		end,
-	},
 	body = "m",
 	heads = {
-		{"T", "gT"},
-		{"t", "gt"},
+		{"T", "gT", {nowait = true}},
+		{"t", "gt", {nowait = true}},
 	},
 })
 
 require("hydra")({
-	config = {
-		on_key = function()
-			vim.wait(0) -- https://github.com/anuvyklack/hydra.nvim/issues/36
-		end,
-	},
 	body = "m",
 	heads = {
-		{"C", "<cmd>cprevious<cr>"},
-		{"c", "<cmd>cnext<cr>"},
+		{"C", "<cmd>cprevious<cr>", {nowait = true}},
+		{"c", "<cmd>cnext<cr>", {nowait = true}},
 	},
 })
 
@@ -89,7 +80,7 @@ require("hydra")({
 	mode = {"n", "x"},
 	body = "g",
 	heads = {
-		{"e", "ge"},
+		{"e", "ge", {nowait = true}},
 	},
 })
 
@@ -97,18 +88,13 @@ require("hydra")({
 	mode = {"n", "x"},
 	body = "g",
 	heads = {
-		{"E", "gE"},
+		{"E", "gE", {nowait = true}},
 	},
 })
 
 -- # luaexec
 
 require("hydra")({
-	config = {
-		on_key = function()
-			vim.wait(0) -- https://github.com/anuvyklack/hydra.nvim/issues/36
-		end,
-	},
 	body = "m",
 	heads = {
 		{
@@ -116,22 +102,23 @@ require("hydra")({
 			function()
 				require("luaexec").registry.buffer.prev()
 			end,
+			{
+				nowait = true,
+			},
 		},
 		{
 			"b",
 			function()
 				require("luaexec").registry.buffer.next()
 			end,
+			{
+				nowait = true,
+			},
 		},
 	},
 })
 
 require("hydra")({
-	config = {
-		on_key = function()
-			vim.wait(0) -- https://github.com/anuvyklack/hydra.nvim/issues/36
-		end,
-	},
 	body = "m",
 	heads = {
 		{
@@ -139,12 +126,18 @@ require("hydra")({
 			function()
 				require("luaexec").registry.window.prev()
 			end,
+			{
+				nowait = true,
+			},
 		},
 		{
 			"w",
 			function()
 				require("luaexec").registry.window.next()
 			end,
+			{
+				nowait = true,
+			},
 		},
 	},
 })
@@ -160,12 +153,18 @@ require("hydra")({
 			function()
 				require("luaexec").registry["go-up"]["scroll -1"]()
 			end,
+			{
+				nowait = true,
+			},
 		},
 		{
 			"e",
 			function()
 				require("luaexec").registry["go-up"]["scroll +1"]()
 			end,
+			{
+				nowait = true,
+			},
 		},
 	},
 })
@@ -179,12 +178,18 @@ require("hydra")({
 			function()
 				require("luaexec").registry["go-up"]["scroll -1/4"]()
 			end,
+			{
+				nowait = true,
+			},
 		},
 		{
 			"s",
 			function()
 				require("luaexec").registry["go-up"]["scroll +1/4"]()
 			end,
+			{
+				nowait = true,
+			},
 		},
 	},
 })
@@ -198,12 +203,18 @@ require("hydra")({
 			function()
 				require("luaexec").registry["go-up"]["scroll -2/4"]()
 			end,
+			{
+				nowait = true,
+			},
 		},
 		{
 			"d",
 			function()
 				require("luaexec").registry["go-up"]["scroll +2/4"]()
 			end,
+			{
+				nowait = true,
+			},
 		},
 	},
 })
@@ -217,12 +228,18 @@ require("hydra")({
 			function()
 				require("luaexec").registry["go-up"]["scroll -4/4"]()
 			end,
+			{
+				nowait = true,
+			},
 		},
 		{
 			"w",
 			function()
 				require("luaexec").registry["go-up"]["scroll +4/4"]()
 			end,
+			{
+				nowait = true,
+			},
 		},
 	},
 })
@@ -242,7 +259,10 @@ require("hydra")({
 					is = require("para_nonempty").is_head,
 				})
 			end,
-			{expr = true},
+			{
+				expr = true,
+				nowait = true,
+			},
 		},
 		{
 			"d",
@@ -253,7 +273,10 @@ require("hydra")({
 					is = require("para_nonempty").is_head,
 				})
 			end,
-			{expr = true},
+			{
+				expr = true,
+				nowait = true,
+			},
 		},
 	},
 })
@@ -270,7 +293,10 @@ require("hydra")({
 					is = require("para_nonempty").is_tail,
 				})
 			end,
-			{expr = true},
+			{
+				expr = true,
+				nowait = true,
+			},
 		},
 	},
 })
@@ -288,7 +314,10 @@ require("hydra")({
 					is = require("para_cursor_column").is_head,
 				})
 			end,
-			{expr = true},
+			{
+				expr = true,
+				nowait = true,
+			},
 		},
 		{
 			"s",
@@ -299,7 +328,10 @@ require("hydra")({
 					is = require("para_cursor_column").is_head,
 				})
 			end,
-			{expr = true},
+			{
+				expr = true,
+				nowait = true,
+			},
 		},
 	},
 })
@@ -316,7 +348,10 @@ require("hydra")({
 					is = require("para_cursor_column").is_tail,
 				})
 			end,
-			{expr = true},
+			{
+				expr = true,
+				nowait = true,
+			},
 		},
 	},
 })

@@ -2,6 +2,7 @@
 
 require("mini.deps").add({
 	source = "ibhagwan/fzf-lua",
+	-- checkout = "e0cca3e~",
 	depends = {
 		{
 			source = "otavioschwanck/fzf-lua-enchanted-files",

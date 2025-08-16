@@ -80,10 +80,10 @@ vim.api.nvim_create_augroup("gutter", {clear = true})
 vim.api.nvim_create_autocmd(
 	{
 		"VimEnter",
-		"WinNew",
-		"WinClosed",
+		-- "WinNew",
+		-- "WinClosed",
 		"WinResized",
-		"BufEnter",
+		-- "BufEnter",
 	},
 	{
 		group = "gutter",
