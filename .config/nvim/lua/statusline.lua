@@ -23,69 +23,52 @@ end
 statusline = M.str
 
 M.str_active = function()
-	return
-	table.concat(
-		{
-			M.buffer_name(),
-			" ",
-			M.cwd(),
-			" ",
-			M.undotree(),
-			-- " ",
-			-- M.test(),
-			"%<",
-			"%=",
-			M.macro(),
-			" ",
-			M.mode(),
-			" ",
-			M.col(),
-			" ",
-			M.lnum(),
-		},
-		""
-	)
+	local lhs
+	lhs = {
+		M.buffer_name(),
+		M.encoding(),
+		M.eol(),
+		M.cwd(),
+		M.undotree(),
+		-- M.test(),
+	}
+	lhs = vim.tbl_filter(function(x) return x ~= nil end, lhs)
+
+	local rhs
+	rhs = {
+		M.macro(),
+		M.hydra(),
+		M.mode(),
+		M.col(),
+		M.lnum(),
+	}
+	rhs = vim.tbl_filter(function(x) return x ~= nil end, rhs)
+
+	return table.concat({
+		table.concat(lhs, " "),
+		"%<",
+		"%=",
+		table.concat(rhs, " "),
+	})
 end
 
 M.str_inactive = function()
-	return
-	table.concat(
-		{
-			"%f",
-		},
-		""
-	)
+	return table.concat({
+		"%f",
+	})
 end
 
 -- # function: help
 
 H.highlight = function(str, hl)
-	return
-	table.concat(
-		{
-			"%#",
-			hl,
-			"#",
-			str,
-			"%*",
-		},
-		""
-	)
-end
-
-H.highlight_workaround = function(str, hl)
 -- https://github.com/neovim/neovim/issues/32925
-	return
-	table.concat(
-		{
-			"%#",
-			hl,
-			"#",
-			str,
-			"%#StatusLine#",
-		},
-		""
-	)
+	return table.concat({
+		"%#",
+		hl,
+		"#",
+		str,
+		"%*",
+	})
 end
 
 ---@param str string
@@ -95,20 +78,16 @@ end
 ---	maxwid?: number,
 ---}
 H.format = function(str, opts)
-	return
-	table.concat(
-		{
-			"%",
-			opts.justify == "left" and "-" or "",
-			opts.minwid or "",
-			".",
-			opts.maxwid or "",
-			"(",
-			str,
-			"%)",
-		},
-		""
-	)
+	return table.concat({
+		"%",
+		opts.justify == "left" and "-" or "",
+		opts.minwid or 1, -- https://github.com/vim/vim/issues/14993
+		".",
+		opts.maxwid or "",
+		"(",
+		str,
+		"%)",
+	})
 end
 
 --[[
@@ -163,19 +142,13 @@ end
 M.test = function()
 	local component
 
-	component = table.concat(
-		{
-			"(",
-			get_time(),
-			")",
-		},
-		""
-	)
-	component = H.format(
-		component,
-		{
-		}
-	)
+	component = table.concat({
+		"(",
+		get_time(),
+		")",
+	})
+	component = H.format(component, {
+	})
 
 	return component
 end
@@ -183,19 +156,13 @@ end
 M.buffer_name = function()
 	local component
 
-	component = table.concat(
-		{
-			"%f",
-			-- "%m",
-		},
-		""
-	)
-	component = H.format(
-		component,
-		{
-			justify = "left",
-		}
-	)
+	component = table.concat({
+		"%f",
+		-- "%m",
+	})
+	component = H.format(component, {
+		justify = "left",
+	})
 
 	return component
 end
@@ -206,23 +173,17 @@ M.col = function()
 	local col_cursor = vim.fn.col(".")
 	local col_last = vim.fn.col("$")
 
-	component = table.concat(
-		{
-			"(",
-			H.highlight(col_cursor, "nofrils_blue"),
-			" ",
-			col_last,
-			")",
-		},
-		""
-	)
-	component = H.format(
-		component,
-		{
-			justify = "left",
-			minwid = (3 + 2 * 3),
-		}
-	)
+	component = table.concat({
+		"(",
+		H.highlight(col_cursor, "nofrils_blue"),
+		" ",
+		col_last,
+		")",
+	})
+	component = H.format(component, {
+		justify = "left",
+		minwid = (3 + 2 * 3),
+	})
 
 	return component
 end
@@ -233,19 +194,81 @@ M.cwd = function()
 	local cwd = vim.fn.getcwd()
 	local cwd1 = vim.fs.basename(cwd)
 
-	component = table.concat(
-		{
-			"(",
-			cwd1,
-			")",
-		},
-		""
-	)
-	component = H.format(
-		component,
-		{
-		}
-	)
+	component = table.concat({
+		"(",
+		cwd1,
+		")",
+	})
+	component = H.format(component, {
+	})
+
+	return component
+end
+
+M.encoding = function()
+	local component
+
+	local encoding = vim.bo.fileencoding
+	if
+		encoding == ""
+		or
+		encoding == "utf-8"
+	then
+		return nil
+	end
+
+	component = table.concat({
+		"(",
+		encoding,
+		")",
+	})
+	component = H.highlight(component, "nofrils_blue_bg")
+	component = H.format(component, {
+	})
+
+	return component
+end
+
+M.eol = function()
+	local component
+
+	local eol = vim.bo.fileformat
+	if
+		eol == "unix"
+	then
+		return nil
+	end
+
+	component = table.concat({
+		"(",
+		eol,
+		")",
+	})
+	component = H.highlight(component, "nofrils_blue_bg")
+	component = H.format(component, {
+	})
+
+	return component
+end
+
+M.hydra = function()
+	local component
+
+	local m = package.loaded["hydra"]
+	if m == nil then return nil end
+
+	local is_active = require("hydra.statusline").is_active()
+
+	component = table.concat({
+		"(",
+		"hydra",
+		")",
+	})
+	if is_active then
+		component = H.highlight(component, "nofrils_blue_bg")
+	end
+	component = H.format(component, {
+	})
 
 	return component
 end
@@ -256,23 +279,17 @@ M.lnum = function()
 	local lnum_cursor = vim.fn.line(".")
 	local lnum_last = vim.fn.line("$")
 
-	component = table.concat(
-		{
-			"(",
-			H.highlight(lnum_cursor, "nofrils_blue"),
-			" ",
-			lnum_last,
-			")",
-		},
-		""
-	)
-	component = H.format(
-		component,
-		{
-			justify = "right",
-			minwid = (3 + 2 * 4),
-		}
-	)
+	component = table.concat({
+		"(",
+		H.highlight(lnum_cursor, "nofrils_blue"),
+		" ",
+		lnum_last,
+		")",
+	})
+	component = H.format(component, {
+		justify = "right",
+		minwid = (3 + 2 * 4),
+	})
 
 	return component
 end
@@ -281,10 +298,7 @@ M.macro = function()
 	local component
 
 	local m = package.loaded["macro"]
-	if not m then
-		component = ""
-		return component
-	end
+	if m == nil then return nil end
 
 	local lis = m.get_lis()
 	local reg = m.get_reg()
@@ -298,21 +312,15 @@ M.macro = function()
 		end
 	end
 
-	component = table.concat(
-		{
-			"(",
-			lis1,
-			")",
-		},
-		""
-	)
-	component = H.format(
-		component,
-		{
-			-- justify = "left",
-			minwid = (2 + #lis),
-		}
-	)
+	component = table.concat({
+		"(",
+		lis1,
+		")",
+	})
+	component = H.format(component, {
+		-- justify = "left",
+		minwid = (2 + #lis),
+	})
 
 	return component
 end
@@ -320,29 +328,18 @@ end
 M.mode = function()
 	local component
 
-	local hydra_is_active = 0
-	local m = package.loaded["hydra"]
-	if m and require("hydra.statusline").is_active() then
-		hydra_is_active = 1
-	end
+	local mode = vim.api.nvim_get_mode().mode
 
-	component = table.concat(
-		{
-			"(",
-			vim.api.nvim_get_mode().mode,
-			" ",
-			hydra_is_active,
-			")",
-		},
-		""
-	)
-	component = H.format(
-		component,
-		{
-			justify = "left",
-			minwid = (3 + 2),
-		}
-	)
+	component = table.concat({
+		"(",
+		mode,
+		")",
+	})
+	if mode ~= "n" then
+		component = H.highlight(component, "nofrils_blue_bg")
+	end
+	component = H.format(component, {
+	})
 
 	return component
 end
@@ -377,21 +374,15 @@ M.undotree = function()
 	undo = math.abs(undo)
 	local redo = last - current
 
-	component = table.concat(
-		{
-			"(",
-			undo,
-			" ",
-			redo,
-			")",
-		},
-		""
-	)
-	component = H.format(
-		component,
-		{
-		}
-	)
+	component = table.concat({
+		"(",
+		undo,
+		" ",
+		redo,
+		")",
+	})
+	component = H.format(component, {
+	})
 
 	return component
 end
