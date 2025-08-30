@@ -1,5 +1,5 @@
 require("mini.deps").add({
-	source = "echasnovski/mini.surround",
+	source = "nvim-mini/mini.surround",
 })
 
 require("mini.surround").setup({

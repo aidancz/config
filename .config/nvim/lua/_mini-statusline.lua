@@ -1,5 +1,5 @@
 require("mini.deps").add({
-	source = "echasnovski/mini.statusline",
+	source = "nvim-mini/mini.statusline",
 })
 
 require("mini.statusline").setup({

@@ -1,5 +1,5 @@
 require("mini.deps").add({
-	source = "echasnovski/mini.misc",
+	source = "nvim-mini/mini.misc",
 })
 
 require("mini.misc").setup({

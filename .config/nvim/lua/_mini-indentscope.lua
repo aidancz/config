@@ -1,5 +1,5 @@
 require("mini.deps").add({
-	source = "echasnovski/mini.indentscope",
+	source = "nvim-mini/mini.indentscope",
 })
 
 require("mini.indentscope").setup({

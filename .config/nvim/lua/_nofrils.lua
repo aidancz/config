@@ -1,4 +1,4 @@
--- https://github.com/echasnovski/mini.nvim/issues/1326
+-- https://github.com/nvim-mini/mini.nvim/issues/1326
 
 -- require("mini.deps").add({
 -- 	source = "aidancz/nofrils.nvim",

@@ -1,8 +1,8 @@
--- https://github.com/echasnovski/mini.nvim/issues/1059
+-- https://github.com/nvim-mini/mini.nvim/issues/1059
 -- caveat: does not work with `:normal` command, e.g. `:normal zz`
 
 require("mini.deps").add({
-	source = "echasnovski/mini.clue",
+	source = "nvim-mini/mini.clue",
 })
 
 require("mini.clue").setup({

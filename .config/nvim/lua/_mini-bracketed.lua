@@ -1,5 +1,5 @@
 require("mini.deps").add({
-	source = "echasnovski/mini.bracketed",
+	source = "nvim-mini/mini.bracketed",
 })
 
 require("mini.bracketed").setup({

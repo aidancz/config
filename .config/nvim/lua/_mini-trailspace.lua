@@ -1,5 +1,5 @@
 require("mini.deps").add({
-	source = "echasnovski/mini.trailspace",
+	source = "nvim-mini/mini.trailspace",
 })
 
 require("mini.trailspace").setup({

@@ -41,7 +41,7 @@ if not vim.uv.fs_stat(path_deps) then
 			"git",
 			"clone",
 			"--filter=blob:none",
-			"https://github.com/echasnovski/mini.deps",
+			"https://github.com/nvim-mini/mini.deps",
 			path_deps,
 		}
 	):wait()
@@ -95,7 +95,7 @@ require("_whitespace")
 require("statusline")
 
 -- # autocmd
--- https://github.com/echasnovski/mini.nvim/issues/1378
+-- https://github.com/nvim-mini/mini.nvim/issues/1378
 
 -- require("_nvim-lspconfig")
 require("_go-up")

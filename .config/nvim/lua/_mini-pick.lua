@@ -1,5 +1,5 @@
 require("mini.deps").add({
-	source = "echasnovski/mini.pick",
+	source = "nvim-mini/mini.pick",
 })
 
 require("mini.pick").gen_yank = function(item2str_or_strs)
@@ -54,7 +54,7 @@ require("mini.pick").setup({
 			func = require("mini.pick").stop,
 		},
 		caret_home = {
-		-- https://github.com/echasnovski/mini.nvim/issues/513#issuecomment-1764784504
+		-- https://github.com/nvim-mini/mini.nvim/issues/513#issuecomment-1764784504
 			char = "<home>",
 			func = function()
 				local mappings = require("mini.pick").get_picker_opts().mappings
@@ -63,7 +63,7 @@ require("mini.pick").setup({
 			end,
 		},
 		caret_end = {
-		-- https://github.com/echasnovski/mini.nvim/issues/513#issuecomment-1764784504
+		-- https://github.com/nvim-mini/mini.nvim/issues/513#issuecomment-1764784504
 			char = "<end>",
 			func = function()
 				local mappings = require("mini.pick").get_picker_opts().mappings

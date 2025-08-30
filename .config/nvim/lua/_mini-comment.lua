@@ -1,5 +1,5 @@
 require("mini.deps").add({
-	source = "echasnovski/mini.comment",
+	source = "nvim-mini/mini.comment",
 	depends = {
 		{
 			source = "JoosepAlviste/nvim-ts-context-commentstring",

@@ -1,5 +1,5 @@
 require("mini.deps").add({
-	source = "echasnovski/mini.snippets",
+	source = "nvim-mini/mini.snippets",
 })
 
 --[================================================================[
@@ -191,7 +191,7 @@ require("mini.snippets").setup({
 		-- select = select_minipick,
 		select = select_fzflua,
 		insert = function(snippet)
-		-- https://github.com/echasnovski/mini.nvim/issues/1730
+		-- https://github.com/nvim-mini/mini.nvim/issues/1730
 			return
 			require("mini.snippets").default_insert(
 				snippet,

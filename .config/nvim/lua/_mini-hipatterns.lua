@@ -1,5 +1,5 @@
 require("mini.deps").add({
-	source = "echasnovski/mini.hipatterns",
+	source = "nvim-mini/mini.hipatterns",
 })
 
 require("mini.hipatterns").setup({

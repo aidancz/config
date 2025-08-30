@@ -1,5 +1,5 @@
 require("mini.deps").add({
-	source = "echasnovski/mini.operators",
+	source = "nvim-mini/mini.operators",
 })
 
 require("mini.operators").setup({

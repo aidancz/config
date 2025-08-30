@@ -1,5 +1,5 @@
 require("mini.deps").add({
-	source = "echasnovski/mini.notify",
+	source = "nvim-mini/mini.notify",
 })
 
 require("mini.notify").setup({

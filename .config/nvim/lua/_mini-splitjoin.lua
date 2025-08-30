@@ -1,5 +1,5 @@
 require("mini.deps").add({
-	source = "echasnovski/mini.splitjoin",
+	source = "nvim-mini/mini.splitjoin",
 })
 
 require("mini.splitjoin").setup({

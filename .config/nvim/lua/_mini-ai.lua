@@ -1,5 +1,5 @@
 require("mini.deps").add({
-	source = "echasnovski/mini.ai",
+	source = "nvim-mini/mini.ai",
 })
 
 local select_textobject = require("mini.ai").select_textobject
@@ -7,7 +7,7 @@ require("mini.ai").select_textobject = function(ai_type, id, opts)
 	select_textobject(ai_type, id, opts)
 	vim.o.virtualedit = "onemore"
 end
--- https://github.com/echasnovski/mini.nvim/issues/1359
+-- https://github.com/nvim-mini/mini.nvim/issues/1359
 
 require("mini.ai").setup({
 	silent = true,
@@ -34,7 +34,7 @@ require("mini.ai").setup({
 			"^.().*().$"
 		},
 
-		-- https://github.com/echasnovski/mini.nvim/issues/1281
+		-- https://github.com/nvim-mini/mini.nvim/issues/1281
 		["'"] = { "%b''", "^.().*().$" },
 		['"'] = { '%b""', "^.().*().$" },
 		["`"] = { "%b``", "^.().*().$" },

@@ -1,5 +1,5 @@
 require("mini.deps").add({
-	source = "echasnovski/mini.tabline",
+	source = "nvim-mini/mini.tabline",
 })
 
 require("mini.tabline").setup({

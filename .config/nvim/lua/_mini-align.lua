@@ -1,5 +1,5 @@
 require("mini.deps").add({
-	source = "echasnovski/mini.align",
+	source = "nvim-mini/mini.align",
 })
 
 require("mini.align").setup({

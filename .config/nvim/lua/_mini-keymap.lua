@@ -1,5 +1,5 @@
 require("mini.deps").add({
-	source = "echasnovski/mini.keymap",
+	source = "nvim-mini/mini.keymap",
 })
 
 require("mini.keymap").setup({
