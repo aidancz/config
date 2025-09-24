@@ -7,11 +7,9 @@ i="$1"
 else
 
 menu="\
-set-symbolic-link_appearance dark
-set-symbolic-link_appearance light
+set-symbolic-link-with-appearance dark
+set-symbolic-link-with-appearance light
 set-keyboard
-set-symbolic-link
-set-symbolic-link clear
 network
 volume
 "
@@ -20,20 +18,14 @@ i="$(printf "%s" "$menu" | dmenu -l 64 -i -p 'system setting')"
 fi
 
 case "$i" in
-	"set-symbolic-link_appearance dark")
-		set-symbolic-link_appearance dark
+	"set-symbolic-link-with-appearance dark")
+		set-symbolic-link-with-appearance dark
 		;;
-	"set-symbolic-link_appearance light")
-		set-symbolic-link_appearance light
+	"set-symbolic-link-with-appearance light")
+		set-symbolic-link-with-appearance light
 		;;
 	"set-keyboard")
 		set-keyboard
-		;;
-	"set-symbolic-link")
-		set-symbolic-link
-		;;
-	"set-symbolic-link clear")
-		set-symbolic-link clear
 		;;
 	"network")
 		setsid -f "$TERMINAL" -e nmtui

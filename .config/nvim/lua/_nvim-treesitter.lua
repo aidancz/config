@@ -1,3 +1,7 @@
+-- NOTE: invalid node type issue
+-- https://github.com/nvim-treesitter/nvim-treesitter/issues/3092
+-- 2025-09-24: remove /usr/local/lib/nvim/ dir
+
 require("mini.deps").add({
 	source = "nvim-treesitter/nvim-treesitter",
 	checkout = "main",

@@ -17,13 +17,6 @@ dir=$(git -C "$dir" rev-parse --show-toplevel)
 shopt -s dotglob
 # loop hidden files
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ delete broken symlinks
-if [ "$1" = "clear" ]; then
-	cd "$HOME" || exit
-	find . -xtype l -delete
-	# it works, but too slow, run it explicitly
-fi
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_CONFIG_HOME
 mkdir -p "$XDG_CONFIG_HOME"
 cd "$dir"/.config || exit # THIS FUCKING exit SAVED MY LIFE (2024-10-14)

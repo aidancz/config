@@ -46,5 +46,5 @@ set-keyboard                      &
 # `sleep` since xmodmap settings are reset by setxkbmap
 # https://askubuntu.com/questions/54157/how-do-i-set-xmodmap-on-login
 
-set-symbolic-link_appearance dark & xrdbpid=$!
+set-symbolic-link-with-appearance dark & xrdbpid=$!
 [ -n "$xrdbpid" ] && wait "$xrdbpid"
