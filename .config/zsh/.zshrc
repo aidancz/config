@@ -23,6 +23,8 @@ PS1="%F{blue}($ %m %n %~) %f"
 
 WORDCHARS=""
 
+setopt INTERACTIVE_COMMENTS
+
 setopt APPEND_HISTORY
 # setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
