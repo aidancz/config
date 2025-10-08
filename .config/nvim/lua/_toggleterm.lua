@@ -10,7 +10,7 @@ require("toggleterm").setup({
 		col = 0,
 		width = vim.o.columns,
 		height = vim.o.lines,
-		zindex = 200,
+		zindex = 201,
 	},
 })
 

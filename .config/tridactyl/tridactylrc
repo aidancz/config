@@ -13,6 +13,9 @@ unbind <C-y>
 unbind <C-f>
 unbind <C-b>
 
+unbind --mode=ex <Space>
+" https://github.com/tridactyl/tridactyl/issues/4638
+
 bind --mode=browser <C-e> escapehatch
 
 bind J tabnext

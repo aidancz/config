@@ -31,7 +31,7 @@ require("fzf-lua").setup({
 	end,
 	winopts = {
 		border = "none",
-		zindex = 200,
+		zindex = 201,
 		backdrop = 100,
 		fullscreen = true,
 		preview = {
