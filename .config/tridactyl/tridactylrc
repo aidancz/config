@@ -1,16 +1,17 @@
 colors mytheme
 
-
-
 set newtab about:blank
+
 set hintchars kdjflsieowmv
+
 set editorcmd st -e nvim
 
-
-
 unbind <C-e>
+
 unbind <C-y>
+
 unbind <C-f>
+
 unbind <C-b>
 
 unbind --mode=ex <Space>
@@ -18,13 +19,20 @@ unbind --mode=ex <Space>
 
 bind --mode=browser <C-e> escapehatch
 
+bind d scrollpage 0.5
+
+bind u scrollpage -0.5
+
+bind g scrollto 0
+
 bind J tabnext
+
 bind K tabprev
 
 bind i focusinput -l
 " bindurl ^https://github.com i hint -Vc .AppHeader-searchButton
 " https://github.com/tridactyl/tridactyl/blob/master/.tridactylrc
 
-bind gm tabduplicate
+bind ,, tabduplicate
 
 bind F hint -t

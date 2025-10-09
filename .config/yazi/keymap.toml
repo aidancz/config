@@ -116,7 +116,7 @@
 	run = "tasks:show"
 	on = "b"
 [[mgr.prepend_keymap]]
-	run = "unyank"
+	run = ["escape", "unyank"]
 	on = "<c-g>"
 [[mgr.prepend_keymap]]
 	run = "visual_mode --unset"
