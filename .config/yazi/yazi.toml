@@ -25,10 +25,10 @@ video   = [ { run = 'mpv "$@"', block = true }, ]
 
 [open]
 # rules = [
-# 	{ name = "*", use = [ "default" ] },
+# 	{ url = "*", use = [ "default" ] },
 # ]
 rules = [
-	{ name = "*/", use = "dir" },
+	{ url = "*/", use = "dir" },
 
 	{ mime = "application/pdf", use = "pdf" },
 	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", use = "archive" },
@@ -36,15 +36,15 @@ rules = [
 	{ mime = "image/*", use = "image" },
 	{ mime = "video/*", use = "video" },
 
-	{ name = "*", use = "text" },
+	{ url = "*", use = "text" },
 ]
 
 [tasks]
 
 [plugin]
 prepend_fetchers = [
-	{id = "git", name = "*", run = "git"},
-	{id = "git", name = "*/", run = "git"},
+	{id = "git", url = "*", run = "git"},
+	{id = "git", url = "*/", run = "git"},
 ]
 append_fetchers = [
 ]
@@ -54,7 +54,7 @@ prepend_previewers = [
 	{mime = "application/javascript", run = 'piper -- cat "$1"'},
 ]
 append_previewers = [
-	{name = "*", run = 'piper -- hexyl "$1"'},
+	{url = "*", run = 'piper -- hexyl "$1"'},
 ]
 
 [input]

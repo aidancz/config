@@ -19,15 +19,19 @@ unbind --mode=ex <Space>
 
 bind --mode=browser <C-e> escapehatch
 
-bind d scrollpage 0.5
+bind j scrollpage 0.5
 
-bind u scrollpage -0.5
+bind k scrollpage -0.5
+
+bind f scrollpage 0.9
+
+bind d scrollpage -0.9
 
 bind g scrollto 0
 
-bind J tabnext
+" bind J tabnext
 
-bind K tabprev
+" bind K tabprev
 
 bind i focusinput -l
 " bindurl ^https://github.com i hint -Vc .AppHeader-searchButton
@@ -35,4 +39,4 @@ bind i focusinput -l
 
 bind ,, tabduplicate
 
-bind F hint -t
+" bind F hint -t

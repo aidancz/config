@@ -38,8 +38,20 @@
 	run = "arrow -1"
 	on = "k"
 [[mgr.prepend_keymap]]
+	run = "arrow -100%"
+	on = "d"
+[[mgr.prepend_keymap]]
+	run = "arrow -50%"
+	on = "<c-k>"
+[[mgr.prepend_keymap]]
 	run = "arrow 1"
 	on = "j"
+[[mgr.prepend_keymap]]
+	run = "arrow 100%"
+	on = "f"
+[[mgr.prepend_keymap]]
+	run = "arrow 50%"
+	on = "<c-j>"
 [[mgr.prepend_keymap]]
 	run = "arrow top"
 	on = "g"
@@ -96,10 +108,10 @@
 	on = "<c-esc>"
 [[mgr.prepend_keymap]]
 	run = "remove --permanently"
-	on = "X"
+	on = "<s-delete>"
 [[mgr.prepend_keymap]]
 	run = "remove"
-	on = "x"
+	on = "<delete>"
 [[mgr.prepend_keymap]]
 	run = "rename --cursor=before_ext"
 	on = "i"
@@ -116,9 +128,6 @@
 	run = "tasks:show"
 	on = "b"
 [[mgr.prepend_keymap]]
-	run = ["escape", "unyank"]
-	on = "<c-g>"
-[[mgr.prepend_keymap]]
 	run = "visual_mode --unset"
 	on = "<a-v>"
 [[mgr.prepend_keymap]]
@@ -126,7 +135,10 @@
 	on = "<c-v>"
 [[mgr.prepend_keymap]]
 	run = "yank --cut"
-	on = "d"
+	on = "x"
+[[mgr.prepend_keymap]]
+	run = ["escape", "unyank"]
+	on = "<c-g>"
 [[mgr.prepend_keymap]]
 	run = ["toggle", "arrow -1"]
 	on = "<up>"

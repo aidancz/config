@@ -48,33 +48,30 @@ require("fzf-lua").setup({
 	},
 	keymap = {
 		builtin = {
-			true,
-			["<f1>"]         = "hide",
-			["<f2>"]         = false,
-			["<c-h>"]        = "toggle-help",
-			["<f11>"]        = "toggle-fullscreen",
-			["<pageup>"]     = "preview-half-page-up",
-			["<pagedown>"]   = "preview-half-page-down",
-			["<del>"]        = "preview-reset",
-			["<c-pageup>"]   = "preview-top",
-			["<c-pagedown>"] = "preview-bottom",
+			false,
+			["<f1>"] = "hide",
+			-- ["<f2>"] = false,
+			["<c-h>"] = "toggle-help",
+			["<f11>"] = "toggle-fullscreen",
+
+			["<pageup>"]   = "preview-page-up",
+			["<pagedown>"] = "preview-page-down",
+			["<del>"]      = "preview-reset",
+			["<c-home>"]   = "preview-top",
+			["<c-end>"]    = "preview-bottom",
+
 		},
 		fzf = {
-			true,
-			["ctrl-s"] = "first",
-			["ctrl-e"] = "last",
-			["f10"]    = "toggle-sort",
+			false,
+			-- configure FZF_DEFAULT_OPTS instead
 		},
 	},
 	actions = {
 		files = {
-			true,
-			["ctrl-s"] = false,
+			false,
+			["enter"] = require("fzf-lua").actions.file_edit,
+			["ctrl-q"] = require("fzf-lua").actions.file_sel_to_qf,
 		},
-		-- buffers = {
-		-- 	true,
-		-- 	["ctrl-s"] = false,
-		-- },
 	},
 	fzf_opts = {
 		["--history"] = vim.fn.stdpath("data") .. "/fzf-lua-history",
@@ -230,14 +227,7 @@ require("luaexec").add({
 })
 
 require("luaexec").add({
-	code =
-[[
-require("fzf-lua").helptags({
-	actions = {
-		["ctrl-s"] = false,
-	},
-})
-]],
+	code = [[require("fzf-lua").helptags()]],
 	from = "fzf-lua",
 	keys = {"n", "rh"},
 })

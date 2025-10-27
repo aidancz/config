@@ -1,0 +1,58 @@
+#var
+
+key-time=0
+
+link-style=cyan
+active-link-style=bgcyan,black
+
+match-style=bggreen,black
+highlight-searches=Off
+
+#info
+
+q	invalid
+\eOP	quit
+
+^ht	get-info-help-node
+^hm	get-help-window
+^hx	describe-command
+^hk	describe-key
+^hv	describe-variable
+^ha	index-apropos
+
+:	execute-command
+
+k	global-prev-node
+j	global-next-node
+gk	first-node
+gj	last-node
+h	prev-node
+l	next-node
+u	up-node
+^o	history-node
+
+f	scroll-forward
+d	scroll-backward
+s	beginning-of-node
+G	end-of-node
+
+m	menu-item
+
+r	xref-item
+
+i	index-search
+I	virtual-index
+,	next-index-match
+
+gd	dir-node
+gt	top-node
+
+/	search
+n	search-next
+N	search-previous
+S	search-case-sensitively
+R	toggle-regexp
+
+e	goto-node
+
+#echo-area
