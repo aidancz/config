@@ -8,10 +8,28 @@ active-link-style=bgcyan,black
 match-style=bggreen,black
 highlight-searches=Off
 
+automatic-tiling=On
+
+nodeline=print
+
+hide-note-references=Off
+
 #info
 
 q	invalid
 \eOP	quit
+:	execute-command
+0	add-digit-to-numeric-arg
+1	add-digit-to-numeric-arg
+2	add-digit-to-numeric-arg
+3	add-digit-to-numeric-arg
+4	add-digit-to-numeric-arg
+5	add-digit-to-numeric-arg
+6	add-digit-to-numeric-arg
+7	add-digit-to-numeric-arg
+8	add-digit-to-numeric-arg
+9	add-digit-to-numeric-arg
+-	add-digit-to-numeric-arg
 
 ^ht	get-info-help-node
 ^hm	get-help-window
@@ -19,8 +37,7 @@ q	invalid
 ^hk	describe-key
 ^hv	describe-variable
 ^ha	index-apropos
-
-:	execute-command
+^hw	where-is
 
 k	global-prev-node
 j	global-next-node
@@ -29,30 +46,55 @@ gj	last-node
 h	prev-node
 l	next-node
 u	up-node
-^o	history-node
+o	history-node
+gd	dir-node
+gt	top-node
+e	goto-node
+ge	goto-invocation-node
+#	select-visited-node
+#	list-visited-nodes
+
+m	menu-item
+gm	find-menu
+i	index-search
+gi	virtual-index
+,	next-index-match
+#	index-apropos
+r	xref-item
+w	move-to-next-xref
+W	move-to-prev-xref
+\r	select-reference-this-line
 
 f	scroll-forward
 d	scroll-backward
 s	beginning-of-node
 G	end-of-node
+\kD	scroll-other-window
+\kU	scroll-other-window-backward
+#	redraw-display # recenter
 
-m	menu-item
+\kh	beginning-of-line
+\ke	end-of-line
+M	move-to-window-line
 
-r	xref-item
-
-i	index-search
-I	virtual-index
-,	next-index-match
-
-gd	dir-node
-gt	top-node
-
-/	search
+/	search # file level
 n	search-next
 N	search-previous
 S	search-case-sensitively
 R	toggle-regexp
+g/	tree-search # tree level
 
-e	goto-node
+^w^w	next-window
+^wW	prev-window
+^w^s	split-window
+^w^q	delete-window
+^w^o	keep-one-window
+^w+	grow-window
+^w=	tile-windows
+^w^f	show-footnotes
 
 #echo-area
+
+\kD	echo-area-scroll-completions-window
+
+^u	echo-area-backward-kill-line

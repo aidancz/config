@@ -92,6 +92,7 @@ require("_virtcol")
 -- require("_outline_HACK1")
 require("_buvvers")
 require("_whitespace")
+require("extui")
 require("statusline")
 
 -- # autocmd
@@ -215,7 +216,6 @@ require("_vim-table-mode")
 require("_yanky")
 require("_yazi")
 require("diagnostic")
-require("extui")
 require("hl")
 
 require("_hydra")
