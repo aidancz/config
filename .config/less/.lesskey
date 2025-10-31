@@ -32,13 +32,16 @@ q noaction
 # ^[[27;5u
 # \e\133\062\067\073\065\165
 
-j forw-scroll
-
-k back-scroll
+# d forw-scroll
+# u back-scroll
 
 f forw-screen
-
 d back-screen
+s goto-line
+g goto-end
+/ forw-search
+n repeat-search
+t reverse-search
 
 #line-edit
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

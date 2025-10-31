@@ -19,6 +19,7 @@ alias chez="chez ~/.schemerc"
 
 alias 1='setsid -f $TERMINAL >/dev/null 2>&1'
 alias v="nvim"
+alias i="info"
 # alias ed="emacs --daemon"
 # alias ek="emacsclient -e '(kill-emacs)'"
 # alias ke="kill $(pidof emacs)"

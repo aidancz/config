@@ -4,15 +4,13 @@ key-time=0
 
 link-style=cyan
 active-link-style=bgcyan,black
-
 match-style=bggreen,black
-highlight-searches=Off
-
-automatic-tiling=On
+highlight-searches=Off # must after `match-style`
 
 nodeline=print
-
 hide-note-references=Off
+
+automatic-tiling=On
 
 #info
 
@@ -41,37 +39,40 @@ q	invalid
 
 k	global-prev-node
 j	global-next-node
-gk	first-node
-gj	last-node
 h	prev-node
 l	next-node
 u	up-node
 o	history-node
-gd	dir-node
-gt	top-node
-e	goto-node
-ge	goto-invocation-node
-#	select-visited-node
-#	list-visited-nodes
+# x	history-node-forward
+# https://unix.stackexchange.com/questions/624966/moving-forward-in-history-in-gnu-info
+ek	first-node
+ej	last-node
+et	top-node
+ed	dir-node
+eo	select-visited-node
+co	list-visited-nodes
+ei	goto-invocation-node
+\eOQ	goto-node
 
 m	menu-item
-gm	find-menu
+em	find-menu
 i	index-search
-gi	virtual-index
-,	next-index-match
-#	index-apropos
+# ,	prev-index-match
+.	next-index-match
+ci	virtual-index
+cI	index-apropos
 r	xref-item
 w	move-to-next-xref
-W	move-to-prev-xref
+b	move-to-prev-xref
 \r	select-reference-this-line
 
 f	scroll-forward
 d	scroll-backward
 s	beginning-of-node
-G	end-of-node
+g	end-of-node
 \kD	scroll-other-window
 \kU	scroll-other-window-backward
-#	redraw-display # recenter
+^l	redraw-display # recenter
 
 \kh	beginning-of-line
 \ke	end-of-line
@@ -79,10 +80,10 @@ M	move-to-window-line
 
 /	search # file level
 n	search-next
-N	search-previous
+t	search-previous
 S	search-case-sensitively
 R	toggle-regexp
-g/	tree-search # tree level
+e/	tree-search # tree level
 
 ^w^w	next-window
 ^wW	prev-window
@@ -97,4 +98,5 @@ g/	tree-search # tree level
 
 \kD	echo-area-scroll-completions-window
 
+^w	echo-area-backward-kill-word
 ^u	echo-area-backward-kill-line

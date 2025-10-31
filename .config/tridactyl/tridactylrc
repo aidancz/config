@@ -1,42 +1,111 @@
+" tridactyl has a welcome page, kinda like info's "Top" node
+" it is the default "newtab" page for tridactyl
+" for simplicity, we change the "newtab" page to a blank page:
+set newtab about:blank
+" but use `<c-h>` to view it anytime:
+bind <C-h> composite unset newtab ; tabopen ; sleep 100 ; set newtab about:blank
+
+" tridactyl has 2 concepts:
+" 1. excmd
+" 2. setting
+" excmd doc: `:help`
+" setting doc: `:help` -> the 2nd paragraph, "here"
+" NOTE: bindings are some settings: nmaps, browsermaps...
+
+" the help excmd:
+" `:h -e`: excmd
+" `:h -s`: setting
+" `:h -b`: binding (however, this can only view nmaps, the general way is using `:bind --mode=<mode>`)
+" the apropos excmd is a wrapper for help, use fuzzy completions instead
+
+" getting started: `:tutor`
+
+" reset config: `:sanitise tridactyllocal`
+" https://github.com/tridactyl/tridactyl/issues/1542
+
+" glacambre is a maintainer of tridactyl, this is his tridactylrc:
+" https://github.com/glacambre/.dotfiles/blob/master/default/.config/tridactyl/tridactylrc
+
+"
+" setting
+"
+
 colors mytheme
 
-set newtab about:blank
-
 set hintchars kdjflsieowmv
-
 set editorcmd st -e nvim
 
-unbind <C-e>
+"
+" keys
+"
 
-unbind <C-y>
+" ~~~~~~~~ subconfigs
 
-unbind <C-f>
+" bindurl ^https://github.com i hint -Vc .AppHeader-searchButton
+" https://github.com/tridactyl/tridactyl/blob/master/.tridactylrc
 
-unbind <C-b>
+" ~~~~~~~~ browsermaps
+
+bind --mode=browser <C-e> escapehatch
+
+" ~~~~~~~~ exmaps
 
 unbind --mode=ex <Space>
 " https://github.com/tridactyl/tridactyl/issues/4638
 
-bind --mode=browser <C-e> escapehatch
+bind --mode=ex <C-f> ex.insert_completion
 
-bind j scrollpage 0.5
+" ~~~~~~~~ vmaps
 
-bind k scrollpage -0.5
+unbind --mode=visual s
+unbind --mode=visual S
+
+" ~~~~~~~~ inputmaps
+
+bind --mode=input <C-i> editor
+
+" ~~~~~~~~ nmaps
+
+unbind <C-e>
+unbind <C-y>
+unbind <C-f>
+unbind <C-b>
+
+bind <F1> quit
+bind <F2> composite sanitise tridactyllocal; fillcmdline_tmp 3000 sanitise tridactyllocal
+bind <C-v> nmode ignore 1 mode normal
+bind ei focusinput -l
+bind v hint -h
+
+bind j tabnext
+bind k tabprev
+bind h tabmove -1
+bind l tabmove +1
 
 bind f scrollpage 0.9
-
 bind d scrollpage -0.9
+bind s scrollto 0
+bind g scrollto 100
 
-bind g scrollto 0
+bind o back
+bind x forward
 
-" bind J tabnext
+bind . repeat
 
-" bind K tabprev
+bind i fillcmdline tabopen
+bind b fillcmdline tab
 
-bind i focusinput -l
-" bindurl ^https://github.com i hint -Vc .AppHeader-searchButton
-" https://github.com/tridactyl/tridactyl/blob/master/.tridactylrc
+bind m hint
+bind r hint -t
 
-bind ,, tabduplicate
+bind , tabduplicate
 
-" bind F hint -t
+bind yy clipboard yank
+bind yl hint -y
+bind y# hint -#
+bind yt hint -p
+
+bind p clipboard tabopen
+
+bind em gobble 1 markadd
+bind ` gobble 1 markjump
