@@ -37,16 +37,16 @@ q	invalid
 ^ha	index-apropos
 ^hw	where-is
 
-k	global-prev-node
 j	global-next-node
-h	prev-node
+k	global-prev-node
 l	next-node
+h	prev-node
 u	up-node
 o	history-node
 # x	history-node-forward
 # https://unix.stackexchange.com/questions/624966/moving-forward-in-history-in-gnu-info
-ek	first-node
 ej	last-node
+ek	first-node
 et	top-node
 ed	dir-node
 eo	select-visited-node
@@ -68,8 +68,8 @@ b	move-to-prev-xref
 
 f	scroll-forward
 d	scroll-backward
-s	beginning-of-node
 g	end-of-node
+s	beginning-of-node
 \kD	scroll-other-window
 \kU	scroll-other-window-backward
 ^l	redraw-display # recenter
@@ -79,6 +79,7 @@ g	end-of-node
 M	move-to-window-line
 
 /	search # file level
+?	search-backward
 n	search-next
 t	search-previous
 S	search-case-sensitively

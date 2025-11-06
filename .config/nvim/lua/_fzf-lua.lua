@@ -54,11 +54,11 @@ require("fzf-lua").setup({
 			["<c-h>"] = "toggle-help",
 			["<f11>"] = "toggle-fullscreen",
 
-			["<pageup>"]   = "preview-page-up",
 			["<pagedown>"] = "preview-page-down",
-			["<del>"]      = "preview-reset",
-			["<c-home>"]   = "preview-top",
+			["<pageup>"]   = "preview-page-up",
 			["<c-end>"]    = "preview-bottom",
+			["<c-home>"]   = "preview-top",
+			["<del>"]      = "preview-reset",
 
 		},
 		fzf = {

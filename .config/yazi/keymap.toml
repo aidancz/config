@@ -12,12 +12,13 @@ keymap = [
 	# navigation
 	{ on = "j", run = "arrow 1" },
 	{ on = "k", run = "arrow -1" },
-	{ on = "h", run = "leave" },
 	{ on = "l", run = "enter" },
+	{ on = "h", run = "leave" },
+
 	{ on = "f", run = "arrow 100%" },
 	{ on = "d", run = "arrow -100%" },
-	{ on = "s", run = "arrow top" },
 	{ on = "g", run = "arrow bot" },
+	{ on = "s", run = "arrow top" },
 
 	{ on = "<c-j>", run = "plugin parent-arrow 1" },
 	{ on = "<c-k>", run = "plugin parent-arrow -1" },

@@ -1,4 +1,5 @@
 # man zathura zathurarc
+# https://github.com/pwmt/zathura/blob/develop/zathura/config.c
 
 set recolor true
 set recolor-darkcolor  "#9e9e9e"
@@ -9,14 +10,30 @@ set recolor-lightcolor "#2b2b2b"
 map <F1> quit
 map <C-Esc> quit
 
-map g goto top
-# map e scroll down
-# map y scroll up
-map j scroll half-down
-map k scroll half-up
+map j navigate next
+map k navigate previous
+map l zoom in
+map h zoom out
+map u zoom default
+map i adjust_window best-fit
+map a adjust_window width
+map o jumplist backward
+map x jumplist forward
+map ej goto bottom
+map ek goto top
+map <C-j> bisect forward
+map <C-k> bisect backward
+
+map m follow
+
 map f scroll full-down
 map d scroll full-up
-map w navigate next
-map b navigate previous
+map g scroll page-bottom
+map s scroll page-top
 
-map <C-a> toggle_page_mode
+map v toggle_page_mode
+
+# map e scroll down
+# map y scroll up
+# map d scroll half-down
+# map u scroll half-up

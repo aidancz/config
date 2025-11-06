@@ -1,5 +1,5 @@
 gui:
-  scrollHeight: 20
+  scrollHeight: 8
   scrollPastBottom: false
   scrollOffMargin: 0
   sidePanelWidth: 0.3333
@@ -17,15 +17,12 @@ gui:
       - reverse
   nerdFontsVersion: ""
   screenMode: normal
-
 git:
-  paging:
-    colorArg: always
-    pager: diff-so-fancy
-    useConfig: false
-
+  pagers:
+    - colorArg: always
+      pager: diff-so-fancy
+      useConfig: false
 quitOnTopLevelReturn: true
-
 customCommands:
   - key: C
     context: files
@@ -34,23 +31,31 @@ customCommands:
     context: files
     command: git diff {{.SelectedPath}}
     output: terminal
-
 notARepository: quit
-
 promptToReturnFromSubprocess: false
-
 keybinding:
   universal:
     quit: <f1>
     togglePanel: <tab>
     optionMenu: <disabled>
     optionMenu-alt1: m
-    gotoTop: g
-    gotoBottom: G
+    nextItem: j
+    prevItem: k
+    nextBlock: l
+    prevBlock: h
+    nextPage: f
+    prevPage: d
+    gotoBottom: g
+    gotoTop: s
+    startSearch: /
+    nextMatch: n
+    prevMatch: t
+    scrollDownMain: <pgdown>
+    scrollUpMain: <pgup>
     createRebaseOptionsMenu: <disabled>
   files:
     commitChangesWithEditor: <disabled>
   commits:
-    viewResetOptions: <c-g>
+    viewResetOptions: <c-e>
   stash:
     popStash: p

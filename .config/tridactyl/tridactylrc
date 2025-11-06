@@ -70,6 +70,7 @@ unbind <C-e>
 unbind <C-y>
 unbind <C-f>
 unbind <C-b>
+unbind t
 
 bind <F1> quit
 bind <F2> composite sanitise tridactyllocal; fillcmdline_tmp 3000 sanitise tridactyllocal
@@ -79,13 +80,13 @@ bind v hint -h
 
 bind j tabnext
 bind k tabprev
-bind h tabmove -1
 bind l tabmove +1
+bind h tabmove -1
 
 bind f scrollpage 0.9
 bind d scrollpage -0.9
-bind s scrollto 0
 bind g scrollto 100
+bind s scrollto 0
 
 bind o back
 bind x forward
