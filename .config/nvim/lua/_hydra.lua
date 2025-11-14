@@ -98,6 +98,13 @@ require("mini.deps").add({
 
 require("hydra").add = function(opts)
 -- a wrapper of require("hydra").<metatable>.__call
+	vim.validate("name",   opts.name,   "nil")
+	vim.validate("hint",   opts.hint,   "nil")
+	vim.validate("config", opts.config, {"nil", "table"})
+	vim.validate("mode",   opts.mode,   {"string", "table"}) -- write mode explicitly
+	vim.validate("body",   opts.body,   "string")
+	vim.validate("heads",  opts.heads,  "table")
+
 	local name = {}
 	for _, head in ipairs(opts.heads) do
 		table.insert(name, opts.body .. head[1])

@@ -5,8 +5,8 @@ require("mini.deps").add({
 require("mini.align").setup({
 	-- silent = true,
 	mappings = {
-		start = "gl",
-		start_with_preview = "gL",
+		start = "ga",
+		start_with_preview = "gz",
 	},
 	modifiers = {
 		q = function(steps, _)
@@ -24,4 +24,8 @@ require("mini.align").setup({
 	},
 })
 
-vim.keymap.set("n", "gll", "gl_", {remap = true})
+vim.keymap.set("n", "gaa", "ga_", {remap = true})
+vim.keymap.set("n", "gA", "ga$", {remap = true})
+
+vim.keymap.set("n", "gzz", "gz_", {remap = true})
+vim.keymap.set("n", "gZ", "gz$", {remap = true})

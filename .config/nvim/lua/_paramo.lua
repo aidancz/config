@@ -23,12 +23,15 @@ local map = function(key, direction, is, hook)
 	)
 end
 
-map("{", "prev", require("para_nonempty_reverse").is_tail)
+map("{", "prev", require("para_nonempty_reverse").is_head)
 map("}", "next", require("para_nonempty_reverse").is_head)
+map("(", "prev", require("para_nonempty_reverse").is_tail)
+map(")", "next", require("para_nonempty_reverse").is_tail)
 
-map("md", "next", require("para_nonempty").is_head)
-map("mu", "prev", require("para_nonempty").is_head)
-map("me", "next", require("para_nonempty").is_tail)
+map("vk", "prev", require("para_nonempty").is_head)
+map("vj", "next", require("para_nonempty").is_head)
+map("vh", "prev", require("para_nonempty").is_tail)
+map("vl", "next", require("para_nonempty").is_tail)
 
 map("ms", "next", require("para_cursor_column").is_head)
 map("mo", "prev", require("para_cursor_column").is_head)

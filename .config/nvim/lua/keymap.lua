@@ -124,6 +124,11 @@ vim.keymap.set(
 	}
 )
 
+-- # ms -> gg, mg -> G
+
+vim.keymap.set({"n", "x"}, "ms", "gg")
+vim.keymap.set({"n", "x"}, "mg", "G")
+
 -- # ew -> e, eb -> ge, eW -> E, eB -> gE
 
 require("hydra").add({
@@ -147,6 +152,197 @@ require("hydra").add({
 })
 vim.keymap.set("o", "eW", "E")
 vim.keymap.set("o", "eB", "gE")
+
+-- # buffer next/prev
+
+-- next {{{
+require("luaexec").add({
+	code =
+[[
+local count = vim.v.count
+if count == 0 then count = 1 end
+
+local buf = vim.api.nvim_get_current_buf()
+local buf_list = vim.api.nvim_list_bufs()
+local buf_is_listed = function(buf)
+	if buf == 0 then return false end
+	-- https://github.com/neovim/neovim/issues/33270
+	return vim.fn.buflisted(buf) ~= 0
+end
+
+local next
+next = function(buf)
+	if buf_is_listed(buf + 1) then
+		return (buf + 1)
+	end
+	if (buf + 1) > buf_list[#buf_list] then
+		return next(buf_list[1] - 1)
+	end
+	return next(buf + 1)
+end
+for i = 1, count do
+	buf = next(buf)
+end
+vim.api.nvim_set_current_buf(buf)
+]],
+	from = "buffer",
+	name = "next",
+	keys = {"n", "gj"},
+})
+-- }}}
+
+-- prev {{{
+require("luaexec").add({
+	code =
+[[
+local count = vim.v.count
+if count == 0 then count = 1 end
+
+local buf = vim.api.nvim_get_current_buf()
+local buf_list = vim.api.nvim_list_bufs()
+local buf_is_listed = function(buf)
+	if buf == 0 then return false end
+	-- https://github.com/neovim/neovim/issues/33270
+	return vim.fn.buflisted(buf) ~= 0
+end
+
+local prev
+prev = function(buf)
+	if buf_is_listed(buf - 1) then
+		return (buf - 1)
+	end
+	if (buf - 1) < buf_list[1] then
+		return prev(buf_list[#buf_list] + 1)
+	end
+	return prev(buf - 1)
+end
+for i = 1, count do
+	buf = prev(buf)
+end
+vim.api.nvim_set_current_buf(buf)
+]],
+	from = "buffer",
+	name = "prev",
+	keys = {"n", "gk"},
+})
+-- }}}
+
+require("hydra").add({
+	mode = {"n", "x"},
+	body = "g",
+	heads = {
+		{
+			"j",
+			function()
+				require("luaexec").registry.buffer.next()
+			end,
+		},
+		{
+			"k",
+			function()
+				require("luaexec").registry.buffer.prev()
+			end,
+		},
+	},
+})
+
+-- # window next/prev
+
+require("luaexec").add({
+	code =
+[[
+local count = vim.v.count
+if count == 0 then count = "" end
+vim.cmd(count .. "wincmd w")
+]],
+	from = "window",
+	name = "next",
+	keys = {"n", "gl"},
+})
+
+require("luaexec").add({
+	code =
+[[
+local count = vim.v.count
+if count == 0 then count = "" end
+vim.cmd(count .. "wincmd W")
+]],
+	from = "window",
+	name = "prev",
+	keys = {"n", "gh"},
+})
+
+require("hydra").add({
+	mode = {"n", "x"},
+	body = "g",
+	heads = {
+		{
+			"l",
+			function()
+				require("luaexec").registry.window.next()
+			end,
+		},
+		{
+			"h",
+			function()
+				require("luaexec").registry.window.prev()
+			end,
+		},
+	},
+})
+
+-- # window scroll
+
+require("hydra").add({
+	mode = {"n", "x"},
+	body = "z",
+	heads = {
+		{"l", "8zl"},
+		{"h", "8zh"},
+	},
+})
+
+-- # window resize
+
+require("hydra").add({
+	mode = {"n", "x"},
+	body = "<c-w>",
+	heads = {
+		{"+", "2<c-w>+"},
+		{"-", "2<c-w>-"},
+	},
+})
+
+require("hydra").add({
+	mode = {"n", "x"},
+	body = "<c-w>",
+	heads = {
+		{">", "4<c-w>>"},
+		{"<", "4<c-w><"},
+	},
+})
+
+-- # tab next/prev
+
+-- require("hydra").add({
+-- 	mode = {"n", "x"},
+-- 	body = "m",
+-- 	heads = {
+-- 		{"t", "gt"},
+-- 		{"T", "gT"},
+-- 	},
+-- })
+
+-- # compiler next/prev
+
+-- require("hydra").add({
+-- 	mode = {"n", "x"},
+-- 	body = "m",
+-- 	heads = {
+-- 		{"c", "<cmd>cnext<cr>"},
+-- 		{"C", "<cmd>cprevious<cr>"},
+-- 	},
+-- })
 
 -- # r -> d
 
@@ -360,169 +556,16 @@ vim.keymap.set("i", "<c-p>",  "<up>")
 
 
 
-require("hydra").add({
-	mode = {"n", "x"},
-	body = "z",
-	heads = {
-		{"h", "8zh"},
-		{"l", "8zl"},
-	},
-})
 
-require("hydra").add({
-	mode = {"n", "x"},
-	body = "<c-w>",
-	heads = {
-		{"-", "2<c-w>-"},
-		{"+", "2<c-w>+"},
-	},
-})
 
-require("hydra").add({
-	mode = {"n", "x"},
-	body = "<c-w>",
-	heads = {
-		{"<", "4<c-w><"},
-		{">", "4<c-w>>"},
-	},
-})
 
--- require("hydra").add({
--- 	body = "m",
--- 	heads = {
--- 		{"t", "gt"},
--- 		{"T", "gT"},
--- 	},
--- })
-
--- require("hydra").add({
--- 	body = "m",
--- 	heads = {
--- 		{"c", "<cmd>cnext<cr>"},
--- 		{"C", "<cmd>cprevious<cr>"},
--- 	},
--- })
 
 -- # require("luaexec").add
 
 -- # example
 
-require("luaexec").add({
-	code = [[print_time()]],
-	from = "example",
-	name = "print_time",
-	desc = "print the current time with microsecond precision",
-	keys = {"n", "<c-s-t>"},
-})
 
---[[
-node.code: required
-node.from: optional
-node.name: optional
-node.desc: optional
-node.keys: optional
---]]
 
-require("luaexec").add({
-	code = [[vim.notify(tostring(vim.v.count))]],
-	from = "example",
-})
-
--- # buffer
-
-require("luaexec").add({
-	code =
-[[
-local count = vim.v.count
-if count == 0 then count = 1 end
-
-local buf = vim.api.nvim_get_current_buf()
-local buf_list = vim.api.nvim_list_bufs()
-local buf_is_listed = function(buf)
-	if buf == 0 then return false end
-	-- https://github.com/neovim/neovim/issues/33270
-	return vim.fn.buflisted(buf) ~= 0
-end
-
-local prev
-prev = function(buf)
-	if buf_is_listed(buf - 1) then
-		return (buf - 1)
-	end
-	if (buf - 1) < buf_list[1] then
-		return prev(buf_list[#buf_list] + 1)
-	end
-	return prev(buf - 1)
-end
-for i = 1, count do
-	buf = prev(buf)
-end
-vim.api.nvim_set_current_buf(buf)
-]],
-	from = "buffer",
-	name = "prev",
-	keys = {"n", "mB"},
-})
-
-require("luaexec").add({
-	code =
-[[
-local count = vim.v.count
-if count == 0 then count = 1 end
-
-local buf = vim.api.nvim_get_current_buf()
-local buf_list = vim.api.nvim_list_bufs()
-local buf_is_listed = function(buf)
-	if buf == 0 then return false end
-	-- https://github.com/neovim/neovim/issues/33270
-	return vim.fn.buflisted(buf) ~= 0
-end
-
-local next
-next = function(buf)
-	if buf_is_listed(buf + 1) then
-		return (buf + 1)
-	end
-	if (buf + 1) > buf_list[#buf_list] then
-		return next(buf_list[1] - 1)
-	end
-	return next(buf + 1)
-end
-for i = 1, count do
-	buf = next(buf)
-end
-vim.api.nvim_set_current_buf(buf)
-]],
-	from = "buffer",
-	name = "next",
-	keys = {"n", "mb"},
-})
-
--- # window
-
-require("luaexec").add({
-	code =
-[[
-local count = vim.v.count
-if count == 0 then count = "" end
-vim.cmd(count .. "wincmd W")
-]],
-	from = "window",
-	name = "prev",
-	keys = {"n", "mW"},
-})
-
-require("luaexec").add({
-	code =
-[[
-local count = vim.v.count
-if count == 0 then count = "" end
-vim.cmd(count .. "wincmd w")
-]],
-	from = "window",
-	name = "next",
-	keys = {"n", "mw"},
-})
 
 require("luaexec").add({
 	code =
