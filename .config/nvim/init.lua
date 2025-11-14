@@ -1,3 +1,5 @@
+---------------------------------------------------------------- lua debug
+
 --[[
 
 -- # exit lua execution
@@ -27,11 +29,12 @@ print_time = function()
 	print(get_time())
 end
 
-----------------------------------------------------------------
+---------------------------------------------------------------- compile the lua modules to bytecode, improve startup time
 
 vim.loader.enable()
+-- https://github.com/lewis6991/impatient.nvim
 
-----------------------------------------------------------------
+---------------------------------------------------------------- plugin manager
 
 local path_package = vim.fn.stdpath("data") .. "/site/"
 local path_deps = path_package .. "pack/deps/start/mini.deps"
@@ -49,15 +52,22 @@ if not vim.uv.fs_stat(path_deps) then
 	vim.cmd("helptags ALL")
 end
 
-require("mini.deps").setup()
-
 require("_mini-deps")
 
-----------------------------------------------------------------
+local dir = "~/sync_git"
+for name, type in vim.fs.dir(dir) do
+	if type == "directory" and string.find(name, "vim") then
+		vim.opt.runtimepath:prepend(dir .. "/" .. name)
+	end
+end
+
+---------------------------------------------------------------- load
+
+-------------------------------- save `require` function
 
 local original_require = require
 
-----------------------------------------------------------------
+-------------------------------- require now
 
 -- # redefine `require` function
 
@@ -75,6 +85,7 @@ require("vim_global_variable")
 
 -- # library
 
+require("_hydra")
 require("_luaeval")
 require("_luaexec")
 require("_mini-extra")
@@ -83,7 +94,7 @@ require("_mini-misc")
 require("_plenary")
 require("_virtcol")
 
--- # ui stable
+-- # ui
 
 -- require("_eolmark")
 -- require("_mini-starter")
@@ -106,12 +117,12 @@ require("autocmd")
 require("gutter")
 require("lsp")
 
--- # fast & pain to live without
+-- # pain to live without
 
-require("keymap")
 require("_virtualedit_all")
+require("keymap")
 
-----------------------------------------------------------------
+-------------------------------- require later
 
 -- # redefine `require` function
 
@@ -218,15 +229,11 @@ require("_yazi")
 require("diagnostic")
 require("hl")
 
-require("_hydra")
-
-----------------------------------------------------------------
+-------------------------------- restore `require` function
 
 local require = original_require
 
-----------------------------------------------------------------
-
--- testing section
+---------------------------------------------------------------- testing section
 
 -- require("mini.deps").add({
 -- 	source = "",

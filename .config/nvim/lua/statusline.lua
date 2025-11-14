@@ -258,10 +258,11 @@ M.hydra = function()
 	if m == nil then return nil end
 
 	local is_active = require("hydra.statusline").is_active()
+	local name = require("hydra.statusline").get_name()
 
 	component = table.concat({
 		"(",
-		"hydra",
+		name or "hydra",
 		")",
 	})
 	if is_active then

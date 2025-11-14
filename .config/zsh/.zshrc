@@ -142,6 +142,9 @@ eval "$(atuin init zsh)"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle
 
+export KEYTIMEOUT=1
+# wait ? hundredths of seconds (? 0.01s)
+
 autoload edit-command-line; zle -N edit-command-line
 autoload -U select-word-style; select-word-style whitespace
 
@@ -154,9 +157,6 @@ autoload -U select-word-style; select-word-style whitespace
 
 # bindkey -M viins "kj" vi-cmd-mode
 # bind kj to esc
-
-export KEYTIMEOUT=1
-# wait ? hundredths of seconds (? 0.01s)
 
 bindkey -M viins "^e" end-of-line
 bindkey -M viins "^a" beginning-of-line
@@ -193,7 +193,7 @@ bindkey -M viins -s "^[[24~" "^[dd^d"
 bindkey -M viins -s "^[OR" "^[ddiy^M"
 bindkey -M vicmd -s "^[OR" "^[ddiy^M" # <esc>cc bug when line is empty...
 
-#}}}
+# }}}
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle_emacs
 
@@ -203,22 +203,21 @@ bindkey -e
 # bindkey -M emacs "^[" undefined-key
 # bindkey -M emacs "^[" self-insert
 # bindkey -M emacs "^[" redisplay
-# bindkey -M emacs "^[" beep
+# bindkey -M emacs "^[" beep # works great, but i need the ^[OQ bindings below, so comment out
 # bindkey -M emacs -s "^[" ""
 
 bindkey -M emacs "^u"    backward-kill-line # https://stackoverflow.com/questions/3483604/which-shortcut-in-zsh-does-the-same-as-ctrl-u-in-bash
-bindkey -M emacs "^[w"   emacs-forward-word # https://unix.stackexchange.com/questions/106375/make-zsh-alt-f-behave-like-emacs-alt-f
+bindkey -M emacs "^[f"   emacs-forward-word # https://unix.stackexchange.com/questions/106375/make-zsh-alt-f-behave-like-emacs-alt-f
 bindkey -M emacs "^[b"   emacs-backward-word
 bindkey -M emacs "^[[H"  beginning-of-line
 bindkey -M emacs "^[[4~" end-of-line
 bindkey -M emacs "^[[A"  history-beginning-search-backward
 bindkey -M emacs "^[[B"  history-beginning-search-forward
-bindkey -M emacs "^x^e"  edit-command-line
+bindkey -M emacs "^[OQe" edit-command-line
 
 bindkey -M emacs "^[OP"     _exit
-bindkey -M emacs "^[[27;5u" _exit
 bindkey -M emacs "^[OQ^M"   _term
-bindkey -M emacs "^[OQe"    _zoxide
+bindkey -M emacs "^[OQw"    _zoxide
 bindkey -M emacs "^[OQr"    _fzf
 bindkey -M emacs "^[OQf"    _yazi
 bindkey -M emacs "^[OQv"    _nvim

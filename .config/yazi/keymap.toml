@@ -3,11 +3,12 @@
 [mgr]
 keymap = [
 	# basic
-	{ on = "<f1>",       run = "close" },
-	{ on = "<c-esc>",    run = "quit" },
-	{ on = "<c-h>",      run = "help" },
-	{ on = "<esc>",      run = ["escape", "unyank"] },
-	{ on = [ "e", "t" ], run = "tasks:show" },
+	{ on = "<f1>",             run = "close" },
+	{ on = [ "<f2>", "<f1>" ], run = "quit" },
+	{ on = "<esc>",            run = ["escape", "unyank"] },
+	{ on = "<c-h>",            run = "help" },
+	{ on = "<c-t>",            run = "tab_create --current" },
+	{ on = [ "e", "t" ],       run = "tasks:show" },
 
 	# navigation
 	{ on = "j", run = "arrow 1" },

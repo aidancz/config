@@ -11,10 +11,6 @@ q noaction
 # <f1>
 # ^[OP
 # \e\117\120
-\e\133\062\067\073\065\165 quit
-# <c-esc>
-# ^[[27;5u
-# \e\133\062\067\073\065\165
 
 f forw-screen
 d back-screen

@@ -3,8 +3,6 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-
-
 -- # builtin plugin
 
 --[[
@@ -24,16 +22,12 @@ this will turn off markdown filetype plugin,
 which located at $VIMRUNTIME/ftplugin/markdown.vim
 --]]
 
-
-
 vim.cmd([[
 filetype on
 filetype plugin off
 filetype indent off
 syntax off
 ]])
-
-
 
 vim.g.loaded_gzip              = 1
 vim.g.loaded_matchit           = 1

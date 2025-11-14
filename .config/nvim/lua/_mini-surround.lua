@@ -66,7 +66,7 @@ require("mini.surround").setup({
 	},
 	mappings = {
 		add            = ",s",
-		delete         = "ds",
+		delete         = "rs",
 		find           = "",
 		find_left      = "",
 		highlight      = "",
@@ -74,7 +74,7 @@ require("mini.surround").setup({
 		update_n_lines = "",
 
 		suffix_next = "n",
-		suffix_last = "N",
+		suffix_last = "t",
 	},
 	respect_selection_type = true,
 	n_lines = 1024,

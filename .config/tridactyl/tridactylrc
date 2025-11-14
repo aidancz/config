@@ -72,8 +72,9 @@ unbind <C-f>
 unbind <C-b>
 unbind t
 
-bind <F1> quit
-bind <F2> composite sanitise tridactyllocal; fillcmdline_tmp 3000 sanitise tridactyllocal
+bind <F1> q
+bind <F2><F1> qa
+bind <C-F1> composite sanitise tridactyllocal; fillcmdline_tmp 3000 sanitise tridactyllocal
 bind <C-v> nmode ignore 1 mode normal
 bind ei focusinput -l
 bind v hint -h
