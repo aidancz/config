@@ -1,8 +1,8 @@
 --[[
 
-:h vim-modes
-
 :h map-table
+
+:h vim-modes
 - normal:           n
 - visual:           x
 - select:           s
@@ -15,7 +15,9 @@
 
 --]]
 
--- # leader keys themself should do nothing
+-- # {"n", "x", "s", "i", "c", "t", "o"}
+
+-- ## leader keys themself should do nothing
 
 vim.keymap.set({"n", "x", "s", "i", "c", "t", "o"}, "<f2>", "<nop>")
 
@@ -24,7 +26,12 @@ vim.keymap.set({"n", "x", "o"}, "e",       "<nop>")
 vim.keymap.set({"n", "x", "o"}, "v",       "<nop>")
 vim.keymap.set({"n", "x", "o"}, "m",       "<nop>")
 
--- # quit
+-- ## bypass <c-i> and <tab> conflict, etc
+
+vim.keymap.set({"n", "x", "s", "i", "c", "t", "o"}, "<c-i>", "<c-i>")
+vim.keymap.set({"n", "x", "s", "i", "c", "t", "o"}, "<c-m>", "<c-m>")
+
+-- ## quit
 
 vim.keymap.set(
 	{"n", "x", "s", "i", "c", "t", "o"},
@@ -65,16 +72,7 @@ vim.keymap.set(
 	function() vim.cmd("restart") end
 )
 
--- # open terminal
-
-vim.keymap.set(
-	{"n", "x", "s", "i", "c", "t", "o"},
-	"<f2><cr>",
-	"<cmd>silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>"
-)
--- https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
-
--- # repeat last command
+-- ## repeat last command
 
 -- vim.keymap.set({"n", "x"}, "<bs>", ":<up><cr>")
 -- vim.keymap.set({"n", "x"}, "<bs>", "@:")
@@ -83,25 +81,29 @@ vim.keymap.set(
 	"<bs>",
 	function() vim.cmd(vim.fn.histget("cmd", -1)) end
 )
+require("hydra").add({
+	mode = {"n", "x", "s", "i", "c", "t", "o"},
+	body = "<f2>",
+	heads = {
+		{
+			"<bs>",
+			function() vim.cmd(vim.fn.histget("cmd", -1)) end,
+		},
+	},
+})
+
+-- ## open terminal
+
 vim.keymap.set(
 	{"n", "x", "s", "i", "c", "t", "o"},
-	"<c-bs>",
-	function() vim.cmd(vim.fn.histget("cmd", -1)) end
+	"<f2><cr>",
+	"<cmd>silent! !setsid -f $TERMINAL >/dev/null 2>&1<cr>"
 )
+-- https://vi.stackexchange.com/questions/1942/how-to-execute-shell-commands-silently
 
--- # <s-cr> should do the opposite of <cr>
+-- # {"n", "x", "o"}
 
-vim.keymap.set({"n", "x", "o"}, "<s-cr>", "-")
-
-vim.keymap.set(
-	"i",
-	"<s-cr>",
-	function()
-		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<cr><cmd>.m.-2<cr>", true, true, true), "n", false)
-	end
-)
-
--- # j -> gj, 2j -> 2j
+-- ## j -> gj, 1j -> 1j, 2j -> 2j...
 
 vim.keymap.set(
 	{"n", "x"},
@@ -124,250 +126,82 @@ vim.keymap.set(
 	}
 )
 
--- # ms -> gg, mg -> G
+-- ## <s-cr> -> opposite of <cr>
 
-vim.keymap.set({"n", "x"}, "ms", "gg")
-vim.keymap.set({"n", "x"}, "mg", "G")
+vim.keymap.set({"n", "x", "o"}, "<s-cr>", "-")
 
--- # ew -> e, eb -> ge, eW -> E, eB -> gE
+vim.keymap.set(
+	"i",
+	"<s-cr>",
+	function()
+		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<cr><cmd>.m.-2<cr>", true, true, true), "n", false)
+	end
+)
+
+-- ## ms -> gg, mg -> G
+
+vim.keymap.set({"n", "x", "o"}, "ms", "gg")
+vim.keymap.set({"n", "x", "o"}, "mg", "G")
+
+-- ## for / search: n -> n, t -> N; for ? search: n -> N, t -> n
+
+vim.keymap.set({"n", "x", "o"}, "n", function() return vim.v.searchforward == 1 and "n" or "N" end, {expr = true})
+vim.keymap.set({"n", "x", "o"}, "t", function() return vim.v.searchforward == 1 and "N" or "n" end, {expr = true})
+-- https://vi.stackexchange.com/questions/2365/how-can-i-get-n-to-go-forward-even-if-i-started-searching-with-or
+
+-- ## mw -> e, mb -> ge, mW -> E, mB -> gE
 
 require("hydra").add({
 	mode = {"n", "x"},
-	body = "e",
+	body = "m",
 	heads = {
 		{"w", "e"},
 		{"b", "ge"},
 	},
 })
-vim.keymap.set("o", "ew", "e")
-vim.keymap.set("o", "eb", "ge")
+vim.keymap.set("o", "mw", "e")
+vim.keymap.set("o", "mb", "ge")
 
 require("hydra").add({
 	mode = {"n", "x"},
-	body = "e",
+	body = "m",
 	heads = {
 		{"W", "E"},
 		{"B", "gE"},
 	},
 })
-vim.keymap.set("o", "eW", "E")
-vim.keymap.set("o", "eB", "gE")
+vim.keymap.set("o", "mW", "E")
+vim.keymap.set("o", "mB", "gE")
 
--- # buffer next/prev
+-- ## <c-o> -> <c-o>, <c-x> -> <c-i>
 
--- next {{{
-require("luaexec").add({
-	code =
-[[
-local count = vim.v.count
-if count == 0 then count = 1 end
+vim.keymap.set({"n", "x"}, "<c-o>", "<c-o>")
+vim.keymap.set({"n", "x"}, "<c-x>", "<c-i>")
 
-local buf = vim.api.nvim_get_current_buf()
-local buf_list = vim.api.nvim_list_bufs()
-local buf_is_listed = function(buf)
-	if buf == 0 then return false end
-	-- https://github.com/neovim/neovim/issues/33270
-	return vim.fn.buflisted(buf) ~= 0
-end
+-- ## u -> u, - -> <c-r>
 
-local next
-next = function(buf)
-	if buf_is_listed(buf + 1) then
-		return (buf + 1)
-	end
-	if (buf + 1) > buf_list[#buf_list] then
-		return next(buf_list[1] - 1)
-	end
-	return next(buf + 1)
-end
-for i = 1, count do
-	buf = next(buf)
-end
-vim.api.nvim_set_current_buf(buf)
-]],
-	from = "buffer",
-	name = "next",
-	keys = {"n", "gj"},
-})
--- }}}
+vim.keymap.set({"n", "x"}, "<plug>(redrawstatus)", function() vim.cmd("redrawstatus") end)
+vim.keymap.set({"n", "x"}, "u", "u<plug>(redrawstatus)")
+vim.keymap.set({"n", "x"}, "-", "<c-r><plug>(redrawstatus)")
 
--- prev {{{
-require("luaexec").add({
-	code =
-[[
-local count = vim.v.count
-if count == 0 then count = 1 end
-
-local buf = vim.api.nvim_get_current_buf()
-local buf_list = vim.api.nvim_list_bufs()
-local buf_is_listed = function(buf)
-	if buf == 0 then return false end
-	-- https://github.com/neovim/neovim/issues/33270
-	return vim.fn.buflisted(buf) ~= 0
-end
-
-local prev
-prev = function(buf)
-	if buf_is_listed(buf - 1) then
-		return (buf - 1)
-	end
-	if (buf - 1) < buf_list[1] then
-		return prev(buf_list[#buf_list] + 1)
-	end
-	return prev(buf - 1)
-end
-for i = 1, count do
-	buf = prev(buf)
-end
-vim.api.nvim_set_current_buf(buf)
-]],
-	from = "buffer",
-	name = "prev",
-	keys = {"n", "gk"},
-})
--- }}}
-
-require("hydra").add({
-	mode = {"n", "x"},
-	body = "g",
-	heads = {
-		{
-			"j",
-			function()
-				require("luaexec").registry.buffer.next()
-			end,
-		},
-		{
-			"k",
-			function()
-				require("luaexec").registry.buffer.prev()
-			end,
-		},
-	},
-})
-
--- # window next/prev
-
-require("luaexec").add({
-	code =
-[[
-local count = vim.v.count
-if count == 0 then count = "" end
-vim.cmd(count .. "wincmd w")
-]],
-	from = "window",
-	name = "next",
-	keys = {"n", "gl"},
-})
-
-require("luaexec").add({
-	code =
-[[
-local count = vim.v.count
-if count == 0 then count = "" end
-vim.cmd(count .. "wincmd W")
-]],
-	from = "window",
-	name = "prev",
-	keys = {"n", "gh"},
-})
-
-require("hydra").add({
-	mode = {"n", "x"},
-	body = "g",
-	heads = {
-		{
-			"l",
-			function()
-				require("luaexec").registry.window.next()
-			end,
-		},
-		{
-			"h",
-			function()
-				require("luaexec").registry.window.prev()
-			end,
-		},
-	},
-})
-
--- # window scroll
-
-require("hydra").add({
-	mode = {"n", "x"},
-	body = "z",
-	heads = {
-		{"l", "8zl"},
-		{"h", "8zh"},
-	},
-})
-
--- # window resize
-
-require("hydra").add({
-	mode = {"n", "x"},
-	body = "<c-w>",
-	heads = {
-		{"+", "2<c-w>+"},
-		{"-", "2<c-w>-"},
-	},
-})
-
-require("hydra").add({
-	mode = {"n", "x"},
-	body = "<c-w>",
-	heads = {
-		{">", "4<c-w>>"},
-		{"<", "4<c-w><"},
-	},
-})
-
--- # tab next/prev
-
--- require("hydra").add({
--- 	mode = {"n", "x"},
--- 	body = "m",
--- 	heads = {
--- 		{"t", "gt"},
--- 		{"T", "gT"},
--- 	},
--- })
-
--- # compiler next/prev
-
--- require("hydra").add({
--- 	mode = {"n", "x"},
--- 	body = "m",
--- 	heads = {
--- 		{"c", "<cmd>cnext<cr>"},
--- 		{"C", "<cmd>cprevious<cr>"},
--- 	},
--- })
-
--- # r -> d
+-- ## r -> d
 
 vim.keymap.set({"n", "x"}, "r", "d")
 
 vim.keymap.set("n", "rr", "r_", {remap = true})
 vim.keymap.set("n", "R", "r$", {remap = true})
 
--- # m<key> -> <key>
-
-vim.keymap.set({"n", "x"}, "mr", "r")
-vim.keymap.set({"n", "x"}, "mv", "v")
-vim.keymap.set({"n", "x"}, "mm", "m")
-
--- # insert single char (mnemonic: mono)
+-- ## insert single char (mnemonic: mono)
 
 vim.keymap.set(
-	"n",
+	{"n", "x"},
 	"mi",
 	function()
 		vim.cmd("normal! " .. vim.v.count1 .. "i" .. vim.fn.getcharstr())
 	end
 )
 vim.keymap.set(
-	"n",
+	{"n", "x"},
 	"ma",
 	function()
 		vim.cmd("normal! " .. vim.v.count1 .. "a" .. vim.fn.getcharstr())
@@ -376,94 +210,19 @@ vim.keymap.set(
 -- https://github.com/rjayatilleka/vim-insert-char
 -- https://github.com/bagohart/vim-insert-append-single-character
 
--- # back and forw
+-- ## m<key> -> <key>
 
-vim.keymap.set("n", "<c-o>", "<c-o>")
-vim.keymap.set("n", "<c-x>", "<c-i>")
+vim.keymap.set({"n", "x"}, "mr", "r")
+vim.keymap.set({"n", "x"}, "mv", "v")
+vim.keymap.set({"n", "x"}, "mm", "m")
 
--- # undo and redo
+-- ## g<key> -> q<key>
 
-vim.keymap.set("n", "<plug>(redrawstatus)", function() vim.cmd("redrawstatus") end)
-vim.keymap.set("n", "u", "u<plug>(redrawstatus)")
-vim.keymap.set("n", "-", "<c-r><plug>(redrawstatus)")
+vim.keymap.set({"n", "x"}, "g/", "q/")
+vim.keymap.set({"n", "x"}, "g:", "q:")
+vim.keymap.set({"n", "x"}, "g?", "q?")
 
--- # the q key is for macros, move q<key> to g<key>
-
-vim.keymap.set("n", "g/", "q/")
-vim.keymap.set("n", "g:", "q:")
-vim.keymap.set("n", "g?", "q?")
-
--- # repeat last search pattern, the direction is always forward/backward
-
-vim.keymap.set(
-	"n",
-	"n",
-	function()
-		if vim.v.searchforward == 1 then
-			return "n"
-		else
-			return "N"
-		end
-	end,
-	{
-		expr = true,
-	}
-)
-vim.keymap.set(
-	"n",
-	"t",
-	function()
-		if vim.v.searchforward == 1 then
-			return "N"
-		else
-			return "n"
-		end
-	end,
-	{
-		expr = true,
-	}
-)
--- https://vi.stackexchange.com/questions/2365/how-can-i-get-n-to-go-forward-even-if-i-started-searching-with-or
-
--- # digraph
-
-vim.keymap.set({"i", "c"}, "<f2>v", "<c-k>")
-
-vim.fn.digraph_set("oo", "●")
-vim.fn.digraph_set("xx", "×")
-vim.fn.digraph_set("-<", "←")
-vim.fn.digraph_set("-^", "↑")
-vim.fn.digraph_set("^v", "↕")
-
--- # insert mode <right> and <left> should not break dot-repeat
-
-vim.keymap.set("i", "<right>", "<c-g>U<right>")
-vim.keymap.set("i", "<left>",  "<c-g>U<left>")
--- insert mode press print()<left>abc and try to use dot-repeat
--- default: abc
--- now: print(abc)
-
--- # cmdline mode <c-w> should ignore iskeyword
-
-vim.keymap.set(
-	"c",
-	"<c-w>",
-	function()
-		local cache_iskeyword = vim.bo.iskeyword
-		vim.bo.iskeyword = vim.go.iskeyword
-		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<c-w>", true, true, true), "n", false)
-		vim.schedule(function()
-			vim.bo.iskeyword = cache_iskeyword
-		end)
-	end
-)
-
--- # operator mode inner and outer
-
-vim.keymap.set("o", "i", "i")
-vim.keymap.set("o", "o", "a")
-
--- # operator mode { and } should default to linewise
+-- ## operator mode { and } should default to linewise
 
 vim.keymap.set(
 	"o",
@@ -508,64 +267,235 @@ vim.keymap.set(
 	}
 )
 
--- # used before
+-- ## buffer next/prev
 
---[=[
+-- next {{{
+require("luaexec").add({
+	code =
+[[
+local count = vim.v.count
+if count == 0 then count = 1 end
 
--- # consistent scrolling
+local buf = vim.api.nvim_get_current_buf()
+local buf_list = vim.api.nvim_list_bufs()
+local buf_is_listed = function(buf)
+	if buf == 0 then return false end
+	-- https://github.com/neovim/neovim/issues/33270
+	return vim.fn.buflisted(buf) ~= 0
+end
 
-vim.keymap.set({"n", "x"}, "<c-e>", function() return 1                                           .. "<c-d>" end, {expr = true})
-vim.keymap.set({"n", "x"}, "<c-y>", function() return 1                                           .. "<c-u>" end, {expr = true})
-vim.keymap.set({"n", "x"}, "<c-n>", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-d>" end, {expr = true})
-vim.keymap.set({"n", "x"}, "<c-p>", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-u>" end, {expr = true})
-vim.keymap.set({"n", "x"}, "<c-d>", function() return math.ceil(vim.api.nvim_win_get_height(0)/2) .. "<c-d>" end, {expr = true})
-vim.keymap.set({"n", "x"}, "<c-u>", function() return math.ceil(vim.api.nvim_win_get_height(0)/2) .. "<c-u>" end, {expr = true})
-vim.keymap.set({"n", "x"}, "<c-f>", function() return math.ceil(vim.api.nvim_win_get_height(0)/1) .. "<c-d>" end, {expr = true})
-vim.keymap.set({"n", "x"}, "<c-b>", function() return math.ceil(vim.api.nvim_win_get_height(0)/1) .. "<c-u>" end, {expr = true})
-https://stackoverflow.com/questions/8059448/scroll-window-halfway-between-zt-and-zz-in-vim
+local next
+next = function(buf)
+	if buf_is_listed(buf + 1) then
+		return (buf + 1)
+	end
+	if (buf + 1) > buf_list[#buf_list] then
+		return next(buf_list[1] - 1)
+	end
+	return next(buf + 1)
+end
+for i = 1, count do
+	buf = next(buf)
+end
+vim.api.nvim_set_current_buf(buf)
+]],
+	from = "buffer",
+	name = "next",
+	keys = {{"n", "x"}, "gj"},
+})
+-- }}}
 
--- # insert LF or SP without entering insert mode
+-- prev {{{
+require("luaexec").add({
+	code =
+[[
+local count = vim.v.count
+if count == 0 then count = 1 end
 
-vim.keymap.set("n", "<down>", ":put  _<cr>", {silent = true})
-vim.keymap.set("n", "<up>",   ":put! _<cr>", {silent = true})
-vim.keymap.set("n", "<right>", [["=" "<cr>p]], {silent = true})
-vim.keymap.set("n", "<left>",  [["=" "<cr>P]], {silent = true})
+local buf = vim.api.nvim_get_current_buf()
+local buf_list = vim.api.nvim_list_bufs()
+local buf_is_listed = function(buf)
+	if buf == 0 then return false end
+	-- https://github.com/neovim/neovim/issues/33270
+	return vim.fn.buflisted(buf) ~= 0
+end
 
--- # open outline
+local prev
+prev = function(buf)
+	if buf_is_listed(buf - 1) then
+		return (buf - 1)
+	end
+	if (buf - 1) < buf_list[1] then
+		return prev(buf_list[#buf_list] + 1)
+	end
+	return prev(buf - 1)
+end
+for i = 1, count do
+	buf = prev(buf)
+end
+vim.api.nvim_set_current_buf(buf)
+]],
+	from = "buffer",
+	name = "prev",
+	keys = {{"n", "x"}, "gk"},
+})
+-- }}}
 
-vim.keymap.set("n", "<f3>", "gO", {remap = true})
+require("hydra").add({
+	mode = {"n", "x"},
+	body = "g",
+	heads = {
+		{
+			"j",
+			function()
+				require("luaexec").registry.buffer.next()
+			end,
+		},
+		{
+			"k",
+			function()
+				require("luaexec").registry.buffer.prev()
+			end,
+		},
+	},
+})
 
--- # insert mode completion
+-- ## window next/prev
 
-vim.keymap.set("i", "<down>", "<c-n>")
-vim.keymap.set("i", "<up>",   "<c-p>")
-vim.keymap.set("i", "<c-n>",  "<down>")
-vim.keymap.set("i", "<c-p>",  "<up>")
+require("luaexec").add({
+	code =
+[[
+local count = vim.v.count
+if count == 0 then count = "" end
+vim.cmd(count .. "wincmd w")
+]],
+	from = "window",
+	name = "next",
+	keys = {{"n", "x"}, "gl"},
+})
 
---]=]
+require("luaexec").add({
+	code =
+[[
+local count = vim.v.count
+if count == 0 then count = "" end
+vim.cmd(count .. "wincmd W")
+]],
+	from = "window",
+	name = "prev",
+	keys = {{"n", "x"}, "gh"},
+})
 
+require("hydra").add({
+	mode = {"n", "x"},
+	body = "g",
+	heads = {
+		{
+			"l",
+			function()
+				require("luaexec").registry.window.next()
+			end,
+		},
+		{
+			"h",
+			function()
+				require("luaexec").registry.window.prev()
+			end,
+		},
+	},
+})
 
+-- ## window scroll
 
+require("hydra").add({
+	mode = {"n", "x"},
+	body = "z",
+	heads = {
+		{"l", "8zl"},
+		{"h", "8zh"},
+	},
+})
 
+-- ## window resize
 
+require("hydra").add({
+	mode = {"n", "x"},
+	body = "<c-w>",
+	heads = {
+		{"+", "2<c-w>+"},
+		{"-", "2<c-w>-"},
+	},
+})
 
+require("hydra").add({
+	mode = {"n", "x"},
+	body = "<c-w>",
+	heads = {
+		{">", "4<c-w>>"},
+		{"<", "4<c-w><"},
+	},
+})
 
+-- ## tab next/prev
 
+-- require("hydra").add({
+-- 	mode = {"n", "x"},
+-- 	body = "m",
+-- 	heads = {
+-- 		{"t", "gt"},
+-- 		{"T", "gT"},
+-- 	},
+-- })
 
+-- ## quickfix next/prev
 
+-- require("hydra").add({
+-- 	mode = {"n", "x"},
+-- 	body = "m",
+-- 	heads = {
+-- 		{"c", "<cmd>cnext<cr>"},
+-- 		{"C", "<cmd>cprevious<cr>"},
+-- 	},
+-- })
 
+-- # {"i", "c"}
 
+-- ## digraph
 
+vim.keymap.set({"i", "c"}, "<f2>v", "<c-k>")
 
+vim.fn.digraph_set("oo", "●")
+vim.fn.digraph_set("xx", "×")
+vim.fn.digraph_set("-<", "←")
+vim.fn.digraph_set("-^", "↑")
+vim.fn.digraph_set("^v", "↕")
 
+-- ## insert mode <right> and <left> should not break dot-repeat
 
+vim.keymap.set("i", "<right>", "<c-g>U<right>")
+vim.keymap.set("i", "<left>",  "<c-g>U<left>")
+-- insert mode press print()<left>abc and try to use dot-repeat
+-- default: abc
+-- now: print(abc)
 
--- # require("luaexec").add
+-- ## cmdline mode <c-w> should ignore iskeyword
 
--- # example
+vim.keymap.set(
+	"c",
+	"<c-w>",
+	function()
+		local cache_iskeyword = vim.bo.iskeyword
+		vim.bo.iskeyword = vim.go.iskeyword
+		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<c-w>", true, true, true), "n", false)
+		vim.schedule(function()
+			vim.bo.iskeyword = cache_iskeyword
+		end)
+	end
+)
 
+-- # ex mode (bind to command)
 
-
+-- ## compile
 
 require("luaexec").add({
 	code =
@@ -584,6 +514,8 @@ end
 	name = "compile",
 })
 
+-- ## transfer_register
+
 require("luaexec").add({
 	code =
 [=[
@@ -592,7 +524,7 @@ let @+ = @"
 let @* = @"
 ]])
 ]=],
-	name = "register_transfer",
+	name = "transfer_register",
 	desc =
 [[
 how shall we yank all lines except for the commented lines?
@@ -611,17 +543,21 @@ we can simply:
 ]],
 })
 
+-- ## remove_trail
+
 require("luaexec").add({
 	code =
 [=[
 vim.cmd([[%s/\s\+$//e]])
 ]=],
-	name = "trail_remove",
+	name = "remove_trail",
 	desc =
 [[
 https://vim.fandom.com/wiki/Remove_unwanted_spaces
 ]],
 })
+
+-- ## remove_last_eol
 
 require("luaexec").add({
 	code =
@@ -630,21 +566,25 @@ vim.opt.binary = true
 vim.opt.fixendofline = false
 vim.opt.endofline = false
 ]],
-	name = "last_eol_remove",
+	name = "remove_last_eol",
 	desc =
 [[
 https://stackoverflow.com/questions/1050640/how-to-stop-vim-from-adding-a-newline-at-end-of-file
 ]],
 })
 
+-- ## deduplicate_multiple_blank_lines
+
 require("luaexec").add({
 	code = [[vim.cmd("%!cat -s")]],
-	name = "multiple_blank_lines_deduplicate",
+	name = "deduplicate_multiple_blank_lines",
 	desc =
 [[
 https://unix.stackexchange.com/questions/12812/replacing-multiple-blank-lines-with-a-single-blank-line-in-vim-sed
 ]],
 })
+
+-- ## zen
 
 require("luaexec").add({
 	code =
@@ -657,3 +597,35 @@ vim.opt_local.statuscolumn = ""
 ]],
 	name = "zen",
 })
+
+-- # used before
+
+--[=[
+
+-- ## consistent scrolling
+
+vim.keymap.set({"n", "x"}, "<c-e>", function() return 1                                           .. "<c-d>" end, {expr = true})
+vim.keymap.set({"n", "x"}, "<c-y>", function() return 1                                           .. "<c-u>" end, {expr = true})
+vim.keymap.set({"n", "x"}, "<c-n>", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-d>" end, {expr = true})
+vim.keymap.set({"n", "x"}, "<c-p>", function() return math.ceil(vim.api.nvim_win_get_height(0)/4) .. "<c-u>" end, {expr = true})
+vim.keymap.set({"n", "x"}, "<c-d>", function() return math.ceil(vim.api.nvim_win_get_height(0)/2) .. "<c-d>" end, {expr = true})
+vim.keymap.set({"n", "x"}, "<c-u>", function() return math.ceil(vim.api.nvim_win_get_height(0)/2) .. "<c-u>" end, {expr = true})
+vim.keymap.set({"n", "x"}, "<c-f>", function() return math.ceil(vim.api.nvim_win_get_height(0)/1) .. "<c-d>" end, {expr = true})
+vim.keymap.set({"n", "x"}, "<c-b>", function() return math.ceil(vim.api.nvim_win_get_height(0)/1) .. "<c-u>" end, {expr = true})
+https://stackoverflow.com/questions/8059448/scroll-window-halfway-between-zt-and-zz-in-vim
+
+-- ## insert LF or SP without entering insert mode
+
+vim.keymap.set({"n", "x"}, "<down>", ":put  _<cr>", {silent = true})
+vim.keymap.set({"n", "x"}, "<up>",   ":put! _<cr>", {silent = true})
+vim.keymap.set({"n", "x"}, "<right>", [["=" "<cr>p]], {silent = true})
+vim.keymap.set({"n", "x"}, "<left>",  [["=" "<cr>P]], {silent = true})
+
+-- ## insert mode completion
+
+vim.keymap.set("i", "<down>", "<c-n>")
+vim.keymap.set("i", "<up>",   "<c-p>")
+vim.keymap.set("i", "<c-n>",  "<down>")
+vim.keymap.set("i", "<c-p>",  "<up>")
+
+--]=]

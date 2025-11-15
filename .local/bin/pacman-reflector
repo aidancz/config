@@ -2,5 +2,6 @@
 
 # sudo reflector --country 'China' --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 
+sudo rm /etc/pacman.d/mirrorlist
 reflector --country 'Hong Kong' --age 12 --protocol https --sort rate | sudo tee -a /etc/pacman.d/mirrorlist
 reflector --country 'China'     --age 12 --protocol https --sort rate | sudo tee -a /etc/pacman.d/mirrorlist

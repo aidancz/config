@@ -12,8 +12,8 @@ require("mini.diff").setup({
 		text_change = 100,
 	},
 	mappings = {
-		apply = "ma",
-		reset = "mr",
+		apply = "va",
+		reset = "vr",
 		textobject = "ih",
 	},
 })

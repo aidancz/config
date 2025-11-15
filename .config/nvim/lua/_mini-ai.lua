@@ -267,10 +267,13 @@ require("mini.ai").setup({
 
 	},
 	mappings = {
+		around = "a",
+		inside = "i",
+
 		around_next = "an",
 		inside_next = "in",
-		around_last = "aN",
-		inside_last = "iN",
+		around_last = "at",
+		inside_last = "it",
 
 		goto_left  = "g[",
 		goto_right = "g]",

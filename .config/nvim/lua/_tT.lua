@@ -4,7 +4,7 @@
 
 vim.keymap.set(
 	{"n", "x", "o"},
-	"t",
+	"m/",
 	function()
 		return
 		require("tT").expr({
@@ -15,7 +15,7 @@ vim.keymap.set(
 )
 vim.keymap.set(
 	{"n", "x", "o"},
-	"T",
+	"m?",
 	function()
 		return
 		require("tT").expr({

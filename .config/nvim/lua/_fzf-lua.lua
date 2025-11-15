@@ -199,71 +199,70 @@ vim.api.nvim_set_hl(0, "FzfLuaCursorLine", {link = "nofrils_reverse"})
 require("luaexec").add({
 	code = [[require("fzf-lua").builtin()]],
 	from = "fzf-lua",
-	keys = {"n", "v<space>"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").resume()]],
 	from = "fzf-lua",
-	keys = {"n", "vv"},
+	keys = {"n", "ee"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").files({cwd = vim.fs.root(0, ".git") or vim.fn.getcwd()})]],
 	from = "fzf-lua",
-	keys = {"n", "vi"},
+	keys = {"n", "ei"},
 })
 
 -- require("luaexec").add({
 -- 	code = [[require("fzf-lua-enchanted-files").files({cwd = vim.fs.root(0, ".git") or vim.fn.getcwd()})]],
 -- 	from = "fzf-lua",
--- 	keys = {"n", "vi"},
+-- 	keys = {"n", "ei"},
 -- })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").buffers()]],
 	from = "fzf-lua",
-	keys = {"n", "vb"},
+	keys = {"n", "eb"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").helptags()]],
 	from = "fzf-lua",
-	keys = {"n", "v<c-h>"},
+	keys = {"n", "e<c-h>"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").custom_history({histname = ":"})]],
 	from = "fzf-lua",
-	keys = {"n", "v:"},
+	keys = {"n", "e:"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").custom_history({histname = "/"})]],
 	from = "fzf-lua",
-	keys = {"n", "v/"},
+	keys = {"n", "e/"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").custom_history({histname = "?"})]],
 	from = "fzf-lua",
-	keys = {"n", "v?"},
+	keys = {"n", "e?"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").blines()]],
 	from = "fzf-lua",
-	keys = {"n", "v."},
+	keys = {"n", "e."},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").lines()]],
 	from = "fzf-lua",
-	keys = {"n", "v,"},
+	keys = {"n", "e,"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").live_grep({cwd = vim.fs.root(0, ".git") or vim.fn.getcwd()})]],
 	from = "fzf-lua",
-	keys = {"n", "vr"},
+	keys = {"n", "er"},
 })

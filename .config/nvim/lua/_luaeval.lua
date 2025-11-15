@@ -28,7 +28,7 @@ require("luaexec").add({
 	code = [[require("luaeval").toggle()]],
 	from = "luaeval",
 	name = "window",
-	keys = {"n", "ei"},
+	keys = {"n", "vi"},
 })
 
 require("luaexec").add({
@@ -36,6 +36,6 @@ require("luaexec").add({
 	from = "luaeval",
 	keys = {
 		{{"n", "x"}, "m<bs>"},
-		{{"n", "x", "s", "i", "c", "t", "o"}, "<f2><bs>"},
+		{{"n", "x", "s", "i", "c", "t", "o"}, "<f2>m<bs>"},
 	},
 })

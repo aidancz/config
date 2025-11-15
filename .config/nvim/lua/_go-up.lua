@@ -75,7 +75,7 @@ end
 ]],
 	from = "go-up",
 	name = "recenter 2/4 lock",
-	keys = {{"n", "x"}, "e<space>"},
+	keys = {{"n", "x"}, "en"},
 })
 
 require("hydra").add({
@@ -83,10 +83,18 @@ require("hydra").add({
 	body = "e",
 	heads = {
 		{
-			"<space>",
+			"n",
 			function()
-				require("luaexec").registry["go-up"]["recenter 2/4 lock"]()
+				if not require("hydra.statusline").is_active() then
+					require("luaexec").registry["go-up"]["recenter 2/4 lock"]()
+					return ""
+				else
+					return vim.v.searchforward == 1 and "n" or "N"
+				end
 			end,
+			{
+				expr = true,
+			},
 		},
 		{
 			"<esc>",
@@ -106,7 +114,7 @@ require("luaexec").add({
 	code = [[require("go-up").align()]],
 	from = "go-up",
 	name = "align",
-	keys = {{"n", "x"}, "ee"},
+	keys = {{"n", "x"}, "e<space>"},
 })
 
 -- # scroll
