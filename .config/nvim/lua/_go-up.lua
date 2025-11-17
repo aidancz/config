@@ -78,36 +78,6 @@ end
 	keys = {{"n", "x"}, "en"},
 })
 
-require("hydra").add({
-	mode = {"n", "x"},
-	body = "e",
-	heads = {
-		{
-			"n",
-			function()
-				if not require("hydra.statusline").is_active() then
-					require("luaexec").registry["go-up"]["recenter 2/4 lock"]()
-					return ""
-				else
-					return vim.v.searchforward == 1 and "n" or "N"
-				end
-			end,
-			{
-				expr = true,
-			},
-		},
-		{
-			"<esc>",
-			function()
-				require("luaexec").registry["go-up"]["recenter 2/4 lock"]()
-			end,
-			{
-				exit = true,
-			},
-		},
-	},
-})
-
 -- # align
 
 require("luaexec").add({

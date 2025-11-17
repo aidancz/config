@@ -141,56 +141,6 @@ vim.api.nvim_set_hl(0, "HydraAmaranth", {link = "nofrils_magenta"})
 vim.api.nvim_set_hl(0, "HydraTeal",     {link = "nofrils_cyan"})
 vim.api.nvim_set_hl(0, "HydraPink",     {link = "nofrils_green"})
 
--- # luaexec
-
-require("hydra")({
-	body = "m",
-	heads = {
-		{
-			"B",
-			function()
-				require("luaexec").registry.buffer.prev()
-			end,
-			{
-				nowait = true,
-			},
-		},
-		{
-			"b",
-			function()
-				require("luaexec").registry.buffer.next()
-			end,
-			{
-				nowait = true,
-			},
-		},
-	},
-})
-
-require("hydra")({
-	body = "m",
-	heads = {
-		{
-			"W",
-			function()
-				require("luaexec").registry.window.prev()
-			end,
-			{
-				nowait = true,
-			},
-		},
-		{
-			"w",
-			function()
-				require("luaexec").registry.window.next()
-			end,
-			{
-				nowait = true,
-			},
-		},
-	},
-})
-
 -- # paramo
 
 require("hydra")({

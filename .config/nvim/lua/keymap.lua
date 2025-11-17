@@ -138,16 +138,19 @@ vim.keymap.set(
 	end
 )
 
--- ## ms -> gg, mg -> G
+-- ## S -> gg, G -> G
 
-vim.keymap.set({"n", "x", "o"}, "ms", "gg")
-vim.keymap.set({"n", "x", "o"}, "mg", "G")
+vim.keymap.set({"n", "x", "o"}, "S", "gg")
+vim.keymap.set({"n", "x", "o"}, "G", "G")
 
--- ## for / search: n -> n, t -> N; for ? search: n -> N, t -> n
+-- ## n -> search forward, t -> search backward. (the search direction does not depend on the previous search command)
 
 vim.keymap.set({"n", "x", "o"}, "n", function() return vim.v.searchforward == 1 and "n" or "N" end, {expr = true})
 vim.keymap.set({"n", "x", "o"}, "t", function() return vim.v.searchforward == 1 and "N" or "n" end, {expr = true})
 -- https://vi.stackexchange.com/questions/2365/how-can-i-get-n-to-go-forward-even-if-i-started-searching-with-or
+
+vim.keymap.set({"n", "x", "o"}, "gn", "gn")
+vim.keymap.set({"n", "x", "o"}, "gt", "gN")
 
 -- ## mw -> e, mb -> ge, mW -> E, mB -> gE
 
