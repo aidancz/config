@@ -2,7 +2,7 @@ require("hls").setup()
 
 vim.keymap.set(
 	{"n", "x"},
-	"<leader>s",
+	",v",
 	function()
 		vim.o.operatorfunc = [[v:lua.require'hls'.hl_tog]]
 		return "g@"
@@ -11,5 +11,3 @@ vim.keymap.set(
 		expr = true,
 	}
 )
-vim.keymap.set("n", "<leader>ss", "<leader>s_", {remap = true})
-vim.keymap.set("n", "<leader>S", "<leader>s$", {remap = true})

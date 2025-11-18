@@ -85,6 +85,15 @@ require("fzf-lua").setup({
 	},
 })
 
+require("fzf-lua").utils.eventignore = function(func, scope)
+-- do not ignore my virtualedit_all autocmd
+	return func()
+end
+require("fzf-lua").utils.zz = function()
+	if require("fzf-lua").utils.is_term_buffer() then return end
+	require("luaexec").registry["go-up"]["recenter 1/4"]()
+end
+
 require("fzf-lua").register_ui_select()
 
 require("fzf-lua").helpfunc_split = function(s)

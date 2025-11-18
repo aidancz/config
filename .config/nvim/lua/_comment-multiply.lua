@@ -9,5 +9,3 @@ vim.keymap.set(
 		expr = true,
 	}
 )
-vim.keymap.set("n", ",cc", ",c_", {remap = true})
-vim.keymap.set("n", ",C", ",c$", {remap = true})

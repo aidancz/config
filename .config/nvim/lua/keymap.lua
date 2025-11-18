@@ -71,6 +71,7 @@ vim.keymap.set(
 	"<f25>", -- <c-f1>
 	function() vim.cmd("restart") end
 )
+-- https://github.com/neovim/neovim/issues/35166
 
 -- ## repeat last command
 
@@ -138,10 +139,12 @@ vim.keymap.set(
 	end
 )
 
--- ## S -> gg, G -> G
+-- ## ss/S -> gg, gg/G -> G
 
-vim.keymap.set({"n", "x", "o"}, "S", "gg")
-vim.keymap.set({"n", "x", "o"}, "G", "G")
+vim.keymap.set({"n", "x", "o"}, "ss", "gg")
+vim.keymap.set({"n", "x", "o"}, "S",  "gg")
+vim.keymap.set({"n", "x", "o"}, "gg", "G")
+vim.keymap.set({"n", "x", "o"}, "G",  "G")
 
 -- ## n -> search forward, t -> search backward. (the search direction does not depend on the previous search command)
 
@@ -191,9 +194,6 @@ vim.keymap.set({"n", "x"}, "-", "<c-r><plug>(redrawstatus)")
 
 vim.keymap.set({"n", "x"}, "r", "d")
 
-vim.keymap.set("n", "rr", "r_", {remap = true})
-vim.keymap.set("n", "R", "r$", {remap = true})
-
 -- ## insert single char (mnemonic: mono)
 
 vim.keymap.set(
@@ -213,10 +213,10 @@ vim.keymap.set(
 -- https://github.com/rjayatilleka/vim-insert-char
 -- https://github.com/bagohart/vim-insert-append-single-character
 
--- ## m<key> -> <key>
+-- ## <key><key> -> <key>
 
-vim.keymap.set({"n", "x"}, "mr", "r")
-vim.keymap.set({"n", "x"}, "mv", "v")
+vim.keymap.set({"n", "x"}, "rr", "r")
+vim.keymap.set({"n", "x"}, "vv", "v")
 vim.keymap.set({"n", "x"}, "mm", "m")
 
 -- ## g<key> -> q<key>
@@ -224,6 +224,20 @@ vim.keymap.set({"n", "x"}, "mm", "m")
 vim.keymap.set({"n", "x"}, "g/", "q/")
 vim.keymap.set({"n", "x"}, "g:", "q:")
 vim.keymap.set({"n", "x"}, "g?", "q?")
+
+-- ## no syntactic sugar like cc dd yy C D Y, etc
+
+vim.keymap.set("n", "cc", "<nop>")
+-- vim.keymap.set("n", "dd", "<nop>")
+vim.keymap.set("n", "yy", "<nop>")
+
+vim.keymap.set("n", "C", "<nop>")
+vim.keymap.set("n", "D", "<nop>")
+vim.keymap.set("n", "Y", "<nop>")
+
+vim.keymap.set("o", ".", "_")
+vim.keymap.set("o", "f", "$")
+vim.keymap.set("o", "d", "0")
 
 -- ## operator mode { and } should default to linewise
 

@@ -16,6 +16,3 @@ require("substitute").setup({
 
 vim.keymap.set("n", "s", require("substitute").operator)
 vim.keymap.set("x", "s", require("substitute").visual)
-
-vim.keymap.set("n", "ss", "s_", {remap = true})
--- vim.keymap.set("n", "S", "s$", {remap = true})

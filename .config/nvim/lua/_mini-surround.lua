@@ -80,11 +80,3 @@ require("mini.surround").setup({
 	n_lines = 1024,
 	search_method = "cover_or_next",
 })
-
-
-
--- vim.keymap.del("x", "ys")
--- vim.keymap.set("x", "S", [[:<C-u>lua MiniSurround.add("visual")<CR>]], {silent = true})
-vim.keymap.set("n", ",ss", ",s_", {remap = true})
-vim.keymap.set("n", ",S", ",s$", {remap = true})
--- vim.keymap.set("", "s", "<nop>") -- if using `s` for prefix

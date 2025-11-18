@@ -93,11 +93,13 @@ require("luaexec").add({
 	code = [[require("go-up").scroll(vim.api.nvim_win_get_height(0) * (1 / 4), true)]],
 	from = "go-up",
 	name = "scroll +1/4",
+	keys = {{"n", "x"}, "<c-f>"},
 })
 require("luaexec").add({
 	code = [[require("go-up").scroll(-vim.api.nvim_win_get_height(0) * (1 / 4), true)]],
 	from = "go-up",
 	name = "scroll -1/4",
+	keys = {{"n", "x"}, "<c-d>"},
 })
 require("luaexec").add({
 	code = [[require("go-up").scroll(vim.api.nvim_win_get_height(0) * (2 / 4), true)]],
@@ -126,11 +128,11 @@ require("luaexec").add({
 	code = [[require("go-up").scroll(1, false)]],
 	from = "go-up",
 	name = "scroll +1",
-	keys = {{"n", "x"}, "<c-f>"},
+	keys = {{"n", "x"}, "<c-g>"},
 })
 require("luaexec").add({
 	code = [[require("go-up").scroll(-1, false)]],
 	from = "go-up",
 	name = "scroll -1",
-	keys = {{"n", "x"}, "<c-d>"},
+	keys = {{"n", "x"}, "<c-s>"},
 })

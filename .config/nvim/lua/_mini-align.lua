@@ -23,9 +23,3 @@ require("mini.align").setup({
 		end,
 	},
 })
-
-vim.keymap.set("n", "gaa", "ga_", {remap = true})
-vim.keymap.set("n", "gA", "ga$", {remap = true})
-
-vim.keymap.set("n", "gzz", "gz_", {remap = true})
-vim.keymap.set("n", "gZ", "gz$", {remap = true})
