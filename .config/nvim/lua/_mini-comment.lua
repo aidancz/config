@@ -22,6 +22,6 @@ require("mini.comment").setup({
 		comment = "",
 		comment_line = "",
 		comment_visual = "",
-		textobject = "gc",
+		textobject = "ic",
 	},
 })

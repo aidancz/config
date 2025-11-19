@@ -3,11 +3,6 @@
 require("mini.deps").add({
 	source = "ibhagwan/fzf-lua",
 	-- checkout = "e0cca3e~",
-	depends = {
-		{
-			source = "otavioschwanck/fzf-lua-enchanted-files",
-		},
-	},
 })
 
 require("fzf-lua").setup({
@@ -79,22 +74,68 @@ require("fzf-lua").setup({
 	},
 
 	-- # picker options
+	-- https://github.com/ibhagwan/fzf-lua/blob/main/lua/fzf-lua/defaults.lua
+
+	-- defaults = {
+	-- 	actions = {
+	-- 		["ctrl-f"] = false,
+	-- 		["ctrl-d"] = false,
+	-- 		["ctrl-g"] = false,
+	-- 		["ctrl-s"] = false,
+	-- 	},
+	-- },
 
 	grep = {
 		RIPGREP_CONFIG_PATH = vim.env.RIPGREP_CONFIG_PATH,
 	},
+
+	helptags = {
+		actions = {
+			["enter"] = require("fzf-lua").actions.help,
+		},
+	},
 })
 
+-- # clear default actions
+
+local clear_actions
+clear_actions = function(t, seen)
+-- set all key "actions" to value {} recursively
+	seen = seen or {}
+
+	if seen[t] then return end
+	seen[t] = true
+	-- prevent infinite loops on self-referential tables
+
+	for k, v in pairs(t) do
+		if k == "actions" then
+			t[k] = {}
+		end
+		if type(v) == "table" then
+			clear_actions(v, seen)
+		end
+	end
+end
+clear_actions(require("fzf-lua").defaults)
+
+-- # do not ignore my virtualedit_all autocmd
+
 require("fzf-lua").utils.eventignore = function(func, scope)
--- do not ignore my virtualedit_all autocmd
 	return func()
 end
+
+-- # use go-up for zz
+
 require("fzf-lua").utils.zz = function()
 	if require("fzf-lua").utils.is_term_buffer() then return end
 	require("luaexec").registry["go-up"]["recenter 1/4"]()
 end
 
+-- # vim.ui.select
+
 require("fzf-lua").register_ui_select()
+
+-- # help function: split string
 
 require("fzf-lua").helpfunc_split = function(s)
 	if s == nil or s == "" then
@@ -103,6 +144,9 @@ require("fzf-lua").helpfunc_split = function(s)
 		return vim.split(s, "\n", {trimempty = true})
 	end
 end
+
+-- # help function: form feed
+
 require("fzf-lua").form_feed_foldexpr = function()
 	local line = vim.fn.getline(vim.v.lnum)
 	local first_char = string.sub(line, 1, 1)
@@ -112,6 +156,7 @@ require("fzf-lua").form_feed_foldexpr = function()
 		return 0
 	end
 end
+
 require("fzf-lua").form_feed_options_hack = {
 -- https://stackoverflow.com/questions/5347522/is-it-possible-to-display-page-feed-symbols-differently-in-vim
 	foldenable = true,
@@ -122,6 +167,8 @@ require("fzf-lua").form_feed_options_hack = {
 	foldlevel = 0,
 	-- foldclose = "all",
 }
+
+-- # custom provider: example
 
 require("fzf-lua").custom_example = function()
 -- https://github.com/ibhagwan/fzf-lua/wiki/Advanced#lua-function-as-contents
@@ -139,6 +186,8 @@ require("fzf-lua").custom_example = function()
 		end
 	)
 end
+
+-- # custom provider: history
 
 ---@param opts {
 ---	histname: ":"|"/"|"?", -- `:h hist-names`
@@ -201,13 +250,18 @@ require("fzf-lua").custom_history = function(opts)
 	require("fzf-lua").fzf_exec(contents, opts)
 end
 
+-- # highlight group
+
 require("nofrils").clear("^FzfLua")
 
 vim.api.nvim_set_hl(0, "FzfLuaCursorLine", {link = "nofrils_reverse"})
 
+-- # luaexec
+
 require("luaexec").add({
 	code = [[require("fzf-lua").builtin()]],
 	from = "fzf-lua",
+	keys = {"n", "e<f2>"},
 })
 
 require("luaexec").add({
@@ -221,12 +275,6 @@ require("luaexec").add({
 	from = "fzf-lua",
 	keys = {"n", "ei"},
 })
-
--- require("luaexec").add({
--- 	code = [[require("fzf-lua-enchanted-files").files({cwd = vim.fs.root(0, ".git") or vim.fn.getcwd()})]],
--- 	from = "fzf-lua",
--- 	keys = {"n", "ei"},
--- })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").buffers()]],

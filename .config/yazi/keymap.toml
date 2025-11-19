@@ -91,16 +91,16 @@ keymap = [
 	{ on = "_",          run = "link --relative" },
 
 	# use path
-	{ on = "<a-x>",           run = """ shell --block -- pick-yazi "$0" "$@" """ },
-	{ on = "<enter>",         run = """ shell -- setsid -f $TERMINAL >/dev/null 2>&1 """ },
-	{ on = "<space>",         run = """ shell --block -- lazygit """ },
-	{ on = "o",               run = "open" },
-	{ on = "v",               run = """ shell --block -- nvim """ },
-	{ on = [ "e", "d" ],      run = "plugin diff" },
-	{ on = [ "e", "o" ],      run = """ shell -- open-with-program "$@" """ },
-	{ on = [ "e", "y", "d" ], run = "copy dirname" },
-	{ on = [ "e", "y", "f" ], run = "copy filename" },
-	{ on = [ "e", "y", "y" ], run = "copy path" },
+	{ on = [ "e", "<enter>" ], run = """ shell --block -- pick-yazi "$0" "$@" """ },
+	{ on = "<enter>",          run = """ shell -- setsid -f $TERMINAL >/dev/null 2>&1 """ },
+	{ on = "<space>",          run = """ shell --block -- lazygit """ },
+	{ on = "o",                run = "open" },
+	{ on = "v",                run = """ shell --block -- nvim """ },
+	{ on = [ "e", "d" ],       run = "plugin diff" },
+	{ on = [ "e", "o" ],       run = """ shell -- open-with-program "$@" """ },
+	{ on = [ "e", "y", "d" ],  run = "copy dirname" },
+	{ on = [ "e", "y", "f" ],  run = "copy filename" },
+	{ on = [ "e", "y", "y" ],  run = "copy path" },
 ]
 
 [input]

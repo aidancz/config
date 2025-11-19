@@ -213,17 +213,17 @@ vim.keymap.set(
 -- https://github.com/rjayatilleka/vim-insert-char
 -- https://github.com/bagohart/vim-insert-append-single-character
 
--- ## <key><key> -> <key>
-
-vim.keymap.set({"n", "x"}, "rr", "r")
-vim.keymap.set({"n", "x"}, "vv", "v")
-vim.keymap.set({"n", "x"}, "mm", "m")
-
 -- ## g<key> -> q<key>
 
 vim.keymap.set({"n", "x"}, "g/", "q/")
 vim.keymap.set({"n", "x"}, "g:", "q:")
 vim.keymap.set({"n", "x"}, "g?", "q?")
+
+-- ## <key><key> -> <key>
+
+vim.keymap.set("n", "rr", "r")
+vim.keymap.set("n", "vv", "v")
+vim.keymap.set("n", "mm", "m")
 
 -- ## no syntactic sugar like cc dd yy C D Y, etc
 

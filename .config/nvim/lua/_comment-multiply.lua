@@ -9,3 +9,14 @@ vim.keymap.set(
 		expr = true,
 	}
 )
+vim.keymap.set(
+	{"n", "x"},
+	",b",
+	function()
+		vim.o.operatorfunc = [[v:lua.require'comment-multiply'.operatorfunc_block]]
+		return "g@"
+	end,
+	{
+		expr = true,
+	}
+)
