@@ -139,11 +139,9 @@ vim.keymap.set(
 	end
 )
 
--- ## ss/S -> gg, gg/G -> G
+-- ## S -> gg, G -> G
 
-vim.keymap.set({"n", "x", "o"}, "ss", "gg")
 vim.keymap.set({"n", "x", "o"}, "S",  "gg")
-vim.keymap.set({"n", "x", "o"}, "gg", "G")
 vim.keymap.set({"n", "x", "o"}, "G",  "G")
 
 -- ## n -> search forward, t -> search backward. (the search direction does not depend on the previous search command)
@@ -190,11 +188,11 @@ vim.keymap.set({"n", "x"}, "<plug>(redrawstatus)", function() vim.cmd("redrawsta
 vim.keymap.set({"n", "x"}, "u", "u<plug>(redrawstatus)")
 vim.keymap.set({"n", "x"}, "-", "<c-r><plug>(redrawstatus)")
 
--- ## r -> d
+-- ## s -> d
 
-vim.keymap.set({"n", "x"}, "r", "d")
+vim.keymap.set({"n", "x"}, "s", "d")
 
--- ## insert single char (mnemonic: mono)
+-- ## insert single char
 
 vim.keymap.set(
 	{"n", "x"},

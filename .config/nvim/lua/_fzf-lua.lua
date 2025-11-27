@@ -85,6 +85,12 @@ require("fzf-lua").setup({
 	-- 	},
 	-- },
 
+	builtin = {
+		actions = {
+			["enter"] = require("fzf-lua").actions.run_builtin,
+		},
+	},
+
 	grep = {
 		RIPGREP_CONFIG_PATH = vim.env.RIPGREP_CONFIG_PATH,
 	},

@@ -3,9 +3,20 @@ require("mini.deps").add({
 })
 
 require("mini.operators").setup({
+	evaluate = {
+		prefix = "me",
+	},
+	exchange = {
+		prefix = "mx",
+	},
+	multiply = {
+		prefix = "x",
+	},
 	replace = {
-		-- prefix = "s",
 		prefix = "",
 		reindent_linewise = false,
+	},
+	sort = {
+		prefix = "mo",
 	},
 })
