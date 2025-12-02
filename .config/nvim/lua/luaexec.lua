@@ -43,56 +43,52 @@ M.registry = {
 
 -- # core
 
----@param code_tbl string[]
----@return string cmd
-M.code2cmd = function(code_tbl)
-	local cmd_tbl
-	local cmd_tbl_inspect
-	local cmd
+--[=[
+chunk:
+	{
+		[[print_time()]],
+		[[return "5j"]],
+	}
 
-	cmd_tbl = code_tbl
-	table.insert(cmd_tbl, 1, "lua << EOF")
-	table.insert(cmd_tbl, "EOF")
+temp:
+	[[{ "print_time()", 'return "5j"' }]]
 
-	cmd_tbl_inspect = vim.inspect(cmd_tbl):gsub("\n", " ")
+excmd:
+	[[lua require("luaexec").load({ "print_time()", 'return "5j"' })]]
+--]=]
 
-	cmd =
-		[[lua vim.cmd(table.concat(]]
-		..
-		cmd_tbl_inspect
-		..
-		[[, "\n"))]]
-
-	return cmd
+M.load = function(chunk)
+	local str = table.concat(chunk, "\n")
+	local key = assert(load(str))() or ""
+	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), "n", false)
 end
 
----@param cmd string
----@return string[]|nil code_tbl
-M.cmd2code = function(cmd)
-	local cmd_tbl_inspect
-	local cmd_tbl
-	local code_tbl
+M.chunk2excmd = function(chunk)
+	local temp = vim.inspect(chunk)
+	-- temp does not contain "\n", since "array-like" tables are rendered horizontally
+	-- https://github.com/kikito/inspect.lua
 
-	if string.sub(cmd, 1, 25) ~= [[lua vim.cmd(table.concat(]] then return end
-	if string.sub(cmd, -8, -1) ~= [[, "\n"))]] then return end
-	cmd_tbl_inspect = string.sub(cmd, 25+1, -(8+1))
+	local excmd = [[lua require("luaexec").load(]] .. temp .. [[)]]
 
-	local f = load("return " .. cmd_tbl_inspect)
+	return excmd
+end
+
+M.excmd2chunk = function(excmd)
+	if string.sub(excmd, 1, 28) ~= [[lua require("luaexec").load(]] then return end
+	local temp = string.sub(excmd, 29, -2)
+
+	local f = load("return " .. temp)
 	if not f then return end
-	cmd_tbl = f()
+	local chunk = f()
 
-	code_tbl = cmd_tbl
-	table.remove(code_tbl, 1)
-	table.remove(code_tbl)
-
-	return code_tbl
+	return chunk
 end
 
 ---@param opts? {
 ---	run?: boolean|true,
 ---	histadd?: boolean|false,
 ---}
-M.exec = function(code_tbl, opts)
+M.exec = function(chunk, opts)
 	opts = vim.tbl_extend(
 		"force",
 		{
@@ -102,13 +98,13 @@ M.exec = function(code_tbl, opts)
 		opts or {}
 	)
 
-	local cmd = M.code2cmd(code_tbl)
+	local excmd = M.chunk2excmd(chunk)
 
 	if opts.histadd then
-		vim.fn.histadd("cmd", cmd)
+		vim.fn.histadd("cmd", excmd)
 	end
 	if opts.run then
-		vim.cmd(cmd)
+		vim.cmd(excmd)
 	end
 end
 
@@ -117,14 +113,14 @@ M.list_history = function()
 	for i = vim.fn.histnr(":"), 1, -1 do
 		local entry = vim.fn.histget(":", i)
 		if entry == "" then goto continue end
-		local code_tbl = require("luaexec").cmd2code(entry)
-		if code_tbl == nil then goto continue end
+		local chunk = require("luaexec").excmd2chunk(entry)
+		if chunk == nil then goto continue end
 
 		table.insert(
 			history,
 			{
 				histnr = i,
-				code_tbl = code_tbl,
+				chunk = chunk,
 			}
 		)
 
@@ -136,8 +132,8 @@ end
 -- # api
 
 M.node_exec = function(node, opts)
-	local code_tbl = vim.split(node.code, "\n", {trimempty = true})
-	M.exec(code_tbl, opts)
+	local chunk = vim.split(node.code, "\n", {trimempty = true})
+	M.exec(chunk, opts)
 end
 
 M.is_list_of_list = function(tbl)

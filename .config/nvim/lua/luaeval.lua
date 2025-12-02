@@ -119,12 +119,6 @@ end
 
 -- # function: main
 
-M.code2cmd = require("luaexec").code2cmd
-
-M.cmd2code = require("luaexec").cmd2code
-
-M.exec = require("luaexec").exec
-
 M.list_history = require("luaexec").list_history
 
 M.buf_get_lines = function()
@@ -132,9 +126,9 @@ M.buf_get_lines = function()
 end
 
 M.eval = function()
-	local code_tbl = M.buf_get_lines()
-	M.exec(
-		code_tbl,
+	local chunk = M.buf_get_lines()
+	require("luaexec").exec(
+		chunk,
 		{
 			run = true,
 			histadd = true,
@@ -143,10 +137,10 @@ M.eval = function()
 end
 
 M.histadd = function()
-	local code_tbl = M.buf_get_lines()
-	if vim.deep_equal(code_tbl, {""}) then return end
-	M.exec(
-		code_tbl,
+	local chunk = M.buf_get_lines()
+	if vim.deep_equal(chunk, {""}) then return end
+	require("luaexec").exec(
+		chunk,
 		{
 			run = false,
 			histadd = true,

@@ -122,7 +122,7 @@ require("fzf-lua").custom_luaexec_hist = function(opts)
 				"%8s%s%s",
 				x.histnr,
 				require("fzf-lua").utils.nbsp,
-				table.concat(x.code_tbl, "\n")
+				table.concat(x.chunk, "\n")
 			)
 		end,
 		history

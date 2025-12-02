@@ -3,7 +3,7 @@ require("luaeval").setup({
 		vim.schedule(function()
 			local history = require("luaeval").list_history()
 			if next(history) == nil then return end
-			require("luaeval").buf_set_lines(history[1].code_tbl)
+			require("luaeval").buf_set_lines(history[1].chunk)
 		end)
 
 		vim.api.nvim_create_augroup("luaeval_config", {clear = true})
