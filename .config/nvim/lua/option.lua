@@ -1,5 +1,8 @@
 ----------------------------------------------------------------
 
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 -- vim.opt.commentstring = "#%s"
 -- vim.opt.cpoptions:append("$")
 -- vim.opt.cpoptions:append("u")

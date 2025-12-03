@@ -4,7 +4,7 @@
 
 vim.keymap.set(
 	"n",
-	"<down>",
+	"u",
 	function()
 		return
 		require("lf").expr({
@@ -16,7 +16,7 @@ vim.keymap.set(
 )
 vim.keymap.set(
 	"n",
-	"<up>",
+	"r",
 	function()
 		return
 		require("lf").expr({
@@ -28,11 +28,11 @@ vim.keymap.set(
 )
 vim.keymap.set(
 	"n",
-	"<left>",
+	"<c-u>",
 	function()
 		return
 		require("sp").expr({
-			direction = "prev",
+			direction = "next",
 			follow = true,
 		})
 	end,
@@ -40,11 +40,11 @@ vim.keymap.set(
 )
 vim.keymap.set(
 	"n",
-	"<right>",
+	"<c-r>",
 	function()
 		return
 		require("sp").expr({
-			direction = "next",
+			direction = "prev",
 			follow = true,
 		})
 	end,

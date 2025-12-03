@@ -1,9 +1,10 @@
--- # leader key
+-- # $VIMRUNTIME/filetype.vim $VIMRUNTIME/filetype.lua
 
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.cmd([[
+filetype on
+]])
 
--- # builtin plugin
+-- # $VIMRUNTIME/ftplugin/*
 
 --[[
 it's possible to turn off specific filetype plugin
@@ -23,11 +24,24 @@ which located at $VIMRUNTIME/ftplugin/markdown.vim
 --]]
 
 vim.cmd([[
-filetype on
 filetype plugin off
+]])
+
+-- # $VIMRUNTIME/indent/*
+
+vim.cmd([[
 filetype indent off
+]])
+
+-- # $VIMRUNTIME/syntax/*
+
+vim.cmd([[
 syntax off
 ]])
+
+-- # $VIMRUNTIME/plugin/*
+
+-- lazy.nvim search "disabled_plugins"
 
 vim.g.loaded_gzip              = 1
 vim.g.loaded_matchit           = 1
@@ -37,9 +51,16 @@ vim.g.loaded_tarPlugin         = 1
 vim.g.loaded_2html_plugin      = 1
 vim.g.loaded_tutor_mode_plugin = 1
 vim.g.loaded_zipPlugin         = 1
--- lazy.nvim disabled_plugins
 
 -- vim.g.loaded_man               = 1
 -- vim.g.loaded_shada_plugin      = 1
 -- vim.g.loaded_spellfile_plugin  = 1
 -- vim.g.loaded_remote_plugins    = 1
+
+-- # $VIMRUNTIME/lua/vim/_defaults.lua
+
+-- `:h default-mappings`
+
+vim.cmd([[
+mapclear
+]])

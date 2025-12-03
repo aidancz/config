@@ -74,7 +74,7 @@ require("mini.surround").setup({
 		update_n_lines = "",
 
 		suffix_next = "n",
-		suffix_last = "t",
+		suffix_last = "b",
 	},
 	respect_selection_type = true,
 	n_lines = 1024,

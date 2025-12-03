@@ -10,8 +10,8 @@ require("mini.indentscope").setup({
 	mappings = {
 		object_scope = "is",
 		object_scope_with_border = "as",
-		goto_top = "[s",
-		goto_bottom = "]s",
+		goto_top = "",
+		goto_bottom = "",
 	},
 	options = {
 		border = "both",

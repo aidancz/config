@@ -15,6 +15,11 @@ require("mini.diff").setup({
 		apply = "ga",
 		reset = "gr",
 		textobject = "ih",
+
+		goto_first = "",
+		goto_prev = "",
+		goto_next = "",
+		goto_last = "",
 	},
 })
 

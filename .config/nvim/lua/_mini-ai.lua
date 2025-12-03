@@ -272,8 +272,8 @@ require("mini.ai").setup({
 
 		around_next = "an",
 		inside_next = "in",
-		around_last = "at",
-		inside_last = "it",
+		around_last = "ab",
+		inside_last = "ib",
 
 		goto_left  = "g[",
 		goto_right = "g]",

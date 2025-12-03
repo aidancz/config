@@ -75,23 +75,13 @@ vim.keymap.set(
 
 -- ## repeat last command
 
--- vim.keymap.set({"n", "x"}, "<bs>", ":<up><cr>")
--- vim.keymap.set({"n", "x"}, "<bs>", "@:")
+-- vim.keymap.set({"n", "x"}, "x", ":<up><cr>")
+-- vim.keymap.set({"n", "x"}, "x", "@:")
 vim.keymap.set(
 	{"n", "x"},
-	"<bs>",
+	"x",
 	function() vim.cmd(vim.fn.histget("cmd", -1)) end
 )
-require("hydra").add({
-	mode = {"n", "x", "s", "i", "c", "t", "o"},
-	body = "<f2>",
-	heads = {
-		{
-			"<bs>",
-			function() vim.cmd(vim.fn.histget("cmd", -1)) end,
-		},
-	},
-})
 
 -- ## open terminal
 
@@ -141,41 +131,42 @@ vim.keymap.set(
 
 -- ## S -> gg, G -> G
 
-vim.keymap.set({"n", "x", "o"}, "S",  "gg")
-vim.keymap.set({"n", "x", "o"}, "G",  "G")
+vim.keymap.set({"n", "x", "o"}, "S", "gg")
+vim.keymap.set({"n", "x", "o"}, "G", "G")
 
--- ## n -> search forward, t -> search backward. (the search direction does not depend on the previous search command)
+-- ## word and WORD
+
+vim.keymap.set({"n", "x", "o"}, "o", "w")
+vim.keymap.set({"n", "x", "o"}, "w", "b")
+vim.keymap.set({"n", "x", "o"}, "vo", "e")
+vim.keymap.set({"n", "x", "o"}, "mw", "ge")
+
+vim.keymap.set({"n", "x", "o"}, "O", "W")
+vim.keymap.set({"n", "x", "o"}, "W", "B")
+vim.keymap.set({"n", "x", "o"}, "vO", "E")
+vim.keymap.set({"n", "x", "o"}, "mW", "gE")
+
+-- ## line start, line end, line itself
+
+vim.keymap.set({"n", "x", "o"}, "[", "0")
+vim.keymap.set({"n", "x", "o"}, "]", "$")
+vim.keymap.set("o", ".", "_")
+
+vim.keymap.set("n", "C",  "<nop>")
+vim.keymap.set("n", "D",  "<nop>")
+vim.keymap.set("n", "Y",  "<nop>")
+vim.keymap.set("n", "cc", "<nop>")
+-- vim.keymap.set("n", "dd", "<nop>")
+vim.keymap.set("n", "yy", "<nop>")
+
+-- ## n -> search forward, b -> search backward. (the search direction does not depend on the previous search command)
 
 vim.keymap.set({"n", "x", "o"}, "n", function() return vim.v.searchforward == 1 and "n" or "N" end, {expr = true})
-vim.keymap.set({"n", "x", "o"}, "t", function() return vim.v.searchforward == 1 and "N" or "n" end, {expr = true})
+vim.keymap.set({"n", "x", "o"}, "b", function() return vim.v.searchforward == 1 and "N" or "n" end, {expr = true})
 -- https://vi.stackexchange.com/questions/2365/how-can-i-get-n-to-go-forward-even-if-i-started-searching-with-or
 
 vim.keymap.set({"n", "x", "o"}, "gn", "gn")
-vim.keymap.set({"n", "x", "o"}, "gt", "gN")
-
--- ## mw -> e, mb -> ge, mW -> E, mB -> gE
-
-require("hydra").add({
-	mode = {"n", "x"},
-	body = "m",
-	heads = {
-		{"w", "e"},
-		{"b", "ge"},
-	},
-})
-vim.keymap.set("o", "mw", "e")
-vim.keymap.set("o", "mb", "ge")
-
-require("hydra").add({
-	mode = {"n", "x"},
-	body = "m",
-	heads = {
-		{"W", "E"},
-		{"B", "gE"},
-	},
-})
-vim.keymap.set("o", "mW", "E")
-vim.keymap.set("o", "mB", "gE")
+vim.keymap.set({"n", "x", "o"}, "gb", "gN")
 
 -- ## <c-o> -> <c-o>, <c-x> -> <c-i>
 
@@ -219,68 +210,8 @@ vim.keymap.set({"n", "x"}, "g?", "q?")
 
 -- ## <key><key> -> <key>
 
-vim.keymap.set("n", "rr", "r")
 vim.keymap.set("n", "vv", "v")
 vim.keymap.set("n", "mm", "m")
-
--- ## no syntactic sugar like cc dd yy C D Y, etc
-
-vim.keymap.set("n", "cc", "<nop>")
--- vim.keymap.set("n", "dd", "<nop>")
-vim.keymap.set("n", "yy", "<nop>")
-
-vim.keymap.set("n", "C", "<nop>")
-vim.keymap.set("n", "D", "<nop>")
-vim.keymap.set("n", "Y", "<nop>")
-
-vim.keymap.set("o", ".", "_")
-vim.keymap.set("o", "f", "$")
-vim.keymap.set("o", "d", "0")
-
--- ## operator mode { and } should default to linewise
-
-vim.keymap.set(
-	"o",
-	"{",
-	function()
-		local mode = vim.api.nvim_get_mode().mode
-		local vis_mode
-		if mode == "no"    then vis_mode = "V"     end
-		if mode == "nov"   then vis_mode = "v"     end
-		if mode == "noV"   then vis_mode = "V"     end
-		if mode == "no\22" then vis_mode = "<c-v>" end
-		local cache_selection = vim.o.selection
-		vim.o.selection = "exclusive"
-		vim.schedule(function()
-			vim.o.selection = cache_selection
-		end)
-		return "<cmd>normal! " .. vis_mode .. vim.v.count1 .. "{<cr>"
-	end,
-	{
-		expr = true
-	}
-)
-vim.keymap.set(
-	"o",
-	"}",
-	function()
-		local mode = vim.api.nvim_get_mode().mode
-		local vis_mode
-		if mode == "no"    then vis_mode = "V"     end
-		if mode == "nov"   then vis_mode = "v"     end
-		if mode == "noV"   then vis_mode = "V"     end
-		if mode == "no\22" then vis_mode = "<c-v>" end
-		local cache_selection = vim.o.selection
-		vim.o.selection = "exclusive"
-		vim.schedule(function()
-			vim.o.selection = cache_selection
-		end)
-		return "<cmd>normal! " .. vis_mode .. vim.v.count1 .. "}<cr>"
-	end,
-	{
-		expr = true
-	}
-)
 
 -- ## buffer next/prev
 
@@ -635,6 +566,51 @@ vim.keymap.set({"n", "x"}, "<down>", ":put  _<cr>", {silent = true})
 vim.keymap.set({"n", "x"}, "<up>",   ":put! _<cr>", {silent = true})
 vim.keymap.set({"n", "x"}, "<right>", [["=" "<cr>p]], {silent = true})
 vim.keymap.set({"n", "x"}, "<left>",  [["=" "<cr>P]], {silent = true})
+
+-- ## operator mode { and } should default to linewise
+
+vim.keymap.set(
+	"o",
+	"{",
+	function()
+		local mode = vim.api.nvim_get_mode().mode
+		local vis_mode
+		if mode == "no"    then vis_mode = "V"     end
+		if mode == "nov"   then vis_mode = "v"     end
+		if mode == "noV"   then vis_mode = "V"     end
+		if mode == "no\22" then vis_mode = "<c-v>" end
+		local cache_selection = vim.o.selection
+		vim.o.selection = "exclusive"
+		vim.schedule(function()
+			vim.o.selection = cache_selection
+		end)
+		return "<cmd>normal! " .. vis_mode .. vim.v.count1 .. "{<cr>"
+	end,
+	{
+		expr = true
+	}
+)
+vim.keymap.set(
+	"o",
+	"}",
+	function()
+		local mode = vim.api.nvim_get_mode().mode
+		local vis_mode
+		if mode == "no"    then vis_mode = "V"     end
+		if mode == "nov"   then vis_mode = "v"     end
+		if mode == "noV"   then vis_mode = "V"     end
+		if mode == "no\22" then vis_mode = "<c-v>" end
+		local cache_selection = vim.o.selection
+		vim.o.selection = "exclusive"
+		vim.schedule(function()
+			vim.o.selection = cache_selection
+		end)
+		return "<cmd>normal! " .. vis_mode .. vim.v.count1 .. "}<cr>"
+	end,
+	{
+		expr = true
+	}
+)
 
 -- ## insert mode completion
 

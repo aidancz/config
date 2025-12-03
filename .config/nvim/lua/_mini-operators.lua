@@ -10,7 +10,7 @@ require("mini.operators").setup({
 		prefix = "mx",
 	},
 	multiply = {
-		prefix = "x",
+		prefix = "t",
 	},
 	replace = {
 		prefix = "",

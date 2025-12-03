@@ -81,7 +81,7 @@ end
 
 require("_nofrils")
 require("option")
-require("vim_global_variable")
+require("vim_runtime")
 
 -- # library
 
@@ -93,6 +93,11 @@ require("_mini-icons")
 require("_mini-misc")
 require("_plenary")
 require("_virtcol")
+
+-- # pain to live without
+
+require("_virtualedit_all")
+require("keymap")
 
 -- # ui
 
@@ -116,11 +121,6 @@ require("_nvim-fundo")
 require("autocmd")
 require("gutter")
 require("lsp")
-
--- # pain to live without
-
-require("_virtualedit_all")
-require("keymap")
 
 -------------------------------- require later
 

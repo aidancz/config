@@ -57,8 +57,8 @@ ei	goto-invocation-node
 m	menu-item
 em	find-menu
 i	index-search
-# ,	prev-index-match
 .	next-index-match
+# ,	prev-index-match
 ci	virtual-index
 cI	index-apropos
 r	xref-item
