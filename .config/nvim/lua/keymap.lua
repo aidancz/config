@@ -26,7 +26,7 @@ vim.keymap.set({"n", "x", "o"}, "e",       "<nop>")
 vim.keymap.set({"n", "x", "o"}, "v",       "<nop>")
 vim.keymap.set({"n", "x", "o"}, "m",       "<nop>")
 
--- ## bypass <c-i> and <tab> conflict, etc
+-- ## bypass the <c-i> and <tab> conflict, etc
 
 vim.keymap.set({"n", "x", "s", "i", "c", "t", "o"}, "<c-i>", "<c-i>")
 vim.keymap.set({"n", "x", "s", "i", "c", "t", "o"}, "<c-m>", "<c-m>")
@@ -94,7 +94,7 @@ vim.keymap.set(
 
 -- # {"n", "x", "o"}
 
--- ## j -> gj, 1j -> 1j, 2j -> 2j...
+-- ## (vert (next prev)) the behavior is based on vim.v.count
 
 vim.keymap.set(
 	{"n", "x"},
@@ -117,7 +117,7 @@ vim.keymap.set(
 	}
 )
 
--- ## <s-cr> -> opposite of <cr>
+-- ## (vert prev^)
 
 vim.keymap.set({"n", "x", "o"}, "<s-cr>", "-")
 
@@ -129,12 +129,12 @@ vim.keymap.set(
 	end
 )
 
--- ## S -> gg, G -> G
+-- ## (vert (next-final prev-final))
 
 vim.keymap.set({"n", "x", "o"}, "S", "gg")
 vim.keymap.set({"n", "x", "o"}, "G", "G")
 
--- ## word and WORD
+-- ## (hori (next-word^ prev-word^ next-word$ prev-word$)) (hori (next-WORD^ prev-WORD^ next-WORD$ prev-WORD$))
 
 vim.keymap.set({"n", "x", "o"}, "o", "w")
 vim.keymap.set({"n", "x", "o"}, "w", "b")
@@ -146,40 +146,45 @@ vim.keymap.set({"n", "x", "o"}, "W", "B")
 vim.keymap.set({"n", "x", "o"}, "vO", "E")
 vim.keymap.set({"n", "x", "o"}, "mW", "gE")
 
--- ## line start, line end, line itself
+-- ## (hori (next-final prev-final))
 
-vim.keymap.set({"n", "x", "o"}, "[", "0")
 vim.keymap.set({"n", "x", "o"}, "]", "$")
-vim.keymap.set("o", ".", "_")
+vim.keymap.set({"n", "x", "o"}, "[", "0")
 
 vim.keymap.set("n", "C",  "<nop>")
 vim.keymap.set("n", "D",  "<nop>")
 vim.keymap.set("n", "Y",  "<nop>")
+
+-- ## (hori current)
+
+vim.keymap.set("o", ".", "_")
+
 vim.keymap.set("n", "cc", "<nop>")
 -- vim.keymap.set("n", "dd", "<nop>")
 vim.keymap.set("n", "yy", "<nop>")
 
--- ## n -> search forward, b -> search backward. (the search direction does not depend on the previous search command)
+-- ## (search (next prev)) the search direction does not depend on the previous search command
 
-vim.keymap.set({"n", "x", "o"}, "n", function() return vim.v.searchforward == 1 and "n" or "N" end, {expr = true})
-vim.keymap.set({"n", "x", "o"}, "b", function() return vim.v.searchforward == 1 and "N" or "n" end, {expr = true})
--- https://vi.stackexchange.com/questions/2365/how-can-i-get-n-to-go-forward-even-if-i-started-searching-with-or
+-- vim.keymap.set({"n", "x", "o"}, "n", function() return vim.v.searchforward == 1 and "n" or "N" end, {expr = true})
+-- vim.keymap.set({"n", "x", "o"}, "b", function() return vim.v.searchforward == 1 and "N" or "n" end, {expr = true})
+-- -- https://vi.stackexchange.com/questions/2365/how-can-i-get-n-to-go-forward-even-if-i-started-searching-with-or
 
 vim.keymap.set({"n", "x", "o"}, "gn", "gn")
 vim.keymap.set({"n", "x", "o"}, "gb", "gN")
 
--- ## <c-o> -> <c-o>, <c-x> -> <c-i>
+-- ## (jumplist (next prev))
 
-vim.keymap.set({"n", "x"}, "<c-o>", "<c-o>")
-vim.keymap.set({"n", "x"}, "<c-x>", "<c-i>")
+vim.keymap.set({"n", "x"}, "<c-r>", "<c-o>")
+vim.keymap.set({"n", "x"}, "<c-u>", "<c-i>")
 
--- ## u -> u, - -> <c-r>
+-- ## (undotree (next prev)) undo and redo
 
 vim.keymap.set({"n", "x"}, "<plug>(redrawstatus)", function() vim.cmd("redrawstatus") end)
-vim.keymap.set({"n", "x"}, "u", "u<plug>(redrawstatus)")
-vim.keymap.set({"n", "x"}, "-", "<c-r><plug>(redrawstatus)")
 
--- ## s -> d
+vim.keymap.set({"n", "x"}, "<bs>", "u<plug>(redrawstatus)")
+vim.keymap.set({"n", "x"}, "<del>", "<c-r><plug>(redrawstatus)")
+
+-- ## delete
 
 vim.keymap.set({"n", "x"}, "s", "d")
 
@@ -213,9 +218,8 @@ vim.keymap.set({"n", "x"}, "g?", "q?")
 vim.keymap.set("n", "vv", "v")
 vim.keymap.set("n", "mm", "m")
 
--- ## buffer next/prev
+-- ## (buffer (next prev))
 
--- next {{{
 require("luaexec").add({
 	code =
 [[
@@ -247,11 +251,9 @@ vim.api.nvim_set_current_buf(buf)
 ]],
 	from = "buffer",
 	name = "next",
-	keys = {{"n", "x"}, "gj"},
+	keys = {{"n", "x"}, "<down>"},
 })
--- }}}
 
--- prev {{{
 require("luaexec").add({
 	code =
 [[
@@ -283,30 +285,10 @@ vim.api.nvim_set_current_buf(buf)
 ]],
 	from = "buffer",
 	name = "prev",
-	keys = {{"n", "x"}, "gk"},
-})
--- }}}
-
-require("hydra").add({
-	mode = {"n", "x"},
-	body = "g",
-	heads = {
-		{
-			"j",
-			function()
-				require("luaexec").registry.buffer.next()
-			end,
-		},
-		{
-			"k",
-			function()
-				require("luaexec").registry.buffer.prev()
-			end,
-		},
-	},
+	keys = {{"n", "x"}, "<up>"},
 })
 
--- ## window next/prev
+-- ## (window (next prev))
 
 require("luaexec").add({
 	code =
@@ -317,7 +299,7 @@ vim.cmd(count .. "wincmd w")
 ]],
 	from = "window",
 	name = "next",
-	keys = {{"n", "x"}, "gl"},
+	keys = {{"n", "x"}, "<right>"},
 })
 
 require("luaexec").add({
@@ -329,60 +311,41 @@ vim.cmd(count .. "wincmd W")
 ]],
 	from = "window",
 	name = "prev",
-	keys = {{"n", "x"}, "gh"},
-})
-
-require("hydra").add({
-	mode = {"n", "x"},
-	body = "g",
-	heads = {
-		{
-			"l",
-			function()
-				require("luaexec").registry.window.next()
-			end,
-		},
-		{
-			"h",
-			function()
-				require("luaexec").registry.window.prev()
-			end,
-		},
-	},
+	keys = {{"n", "x"}, "<left>"},
 })
 
 -- ## window scroll
 
-require("hydra").add({
-	mode = {"n", "x"},
-	body = "z",
-	heads = {
-		{"l", "8zl"},
-		{"h", "8zh"},
-	},
-})
+-- require("hydra").add({
+-- 	mode = {"n", "x"},
+-- 	body = "z",
+-- 	heads = {
+-- 		{"l", "8zl"},
+-- 		{"h", "8zh"},
+-- 	},
+-- })
 
 -- ## window resize
 
-require("hydra").add({
-	mode = {"n", "x"},
-	body = "<c-w>",
-	heads = {
-		{"+", "2<c-w>+"},
-		{"-", "2<c-w>-"},
-	},
-})
+-- require("hydra").add({
+-- 	mode = {"n", "x"},
+-- 	body = "<c-w>",
+-- 	heads = {
+-- 		{"+", "2<c-w>+"},
+-- 		{"-", "2<c-w>-"},
+-- 	},
+-- })
 
-require("hydra").add({
-	mode = {"n", "x"},
-	body = "<c-w>",
-	heads = {
-		{">", "4<c-w>>"},
-		{"<", "4<c-w><"},
-	},
-})
+-- require("hydra").add({
+-- 	mode = {"n", "x"},
+-- 	body = "<c-w>",
+-- 	heads = {
+-- 		{">", "4<c-w>>"},
+-- 		{"<", "4<c-w><"},
+-- 	},
+-- })
 
--- ## tab next/prev
+-- ## (tab (next prev))
 
 -- require("hydra").add({
 -- 	mode = {"n", "x"},
@@ -393,7 +356,7 @@ require("hydra").add({
 -- 	},
 -- })
 
--- ## quickfix next/prev
+-- ## (quickfix (next prev))
 
 -- require("hydra").add({
 -- 	mode = {"n", "x"},

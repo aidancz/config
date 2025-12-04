@@ -129,9 +129,36 @@ M.list_history = function()
 	return history
 end
 
+-- # nextprev (np)
+
+M.np_update0 = function()
+	M.np_searchnr = vim.fn.histnr("/")
+	M.np_group = M.registry.search
+end
+
+M.np_update1 = function(node)
+	M.np_searchnr = vim.fn.histnr("/")
+	if
+		node.name == "next"
+		or
+		node.name == "prev"
+	then
+		M.np_group = M.registry[node.from]
+	end
+end
+
+M.np_update2 = function()
+	local searchnr = vim.fn.histnr("/")
+	if M.np_searchnr ~= searchnr then
+		M.np_searchnr = searchnr
+		M.np_group = M.registry.search
+	end
+end
+
 -- # api
 
 M.node_exec = function(node, opts)
+	M.np_update1(node)
 	local chunk = vim.split(node.code, "\n", {trimempty = true})
 	M.exec(chunk, opts)
 end
@@ -163,7 +190,7 @@ M.node_set_keys = function(node)
 			i[1],
 			i[2],
 			function()
-				M.node_exec(node)
+				M.node_exec(node, {run = true, histadd = false})
 			end,
 			i[3] or {}
 		)

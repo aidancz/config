@@ -13,17 +13,17 @@ require("mini.deps").add({
 
 require("Comment").setup({
 	toggler = {
-		line = "<nop>",
-		block = "<nop>",
+		line = "mc.",
+		block = "mb.",
 	},
 	opleader = {
-		line = "gc",
-		block = "gb",
+		line = "mc",
+		block = "mb",
 	},
 	extra = {
-		above = "gcO",
-		below = "gco",
-		eol = "gcA",
+		above = "<nop>",
+		below = "<nop>",
+		eol = "<nop>",
 	},
 	-- pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
 })

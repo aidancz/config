@@ -85,8 +85,8 @@ vim.api.nvim_create_autocmd(
 	{
 		group = "test",
 		-- pattern = "*",
-		callback = function()
-			print(os.time())
+		callback = function(event)
+			vim.print(event)
 		end,
 		-- once = true,
 	}

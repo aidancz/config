@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
 
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.mapleader = "<space>"
+vim.g.maplocalleader = "<space>"
 
 -- vim.opt.commentstring = "#%s"
 -- vim.opt.cpoptions:append("$")

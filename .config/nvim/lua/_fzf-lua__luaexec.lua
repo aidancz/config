@@ -85,7 +85,7 @@ require("fzf-lua").custom_luaexec_exec = function(opts)
 						{"n", "x", "s", "i", "c", "t", "o"},
 						"<plug>(luaexec_temp_key)",
 						function()
-							require("luaexec").registry[from][name]({histadd = true})
+							require("luaexec").registry[from][name]({run = true, histadd = true})
 						end
 					)
 					vim.schedule(function()

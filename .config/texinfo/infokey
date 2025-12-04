@@ -41,29 +41,29 @@ j	global-next-node
 k	global-prev-node
 l	next-node
 h	prev-node
-u	up-node
-o	history-node
-# x	history-node-forward
+.	up-node
+r	history-node
+# u	history-node-forward
 # https://unix.stackexchange.com/questions/624966/moving-forward-in-history-in-gnu-info
 ej	last-node
 ek	first-node
 et	top-node
 ed	dir-node
-eo	select-visited-node
-co	list-visited-nodes
+er	select-visited-node
+elr	list-visited-nodes
 ei	goto-invocation-node
 \eOQ	goto-node
 
 m	menu-item
 em	find-menu
 i	index-search
-.	next-index-match
-# ,	prev-index-match
-ci	virtual-index
-cI	index-apropos
-r	xref-item
-w	move-to-next-xref
-b	move-to-prev-xref
+y	next-index-match
+# t	prev-index-match
+eli	virtual-index
+ela	index-apropos
+\t	xref-item
+o	move-to-next-xref
+w	move-to-prev-xref
 \r	select-reference-this-line
 
 f	scroll-forward
@@ -75,13 +75,15 @@ s	beginning-of-node
 ^l	redraw-display # recenter
 
 \kh	beginning-of-line
+[	beginning-of-line
 \ke	end-of-line
+]	end-of-line
 M	move-to-window-line
 
 /	search # file level
 ?	search-backward
 n	search-next
-t	search-previous
+b	search-previous
 S	search-case-sensitively
 R	toggle-regexp
 e/	tree-search # tree level

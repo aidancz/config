@@ -20,3 +20,43 @@ require("luaexec").add({
 	code = [[vim.notify(tostring(vim.v.count))]],
 	from = "example",
 })
+
+-- # setup nextprev
+
+-- https://github.com/neovim/neovim/issues/1960
+
+require("luaexec").add({
+	code = [[return vim.v.searchforward == 1 and "n" or "N"]],
+	from = "search",
+	name = "next",
+})
+require("luaexec").add({
+	code = [[return vim.v.searchforward == 1 and "N" or "n"]],
+	from = "search",
+	name = "prev",
+})
+
+require("luaexec").np_update0()
+
+vim.keymap.set(
+	{"n", "x", "o"},
+	"n",
+	function()
+		require("luaexec").np_update2()
+		local node = require("luaexec").np_group.next
+		if node ~= nil then
+			node()
+		end
+	end
+)
+vim.keymap.set(
+	{"n", "x", "o"},
+	"b",
+	function()
+		require("luaexec").np_update2()
+		local node = require("luaexec").np_group.prev
+		if node ~= nil then
+			node()
+		end
+	end
+)

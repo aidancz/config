@@ -28,7 +28,7 @@ vim.keymap.set(
 )
 vim.keymap.set(
 	"n",
-	"<c-u>",
+	"U",
 	function()
 		return
 		require("sp").expr({
@@ -40,7 +40,7 @@ vim.keymap.set(
 )
 vim.keymap.set(
 	"n",
-	"<c-r>",
+	"R",
 	function()
 		return
 		require("sp").expr({
