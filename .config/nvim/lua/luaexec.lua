@@ -59,7 +59,18 @@ excmd:
 
 M.load = function(chunk)
 	local str = table.concat(chunk, "\n")
-	local key = assert(load(str))() or ""
+	local ret = assert(load(str))()
+	local cnt = vim.v.count
+	local key
+	if ret == nil then
+		key = ""
+	else
+		if cnt == 0 then
+			key = ret
+		else
+			key = cnt .. ret
+		end
+	end
 	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), "n", false)
 end
 
@@ -189,18 +200,21 @@ M.node_set_keys = function(node)
 		vim.keymap.set(
 			i[1],
 			i[2],
-			function()
-				M.node_exec(node, {run = true, histadd = false})
-			end,
-			i[3] or {}
+			function() M.registry[node.from][node.name]() end,
+			-- string.format(
+			-- 	[[<cmd>lua require("luaexec").registry[%s][%s]()<cr>]],
+			-- 	vim.inspect(node.from),
+			-- 	vim.inspect(node.name)
+			-- ),
+			{}
 		)
 	end
 end
 
 M.node_template = {
-	code = nil,
+	code = nil, -- must be provided
 	from = "default",
-	name = nil,
+	name = nil, -- if no value is provided, a sequential number will be used
 	desc = "",
 	keys = {},
 }
@@ -210,13 +224,10 @@ M.node_metatable = {
 }
 
 M.add = function(node)
-	-- setup node
+	-- complete and register node
 
 	node = vim.tbl_deep_extend("force", M.node_template, node)
 	setmetatable(node, M.node_metatable)
-	M.node_set_keys(node)
-
-	-- register node
 
 	if M.registry[node.from] == nil then
 		M.registry[node.from] = setmetatable(
@@ -231,8 +242,13 @@ M.add = function(node)
 	end
 	if node.name == nil then
 		node.name = #M.registry[node.from] + 1
+		-- the length operator here only count "sequence length"
 	end
 	M.registry[node.from][node.name] = node
+
+	-- set keys
+
+	M.node_set_keys(node)
 end
 
 M.list_nodes = function()
