@@ -47,8 +47,7 @@ require("paramo").gen_ai_spec = function(para)
 			pos_tail = require("paramo").next_pos(pos_cursor, is_tail)
 		end
 
-		return
-		{
+		return {
 			from = {
 				line = pos_head.lnum,
 				col = 1,
@@ -88,6 +87,67 @@ local config =
 	n_lines = 1024,
 	search_method = "cover_or_next",
 }
+
+-- ## (goto_left (next prev)) (goto_right (next prev))
+
+-- https://github.com/nvim-mini/mini.nvim/issues/1093
+
+require("mini.ai").make_ai_move_rhs_id = nil
+require("mini.ai").make_ai_move_rhs = function(ask_id, side, search_method)
+	return function()
+		if ask_id then
+			local ok, tobj_id = pcall(vim.fn.getcharstr)
+			if not ok or tobj_id == "\27" then
+				return
+			end
+			local tobj_esc = vim.fn.escape(tobj_id, "'\\")
+			require("mini.ai").make_ai_move_rhs_id = tobj_esc
+		end
+
+		local opts = string.format(
+			'{ n_times = %d, search_method = "%s" }',
+			vim.v.count1,
+			search_method
+		)
+		local cmd = string.format(
+			'MiniAi.move_cursor("%s", "a", "%s", %s)',
+			side,
+			require("mini.ai").make_ai_move_rhs_id,
+			opts
+		)
+		return "<Cmd>lua " .. cmd .. "<CR>"
+	end
+end
+
+vim.keymap.set({"n", "x", "o"}, "gj", require("mini.ai").make_ai_move_rhs(true, "left",  "cover_or_next"), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "gk", require("mini.ai").make_ai_move_rhs(true, "left",  "cover_or_prev"), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "gl", require("mini.ai").make_ai_move_rhs(true, "right", "cover_or_next"), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "gh", require("mini.ai").make_ai_move_rhs(true, "right", "cover_or_prev"), {expr = true})
+
+require("luaexec").add({
+	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "left", "cover_or_next")()]],
+	from = "miniai_goto_head",
+	name = "next",
+	keys = {{"n", "x"}, "gj"},
+})
+require("luaexec").add({
+	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "left", "cover_or_prev")()]],
+	from = "miniai_goto_head",
+	name = "prev",
+	keys = {{"n", "x"}, "gk"},
+})
+require("luaexec").add({
+	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "right", "cover_or_next")()]],
+	from = "miniai_goto_tail",
+	name = "next",
+	keys = {{"n", "x"}, "gl"},
+})
+require("luaexec").add({
+	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "right", "cover_or_prev")()]],
+	from = "miniai_goto_tail",
+	name = "prev",
+	keys = {{"n", "x"}, "gh"},
+})
 
 -- ## extend
 
@@ -275,28 +335,6 @@ extend({
 	["^"] = require("paramo").gen_ai_spec(require("para_first_nonblank_char")),
 })
 
--- ## textobjects: buffer
-
-extend({
-	["0"] = function(ai_type)
-	-- i want to use <plug>(miniai_buffer) here, but only single char is allowed
-	-- https://github.com/nvim-mini/mini.nvim/issues/754
-		return {
-			from = {
-				line = 1,
-				col = 1,
-			},
-			to = {
-				line = vim.fn.line("$"),
-				col = vim.fn.col({vim.fn.line("$"), "$"}),
-			},
-			vis_mode = "V",
-		}
-	end,
-})
-
-vim.keymap.set({"x", "o"}, "a", "i0", {remap = true})
-
 -- ## textobjects: markdown fenced code block
 
 extend({
@@ -330,6 +368,48 @@ extend({
 		}
 	end,
 })
+
+-- ## textobjects_remap: line with eol
+
+extend({
+	["0"] = function(ai_type)
+		return {
+			from = {
+				line = vim.fn.line("."),
+				col = 1,
+			},
+			to = {
+				line = vim.fn.line("."),
+				col = string.len(vim.fn.getline(".")),
+			},
+			vis_mode = "V",
+		}
+	end,
+})
+
+vim.keymap.set({"x", "o"}, ".", "i0", {remap = true})
+
+-- ## textobjects_remap: buffer
+
+extend({
+	["1"] = function(ai_type)
+	-- i want to use <plug>(miniai_buffer) here, but only single char is allowed
+	-- https://github.com/nvim-mini/mini.nvim/issues/754
+		return {
+			from = {
+				line = 1,
+				col = 1,
+			},
+			to = {
+				line = vim.fn.line("$"),
+				col = vim.fn.col({vim.fn.line("$"), "$"}),
+			},
+			vis_mode = "V",
+		}
+	end,
+})
+
+vim.keymap.set({"x", "o"}, "a", "i1", {remap = true})
 
 -- ## setup(config)
 

@@ -13,8 +13,8 @@ require("mini.deps").add({
 
 require("Comment").setup({
 	toggler = {
-		line = "mc.",
-		block = "mb.",
+		line = "<nop>",
+		block = "<nop>",
 	},
 	opleader = {
 		line = "mc",

@@ -151,10 +151,6 @@ vim.keymap.set({"n", "x", "o"}, "mR", "gE")
 vim.keymap.set({"n", "x", "o"}, "]", "$")
 vim.keymap.set({"n", "x", "o"}, "[", "0")
 
--- ## (hori current)
-
-vim.keymap.set("o", ".", "_")
-
 -- ## (search (next prev)) the search direction does not depend on the previous search command
 
 -- vim.keymap.set({"n", "x", "o"}, "n", function() return vim.v.searchforward == 1 and "n" or "N" end, {expr = true})

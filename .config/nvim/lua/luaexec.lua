@@ -143,27 +143,37 @@ end
 -- # nextprev (np)
 
 M.np_update0 = function()
-	M.np_searchnr = vim.fn.histnr("/")
+	M.np_is_repeat = false
+
 	M.np_group = M.registry.search
+	M.np_searchnr = vim.fn.histnr("/")
 end
 
 M.np_update1 = function(node)
-	M.np_searchnr = vim.fn.histnr("/")
 	if
 		node.name == "next"
 		or
 		node.name == "prev"
 	then
 		M.np_group = M.registry[node.from]
+		M.np_searchnr = vim.fn.histnr("/")
 	end
 end
 
 M.np_update2 = function()
 	local searchnr = vim.fn.histnr("/")
 	if M.np_searchnr ~= searchnr then
-		M.np_searchnr = searchnr
 		M.np_group = M.registry.search
+		M.np_searchnr = searchnr
 	end
+end
+
+M.np_node_exec = function(node)
+	if node == nil then return end
+
+	M.np_is_repeat = true
+	pcall(function() node() end)
+	M.np_is_repeat = false
 end
 
 -- # api

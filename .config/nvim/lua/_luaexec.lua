@@ -43,10 +43,9 @@ vim.keymap.set(
 	"n",
 	function()
 		require("luaexec").np_update2()
-		local node = require("luaexec").np_group.next
-		if node ~= nil then
-			node()
-		end
+		require("luaexec").np_node_exec(
+			require("luaexec").np_group.next
+		)
 	end
 )
 vim.keymap.set(
@@ -54,9 +53,8 @@ vim.keymap.set(
 	"b",
 	function()
 		require("luaexec").np_update2()
-		local node = require("luaexec").np_group.prev
-		if node ~= nil then
-			node()
-		end
+		require("luaexec").np_node_exec(
+			require("luaexec").np_group.prev
+		)
 	end
 )
