@@ -24,6 +24,8 @@ require("nvim-treesitter-textobjects").setup({
 
 -- # select
 
+do return end
+
 -- ## builtin capture
 
 vim.keymap.set(

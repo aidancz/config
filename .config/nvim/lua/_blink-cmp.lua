@@ -11,6 +11,8 @@ require("mini.deps").add({
 	},
 })
 
+-- # setup
+
 local config =
 {
 	sources = {
@@ -132,5 +134,7 @@ local config =
 		implementation = "rust",
 	},
 }
+
 -- config.cmdline.keymap = config.keymap
+
 require("blink.cmp").setup(config)

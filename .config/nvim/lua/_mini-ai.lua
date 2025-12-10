@@ -2,6 +2,22 @@ require("mini.deps").add({
 	source = "nvim-mini/mini.ai",
 })
 
+-- # reuse some builtin textobjects
+
+-- vim.keymap.set("o", "o", "a")
+-- does not work since later config.mappings.around will override this
+
+vim.keymap.set("o", "iu", "iw")
+vim.keymap.set("o", "ou", "aw")
+
+vim.keymap.set("o", "ir", "iW")
+vim.keymap.set("o", "or", "aW")
+
+vim.keymap.set("o", "i<cr>", "ip")
+vim.keymap.set("o", "o<cr>", "ap")
+
+-- # redefine require("mini.ai").select_textobject to work with virtualedit_all.lua
+
 local select_textobject = require("mini.ai").select_textobject
 require("mini.ai").select_textobject = function(ai_type, id, opts)
 	select_textobject(ai_type, id, opts)
@@ -9,296 +25,126 @@ require("mini.ai").select_textobject = function(ai_type, id, opts)
 end
 -- https://github.com/nvim-mini/mini.nvim/issues/1359
 
-require("mini.ai").setup({
+-- # require("paramo").gen_ai_spec
+
+require("paramo").gen_ai_spec = function(para)
+	return
+	function(ai_type)
+		local is_head = para.is_head
+		local is_tail = para.is_tail
+
+		local pos_head
+		local pos_tail
+		local pos_cursor = require("virtcol").get_cursor()
+		if is_head(pos_cursor) then
+			pos_head = pos_cursor
+		else
+			pos_head = require("paramo").prev_pos(pos_cursor, is_head)
+		end
+		if is_tail(pos_cursor) then
+			pos_tail = pos_cursor
+		else
+			pos_tail = require("paramo").next_pos(pos_cursor, is_tail)
+		end
+
+		return
+		{
+			from = {
+				line = pos_head.lnum,
+				col = 1,
+			},
+			to = {
+				line = pos_tail.lnum,
+				col = 1,
+			},
+			vis_mode = "V",
+		}
+	end
+end
+
+-- # setup
+
+-- ## config
+
+local config =
+{
 	silent = true,
 	custom_textobjects = {
-
 		a = false,
 		f = false,
-
-		["("] = { "%b()", "^.().*().$" },
-		["["] = { "%b[]", "^.().*().$" },
-		["{"] = { "%b{}", "^.().*().$" },
-		["<"] = { "%b<>", "^.().*().$" },
-		[")"] = { "%b()", "^.%s*().-()%s*.$" },
-		["]"] = { "%b[]", "^.%s*().-()%s*.$" },
-		["}"] = { "%b{}", "^.%s*().-()%s*.$" },
-		[">"] = { "%b<>", "^.%s*().-()%s*.$" },
-		b = {
-			{
-				"%b()",
-				"%b[]",
-				"%b{}",
-				"%b<>",
-			},
-			"^.().*().$"
-		},
-
-		-- https://github.com/nvim-mini/mini.nvim/issues/1281
-		["'"] = { "%b''", "^.().*().$" },
-		['"'] = { '%b""', "^.().*().$" },
-		["`"] = { "%b``", "^.().*().$" },
-		q = {
-			{
-				"%b''",
-				'%b""',
-				"%b``",
-			},
-			"^.().*().$"
-		},
-		-- 金铁击石全无力 大圣天蓬遭虎欺 枪刀戟剑浑不避 石猴似你不似你
-
-		Q = {
-			{
-				"%'.-%'",
-				'%".-%"',
-				"%`.-%`",
-			},
-			"^.().*().$"
-		},
-
-		x = require("mini.extra").gen_ai_spec.number(),
-
-		l = function(ai_type)
-			local lnum_cursor = vim.fn.line(".")
-			local line_cursor = vim.fn.getline(".")
-
-			local col_start = 1
-			local col_first_nonblank = string.find(line_cursor, "%S")
-			local col_end = string.len(line_cursor)
-
-			local from = {
-				line = lnum_cursor,
-				-- col = ?,
-			}
-			local to = {
-				line = lnum_cursor,
-				col = col_end,
-			}
-			if ai_type == "i" then
-				from.col = col_first_nonblank
-			else
-				from.col = col_start
-			end
-
-			if col_end == 0 then
-			-- empty line
-				to = nil
-			end
-			if col_first_nonblank == nil and ai_type == "i" then
-			-- only whitespace
-				to = nil
-			end
-
-			return {
-				from = from,
-				to = to,
-				vis_mode = "v",
-			}
-		end,
-
-		r = function(ai_type)
-			return {
-				from = {
-					line = vim.api.nvim_buf_get_mark(0, "[")[1],
-					col  = vim.api.nvim_buf_get_mark(0, "[")[2] + 1,
-				},
-				to = {
-					line = vim.api.nvim_buf_get_mark(0, "]")[1],
-					col  = vim.api.nvim_buf_get_mark(0, "]")[2] + 1,
-				},
-				vis_mode = ai_type == "i" and "v" or "V",
-			}
-		end,
-
-		i = function(ai_type)
-			local is_head
-			local is_tail
-			if ai_type == "i" then
-				is_head = require("para_cursor_indent").is_head
-				is_tail = require("para_cursor_indent").is_tail
-			else
-				is_head = require("para_cursor_indent_include_empty_line").is_head
-				is_tail = require("para_cursor_indent_include_empty_line").is_tail
-			end
-
-			local pos_head
-			local pos_tail
-			local pos_cursor = require("virtcol").get_cursor()
-			if is_head(pos_cursor) then
-				pos_head = pos_cursor
-			else
-				pos_head = require("paramo").prev_pos(pos_cursor, is_head)
-			end
-			if is_tail(pos_cursor) then
-				pos_tail = pos_cursor
-			else
-				pos_tail = require("paramo").next_pos(pos_cursor, is_tail)
-			end
-
-			return {
-				from = {
-					line = pos_head.lnum,
-					col = 1,
-				},
-				to = {
-					line = pos_tail.lnum,
-					col = 1,
-				},
-				vis_mode = "V",
-			}
-		end,
-
-		o = function(ai_type)
-			local is_head
-			local is_tail
-			if ai_type == "i" then
-				is_head = require("para_cursor_ondent").is_head
-				is_tail = require("para_cursor_ondent").is_tail
-			else
-				is_head = require("para_cursor_ondent_include_empty_line").is_head
-				is_tail = require("para_cursor_ondent_include_empty_line").is_tail
-			end
-
-			local pos_head
-			local pos_tail
-			local pos_cursor = require("virtcol").get_cursor()
-			if is_head(pos_cursor) then
-				pos_head = pos_cursor
-			else
-				pos_head = require("paramo").prev_pos(pos_cursor, is_head)
-			end
-			if is_tail(pos_cursor) then
-				pos_tail = pos_cursor
-			else
-				pos_tail = require("paramo").next_pos(pos_cursor, is_tail)
-			end
-
-			return {
-				from = {
-					line = pos_head.lnum,
-					col = 1,
-				},
-				to = {
-					line = pos_tail.lnum,
-					col = 1,
-				},
-				vis_mode = "V",
-			}
-		end,
-
-		["^"] = function(ai_type)
-			local is_head
-			local is_tail
-			is_head = require("para_first_nonblank_char").is_head
-			is_tail = require("para_first_nonblank_char").is_tail
-
-			local pos_head
-			local pos_tail
-			local pos_cursor = require("virtcol").get_cursor()
-			if is_head(pos_cursor) then
-				pos_head = pos_cursor
-			else
-				pos_head = require("paramo").prev_pos(pos_cursor, is_head)
-			end
-			if is_tail(pos_cursor) then
-				pos_tail = pos_cursor
-			else
-				pos_tail = require("paramo").next_pos(pos_cursor, is_tail)
-			end
-
-			return {
-				from = {
-					line = pos_head.lnum,
-					col = 1,
-				},
-				to = {
-					line = pos_tail.lnum,
-					col = 1,
-				},
-				vis_mode = "V",
-			}
-		end,
-
-		e = function(ai_type)
-		-- entire buffer
-			return {
-				from = {
-					line = 1,
-					col = 1,
-				},
-				to = {
-					line = vim.fn.line("$"),
-					col = vim.fn.col({vim.fn.line("$"), "$"}),
-				},
-				vis_mode = "V",
-			}
-		end,
-
-		c = function(ai_type)
-		-- markdown fenced code block
-			local lnum_3backticks_prev = vim.fn.search("```", "ncWb")
-			local lnum_3backticks_next = vim.fn.search("```", "ncW")
-			if
-				lnum_3backticks_prev == 0
-				or
-				lnum_3backticks_next == 0
-				or
-				lnum_3backticks_next - lnum_3backticks_prev == 0
-			then
-				return
-			end
-			if ai_type == "i" then
-				lnum_3backticks_prev = lnum_3backticks_prev + 1
-				lnum_3backticks_next = lnum_3backticks_next - 1
-			end
-			return {
-				from = {
-					line = lnum_3backticks_prev,
-					col = 1,
-				},
-				to = {
-					line = lnum_3backticks_next,
-					col = 1,
-				},
-				vis_mode = "V",
-			}
-		end,
-
 	},
 	mappings = {
-		around = "a",
 		inside = "i",
+		around = "o",
 
-		around_next = "an",
 		inside_next = "in",
-		around_last = "ab",
 		inside_last = "ib",
+		around_next = "on",
+		around_last = "ob",
 
-		goto_left  = "g[",
 		goto_right = "g]",
+		goto_left  = "g[",
 	},
 	n_lines = 1024,
 	search_method = "cover_or_next",
+}
+
+-- ## extend
+
+local extend = function(textobjects)
+	config.custom_textobjects = vim.tbl_extend("force", config.custom_textobjects, textobjects)
+end
+
+-- ## textobjects: brackets
+
+extend({
+	["("] = { "%b()", "^.().*().$" },
+	["["] = { "%b[]", "^.().*().$" },
+	["{"] = { "%b{}", "^.().*().$" },
+	["<"] = { "%b<>", "^.().*().$" },
+	[")"] = { "%b()", "^.%s*().-()%s*.$" },
+	["]"] = { "%b[]", "^.%s*().-()%s*.$" },
+	["}"] = { "%b{}", "^.%s*().-()%s*.$" },
+	[">"] = { "%b<>", "^.%s*().-()%s*.$" },
+	i = {
+		{
+			"%b()",
+			"%b[]",
+			"%b{}",
+			"%b<>",
+		},
+		"^.().*().$"
+	},
+	e = {
+		{
+			"%b()",
+			"%b[]",
+			"%b{}",
+			"%b<>",
+		},
+		"^.%s*().-()%s*.$"
+	},
 })
-
-
 
 vim.keymap.set(
 	{"n", "x", "o"},
 	"%",
 	function()
+		local id_brackets = "i"
+		local goto_left = require("mini.ai").config.mappings.goto_left
+		local goto_right = require("mini.ai").config.mappings.goto_right
+
 		local row = vim.api.nvim_win_get_cursor(0)[1]
 		local col = vim.api.nvim_win_get_cursor(0)[2] + 1
-		local region = require("mini.ai").find_textobject("a", "b", {search_method = "cover_or_next"})
+		local region = require("mini.ai").find_textobject("a", id_brackets, {search_method = "cover_or_next"})
 		if
 			row < region.from.line or (row == region.from.line and col < region.from.col)
 			or
 			row == region.to.line and col == region.to.col
 		then
-			return "g[b"
+			return goto_left .. id_brackets
 		else
-			return "g]b"
+			return goto_right .. id_brackets
 		end
 	end,
 	{
@@ -306,3 +152,185 @@ vim.keymap.set(
 		remap = true,
 	}
 )
+
+-- ## textobjects: quotes
+
+extend({
+	-- https://github.com/nvim-mini/mini.nvim/issues/1281
+	-- 金铁击石全无力 大圣天蓬遭虎欺 枪刀戟剑浑不避 石猴似你不似你
+	["'"] = { "%b''", "^.().*().$" },
+	['"'] = { '%b""', "^.().*().$" },
+	["`"] = { "%b``", "^.().*().$" },
+	o = {
+		{
+			"%b''",
+			'%b""',
+			"%b``",
+		},
+		"^.().*().$"
+	},
+	w = {
+		{
+			"%'.-%'",
+			'%".-%"',
+			"%`.-%`",
+		},
+		"^.().*().$"
+	},
+})
+
+-- ## textobjects: number
+
+extend({
+	x = require("mini.extra").gen_ai_spec.number(),
+})
+
+-- ## textobjects: line
+
+extend({
+	l = function(ai_type)
+		local lnum_cursor = vim.fn.line(".")
+		local line_cursor = vim.fn.getline(".")
+
+		local col_start = 1
+		local col_first_nonblank = string.find(line_cursor, "%S")
+		local col_end = string.len(line_cursor)
+
+		local from = {
+			line = lnum_cursor,
+			-- col = ?,
+		}
+		local to = {
+			line = lnum_cursor,
+			col = col_end,
+		}
+		if ai_type == "i" then
+			from.col = col_first_nonblank
+		else
+			from.col = col_start
+		end
+
+		if col_end == 0 then
+		-- empty line
+			to = nil
+		end
+		if col_first_nonblank == nil and ai_type == "i" then
+		-- only whitespace
+			to = nil
+		end
+
+		return {
+			from = from,
+			to = to,
+			vis_mode = "v",
+		}
+	end,
+})
+
+-- ## textobjects: previously changed
+
+extend({
+	c = function(ai_type)
+		return {
+			from = {
+				line = vim.api.nvim_buf_get_mark(0, "[")[1],
+				col  = vim.api.nvim_buf_get_mark(0, "[")[2] + 1,
+			},
+			to = {
+				line = vim.api.nvim_buf_get_mark(0, "]")[1],
+				col  = vim.api.nvim_buf_get_mark(0, "]")[2] + 1,
+			},
+			vis_mode = ai_type == "i" and "v" or "V",
+		}
+	end,
+})
+
+-- ## textobjects: indent
+
+extend({
+	m = function(ai_type)
+		if ai_type == "i" then
+			return require("paramo").gen_ai_spec(require("para_cursor_indent"))()
+		else
+			return require("paramo").gen_ai_spec(require("para_cursor_indent_include_empty_line"))()
+		end
+	end,
+})
+
+-- ## textobjects: ondent
+
+extend({
+	v = function(ai_type)
+		if ai_type == "i" then
+			return require("paramo").gen_ai_spec(require("para_cursor_ondent"))()
+		else
+			return require("paramo").gen_ai_spec(require("para_cursor_ondent_include_empty_line"))()
+		end
+	end,
+})
+
+-- ## textobjects: first_nonblank_char
+
+extend({
+	["^"] = require("paramo").gen_ai_spec(require("para_first_nonblank_char")),
+})
+
+-- ## textobjects: buffer
+
+extend({
+	["0"] = function(ai_type)
+	-- i want to use <plug>(miniai_buffer) here, but only single char is allowed
+	-- https://github.com/nvim-mini/mini.nvim/issues/754
+		return {
+			from = {
+				line = 1,
+				col = 1,
+			},
+			to = {
+				line = vim.fn.line("$"),
+				col = vim.fn.col({vim.fn.line("$"), "$"}),
+			},
+			vis_mode = "V",
+		}
+	end,
+})
+
+vim.keymap.set({"x", "o"}, "a", "i0", {remap = true})
+
+-- ## textobjects: markdown fenced code block
+
+extend({
+	["`"] = function(ai_type)
+	-- markdown fenced code block
+		local lnum_3backticks_prev = vim.fn.search("```", "ncWb")
+		local lnum_3backticks_next = vim.fn.search("```", "ncW")
+		if
+			lnum_3backticks_prev == 0
+			or
+			lnum_3backticks_next == 0
+			or
+			lnum_3backticks_next - lnum_3backticks_prev == 0
+		then
+			return
+		end
+		if ai_type == "i" then
+			lnum_3backticks_prev = lnum_3backticks_prev + 1
+			lnum_3backticks_next = lnum_3backticks_next - 1
+		end
+		return {
+			from = {
+				line = lnum_3backticks_prev,
+				col = 1,
+			},
+			to = {
+				line = lnum_3backticks_next,
+				col = 1,
+			},
+			vis_mode = "V",
+		}
+	end,
+})
+
+-- ## setup(config)
+
+require("mini.ai").setup(config)

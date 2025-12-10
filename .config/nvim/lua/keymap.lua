@@ -136,32 +136,24 @@ vim.keymap.set({"n", "x", "o"}, "G", "G")
 
 -- ## (hori (next-word^ prev-word^ next-word$ prev-word$)) (hori (next-WORD^ prev-WORD^ next-WORD$ prev-WORD$))
 
-vim.keymap.set({"n", "x", "o"}, "o", "w")
-vim.keymap.set({"n", "x", "o"}, "w", "b")
-vim.keymap.set({"n", "x", "o"}, "vo", "e")
-vim.keymap.set({"n", "x", "o"}, "mw", "ge")
+vim.keymap.set({"n", "x", "o"}, "u", "w")
+vim.keymap.set({"n", "x", "o"}, "r", "b")
+vim.keymap.set({"n", "x", "o"}, "vu", "e")
+vim.keymap.set({"n", "x", "o"}, "mr", "ge")
 
-vim.keymap.set({"n", "x", "o"}, "O", "W")
-vim.keymap.set({"n", "x", "o"}, "W", "B")
-vim.keymap.set({"n", "x", "o"}, "vO", "E")
-vim.keymap.set({"n", "x", "o"}, "mW", "gE")
+vim.keymap.set({"n", "x", "o"}, "U", "W")
+vim.keymap.set({"n", "x", "o"}, "R", "B")
+vim.keymap.set({"n", "x", "o"}, "vU", "E")
+vim.keymap.set({"n", "x", "o"}, "mR", "gE")
 
 -- ## (hori (next-final prev-final))
 
 vim.keymap.set({"n", "x", "o"}, "]", "$")
 vim.keymap.set({"n", "x", "o"}, "[", "0")
 
-vim.keymap.set("n", "C",  "<nop>")
-vim.keymap.set("n", "D",  "<nop>")
-vim.keymap.set("n", "Y",  "<nop>")
-
 -- ## (hori current)
 
 vim.keymap.set("o", ".", "_")
-
-vim.keymap.set("n", "cc", "<nop>")
--- vim.keymap.set("n", "dd", "<nop>")
-vim.keymap.set("n", "yy", "<nop>")
 
 -- ## (search (next prev)) the search direction does not depend on the previous search command
 
@@ -172,51 +164,31 @@ vim.keymap.set("n", "yy", "<nop>")
 vim.keymap.set({"n", "x", "o"}, "gn", "gn")
 vim.keymap.set({"n", "x", "o"}, "gb", "gN")
 
+-- ## (visual other-end)
+
+vim.keymap.set("x", "w", "o")
+vim.keymap.set("x", "W", "O")
+
 -- ## (jumplist (next prev))
 
-vim.keymap.set({"n", "x"}, "<c-r>", "<c-o>")
-vim.keymap.set({"n", "x"}, "<c-u>", "<c-i>")
+vim.keymap.set({"n", "x"}, "<c-w>", "<c-o>")
+vim.keymap.set({"n", "x"}, "<c-o>", "<c-i>")
 
--- ## (undotree (next prev)) undo and redo
+-- ## (quickfix (next prev))
 
-vim.keymap.set({"n", "x"}, "<plug>(redrawstatus)", function() vim.cmd("redrawstatus") end)
+require("luaexec").add({
+	code = [[return "<cmd>cnext<cr>"]],
+	from = "quickfix",
+	name = "next",
+	keys = {{"n", "x"}, "gc"},
+})
 
-vim.keymap.set({"n", "x"}, "<bs>", "u<plug>(redrawstatus)")
-vim.keymap.set({"n", "x"}, "<del>", "<c-r><plug>(redrawstatus)")
-
--- ## delete
-
-vim.keymap.set({"n", "x"}, "s", "d")
-
--- ## insert single char
-
-vim.keymap.set(
-	{"n", "x"},
-	"mi",
-	function()
-		vim.cmd("normal! " .. vim.v.count1 .. "i" .. vim.fn.getcharstr())
-	end
-)
-vim.keymap.set(
-	{"n", "x"},
-	"ma",
-	function()
-		vim.cmd("normal! " .. vim.v.count1 .. "a" .. vim.fn.getcharstr())
-	end
-)
--- https://github.com/rjayatilleka/vim-insert-char
--- https://github.com/bagohart/vim-insert-append-single-character
-
--- ## g<key> -> q<key>
-
-vim.keymap.set({"n", "x"}, "g/", "q/")
-vim.keymap.set({"n", "x"}, "g:", "q:")
-vim.keymap.set({"n", "x"}, "g?", "q?")
-
--- ## <key><key> -> <key>
-
-vim.keymap.set("n", "vv", "v")
-vim.keymap.set("n", "mm", "m")
+require("luaexec").add({
+	code = [[return "<cmd>cprevious<cr>"]],
+	from = "quickfix",
+	name = "prev",
+	keys = {{"n", "x"}, "gC"},
+})
 
 -- ## (buffer (next prev))
 
@@ -288,6 +260,10 @@ vim.api.nvim_set_current_buf(buf)
 	keys = {{"n", "x"}, "<up>"},
 })
 
+-- ## (window leader)
+
+vim.keymap.set({"n", "x"}, "<space>w", "<c-w>")
+
 -- ## (window (next prev))
 
 require("luaexec").add({
@@ -314,58 +290,122 @@ vim.cmd(count .. "wincmd W")
 	keys = {{"n", "x"}, "<left>"},
 })
 
--- ## window scroll
+-- ## (window_hori (next prev))
 
--- require("hydra").add({
--- 	mode = {"n", "x"},
--- 	body = "z",
--- 	heads = {
--- 		{"l", "8zl"},
--- 		{"h", "8zh"},
--- 	},
--- })
+require("luaexec").add({
+	code = [[return "8zl"]],
+	from = "window_hori",
+	name = "next",
+	keys = {{"n", "x"}, "zl"},
+})
 
--- ## window resize
+require("luaexec").add({
+	code = [[return "8zh"]],
+	from = "window_hori",
+	name = "prev",
+	keys = {{"n", "x"}, "zh"},
+})
 
--- require("hydra").add({
--- 	mode = {"n", "x"},
--- 	body = "<c-w>",
--- 	heads = {
--- 		{"+", "2<c-w>+"},
--- 		{"-", "2<c-w>-"},
--- 	},
--- })
+-- ## (window_height (next prev))
 
--- require("hydra").add({
--- 	mode = {"n", "x"},
--- 	body = "<c-w>",
--- 	heads = {
--- 		{">", "4<c-w>>"},
--- 		{"<", "4<c-w><"},
--- 	},
--- })
+require("luaexec").add({
+	code = [[return "2<c-w>+"]],
+	from = "window_height",
+	name = "next",
+	keys = {{"n", "x"}, "<space>w+"},
+})
+
+require("luaexec").add({
+	code = [[return "2<c-w>-"]],
+	from = "window_height",
+	name = "prev",
+	keys = {{"n", "x"}, "<space>w-"},
+})
+
+-- ## (window_width (next prev))
+
+require("luaexec").add({
+	code = [[return "4<c-w>>"]],
+	from = "window_width",
+	name = "next",
+	keys = {{"n", "x"}, "<space>w>"},
+})
+
+require("luaexec").add({
+	code = [[return "4<c-w><"]],
+	from = "window_width",
+	name = "prev",
+	keys = {{"n", "x"}, "<space>w<"},
+})
+
+-- ## (window (/ : ?))
+
+vim.keymap.set({"n", "x"}, "g/", "q/")
+vim.keymap.set({"n", "x"}, "g:", "q:")
+vim.keymap.set({"n", "x"}, "g?", "q?")
 
 -- ## (tab (next prev))
 
--- require("hydra").add({
--- 	mode = {"n", "x"},
--- 	body = "m",
--- 	heads = {
--- 		{"t", "gt"},
--- 		{"T", "gT"},
--- 	},
--- })
+require("luaexec").add({
+	code = [[return "gt"]],
+	from = "tab",
+	name = "next",
+	keys = {{"n", "x"}, "gt"},
+})
 
--- ## (quickfix (next prev))
+require("luaexec").add({
+	code = [[return "gT"]],
+	from = "tab",
+	name = "prev",
+	keys = {{"n", "x"}, "gT"},
+})
 
--- require("hydra").add({
--- 	mode = {"n", "x"},
--- 	body = "m",
--- 	heads = {
--- 		{"c", "<cmd>cnext<cr>"},
--- 		{"C", "<cmd>cprevious<cr>"},
--- 	},
--- })
+-- ## visual
+
+vim.keymap.set("n", "vv", "v")
+
+-- ## mark
+
+vim.keymap.set("n", "mm", "m")
+
+-- ## ban cc dd yy C D Y
+
+vim.keymap.set("n", "cc", "<nop>")
+-- vim.keymap.set("n", "dd", "<nop>")
+vim.keymap.set("n", "yy", "<nop>")
+vim.keymap.set("n", "C",  "<nop>")
+vim.keymap.set("n", "D",  "<nop>")
+vim.keymap.set("n", "Y",  "<nop>")
+
+-- ## insert single char
+
+vim.keymap.set(
+	{"n", "x"},
+	"mi",
+	function()
+		vim.cmd("normal! " .. vim.v.count1 .. "i" .. vim.fn.getcharstr())
+	end
+)
+vim.keymap.set(
+	{"n", "x"},
+	"ma",
+	function()
+		vim.cmd("normal! " .. vim.v.count1 .. "a" .. vim.fn.getcharstr())
+	end
+)
+-- https://github.com/rjayatilleka/vim-insert-char
+-- https://github.com/bagohart/vim-insert-append-single-character
+
+-- ## delete
+
+vim.keymap.set({"n", "x"}, "s", "d")
+
+-- ## (undotree (next prev)) undo and redo
+
+vim.keymap.set({"n", "x"}, "<plug>(redrawstatus)", function() vim.cmd("redrawstatus") end)
+
+vim.keymap.set({"n", "x"}, "<bs>", "u<plug>(redrawstatus)")
+vim.keymap.set({"n", "x"}, "<del>", "<c-r><plug>(redrawstatus)")
 
 -- # {"i", "c"}
 

@@ -42,8 +42,8 @@ k	global-prev-node
 l	next-node
 h	prev-node
 .	up-node
-r	history-node
-# u	history-node-forward
+w	history-node
+# o	history-node-forward
 # https://unix.stackexchange.com/questions/624966/moving-forward-in-history-in-gnu-info
 ej	last-node
 ek	first-node
@@ -62,8 +62,8 @@ y	next-index-match
 eli	virtual-index
 ela	index-apropos
 \t	xref-item
-o	move-to-next-xref
-w	move-to-prev-xref
+u	move-to-next-xref
+r	move-to-prev-xref
 \r	select-reference-this-line
 
 f	scroll-forward
@@ -88,14 +88,14 @@ S	search-case-sensitively
 R	toggle-regexp
 e/	tree-search # tree level
 
-^w^w	next-window
-^wW	prev-window
-^w^s	split-window
-^w^q	delete-window
-^w^o	keep-one-window
-^w+	grow-window
-^w=	tile-windows
-^w^f	show-footnotes
+\ ww	next-window
+\ wW	prev-window
+\ ws	split-window
+\ wc	delete-window
+\ wo	keep-one-window
+\ w+	grow-window
+\ w=	tile-windows
+\ wf	show-footnotes
 
 #echo-area
 

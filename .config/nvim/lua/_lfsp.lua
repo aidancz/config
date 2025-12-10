@@ -4,7 +4,7 @@
 
 vim.keymap.set(
 	"n",
-	"u",
+	"o",
 	function()
 		return
 		require("lf").expr({
@@ -16,7 +16,7 @@ vim.keymap.set(
 )
 vim.keymap.set(
 	"n",
-	"r",
+	"w",
 	function()
 		return
 		require("lf").expr({
@@ -28,7 +28,7 @@ vim.keymap.set(
 )
 vim.keymap.set(
 	"n",
-	"U",
+	"O",
 	function()
 		return
 		require("sp").expr({
@@ -40,7 +40,7 @@ vim.keymap.set(
 )
 vim.keymap.set(
 	"n",
-	"R",
+	"W",
 	function()
 		return
 		require("sp").expr({
