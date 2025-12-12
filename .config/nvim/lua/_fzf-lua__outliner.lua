@@ -165,5 +165,5 @@ end
 require("luaexec").add({
 	code = [[require("fzf-lua").custom_outliner()]],
 	from = "outliner",
-	keys = {"n", "eo"},
+	keys = {"n", "<cr>o"},
 })

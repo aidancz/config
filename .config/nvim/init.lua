@@ -16,7 +16,7 @@ vim.notify(vim.system({"date", "--iso-8601=ns"}):wait().stdout)
 
 --]]
 
-get_time = function()
+_G.get_time = function()
 	local second, microsecond = vim.uv.gettimeofday()
 	local second_format = os.date("%Y-%m-%d %H:%M:%S", second)
 	local microsecond_format = string.format("%06d", microsecond)
@@ -25,8 +25,14 @@ get_time = function()
 end
 -- https://github.com/neovim/neovim/issues/4433
 
-print_time = function()
+_G.print_time = function()
 	print(get_time())
+end
+
+---------------------------------------------------------------- for convenience
+
+_G.feedkeys = function(keys, mode)
+	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, true, true), mode, false)
 end
 
 ---------------------------------------------------------------- compile the lua modules to bytecode, improve startup time

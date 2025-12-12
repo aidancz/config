@@ -65,12 +65,12 @@ require("mini.surround").setup({
 
 	},
 	mappings = {
-		add            = ",s",
-		delete         = "ss",
+		add            = "",
+		delete         = "",
 		find           = "",
 		find_left      = "",
 		highlight      = "",
-		replace        = "cs",
+		replace        = "",
 		update_n_lines = "",
 
 		suffix_next = "n",

@@ -4,17 +4,18 @@ require("mini.deps").add({
 
 -- # reuse some builtin textobjects
 
--- vim.keymap.set("o", "o", "a")
+-- vim.keymap.set("o", "i", "i")
+-- vim.keymap.set("o", "u", "a")
 -- does not work since later config.mappings.around will override this
 
-vim.keymap.set("o", "iu", "iw")
-vim.keymap.set("o", "ou", "aw")
+vim.keymap.set("o", "io", "iw")
+vim.keymap.set("o", "uo", "aw")
 
-vim.keymap.set("o", "ir", "iW")
-vim.keymap.set("o", "or", "aW")
+vim.keymap.set("o", "iw", "iW")
+vim.keymap.set("o", "uw", "aW")
 
 vim.keymap.set("o", "i<cr>", "ip")
-vim.keymap.set("o", "o<cr>", "ap")
+vim.keymap.set("o", "u<cr>", "ap")
 
 -- # redefine require("mini.ai").select_textobject to work with virtualedit_all.lua
 
@@ -74,15 +75,15 @@ local config =
 	},
 	mappings = {
 		inside = "i",
-		around = "o",
+		around = "u",
 
 		inside_next = "in",
 		inside_last = "ib",
-		around_next = "on",
-		around_last = "ob",
+		around_next = "un",
+		around_last = "ub",
 
-		goto_right = "g]",
-		goto_left  = "g[",
+		goto_right = "<plug>(miniai_goto_right)",
+		goto_left  = "<plug>(miniai_goto_left)",
 	},
 	n_lines = 1024,
 	search_method = "cover_or_next",
@@ -119,31 +120,31 @@ require("mini.ai").make_ai_move_rhs = function(ask_id, side, search_method)
 	end
 end
 
-vim.keymap.set({"n", "x", "o"}, "gj", require("mini.ai").make_ai_move_rhs(true, "left",  "cover_or_next"), {expr = true})
-vim.keymap.set({"n", "x", "o"}, "gk", require("mini.ai").make_ai_move_rhs(true, "left",  "cover_or_prev"), {expr = true})
-vim.keymap.set({"n", "x", "o"}, "gl", require("mini.ai").make_ai_move_rhs(true, "right", "cover_or_next"), {expr = true})
-vim.keymap.set({"n", "x", "o"}, "gh", require("mini.ai").make_ai_move_rhs(true, "right", "cover_or_prev"), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "gj", require("mini.ai").make_ai_move_rhs(true, "left",  "next"), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "gk", require("mini.ai").make_ai_move_rhs(true, "left",  "prev"), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "gl", require("mini.ai").make_ai_move_rhs(true, "right", "next"), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "gh", require("mini.ai").make_ai_move_rhs(true, "right", "prev"), {expr = true})
 
 require("luaexec").add({
-	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "left", "cover_or_next")()]],
+	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "left", "next")()]],
 	from = "miniai_goto_head",
 	name = "next",
 	keys = {{"n", "x"}, "gj"},
 })
 require("luaexec").add({
-	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "left", "cover_or_prev")()]],
+	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "left", "prev")()]],
 	from = "miniai_goto_head",
 	name = "prev",
 	keys = {{"n", "x"}, "gk"},
 })
 require("luaexec").add({
-	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "right", "cover_or_next")()]],
+	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "right", "next")()]],
 	from = "miniai_goto_tail",
 	name = "next",
 	keys = {{"n", "x"}, "gl"},
 })
 require("luaexec").add({
-	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "right", "cover_or_prev")()]],
+	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "right", "prev")()]],
 	from = "miniai_goto_tail",
 	name = "prev",
 	keys = {{"n", "x"}, "gh"},
@@ -221,7 +222,7 @@ extend({
 	["'"] = { "%b''", "^.().*().$" },
 	['"'] = { '%b""', "^.().*().$" },
 	["`"] = { "%b``", "^.().*().$" },
-	o = {
+	u = {
 		{
 			"%b''",
 			'%b""',
@@ -229,7 +230,7 @@ extend({
 		},
 		"^.().*().$"
 	},
-	w = {
+	r = {
 		{
 			"%'.-%'",
 			'%".-%"',

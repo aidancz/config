@@ -21,10 +21,14 @@
 
 vim.keymap.set({"n", "x", "s", "i", "c", "t", "o"}, "<f2>", "<nop>")
 
+vim.keymap.set({"n", "x", "o"}, "<cr>",    "<nop>")
 vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
-vim.keymap.set({"n", "x", "o"}, "e",       "<nop>")
-vim.keymap.set({"n", "x", "o"}, "v",       "<nop>")
-vim.keymap.set({"n", "x", "o"}, "m",       "<nop>")
+
+vim.keymap.set({"n", "x", "o"}, "e", "<nop>")
+-- vim.keymap.set({"n", "x", "o"}, "i", "<nop>")
+
+vim.keymap.set({"n", "x", "o"}, "v", "<nop>")
+vim.keymap.set({"n", "x", "o"}, "m", "<nop>")
 
 -- ## bypass the <c-i> and <tab> conflict, etc
 
@@ -117,34 +121,24 @@ vim.keymap.set(
 	}
 )
 
--- ## (vert prev^)
-
-vim.keymap.set({"n", "x", "o"}, "<s-cr>", "-")
-
-vim.keymap.set(
-	"i",
-	"<s-cr>",
-	function()
-		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<cr><cmd>.m.-2<cr>", true, true, true), "n", false)
-	end
-)
-
 -- ## (vert (next-final prev-final))
 
-vim.keymap.set({"n", "x", "o"}, "S", "gg")
-vim.keymap.set({"n", "x", "o"}, "G", "G")
+vim.keymap.set({"n", "x", "o"}, "gg", "G")
+vim.keymap.set({"n", "x", "o"}, "ss", "gg")
+vim.keymap.set({"n", "x", "o"}, "G",  "G")
+vim.keymap.set({"n", "x", "o"}, "S",  "gg")
 
 -- ## (hori (next-word^ prev-word^ next-word$ prev-word$)) (hori (next-WORD^ prev-WORD^ next-WORD$ prev-WORD$))
 
-vim.keymap.set({"n", "x", "o"}, "u", "w")
-vim.keymap.set({"n", "x", "o"}, "r", "b")
-vim.keymap.set({"n", "x", "o"}, "vu", "e")
-vim.keymap.set({"n", "x", "o"}, "mr", "ge")
+vim.keymap.set({"n", "x", "o"}, "o", "w")
+vim.keymap.set({"n", "x", "o"}, "w", "b")
+vim.keymap.set({"n", "x", "o"}, "eo", "e")
+vim.keymap.set({"n", "x", "o"}, "ew", "ge")
 
-vim.keymap.set({"n", "x", "o"}, "U", "W")
-vim.keymap.set({"n", "x", "o"}, "R", "B")
-vim.keymap.set({"n", "x", "o"}, "vU", "E")
-vim.keymap.set({"n", "x", "o"}, "mR", "gE")
+vim.keymap.set({"n", "x", "o"}, "vo", "W")
+vim.keymap.set({"n", "x", "o"}, "mw", "B")
+vim.keymap.set({"n", "x", "o"}, "veo", "E")
+vim.keymap.set({"n", "x", "o"}, "mew", "gE")
 
 -- ## (hori (next-final prev-final))
 
@@ -162,8 +156,8 @@ vim.keymap.set({"n", "x", "o"}, "gb", "gN")
 
 -- ## (visual other-end)
 
-vim.keymap.set("x", "w", "o")
-vim.keymap.set("x", "W", "O")
+vim.keymap.set("x", "r", "o")
+vim.keymap.set("x", "R", "O")
 
 -- ## (jumplist (next prev))
 
@@ -423,6 +417,16 @@ vim.keymap.set("i", "<left>",  "<c-g>U<left>")
 -- default: abc
 -- now: print(abc)
 
+-- ## insert mode <s-cr> should do the opposite of <cr>
+
+vim.keymap.set(
+	"i",
+	"<s-cr>",
+	function()
+		feedkeys("<cr><cmd>.m.-2<cr>", "n")
+	end
+)
+
 -- ## cmdline mode <c-w> should ignore iskeyword
 
 vim.keymap.set(
@@ -431,7 +435,7 @@ vim.keymap.set(
 	function()
 		local cache_iskeyword = vim.bo.iskeyword
 		vim.bo.iskeyword = vim.go.iskeyword
-		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<c-w>", true, true, true), "n", false)
+		feedkeys("<c-w>", "n")
 		vim.schedule(function()
 			vim.bo.iskeyword = cache_iskeyword
 		end)

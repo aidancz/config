@@ -15,14 +15,14 @@ require("luaexec").add({
 	code = [[require("yanky").cycle(1)]],
 	from = "yanky",
 	name = "prev",
-	keys = {{"n", "x"}, "<c-up>"},
+	keys = {{"n", "x"}, "<pageup>"},
 })
 
 require("luaexec").add({
 	code = [[require("yanky").cycle(-1)]],
 	from = "yanky",
 	name = "next",
-	keys = {{"n", "x"}, "<c-down>"},
+	keys = {{"n", "x"}, "<pagedown>"},
 })
 
 require("luaexec").add({

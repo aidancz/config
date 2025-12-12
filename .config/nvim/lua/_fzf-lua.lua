@@ -244,8 +244,9 @@ require("fzf-lua").custom_history = function(opts)
 					local components = vim.split(selected[1], require("fzf-lua").utils.nbsp)
 					local histname = components[2]
 					local entry = components[3]
+					local key = histname .. entry .. "\n"
 					vim.schedule(function()
-						vim.api.nvim_feedkeys(histname .. entry .. "\n", "nt", true)
+						feedkeys(key, "nt")
 					end)
 				end,
 			},
@@ -267,65 +268,65 @@ vim.api.nvim_set_hl(0, "FzfLuaCursorLine", {link = "nofrils_reverse"})
 require("luaexec").add({
 	code = [[require("fzf-lua").builtin()]],
 	from = "fzf-lua",
-	keys = {"n", "e<f2>"},
+	keys = {"n", "<cr><space>"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").resume()]],
 	from = "fzf-lua",
-	keys = {"n", "ee"},
+	keys = {"n", "<cr><cr>"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").files({cwd = vim.fs.root(0, ".git") or vim.fn.getcwd()})]],
 	from = "fzf-lua",
-	keys = {"n", "ei"},
+	keys = {"n", "<cr>k"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").buffers()]],
 	from = "fzf-lua",
-	keys = {"n", "eb"},
+	keys = {"n", "<cr>l"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").helptags()]],
 	from = "fzf-lua",
-	keys = {"n", "e<c-h>"},
+	keys = {"n", "<cr>h"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").custom_history({histname = ":"})]],
 	from = "fzf-lua",
-	keys = {"n", "e:"},
+	keys = {"n", "<cr>:"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").custom_history({histname = "/"})]],
 	from = "fzf-lua",
-	keys = {"n", "e/"},
+	keys = {"n", "<cr>/"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").custom_history({histname = "?"})]],
 	from = "fzf-lua",
-	keys = {"n", "e?"},
+	keys = {"n", "<cr>?"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").blines()]],
 	from = "fzf-lua",
-	keys = {"n", "e."},
+	keys = {"n", "<cr>."},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").lines()]],
 	from = "fzf-lua",
-	keys = {"n", "e,"},
+	keys = {"n", "<cr>,"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").live_grep({cwd = vim.fs.root(0, ".git") or vim.fn.getcwd()})]],
 	from = "fzf-lua",
-	keys = {"n", "er"},
+	keys = {"n", "<cr>r"},
 })

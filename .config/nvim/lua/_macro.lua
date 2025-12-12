@@ -10,13 +10,13 @@ else
 end
 ]=],
 	from = "macro",
-	keys = {"n", [[\]]},
+	keys = {"n", "q"},
 })
 
 require("luaexec").add({
 	code = [[require("macro").record_play()]],
 	from = "macro",
-	keys = {"n", "<tab>"},
+	keys = {"n", "-"},
 })
 
 require("luaexec").add({
