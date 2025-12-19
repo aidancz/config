@@ -1,10 +1,5 @@
 -- require("mini.deps").add({
 -- 	source = "aidancz/paramo.nvim",
--- 	depends = {
--- 		{
--- 			source = "aidancz/virtcol.nvim",
--- 		},
--- 	},
 -- })
 
 require("paramo").get_expr_func = function(direction, is)

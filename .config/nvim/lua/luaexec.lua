@@ -57,21 +57,43 @@ excmd:
 	[[lua require("luaexec").load({ "print_time()", 'return "5j"' })]]
 --]=]
 
+M.remap = false
+
+M.remap_temp = function()
+	M.remap = true
+	vim.schedule(function()
+		M.remap = false
+	end)
+end
+
+M.is_operator_pending_mode = function()
+	local mode = vim.api.nvim_get_mode().mode
+	return string.sub(mode, 1, 2) == "no"
+end
+
+M.feedkeys = function(keys, mode)
+	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, true, true), mode, false)
+end
+
 M.load = function(chunk)
 	local str = table.concat(chunk, "\n")
 	local ret = assert(load(str))()
-	local cnt = vim.v.count
+	if ret == nil then return end
+
 	local key
-	if ret == nil then
-		key = ""
+	local cnt = tostring(vim.v.count)
+	if cnt == "0" then cnt = "" end
+	if not M.is_operator_pending_mode() then
+		key = cnt .. ret
 	else
-		if cnt == 0 then
-			key = ret
-		else
-			key = cnt .. ret
-		end
+		local reg = [["]] .. vim.v.register
+		local ope = vim.v.operator
+		key = reg .. ope .. cnt .. ret
 	end
-	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), "n", false)
+
+	local mod = M.remap and "m" or "n"
+
+	M.feedkeys(key, mod)
 end
 
 M.chunk2excmd = function(chunk)

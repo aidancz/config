@@ -2,21 +2,6 @@ require("mini.deps").add({
 	source = "nvim-mini/mini.ai",
 })
 
--- # reuse some builtin textobjects
-
--- vim.keymap.set("o", "i", "i")
--- vim.keymap.set("o", "u", "a")
--- does not work since later config.mappings.around will override this
-
-vim.keymap.set("o", "io", "iw")
-vim.keymap.set("o", "uo", "aw")
-
-vim.keymap.set("o", "iw", "iW")
-vim.keymap.set("o", "uw", "aW")
-
-vim.keymap.set("o", "i<cr>", "ip")
-vim.keymap.set("o", "u<cr>", "ap")
-
 -- # redefine require("mini.ai").select_textobject to work with virtualedit_all.lua
 
 local select_textobject = require("mini.ai").select_textobject
@@ -30,31 +15,66 @@ end
 
 require("paramo").gen_ai_spec = function(para)
 	return
-	function(ai_type)
-		local is_head = para.is_head
-		local is_tail = para.is_tail
-
-		local pos_head
-		local pos_tail
+	function(ai_type, id, opts)
 		local pos_cursor = require("virtcol").get_cursor()
-		if is_head(pos_cursor) then
-			pos_head = pos_cursor
+
+		local is_head_cursor = para.is_head(pos_cursor)
+		local is_tail_cursor = para.is_tail(pos_cursor)
+
+		local pos_prev_head = require("paramo").prev_pos(pos_cursor, para.is_head)
+		local pos_prev_tail = require("paramo").prev_pos(pos_cursor, para.is_tail)
+		local pos_next_head = require("paramo").next_pos(pos_cursor, para.is_head)
+		local pos_next_tail = require("paramo").next_pos(pos_cursor, para.is_tail)
+
+		local lnum_head
+		local lnum_tail
+		if is_head_cursor and is_tail_cursor then
+			lnum_head = pos_cursor.lnum
+			lnum_tail = pos_cursor.lnum
+		elseif is_head_cursor then
+			lnum_head = pos_cursor.lnum
+			lnum_tail = pos_next_tail.lnum
+		elseif is_tail_cursor then
+			lnum_head = pos_prev_head.lnum
+			lnum_tail = pos_cursor.lnum
+		elseif pos_prev_head.lnum == nil and pos_next_head.lnum == nil then
+			return
+		elseif pos_prev_head.lnum == nil then
+			lnum_head = pos_next_head.lnum
+			lnum_tail = pos_next_tail.lnum
+		elseif pos_next_head.lnum == nil then
+			if pos_next_tail.lnum == nil then
+				return
+			else
+				lnum_head = pos_prev_head.lnum
+				lnum_tail = pos_next_tail.lnum
+			end
+		elseif pos_prev_tail.lnum == nil and pos_next_tail.lnum == nil then
+		-- can't be true at this time
+			return
+		elseif pos_prev_tail.lnum == nil then
+			lnum_head = pos_prev_head.lnum
+			lnum_tail = pos_next_tail.lnum
+		elseif pos_next_tail.lnum == nil then
+		-- can't be true at this time
+			return
 		else
-			pos_head = require("paramo").prev_pos(pos_cursor, is_head)
-		end
-		if is_tail(pos_cursor) then
-			pos_tail = pos_cursor
-		else
-			pos_tail = require("paramo").next_pos(pos_cursor, is_tail)
+			if pos_prev_head.lnum <= pos_prev_tail.lnum then
+				lnum_head = pos_next_head.lnum
+				lnum_tail = pos_next_tail.lnum
+			else
+				lnum_head = pos_prev_head.lnum
+				lnum_tail = pos_next_tail.lnum
+			end
 		end
 
 		return {
 			from = {
-				line = pos_head.lnum,
+				line = lnum_head,
 				col = 1,
 			},
 			to = {
-				line = pos_tail.lnum,
+				line = lnum_tail,
 				col = 1,
 			},
 			vis_mode = "V",
@@ -70,8 +90,8 @@ local config =
 {
 	silent = true,
 	custom_textobjects = {
-		a = false,
-		f = false,
+		-- a = false,
+		-- f = false,
 	},
 	mappings = {
 		inside = "i",
@@ -156,6 +176,87 @@ local extend = function(textobjects)
 	config.custom_textobjects = vim.tbl_extend("force", config.custom_textobjects, textobjects)
 end
 
+-- ## extend_remap
+
+--[[
+mini.ai can only map textobject to i<char> and a<char>, cannot map textobject to <char>
+we have to remap
+
+e.g. map line textobject to dot:
+
+extend({
+	["0"] = function(ai_type)
+	-- i want to use <plug>(miniai_line) here, but only single char is allowed
+	-- https://github.com/nvim-mini/mini.nvim/issues/754
+		return {
+			from = {
+				line = vim.fn.line("."),
+				col = 1,
+			},
+			to = {
+				line = vim.fn.line("."),
+				col = string.len(vim.fn.getline(".")),
+			},
+			vis_mode = "V",
+		}
+	end,
+})
+vim.keymap.set({"x", "o"}, ".", "i0", {remap = true})
+
+factor this process into a function: extend_remap
+--]]
+
+local gen_char =
+	(
+		function()
+			local id = 0x2460
+			return
+				function()
+					-- assert((id >= 0x2460) and (id <= 0x2473))
+					local char = vim.fn.nr2char(id)
+					id = id + 1
+					return char
+				end
+		end
+	)()
+
+local extend_remap = function(key, spec)
+	local char = gen_char()
+	extend({[char] = spec})
+	vim.keymap.set({"x", "o"}, key, config.mappings.inside .. char, {remap = true})
+end
+
+-- ## textobjects: mini.ai default
+
+extend({
+	-- [<not latin letters>] = function(ai_type) <i: inside separators, a: inside separators and right edge> end,
+	-- :h MiniAi-builtin-textobjects, search "Default"
+})
+
+-- ## textobjects: word
+
+extend({
+	-- "\9\32" == "\t " == HT and SP == tab and space
+
+	["l"] = { "()()" .. "%f[%l][%l]+" .. "()[\9\32]*()" }, -- lowercase letters
+	["u"] = { "()()" .. "%f[%u][%u]+" .. "()[\9\32]*()" }, -- uppercase letters
+	["d"] = { "()()" .. "%f[%d][%d]+" .. "()[\9\32]*()" }, -- digits
+	["p"] = { "()()" .. "%f[%p][%p]+" .. "()[\9\32]*()" }, -- punctuation characters
+	["s"] = { "%f[%s][%s]+" },                             -- space characters (HT LF VT FF CR SP)
+	["z"] = { "[%z]+" },                                   -- NUL (cannot use %f[] due to how it works)
+	["c"] = { "%f[\1-\8\14-\31\127][\1-\8\14-\31\127]+" }, -- control characters except {NUL HT LF VT FF CR}
+	-- separate ascii into several groups
+
+	["a"] = { "()()" .. "%f[%a][%a]+" .. "()[\9\32]*()" }, -- %a = %l + %u
+	["w"] = { "()()" .. "%f[%w][%w]+" .. "()[\9\32]*()" }, -- %w = %l + %u + %d
+	["g"] = { "()()" .. "%f[%g][%g]+" .. "()[\9\32]*()" }, -- %g = %l + %u + %d + %p
+
+	[" "] = { "()()" .. "%f[%w_][%w_]+" .. "()[\9\32]*()" },
+
+	-- ["x"] = { "()()" .. "%f[%x][%x]+" .. "()[\9\32]*()" }, -- %x = {abcdefABCDEF} + %d
+	["x"] = require("mini.extra").gen_ai_spec.number(),
+})
+
 -- ## textobjects: brackets
 
 extend({
@@ -176,7 +277,7 @@ extend({
 		},
 		"^.().*().$"
 	},
-	e = {
+	y = {
 		{
 			"%b()",
 			"%b[]",
@@ -222,7 +323,7 @@ extend({
 	["'"] = { "%b''", "^.().*().$" },
 	['"'] = { '%b""', "^.().*().$" },
 	["`"] = { "%b``", "^.().*().$" },
-	u = {
+	e = {
 		{
 			"%b''",
 			'%b""',
@@ -230,7 +331,7 @@ extend({
 		},
 		"^.().*().$"
 	},
-	r = {
+	t = {
 		{
 			"%'.-%'",
 			'%".-%"',
@@ -240,58 +341,10 @@ extend({
 	},
 })
 
--- ## textobjects: number
-
-extend({
-	x = require("mini.extra").gen_ai_spec.number(),
-})
-
--- ## textobjects: line
-
-extend({
-	l = function(ai_type)
-		local lnum_cursor = vim.fn.line(".")
-		local line_cursor = vim.fn.getline(".")
-
-		local col_start = 1
-		local col_first_nonblank = string.find(line_cursor, "%S")
-		local col_end = string.len(line_cursor)
-
-		local from = {
-			line = lnum_cursor,
-			-- col = ?,
-		}
-		local to = {
-			line = lnum_cursor,
-			col = col_end,
-		}
-		if ai_type == "i" then
-			from.col = col_first_nonblank
-		else
-			from.col = col_start
-		end
-
-		if col_end == 0 then
-		-- empty line
-			to = nil
-		end
-		if col_first_nonblank == nil and ai_type == "i" then
-		-- only whitespace
-			to = nil
-		end
-
-		return {
-			from = from,
-			to = to,
-			vis_mode = "v",
-		}
-	end,
-})
-
 -- ## textobjects: previously changed
 
 extend({
-	c = function(ai_type)
+	r = function(ai_type)
 		return {
 			from = {
 				line = vim.api.nvim_buf_get_mark(0, "[")[1],
@@ -304,6 +357,59 @@ extend({
 			vis_mode = ai_type == "i" and "v" or "V",
 		}
 	end,
+})
+
+-- ## textobjects: line
+
+extend_remap(
+	".",
+	function(ai_type)
+		return {
+			from = {
+				line = vim.fn.line("."),
+				col = 1,
+			},
+			to = {
+				line = vim.fn.line("."),
+				col = vim.fn.col("$"),
+			},
+			vis_mode = "V",
+		}
+	end
+)
+
+extend({
+	["."] = function(ai_type)
+		local lnum_cursor = vim.fn.line(".")
+		local line_cursor = vim.fn.getline(".")
+
+		local col_start = 1
+		local col_first_nonblank = string.find(line_cursor, "%S")
+		local col_end = string.len(line_cursor)
+
+		if col_end == 0 then return end
+		-- empty line
+		if col_first_nonblank == nil and ai_type == "i" then return end
+		-- only whitespace
+
+		return {
+			from = {
+				line = lnum_cursor,
+				col = (ai_type == "i") and col_first_nonblank or col_start
+			},
+			to = {
+				line = lnum_cursor,
+				col = col_end,
+			},
+			vis_mode = "v",
+		}
+	end,
+})
+
+-- ## textobjects: nonempty
+
+extend({
+	["\r"] = require("paramo").gen_ai_spec(require("para_nonempty")),
 })
 
 -- ## textobjects: indent
@@ -336,66 +442,11 @@ extend({
 	["^"] = require("paramo").gen_ai_spec(require("para_first_nonblank_char")),
 })
 
--- ## textobjects: markdown fenced code block
+-- ## textobjects: buffer
 
-extend({
-	["`"] = function(ai_type)
-	-- markdown fenced code block
-		local lnum_3backticks_prev = vim.fn.search("```", "ncWb")
-		local lnum_3backticks_next = vim.fn.search("```", "ncW")
-		if
-			lnum_3backticks_prev == 0
-			or
-			lnum_3backticks_next == 0
-			or
-			lnum_3backticks_next - lnum_3backticks_prev == 0
-		then
-			return
-		end
-		if ai_type == "i" then
-			lnum_3backticks_prev = lnum_3backticks_prev + 1
-			lnum_3backticks_next = lnum_3backticks_next - 1
-		end
-		return {
-			from = {
-				line = lnum_3backticks_prev,
-				col = 1,
-			},
-			to = {
-				line = lnum_3backticks_next,
-				col = 1,
-			},
-			vis_mode = "V",
-		}
-	end,
-})
-
--- ## textobjects_remap: line with eol
-
-extend({
-	["0"] = function(ai_type)
-		return {
-			from = {
-				line = vim.fn.line("."),
-				col = 1,
-			},
-			to = {
-				line = vim.fn.line("."),
-				col = string.len(vim.fn.getline(".")),
-			},
-			vis_mode = "V",
-		}
-	end,
-})
-
-vim.keymap.set({"x", "o"}, ".", "i0", {remap = true})
-
--- ## textobjects_remap: buffer
-
-extend({
-	["1"] = function(ai_type)
-	-- i want to use <plug>(miniai_buffer) here, but only single char is allowed
-	-- https://github.com/nvim-mini/mini.nvim/issues/754
+extend_remap(
+	",",
+	function(ai_type)
 		return {
 			from = {
 				line = 1,
@@ -407,10 +458,21 @@ extend({
 			},
 			vis_mode = "V",
 		}
-	end,
+	end
+)
+
+-- ## textobjects: (markdown) fenced code block
+
+extend({
+	["C"] = {
+		"```.-\n().-()```\n",
+	},
 })
 
-vim.keymap.set({"x", "o"}, "a", "i1", {remap = true})
+-- ## textobjects: test
+
+extend({
+})
 
 -- ## setup(config)
 
