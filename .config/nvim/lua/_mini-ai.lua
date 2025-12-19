@@ -409,7 +409,7 @@ extend({
 -- ## textobjects: nonempty
 
 extend({
-	["\r"] = require("paramo").gen_ai_spec(require("para_nonempty")),
+	["\r"] = require("paramo").gen_ai_spec(require("para/emptiness_row")({empty = false})),
 })
 
 -- ## textobjects: indent
@@ -417,9 +417,9 @@ extend({
 extend({
 	m = function(ai_type)
 		if ai_type == "i" then
-			return require("paramo").gen_ai_spec(require("para_cursor_indent"))()
+			-- return require("paramo").gen_ai_spec(require("para_cursor_indent"))()
 		else
-			return require("paramo").gen_ai_spec(require("para_cursor_indent_include_empty_line"))()
+			-- return require("paramo").gen_ai_spec(require("para_cursor_indent_include_empty_line"))()
 		end
 	end,
 })
@@ -429,9 +429,9 @@ extend({
 extend({
 	v = function(ai_type)
 		if ai_type == "i" then
-			return require("paramo").gen_ai_spec(require("para_cursor_ondent"))()
+			-- return require("paramo").gen_ai_spec(require("para_cursor_ondent"))()
 		else
-			return require("paramo").gen_ai_spec(require("para_cursor_ondent_include_empty_line"))()
+			-- return require("paramo").gen_ai_spec(require("para_cursor_ondent_include_empty_line"))()
 		end
 	end,
 })
@@ -439,7 +439,7 @@ extend({
 -- ## textobjects: first_nonblank_char
 
 extend({
-	["^"] = require("paramo").gen_ai_spec(require("para_first_nonblank_char")),
+	-- ["^"] = require("paramo").gen_ai_spec(require("para_first_nonblank_char")),
 })
 
 -- ## textobjects: buffer
