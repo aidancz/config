@@ -268,65 +268,65 @@ vim.api.nvim_set_hl(0, "FzfLuaCursorLine", {link = "nofrils_reverse"})
 require("luaexec").add({
 	code = [[require("fzf-lua").builtin()]],
 	from = "fzf-lua",
-	keys = {"n", "<cr><space>"},
+	keys = {"n", "s<cr>"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").resume()]],
 	from = "fzf-lua",
-	keys = {"n", "<cr><cr>"},
+	keys = {"n", "s<space>"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").files({cwd = vim.fs.root(0, ".git") or vim.fn.getcwd()})]],
 	from = "fzf-lua",
-	keys = {"n", "<cr>k"},
+	keys = {"n", "sk"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").buffers()]],
 	from = "fzf-lua",
-	keys = {"n", "<cr>l"},
+	keys = {"n", "sl"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").helptags()]],
 	from = "fzf-lua",
-	keys = {"n", "<cr>h"},
+	keys = {"n", "sh"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").custom_history({histname = ":"})]],
 	from = "fzf-lua",
-	keys = {"n", "<cr>:"},
+	keys = {"n", "s:"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").custom_history({histname = "/"})]],
 	from = "fzf-lua",
-	keys = {"n", "<cr>/"},
+	keys = {"n", "s/"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").custom_history({histname = "?"})]],
 	from = "fzf-lua",
-	keys = {"n", "<cr>?"},
+	keys = {"n", "s?"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").blines()]],
 	from = "fzf-lua",
-	keys = {"n", "<cr>."},
+	keys = {"n", "s."},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").lines()]],
 	from = "fzf-lua",
-	keys = {"n", "<cr>,"},
+	keys = {"n", "s,"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").live_grep({cwd = vim.fs.root(0, ".git") or vim.fn.getcwd()})]],
 	from = "fzf-lua",
-	keys = {"n", "<cr>r"},
+	keys = {"n", "sr"},
 })

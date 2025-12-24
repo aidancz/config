@@ -4,10 +4,10 @@ require("mini.deps").add({
 
 require("mini.operators").setup({
 	evaluate = {
-		prefix = "me",
+		prefix = "<space>e",
 	},
 	exchange = {
-		prefix = "mx",
+		prefix = "<space>x",
 	},
 	multiply = {
 		prefix = "t",
@@ -17,6 +17,6 @@ require("mini.operators").setup({
 		reindent_linewise = false,
 	},
 	sort = {
-		prefix = "mo",
+		prefix = "<space>s",
 	},
 })

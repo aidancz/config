@@ -17,8 +17,8 @@ require("Comment").setup({
 		block = "<nop>",
 	},
 	opleader = {
-		line = "mc",
-		block = "mb",
+		line = "<space>c",
+		block = "<space>b",
 	},
 	extra = {
 		above = "<nop>",

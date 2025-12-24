@@ -16,65 +16,14 @@ end
 require("paramo").gen_ai_spec = function(para)
 	return
 	function(ai_type, id, opts)
-		local pos_cursor = require("virtcol").get_cursor()
-
-		local is_head_cursor = para.is_head(pos_cursor)
-		local is_tail_cursor = para.is_tail(pos_cursor)
-
-		local pos_prev_head = require("paramo").prev_pos(pos_cursor, para.is_head)
-		local pos_prev_tail = require("paramo").prev_pos(pos_cursor, para.is_tail)
-		local pos_next_head = require("paramo").next_pos(pos_cursor, para.is_head)
-		local pos_next_tail = require("paramo").next_pos(pos_cursor, para.is_tail)
-
-		local lnum_head
-		local lnum_tail
-		if is_head_cursor and is_tail_cursor then
-			lnum_head = pos_cursor.lnum
-			lnum_tail = pos_cursor.lnum
-		elseif is_head_cursor then
-			lnum_head = pos_cursor.lnum
-			lnum_tail = pos_next_tail.lnum
-		elseif is_tail_cursor then
-			lnum_head = pos_prev_head.lnum
-			lnum_tail = pos_cursor.lnum
-		elseif pos_prev_head.lnum == nil and pos_next_head.lnum == nil then
-			return
-		elseif pos_prev_head.lnum == nil then
-			lnum_head = pos_next_head.lnum
-			lnum_tail = pos_next_tail.lnum
-		elseif pos_next_head.lnum == nil then
-			if pos_next_tail.lnum == nil then
-				return
-			else
-				lnum_head = pos_prev_head.lnum
-				lnum_tail = pos_next_tail.lnum
-			end
-		elseif pos_prev_tail.lnum == nil and pos_next_tail.lnum == nil then
-		-- can't be true at this time
-			return
-		elseif pos_prev_tail.lnum == nil then
-			lnum_head = pos_prev_head.lnum
-			lnum_tail = pos_next_tail.lnum
-		elseif pos_next_tail.lnum == nil then
-		-- can't be true at this time
-			return
-		else
-			if pos_prev_head.lnum <= pos_prev_tail.lnum then
-				lnum_head = pos_next_head.lnum
-				lnum_tail = pos_next_tail.lnum
-			else
-				lnum_head = pos_prev_head.lnum
-				lnum_tail = pos_next_tail.lnum
-			end
-		end
-
+		local range = require("paramo").find_para(para)
 		return {
 			from = {
-				line = lnum_head,
+				line = range[1].lnum,
 				col = 1,
 			},
 			to = {
-				line = lnum_tail,
+				line = range[2].lnum,
 				col = 1,
 			},
 			vis_mode = "V",
@@ -406,33 +355,35 @@ extend({
 	end,
 })
 
--- ## textobjects: nonempty
+-- ## textobjects: para emptiness_row {empty = false}
 
 extend({
 	["\r"] = require("paramo").gen_ai_spec(require("para/emptiness_row")({empty = false})),
 })
 
--- ## textobjects: indent
+-- ## textobjects: para indent {indent_empty = "inherit_consistent_nonzero", indent_block = "special"}
 
 extend({
 	m = function(ai_type)
-		if ai_type == "i" then
-			-- return require("paramo").gen_ai_spec(require("para_cursor_indent"))()
-		else
-			-- return require("paramo").gen_ai_spec(require("para_cursor_indent_include_empty_line"))()
-		end
+		return require("paramo").gen_ai_spec(
+			require("para/indent")({
+				indent_empty = "inherit_consistent_nonzero",
+				indent_block = "special",
+			})
+		)()
 	end,
 })
 
--- ## textobjects: ondent
+-- ## textobjects: para indent {indent_empty = "inherit_consistent_nonzero", indent_block = "general"}
 
 extend({
 	v = function(ai_type)
-		if ai_type == "i" then
-			-- return require("paramo").gen_ai_spec(require("para_cursor_ondent"))()
-		else
-			-- return require("paramo").gen_ai_spec(require("para_cursor_ondent_include_empty_line"))()
-		end
+		return require("paramo").gen_ai_spec(
+			require("para/indent")({
+				indent_empty = "inherit_consistent_nonzero",
+				indent_block = "general",
+			})
+		)()
 	end,
 })
 

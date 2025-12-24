@@ -5,8 +5,8 @@ require("mini.deps").add({
 require("mini.align").setup({
 	-- silent = true,
 	mappings = {
-		start = "ma",
-		start_with_preview = "mz",
+		start = "<space>a",
+		start_with_preview = "<space>z",
 	},
 	modifiers = {
 		q = function(steps, _)

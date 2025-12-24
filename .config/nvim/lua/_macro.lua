@@ -1,22 +1,35 @@
 require("macro").setup()
 
-require("luaexec").add({
-	code =
-[=[
-if vim.fn.reg_recording() == "" then
-	return [[<cmd>lua require("macro").record_start()<cr>]]
-else
-	return "q"
-end
-]=],
-	from = "macro",
-	keys = {"n", "q"},
-})
+-- require("luaexec").add({
+-- 	code =
+-- [=[
+-- if vim.fn.reg_recording() == "" then
+-- 	return [[<cmd>lua require("macro").record_start()<cr>]]
+-- else
+-- 	return "q"
+-- end
+-- ]=],
+-- 	from = "macro",
+-- 	keys = {"n", "q"},
+-- })
+
+vim.keymap.set(
+        "n",
+        "q",
+        function()
+                if vim.fn.reg_recording() == "" then
+                        return [[<cmd>lua require("macro").record_start()<cr>]]
+                else
+                        return "q"
+                end
+        end,
+        {expr = true}
+)
 
 require("luaexec").add({
 	code = [[require("macro").record_play()]],
 	from = "macro",
-	keys = {"n", "-"},
+	keys = {"n", "<tab>"},
 })
 
 require("luaexec").add({

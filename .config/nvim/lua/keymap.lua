@@ -21,14 +21,10 @@
 
 vim.keymap.set({"n", "x", "s", "i", "c", "t", "o"}, "<f2>", "<nop>")
 
-vim.keymap.set({"n", "x", "o"}, "<cr>",    "<nop>")
 vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
-
-vim.keymap.set({"n", "x", "o"}, "e", "<nop>")
--- vim.keymap.set({"n", "x", "o"}, "i", "<nop>")
-
-vim.keymap.set({"n", "x", "o"}, "v", "<nop>")
-vim.keymap.set({"n", "x", "o"}, "m", "<nop>")
+vim.keymap.set({"n", "x", "o"}, "<cr>",    "<nop>")
+vim.keymap.set({"n", "x", "o"}, "g",       "<nop>")
+vim.keymap.set({"n", "x", "o"}, "s",       "<nop>")
 
 -- ## bypass the <c-i> and <tab> conflict, etc
 
@@ -79,11 +75,11 @@ vim.keymap.set(
 
 -- ## repeat last command
 
--- vim.keymap.set({"n", "x"}, "x", ":<up><cr>")
--- vim.keymap.set({"n", "x"}, "x", "@:")
+-- vim.keymap.set({"n", "x"}, ",", ":<up><cr>")
+-- vim.keymap.set({"n", "x"}, ",", "@:")
 vim.keymap.set(
 	{"n", "x"},
-	"x",
+	",",
 	function() vim.cmd(vim.fn.histget("cmd", -1)) end
 )
 
@@ -132,13 +128,13 @@ vim.keymap.set({"n", "x", "o"}, "S",  "gg")
 
 vim.keymap.set({"n", "x", "o"}, "o", "w")
 vim.keymap.set({"n", "x", "o"}, "w", "b")
-vim.keymap.set({"n", "x", "o"}, "eo", "e")
-vim.keymap.set({"n", "x", "o"}, "ew", "ge")
+-- vim.keymap.set({"n", "x", "o"}, "eo", "e")
+-- vim.keymap.set({"n", "x", "o"}, "ew", "ge")
 
-vim.keymap.set({"n", "x", "o"}, "vo", "W")
-vim.keymap.set({"n", "x", "o"}, "mw", "B")
-vim.keymap.set({"n", "x", "o"}, "veo", "E")
-vim.keymap.set({"n", "x", "o"}, "mew", "gE")
+-- vim.keymap.set({"n", "x", "o"}, "vo", "W")
+-- vim.keymap.set({"n", "x", "o"}, "mw", "B")
+-- vim.keymap.set({"n", "x", "o"}, "veo", "E")
+-- vim.keymap.set({"n", "x", "o"}, "mew", "gE")
 
 -- ## (hori (next-final prev-final))
 
@@ -283,14 +279,14 @@ vim.cmd(count .. "wincmd W")
 -- ## (window_hori (next prev))
 
 require("luaexec").add({
-	code = [[return "8zl"]],
+	code = [[return "zl"]],
 	from = "window_hori",
 	name = "next",
 	keys = {{"n", "x"}, "zl"},
 })
 
 require("luaexec").add({
-	code = [[return "8zh"]],
+	code = [[return "zh"]],
 	from = "window_hori",
 	name = "prev",
 	keys = {{"n", "x"}, "zh"},
@@ -299,14 +295,14 @@ require("luaexec").add({
 -- ## (window_height (next prev))
 
 require("luaexec").add({
-	code = [[return "2<c-w>+"]],
+	code = [[return "<c-w>+"]],
 	from = "window_height",
 	name = "next",
 	keys = {{"n", "x"}, "<space>w+"},
 })
 
 require("luaexec").add({
-	code = [[return "2<c-w>-"]],
+	code = [[return "<c-w>-"]],
 	from = "window_height",
 	name = "prev",
 	keys = {{"n", "x"}, "<space>w-"},
@@ -315,14 +311,14 @@ require("luaexec").add({
 -- ## (window_width (next prev))
 
 require("luaexec").add({
-	code = [[return "4<c-w>>"]],
+	code = [[return "<c-w>>"]],
 	from = "window_width",
 	name = "next",
 	keys = {{"n", "x"}, "<space>w>"},
 })
 
 require("luaexec").add({
-	code = [[return "4<c-w><"]],
+	code = [[return "<c-w><"]],
 	from = "window_width",
 	name = "prev",
 	keys = {{"n", "x"}, "<space>w<"},
@@ -350,14 +346,6 @@ require("luaexec").add({
 	keys = {{"n", "x"}, "gT"},
 })
 
--- ## visual
-
-vim.keymap.set("n", "vv", "v")
-
--- ## mark
-
-vim.keymap.set("n", "mm", "m")
-
 -- ## ban cc dd yy C D Y
 
 vim.keymap.set("n", "cc", "<nop>")
@@ -367,28 +355,9 @@ vim.keymap.set("n", "C",  "<nop>")
 vim.keymap.set("n", "D",  "<nop>")
 vim.keymap.set("n", "Y",  "<nop>")
 
--- ## insert single char
-
-vim.keymap.set(
-	{"n", "x"},
-	"mi",
-	function()
-		vim.cmd("normal! " .. vim.v.count1 .. "i" .. vim.fn.getcharstr())
-	end
-)
-vim.keymap.set(
-	{"n", "x"},
-	"ma",
-	function()
-		vim.cmd("normal! " .. vim.v.count1 .. "a" .. vim.fn.getcharstr())
-	end
-)
--- https://github.com/rjayatilleka/vim-insert-char
--- https://github.com/bagohart/vim-insert-append-single-character
-
 -- ## delete
 
-vim.keymap.set({"n", "x"}, "s", "d")
+vim.keymap.set({"n", "x"}, "e", "d")
 
 -- ## (undotree (next prev)) undo and redo
 
@@ -569,6 +538,25 @@ vim.keymap.set({"n", "x"}, "<down>", ":put  _<cr>", {silent = true})
 vim.keymap.set({"n", "x"}, "<up>",   ":put! _<cr>", {silent = true})
 vim.keymap.set({"n", "x"}, "<right>", [["=" "<cr>p]], {silent = true})
 vim.keymap.set({"n", "x"}, "<left>",  [["=" "<cr>P]], {silent = true})
+
+-- ## insert single char
+
+vim.keymap.set(
+	{"n", "x"},
+	"mi",
+	function()
+		vim.cmd("normal! " .. vim.v.count1 .. "i" .. vim.fn.getcharstr())
+	end
+)
+vim.keymap.set(
+	{"n", "x"},
+	"ma",
+	function()
+		vim.cmd("normal! " .. vim.v.count1 .. "a" .. vim.fn.getcharstr())
+	end
+)
+-- https://github.com/rjayatilleka/vim-insert-char
+-- https://github.com/bagohart/vim-insert-append-single-character
 
 -- ## operator mode { and } should default to linewise
 

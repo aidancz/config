@@ -20,5 +20,5 @@ require("mini.misc").zoom(
 ]],
 	from = "mini.misc",
 	name = "zoom",
-	keys = {"n", "e."},
+	keys = {"n", "<cr>."},
 })

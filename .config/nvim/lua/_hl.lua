@@ -2,7 +2,7 @@ require("hl").setup()
 
 vim.keymap.set(
 	{"n", "x"},
-	"mv",
+	"<space>v",
 	function()
 		vim.o.operatorfunc = [[v:lua.require'hl'.hl_tog]]
 		return "g@"

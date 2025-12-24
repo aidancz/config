@@ -14,5 +14,5 @@ require("substitute").setup({
 	},
 })
 
-vim.keymap.set("n", "<tab>", require("substitute").operator)
-vim.keymap.set("x", "<tab>", require("substitute").visual)
+vim.keymap.set("n", "x", require("substitute").operator)
+vim.keymap.set("x", "x", require("substitute").visual)

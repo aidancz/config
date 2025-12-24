@@ -22,6 +22,8 @@ vim.keymap.set({"n", "x", "o"}, "{", require("paramo").get_expr_func("prev", par
 vim.keymap.set({"n", "x", "o"}, ")", require("paramo").get_expr_func("next", para.is_tail), {expr = true})
 vim.keymap.set({"n", "x", "o"}, "(", require("paramo").get_expr_func("prev", para.is_tail), {expr = true})
 
+do return end
+
 -- # para emptiness_row {empty = false}
 
 local para = require("para/emptiness_row")({empty = false})
@@ -40,12 +42,11 @@ vim.keymap.set({"n", "x", "o"}, "md", require("paramo").get_expr_func("prev", pa
 vim.keymap.set({"n", "x", "o"}, "mg", require("paramo").get_expr_func("next", para.is_tail), {expr = true})
 vim.keymap.set({"n", "x", "o"}, "ms", require("paramo").get_expr_func("prev", para.is_tail), {expr = true})
 
--- # para indent {indent_empty = -1, compare_prev = neq, compare_next = neq}
+-- # para indent {indent_empty = "inherit_consistent_nonzero", indent_block = "special"}
 
 local para = require("para/indent")({
-	indent_empty = -1,
-	compare_prev = function(prev, curr) return prev ~= curr end,
-	compare_next = function(next, curr) return next ~= curr end,
+	indent_empty = "inherit_consistent_nonzero",
+	indent_block = "special",
 })
 
 vim.keymap.set({"n", "x", "o"}, "mj", require("paramo").get_expr_func("next", para.is_head), {expr = true})
@@ -53,12 +54,11 @@ vim.keymap.set({"n", "x", "o"}, "mk", require("paramo").get_expr_func("prev", pa
 vim.keymap.set({"n", "x", "o"}, "ml", require("paramo").get_expr_func("next", para.is_tail), {expr = true})
 vim.keymap.set({"n", "x", "o"}, "mh", require("paramo").get_expr_func("prev", para.is_tail), {expr = true})
 
--- # para indent {indent_empty = "inherit", compare_prev = neq, compare_next = neq}
+-- # para indent {indent_empty = "inherit_consistent_nonzero", indent_block = "general"}
 
 local para = require("para/indent")({
 	indent_empty = "inherit_consistent_nonzero",
-	compare_prev = function(prev, curr) return prev < curr end,
-	compare_next = function(next, curr) return next < curr end,
+	indent_block = "general",
 })
 
 vim.keymap.set({"n", "x", "o"}, "vf", require("paramo").get_expr_func("next", para.is_head), {expr = true})
