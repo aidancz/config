@@ -23,7 +23,7 @@ vim.keymap.set({"n", "x", "s", "i", "c", "t", "o"}, "<f2>", "<nop>")
 
 vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
 vim.keymap.set({"n", "x", "o"}, "<cr>",    "<nop>")
-vim.keymap.set({"n", "x", "o"}, "g",       "<nop>")
+-- vim.keymap.set({"n", "x", "o"}, "g",       "<nop>") -- breaks g@ in poorly written plugins
 vim.keymap.set({"n", "x", "o"}, "s",       "<nop>")
 
 -- ## bypass the <c-i> and <tab> conflict, etc

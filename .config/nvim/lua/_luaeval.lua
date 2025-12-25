@@ -19,13 +19,14 @@ require("luaeval").setup({
 		)
 	end,
 	hook_open = function()
+		vim.api.nvim_set_current_win(require("luaeval").cache.win_handle)
 	end,
 	hook_close = function()
 	end,
 })
 
 require("luaexec").add({
-	code = [[require("luaeval").toggle()]],
+	code = [[require("luaeval").open()]],
 	from = "luaeval",
 	name = "window",
 	keys = {"n", "<cr>i"},

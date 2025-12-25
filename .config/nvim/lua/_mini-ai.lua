@@ -14,9 +14,41 @@ end
 -- # require("paramo").gen_ai_spec
 
 require("paramo").gen_ai_spec = function(para)
+	local para_0 = require("para/emptiness_row")({empty = true})
+	local para_1 = require("para/emptiness_row")({empty = false})
+	local is_empty = function(pos)
+		return vim.fn.getline(pos.lnum) == ""
+	end
+
+	local para_i = para
+	local para_a = {
+		is_head = para.is_head,
+		is_tail = function(pos)
+			return
+				(
+					para.is_tail(pos)
+					and
+					not is_empty(require("virtcol").next_pos(pos))
+				)
+				or
+				(
+					para_0.is_tail(pos)
+					and
+					para.is_tail(require("paramo").prev_pos(pos, para_1.is_tail))
+				)
+		end,
+	}
+
 	return
 	function(ai_type, id, opts)
-		local range = require("paramo").find_para(para)
+		local range
+		if ai_type == "i" then
+			range = require("paramo").find_para(para_i)
+		else
+			range = require("paramo").find_para(para_a)
+		end
+		if vim.tbl_isempty(range[1]) or vim.tbl_isempty(range[2]) then return end
+
 		return {
 			from = {
 				line = range[1].lnum,
@@ -134,7 +166,7 @@ we have to remap
 e.g. map line textobject to dot:
 
 extend({
-	["0"] = function(ai_type)
+	["0"] = function(ai_type, id, opts)
 	-- i want to use <plug>(miniai_line) here, but only single char is allowed
 	-- https://github.com/nvim-mini/mini.nvim/issues/754
 		return {
@@ -175,14 +207,14 @@ local extend_remap = function(key, spec)
 	vim.keymap.set({"x", "o"}, key, config.mappings.inside .. char, {remap = true})
 end
 
--- ## textobjects: mini.ai default
+-- ## textobject: mini.ai default
 
 extend({
-	-- [<not latin letters>] = function(ai_type) <i: inside separators, a: inside separators and right edge> end,
+	-- [<not latin letters>] = function(ai_type, id, opts) <i: inside separators, a: inside separators and right edge> end,
 	-- :h MiniAi-builtin-textobjects, search "Default"
 })
 
--- ## textobjects: word
+-- ## textobject: word
 
 extend({
 	-- "\9\32" == "\t " == HT and SP == tab and space
@@ -206,7 +238,7 @@ extend({
 	["x"] = require("mini.extra").gen_ai_spec.number(),
 })
 
--- ## textobjects: brackets
+-- ## textobject: brackets
 
 extend({
 	["("] = { "%b()", "^.().*().$" },
@@ -264,7 +296,7 @@ vim.keymap.set(
 	}
 )
 
--- ## textobjects: quotes
+-- ## textobject: quotes
 
 extend({
 	-- https://github.com/nvim-mini/mini.nvim/issues/1281
@@ -290,10 +322,10 @@ extend({
 	},
 })
 
--- ## textobjects: previously changed
+-- ## textobject: previously changed
 
 extend({
-	r = function(ai_type)
+	r = function(ai_type, id, opts)
 		return {
 			from = {
 				line = vim.api.nvim_buf_get_mark(0, "[")[1],
@@ -308,11 +340,11 @@ extend({
 	end,
 })
 
--- ## textobjects: line
+-- ## textobject: line
 
 extend_remap(
 	".",
-	function(ai_type)
+	function(ai_type, id, opts)
 		return {
 			from = {
 				line = vim.fn.line("."),
@@ -328,7 +360,7 @@ extend_remap(
 )
 
 extend({
-	["."] = function(ai_type)
+	["."] = function(ai_type, id, opts)
 		local lnum_cursor = vim.fn.line(".")
 		local line_cursor = vim.fn.getline(".")
 
@@ -355,49 +387,51 @@ extend({
 	end,
 })
 
--- ## textobjects: para emptiness_row {empty = false}
+-- ## textobject: para paragraph
 
 extend({
-	["\r"] = require("paramo").gen_ai_spec(require("para/emptiness_row")({empty = false})),
+	["\r"] = require("paramo").gen_ai_spec(
+		require("para/emptiness_row")({empty = false})
+	),
 })
 
--- ## textobjects: para indent {indent_empty = "inherit_consistent_nonzero", indent_block = "special"}
+-- ## textobject: para indent "special"
 
 extend({
-	m = function(ai_type)
-		return require("paramo").gen_ai_spec(
-			require("para/indent")({
-				indent_empty = "inherit_consistent_nonzero",
-				indent_block = "special",
-			})
-		)()
-	end,
+	m = require("paramo").gen_ai_spec(
+		require("para/indent")({
+			indent_empty = "inherit_consistent_nonzero",
+			indent_block = "special",
+			cursor_relevant = true,
+		})
+	),
 })
 
--- ## textobjects: para indent {indent_empty = "inherit_consistent_nonzero", indent_block = "general"}
+-- ## textobject: para indent "general"
 
 extend({
-	v = function(ai_type)
-		return require("paramo").gen_ai_spec(
-			require("para/indent")({
-				indent_empty = "inherit_consistent_nonzero",
-				indent_block = "general",
-			})
-		)()
-	end,
+	v = require("paramo").gen_ai_spec(
+		require("para/indent")({
+			indent_empty = "inherit_consistent_nonzero",
+			indent_block = "general",
+			cursor_relevant = true,
+		})
+	),
 })
 
--- ## textobjects: first_nonblank_char
+-- ## textobject: para char1
 
 extend({
-	-- ["^"] = require("paramo").gen_ai_spec(require("para_first_nonblank_char")),
+	["^"] = require("paramo").gen_ai_spec(
+		require("para/char1")()
+	),
 })
 
--- ## textobjects: buffer
+-- ## textobject: buffer
 
 extend_remap(
 	",",
-	function(ai_type)
+	function(ai_type, id, opts)
 		return {
 			from = {
 				line = 1,
@@ -412,7 +446,7 @@ extend_remap(
 	end
 )
 
--- ## textobjects: (markdown) fenced code block
+-- ## textobject: (markdown) fenced code block
 
 extend({
 	["C"] = {
@@ -420,7 +454,7 @@ extend({
 	},
 })
 
--- ## textobjects: test
+-- ## textobject: test
 
 extend({
 })
