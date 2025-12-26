@@ -43,9 +43,9 @@ require("paramo").gen_ai_spec = function(para)
 	function(ai_type, id, opts)
 		local range
 		if ai_type == "i" then
-			range = require("paramo").find_para(para_i)
+			range = require("paramo").find_para(para_i, opts)
 		else
-			range = require("paramo").find_para(para_a)
+			range = require("paramo").find_para(para_a, opts)
 		end
 		if vim.tbl_isempty(range[1]) or vim.tbl_isempty(range[2]) then return end
 
@@ -395,26 +395,24 @@ extend({
 	),
 })
 
--- ## textobject: para indent "special"
+-- ## textobject: para indent "=="
 
 extend({
 	m = require("paramo").gen_ai_spec(
 		require("para/indent")({
-			indent_empty = "inherit_consistent_nonzero",
-			indent_block = "special",
-			cursor_relevant = true,
+			indent_empty = "inherit_min_nonzero",
+			type = "==",
 		})
 	),
 })
 
--- ## textobject: para indent "general"
+-- ## textobject: para indent ">=."
 
 extend({
 	v = require("paramo").gen_ai_spec(
 		require("para/indent")({
-			indent_empty = "inherit_consistent_nonzero",
-			indent_block = "general",
-			cursor_relevant = true,
+			indent_empty = "inherit_min_nonzero",
+			type = ">=.",
 		})
 	),
 })
