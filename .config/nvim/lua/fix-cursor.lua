@@ -10,23 +10,23 @@ local V = require("virtcol")
 
 M.cache = {
 	ns_id = vim.api.nvim_create_namespace("fix-cursor"),
-	id = 1,
+	-- id = ...,
 }
 M.save = function()
 	M.pos_v_save = V.get_cursor()
 
 	local row1 = M.pos_v_save.lnum
 	local row0 = row1 - 1
-	vim.api.nvim_buf_set_extmark(
+	M.cache.id = vim.api.nvim_buf_set_extmark(
 		0,
 		M.cache.ns_id,
 		row0,
 		0,
 		{
-			id = M.cache.id,
+			-- id = M.cache.id,
 			end_row = row0 + 1,
 			end_col = 0,
-			right_gravity = true,
+			right_gravity = false,
 			end_right_gravity = false,
 			-- hl_eol = true,
 			-- hl_group = "Visual",
@@ -34,11 +34,12 @@ M.save = function()
 		}
 	)
 	local pos_e = vim.api.nvim_buf_get_extmark_by_id(0, M.cache.ns_id, M.cache.id, {details = true})
-	M.text_save = vim.api.nvim_buf_get_text(0, pos_e[1], pos_e[2], pos_e[3].end_row, pos_e[3].end_col, {})
+	M.text_save = require("hls").nvim_buf_get_text(0, pos_e[1], pos_e[2], pos_e[3].end_row, pos_e[3].end_col, {})
 end
 M.load = function()
 	local pos_e = vim.api.nvim_buf_get_extmark_by_id(0, M.cache.ns_id, M.cache.id, {details = true})
-	M.text_load = vim.api.nvim_buf_get_text(0, pos_e[1], pos_e[2], pos_e[3].end_row, pos_e[3].end_col, {})
+	vim.api.nvim_buf_del_extmark(0, M.cache.ns_id, M.cache.id)
+	M.text_load = require("hls").nvim_buf_get_text(0, pos_e[1], pos_e[2], pos_e[3].end_row, pos_e[3].end_col, {})
 
 	M.pos_v_load = {}
 

@@ -133,38 +133,57 @@ end
 -- # nvim_buf_set_text
 -- https://github.com/neovim/neovim/issues/33935
 
+M.fuck_eob = function(buffer, pos)
+-- eob: end of buffer
+	local eob = {
+		vim.api.nvim_buf_line_count(buffer),
+		0,
+	}
+
+	local pos_new
+	local fucked
+	if vim.deep_equal(pos, eob) then
+		pos_new = M.pos_exclusive2inclusive(eob)
+		fucked = true
+	else
+		pos_new = pos
+		fucked = false
+	end
+	return pos_new, fucked
+end
+
 M.nvim_buf_get_text = function(buffer, start_row, start_col, end_row, end_col, opts)
+	local start_pos = {
+		start_row,
+		start_col,
+	}
 	local end_pos = {
 		end_row,
 		end_col,
 	}
-	local last_pos = {
-		vim.api.nvim_buf_line_count(buffer),
-		0,
-	}
-	if vim.deep_equal(end_pos, last_pos) then
-		local last_pos_pre = M.pos_exclusive2inclusive(last_pos)
-		local texts = vim.api.nvim_buf_get_text(
-			buffer,
-			start_row,
-			start_col,
-			last_pos_pre[1],
-			last_pos_pre[2],
-			opts
-		)
+	local start_pos, start_fucked = M.fuck_eob(buffer, start_pos)
+	local end_pos, end_fucked = M.fuck_eob(buffer, end_pos)
+
+	local texts = vim.api.nvim_buf_get_text(
+		buffer,
+		start_pos[1],
+		start_pos[2],
+		end_pos[1],
+		end_pos[2],
+		opts
+	)
+
+	if (end_fucked) and (not start_fucked) then
 		table.insert(texts, "")
-		return texts
-	else
-		local texts = vim.api.nvim_buf_get_text(
-			buffer,
-			start_row,
-			start_col,
-			end_row,
-			end_col,
-			opts
-		)
-		return texts
 	end
+	-- | start_fucked | end_fucked | note            |
+	-- | ------------ | ---------- | --------------  |
+	-- | false        | false      | do nothing      |
+	-- | false        | true       | add "" to texts |
+	-- | true         | false      | impossible      |
+	-- | true         | true       | do nothing      |
+
+	return texts
 end
 
 -- # hls
