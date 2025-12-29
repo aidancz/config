@@ -21,7 +21,7 @@ vim.g.maplocalleader = "<space>"
 -- vim.opt.messagesopt = {"wait:0", "history:512"}
 -- vim.opt.splitkeep = "topline"
 vim.opt.autochdir = true
-vim.opt.autoindent = true
+vim.opt.autoindent = false
 vim.opt.autoread = true
 vim.opt.autowrite = true
 vim.opt.backspace = {"indent", "eol", "start", "nostop"}
@@ -110,7 +110,7 @@ vim.opt.ttimeoutlen = 0
 vim.opt.undofile = true
 vim.opt.undolevels = 1024
 vim.opt.updatetime = 100
-vim.opt.virtualedit = "onemore"
+vim.opt.virtualedit = "all"
 vim.opt.whichwrap:append("[,]")
 vim.opt.wildmenu = true
 vim.opt.wildoptions = {"pum", "tagfile"}

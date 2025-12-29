@@ -126,9 +126,9 @@ clear_actions(require("fzf-lua").defaults)
 
 -- # do not ignore my virtualedit_all autocmd
 
-require("fzf-lua").utils.eventignore = function(func, scope)
-	return func()
-end
+-- require("fzf-lua").utils.eventignore = function(func, scope)
+-- 	return func()
+-- end
 
 -- # use go-up for zz
 

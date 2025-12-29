@@ -363,8 +363,8 @@ vim.keymap.set({"n", "x"}, "e", "d")
 
 vim.keymap.set({"n", "x"}, "<plug>(redrawstatus)", function() vim.cmd("redrawstatus") end)
 
-vim.keymap.set({"n", "x"}, "<bs>", "u<plug>(redrawstatus)")
-vim.keymap.set({"n", "x"}, "<del>", "<c-r><plug>(redrawstatus)")
+vim.keymap.set({"n", "x"}, "<bs>",  require("fix-cursor").wrap("u")     .. "<plug>(redrawstatus)")
+vim.keymap.set({"n", "x"}, "<del>", require("fix-cursor").wrap("<c-r>") .. "<plug>(redrawstatus)")
 
 -- # {"i", "c"}
 

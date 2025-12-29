@@ -91,6 +91,7 @@ require("vim_runtime")
 
 -- # library
 
+require("_fix-cursor")
 require("_hydra")
 require("_luaeval")
 require("_luaexec")
@@ -101,7 +102,6 @@ require("_plenary")
 
 -- # pain to live without
 
-require("_virtualedit_all")
 require("keymap")
 
 -- # ui

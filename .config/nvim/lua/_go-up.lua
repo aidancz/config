@@ -30,7 +30,7 @@ require("luaexec").add({
 	code = [[require("go-up").recenter(vim.api.nvim_win_get_height(0) * (2 / 4))]],
 	from = "go-up",
 	name = "recenter 2/4",
-	keys = {{"n", "x"}, "<cr>m"},
+	keys = {{"n", "x"}, "<cr><space>"},
 })
 require("luaexec").add({
 	code = [[require("go-up").recenter(vim.api.nvim_win_get_height(0) * (3 / 4))]],
@@ -75,7 +75,7 @@ end
 ]],
 	from = "go-up",
 	name = "recenter 2/4 lock",
-	keys = {{"n", "x"}, "<cr><space>"},
+	keys = {{"n", "x"}, "<space><cr>"},
 })
 
 -- # align

@@ -24,6 +24,10 @@ vim.lsp.config["lua"] = {
 			},
 		},
 	},
+	on_init = function(client)
+		client.server_capabilities.workspace.fileOperations = nil
+		-- https://github.com/mikavilpas/yazi.nvim/blob/main/lua/yazi/lsp/rename.lua
+	end,
 }
 vim.lsp.enable("lua")
 -- https://www.reddit.com/r/neovim/comments/1gtfoqt/hey_anyone_got_a_clue_what_my_diagnostics_signs/

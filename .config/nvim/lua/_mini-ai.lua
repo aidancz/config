@@ -2,12 +2,14 @@ require("mini.deps").add({
 	source = "nvim-mini/mini.ai",
 })
 
--- # redefine require("mini.ai").select_textobject to work with virtualedit_all.lua
+-- # redefine require("mini.ai").select_textobject to work with fix-cursor.lua
 
 local select_textobject = require("mini.ai").select_textobject
 require("mini.ai").select_textobject = function(ai_type, id, opts)
+	local cache_eventignore = vim.o.eventignore
+	vim.o.eventignore = "all"
 	select_textobject(ai_type, id, opts)
-	vim.o.virtualedit = "onemore"
+	vim.o.eventignore = cache_eventignore
 end
 -- https://github.com/nvim-mini/mini.nvim/issues/1359
 
@@ -100,24 +102,24 @@ require("mini.ai").make_ai_move_rhs = function(ask_id, side, search_method)
 		if ask_id then
 			local ok, tobj_id = pcall(vim.fn.getcharstr)
 			if not ok or tobj_id == "\27" then
+			-- ascii 27 is ESC
 				return
 			end
-			local tobj_esc = vim.fn.escape(tobj_id, "'\\")
-			require("mini.ai").make_ai_move_rhs_id = tobj_esc
+			require("mini.ai").make_ai_move_rhs_id = vim.inspect(tobj_id)
 		end
 
 		local opts = string.format(
-			'{ n_times = %d, search_method = "%s" }',
-			vim.v.count1,
-			search_method
+			[[{n_times = %s, search_method = %s}]],
+			vim.inspect(vim.v.count1),
+			vim.inspect(search_method)
 		)
 		local cmd = string.format(
-			'MiniAi.move_cursor("%s", "a", "%s", %s)',
-			side,
+			[[require("mini.ai").move_cursor(%s, "i", %s, %s)]],
+			vim.inspect(side),
 			require("mini.ai").make_ai_move_rhs_id,
 			opts
 		)
-		return "<Cmd>lua " .. cmd .. "<CR>"
+		return "<cmd>lua " .. cmd .. "<cr>"
 	end
 end
 
