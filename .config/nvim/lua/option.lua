@@ -1,48 +1,45 @@
-----------------------------------------------------------------
+-- # leader key
 
 vim.g.mapleader = "<space>"
 vim.g.maplocalleader = "<space>"
 
--- vim.opt.commentstring = "#%s"
--- vim.opt.cpoptions:append("$")
--- vim.opt.cpoptions:append("u")
--- vim.opt.cpoptions:append("v")
--- vim.opt.cursorline = true
--- vim.opt.fillchars:append({horiz     = "-"})
--- vim.opt.fillchars:append({horizdown = "-"})
--- vim.opt.fillchars:append({horizup   = "-"})
--- vim.opt.fillchars:append({vert      = "|"})
--- vim.opt.fillchars:append({verthoriz = "+"})
--- vim.opt.fillchars:append({vertleft  = "|"})
--- vim.opt.fillchars:append({vertright = "|"})
--- vim.opt.iskeyword:append("-")
--- vim.opt.iskeyword:append("_")
--- vim.opt.listchars:append({trail = "#"})
--- vim.opt.messagesopt = {"wait:0", "history:512"}
--- vim.opt.splitkeep = "topline"
-vim.opt.autochdir = true
-vim.opt.autoindent = false
-vim.opt.autoread = true
-vim.opt.autowrite = true
-vim.opt.backspace = {"indent", "eol", "start", "nostop"}
-vim.opt.clipboard:prepend("unnamed")
-vim.opt.clipboard:prepend("unnamedplus")
-vim.opt.cmdheight = 1
-vim.opt.cmdwinheight = 8
-vim.opt.completeopt = {"menu", "preview"}
-vim.opt.concealcursor = ""
-vim.opt.conceallevel = 0
-vim.opt.copyindent = true
-vim.opt.cpoptions:remove("_")
-vim.opt.display = "lastline"
-vim.opt.equalalways = true
-vim.opt.expandtab = false
-vim.opt.fillchars = ""
+-- # appearance
+
+-- ## true color
+
+vim.o.termguicolors = true
+
+-- ## message
+
+vim.o.shortmess = ""
+vim.opt.shortmess:append("I")
+-- no intro message when starting vim
+vim.opt.shortmess:append("F")
+-- no file message when editing a file
+vim.opt.shortmess:remove("S")
+-- show search count, e.g. [1/5]
+
+vim.o.showmode = false
+-- show "-- INSERT --" when switching to insert mode, etc
+
+vim.o.showcmd = true
+-- show z when using zz, etc, show size of selection when in visual mode
+vim.o.showcmdloc = "last"
+
+-- ## ui chars
+
+vim.o.winborder = "bold"
+
+vim.o.fillchars = ""
+
 vim.opt.fillchars:append({eob       = " "})
+-- virtual lines at the end of a buffer, default: ~
+
 vim.opt.fillchars:append({fold      = " "})
 vim.opt.fillchars:append({foldclose = "●"})
 vim.opt.fillchars:append({foldopen  = "○"})
 vim.opt.fillchars:append({foldsep   = "1"})
+
 vim.opt.fillchars:append({horiz     = "━"})
 vim.opt.fillchars:append({horizdown = "┳"})
 vim.opt.fillchars:append({horizup   = "┻"})
@@ -50,139 +47,245 @@ vim.opt.fillchars:append({vert      = "┃"})
 vim.opt.fillchars:append({verthoriz = "╋"})
 vim.opt.fillchars:append({vertleft  = "┫"})
 vim.opt.fillchars:append({vertright = "┣"})
-vim.opt.foldcolumn = "1"
-vim.opt.foldenable = true
-vim.opt.foldlevel = 0
-vim.opt.foldlevelstart = 0
-vim.opt.foldmethod = "marker"
-vim.opt.foldtext = ""
-vim.opt.formatoptions = ""
-vim.opt.guicursor = ""
-vim.opt.hidden = true
-vim.opt.hlsearch = false
-vim.opt.ignorecase = true
-vim.opt.inccommand = ""
-vim.opt.incsearch = false
-vim.opt.indentkeys = ""
-vim.opt.iskeyword:remove("_")
-vim.opt.jumpoptions = {"stack", "view"}
-vim.opt.laststatus = 3
-vim.opt.list = true
-vim.opt.listchars = ""
-vim.opt.listchars:append({eol = " "})
-vim.opt.listchars:append({nbsp = "▪"})
-vim.opt.listchars:append({tab = "  "})
-vim.opt.magic = true
-vim.opt.matchpairs:append("<:>")
-vim.opt.matchtime = 1
-vim.opt.mouse = "a"
-vim.opt.mousemodel = "popup_setpos"
-vim.opt.number = false
-vim.opt.numberwidth = 3
-vim.opt.preserveindent = false
-vim.opt.relativenumber = true
-vim.opt.scrolloff = 0
-vim.opt.selection = "inclusive"
-vim.opt.shiftround = true
-vim.opt.shiftwidth = 8
-vim.opt.shortmess:append("I")
-vim.opt.shortmess:remove("S")
-vim.opt.showcmd = true
-vim.opt.showcmdloc = "last"
-vim.opt.showmatch = true
-vim.opt.showmode = false
-vim.opt.signcolumn = "yes:2"
-vim.opt.smartcase = true
-vim.opt.smarttab = false
-vim.opt.smoothscroll = true
-vim.opt.softtabstop = 0
-vim.opt.splitbelow = true
-vim.opt.splitright = true
-vim.opt.startofline = false
-vim.opt.statuscolumn = ""
-vim.opt.tabstop = 8
-vim.opt.termguicolors = true
-vim.opt.textwidth = 0
-vim.opt.timeout = false
-vim.opt.timeoutlen = 8
-vim.opt.ttimeout = true
-vim.opt.ttimeoutlen = 0
-vim.opt.undofile = true
-vim.opt.undolevels = 1024
-vim.opt.updatetime = 100
-vim.opt.virtualedit = "all"
-vim.opt.whichwrap:append("[,]")
-vim.opt.wildmenu = true
-vim.opt.wildoptions = {"pum", "tagfile"}
-vim.opt.winborder = "bold"
-vim.opt.winfixheight = false
-vim.opt.wrapmargin = 0
+-- vim.opt.fillchars:append({horiz     = "-"})
+-- vim.opt.fillchars:append({horizdown = "-"})
+-- vim.opt.fillchars:append({horizup   = "-"})
+-- vim.opt.fillchars:append({vert      = "|"})
+-- vim.opt.fillchars:append({verthoriz = "+"})
+-- vim.opt.fillchars:append({vertleft  = "|"})
+-- vim.opt.fillchars:append({vertright = "|"})
 
-----------------------------------------------------------------
+-- ## cursor
 
--- # autoindent copyindent
--- autoindent: when create a new line, copy indent from the line above
--- copyindent: based on "autoindent", when create a new line, copy indent (use same whitespace chars) from the line above
--- let's say we have "▫▫▫·alice and bob", and press "o" (▫ space · tab █ cursor)
--- "set autoindent nocopyindent": "·▫▫▫█"
--- "set autoindent copyindent":   "▫▫▫·█"
+vim.o.guicursor = ""
+vim.o.cursorline = false
+vim.o.cursorcolumn = false
 
--- # cpoptions
--- https://vi.stackexchange.com/questions/6194/why-do-cw-and-ce-do-the-same-thing
+-- ## statuscolumn
 
--- # expandtab
--- replace "\t" with " "
+vim.o.statuscolumn = ""
 
--- # formatoptions
--- https://vi.stackexchange.com/questions/1983/how-can-i-get-vim-to-stop-putting-comments-in-front-of-new-lines
+vim.o.foldcolumn = "1"
+vim.o.foldenable = true
+vim.o.foldlevel = 0
+vim.o.foldlevelstart = 0
+vim.o.foldmethod = "marker"
+vim.o.foldtext = ""
 
--- # listchars
--- https://vi.stackexchange.com/questions/2239/how-can-i-make-vim-position-the-cursor-at-the-start-of-a-tab-character-instead-o
--- some unicode symbols (to keep these chars' original color, we wrap them in a variable):
-local comment = [[·▫░▒▓█]]
--- use "ga" to get the code point
-
--- # preserveindent
--- at line start, when use >>/<<, preserve current indent
--- let's say we have "▫▫▫·alice and bob", and press ">>"
--- "set preserveindent": "▫▫▫··alice and bob"
-
--- # shortmess
--- set message form
-
--- # showcmd
--- show z when using zz, etc, show size of selection when in visual mode
-
--- # showmode
--- show "-- INSERT --" when switching to insert mode, etc
-
--- # signcolumn
+vim.o.signcolumn = "yes:2"
 -- https://github.com/neovim/neovim/issues/10106
 -- https://github.com/neovim/neovim/issues/13098
 
--- # smarttab
--- at line start, when use <tab>, use shiftwidth instead of softtabstop
+vim.o.numberwidth = 3
+vim.o.number = false
+vim.o.relativenumber = true
 
--- # tabstop softtabstop shiftwidth
--- tabstop:     ? column of whitespace \t worth
--- softtabstop: ? column of whitespace <tab>/<bs> worth, 0 turns off this feature
--- shiftwidth:  ? column of whitespace >>/<< worth
+-- ## statusline
+
+vim.o.laststatus = 3
+
+-- ## cmdline
+
+vim.o.cmdheight = 1
+vim.o.cmdwinheight = 8
+
+-- ## buffer content
+
+vim.o.list = false
+vim.o.listchars = ""
+vim.opt.listchars:append({eol = " "})
+vim.opt.listchars:append({tab = "  "})
+vim.opt.listchars:append({nbsp = "▪"})
+-- NOTE: https://github.com/neovim/neovim/issues/7928 (visual eol, listchars has effect even if list is false)
+-- NOTE: https://vi.stackexchange.com/questions/2239/how-can-i-make-vim-position-the-cursor-at-the-start-of-a-tab-character-instead-o
+-- some unicode symbols: ·▫░▒▓█
+
+vim.o.display = "lastline"
+-- show @@@ at the end when a line cannot be fully displayed
+
+vim.o.concealcursor = ""
+vim.o.conceallevel = 0
+
+-- # navigation
+
+-- ## cursor
+
+vim.o.virtualedit = "all"
+vim.o.startofline = false
+vim.o.jumpoptions = "stack,view"
+vim.o.whichwrap = ""
+vim.o.matchpairs = "(:),{:},[:],<:>"
+
+-- ## search
+
+vim.o.hlsearch = false
+vim.o.incsearch = false
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.magic = true
+
+-- ## scroll
+
+vim.o.scrolloff = 0
+vim.o.smoothscroll = true
+
+-- ## mouse
+
+vim.o.mouse = "a"
+vim.o.mousemodel = "popup_setpos"
+
+-- # edit
+
+-- ## copy & paste
+
+vim.o.clipboard = "unnamed,unnamedplus"
+
+-- ## undo
+
+vim.o.undofile = true
+vim.o.undolevels = 1024
+
+-- ## auto linebreak
+
+vim.o.textwidth = 0
+vim.o.wrapmargin = 0
+
+vim.o.formatoptions = ""
+-- https://vi.stackexchange.com/questions/1983/how-can-i-get-vim-to-stop-putting-comments-in-front-of-new-lines
+
+-- ## indent
+
+vim.o.tabstop = 8
+-- ? column of whitespace \t worth
+vim.o.softtabstop = 0
+-- ? column of whitespace <tab>/<bs> worth, 0 turns off this feature
+vim.o.shiftwidth = 8
+-- ? column of whitespace >>/<< worth
+
 -- we abbreviate "? column of whitespace" as "indent" from now on
 -- https://arisweedler.medium.com/tab-settings-in-vim-1ea0863c5990
 
--- # timeout ttimeout
--- in terminal, press <a-j> or <esc>j send the same keycode "^[j" to program
--- if you are vim, when you receive keycode "^[", you can choose wait or not
--- timeout:  whether "^[j and zz" timeout
--- ttimeout: whether "^[j" timeout, t means terminal
+vim.o.expandtab = false
+-- input " " instead of "\t"?
 
--- # updatetime
--- https://github.com/iamcco/markdown-preview.nvim/issues/4
+vim.o.autoindent = false
+-- when create a new line, copy indent from the line above?
+vim.o.copyindent = true
+-- when autoindent is true, when create a new line, copy indent (use same whitespace chars) from the line above?
 
--- # wildmenu
+-- let's say we have "▫▫▫·alice and bob", and press "o" (▫ is space, · is tab, █ is cursor)
+-- autoindent = true, copyindent = false:
+-- ▫▫▫·alice and bob
+-- ·▫▫▫█
+-- autoindent = true, copyindent = true:
+-- ▫▫▫·alice and bob
+-- ▫▫▫·█
+
+vim.o.smarttab = false
+-- at line start, when use <tab>, use shiftwidth instead of softtabstop
+vim.o.preserveindent = false
+-- at line start, when use >>/<<, preserve current indent
+-- let's say we have "▫▫▫·alice and bob", and press ">>"
+-- preserveindent = true:
+-- ▫▫▫·alice and bob
+-- ▫▫▫··alice and bob
+
+vim.o.shiftround = true
+
+vim.o.indentkeys = ""
+
+-- # mode specific
+
+-- ## x
+
+vim.o.selection = "inclusive"
+
+-- ## i
+
+vim.o.showmatch = true
+vim.o.matchtime = 1
+
+vim.o.backspace = "indent,eol,nostop"
+
+vim.o.completeopt = "menu,preview"
+
+-- ## c
+
+vim.o.wildmenu = true
 -- using wildchar (usually <tab>) to perform a command-line completion, shows a menu
 
--- # wildoptions
+vim.o.wildoptions = "pum,tagfile"
 -- pum: popup menu
 
-----------------------------------------------------------------
+vim.o.inccommand = ""
+
+-- # language specific
+
+vim.o.iskeyword = ""
+
+vim.o.commentstring = "#%s"
+
+-- # buffer window tab
+
+-- ## buffer
+
+vim.o.hidden = true
+
+-- ## window
+
+vim.o.splitbelow = true
+vim.o.splitright = true
+vim.o.splitkeep = "screen"
+vim.o.equalalways = true
+vim.o.winfixheight = false
+
+-- # file dir
+
+-- ## file
+
+vim.o.autoread = true
+vim.o.autowrite = true
+
+-- ## dir
+
+vim.o.autochdir = true
+
+-- # editor
+
+-- ## updatetime
+
+vim.o.updatetime = 100
+-- https://github.com/iamcco/markdown-preview.nvim/issues/4
+
+-- ## keypress timeout
+
+vim.o.timeout = false
+vim.o.timeoutlen = 8
+-- key timeout, e.g. zz
+
+vim.o.ttimeout = true
+vim.o.ttimeoutlen = 0
+-- keycode timeout, e.g. ^[j
+-- in terminal, press <a-j> or <esc>j send the same keycode "^[j" to program
+-- if you are vim, when you receive keycode "^[", you can choose wait or not
+
+-- ## messagesopt
+
+vim.o.messagesopt = "hit-enter,history:1024"
+
+-- # cpoptions
+
+vim.o.cpoptions = vim.o.cpoptions
+-- use default flags
+
+vim.opt.cpoptions:remove("_")
+-- https://vi.stackexchange.com/questions/6194/why-do-cw-and-ce-do-the-same-thing
+
+-- vim.opt.cpoptions:append("$")
+-- $ at the end of the changed text
+
+-- vim.opt.cpoptions:append("v")
+-- visible backspaced chars
+
+-- vim.opt.cpoptions:append("u")
+-- undo

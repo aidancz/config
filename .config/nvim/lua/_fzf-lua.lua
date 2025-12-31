@@ -2,7 +2,7 @@
 
 require("mini.deps").add({
 	source = "ibhagwan/fzf-lua",
-	-- checkout = "e0cca3e~",
+	checkout = "b51b97f~",
 })
 
 require("fzf-lua").setup({
@@ -124,11 +124,11 @@ clear_actions = function(t, seen)
 end
 clear_actions(require("fzf-lua").defaults)
 
--- # do not ignore my virtualedit_all autocmd
+-- # do not ignore my go-up autocmd
 
--- require("fzf-lua").utils.eventignore = function(func, scope)
--- 	return func()
--- end
+require("fzf-lua").utils.eventignore = function(func, scope)
+	return func()
+end
 
 -- # use go-up for zz
 

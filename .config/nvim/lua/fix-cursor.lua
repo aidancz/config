@@ -76,13 +76,13 @@ M.wrap = function(key)
 end
 
 M.autocmd = function()
-	vim.api.nvim_create_augroup("fix-cursor-pos", {clear = true})
+	vim.api.nvim_create_augroup("fix-cursor", {clear = true})
 	vim.api.nvim_create_autocmd(
 		{
 			"ModeChanged",
 		},
 		{
-			group = "fix-cursor-pos",
+			group = "fix-cursor",
 			pattern = "n:*",
 			callback = function(event)
 				if string.find(event.match, "t") ~= nil then return end
@@ -95,7 +95,7 @@ M.autocmd = function()
 			"ModeChanged",
 		},
 		{
-			group = "fix-cursor-pos",
+			group = "fix-cursor",
 			pattern = "*:n",
 			callback = function(event)
 				if string.find(event.match, "t") ~= nil then return end

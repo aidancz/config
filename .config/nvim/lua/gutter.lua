@@ -3,23 +3,20 @@ local M = {}
 M.get_gutter = function(width)
 	local gutter = {
 		foldcolumn = "1",
+
 		signcolumn = "yes:2",
+
 		numberwidth = 3,
-		statuscolumn = "%C%s%l ",
+		number = false,
+		relativenumber = true,
+
+		statuscolumn = "%C%s%2l ",
 		-- https://github.com/neovim/neovim/pull/20621
 	}
 
-	local width_delta = width - (1 + 2 * 2 + 3)
-	-- assert(width_delta >= 0)
-	if width_delta <= 0 then return gutter end
-	local width_delta_signcolumn_can_provide = 7 * 2
-	-- "yes:2" ~ "yes:9"
-	if width_delta <= width_delta_signcolumn_can_provide then
-		gutter.signcolumn = "yes:" .. (2 + math.floor(width_delta / 2))
-	else
-		gutter.signcolumn = "yes:9"
-		gutter.statuscolumn = string.rep(" ", width_delta - width_delta_signcolumn_can_provide) .. "%C%s%l "
-	end
+	local width_delta = width - 8
+	assert(width_delta >= 0)
+	gutter.statuscolumn = string.rep(" ", width_delta) .. gutter.statuscolumn
 
 	return gutter
 end
