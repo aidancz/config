@@ -26,7 +26,7 @@ vim.api.nvim_create_autocmd(
 		group = "undotree_config",
 		pattern = "undotree",
 		callback = function()
-			vim.opt_local.signcolumn = "no"
+			vim.wo.signcolumn = "no"
 		end,
 	}
 )

@@ -10,7 +10,7 @@ local main = function()
 
 -- # set option
 
-vim.opt.background = "dark"
+vim.o.background = "dark"
 
 -- # clear definition of all existing highlight groups
 

@@ -13,8 +13,8 @@ require("mini.deps").add({
 
 require("Comment").setup({
 	toggler = {
-		line = "<nop>",
-		block = "<nop>",
+		line = "<space>c.",
+		block = "<space>b.",
 	},
 	opleader = {
 		line = "<space>c",

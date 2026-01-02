@@ -480,9 +480,9 @@ https://vim.fandom.com/wiki/Remove_unwanted_spaces
 require("luaexec").add({
 	code =
 [[
-vim.opt.binary = true
-vim.opt.fixendofline = false
-vim.opt.endofline = false
+vim.o.binary = true
+vim.o.fixendofline = false
+vim.o.endofline = false
 ]],
 	name = "remove_last_eol",
 	desc =
@@ -507,11 +507,12 @@ https://unix.stackexchange.com/questions/12812/replacing-multiple-blank-lines-wi
 require("luaexec").add({
 	code =
 [[
-vim.opt_local.foldcolumn = "0"
-vim.opt_local.signcolumn = "no"
-vim.opt_local.number = false
-vim.opt_local.relativenumber = false
-vim.opt_local.statuscolumn = ""
+vim.wo.foldcolumn = "0"
+vim.wo.signcolumn = "no"
+-- vim.wo.numberwidth = 1
+vim.wo.number = false
+vim.wo.relativenumber = false
+vim.wo.statuscolumn = ""
 ]],
 	name = "zen",
 })

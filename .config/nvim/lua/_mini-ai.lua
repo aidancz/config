@@ -13,6 +13,23 @@ require("mini.ai").select_textobject = function(ai_type, id, opts)
 end
 -- https://github.com/nvim-mini/mini.nvim/issues/1359
 
+-- # redefine require("mini.ai").move_cursor to work with `vim.o.selection = "exclusive"`
+
+local move_cursor = require("mini.ai").move_cursor
+require("mini.ai").move_cursor = function(side, ai_type, id, opts)
+	move_cursor(side, ai_type, id, opts)
+	if
+		side == "right"
+		and
+		vim.o.selection == "exclusive"
+	then
+		local cache_whichwrap = vim.o.whichwrap
+		vim.o.whichwrap = "l"
+		vim.cmd("normal! l")
+		vim.o.whichwrap = cache_whichwrap
+	end
+end
+
 -- # require("paramo").gen_ai_spec
 
 require("paramo").gen_ai_spec = function(para)
@@ -124,24 +141,24 @@ require("mini.ai").make_ai_move_rhs = function(ask_id, side, search_method)
 end
 
 vim.keymap.set({"n", "x", "o"}, "gj", require("mini.ai").make_ai_move_rhs(true, "left",  "next"), {expr = true})
-vim.keymap.set({"n", "x", "o"}, "gk", require("mini.ai").make_ai_move_rhs(true, "left",  "prev"), {expr = true})
-vim.keymap.set({"n", "x", "o"}, "gl", require("mini.ai").make_ai_move_rhs(true, "right", "next"), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "gk", require("mini.ai").make_ai_move_rhs(true, "left",  "cover_or_prev"), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "gl", require("mini.ai").make_ai_move_rhs(true, "right", "cover_or_next"), {expr = true})
 vim.keymap.set({"n", "x", "o"}, "gh", require("mini.ai").make_ai_move_rhs(true, "right", "prev"), {expr = true})
 
 require("luaexec").add({
-	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "left", "next")()]],
+	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "left",  "next")()]],
 	from = "miniai_goto_head",
 	name = "next",
 	keys = {{"n", "x"}, "gj"},
 })
 require("luaexec").add({
-	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "left", "prev")()]],
+	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "left",  "cover_or_prev")()]],
 	from = "miniai_goto_head",
 	name = "prev",
 	keys = {{"n", "x"}, "gk"},
 })
 require("luaexec").add({
-	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "right", "next")()]],
+	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "right", "cover_or_next")()]],
 	from = "miniai_goto_tail",
 	name = "next",
 	keys = {{"n", "x"}, "gl"},
@@ -178,7 +195,7 @@ extend({
 			},
 			to = {
 				line = vim.fn.line("."),
-				col = string.len(vim.fn.getline(".")),
+				col = 1,
 			},
 			vis_mode = "V",
 		}
@@ -271,32 +288,32 @@ extend({
 	},
 })
 
-vim.keymap.set(
-	{"n", "x", "o"},
-	"%",
-	function()
-		local id_brackets = "i"
-		local goto_left = require("mini.ai").config.mappings.goto_left
-		local goto_right = require("mini.ai").config.mappings.goto_right
-
-		local row = vim.api.nvim_win_get_cursor(0)[1]
-		local col = vim.api.nvim_win_get_cursor(0)[2] + 1
-		local region = require("mini.ai").find_textobject("a", id_brackets, {search_method = "cover_or_next"})
-		if
-			row < region.from.line or (row == region.from.line and col < region.from.col)
-			or
-			row == region.to.line and col == region.to.col
-		then
-			return goto_left .. id_brackets
-		else
-			return goto_right .. id_brackets
-		end
-	end,
-	{
-		expr = true,
-		remap = true,
-	}
-)
+-- vim.keymap.set(
+-- 	{"n", "x", "o"},
+-- 	"%",
+-- 	function()
+-- 		local id_brackets = "i"
+-- 		local goto_left = require("mini.ai").config.mappings.goto_left
+-- 		local goto_right = require("mini.ai").config.mappings.goto_right
+--
+-- 		local row = vim.api.nvim_win_get_cursor(0)[1]
+-- 		local col = vim.api.nvim_win_get_cursor(0)[2] + 1
+-- 		local region = require("mini.ai").find_textobject("a", id_brackets, {search_method = "cover_or_next"})
+-- 		if
+-- 			row < region.from.line or (row == region.from.line and col < region.from.col)
+-- 			or
+-- 			row == region.to.line and col == region.to.col
+-- 		then
+-- 			return goto_left .. id_brackets
+-- 		else
+-- 			return goto_right .. id_brackets
+-- 		end
+-- 	end,
+-- 	{
+-- 		expr = true,
+-- 		remap = true,
+-- 	}
+-- )
 
 -- ## textobject: quotes
 
@@ -354,7 +371,7 @@ extend_remap(
 			},
 			to = {
 				line = vim.fn.line("."),
-				col = vim.fn.col("$"),
+				col = 1,
 			},
 			vis_mode = "V",
 		}
@@ -439,7 +456,7 @@ extend_remap(
 			},
 			to = {
 				line = vim.fn.line("$"),
-				col = vim.fn.col({vim.fn.line("$"), "$"}),
+				col = 1,
 			},
 			vis_mode = "V",
 		}

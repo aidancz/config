@@ -198,7 +198,7 @@ vim.o.indentkeys = ""
 
 -- ## x
 
-vim.o.selection = "inclusive"
+vim.o.selection = "exclusive"
 
 -- ## i
 
@@ -221,7 +221,7 @@ vim.o.inccommand = ""
 
 -- # language specific
 
-vim.o.iskeyword = ""
+vim.o.iskeyword = "a-z,A-Z,48-57"
 
 vim.o.commentstring = "#%s"
 
