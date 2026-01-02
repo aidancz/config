@@ -1,10 +1,6 @@
 require("luaeval").setup({
 	hook_bufadd = function()
-		vim.schedule(function()
-			local history = require("luaeval").list_history()
-			if next(history) == nil then return end
-			require("luaeval").buf_set_lines(history[1].chunk)
-		end)
+		vim.schedule(require("luaeval").load)
 
 		vim.api.nvim_create_augroup("luaeval_config", {clear = true})
 		vim.api.nvim_create_autocmd(
@@ -13,7 +9,7 @@ require("luaeval").setup({
 				group = "luaeval_config",
 				pattern = "*",
 				callback = function()
-					require("luaeval").histadd()
+					require("luaeval").save()
 				end,
 			}
 		)

@@ -119,8 +119,6 @@ end
 
 -- # function: main
 
-M.list_history = require("luaexec").list_history
-
 M.buf_get_lines = function()
 	return vim.api.nvim_buf_get_lines(M.cache.buf_handle, 0, -1, true)
 end
@@ -130,22 +128,25 @@ M.eval = function()
 	require("luaexec").exec(
 		chunk,
 		{
-			run = true,
 			histadd = true,
 		}
 	)
 end
 
-M.histadd = function()
+M.save = function()
 	local chunk = M.buf_get_lines()
-	if vim.deep_equal(chunk, {""}) then return end
-	require("luaexec").exec(
-		chunk,
-		{
-			run = false,
-			histadd = true,
-		}
-	)
+	-- if vim.deep_equal(chunk, {""}) then return end
+
+	vim.g.LUAEVAL_LAST_CMD = require("luaexec").chunk2excmd(chunk)
+	-- :h shada-!
+end
+
+M.load = function()
+	vim.g.LUAEVAL_LAST_CMD = tostring(vim.g.LUAEVAL_LAST_CMD)
+	local chunk = require("luaexec").excmd2chunk(vim.g.LUAEVAL_LAST_CMD)
+	if chunk == nil then return end
+
+	M.buf_set_lines(chunk)
 end
 
 M.open = function()

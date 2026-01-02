@@ -118,14 +118,12 @@ M.excmd2chunk = function(excmd)
 end
 
 ---@param opts? {
----	run?: boolean|true,
 ---	histadd?: boolean|false,
 ---}
 M.exec = function(chunk, opts)
 	opts = vim.tbl_extend(
 		"force",
 		{
-			run = true,
 			histadd = false,
 		},
 		opts or {}
@@ -136,9 +134,8 @@ M.exec = function(chunk, opts)
 	if opts.histadd then
 		vim.fn.histadd("cmd", excmd)
 	end
-	if opts.run then
-		vim.cmd(excmd)
-	end
+
+	vim.cmd(excmd)
 end
 
 M.list_history = function()
@@ -146,7 +143,7 @@ M.list_history = function()
 	for i = vim.fn.histnr(":"), 1, -1 do
 		local entry = vim.fn.histget(":", i)
 		if entry == "" then goto continue end
-		local chunk = require("luaexec").excmd2chunk(entry)
+		local chunk = M.excmd2chunk(entry)
 		if chunk == nil then goto continue end
 
 		table.insert(
