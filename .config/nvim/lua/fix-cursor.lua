@@ -12,6 +12,7 @@ M.cache = {
 	ns_id = vim.api.nvim_create_namespace("fix-cursor"),
 	-- id = ...,
 }
+
 M.save = function()
 	M.pos_v_save = V.get_cursor()
 
@@ -36,6 +37,7 @@ M.save = function()
 	local pos_e = vim.api.nvim_buf_get_extmark_by_id(0, M.cache.ns_id, M.cache.id, {details = true})
 	M.text_save = require("hls").nvim_buf_get_text(0, pos_e[1], pos_e[2], pos_e[3].end_row, pos_e[3].end_col, {})
 end
+
 M.load = function()
 	local pos_e = vim.api.nvim_buf_get_extmark_by_id(0, M.cache.ns_id, M.cache.id, {details = true})
 	vim.api.nvim_buf_del_extmark(0, M.cache.ns_id, M.cache.id)
@@ -66,43 +68,129 @@ M.load = function()
 	V.set_cursor(M.pos_v_load)
 end
 
-M.wrap = function(key)
-	return
-		[[<cmd>lua require("fix-cursor").save()<cr>]]
-		..
-		key
-		..
-		[[<cmd>lua require("fix-cursor").load()<cr>]]
+M.load_later = function(when)
+	if when == "schedule" then
+		vim.schedule(M.load)
+	else
+		vim.api.nvim_create_autocmd(
+			"ModeChanged",
+			{
+				pattern = when,
+				callback = M.load,
+				once = true,
+			}
+		)
+	end
 end
 
-M.autocmd = function()
-	vim.api.nvim_create_augroup("fix-cursor", {clear = true})
-	vim.api.nvim_create_autocmd(
-		{
-			"ModeChanged",
-		},
-		{
-			group = "fix-cursor",
-			pattern = "n:*",
-			callback = function(event)
-				if string.find(event.match, "t") ~= nil then return end
-				M.save()
+M.wrap = function(key, when, replace_keycodes)
+	local dict = vim.fn.maparg(key, "n", false, true)
+
+	if vim.tbl_isempty(dict) then
+		vim.keymap.set(
+			"n",
+			key,
+			function()
+				require("fix-cursor").save()
+				require("fix-cursor").load_later(when)
+				return key
 			end,
-		}
-	)
-	vim.api.nvim_create_autocmd(
-		{
-			"ModeChanged",
-		},
-		{
-			group = "fix-cursor",
-			pattern = "*:n",
-			callback = function(event)
-				if string.find(event.match, "t") ~= nil then return end
-				M.load()
-			end,
-		}
-	)
+			{
+				expr = true,
+				replace_keycodes = replace_keycodes,
+				remap = false,
+			}
+		)
+		return
+	end
+
+	if dict.rhs ~= nil then
+		local expr
+		if dict.expr == 0 then expr = false else expr = true end
+
+		local remap
+		if dict.noremap == 0 then remap = true else remap = false end
+
+		local rhs = dict.rhs
+
+		if expr == false then
+			vim.keymap.set(
+				"n",
+				key,
+				function()
+					require("fix-cursor").save()
+					require("fix-cursor").load_later(when)
+					return rhs
+				end,
+				{
+					expr = true,
+					replace_keycodes = replace_keycodes,
+					remap = remap,
+				}
+			)
+		else
+			vim.keymap.set(
+				"n",
+				key,
+				function()
+					require("fix-cursor").save()
+					require("fix-cursor").load_later(when)
+					return vim.api.nvim_eval(rhs)
+				end,
+				{
+					expr = true,
+					replace_keycodes = replace_keycodes,
+					remap = remap,
+				}
+			)
+		end
+		return
+	end
+
+	if dict.callback ~= nil then
+		local expr
+		if dict.expr == 0 then expr = false else expr = true end
+
+		local remap
+		if dict.noremap == 0 then remap = true else remap = false end
+
+		-- local replace_keycodes
+		-- if dict.replace_keycodes == nil then replace_keycodes = false end
+		-- if dict.replace_keycodes == 1   then replace_keycodes = true  end
+
+		local callback = dict.callback
+
+		if expr == false then
+			vim.keymap.set(
+				"n",
+				key,
+				function()
+					require("fix-cursor").save()
+					require("fix-cursor").load_later(when)
+					callback()
+				end,
+				{
+					expr = false,
+				}
+			)
+		else
+			vim.keymap.set(
+				"n",
+				key,
+				function()
+					require("fix-cursor").save()
+					require("fix-cursor").load_later(when)
+					return callback()
+				end,
+				{
+					expr = true,
+					replace_keycodes = replace_keycodes,
+					remap = remap,
+				}
+			)
+		end
+		return
+	end
 end
 
 return M

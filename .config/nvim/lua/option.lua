@@ -1,7 +1,7 @@
 -- # leader key
 
-vim.g.mapleader = "<space>"
-vim.g.maplocalleader = "<space>"
+vim.g.mapleader = vim.keycode("<space>")
+vim.g.maplocalleader = vim.keycode("<space>")
 
 -- # appearance
 
@@ -59,6 +59,7 @@ vim.opt.fillchars:append({vertright = "┣"})
 
 vim.o.guicursor = ""
 vim.o.cursorline = false
+vim.o.cursorlineopt = "screenline"
 vim.o.cursorcolumn = false
 
 -- ## statuscolumn
@@ -91,13 +92,16 @@ vim.o.cmdwinheight = 8
 
 -- ## buffer content
 
-vim.o.list = false
+vim.o.list = true
 vim.o.listchars = ""
-vim.opt.listchars:append({eol = " "})
+-- vim.opt.listchars:append({eol = " "})
+-- NOTE: https://github.com/neovim/neovim/issues/7928
+-- NOTE: https://github.com/neovim/neovim/issues/32556
+-- NOTE: https://github.com/neovim/neovim/issues/33080
 vim.opt.listchars:append({tab = "  "})
-vim.opt.listchars:append({nbsp = "▪"})
--- NOTE: https://github.com/neovim/neovim/issues/7928 (visual eol, listchars has effect even if list is false)
 -- NOTE: https://vi.stackexchange.com/questions/2239/how-can-i-make-vim-position-the-cursor-at-the-start-of-a-tab-character-instead-o
+vim.opt.listchars:append({nbsp = "▪"})
+
 -- some unicode symbols: ·▫░▒▓█
 
 vim.o.display = "lastline"
@@ -110,7 +114,57 @@ vim.o.conceallevel = 0
 
 -- ## cursor
 
-vim.o.virtualedit = "all"
+vim.o.virtualedit = "none"
+
+--[[
+vi evilly hide 2 things:
+
+1. eol
+eol is the LF char, ascii 10
+vi hide LF if the char before is not LF
+
+2. eob
+eob is not a real char, but a position that allows cursor to be placed at even if there is no char at all
+vi hide this position if a buffer has any char
+
+but keeping this position visible ensures consistency
+emacs keeps this position
+helix keeps this position and denotes it in line number column
+
+due to this lack of foresight in the design, many problems have arisen
+
+one of the problems is:
+when leaving insert mode, cursor has to move back one position to the left
+since there is no eol/eob to land on!
+
+i am the person cares about consistency
+"maybe i could fix this", i thought, so:
+
+```vim
+set virtualedit=onemore
+set listchars+=eol:\ ,
+autocmd InsertLeave * :normal! `^
+```
+
+works great!
+but later, more inconsistency is discovered:
+normal mode $ does not take you to the fake eol
+normal mode x does not delete the fake eol
+...
+this list is endless, just search "virutaledit" in the github issue page
+
+okay.
+the whole vim is built with the assumption of hiding eol and eob
+trying to break this assumption makes so many things misbehave
+so i give it up
+customization is allowed in vim, but not at this fundamental level
+
+i guess this is why the vim maintainers change `selection=old` to `selection=inclusive`,
+which trys to fix the eol problem in visual mode,
+but still cannot change `virtualedit=none` to `virtualedit=onemore`,
+which trys to fix the eol problem in normal mode.
+--]]
+
 vim.o.startofline = false
 vim.o.jumpoptions = "stack,view"
 vim.o.whichwrap = ""
@@ -198,7 +252,7 @@ vim.o.indentkeys = ""
 
 -- ## x
 
-vim.o.selection = "exclusive"
+vim.o.selection = "inclusive"
 
 -- ## i
 

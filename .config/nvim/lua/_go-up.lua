@@ -18,31 +18,31 @@ require("luaexec").add({
 	code = [[require("go-up").recenter(vim.api.nvim_win_get_height(0) * (0 / 4))]],
 	from = "go-up",
 	name = "recenter 0/4",
-	keys = {{"n", "x"}, "<cr>h"},
+	keys = {{"n", "x"}, "<space>s"},
 })
 require("luaexec").add({
 	code = [[require("go-up").recenter(vim.api.nvim_win_get_height(0) * (1 / 4))]],
 	from = "go-up",
 	name = "recenter 1/4",
-	keys = {{"n", "x"}, "<cr>k"},
+	keys = {{"n", "x"}, "<space>d"},
 })
 require("luaexec").add({
 	code = [[require("go-up").recenter(vim.api.nvim_win_get_height(0) * (2 / 4))]],
 	from = "go-up",
 	name = "recenter 2/4",
-	keys = {{"n", "x"}, "<cr><space>"},
+	keys = {{"n", "x"}, "<space><space>"},
 })
 require("luaexec").add({
 	code = [[require("go-up").recenter(vim.api.nvim_win_get_height(0) * (3 / 4))]],
 	from = "go-up",
 	name = "recenter 3/4",
-	keys = {{"n", "x"}, "<cr>j"},
+	keys = {{"n", "x"}, "<space>f"},
 })
 require("luaexec").add({
 	code = [[require("go-up").recenter(vim.api.nvim_win_get_height(0) * (4 / 4))]],
 	from = "go-up",
 	name = "recenter 4/4",
-	keys = {{"n", "x"}, "<cr>l"},
+	keys = {{"n", "x"}, "<space>g"},
 })
 
 require("luaexec").add({
@@ -84,7 +84,7 @@ require("luaexec").add({
 	code = [[require("go-up").align()]],
 	from = "go-up",
 	name = "align",
-	keys = {{"n", "x"}, "<cr><cr>"},
+	keys = {{"n", "x"}, "<space><tab>"},
 })
 
 -- # scroll

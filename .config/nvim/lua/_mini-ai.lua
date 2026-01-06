@@ -2,34 +2,6 @@ require("mini.deps").add({
 	source = "nvim-mini/mini.ai",
 })
 
--- # redefine require("mini.ai").select_textobject to work with fix-cursor.lua
-
-local select_textobject = require("mini.ai").select_textobject
-require("mini.ai").select_textobject = function(ai_type, id, opts)
-	local cache_eventignore = vim.o.eventignore
-	vim.o.eventignore = "all"
-	select_textobject(ai_type, id, opts)
-	vim.o.eventignore = cache_eventignore
-end
--- https://github.com/nvim-mini/mini.nvim/issues/1359
-
--- # redefine require("mini.ai").move_cursor to work with `vim.o.selection = "exclusive"`
-
-local move_cursor = require("mini.ai").move_cursor
-require("mini.ai").move_cursor = function(side, ai_type, id, opts)
-	move_cursor(side, ai_type, id, opts)
-	if
-		side == "right"
-		and
-		vim.o.selection == "exclusive"
-	then
-		local cache_whichwrap = vim.o.whichwrap
-		vim.o.whichwrap = "l"
-		vim.cmd("normal! l")
-		vim.o.whichwrap = cache_whichwrap
-	end
-end
-
 -- # require("paramo").gen_ai_spec
 
 require("paramo").gen_ai_spec = function(para)
@@ -140,34 +112,34 @@ require("mini.ai").make_ai_move_rhs = function(ask_id, side, search_method)
 	end
 end
 
-vim.keymap.set({"n", "x", "o"}, "gj", require("mini.ai").make_ai_move_rhs(true, "left",  "next"), {expr = true})
-vim.keymap.set({"n", "x", "o"}, "gk", require("mini.ai").make_ai_move_rhs(true, "left",  "cover_or_prev"), {expr = true})
-vim.keymap.set({"n", "x", "o"}, "gl", require("mini.ai").make_ai_move_rhs(true, "right", "cover_or_next"), {expr = true})
-vim.keymap.set({"n", "x", "o"}, "gh", require("mini.ai").make_ai_move_rhs(true, "right", "prev"), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "<cr>j", require("mini.ai").make_ai_move_rhs(true, "left",  "next"), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "<cr>k", require("mini.ai").make_ai_move_rhs(true, "left",  "cover_or_prev"), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "<cr>l", require("mini.ai").make_ai_move_rhs(true, "right", "cover_or_next"), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "<cr>h", require("mini.ai").make_ai_move_rhs(true, "right", "prev"), {expr = true})
 
 require("luaexec").add({
 	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "left",  "next")()]],
 	from = "miniai_goto_head",
 	name = "next",
-	keys = {{"n", "x"}, "gj"},
+	keys = {{"n", "x"}, "<cr>j"},
 })
 require("luaexec").add({
 	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "left",  "cover_or_prev")()]],
 	from = "miniai_goto_head",
 	name = "prev",
-	keys = {{"n", "x"}, "gk"},
+	keys = {{"n", "x"}, "<cr>k"},
 })
 require("luaexec").add({
 	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "right", "cover_or_next")()]],
 	from = "miniai_goto_tail",
 	name = "next",
-	keys = {{"n", "x"}, "gl"},
+	keys = {{"n", "x"}, "<cr>l"},
 })
 require("luaexec").add({
 	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "right", "prev")()]],
 	from = "miniai_goto_tail",
 	name = "prev",
-	keys = {{"n", "x"}, "gh"},
+	keys = {{"n", "x"}, "<cr>h"},
 })
 
 -- ## extend
@@ -288,32 +260,32 @@ extend({
 	},
 })
 
--- vim.keymap.set(
--- 	{"n", "x", "o"},
--- 	"%",
--- 	function()
--- 		local id_brackets = "i"
--- 		local goto_left = require("mini.ai").config.mappings.goto_left
--- 		local goto_right = require("mini.ai").config.mappings.goto_right
---
--- 		local row = vim.api.nvim_win_get_cursor(0)[1]
--- 		local col = vim.api.nvim_win_get_cursor(0)[2] + 1
--- 		local region = require("mini.ai").find_textobject("a", id_brackets, {search_method = "cover_or_next"})
--- 		if
--- 			row < region.from.line or (row == region.from.line and col < region.from.col)
--- 			or
--- 			row == region.to.line and col == region.to.col
--- 		then
--- 			return goto_left .. id_brackets
--- 		else
--- 			return goto_right .. id_brackets
--- 		end
--- 	end,
--- 	{
--- 		expr = true,
--- 		remap = true,
--- 	}
--- )
+vim.keymap.set(
+	{"n", "x", "o"},
+	"%",
+	function()
+		local id_brackets = "i"
+		local goto_left = require("mini.ai").config.mappings.goto_left
+		local goto_right = require("mini.ai").config.mappings.goto_right
+
+		local row = vim.api.nvim_win_get_cursor(0)[1]
+		local col = vim.api.nvim_win_get_cursor(0)[2] + 1
+		local region = require("mini.ai").find_textobject("a", id_brackets, {search_method = "cover_or_next"})
+		if
+			row < region.from.line or (row == region.from.line and col < region.from.col)
+			or
+			row == region.to.line and col == region.to.col
+		then
+			return goto_left .. id_brackets
+		else
+			return goto_right .. id_brackets
+		end
+	end,
+	{
+		expr = true,
+		remap = true,
+	}
+)
 
 -- ## textobject: quotes
 

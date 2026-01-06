@@ -17,6 +17,6 @@ require("mini.operators").setup({
 		reindent_linewise = false,
 	},
 	sort = {
-		prefix = "<space>s",
+		prefix = "gs",
 	},
 })

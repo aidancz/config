@@ -75,11 +75,11 @@ vim.keymap.set(
 
 -- ## repeat last command
 
--- vim.keymap.set({"n", "x"}, ",", ":<up><cr>")
--- vim.keymap.set({"n", "x"}, ",", "@:")
+-- vim.keymap.set({"n", "x"}, "<tab>", ":<up><cr>")
+-- vim.keymap.set({"n", "x"}, "<tab>", "@:")
 vim.keymap.set(
 	{"n", "x"},
-	",",
+	"<tab>",
 	function() vim.cmd(vim.fn.histget("cmd", -1)) end
 )
 
@@ -363,8 +363,8 @@ vim.keymap.set({"n", "x"}, "e", "d")
 
 vim.keymap.set({"n", "x"}, "<plug>(redrawstatus)", function() vim.cmd("redrawstatus") end)
 
-vim.keymap.set({"n", "x"}, "<bs>",  require("fix-cursor").wrap("u")     .. "<plug>(redrawstatus)")
-vim.keymap.set({"n", "x"}, "<del>", require("fix-cursor").wrap("<c-r>") .. "<plug>(redrawstatus)")
+vim.keymap.set({"n", "x"}, "<bs>",  "<cmd>undo<cr><plug>(redrawstatus)")
+vim.keymap.set({"n", "x"}, "<del>", "<cmd>redo<cr><plug>(redrawstatus)")
 
 -- # {"i", "c"}
 

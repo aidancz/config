@@ -91,7 +91,6 @@ require("vim_runtime")
 
 -- # library
 
-require("_fix-cursor")
 require("_hydra")
 require("_luaeval")
 require("_luaexec")
@@ -235,6 +234,8 @@ require("_yanky")
 require("_yazi")
 require("diagnostic")
 require("hl")
+
+require("_fix-cursor")
 
 -------------------------------- restore `require` function
 

@@ -29,7 +29,7 @@ vim.keymap.set(
 require("luaexec").add({
 	code = [[require("macro").record_play()]],
 	from = "macro",
-	keys = {"n", "<tab>"},
+	keys = {"n", "Q"},
 })
 
 require("luaexec").add({

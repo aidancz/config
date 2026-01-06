@@ -26,12 +26,32 @@ require("luaexec").add({
 -- https://github.com/neovim/neovim/issues/1960
 
 require("luaexec").add({
-	code = [[return vim.v.searchforward == 1 and "n" or "N"]],
+	code =
+[=[
+local zz = [[<cmd>lua require("go-up").recenter(vim.api.nvim_win_get_height(0) * (2 / 4))<cr>]]
+local nzz = "n" .. zz
+local Nzz = "N" .. zz
+if vim.v.searchforward == 1 then
+	return nzz
+else
+	return Nzz
+end
+]=],
 	from = "search",
 	name = "next",
 })
 require("luaexec").add({
-	code = [[return vim.v.searchforward == 1 and "N" or "n"]],
+	code =
+[=[
+local zz = [[<cmd>lua require("go-up").recenter(vim.api.nvim_win_get_height(0) * (2 / 4))<cr>]]
+local nzz = "n" .. zz
+local Nzz = "N" .. zz
+if vim.v.searchforward == 1 then
+	return Nzz
+else
+	return nzz
+end
+]=],
 	from = "search",
 	name = "prev",
 })

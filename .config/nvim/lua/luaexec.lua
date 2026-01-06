@@ -57,15 +57,6 @@ excmd:
 	[[lua require("luaexec").load({ "print_time()", 'return "5j"' })]]
 --]=]
 
-M.remap = false
-
-M.remap_temp = function()
-	M.remap = true
-	vim.schedule(function()
-		M.remap = false
-	end)
-end
-
 M.is_operator_pending_mode = function()
 	local mode = vim.api.nvim_get_mode().mode
 	return string.sub(mode, 1, 2) == "no"
@@ -77,21 +68,27 @@ end
 
 M.load = function(chunk)
 	local str = table.concat(chunk, "\n")
-	local ret = assert(load(str))()
+	local ret, opt = assert(load(str))()
 	if ret == nil then return end
 
 	local key
+	local reg = [["]] .. vim.v.register
 	local cnt = tostring(vim.v.count)
 	if cnt == "0" then cnt = "" end
-	if not M.is_operator_pending_mode() then
-		key = cnt .. ret
-	else
-		local reg = [["]] .. vim.v.register
+	if M.is_operator_pending_mode() then
 		local ope = vim.v.operator
 		key = reg .. ope .. cnt .. ret
+	else
+		key = reg .. cnt .. ret
 	end
 
-	local mod = M.remap and "m" or "n"
+	local mod
+	opt = vim.tbl_extend("force", {remap = false}, opt or {})
+	if opt.remap then
+		mod = "m"
+	else
+		mod = "n"
+	end
 
 	M.feedkeys(key, mod)
 end

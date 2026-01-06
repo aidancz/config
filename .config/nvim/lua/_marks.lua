@@ -19,4 +19,4 @@ require("marks").setup({
 	mappings = {}
 })
 
--- vim.api.nvim_set_hl(0, "MarkSignNumHL", {link = "nofrils_blue"})
+require("nofrils").clear("^Mark")

@@ -11,8 +11,8 @@ require("yanky").setup({
 
 -- vim.keymap.set({"n", "x"}, "y", "<plug>(YankyYank)")
 
-vim.keymap.set({"n", "x"}, "p", require("fix-cursor").wrap("<plug>(YankyPutAfter)"))
-vim.keymap.set({"n", "x"}, "P", require("fix-cursor").wrap("<plug>(YankyPutBefore)"))
+vim.keymap.set({"n", "x"}, "p", "<plug>(YankyPutAfter)")
+vim.keymap.set({"n", "x"}, "P", "<plug>(YankyPutBefore)")
 
 require("luaexec").add({
 	code = [[require("yanky").cycle(1)]],
