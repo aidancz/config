@@ -348,9 +348,10 @@ require("luaexec").add({
 
 -- ## ban cc dd yy C D Y
 
-vim.keymap.set("n", "cc", "<nop>")
+-- vim.keymap.set("n", "cc", "<nop>")
 -- vim.keymap.set("n", "dd", "<nop>")
-vim.keymap.set("n", "yy", "<nop>")
+-- vim.keymap.set("n", "yy", "<nop>")
+
 vim.keymap.set("n", "C",  "<nop>")
 vim.keymap.set("n", "D",  "<nop>")
 vim.keymap.set("n", "Y",  "<nop>")

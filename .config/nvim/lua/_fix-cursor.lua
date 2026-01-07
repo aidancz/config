@@ -2,40 +2,40 @@ local wrap = require("fix-cursor").wrap
 
 -- # built-in
 
-wrap("v",     "[vV\22]*:n", true)
-wrap("V",     "[vV\22]*:n", true)
-wrap("<c-v>", "[vV\22]*:n", true)
-wrap("gv",    "[vV\22]*:n", true)
+wrap("v",     "*:n")
+wrap("V",     "*:n")
+wrap("<c-v>", "*:n")
+wrap("gv",    "*:n")
 
-wrap("i", "i*:n", true)
-wrap("a", "i*:n", true)
-wrap("I", "i*:n", true)
-wrap("A", "i*:n", true)
+wrap("i", "*:n")
+wrap("a", "*:n")
+wrap("I", "*:n")
+wrap("A", "*:n")
 
-wrap("c", "i*:n", true)
+wrap("c", "*:n")
+wrap("y", "*:n")
 
-wrap("y", "schedule", true)
-wrap(".", "schedule", true)
+wrap(".", "*:n")
 
 -- # keymap.lua
 
-wrap("e", "schedule", true)
+wrap("e", "*:n")
 
-wrap("<bs>",  "schedule", true)
-wrap("<del>", "schedule", true)
+wrap("<bs>",  "schedule")
+wrap("<del>", "schedule")
 
 -- # yanky.nvim
 
-wrap("p", "schedule", true)
-wrap("P", "schedule", true)
+wrap("p", "schedule")
+wrap("P", "schedule")
 
 -- # mini.operators
 
-wrap("<space>e", "schedule", false)
-wrap("<space>x", "schedule", false)
-wrap("t",        "schedule", false)
-wrap("gs",       "schedule", false)
+wrap("<space>e", "*:n")
+wrap("<space>x", "*:n")
+wrap("t",        "*:n")
+wrap("gs",       "*:n")
 
 -- # substitute.nvim
 
-wrap("x", "schedule", false)
+wrap("x", "*:n")
