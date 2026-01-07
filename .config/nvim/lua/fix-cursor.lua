@@ -1,82 +1,62 @@
 local M = {}
-local V = require("virtcol")
 
 -- M.save = function()
 -- 	vim.cmd("normal! md")
 -- end
+
 -- M.load = function()
 -- 	vim.cmd("normal! `d")
 -- end
 
+-- NOTE: normal mark becomes invalid when the text is changed, so use extmark instead
+
 M.cache = {
 	ns_id = vim.api.nvim_create_namespace("fix-cursor"),
-	-- id = ...,
 }
 
 M.save = function()
-	M.pos_v_save = V.get_cursor()
-
-	local row1 = M.pos_v_save.lnum
-	local row0 = row1 - 1
-	M.cache.id = vim.api.nvim_buf_set_extmark(
+	local id = vim.api.nvim_buf_set_extmark(
 		0,
 		M.cache.ns_id,
-		row0,
-		0,
+		vim.fn.line(".") - 1,
+		vim.fn.col(".") - 1,
 		{
-			-- id = M.cache.id,
-			end_row = row0 + 1,
-			end_col = 0,
-			right_gravity = false,
-			end_right_gravity = false,
+			right_gravity = true,
+			-- end_row = 0,
+			-- end_col = 0,
+			-- end_right_gravity = true,
 			-- hl_eol = true,
 			-- hl_group = "Visual",
 			-- priority = 101,
 		}
 	)
-	local pos_e = vim.api.nvim_buf_get_extmark_by_id(0, M.cache.ns_id, M.cache.id, {details = true})
-	M.text_save = require("hls").nvim_buf_get_text(0, pos_e[1], pos_e[2], pos_e[3].end_row, pos_e[3].end_col, {})
+
+	local pos = vim.api.nvim_buf_get_extmark_by_id(0, M.cache.ns_id, id, {details = true})
+	vim.print("save!", pos)
+
+	return id
 end
 
-M.load = function()
-	local pos_e = vim.api.nvim_buf_get_extmark_by_id(0, M.cache.ns_id, M.cache.id, {details = true})
-	vim.api.nvim_buf_del_extmark(0, M.cache.ns_id, M.cache.id)
-	M.text_load = require("hls").nvim_buf_get_text(0, pos_e[1], pos_e[2], pos_e[3].end_row, pos_e[3].end_col, {})
+M.load = function(id)
+	local pos = vim.api.nvim_buf_get_extmark_by_id(0, M.cache.ns_id, id, {details = true})
 
-	M.pos_v_load = {}
+	vim.print("load!", pos)
 
-	local row0 = pos_e[1]
-	local row1 = row0 + 1
-	row1 = math.min(row1, vim.api.nvim_buf_line_count(0))
-	M.pos_v_load.lnum = row1
-
-	M.pos_v_load.virtcol = M.pos_v_save.virtcol
-	if not vim.deep_equal(M.text_load, M.text_save) then
-		local divisor = V.width_editable_text()
-
-		local space_save = math.ceil(M.pos_v_save.virtcol / divisor)
-
-		local virtcol_max_load = V.virtcol_max_real(M.pos_v_load.lnum)
-		local space_load_max = math.ceil(virtcol_max_load / divisor)
-
-		if space_load_max < space_save then
-			M.pos_v_load.virtcol = (space_load_max - 1) * divisor + (M.pos_v_save.virtcol % divisor)
-		end
-	end
-
-	-- vim.print(M.pos_v_load)
-	V.set_cursor(M.pos_v_load)
+	vim.api.nvim_buf_del_extmark(0, M.cache.ns_id, id)
+	vim.fn.cursor(pos[1] + 1, pos[2] + 1)
 end
 
-M.load_later = function(when)
+M.load_later = function(id, when)
+	local load = function() M.load(id) end
+
 	if when == "schedule" then
-		vim.schedule(M.load)
+		vim.schedule(load)
 	else
 		vim.api.nvim_create_autocmd(
 			"ModeChanged",
 			{
 				pattern = when,
-				callback = M.load,
+				callback = load,
 				once = true,
 			}
 		)
@@ -91,8 +71,8 @@ M.wrap = function(key, when, replace_keycodes)
 			"n",
 			key,
 			function()
-				require("fix-cursor").save()
-				require("fix-cursor").load_later(when)
+				local id = require("fix-cursor").save()
+				require("fix-cursor").load_later(id, when)
 				return key
 			end,
 			{
@@ -118,8 +98,8 @@ M.wrap = function(key, when, replace_keycodes)
 				"n",
 				key,
 				function()
-					require("fix-cursor").save()
-					require("fix-cursor").load_later(when)
+					local id = require("fix-cursor").save()
+					require("fix-cursor").load_later(id, when)
 					return rhs
 				end,
 				{
@@ -133,8 +113,8 @@ M.wrap = function(key, when, replace_keycodes)
 				"n",
 				key,
 				function()
-					require("fix-cursor").save()
-					require("fix-cursor").load_later(when)
+					local id = require("fix-cursor").save()
+					require("fix-cursor").load_later(id, when)
 					return vim.api.nvim_eval(rhs)
 				end,
 				{
@@ -165,8 +145,8 @@ M.wrap = function(key, when, replace_keycodes)
 				"n",
 				key,
 				function()
-					require("fix-cursor").save()
-					require("fix-cursor").load_later(when)
+					local id = require("fix-cursor").save()
+					require("fix-cursor").load_later(id, when)
 					callback()
 				end,
 				{
@@ -178,8 +158,8 @@ M.wrap = function(key, when, replace_keycodes)
 				"n",
 				key,
 				function()
-					require("fix-cursor").save()
-					require("fix-cursor").load_later(when)
+					local id = require("fix-cursor").save()
+					require("fix-cursor").load_later(id, when)
 					return callback()
 				end,
 				{

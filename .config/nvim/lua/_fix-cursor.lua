@@ -21,6 +21,9 @@ wrap(".", "schedule", true)
 
 wrap("e", "schedule", true)
 
+wrap("<bs>",  "schedule", true)
+wrap("<del>", "schedule", true)
+
 -- # yanky.nvim
 
 wrap("p", "schedule", true)

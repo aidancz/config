@@ -114,7 +114,7 @@ vim.o.conceallevel = 0
 
 -- ## cursor
 
-vim.o.virtualedit = "none"
+vim.o.virtualedit = "onemore"
 
 --[[
 vi evilly hide 2 things:
@@ -150,19 +150,26 @@ works great!
 but later, more inconsistency is discovered:
 normal mode $ does not take you to the fake eol
 normal mode x does not delete the fake eol
+when a line's width is equal to the screen's width, with/without listchars, the behavior of gj/gk is confusing
 ...
 this list is endless, just search "virutaledit" in the github issue page
 
-okay.
 the whole vim is built with the assumption of hiding eol and eob
 trying to break this assumption makes so many things misbehave
-so i give it up
-customization is allowed in vim, but not at this fundamental level
 
-i guess this is why the vim maintainers change `selection=old` to `selection=inclusive`,
-which trys to fix the eol problem in visual mode,
-but still cannot change `virtualedit=none` to `virtualedit=onemore`,
-which trys to fix the eol problem in normal mode.
+but some things work:
+- vim.fn.col works perfectly
+- vim.fn.virtcol("$") and vim.fn.virtcol({lnum, "$"}) works perfectly
+  though the doc says: "the result is the number of cells in the cursor line plus one"
+  come on! why just say: "the result is eol's virtcol"?
+  this remind me of the doc about "inclusive" and "exclusive", which says "the last character towards the end of the buffer is not included"
+  come on! why just say: "inclusive treats cursor as block, while exclusive treats cursor as bar"?
+
+luckily, some improvement was made:
+- the "selection" option fix the eol problem in visual mode
+
+so "vim.o.virtualedit = onemore" is acceptable
+but definitely DO NOT use "vim.o.virtualedit = all", that will break so many things
 --]]
 
 vim.o.startofline = false
