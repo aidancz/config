@@ -72,7 +72,7 @@ vim.api.nvim_create_autocmd(
 		group = "filetype",
 		pattern = "help",
 		callback = function()
-			vim.bo.buflisted = true
+			-- vim.bo.buflisted = true
 			clear_gutter()
 		end,
 	}

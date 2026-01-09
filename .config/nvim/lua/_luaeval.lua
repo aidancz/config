@@ -1,8 +1,20 @@
 require("luaeval").setup({
 	hook_bufadd = function()
-		vim.schedule(require("luaeval").load)
-
 		vim.api.nvim_create_augroup("luaeval_config", {clear = true})
+
+		-- load after reading shada
+		-- NOTE: do not use vim.schedule, or with the rapid use of :restart the data will lose
+		vim.api.nvim_create_autocmd(
+			"VimEnter",
+			{
+				group = "luaeval_config",
+				callback = function()
+					require("luaeval").load()
+				end,
+			}
+		)
+
+		-- save before writing shada
 		vim.api.nvim_create_autocmd(
 			"VimLeavePre",
 			{

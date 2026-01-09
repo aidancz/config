@@ -296,7 +296,7 @@ vim.o.hidden = true
 
 vim.o.splitbelow = true
 vim.o.splitright = true
-vim.o.splitkeep = "screen"
+vim.o.splitkeep = "topline"
 vim.o.equalalways = true
 vim.o.winfixheight = false
 

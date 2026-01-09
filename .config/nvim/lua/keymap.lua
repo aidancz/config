@@ -182,6 +182,32 @@ require("luaexec").add({
 	code =
 [[
 local count = vim.v.count
+if count == 0 then count = "" end
+vim.cmd(count .. "bn")
+]],
+	from = "buffer",
+	name = "next",
+	keys = {{"n", "x"}, "<down>"},
+})
+
+require("luaexec").add({
+	code =
+[[
+local count = vim.v.count
+if count == 0 then count = "" end
+vim.cmd(count .. "bp")
+]],
+	from = "buffer",
+	name = "prev",
+	keys = {{"n", "x"}, "<up>"},
+})
+
+--[=[{{{
+
+require("luaexec").add({
+	code =
+[[
+local count = vim.v.count
 if count == 0 then count = 1 end
 
 local buf = vim.api.nvim_get_current_buf()
@@ -245,6 +271,8 @@ vim.api.nvim_set_current_buf(buf)
 	name = "prev",
 	keys = {{"n", "x"}, "<up>"},
 })
+
+--}}}]=]
 
 -- ## (window leader)
 

@@ -8,7 +8,7 @@ require("go-up").setup({
 -- # virtual lines
 
 require("luaexec").add({
-	code = [[require("go-up").toggle()]],
+	code = [[require("go-up").toggle_autocmd()]],
 	from = "go-up",
 })
 

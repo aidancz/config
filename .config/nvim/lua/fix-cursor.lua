@@ -115,32 +115,46 @@ print:
 --]]
 
 M.load_later = function(id, when)
-	local load = function() M.load(id) end
-	local load_schedule_and_checkmode = vim.schedule_wrap(function()
-		vim.print("schedule start!")
-		local mode = vim.api.nvim_get_mode().mode
-		if mode ~= "n" then
-			vim.api.nvim_create_autocmd(
-				"ModeChanged",
-				{
-					pattern = "*:n",
-					callback = load,
-					once = true,
-				}
-			)
-		else
+	local load = function()
+		M.load(id)
+	end
+
+	local load_schedule = function()
+		vim.schedule(function()
+			vim.print("schedule start!")
 			load()
-		end
-	end)
+		end)
+	end
+
+	local load_schedule_normaldo = function()
+		vim.schedule(function()
+			vim.print("schedule start!")
+			local mode = vim.api.nvim_get_mode().mode
+			if mode == "n" then
+				load()
+			else
+				vim.api.nvim_create_autocmd(
+					"ModeChanged",
+					{
+						pattern = "*:n",
+						callback = load,
+						once = true,
+					}
+				)
+			end
+		end)
+	end
 
 	if when == "schedule" then
-		load_schedule_and_checkmode()
+		load_schedule()
 	else
 		vim.api.nvim_create_autocmd(
 			"ModeChanged",
 			{
-				pattern = when,
-				callback = load_schedule_and_checkmode,
+				pattern = "*:n",
+				-- callback = load,
+				-- callback = load_schedule,
+				callback = load_schedule_normaldo,
 				once = true,
 			}
 		)
