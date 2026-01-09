@@ -8,15 +8,34 @@ vim.api.nvim_create_autocmd(
 	{
 		group = "quit_win",
 		callback = function(event)
-			local closing_window_handle = tonumber(event.match)
-			for _, i in ipairs(vim.api.nvim_list_wins()) do
-				if i == closing_window_handle then
-					-- do nothing
-				elseif vim.fn.buflisted(vim.api.nvim_win_get_buf(i)) ~= 0 then
-					return
-				end
+			local wins = vim.api.nvim_list_wins()
+
+			local win_closing = tonumber(event.match)
+			local is_closing_window = function(win)
+				return win == win_closing
 			end
-			vim.cmd("qa!")
+			local is_floating_window = function(win)
+				return vim.api.nvim_win_get_config(win).relative ~= ""
+			end
+
+			local wins_filtered = vim.tbl_filter(
+				function(win)
+					return not (is_closing_window(win) or is_floating_window(win))
+				end,
+				wins
+			)
+
+			-- vim.print(wins_filtered)
+
+			if
+				#wins_filtered == 1
+				and
+				vim.bo[vim.api.nvim_win_get_buf(wins_filtered[1])].filetype == "buvvers"
+			then
+				vim.cmd("qa!")
+			else
+				-- do nothing
+			end
 		end,
 	}
 )

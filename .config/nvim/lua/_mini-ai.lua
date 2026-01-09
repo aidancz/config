@@ -121,25 +121,25 @@ require("luaexec").add({
 	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "left",  "next")()]],
 	from = "miniai_goto_head",
 	name = "next",
-	keys = {{"n", "x"}, "<cr>j"},
+	keys = {{"n", "x", "o"}, "<cr>j"},
 })
 require("luaexec").add({
 	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "left",  "cover_or_prev")()]],
 	from = "miniai_goto_head",
 	name = "prev",
-	keys = {{"n", "x"}, "<cr>k"},
+	keys = {{"n", "x", "o"}, "<cr>k"},
 })
 require("luaexec").add({
 	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "right", "cover_or_next")()]],
 	from = "miniai_goto_tail",
 	name = "next",
-	keys = {{"n", "x"}, "<cr>l"},
+	keys = {{"n", "x", "o"}, "<cr>l"},
 })
 require("luaexec").add({
 	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "right", "prev")()]],
 	from = "miniai_goto_tail",
 	name = "prev",
-	keys = {{"n", "x"}, "<cr>h"},
+	keys = {{"n", "x", "o"}, "<cr>h"},
 })
 
 -- ## extend

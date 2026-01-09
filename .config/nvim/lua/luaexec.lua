@@ -57,11 +57,6 @@ excmd:
 	[[lua require("luaexec").load({ "print_time()", 'return "5j"' })]]
 --]=]
 
-M.is_operator_pending_mode = function()
-	local mode = vim.api.nvim_get_mode().mode
-	return string.sub(mode, 1, 2) == "no"
-end
-
 M.feedkeys = function(keys, mode)
 	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, true, true), mode, false)
 end
@@ -72,14 +67,26 @@ M.load = function(chunk)
 	if ret == nil then return end
 
 	local key
-	local reg = [["]] .. vim.v.register
-	local cnt = tostring(vim.v.count)
-	if cnt == "0" then cnt = "" end
-	if M.is_operator_pending_mode() then
+	local mode = vim.api.nvim_get_mode().mode
+	if string.find(mode, "^no") then
+	-- operator pending mode
+		M.feedkeys("<cmd>normal! mx<cr><esc><cmd>normal! `x<cr>", "n")
+		-- back to normal mode without changing cursor position
+
+		local reg = [["]] .. vim.v.register
 		local ope = vim.v.operator
+		local cnt = tostring(vim.v.count); if cnt == "0" then cnt = "" end
+
 		key = reg .. ope .. cnt .. ret
-	else
+	elseif string.find(mode, "^n") then
+	-- normal mode
+		local reg = [["]] .. vim.v.register
+		local cnt = tostring(vim.v.count); if cnt == "0" then cnt = "" end
+
 		key = reg .. cnt .. ret
+	else
+	-- other mode
+		key = ret
 	end
 
 	local mod

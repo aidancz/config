@@ -56,16 +56,16 @@ M.is_exclusive_window = function(win)
 	) ~= ""
 end
 
-M.is_full_width_window = function(win)
+M.is_main_window = function(win)
 	return
-	vim.api.nvim_win_get_width(win) == vim.o.columns
+	vim.api.nvim_win_get_width(win) >= (vim.o.columns * 3/4)
 end
 
 M.assign_gutter = function()
 	for _, win in ipairs(vim.api.nvim_list_wins()) do
 		if M.is_exclusive_window(win) then
 			-- do nothing
-		elseif M.is_full_width_window(win) then
+		elseif M.is_main_window(win) then
 			M.set_gutter1(win)
 		else
 			M.set_gutter0(win)
