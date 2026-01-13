@@ -57,8 +57,51 @@ vim.opt.fillchars:append({vertright = "┣"})
 
 -- ## cursor
 
-vim.o.guicursor = ""
-vim.o.cursorline = false
+vim.o.guicursor = "a:nofrils_red_bg"
+
+vim.api.nvim_create_augroup("option_fix_guicursor", {clear = true})
+vim.api.nvim_create_autocmd(
+	"FocusGained",
+	{
+		group = "option_fix_guicursor",
+		callback = function()
+			vim.o.guicursor = "a:nofrils_red_bg"
+		end,
+	}
+)
+vim.api.nvim_create_autocmd(
+	"VimLeave",
+	{
+		group = "option_fix_guicursor",
+		callback = function()
+			vim.o.guicursor = "a:nofrils_white_bg"
+		end,
+	}
+)
+
+vim.o.cursorline = true
+
+vim.api.nvim_create_augroup("option_fix_cursorline", {clear = true})
+vim.api.nvim_create_autocmd(
+	"WinEnter",
+	{
+		group = "option_fix_cursorline",
+		callback = function()
+			vim.wo.cursorline = true
+		end,
+	}
+)
+vim.api.nvim_create_autocmd(
+	"WinLeave",
+	{
+		group = "option_fix_cursorline",
+		callback = function()
+			vim.wo.cursorline = false
+		end,
+	}
+)
+-- https://stackoverflow.com/questions/12017331/how-can-i-make-vim-highlight-the-current-line-on-only-the-active-buffer
+
 vim.o.cursorlineopt = "screenline"
 vim.o.cursorcolumn = false
 

@@ -9,14 +9,24 @@ M.config = {
 		filetype = "lua",
 	},
 	win = {
+
+		-- relative = "editor",
+		-- row = 0,
+		-- col = vim.o.columns,
+		-- anchor = "NE",
+		-- width = math.floor(vim.o.columns / 2),
+		-- height = vim.o.lines - vim.o.cmdheight - 1 - 2,
+
 		relative = "editor",
-		anchor = "NE",
-		-- border = "bold",
-		row = 0,
+		row = vim.o.lines - 2,
 		col = vim.o.columns,
-		width = math.floor(vim.o.columns / 2),
-		height = vim.o.lines - vim.o.cmdheight - 1 - 2,
+		anchor = "SE",
+		width = vim.o.columns,
+		height = math.floor(vim.o.lines / 3),
+
+		-- border = "bold",
 		title = "luaeval",
+
 	},
 	win_enter = true,
 	win_opt = {

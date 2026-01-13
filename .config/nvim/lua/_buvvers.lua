@@ -32,7 +32,8 @@ vim.api.nvim_create_autocmd(
 				and
 				vim.bo[vim.api.nvim_win_get_buf(wins_filtered[1])].filetype == "buvvers"
 			then
-				vim.cmd("qa!")
+				-- vim.cmd("qa!") -- NOTE: affect VimLeave autocmd
+				vim.schedule(function() vim.cmd("qa!") end)
 			else
 				-- do nothing
 			end
@@ -82,7 +83,8 @@ require("buvvers").setup({
 		for n, name in ipairs(name_l) do
 			local icon, hl = require("mini.icons").get("file", name)
 			name_l[n] = {
-				{icon .. " ", hl},
+				{icon, hl},
+				" ",
 				name,
 			}
 		end
