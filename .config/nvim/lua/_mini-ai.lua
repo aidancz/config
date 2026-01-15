@@ -12,12 +12,15 @@ require("paramo").gen_ai_spec = function(para)
 	end
 
 	local para_i = para
-	local para_a = {
-		is_head = para.is_head,
+	local para_a
+	local is_head_nonempty = function(pos) return para.is_head(pos) and (not is_empty(pos)) end
+	local is_tail_nonempty = function(pos) return para.is_tail(pos) and (not is_empty(pos)) end
+	para_a = {
+		is_head = is_head_nonempty,
 		is_tail = function(pos)
 			return
 				(
-					para.is_tail(pos)
+					is_tail_nonempty(pos)
 					and
 					not is_empty(require("virtcol").next_pos(pos))
 				)
@@ -25,7 +28,7 @@ require("paramo").gen_ai_spec = function(para)
 				(
 					para_0.is_tail(pos)
 					and
-					para.is_tail(require("paramo").prev_pos(pos, para_1.is_tail))
+					is_tail_nonempty(require("paramo").prev_pos(pos, para_1.is_tail))
 				)
 		end,
 	}
@@ -391,7 +394,7 @@ extend({
 extend({
 	m = require("paramo").gen_ai_spec(
 		require("para/indent")({
-			indent_empty = "inherit_min_nonzero",
+			indent_empty = "inherit_max_nonzero",
 			type = "==",
 		})
 	),
@@ -402,7 +405,7 @@ extend({
 extend({
 	v = require("paramo").gen_ai_spec(
 		require("para/indent")({
-			indent_empty = "inherit_min_nonzero",
+			indent_empty = "inherit_max_nonzero",
 			type = ">=.",
 		})
 	),

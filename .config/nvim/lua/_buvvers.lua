@@ -83,7 +83,8 @@ require("buvvers").setup({
 		for n, name in ipairs(name_l) do
 			local icon, hl = require("mini.icons").get("file", name)
 			name_l[n] = {
-				{icon, hl},
+				-- {icon, hl},
+				icon,
 				" ",
 				name,
 			}

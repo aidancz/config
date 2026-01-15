@@ -40,8 +40,8 @@ M.save = function(opts)
 		opts
 	)
 
-	local pos = vim.api.nvim_buf_get_extmark_by_id(0, M.cache.ns_id, id, {details = true})
-	vim.print("save: " .. vim.inspect(pos, {newline = "", indent = ""}))
+	-- local pos = vim.api.nvim_buf_get_extmark_by_id(0, M.cache.ns_id, id, {details = true})
+	-- vim.print("save: " .. vim.inspect(pos, {newline = "", indent = ""}))
 
 	return id
 end
@@ -49,7 +49,7 @@ end
 M.load = function(id)
 	local pos = vim.api.nvim_buf_get_extmark_by_id(0, M.cache.ns_id, id, {details = true})
 
-	vim.print("load: " .. vim.inspect(pos, {newline = "", indent = ""}))
+	-- vim.print("load: " .. vim.inspect(pos, {newline = "", indent = ""}))
 
 	vim.api.nvim_buf_del_extmark(0, M.cache.ns_id, id)
 	vim.fn.cursor(pos[1] + 1, pos[2] + 1)
@@ -59,22 +59,22 @@ end
 with:
 --]]
 
-require("vim._extui").enable({
-	enable = true,
-	msg = {
-		-- target = "cmd",
-		target = "msg",
-		timeout = 4000,
-	},
-})
-vim.api.nvim_create_autocmd(
-	"ModeChanged",
-	{
-		callback = function(event)
-			print(event.match)
-		end,
-	}
-)
+-- require("vim._extui").enable({
+-- 	enable = true,
+-- 	msg = {
+-- 		-- target = "cmd",
+-- 		target = "msg",
+-- 		timeout = 4000,
+-- 	},
+-- })
+-- vim.api.nvim_create_autocmd(
+-- 	"ModeChanged",
+-- 	{
+-- 		callback = function(event)
+-- 			print(event.match)
+-- 		end,
+-- 	}
+-- )
 
 --[[
 key: y<esc>
@@ -121,14 +121,14 @@ M.load_later = function(id, when)
 
 	local load_schedule = function()
 		vim.schedule(function()
-			vim.print("schedule start!")
+			-- vim.print("schedule start!")
 			load()
 		end)
 	end
 
 	local load_schedule_normaldo = function()
 		vim.schedule(function()
-			vim.print("schedule start!")
+			-- vim.print("schedule start!")
 			local mode = vim.api.nvim_get_mode().mode
 			if mode == "n" then
 				load()
