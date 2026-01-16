@@ -4,18 +4,15 @@ require("mini.deps").add({
 
 -- # require("paramo").gen_ai_spec
 
-require("paramo").gen_ai_spec = function(para)
+require("paramo").gen_para_with_empty_lines = function(para)
 	local para_0 = require("para/emptiness_row")({empty = true})
 	local para_1 = require("para/emptiness_row")({empty = false})
 	local is_empty = function(pos)
 		return vim.fn.getline(pos.lnum) == ""
 	end
-
-	local para_i = para
-	local para_a
 	local is_head_nonempty = function(pos) return para.is_head(pos) and (not is_empty(pos)) end
 	local is_tail_nonempty = function(pos) return para.is_tail(pos) and (not is_empty(pos)) end
-	para_a = {
+	return {
 		is_head = is_head_nonempty,
 		is_tail = function(pos)
 			return
@@ -32,6 +29,11 @@ require("paramo").gen_ai_spec = function(para)
 				)
 		end,
 	}
+end
+
+require("paramo").gen_ai_spec = function(para)
+	local para_i = para
+	local para_a = require("paramo").gen_para_with_empty_lines(para)
 
 	return
 	function(ai_type, id, opts)

@@ -12,6 +12,45 @@ require("luaexec").add({
 	from = "go-up",
 })
 
+-- # scroll
+
+require("luaexec").add({
+	code = [[require("go-up").scroll(0 + vim.api.nvim_win_get_height(0) * (1 / 4))]],
+	from = "go-up",
+	name = "scroll +1/4",
+	keys = {{"n", "x"}, "<c-f>"},
+})
+require("luaexec").add({
+	code = [[require("go-up").scroll(0 - vim.api.nvim_win_get_height(0) * (1 / 4))]],
+	from = "go-up",
+	name = "scroll -1/4",
+	keys = {{"n", "x"}, "<c-d>"},
+})
+require("luaexec").add({
+	code = [[require("go-up").scroll(0 + vim.api.nvim_win_get_height(0) * (2 / 4))]],
+	from = "go-up",
+	name = "scroll +2/4",
+	keys = {{"n", "x"}, "<c-g>"},
+})
+require("luaexec").add({
+	code = [[require("go-up").scroll(0 - vim.api.nvim_win_get_height(0) * (2 / 4))]],
+	from = "go-up",
+	name = "scroll -2/4",
+	keys = {{"n", "x"}, "<c-s>"},
+})
+require("luaexec").add({
+	code = [[require("go-up").scroll(0 + vim.api.nvim_win_get_height(0) * (4 / 4))]],
+	from = "go-up",
+	name = "scroll +4/4",
+	keys = {{"n", "x"}, "f"},
+})
+require("luaexec").add({
+	code = [[require("go-up").scroll(0 - vim.api.nvim_win_get_height(0) * (4 / 4))]],
+	from = "go-up",
+	name = "scroll -4/4",
+	keys = {{"n", "x"}, "d"},
+})
+
 -- # recenter
 
 require("luaexec").add({
@@ -51,9 +90,9 @@ require("luaexec").add({
 vim.api.nvim_create_augroup("cursor_center", {clear = false})
 -- create the augroup if it does not exist, else do nothing
 if
-	next(
+	vim.tbl_isempty(
 		vim.api.nvim_get_autocmds({group = "cursor_center"})
-	) == nil
+	)
 then
 	vim.api.nvim_create_autocmd(
 		{
@@ -76,63 +115,4 @@ end
 	from = "go-up",
 	name = "recenter 2/4 lock",
 	keys = {{"n", "x"}, "<space><cr>"},
-})
-
--- # align
-
-require("luaexec").add({
-	code = [[require("go-up").align()]],
-	from = "go-up",
-	name = "align",
-	keys = {{"n", "x"}, "<space><tab>"},
-})
-
--- # scroll
-
-require("luaexec").add({
-	code = [[require("go-up").scroll(vim.api.nvim_win_get_height(0) * (1 / 4), true)]],
-	from = "go-up",
-	name = "scroll +1/4",
-	keys = {{"n", "x"}, "<c-g>"},
-})
-require("luaexec").add({
-	code = [[require("go-up").scroll(-vim.api.nvim_win_get_height(0) * (1 / 4), true)]],
-	from = "go-up",
-	name = "scroll -1/4",
-	keys = {{"n", "x"}, "<c-s>"},
-})
-require("luaexec").add({
-	code = [[require("go-up").scroll(vim.api.nvim_win_get_height(0) * (2 / 4), true)]],
-	from = "go-up",
-	name = "scroll +2/4",
-})
-require("luaexec").add({
-	code = [[require("go-up").scroll(-vim.api.nvim_win_get_height(0) * (2 / 4), true)]],
-	from = "go-up",
-	name = "scroll -2/4",
-})
-require("luaexec").add({
-	code = [[require("go-up").scroll(vim.api.nvim_win_get_height(0) * (4 / 4), true)]],
-	from = "go-up",
-	name = "scroll +4/4",
-	keys = {{"n", "x"}, "f"},
-})
-require("luaexec").add({
-	code = [[require("go-up").scroll(-vim.api.nvim_win_get_height(0) * (4 / 4), true)]],
-	from = "go-up",
-	name = "scroll -4/4",
-	keys = {{"n", "x"}, "d"},
-})
-
-require("luaexec").add({
-	code = [[require("go-up").scroll(1, false)]],
-	from = "go-up",
-	name = "scroll +1",
-	keys = {{"n", "x"}, "<c-f>"},
-})
-require("luaexec").add({
-	code = [[require("go-up").scroll(-1, false)]],
-	from = "go-up",
-	name = "scroll -1",
-	keys = {{"n", "x"}, "<c-d>"},
 })

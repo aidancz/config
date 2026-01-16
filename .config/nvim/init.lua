@@ -86,6 +86,7 @@ end
 -- # global variable
 
 require("_nofrils")
+-- require("_catppuccin")
 require("option")
 require("vim_runtime")
 
@@ -235,7 +236,7 @@ require("_yazi")
 require("diagnostic")
 require("hl")
 
-require("_fix-cursor")
+-- require("_fix-cursor") -- too hacky and fragile
 
 -------------------------------- restore `require` function
 
