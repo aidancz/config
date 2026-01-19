@@ -35,7 +35,6 @@ require("luaexec").add({
 	from = "search",
 	name = "prev",
 })
-
 require("luaexec").np_update0()
 
 vim.keymap.set(
@@ -44,7 +43,7 @@ vim.keymap.set(
 	function()
 		require("luaexec").np_update2()
 		require("luaexec").np_node_exec(
-			require("luaexec").np_group.next
+			require("luaexec").np_cache.group.next
 		)
 	end
 )
@@ -54,7 +53,7 @@ vim.keymap.set(
 	function()
 		require("luaexec").np_update2()
 		require("luaexec").np_node_exec(
-			require("luaexec").np_group.prev
+			require("luaexec").np_cache.group.prev
 		)
 	end
 )

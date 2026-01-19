@@ -72,7 +72,7 @@ M.load = function(chunk)
 	if key == nil then return end
 
 	-- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), "n", false)
-	vim.cmd.normal({vim.keycode(key), bang = false})
+	vim.cmd.normal({vim.keycode(key), bang = true})
 end
 
 ---@param chunk string[]
@@ -145,38 +145,34 @@ end
 
 -- # nextprev (np)
 
-M.np_update0 = function()
-	M.np_is_repeat = false
+M.np_cache = {
+	group = nil,
+	searchnr = nil,
+	is_repeat = nil,
+}
 
-	M.np_group = M.registry.search
-	M.np_searchnr = vim.fn.histnr("/")
+M.np_update0 = function()
+	M.np_cache.group = M.registry.search
+	M.np_cache.searchnr = vim.fn.histnr("/")
 end
 
 M.np_update1 = function(node)
-	if
-		node.name == "next"
-		or
-		node.name == "prev"
-	then
-		M.np_group = M.registry[node.from]
-		M.np_searchnr = vim.fn.histnr("/")
-	end
+	local is_np_node = (node.name == "next" or node.name == "prev")
+	if not is_np_node then return end
+	M.np_cache.group = M.registry[node.from]
+	M.np_cache.searchnr = vim.fn.histnr("/")
 end
 
 M.np_update2 = function()
-	local searchnr = vim.fn.histnr("/")
-	if M.np_searchnr ~= searchnr then
-		M.np_group = M.registry.search
-		M.np_searchnr = searchnr
-	end
+	local has_searched = (vim.fn.histnr("/") ~= M.np_cache.searchnr)
+	if not has_searched then return end
+	M.np_cache.group = M.registry.search
+	M.np_cache.searchnr = vim.fn.histnr("/")
 end
 
 M.np_node_exec = function(node)
 	if node == nil then return end
-
-	M.np_is_repeat = true
-	pcall(function() node() end)
-	M.np_is_repeat = false
+	M.np_cache.is_repeat = true; pcall(function() node() end); M.np_cache.is_repeat = false;
 end
 
 -- # api
