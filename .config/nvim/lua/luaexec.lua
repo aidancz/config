@@ -46,60 +46,37 @@ M.registry = {
 --[=[
 chunk:
 	{
-		[[print_time()]],
-		[[return "5j"]],
+		[[local date = os.date()]],
+		[[print(date)]],
 	}
 
 temp:
-	[[{ "print_time()", 'return "5j"' }]]
+	[[{ "local date = os.date()", "print(date)" }]]
 
 excmd:
-	[[lua require("luaexec").load({ "print_time()", 'return "5j"' })]]
+	[[lua require("luaexec").load({ "local date = os.date()", "print(date)" })]]
+
+level0: M.load
+level1: M.chunk2excmd
+level2: M.exec
+level3: M.node_exec
 --]=]
 
-M.feedkeys = function(keys, mode)
-	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, true, true), mode, false)
-end
-
+---@param chunk string[]
+---@return nil
 M.load = function(chunk)
 	local str = table.concat(chunk, "\n")
-	local ret, opt = assert(load(str))()
-	if ret == nil then return end
+	local fun = load(str)
+	assert(fun)
+	local key = fun()
+	if key == nil then return end
 
-	local key
-	local mode = vim.api.nvim_get_mode().mode
-	if string.find(mode, "^no") then
-	-- operator pending mode
-		M.feedkeys("<cmd>normal! mx<cr><esc><cmd>normal! `x<cr>", "n")
-		-- back to normal mode without changing cursor position
-
-		local reg = [["]] .. vim.v.register
-		local ope = vim.v.operator
-		local cnt = tostring(vim.v.count); if cnt == "0" then cnt = "" end
-
-		key = reg .. ope .. cnt .. ret
-	elseif string.find(mode, "^n") then
-	-- normal mode
-		local reg = [["]] .. vim.v.register
-		local cnt = tostring(vim.v.count); if cnt == "0" then cnt = "" end
-
-		key = reg .. cnt .. ret
-	else
-	-- other mode
-		key = ret
-	end
-
-	local mod
-	opt = vim.tbl_extend("force", {remap = false}, opt or {})
-	if opt.remap then
-		mod = "m"
-	else
-		mod = "n"
-	end
-
-	M.feedkeys(key, mod)
+	-- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), "n", false)
+	vim.cmd.normal({vim.keycode(key), bang = false})
 end
 
+---@param chunk string[]
+---@return string excmd
 M.chunk2excmd = function(chunk)
 	local temp = vim.inspect(chunk)
 	-- temp does not contain "\n", since "array-like" tables are rendered horizontally
@@ -110,6 +87,8 @@ M.chunk2excmd = function(chunk)
 	return excmd
 end
 
+---@param excmd string
+---@return string[] chunk
 M.excmd2chunk = function(excmd)
 	if string.sub(excmd, 1, 28) ~= [[lua require("luaexec").load(]] then return end
 	local temp = string.sub(excmd, 29, -2)
@@ -121,8 +100,9 @@ M.excmd2chunk = function(excmd)
 	return chunk
 end
 
+---@param chunk string[]
 ---@param opts? {
----	histadd?: boolean|false,
+---	histadd?: boolean, @default false
 ---}
 M.exec = function(chunk, opts)
 	opts = vim.tbl_extend(
@@ -202,7 +182,7 @@ end
 -- # api
 
 M.node_exec = function(node, opts)
-	M.np_update1(node)
+	M.np_update1(node) -- enable nextprev
 	local chunk = vim.split(node.code, "\n", {trimempty = true})
 	M.exec(chunk, opts)
 end

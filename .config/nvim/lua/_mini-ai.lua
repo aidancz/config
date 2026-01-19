@@ -5,6 +5,7 @@ require("mini.deps").add({
 -- # require("paramo").gen_ai_spec
 
 require("paramo").gen_para_with_empty_lines = function(para)
+	local V = require("virtcol")
 	local para_0 = require("para/emptiness_row")({empty = true})
 	local para_1 = require("para/emptiness_row")({empty = false})
 	local is_empty = function(pos)
@@ -19,7 +20,11 @@ require("paramo").gen_para_with_empty_lines = function(para)
 				(
 					is_tail_nonempty(pos)
 					and
-					not is_empty(require("virtcol").next_pos(pos))
+					(
+						vim.tbl_isempty(V.next_pos(pos))
+						or
+						not is_empty(V.next_pos(pos))
+					)
 				)
 				or
 				(
@@ -86,74 +91,13 @@ local config =
 	search_method = "cover_or_next",
 }
 
--- ## (goto_left (next prev)) (goto_right (next prev))
-
--- https://github.com/nvim-mini/mini.nvim/issues/1093
-
-require("mini.ai").make_ai_move_rhs_id = nil
-require("mini.ai").make_ai_move_rhs = function(ask_id, side, search_method)
-	return function()
-		if ask_id then
-			local ok, tobj_id = pcall(vim.fn.getcharstr)
-			if not ok or tobj_id == "\27" then
-			-- ascii 27 is ESC
-				return
-			end
-			require("mini.ai").make_ai_move_rhs_id = vim.inspect(tobj_id)
-		end
-
-		local opts = string.format(
-			[[{n_times = %s, search_method = %s}]],
-			vim.inspect(vim.v.count1),
-			vim.inspect(search_method)
-		)
-		local cmd = string.format(
-			[[require("mini.ai").move_cursor(%s, "i", %s, %s)]],
-			vim.inspect(side),
-			require("mini.ai").make_ai_move_rhs_id,
-			opts
-		)
-		return "<cmd>lua " .. cmd .. "<cr>"
-	end
-end
-
-vim.keymap.set({"n", "x", "o"}, "<cr>j", require("mini.ai").make_ai_move_rhs(true, "left",  "next"), {expr = true})
-vim.keymap.set({"n", "x", "o"}, "<cr>k", require("mini.ai").make_ai_move_rhs(true, "left",  "cover_or_prev"), {expr = true})
-vim.keymap.set({"n", "x", "o"}, "<cr>l", require("mini.ai").make_ai_move_rhs(true, "right", "cover_or_next"), {expr = true})
-vim.keymap.set({"n", "x", "o"}, "<cr>h", require("mini.ai").make_ai_move_rhs(true, "right", "prev"), {expr = true})
-
-require("luaexec").add({
-	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "left",  "next")()]],
-	from = "miniai_goto_head",
-	name = "next",
-	keys = {{"n", "x", "o"}, "<cr>j"},
-})
-require("luaexec").add({
-	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "left",  "cover_or_prev")()]],
-	from = "miniai_goto_head",
-	name = "prev",
-	keys = {{"n", "x", "o"}, "<cr>k"},
-})
-require("luaexec").add({
-	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "right", "cover_or_next")()]],
-	from = "miniai_goto_tail",
-	name = "next",
-	keys = {{"n", "x", "o"}, "<cr>l"},
-})
-require("luaexec").add({
-	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "right", "prev")()]],
-	from = "miniai_goto_tail",
-	name = "prev",
-	keys = {{"n", "x", "o"}, "<cr>h"},
-})
-
--- ## extend
+-- ## define extend
 
 local extend = function(textobjects)
 	config.custom_textobjects = vim.tbl_extend("force", config.custom_textobjects, textobjects)
 end
 
--- ## extend_remap
+-- ## define extend_remap
 
 --[[
 mini.ai can only map textobject to i<char> and a<char>, cannot map textobject to <char>
@@ -203,14 +147,14 @@ local extend_remap = function(key, spec)
 	vim.keymap.set({"x", "o"}, key, config.mappings.inside .. char, {remap = true})
 end
 
--- ## textobject: mini.ai default
+-- ## extend(mini.ai default)
 
 extend({
 	-- [<not latin letters>] = function(ai_type, id, opts) <i: inside separators, a: inside separators and right edge> end,
 	-- :h MiniAi-builtin-textobjects, search "Default"
 })
 
--- ## textobject: word
+-- ## extend(word)
 
 extend({
 	-- "\9\32" == "\t " == HT and SP == tab and space
@@ -234,7 +178,7 @@ extend({
 	["x"] = require("mini.extra").gen_ai_spec.number(),
 })
 
--- ## textobject: brackets
+-- ## extend(brackets)
 
 extend({
 	["("] = { "%b()", "^.().*().$" },
@@ -292,7 +236,7 @@ vim.keymap.set(
 	}
 )
 
--- ## textobject: quotes
+-- ## extend(quotes)
 
 extend({
 	-- https://github.com/nvim-mini/mini.nvim/issues/1281
@@ -318,7 +262,7 @@ extend({
 	},
 })
 
--- ## textobject: previously changed
+-- ## extend(previously changed)
 
 extend({
 	r = function(ai_type, id, opts)
@@ -336,7 +280,7 @@ extend({
 	end,
 })
 
--- ## textobject: line
+-- ## extend_remap(line)
 
 extend_remap(
 	".",
@@ -383,7 +327,7 @@ extend({
 	end,
 })
 
--- ## textobject: para paragraph
+-- ## extend(para paragraph)
 
 extend({
 	["\r"] = require("paramo").gen_ai_spec(
@@ -391,7 +335,7 @@ extend({
 	),
 })
 
--- ## textobject: para indent "=="
+-- ## extend(para indent "==")
 
 extend({
 	m = require("paramo").gen_ai_spec(
@@ -402,7 +346,7 @@ extend({
 	),
 })
 
--- ## textobject: para indent ">=."
+-- ## extend(para indent ">=.")
 
 extend({
 	v = require("paramo").gen_ai_spec(
@@ -413,7 +357,7 @@ extend({
 	),
 })
 
--- ## textobject: para char1
+-- ## extend(para char1)
 
 extend({
 	["^"] = require("paramo").gen_ai_spec(
@@ -421,7 +365,7 @@ extend({
 	),
 })
 
--- ## textobject: buffer
+-- ## extend_remap(buffer)
 
 extend_remap(
 	",",
@@ -440,7 +384,7 @@ extend_remap(
 	end
 )
 
--- ## textobject: (markdown) fenced code block
+-- ## extend(markdown fenced code block)
 
 extend({
 	["C"] = {
@@ -448,7 +392,7 @@ extend({
 	},
 })
 
--- ## textobject: test
+-- ## extend(test)
 
 extend({
 })
@@ -456,3 +400,64 @@ extend({
 -- ## setup(config)
 
 require("mini.ai").setup(config)
+
+-- # require("mini.ai").make_ai_move_rhs
+
+-- https://github.com/nvim-mini/mini.nvim/issues/1093
+
+require("mini.ai").make_ai_move_rhs_id = nil
+require("mini.ai").make_ai_move_rhs = function(ask_id, side, search_method)
+	return function()
+		if ask_id then
+			local ok, tobj_id = pcall(vim.fn.getcharstr)
+			if not ok or tobj_id == "\27" then
+			-- ascii 27 is ESC
+				return
+			end
+			require("mini.ai").make_ai_move_rhs_id = vim.inspect(tobj_id)
+		end
+
+		local opts = string.format(
+			[[{n_times = %s, search_method = %s}]],
+			vim.inspect(vim.v.count1),
+			vim.inspect(search_method)
+		)
+		local cmd = string.format(
+			[[require("mini.ai").move_cursor(%s, "i", %s, %s)]],
+			vim.inspect(side),
+			require("mini.ai").make_ai_move_rhs_id,
+			opts
+		)
+		return "<cmd>lua " .. cmd .. "<cr>"
+	end
+end
+
+vim.keymap.set({"n", "x", "o"}, "<cr>j", require("mini.ai").make_ai_move_rhs(true, "left",  "next"), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "<cr>k", require("mini.ai").make_ai_move_rhs(true, "left",  "cover_or_prev"), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "<cr>l", require("mini.ai").make_ai_move_rhs(true, "right", "cover_or_next"), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "<cr>h", require("mini.ai").make_ai_move_rhs(true, "right", "prev"), {expr = true})
+
+require("luaexec").add({
+	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "left",  "next")()]],
+	from = "miniai_goto_head",
+	name = "next",
+	keys = {{"n", "x"}, "<cr>j"},
+})
+require("luaexec").add({
+	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "left",  "cover_or_prev")()]],
+	from = "miniai_goto_head",
+	name = "prev",
+	keys = {{"n", "x"}, "<cr>k"},
+})
+require("luaexec").add({
+	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "right", "cover_or_next")()]],
+	from = "miniai_goto_tail",
+	name = "next",
+	keys = {{"n", "x"}, "<cr>l"},
+})
+require("luaexec").add({
+	code = [[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_is_repeat, "right", "prev")()]],
+	from = "miniai_goto_tail",
+	name = "prev",
+	keys = {{"n", "x"}, "<cr>h"},
+})

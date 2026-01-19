@@ -15,7 +15,6 @@ M.get_gutter = function(width)
 	}
 
 	local width_delta = width - 8
-	assert(width_delta >= 0)
 	gutter.statuscolumn = string.rep(" ", width_delta) .. gutter.statuscolumn
 
 	return gutter
