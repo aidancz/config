@@ -60,5 +60,4 @@ require("luaexec").add({
 require("luaexec").add({
 	code = [[require("macro").record_edit()]],
 	from = "macro",
-	keys = {"n", "cq"},
 })

@@ -1,6 +1,6 @@
 vim.keymap.set(
 	{"n", "x"},
-	"sc",
+	"<space>C",
 	function()
 		vim.o.operatorfunc = [[v:lua.require'comment-multiply'.operatorfunc]]
 		return "g@"
@@ -11,7 +11,7 @@ vim.keymap.set(
 )
 vim.keymap.set(
 	{"n", "x"},
-	"sb",
+	"<space>B",
 	function()
 		vim.o.operatorfunc = [[v:lua.require'comment-multiply'.operatorfunc_block]]
 		return "g@"

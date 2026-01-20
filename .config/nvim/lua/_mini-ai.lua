@@ -196,7 +196,7 @@ extend({
 			"%b{}",
 			"%b<>",
 		},
-		"^.().*().$"
+		"^.().*().$",
 	},
 	y = {
 		{
@@ -205,7 +205,7 @@ extend({
 			"%b{}",
 			"%b<>",
 		},
-		"^.%s*().-()%s*.$"
+		"^.%s*().-()%s*.$",
 	},
 })
 
@@ -250,7 +250,7 @@ extend({
 			'%b""',
 			"%b``",
 		},
-		"^.().*().$"
+		"^.().*().$",
 	},
 	t = {
 		{
@@ -258,8 +258,38 @@ extend({
 			'%".-%"',
 			"%`.-%`",
 		},
-		"^.().*().$"
+		"^.().*().$",
 	},
+})
+
+-- ## extend(inline)
+
+extend({
+	["."] = function(ai_type, id, opts)
+		local lnum_cursor = vim.fn.line(".")
+		local line_cursor = vim.fn.getline(".")
+
+		local col_start = 1
+		local col_first_nonblank = string.find(line_cursor, "%S")
+		local col_end = string.len(line_cursor)
+
+		if col_end == 0 then return end
+		-- empty line
+		if col_first_nonblank == nil and ai_type == "i" then return end
+		-- only whitespace
+
+		return {
+			from = {
+				line = lnum_cursor,
+				col = (ai_type == "i") and col_first_nonblank or col_start,
+			},
+			to = {
+				line = lnum_cursor,
+				col = col_end,
+			},
+			vis_mode = "v",
+		}
+	end,
 })
 
 -- ## extend(previously changed)
@@ -280,6 +310,12 @@ extend({
 	end,
 })
 
+-- ## extend(user prompt)
+
+extend({
+	["?"] = require("mini.ai").gen_spec.user_prompt(),
+})
+
 -- ## extend_remap(line)
 
 extend_remap(
@@ -298,34 +334,6 @@ extend_remap(
 		}
 	end
 )
-
-extend({
-	["."] = function(ai_type, id, opts)
-		local lnum_cursor = vim.fn.line(".")
-		local line_cursor = vim.fn.getline(".")
-
-		local col_start = 1
-		local col_first_nonblank = string.find(line_cursor, "%S")
-		local col_end = string.len(line_cursor)
-
-		if col_end == 0 then return end
-		-- empty line
-		if col_first_nonblank == nil and ai_type == "i" then return end
-		-- only whitespace
-
-		return {
-			from = {
-				line = lnum_cursor,
-				col = (ai_type == "i") and col_first_nonblank or col_start
-			},
-			to = {
-				line = lnum_cursor,
-				col = col_end,
-			},
-			vis_mode = "v",
-		}
-	end,
-})
 
 -- ## extend(para paragraph)
 
@@ -384,11 +392,33 @@ extend_remap(
 	end
 )
 
+-- ## extend(argument)
+
+extend({
+	j = require("mini.ai").gen_spec.argument(),
+	-- TODO: implement my own
+})
+
+-- ## extend(function call)
+
+extend({
+	f = require("mini.ai").gen_spec.function_call(),
+})
+
 -- ## extend(markdown fenced code block)
 
 extend({
 	["C"] = {
 		"```.-\n().-()```\n",
+	},
+})
+
+-- ## extend(sgml tag)
+
+extend({
+	["T"] = {
+		"<(%w-)%f[^<%w][^<>]->.-</%1>",
+		"^<.->().*()</[^/]->$",
 	},
 })
 
