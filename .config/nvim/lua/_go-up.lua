@@ -116,3 +116,36 @@ end
 	name = "recenter 2/4 lock",
 	keys = {{"n", "x"}, "<space><cr>"},
 })
+
+-- # setwinline
+
+require("luaexec").add({
+	code = [[require("go-up").setwinline(vim.api.nvim_win_get_height(0) * (0 / 4))]],
+	from = "go-up",
+	name = "setwinline 0/4",
+	keys = {{"n", "x"}, "<cr>s"},
+})
+require("luaexec").add({
+	code = [[require("go-up").setwinline(vim.api.nvim_win_get_height(0) * (1 / 4))]],
+	from = "go-up",
+	name = "setwinline 1/4",
+	keys = {{"n", "x"}, "<cr>d"},
+})
+require("luaexec").add({
+	code = [[require("go-up").setwinline(vim.api.nvim_win_get_height(0) * (2 / 4))]],
+	from = "go-up",
+	name = "setwinline 2/4",
+	keys = {{"n", "x"}, "<cr><cr>"},
+})
+require("luaexec").add({
+	code = [[require("go-up").setwinline(vim.api.nvim_win_get_height(0) * (3 / 4))]],
+	from = "go-up",
+	name = "setwinline 3/4",
+	keys = {{"n", "x"}, "<cr>f"},
+})
+require("luaexec").add({
+	code = [[require("go-up").setwinline(vim.api.nvim_win_get_height(0) * (4 / 4))]],
+	from = "go-up",
+	name = "setwinline 4/4",
+	keys = {{"n", "x"}, "<cr>g"},
+})

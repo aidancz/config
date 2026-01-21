@@ -17,12 +17,19 @@ M.config = {
 		-- width = math.floor(vim.o.columns / 2),
 		-- height = vim.o.lines - vim.o.cmdheight - 1 - 2,
 
+		-- relative = "editor",
+		-- row = vim.o.lines - 2,
+		-- col = vim.o.columns,
+		-- anchor = "SE",
+		-- width = vim.o.columns,
+		-- height = math.floor(vim.o.lines / 3),
+
 		relative = "editor",
 		row = vim.o.lines - 2,
 		col = vim.o.columns,
 		anchor = "SE",
-		width = vim.o.columns,
-		height = math.floor(vim.o.lines / 3),
+		width = math.floor(vim.o.columns / 2),
+		height = math.floor(vim.o.lines / 2),
 
 		-- border = "bold",
 		title = "luaeval",

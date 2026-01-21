@@ -168,11 +168,10 @@ extend({
 	["c"] = { "%f[\1-\8\14-\31\127][\1-\8\14-\31\127]+" }, -- control characters except {NUL HT LF VT FF CR}
 	-- separate ascii into several groups
 
-	["a"] = { "()()" .. "%f[%a][%a]+" .. "()[\9\32]*()" }, -- %a = %l + %u
-	["w"] = { "()()" .. "%f[%w][%w]+" .. "()[\9\32]*()" }, -- %w = %l + %u + %d
-	["g"] = { "()()" .. "%f[%g][%g]+" .. "()[\9\32]*()" }, -- %g = %l + %u + %d + %p
-
-	[" "] = { "()()" .. "%f[%w_][%w_]+" .. "()[\9\32]*()" },
+	["a"] = { "()()" .. "%f[%a][%a]+"   .. "()[\9\32]*()" }, -- %a  = %l + %u
+	["w"] = { "()()" .. "%f[%w][%w]+"   .. "()[\9\32]*()" }, -- %w  = %l + %u + %d
+	[" "] = { "()()" .. "%f[%w_][%w_]+" .. "()[\9\32]*()" }, -- %w_ = %l + %u + %d + _
+	["g"] = { "()()" .. "%f[%g][%g]+"   .. "()[\9\32]*()" }, -- %g  = %l + %u + %d + %p
 
 	-- ["x"] = { "()()" .. "%f[%x][%x]+" .. "()[\9\32]*()" }, -- %x = {abcdefABCDEF} + %d
 	["x"] = require("mini.extra").gen_ai_spec.number(),
@@ -343,23 +342,34 @@ extend({
 	),
 })
 
--- ## extend(para indent "==")
+-- ## extend(para indent)
 
 extend({
-	m = require("paramo").gen_ai_spec(
+	["\t"] = require("paramo").gen_ai_spec(
 		require("para/indent")({
-			indent_empty = "inherit_max_nonzero",
+			indent_empty = "intact",
 			type = "==",
 		})
 	),
 })
 
--- ## extend(para indent ">=.")
+-- ## extend(para indent)
 
 extend({
 	v = require("paramo").gen_ai_spec(
 		require("para/indent")({
-			indent_empty = "inherit_max_nonzero",
+			indent_empty = "max",
+			type = ">=.",
+		})
+	),
+})
+
+-- ## extend(para indent)
+
+extend({
+	m = require("paramo").gen_ai_spec(
+		require("para/indent")({
+			indent_empty = "max_beyond_cursor",
 			type = ">=.",
 		})
 	),
