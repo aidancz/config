@@ -83,6 +83,12 @@ vim.keymap.set(
 	function() vim.cmd(vim.fn.histget("cmd", -1)) end
 )
 
+vim.keymap.set(
+	{"n", "x", "s", "i", "c", "t", "o"},
+	"<c-tab>",
+	function() vim.cmd(vim.fn.histget("cmd", -1)) end
+)
+
 -- ## open terminal
 
 vim.keymap.set(
@@ -138,7 +144,15 @@ vim.keymap.set({"n", "x", "o"}, "w", "b")
 
 -- ## (hori (next-final prev-final))
 
-vim.keymap.set({"n", "x", "o"}, "]", "$")
+-- vim.keymap.set({"n", "x", "o"}, "]", "$")
+vim.keymap.set(
+	{"n", "x", "o"},
+	"]",
+	function()
+		vim.fn.cursor({0, vim.v.maxcol, 0, vim.v.maxcol})
+	end
+)
+
 vim.keymap.set({"n", "x", "o"}, "[", "0")
 
 -- ## (search (next prev)) the search direction does not depend on the previous search command
@@ -417,13 +431,13 @@ vim.keymap.set("i", "<left>",  "<c-g>U<left>")
 
 -- ## insert mode <s-cr> should do the opposite of <cr>
 
-vim.keymap.set(
-	"i",
-	"<s-cr>",
-	function()
-		feedkeys("<cr><cmd>.m.-2<cr>", "n")
-	end
-)
+-- vim.keymap.set(
+-- 	"i",
+-- 	"<s-cr>",
+-- 	function()
+-- 		feedkeys("<cr><cmd>.m.-2<cr>", "n")
+-- 	end
+-- )
 
 -- ## cmdline mode <c-w> should ignore iskeyword
 

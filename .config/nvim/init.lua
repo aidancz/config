@@ -233,6 +233,7 @@ require("_vim-AdvancedSorters")
 require("_vim-table-mode")
 require("_yanky")
 require("_yazi")
+require("autoindent")
 require("diagnostic")
 require("hl")
 

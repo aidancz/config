@@ -160,7 +160,20 @@ vim.o.conceallevel = 0
 
 -- ## cursor
 
+-- vim.o.virtualedit = "none"
+
 vim.o.virtualedit = "onemore"
+vim.api.nvim_create_augroup("option_fix_virtualedit", {clear = true})
+vim.api.nvim_create_autocmd(
+	"InsertLeave",
+	{
+		group = "option_fix_virtualedit",
+		callback = function()
+			local pos = vim.api.nvim_buf_get_mark(0, "^")
+			vim.api.nvim_win_set_cursor(0, pos)
+		end,
+	}
+)
 
 --[[
 vi evilly hide 2 things:
