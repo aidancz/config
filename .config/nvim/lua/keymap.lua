@@ -144,14 +144,15 @@ vim.keymap.set({"n", "x", "o"}, "w", "b")
 
 -- ## (hori (next-final prev-final))
 
--- vim.keymap.set({"n", "x", "o"}, "]", "$")
-vim.keymap.set(
-	{"n", "x", "o"},
-	"]",
-	function()
-		vim.fn.cursor({0, vim.v.maxcol, 0, vim.v.maxcol})
-	end
-)
+vim.keymap.set({"n", "x", "o"}, "]", "$")
+
+-- vim.keymap.set(
+-- 	{"n", "x", "o"},
+-- 	"]",
+-- 	function()
+-- 		vim.fn.cursor({0, vim.v.maxcol, 0, vim.v.maxcol})
+-- 	end
+-- )
 
 vim.keymap.set({"n", "x", "o"}, "[", "0")
 
