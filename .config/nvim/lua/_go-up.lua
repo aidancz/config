@@ -87,13 +87,14 @@ require("luaexec").add({
 require("luaexec").add({
 	code =
 [[
-vim.api.nvim_create_augroup("cursor_center", {clear = false})
+vim.api.nvim_create_augroup("cursor_lock", {clear = false})
 -- create the augroup if it does not exist, else do nothing
 if
 	vim.tbl_isempty(
-		vim.api.nvim_get_autocmds({group = "cursor_center"})
+		vim.api.nvim_get_autocmds({group = "cursor_lock"})
 	)
 then
+	local winline = vim.fn.winline()
 	vim.api.nvim_create_autocmd(
 		{
 			"CursorMoved",
@@ -101,19 +102,18 @@ then
 			"WinScrolled",
 		},
 		{
-			group = "cursor_center",
+			group = "cursor_lock",
 			callback = function()
-				require("luaexec").registry["go-up"]["recenter 2/4"]()
+				require("go-up").recenter(winline)
 			end,
 		}
 	)
-	vim.api.nvim_exec_autocmds("CursorMoved", {group = "cursor_center"})
 else
-	vim.api.nvim_clear_autocmds({group = "cursor_center"})
+	vim.api.nvim_clear_autocmds({group = "cursor_lock"})
 end
 ]],
 	from = "go-up",
-	name = "recenter 2/4 lock",
+	name = "recenter lock",
 	keys = {{"n", "x"}, "<space><cr>"},
 })
 

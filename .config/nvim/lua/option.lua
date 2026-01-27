@@ -160,9 +160,9 @@ vim.o.conceallevel = 0
 
 -- ## cursor
 
-vim.o.virtualedit = "none"
+-- vim.o.virtualedit = "none"
 
--- vim.o.virtualedit = "onemore"
+vim.o.virtualedit = "onemore"
 
 vim.api.nvim_create_augroup("option_fix_virtualedit", {clear = true})
 vim.api.nvim_create_autocmd(
@@ -230,6 +230,10 @@ luckily, some improvement was made:
 
 so "vim.o.virtualedit = onemore" is acceptable
 but definitely DO NOT use "vim.o.virtualedit = all", that will break so many things
+
+related:
+https://github.com/neovim/neovim/issues/6415
+https://github.com/neovim/neovim/issues/37575
 --]]
 
 vim.o.startofline = false
