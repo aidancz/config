@@ -1,8 +1,4 @@
-require("mini.deps").add({
-	source = "kdheepak/lazygit.nvim",
-	depends = {
-		{
-			source = "nvim-lua/plenary.nvim",
-		},
-	},
+vim.pack.add({
+	"https://github.com/kdheepak/lazygit.nvim",
+	"https://github.com/nvim-lua/plenary.nvim",
 })

@@ -1,3 +1,3 @@
-require("mini.deps").add({
-	source = "h-hg/fcitx.nvim",
+vim.pack.add({
+	"https://github.com/h-hg/fcitx.nvim",
 })

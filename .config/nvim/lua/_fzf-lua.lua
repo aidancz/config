@@ -1,8 +1,10 @@
 -- https://github.com/ibhagwan/fzf-lua/issues/140
 
-require("mini.deps").add({
-	source = "ibhagwan/fzf-lua",
-	checkout = "b51b97f~",
+vim.pack.add({
+	{
+		src = "https://github.com/ibhagwan/fzf-lua",
+		version = "b51b97f~", -- for go-up.nvim
+	},
 })
 
 require("fzf-lua").setup({

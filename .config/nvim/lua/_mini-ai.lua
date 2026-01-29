@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "nvim-mini/mini.ai",
+vim.pack.add({
+	"https://github.com/nvim-mini/mini.ai",
 })
 
 -- # require("paramo").gen_ai_spec

@@ -1,11 +1,9 @@
-require("mini.deps").add({
-	source = "ThePrimeagen/harpoon",
-	checkout = "harpoon2",
-	depends = {
-		{
-			source = "nvim-lua/plenary.nvim",
-		},
+vim.pack.add({
+	{
+		src = "https://github.com/ThePrimeagen/harpoon",
+		version = "harpoon2",
 	},
+	"https://github.com/nvim-lua/plenary.nvim",
 })
 
 -- require("harpoon").setup({

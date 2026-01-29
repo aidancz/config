@@ -1,7 +1,3 @@
--- require("mini.deps").add({
--- 	source = "aidancz/lfsp.nvim",
--- })
-
 vim.keymap.set(
 	"n",
 	"u",

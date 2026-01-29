@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "jonatan-branting/nvim-better-n",
+vim.pack.add({
+	"https://github.com/jonatan-branting/nvim-better-n",
 })
 
 require("better-n").setup({})

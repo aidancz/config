@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "ghostbuster91/nvim-next",
+vim.pack.add({
+	"https://github.com/ghostbuster91/nvim-next",
 })
 
 require("nvim-next").setup({

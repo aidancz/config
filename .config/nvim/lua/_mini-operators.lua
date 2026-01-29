@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "nvim-mini/mini.operators",
+vim.pack.add({
+	"https://github.com/nvim-mini/mini.operators",
 })
 
 require("mini.operators").setup({

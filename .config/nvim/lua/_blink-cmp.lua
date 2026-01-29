@@ -1,13 +1,15 @@
-require("mini.deps").add({
-	source = "saghen/blink.cmp",
-	-- checkout = "main",
-	hooks = {
-		post_install = function(arg)
-			vim.system({"cargo", "build", "--release"}, {cwd = arg.path}):wait()
-		end,
-		post_checkout = function(arg)
-			vim.system({"cargo", "build", "--release"}, {cwd = arg.path}):wait()
-		end,
+vim.pack.add({
+	{
+		src = "https://github.com/saghen/blink.cmp",
+		data = {
+			on_packchanged = function(ev)
+				local kind = ev.data.kind
+				local kinds = {"install", "update"}
+				if not vim.list_contains(kinds, kind) then return end
+				local path = ev.data.path
+				vim.system({"cargo", "build", "--release"}, {cwd = path}):wait()
+			end,
+		},
 	},
 })
 

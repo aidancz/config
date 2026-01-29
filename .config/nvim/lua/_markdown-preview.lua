@@ -1,14 +1,18 @@
-require("mini.deps").add({
-	source = "iamcco/markdown-preview.nvim",
-	hooks = {
-		post_install = function()
-			require("mini.deps").later(function()
-			vim.fn["mkdp#util#install"]()
-			end)
-		end,
-		post_checkout = function()
-			vim.fn["mkdp#util#install"]()
-		end,
+vim.pack.add({
+	{
+		src = "https://github.com/iamcco/markdown-preview.nvim",
+		data = {
+			on_packchanged = function(ev)
+				local kind = ev.data.kind
+				local kinds = {"install", "update"}
+				if not vim.list_contains(kinds, kind) then return end
+				local active = ev.data.active
+				if not active then
+					vim.cmd.packadd("markdown-preview.nvim")
+				end
+				vim.fn["mkdp#util#install"]()
+			end,
+		},
 	},
 })
 

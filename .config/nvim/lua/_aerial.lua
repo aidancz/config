@@ -1,23 +1,19 @@
-require("mini.deps").add({
-	source = "stevearc/aerial.nvim",
-	depends = {
-		{
-			source = "nvim-treesitter/nvim-treesitter",
-		},
-	},
+vim.pack.add({
+	"https://github.com/stevearc/aerial.nvim",
+	"https://github.com/nvim-treesitter/nvim-treesitter",
 })
 
 require("aerial").setup({
 	keymaps = {
-		["?"]      = false,
-		["<C-j>"]  = false,
-		["<C-k>"]  = false,
-		["<C-s>"]  = false,
-		["<C-v>"]  = false,
-		["<a-j>"]  = "actions.down_and_scroll",
-		["<a-k>"]  = "actions.up_and_scroll",
-		["<a-s>"]  = "actions.jump_split",
-		["<a-v>"]  = "actions.jump_vsplit",
+		["?"]     = false,
+		["<C-j>"] = false,
+		["<C-k>"] = false,
+		["<C-s>"] = false,
+		["<C-v>"] = false,
+		["<a-j>"] = "actions.down_and_scroll",
+		["<a-k>"] = "actions.up_and_scroll",
+		["<a-s>"] = "actions.jump_split",
+		["<a-v>"] = "actions.jump_vsplit",
 	},
 	layout = {
 		width = nil,

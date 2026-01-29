@@ -1,7 +1,3 @@
--- require("mini.deps").add({
--- 	source = "aidancz/eolmark.nvim",
--- })
-
 require("eolmark").setup({
 	excluded_filetypes = {
 	},

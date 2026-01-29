@@ -1,3 +1,3 @@
-require("mini.deps").add({
-	source = "L3MON4D3/LuaSnip",
+vim.pack.add({
+	"https://github.com/L3MON4D3/LuaSnip",
 })

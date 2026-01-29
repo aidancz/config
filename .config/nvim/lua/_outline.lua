@@ -1,10 +1,6 @@
-require("mini.deps").add({
-	source = "hedyhli/outline.nvim",
-	depends = {
-		{
-			source = "epheien/outline-treesitter-provider.nvim",
-		},
-	},
+vim.pack.add({
+	"https://github.com/hedyhli/outline.nvim",
+	"https://github.com/epheien/outline-treesitter-provider.nvim",
 })
 
 require("outline").setup({

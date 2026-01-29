@@ -1,10 +1,6 @@
-require("mini.deps").add({
-	source = "gbprod/substitute.nvim",
-	depends = {
-		{
-			source = "gbprod/yanky.nvim",
-		},
-	},
+vim.pack.add({
+	"https://github.com/gbprod/substitute.nvim",
+	"https://github.com/gbprod/yanky.nvim",
 })
 
 require("substitute").setup({

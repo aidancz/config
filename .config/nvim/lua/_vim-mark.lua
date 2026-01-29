@@ -1,10 +1,6 @@
-require("mini.deps").add({
-	source = "inkarkat/vim-mark",
-	depends = {
-		{
-			source = "inkarkat/vim-ingo-library",
-		},
-	},
+vim.pack.add({
+	"https://github.com/inkarkat/vim-mark",
+	"https://github.com/inkarkat/vim-ingo-library",
 })
 
 vim.api.nvim_set_hl(0, "MarkWord1", {link = "nofrils_blue_bg"})

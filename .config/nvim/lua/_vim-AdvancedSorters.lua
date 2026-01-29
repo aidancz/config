@@ -1,8 +1,4 @@
-require("mini.deps").add({
-	source = "inkarkat/vim-AdvancedSorters",
-	depends = {
-		{
-			source = "inkarkat/vim-ingo-library",
-		},
-	},
+vim.pack.add({
+	"https://github.com/inkarkat/vim-AdvancedSorters",
+	"https://github.com/inkarkat/vim-ingo-library",
 })

@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "chrisgrieser/nvim-recorder",
+vim.pack.add({
+	"https://github.com/chrisgrieser/nvim-recorder",
 })
 
 require("recorder").setup({

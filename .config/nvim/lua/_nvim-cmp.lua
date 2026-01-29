@@ -1,22 +1,10 @@
-require("mini.deps").add({
-	source = "hrsh7th/nvim-cmp",
-	depends = {
-		{
-			source = "hrsh7th/cmp-path",
-		},
-		{
-			source = "hrsh7th/cmp-buffer",
-		},
-		{
-			source = "hrsh7th/cmp-cmdline",
-		},
-		{
-			source = "hrsh7th/cmp-nvim-lsp",
-		},
-	},
+vim.pack.add({
+	"https://github.com/hrsh7th/nvim-cmp",
+	"https://github.com/hrsh7th/cmp-path",
+	"https://github.com/hrsh7th/cmp-buffer",
+	"https://github.com/hrsh7th/cmp-cmdline",
+	"https://github.com/hrsh7th/cmp-nvim-lsp",
 })
-
-
 
 local cmp = require("cmp")
 

@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "jake-stewart/auto-cmdheight.nvim",
+vim.pack.add({
+	"https://github.com/jake-stewart/auto-cmdheight.nvim",
 })
 
 require("auto-cmdheight").setup({

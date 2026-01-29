@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "nvim-mini/mini.visits",
+vim.pack.add({
+	"https://github.com/nvim-mini/mini.visits",
 })
 
 require("mini.visits").setup({

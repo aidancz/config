@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "stevearc/conform.nvim",
+vim.pack.add({
+	"https://github.com/stevearc/conform.nvim",
 })
 
 require("conform").setup({

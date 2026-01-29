@@ -1,11 +1,5 @@
 -- https://github.com/nvim-mini/mini.nvim/issues/1326
 
--- require("mini.deps").add({
--- 	source = "aidancz/nofrils.nvim",
--- })
-
-----------------------------------------------------------------
-
 local main = function()
 	-- # set option
 
@@ -140,13 +134,9 @@ local main = function()
 	vim.api.nvim_set_hl(0, "manUnderline", {link = "nofrils_cyan"})
 end
 
-----------------------------------------------------------------
-
 require("nofrils").setup({
 	main = main,
 })
-
-----------------------------------------------------------------
 
 vim.cmd("colorscheme nofrils")
 -- `ColorScheme` autocmd will be triggered

@@ -16,6 +16,7 @@ M.query_registry.vimdoc = vim.treesitter.query.parse(
 (h1 (heading) @h1)
 (h2 (heading) @h2)
 (h3 (heading) @h3)
+(line (column_heading) @subheading)
 (tag text: (word) @tag)
 ]]
 )

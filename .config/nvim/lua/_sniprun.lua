@@ -1,21 +1,17 @@
-require("mini.deps").add({
-	source = "michaelb/sniprun",
-	hooks = {
-		post_install = function(arg)
-			vim.system({"sh", "install.sh"}, {cwd = arg.path}):wait()
-		end,
-		post_checkout = function(arg)
-			vim.system({"sh", "install.sh"}, {cwd = arg.path}):wait()
-		end,
+vim.pack.add({
+	{
+		src = "https://github.com/michaelb/sniprun",
+		data = {
+			on_packchanged = function(ev)
+				local kind = ev.data.kind
+				local kinds = {"install", "update"}
+				if not vim.list_contains(kinds, kind) then return end
+				local path = ev.data.path
+				vim.system({"sh", "install.sh"}, {cwd = path}):wait()
+			end,
+		},
 	},
 })
-
--- `arg` is a table:
--- {
---   name = "sniprun",
---   path = "/home/aidan/.local/share/nvim/site/pack/deps/opt/sniprun",
---   source = "https://github.com/michaelb/sniprun"
--- }
 
 require("sniprun").setup({
 	selected_interpreters = {

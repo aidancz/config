@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "nvim-mini/mini.diff",
+vim.pack.add({
+	"https://github.com/nvim-mini/mini.diff",
 })
 
 require("mini.diff").setup({

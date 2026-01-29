@@ -1,7 +1,3 @@
--- require("mini.deps").add({
--- 	source = "aidancz/go-up.nvim",
--- })
-
 require("go-up").setup({
 })
 

@@ -1,12 +1,5 @@
-require("mini.deps").setup()
+vim.pack.add({
+	"https://github.com/nvim-mini/mini.deps",
+})
 
-vim.api.nvim_set_hl(0, "MiniDepsChangeAdded",   {link = "nofrils_green"})
-vim.api.nvim_set_hl(0, "MiniDepsChangeRemoved", {link = "nofrils_red"})
-vim.api.nvim_set_hl(0, "MiniDepsHint",          {})
-vim.api.nvim_set_hl(0, "MiniDepsInfo",          {})
-vim.api.nvim_set_hl(0, "MiniDepsMsgBreaking",   {})
-vim.api.nvim_set_hl(0, "MiniDepsPlaceholder",   {})
-vim.api.nvim_set_hl(0, "MiniDepsTitle",         {})
-vim.api.nvim_set_hl(0, "MiniDepsTitleError",    {link = "nofrils_red"})
-vim.api.nvim_set_hl(0, "MiniDepsTitleSame",     {link = "nofrils_blue"})
-vim.api.nvim_set_hl(0, "MiniDepsTitleUpdate",   {link = "nofrils_green"})
+require("mini.deps").setup()

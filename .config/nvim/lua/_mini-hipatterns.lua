@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "nvim-mini/mini.hipatterns",
+vim.pack.add({
+	"https://github.com/nvim-mini/mini.hipatterns",
 })
 
 require("mini.hipatterns").setup({

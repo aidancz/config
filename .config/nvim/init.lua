@@ -40,34 +40,15 @@ end
 vim.loader.enable()
 -- https://github.com/lewis6991/impatient.nvim
 
----------------------------------------------------------------- plugin manager
+---------------------------------------------------------------- load
 
-local path_package = vim.fn.stdpath("data") .. "/site/"
-local path_deps = path_package .. "pack/deps/start/mini.deps"
-if not vim.uv.fs_stat(path_deps) then
-	vim.system(
-		{
-			"git",
-			"clone",
-			"--filter=blob:none",
-			"https://github.com/nvim-mini/mini.deps",
-			path_deps,
-		}
-	):wait()
-	vim.cmd("packadd mini.deps")
-	vim.cmd("helptags ALL")
-end
+-------------------------------- require pack to setup vim.pack
+
+require("pack")
+
+-------------------------------- require mini.deps for its `now` and `later` functions
 
 require("_mini-deps")
-
-local dir = "~/sync_git"
-for name, type in vim.fs.dir(dir) do
-	if type == "directory" and string.find(name, "vim") then
-		vim.opt.runtimepath:prepend(dir .. "/" .. name)
-	end
-end
-
----------------------------------------------------------------- load
 
 -------------------------------- require now
 

@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "nvim-mini/mini.bufremove",
+vim.pack.add({
+	"https://github.com/nvim-mini/mini.bufremove",
 })
 
 require("mini.bufremove").setup({

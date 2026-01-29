@@ -1,7 +1,3 @@
--- require("mini.deps").add({
--- 	source = "aidancz/whitespace.nvim",
--- })
-
 require("whitespace").setup({
 	excluded_filetypes = {
 	},

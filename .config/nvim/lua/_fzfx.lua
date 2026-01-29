@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "linrongbin16/fzfx.nvim",
+vim.pack.add({
+	"https://github.com/linrongbin16/fzfx.nvim",
 })
 
 require("fzfx").setup({

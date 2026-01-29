@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "nvim-mini/mini.notify",
+vim.pack.add({
+	"https://github.com/nvim-mini/mini.notify",
 })
 
 require("mini.notify").setup({

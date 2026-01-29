@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "chrisgrieser/nvim-spider",
+vim.pack.add({
+	"https://github.com/chrisgrieser/nvim-spider",
 })
 
 require("spider").setup({

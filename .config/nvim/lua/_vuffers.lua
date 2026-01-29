@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "Hajime-Suzuki/vuffers.nvim",
+vim.pack.add({
+	"https://github.com/Hajime-Suzuki/vuffers.nvim",
 })
 
 require("vuffers").setup({

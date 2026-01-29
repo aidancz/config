@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "stevearc/quicker.nvim",
+vim.pack.add({
+	"https://github.com/stevearc/quicker.nvim",
 })
 
 require("quicker").setup({

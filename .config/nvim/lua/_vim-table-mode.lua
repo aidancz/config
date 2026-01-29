@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "dhruvasagar/vim-table-mode",
+vim.pack.add({
+	"https://github.com/dhruvasagar/vim-table-mode",
 })
 
 vim.g.table_mode_corner = "|"

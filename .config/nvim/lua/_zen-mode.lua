@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "folke/zen-mode.nvim",
+vim.pack.add({
+	"https://github.com/folke/zen-mode.nvim",
 })
 
 require("zen-mode").setup({

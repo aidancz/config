@@ -1,10 +1,6 @@
-require("mini.deps").add({
-	source = "numToStr/Comment.nvim",
-	-- depends = {
-	-- 	{
-	-- 		source = "JoosepAlviste/nvim-ts-context-commentstring",
-	-- 	},
-	-- },
+vim.pack.add({
+	"https://github.com/numToStr/Comment.nvim",
+	-- "https://github.com/JoosepAlviste/nvim-ts-context-commentstring",
 })
 
 -- require("ts_context_commentstring").setup({

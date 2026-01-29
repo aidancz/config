@@ -1,7 +1,3 @@
--- require("mini.deps").add({
--- 	source = "aidancz/buvvers.nvim",
--- })
-
 vim.api.nvim_create_augroup("quit_win", {clear = true})
 vim.api.nvim_create_autocmd(
 	"WinClosed",

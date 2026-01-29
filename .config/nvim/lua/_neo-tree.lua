@@ -1,13 +1,7 @@
-require("mini.deps").add({
-	source = "nvim-neo-tree/neo-tree.nvim",
-	depends = {
-		{
-			source = "nvim-lua/plenary.nvim",
-		},
-		{
-			source = "MunifTanjim/nui.nvim",
-		},
-	},
+vim.pack.add({
+	"https://github.com/nvim-neo-tree/neo-tree.nvim",
+	"https://github.com/nvim-lua/plenary.nvim",
+	"https://github.com/MunifTanjim/nui.nvim",
 })
 
 require("neo-tree").setup({

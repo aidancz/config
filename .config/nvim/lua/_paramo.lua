@@ -1,7 +1,3 @@
--- require("mini.deps").add({
--- 	source = "aidancz/paramo.nvim",
--- })
-
 require("paramo").get_expr_func = function(direction, is)
 	return
 	function()

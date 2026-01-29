@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "nvim-mini/mini.indentscope",
+vim.pack.add({
+	"https://github.com/nvim-mini/mini.indentscope",
 })
 
 require("mini.indentscope").setup({

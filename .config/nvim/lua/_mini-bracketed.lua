@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "nvim-mini/mini.bracketed",
+vim.pack.add({
+	"https://github.com/nvim-mini/mini.bracketed",
 })
 
 require("mini.bracketed").setup({

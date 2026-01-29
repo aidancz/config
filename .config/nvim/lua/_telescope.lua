@@ -1,24 +1,19 @@
-require("mini.deps").add({
-	source = "nvim-telescope/telescope.nvim",
-	depends = {
-		{
-			source = "nvim-lua/plenary.nvim",
-		},
-		{
-			source = "nvim-telescope/telescope-fzf-native.nvim",
-			hooks = {
-				post_install = function(arg)
-					vim.system({"make"}, {cwd = arg.path}):wait()
-				end,
-				post_checkout = function(arg)
-					vim.system({"make"}, {cwd = arg.path}):wait()
-				end,
-			},
-		},
-		{
-			source = "nvim-telescope/telescope-ui-select.nvim",
+vim.pack.add({
+	"https://github.com/nvim-telescope/telescope.nvim",
+	"https://github.com/nvim-lua/plenary.nvim",
+	{
+		src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim",
+		data = {
+			on_packchanged = function(ev)
+				local kind = ev.data.kind
+				local kinds = {"install", "update"}
+				if not vim.list_contains(kinds, kind) then return end
+				local path = ev.data.path
+				vim.system({"make"}, {cwd = path}):wait()
+			end,
 		},
 	},
+	"https://github.com/nvim-telescope/telescope-ui-select.nvim",
 })
 
 -- HACK: https://github.com/nvim-telescope/telescope.nvim/issues/3436

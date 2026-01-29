@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "nvim-mini/mini.pick",
+vim.pack.add({
+	"https://github.com/nvim-mini/mini.pick",
 })
 
 require("mini.pick").gen_yank = function(item2str_or_strs)

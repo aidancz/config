@@ -1,6 +1,8 @@
-require("mini.deps").add({
-	source = "nvim-treesitter/nvim-treesitter-textobjects",
-	checkout = "main",
+vim.pack.add({
+	{
+		src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
+		version = "main",
+	},
 })
 
 require("nvim-treesitter-textobjects").setup({

@@ -1,10 +1,6 @@
-require("mini.deps").add({
-	source = "ecthelionvi/NeoComposer.nvim",
-	depends = {
-		{
-			source = "kkharji/sqlite.lua",
-		},
-	},
+vim.pack.add({
+	"https://github.com/ecthelionvi/NeoComposer.nvim",
+	"https://github.com/kkharji/sqlite.lua",
 })
 
 require("NeoComposer").setup({

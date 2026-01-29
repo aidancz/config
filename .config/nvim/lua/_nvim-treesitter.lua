@@ -2,18 +2,22 @@
 -- https://github.com/nvim-treesitter/nvim-treesitter/issues/3092
 -- 2025-09-24: remove /usr/local/lib/nvim/ dir
 
-require("mini.deps").add({
-	source = "nvim-treesitter/nvim-treesitter",
-	checkout = "main",
-	hooks = {
-		post_install = function()
-			require("mini.deps").later(function()
-			vim.cmd("TSUpdate")
-			end)
-		end,
-		post_checkout = function()
-			vim.cmd("TSUpdate")
-		end,
+vim.pack.add({
+	{
+		src = "https://github.com/nvim-treesitter/nvim-treesitter",
+		version = "main",
+		data = {
+			on_packchanged = function(ev)
+				local kind = ev.data.kind
+				local kinds = {"install", "update"}
+				if not vim.list_contains(kinds, kind) then return end
+				local active = ev.data.active
+				if not active then
+					vim.cmd.packadd("nvim-treesitter")
+				end
+				vim.cmd("TSUpdate")
+			end,
+		},
 	},
 })
 

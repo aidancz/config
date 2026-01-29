@@ -1,7 +1,3 @@
--- require("mini.deps").add({
--- 	source = "aidancz/tT.nvim",
--- })
-
 vim.keymap.set(
 	{"n", "x", "o"},
 	"m/",

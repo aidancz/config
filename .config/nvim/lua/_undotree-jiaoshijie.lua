@@ -1,10 +1,6 @@
-require("mini.deps").add({
-	source = "jiaoshijie/undotree",
-	depends = {
-		{
-			source = "nvim-lua/plenary.nvim",
-		},
-	},
+vim.pack.add({
+	"https://github.com/jiaoshijie/undotree",
+	"https://github.com/nvim-lua/plenary.nvim",
 })
 
 require("undotree").setup({

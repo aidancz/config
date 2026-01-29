@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "sidebar-nvim/sidebar.nvim",
+vim.pack.add({
+	"https://github.com/sidebar-nvim/sidebar.nvim",
 })
 
 require("sidebar-nvim").setup({

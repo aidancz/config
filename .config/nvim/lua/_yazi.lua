@@ -1,5 +1,5 @@
-require("mini.deps").add({
-	source = "mikavilpas/yazi.nvim",
+vim.pack.add({
+	"https://github.com/mikavilpas/yazi.nvim",
 })
 
 require("yazi").setup({

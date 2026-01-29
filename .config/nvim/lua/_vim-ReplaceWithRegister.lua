@@ -1,3 +1,3 @@
-require("mini.deps").add({
-	source = "inkarkat/vim-ReplaceWithRegister",
+vim.pack.add({
+	"https://github.com/inkarkat/vim-ReplaceWithRegister",
 })

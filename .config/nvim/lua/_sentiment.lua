@@ -1,9 +1,9 @@
 vim.g.loaded_matchparen = 1
 vim.o.showmatch = false
 
-require("mini.deps").add({
-	-- source = "utilyre/sentiment.nvim",
-	source = "ofseed/sentiment.nvim",
+vim.pack.add({
+	-- "https://github.com/utilyre/sentiment.nvim",
+	"https://github.com/ofseed/sentiment.nvim",
 })
 
 require("sentiment").setup({
