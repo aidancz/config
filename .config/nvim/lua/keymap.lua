@@ -34,7 +34,8 @@ vim.keymap.set({"n", "x", "s", "i", "c", "t", "o"}, "<c-m>", "<c-m>")
 -- ## quit
 
 vim.keymap.set(
-	{"n", "x", "s", "i", "c", "t", "o"},
+	-- {"n", "x", "s", "i", "c", "t", "o"},
+	{"n", "x", "s", "i", "c", "o"},
 	"<f1>",
 	function()
 		local is_not_floating_window = function(win)
@@ -55,7 +56,8 @@ vim.keymap.set(
 		end
 	end
 )
--- `:q` ignore help window, so create this mapping, see `:h edit-window`
+-- after `:q`, vim quits if only help or preview windows remain, i don't want that,
+-- so create this mapping, see `:h edit-window`
 -- https://vi.stackexchange.com/questions/9479/what-is-the-difference-between-quit-and-close-commands
 
 vim.keymap.set(
@@ -69,7 +71,9 @@ vim.keymap.set(
 vim.keymap.set(
 	{"n", "x", "s", "i", "c", "t", "o"},
 	"<f25>", -- <c-f1>
-	function() vim.cmd("restart") end
+	function()
+		vim.cmd("restart")
+	end
 )
 -- https://github.com/neovim/neovim/issues/35166
 

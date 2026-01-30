@@ -33,3 +33,33 @@ require("luaexec").add({
 	from = "yanky",
 	name = "history",
 })
+
+do return end
+
+-- # if yank/delete space chars to the unnamed register, append to the register instead of replace
+
+vim.api.nvim_create_augroup("yank_space_chars", {clear = true})
+vim.api.nvim_create_autocmd(
+	"TextYankPost",
+	{
+		group = "yank_space_chars",
+		callback = function()
+			local ev = vim.v.event
+			-- vim.print(ev); do return end;
+
+			if ev.regname ~= "" then return end -- ensure unnamed register
+			if string.find(ev.regtype, vim.keycode("<c-v>")) then return end
+
+			local regcontent = table.concat(ev.regcontents, "\n")
+			if ev.regtype == "V" then regcontent = regcontent .. "\n" end
+			local space_chars = string.match(regcontent, "^%s+$")
+			if space_chars == nil then return end
+
+			local reg = require("yanky.history").storage.get(2).regcontents
+			reg = reg .. space_chars
+			vim.fn.setreg("", reg)
+			vim.fn.setreg("+", reg)
+			vim.fn.setreg("*", reg)
+		end,
+	}
+)

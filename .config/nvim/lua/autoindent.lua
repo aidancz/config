@@ -59,10 +59,10 @@ M.lead_max = function(lnum)
 	end
 end
 
-M.indent_if_empty = function()
-	local lnum_cursor = vim.fn.line(".")
-	if M.line_is_nonempty(lnum_cursor) then return end
-	local lead_max = M.lead_max(lnum_cursor)
+M.indent_if_col1 = function()
+	if vim.fn.col(".") ~= 1 then return end
+
+	local lead_max = M.lead_max(vim.fn.line("."))
 
 	vim.api.nvim_paste(lead_max, false, -1)
 	-- vim.api.nvim_put({lead_max}, "c", false, true)
@@ -78,7 +78,7 @@ vim.api.nvim_create_autocmd(
 		group = "autoindent",
 		pattern = "*:i*",
 		callback = function()
-			M.indent_if_empty()
+			M.indent_if_col1()
 		end,
 	}
 )
@@ -88,7 +88,7 @@ vim.keymap.set(
 	"<cr>",
 	function()
 		vim.api.nvim_paste("\n", false, -1)
-		M.indent_if_empty()
+		M.indent_if_col1()
 	end
 )
 

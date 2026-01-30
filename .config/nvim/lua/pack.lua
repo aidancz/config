@@ -5,6 +5,9 @@ official doc first:
 how echasnovski uses:
 https://github.com/echasnovski/nvim/blob/master/init.lua
 
+use vim.pack with mini.deps
+https://www.reddit.com/r/neovim/comments/1oo2wkr/comment/nn165a4/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+
 reset vim.pack:
 https://github.com/neovim/neovim/issues/36520#issuecomment-3516470858
 1. delete ~/.config/nvim/nvim-pack-lock.json
