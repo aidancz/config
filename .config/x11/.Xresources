@@ -1,4 +1,4 @@
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ color
+! # color
 
 ! name		dark	light
 ! black		0	8
@@ -12,7 +12,7 @@
 
 ! e.g. brred (bright red) is color9
 
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ solarized
+! ## solarized
 
 ! {{{
 
@@ -21,8 +21,6 @@
 ! solarized base03 is always #002b36 (not #fdf6e3)
 ! however dark theme background is base03, light theme background is base3
 ! for convenience of setting colors (such as always set "background" as base03), in light theme we redefine base03 as #fdf6e3
-
-
 
 ! ! solarized-dark
 ! #define s_base03        #002b36
@@ -44,8 +42,6 @@
 ! #define s_green         #859900
 ! ! solarized-dark
 
-
-
 ! ! solarized-light
 ! #define s_base03        #fdf6e3
 ! #define s_base02        #eee8d5
@@ -65,8 +61,6 @@
 ! #define s_cyan          #2aa198
 ! #define s_green         #859900
 ! ! solarized-light
-
-
 
 ! ! solarized-set
 ! *color0:                  s_base02
@@ -109,7 +103,7 @@
 
 ! }}}
 
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ nord
+! ## nord
 
 ! {{{
 
@@ -173,7 +167,7 @@
 
 ! }}}
 
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ penumbra
+! ## penumbra
 
 ! {{{
 
@@ -287,7 +281,7 @@
 
 ! }}}
 
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ simple
+! ## simple
 
 ! ! simple-dark-origin
 ! #define black   #000000
@@ -362,7 +356,8 @@ dmenu.selbgcolor:	white
 dmenu.selfgcolor:	black
 ! simple-set
 
-! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ not color
+! # not color
+
 *font: monospace:size=15
 ! *fonta: Twemoji
 ! *fontb: Twemoji

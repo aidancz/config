@@ -50,6 +50,36 @@ M.query_registry.lua = vim.treesitter.query.parse(
 ]]
 )
 
+M.query_registry.bash = vim.treesitter.query.parse(
+	"bash",
+[[
+((comment) @h1 (#match? @h1 "^# \\* "))
+((comment) @h2 (#match? @h2 "^# \\*\\* "))
+((comment) @h3 (#match? @h3 "^# \\*\\*\\* "))
+((comment) @h4 (#match? @h4 "^# \\*\\*\\*\\* "))
+]]
+)
+
+M.query_registry.xresources = vim.treesitter.query.parse(
+	"xresources",
+[[
+((comment) @h1 (#match? @h1 "^! # "))
+((comment) @h2 (#match? @h2 "^! ## "))
+((comment) @h3 (#match? @h3 "^! ### "))
+((comment) @h4 (#match? @h4 "^! #### "))
+]]
+)
+
+M.query_registry.vim = vim.treesitter.query.parse(
+	"vim",
+[[
+((comment) @h1 (#match? @h1 "^\" # "))
+((comment) @h2 (#match? @h2 "^\" ## "))
+((comment) @h3 (#match? @h3 "^\" ### "))
+((comment) @h4 (#match? @h4 "^\" #### "))
+]]
+)
+
 -- # buf_get_query
 
 M.buf_get_query = function(buf)

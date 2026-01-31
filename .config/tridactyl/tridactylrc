@@ -1,3 +1,5 @@
+" vim: filetype=vim
+
 " tridactyl has a welcome page, kinda like info's "Top" node
 " it is the default "newtab" page for tridactyl
 " for simplicity, we change the "newtab" page to a blank page:
@@ -26,45 +28,41 @@ bind <C-h> composite unset newtab ; tabopen ; sleep 100 ; set newtab about:blank
 " glacambre is a maintainer of tridactyl, this is his tridactylrc:
 " https://github.com/glacambre/.dotfiles/blob/master/default/.config/tridactyl/tridactylrc
 
-"
-" setting
-"
+" # setting
 
 colors mytheme
 
 set hintchars kdjflsieowmv
 set editorcmd st -e nvim
 
-"
-" keys
-"
+" # keys
 
-" ~~~~~~~~ subconfigs
+" ## subconfigs
 
 " bindurl ^https://github.com i hint -Vc .AppHeader-searchButton
 " https://github.com/tridactyl/tridactyl/blob/master/.tridactylrc
 
-" ~~~~~~~~ browsermaps
+" ## browsermaps
 
 bind --mode=browser <C-e> escapehatch
 
-" ~~~~~~~~ exmaps
+" ## exmaps
 
 unbind --mode=ex <Space>
 " https://github.com/tridactyl/tridactyl/issues/4638
 
 bind --mode=ex <C-f> ex.insert_completion
 
-" ~~~~~~~~ vmaps
+" ## vmaps
 
 unbind --mode=visual s
 unbind --mode=visual S
 
-" ~~~~~~~~ inputmaps
+" ## inputmaps
 
 bind --mode=input <C-i> editor
 
-" ~~~~~~~~ nmaps
+" ## nmaps
 
 unbind <C-e>
 unbind <C-y>

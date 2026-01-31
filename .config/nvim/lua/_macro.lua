@@ -15,7 +15,7 @@ require("macro").setup()
 
 vim.keymap.set(
         "n",
-        "q",
+        "|",
         function()
                 if vim.fn.reg_recording() == "" then
                         return [[<cmd>lua require("macro").record_start()<cr>]]
@@ -29,7 +29,7 @@ vim.keymap.set(
 require("luaexec").add({
 	code = [[require("macro").record_play()]],
 	from = "macro",
-	keys = {"n", "Q"},
+	keys = {"n", [[\]]},
 })
 
 require("luaexec").add({

@@ -1,6 +1,7 @@
 #!/bin/sh
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ $path & $dir
+# * $path & $dir
+
 path=$(readlink -f "$0")
 # absolute path to this script
 
@@ -10,7 +11,8 @@ dir=$(dirname "$path")
 dir=$(git -C "$dir" rev-parse --show-toplevel)
 # absolute path of this script git root dir
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ set $i to "dark" or "light"
+# * set $i to "dark" or "light"
+
 if [ -n "$1" ]; then
 
 i="$1"
@@ -25,7 +27,8 @@ i="$(printf "%s" "$menu" | dmenu -i -p 'appearance')"
 
 fi
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ set_appearance_dark()
+# * set_appearance_dark()
+
 set_appearance_dark()
 {
 	:
@@ -35,7 +38,8 @@ set_appearance_dark()
 	# it does nothing and always returns a successful exit status (0), making it useful for placeholder code
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ set_appearance_light()
+# * set_appearance_light()
+
 set_appearance_light()
 {
 
@@ -81,7 +85,8 @@ echo "Theme=default" >> "$XDG_CONFIG_HOME/fcitx5/conf/classicui.conf"
 
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ reload_programs()
+# * reload_programs()
+
 reload_programs()
 {
 xrdb "$HOME/.Xresources" 2> /dev/null
@@ -93,7 +98,8 @@ killall -q dunst; dunst &
 killall -q fcitx5; fcitx5 &
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ set appearance
+# * set appearance
+
 case "$i" in
 	"dark")
 		set-symbolic-link

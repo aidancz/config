@@ -1,7 +1,8 @@
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ source
+# * source
+
 source "$HOME/.shrc"
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ prompt
+# * prompt
 
 # autoload -U colors && colors
 # load colors
@@ -15,7 +16,7 @@ PS1="%F{blue}($ %m %n %~) %f"
 # https://stackoverflow.com/questions/4466245/customize-zshs-prompt-when-displaying-previous-command-exit-code
 # man zshmisc -> expansion of prompt sequences
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ variable & option
+# * variable & option
 
 # WORDCHARS="${WORDCHARS/\//}"
 # WORDCHARS parameter is used by "forward-word" etc to specify which character should be considered as part of a "word", run "echo $WORDCHARS" to view its content
@@ -32,9 +33,9 @@ setopt SHARE_HISTORY
 
 setopt PRINT_EXIT_VALUE
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ function
+# * function
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zle_eval
+# ** zle_eval
 
 # zle_eval() {
 # 	echo -en "\e[2K\r"
@@ -60,21 +61,21 @@ zle_eval() {
 	zle reset-prompt
 }
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ _exit
+# ** _exit
 
 _exit() {
 	zle_eval exit
 }
 zle -N _exit
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ _term
+# ** _term
 
 _term() {
 	zle_eval setsid -f $TERMINAL >/dev/null 2>&1
 }
 zle -N _term
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ _yazi
+# ** _yazi
 
 y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
@@ -88,21 +89,21 @@ _yazi() {
 }
 zle -N _yazi
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ _nvim
+# ** _nvim
 
 _nvim() {
 	zle_eval nvim
 }
 zle -N _nvim
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ _lazygit
+# ** _lazygit
 
 _lazygit() {
 	zle_eval lazygit
 }
 zle -N _lazygit
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ _zoxide
+# ** _zoxide
 
 eval "$(zoxide init zsh --no-cmd)"
 # __zoxide_z
@@ -112,7 +113,7 @@ _zoxide() {
 }
 zle -N _zoxide
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ _fzf
+# ** _fzf
 
 fzf_cd() {
 	local p
@@ -132,15 +133,15 @@ zle -N _fzf
 # can't use $path in zsh
 # https://superuser.com/questions/1733936/why-does-assigning-to-path-break-my-path-in-zsh
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ atuin
+# ** atuin
 
 eval "$(atuin init zsh)"
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ starship
+# ** starship
 
 # eval "$(starship init zsh)"
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle
+# * zshzle
 
 export KEYTIMEOUT=1
 # wait ? hundredths of seconds (? 0.01s)
@@ -148,7 +149,7 @@ export KEYTIMEOUT=1
 autoload edit-command-line; zle -N edit-command-line
 autoload -U select-word-style; select-word-style whitespace
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle_vi{{{
+# * zshzle_vi{{{
 
 # bindkey -v
 
@@ -195,7 +196,7 @@ bindkey -M vicmd -s "^[OR" "^[ddiy^M" # <esc>cc bug when line is empty...
 
 # }}}
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ zshzle_emacs
+# * zshzle_emacs
 
 bindkey -e
 
@@ -223,7 +224,8 @@ bindkey -M emacs "^[OQf"    _yazi
 bindkey -M emacs "^[OQv"    _nvim
 bindkey -M emacs "^[OQ "    _lazygit
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ tmux
+# * tmux
+
 # if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
 #     exec tmux new-session -A -s ${USER} >/dev/null 2>&1
 # fi

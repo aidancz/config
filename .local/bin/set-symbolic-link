@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ $path & $dir
+# * $path & $dir
+
 path=$(readlink -f "$0")
 # absolute path to this script
 
@@ -10,14 +11,17 @@ dir=$(dirname "$path")
 dir=$(git -C "$dir" rev-parse --show-toplevel)
 # absolute path of this script git root dir
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ env
+# * env
+
 . "$dir"/.config/sh/.env
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ shopt
+# * shopt
+
 shopt -s dotglob
 # loop hidden files
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_CONFIG_HOME
+# * XDG_CONFIG_HOME
+
 mkdir -p "$XDG_CONFIG_HOME"
 cd "$dir"/.config || exit # THIS FUCKING exit SAVED MY LIFE (2024-10-14)
 for i in *; do
@@ -25,7 +29,8 @@ for i in *; do
 	ln -s "$PWD/$i"			"$XDG_CONFIG_HOME/$i"
 done
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ HOME (link to link)
+# * HOME (link to link)
+
 ln -sf "$XDG_CONFIG_HOME/sh/.env"		"$HOME/.env"
 ln -sf "$XDG_CONFIG_HOME/sh/.profile"		"$HOME/.profile"
 	ln -sf "$HOME/.profile"			"$HOME/.bash_profile"
@@ -42,10 +47,12 @@ ln -sf "$XDG_CONFIG_HOME/vim/.vimrc"		"$HOME/.vimrc"
 # ln -sf "$XDG_CONFIG_HOME/alsa/.asoundrc"	"$HOME/.asoundrc"
 # ln -sf "$XDG_CONFIG_HOME/less/.lesskey"		"$HOME/.lesskey" # use $LESSKEYIN instead
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_CACHE_HOME
+# * XDG_CACHE_HOME
+
 mkdir -p "$XDG_CACHE_HOME"
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_DATA_HOME
+# * XDG_DATA_HOME
+
 mkdir -p "$XDG_DATA_HOME"
 cd "$dir"/.local/share || exit
 for i in *; do
@@ -53,10 +60,12 @@ for i in *; do
 	ln -s "$PWD/$i"			"$XDG_DATA_HOME/$i"
 done
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_STATE_HOME
+# * XDG_STATE_HOME
+
 mkdir -p "$XDG_STATE_HOME"
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ XDG_EXE_HOME
+# * XDG_EXE_HOME
+
 mkdir -p "$XDG_EXE_HOME"
 cd "$dir"/.local/bin || exit
 for i in *; do
@@ -64,5 +73,6 @@ for i in *; do
 	ln -s "$PWD/$i"			"$XDG_EXE_HOME/$i"
 done
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ /usr/bin (link to link)
+# * /usr/bin (link to link)
+
 sudo ln -sf "$XDG_EXE_HOME/jaro/jaro" "/usr/bin/xdg-open"

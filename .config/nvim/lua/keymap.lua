@@ -399,9 +399,38 @@ require("luaexec").add({
 -- vim.keymap.set("n", "dd", "<nop>")
 -- vim.keymap.set("n", "yy", "<nop>")
 
-vim.keymap.set("n", "C",  "<nop>")
-vim.keymap.set("n", "D",  "<nop>")
-vim.keymap.set("n", "Y",  "<nop>")
+vim.keymap.set("n", "C", "<nop>")
+vim.keymap.set("n", "D", "<nop>")
+vim.keymap.set("n", "Y", "<nop>")
+
+-- ## put
+
+-- vim.keymap.set(
+-- 	{"n", "x"},
+-- 	"q",
+-- 	function()
+-- 		local regtype = vim.fn.getregtype(vim.v.register)
+-- 		if regtype == "v" then
+-- 			return "gP"
+-- 		else
+-- 			return "P"
+-- 		end
+-- 	end,
+-- 	{expr = true}
+-- )
+-- vim.keymap.set(
+-- 	{"n", "x"},
+-- 	"p",
+-- 	function()
+-- 		local regtype = vim.fn.getregtype(vim.v.register)
+-- 		if regtype == "v" then
+-- 			return "gp"
+-- 		else
+-- 			return "p"
+-- 		end
+-- 	end,
+-- 	{expr = true}
+-- )
 
 -- ## delete
 

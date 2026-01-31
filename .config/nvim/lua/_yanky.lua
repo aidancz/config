@@ -11,8 +11,32 @@ require("yanky").setup({
 
 -- vim.keymap.set({"n", "x"}, "y", "<plug>(YankyYank)")
 
-vim.keymap.set({"n", "x"}, "p", "<plug>(YankyPutAfter)")
-vim.keymap.set({"n", "x"}, "P", "<plug>(YankyPutBefore)")
+vim.keymap.set(
+	{"n", "x"},
+	"q",
+	function()
+		local regtype = vim.fn.getregtype(vim.v.register)
+		if regtype == "v" then
+			return "<plug>(YankyGPutBefore)"
+		else
+			return "<plug>(YankyPutBefore)"
+		end
+	end,
+	{expr = true}
+)
+vim.keymap.set(
+	{"n", "x"},
+	"p",
+	function()
+		local regtype = vim.fn.getregtype(vim.v.register)
+		if regtype == "v" then
+			return "<plug>(YankyGPutAfter)"
+		else
+			return "<plug>(YankyPutAfter)"
+		end
+	end,
+	{expr = true}
+)
 
 require("luaexec").add({
 	code = [[require("yanky").cycle(1)]],
@@ -34,9 +58,7 @@ require("luaexec").add({
 	name = "history",
 })
 
-do return end
-
--- # if yank/delete space chars to the unnamed register, append to the register instead of replace
+-- # if yank/delete space chars to the unnamed register, prepend to the register instead of replace
 
 vim.api.nvim_create_augroup("yank_space_chars", {clear = true})
 vim.api.nvim_create_autocmd(
@@ -56,7 +78,9 @@ vim.api.nvim_create_autocmd(
 			if space_chars == nil then return end
 
 			local reg = require("yanky.history").storage.get(2).regcontents
-			reg = reg .. space_chars
+			-- reg = reg .. space_chars
+			reg = space_chars .. reg
+
 			vim.fn.setreg("", reg)
 			vim.fn.setreg("+", reg)
 			vim.fn.setreg("*", reg)

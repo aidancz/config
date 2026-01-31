@@ -1,9 +1,11 @@
 #!/bin/sh
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ source
+# * source
+
 . "$HOME/.env"
 . "$XDG_CONFIG_HOME/sh/.alias"
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ misc
+# * misc
+
 stty stop undef
 # prevent ctrl-s to freeze terminal

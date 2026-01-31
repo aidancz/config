@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# give command better default
+# * give command better default
 
 alias ls="ls -Ah1v --group-directories-first --color=auto"
 alias chmod="chmod --preserve-root -v"
@@ -13,9 +13,7 @@ alias mkdir="mkdir -p"
 alias man="man -a"
 alias chez="chez ~/.schemerc"
 
-
-
-# abbreviate long command
+# * abbreviate long command
 
 alias 1='setsid -f $TERMINAL >/dev/null 2>&1'
 alias v="nvim"
@@ -31,9 +29,7 @@ alias i="info"
 # alias E="emacs -nw"
 alias ll="ls -l"
 
-
-
-# abbreviate git command
+# * abbreviate git command
 
 alias gs="git status -sb"
 alias gd="git diff"

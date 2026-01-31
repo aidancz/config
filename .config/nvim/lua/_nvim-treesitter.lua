@@ -1,6 +1,13 @@
--- NOTE: invalid node type issue
+-- 2025-09-24
+-- error: invalid node type
 -- https://github.com/nvim-treesitter/nvim-treesitter/issues/3092
--- 2025-09-24: remove /usr/local/lib/nvim/ dir
+-- delete /usr/local/lib/nvim
+
+-- 2026-01-31
+-- highlight does not work
+-- delete /home/aidan/.local/share/nvim/site/parser
+-- delete /home/aidan/.local/share/nvim/site/parser-info
+-- delete /home/aidan/.local/share/nvim/site/queries
 
 vim.pack.add({
 	{
@@ -44,18 +51,24 @@ local parsers = {
 	"markdown",
 	"markdown_inline",
 	"toml",
+	"vim",
 	"xml",
+	"xresources",
 
 }
 
 require("nvim-treesitter").install(parsers)
 
--- ## parser -> filetype
+-- ## parser -> filetype/filetypes
 
-vim.treesitter.language.register("bash",     "zsh")
-vim.treesitter.language.register("ini",      "conf")
+vim.treesitter.language.register("bash", {
+	"sh",
+	"csh",
+	"zsh",
+})
+vim.treesitter.language.register("ini", "conf")
 vim.treesitter.language.register("markdown", "text")
-vim.treesitter.language.register("scheme",   "lisp")
+vim.treesitter.language.register("scheme", "lisp")
 
 -- # highlights
 

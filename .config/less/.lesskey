@@ -1,7 +1,8 @@
 # see "man less" and "man lesskey"
 
+# * command
 #command
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 # https://unix.stackexchange.com/questions/672094/lesskey-add-altright-keybinding-to-less
 # `showkey -a` to get the key codes
 
@@ -25,10 +26,10 @@ t reverse-search
 # d forw-scroll
 # u back-scroll
 
+# * line-edit
 #line-edit
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # \e abort
 
+# * env
 #env
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

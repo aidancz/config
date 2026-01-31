@@ -4,7 +4,39 @@ vim.pack.add({
 
 -- # require("paramo").gen_ai_spec
 
-require("paramo").gen_para_with_empty_lines = function(para)
+require("paramo").gen_para_with_empty_heads = function(para)
+	local V = require("virtcol")
+	local para_0 = require("para/emptiness_row")({empty = true})
+	local para_1 = require("para/emptiness_row")({empty = false})
+	local is_empty = function(pos)
+		return vim.fn.getline(pos.lnum) == ""
+	end
+	local is_head_nonempty = function(pos) return para.is_head(pos) and (not is_empty(pos)) end
+	local is_tail_nonempty = function(pos) return para.is_tail(pos) and (not is_empty(pos)) end
+	return {
+		is_head = function(pos)
+			return
+				(
+					is_head_nonempty(pos)
+					and
+					(
+						vim.tbl_isempty(V.prev_pos(pos))
+						or
+						not is_empty(V.prev_pos(pos))
+					)
+				)
+				or
+				(
+					para_0.is_head(pos)
+					and
+					is_head_nonempty(require("paramo").next_pos(pos, para_1.is_head))
+				)
+		end,
+		is_tail = is_tail_nonempty,
+	}
+end
+
+require("paramo").gen_para_with_empty_tails = function(para)
 	local V = require("virtcol")
 	local para_0 = require("para/emptiness_row")({empty = true})
 	local para_1 = require("para/emptiness_row")({empty = false})
@@ -38,7 +70,8 @@ end
 
 require("paramo").gen_ai_spec = function(para)
 	local para_i = para
-	local para_a = require("paramo").gen_para_with_empty_lines(para)
+	local para_a = require("paramo").gen_para_with_empty_heads(para)
+	-- local para_a = require("paramo").gen_para_with_empty_tails(para)
 
 	return
 	function(ai_type, id, opts)
@@ -156,24 +189,38 @@ extend({
 
 -- ## extend(word)
 
-extend({
-	-- "\9\32" == "\t " == HT and SP == tab and space
+local gen_spec_word = function(chars)
+-- https://github.com/nvim-mini/mini.nvim/discussions/2251
+	-- return {
+	-- 	{
+	-- 		"%f[%w \t][%w]+",
+	-- 		"()%f[ \t][ \t]*()%f[%w][%w]+()()",
+	-- 	},
+	-- }
+	return {
+		{
+			"%f[" .. chars .. " \t][" .. chars .. "]+",
+			"()%f[ \t][ \t]*()%f[" .. chars .. "][" .. chars .. "]+()()",
+		},
+	}
+end
 
-	["l"] = { "()()" .. "%f[%l][%l]+" .. "()[\9\32]*()" }, -- lowercase letters
-	["u"] = { "()()" .. "%f[%u][%u]+" .. "()[\9\32]*()" }, -- uppercase letters
-	["d"] = { "()()" .. "%f[%d][%d]+" .. "()[\9\32]*()" }, -- digits
-	["p"] = { "()()" .. "%f[%p][%p]+" .. "()[\9\32]*()" }, -- punctuation characters
-	["s"] = { "%f[%s][%s]+" },                             -- space characters (HT LF VT FF CR SP)
-	["z"] = { "[%z]+" },                                   -- NUL (cannot use %f[] due to how it works)
+extend({
+	["l"] = gen_spec_word("%l"), -- lowercase letters
+	["u"] = gen_spec_word("%u"), -- uppercase letters
+	["d"] = gen_spec_word("%d"), -- digits
+	["p"] = gen_spec_word("%p"), -- punctuation characters
+	["s"] = { "%f[%s]%s+" }, -- space characters (HT LF VT FF CR SP)
+	["z"] = { "%z" }, -- NUL (cannot use %f[] due to how it works)
 	["c"] = { "%f[\1-\8\14-\31\127][\1-\8\14-\31\127]+" }, -- control characters except {NUL HT LF VT FF CR}
 	-- separate ascii into several groups
 
-	["a"] = { "()()" .. "%f[%a][%a]+"   .. "()[\9\32]*()" }, -- %a  = %l + %u
-	["w"] = { "()()" .. "%f[%w][%w]+"   .. "()[\9\32]*()" }, -- %w  = %l + %u + %d
-	[" "] = { "()()" .. "%f[%w_][%w_]+" .. "()[\9\32]*()" }, -- %w_ = %l + %u + %d + _
-	["g"] = { "()()" .. "%f[%g][%g]+"   .. "()[\9\32]*()" }, -- %g  = %l + %u + %d + %p
+	["a"] = gen_spec_word("%a"),  -- %a  = %l + %u
+	["w"] = gen_spec_word("%w"),  -- %w  = %l + %u + %d
+	[" "] = gen_spec_word("%w_"), -- %w_ = %l + %u + %d + _
+	["g"] = gen_spec_word("%g"),  -- %g  = %l + %u + %d + %p
 
-	-- ["x"] = { "()()" .. "%f[%x][%x]+" .. "()[\9\32]*()" }, -- %x = {abcdefABCDEF} + %d
+	-- ["x"] = gen_spec_word("%x"), -- %x = {abcdefABCDEF} + %d
 	["x"] = require("mini.extra").gen_ai_spec.number(),
 })
 
