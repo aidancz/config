@@ -104,9 +104,7 @@ end
 require("luaexec").add({
 	code = [[require("fzf-lua").custom_luaexec_exec()]],
 	from = "luaexec",
-	keys = {
-		{{"n", "x", "s", "i", "c", "t", "o"}, "<f2><f2>"},
-	},
+	keys = {{"n", "x", "s", "i", "c", "t", "o"}, "<f2><f2>"},
 })
 
 require("fzf-lua").custom_luaexec_hist = function(opts)

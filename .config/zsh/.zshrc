@@ -214,15 +214,15 @@ bindkey -M emacs "^[[H"  beginning-of-line
 bindkey -M emacs "^[[4~" end-of-line
 bindkey -M emacs "^[[A"  history-beginning-search-backward
 bindkey -M emacs "^[[B"  history-beginning-search-forward
-bindkey -M emacs "^[OQe" edit-command-line
+bindkey -M emacs "^[OQi" edit-command-line
 
-bindkey -M emacs "^[OP"     _exit
-bindkey -M emacs "^[OQ^M"   _term
-bindkey -M emacs "^[OQw"    _zoxide
-bindkey -M emacs "^[OQr"    _fzf
-bindkey -M emacs "^[OQf"    _yazi
-bindkey -M emacs "^[OQv"    _nvim
-bindkey -M emacs "^[OQ "    _lazygit
+bindkey -M emacs "^[OP"   _exit
+bindkey -M emacs "^[OQ^M" _term
+bindkey -M emacs "^[OQw"  _zoxide
+bindkey -M emacs "^[OQe"  _fzf
+bindkey -M emacs "^[OQf"  _yazi
+bindkey -M emacs "^[OQv"  _nvim
+bindkey -M emacs "^[OQx"  _lazygit
 
 # * tmux
 

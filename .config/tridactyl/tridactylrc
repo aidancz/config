@@ -80,27 +80,26 @@ bind j tabnext
 bind k tabprev
 " bind l tabmove +1
 " bind h tabmove -1
+bind h back
+bind l forward
 
 bind f scrollpage 0.9
 bind d scrollpage -0.9
 bind g scrollto 100
 bind s scrollto 0
 
-bind w back
-bind o forward
-
 bind . repeat
 
 bind <Space> fillcmdline tabopen
 bind l fillcmdline tab
 
-bind <Enter> hint
-bind <C-Enter> hint -t
+bind o hint
+bind w hint -t
 
 bind t tabduplicate
 
 bind y. clipboard yank
-bind y<Enter> hint -y
+bind yo hint -y
 bind y# hint -#
 bind yi hint -p
 

@@ -282,13 +282,13 @@ require("luaexec").add({
 require("luaexec").add({
 	code = [[require("fzf-lua").live_grep({cwd = vim.fs.root(0, ".git") or vim.fn.getcwd()})]],
 	from = "fzf-lua",
-	keys = {"n", "sj"},
+	keys = {{"n", "x", "s", "i", "c", "t", "o"}, "<f2>r"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").files({cwd = vim.fs.root(0, ".git") or vim.fn.getcwd()})]],
 	from = "fzf-lua",
-	keys = {"n", "sk"},
+	keys = {{"n", "x", "s", "i", "c", "t", "o"}, "<f2>e"},
 })
 
 require("luaexec").add({

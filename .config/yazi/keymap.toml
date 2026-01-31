@@ -32,7 +32,7 @@ keymap = [
 	{ on = "b", run = "find_arrow --previous" },
 
 	{ on = "w", run = "plugin zoxide" },
-	{ on = "r", run = "plugin fzf" },
+	{ on = "e", run = "plugin fzf" },
 
 	{ on = [ "<space>", "h" ], run = "cd ~" },
 	{ on = [ "<space>", "g" ], run = """ shell -- ya emit cd "$(git rev-parse --show-toplevel)" """ },
@@ -79,21 +79,21 @@ keymap = [
 	{ on = "<c-r>",  run = "toggle_all" },
 
 	# coreutils
-	{ on = "a",          run = "create" },
-	{ on = "A",          run = "create --dir" },
-	{ on = "<delete>",   run = "remove" },
-	{ on = "<s-delete>", run = "remove --permanently" },
-	{ on = "i",          run = "rename --cursor=before_ext" },
-	{ on = "y",          run = "yank" },
-	{ on = "e",          run = "yank --cut" },
-	{ on = "p",          run = "paste" },
-	{ on = "-",          run = "link" },
-	{ on = "_",          run = "link --relative" },
+	{ on = "a",           run = "create" },
+	{ on = "A",           run = "create --dir" },
+	{ on = "<delete>",    run = "remove" },
+	{ on = "<s-delete>",  run = "remove --permanently" },
+	{ on = "i",           run = "rename --cursor=before_ext" },
+	{ on = "y",           run = "yank" },
+	{ on = "<backspace>", run = "yank --cut" },
+	{ on = "p",           run = "paste" },
+	{ on = "-",           run = "link" },
+	{ on = "_",           run = "link --relative" },
 
 	# use path
 	{ on = [ "<space>", "<enter>" ], run = """ shell --block -- pick-yazi "$0" "$@" """ },
 	{ on = "<enter>",                run = """ shell -- setsid -f $TERMINAL >/dev/null 2>&1 """ },
-	{ on = "<space>",                run = """ shell --block -- lazygit """ },
+	{ on = "x",                      run = """ shell --block -- lazygit """ },
 	{ on = "o",                      run = "open" },
 	{ on = "v",                      run = """ shell --block -- nvim """ },
 	{ on = [ "<space>", "d" ],       run = "plugin diff" },

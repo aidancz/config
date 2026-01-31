@@ -35,5 +35,5 @@ require("luaexec").add({
 	code = [[require("toggleterm").registry.lazygit()]],
 	from = "toggleterm",
 	name = "lazygit",
-	keys = {{"n", "x", "s", "i", "c", "t", "o"}, "<f2><space>"},
+	keys = {{"n", "x", "s", "i", "c", "t", "o"}, "<f2>x"},
 })
