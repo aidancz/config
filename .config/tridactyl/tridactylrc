@@ -68,44 +68,43 @@ unbind <C-e>
 unbind <C-y>
 unbind <C-f>
 unbind <C-b>
-unbind t
 
 bind <F1> q
 bind <F2><F1> qa
 bind <C-F1> composite sanitise tridactyllocal; fillcmdline_tmp 3000 sanitise tridactyllocal
 bind <C-v> nmode ignore 1 mode normal
-bind ei focusinput -l
+bind i focusinput -l
 bind v hint -h
 
 bind j tabnext
 bind k tabprev
-bind l tabmove +1
-bind h tabmove -1
+" bind l tabmove +1
+" bind h tabmove -1
 
 bind f scrollpage 0.9
 bind d scrollpage -0.9
 bind g scrollto 100
 bind s scrollto 0
 
-bind o back
-bind x forward
+bind w back
+bind o forward
 
 bind . repeat
 
-bind i fillcmdline tabopen
-bind b fillcmdline tab
+bind <Space> fillcmdline tabopen
+bind l fillcmdline tab
 
-bind m hint
-bind r hint -t
+bind <Enter> hint
+bind <C-Enter> hint -t
 
-bind , tabduplicate
+bind t tabduplicate
 
-bind yy clipboard yank
-bind yl hint -y
+bind y. clipboard yank
+bind y<Enter> hint -y
 bind y# hint -#
-bind yt hint -p
+bind yi hint -p
 
 bind p clipboard tabopen
 
-bind em gobble 1 markadd
+bind m gobble 1 markadd
 bind ` gobble 1 markjump

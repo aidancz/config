@@ -8,7 +8,7 @@ keymap = [
 	{ on = "<esc>",            run = ["escape", "unyank"] },
 	{ on = "<c-h>",            run = "help" },
 	{ on = "<c-t>",            run = "tab_create --current" },
-	{ on = [ "e", "t" ],       run = "tasks:show" },
+	{ on = [ "<space>", "t" ], run = "tasks:show" },
 
 	# navigation
 	{ on = "j", run = "arrow 1" },
@@ -23,54 +23,54 @@ keymap = [
 
 	{ on = "<c-j>", run = "plugin parent-arrow 1" },
 	{ on = "<c-k>", run = "plugin parent-arrow -1" },
-	{ on = "<c-o>", run = "back" },
-	{ on = "<c-x>", run = "forward" },
+	{ on = "<c-w>", run = "back" },
+	{ on = "<c-o>", run = "forward" },
 
 	{ on = "/", run = "find --smart" },
 	{ on = "?", run = "find --previous --smart" },
 	{ on = "n", run = "find_arrow" },
-	{ on = "t", run = "find_arrow --previous" },
+	{ on = "b", run = "find_arrow --previous" },
 
 	{ on = "w", run = "plugin zoxide" },
 	{ on = "r", run = "plugin fzf" },
 
-	{ on = [ "e", "h" ], run = "cd ~" },
-	{ on = [ "e", "g" ], run = """ shell -- ya emit cd "$(git rev-parse --show-toplevel)" """ },
+	{ on = [ "<space>", "h" ], run = "cd ~" },
+	{ on = [ "<space>", "g" ], run = """ shell -- ya emit cd "$(git rev-parse --show-toplevel)" """ },
 
 	# inspect
 	{ on = "<pagedown>", run = "seek 10" },
 	{ on = "<pageup>",   run = "seek -10" },
 
-	{ on = [ "e", "i" ], run = "spot" },
+	{ on = [ "<space>", "i" ], run = "spot" },
 
-	{ on = [ "e", "l", "s" ], run = "linemode size" },
-	{ on = [ "e", "l", "p" ], run = "linemode permissions" },
-	{ on = [ "e", "l", "b" ], run = "linemode btime" },
-	{ on = [ "e", "l", "m" ], run = "linemode mtime" },
-	{ on = [ "e", "l", "o" ], run = "linemode owner" },
-	{ on = [ "e", "l", "n" ], run = "linemode none" },
+	{ on = [ "<space>", "l", "s" ], run = "linemode size" },
+	{ on = [ "<space>", "l", "p" ], run = "linemode permissions" },
+	{ on = [ "<space>", "l", "b" ], run = "linemode btime" },
+	{ on = [ "<space>", "l", "m" ], run = "linemode mtime" },
+	{ on = [ "<space>", "l", "o" ], run = "linemode owner" },
+	{ on = [ "<space>", "l", "n" ], run = "linemode none" },
 
 	# sort
 
-	{ on = [ "e", "s", "m" ], run = [ "sort mtime --reverse=no", "linemode mtime" ] },
-	{ on = [ "e", "s", "M" ], run = [ "sort mtime --reverse", "linemode mtime" ] },
-	{ on = [ "e", "s", "b" ], run = [ "sort btime --reverse=no", "linemode btime" ] },
-	{ on = [ "e", "s", "B" ], run = [ "sort btime --reverse", "linemode btime" ] },
-	{ on = [ "e", "s", "e" ], run = "sort extension --reverse=no" },
-	{ on = [ "e", "s", "E" ], run = "sort extension --reverse" },
-	{ on = [ "e", "s", "a" ], run = "sort alphabetical --reverse=no" },
-	{ on = [ "e", "s", "A" ], run = "sort alphabetical --reverse" },
-	{ on = [ "e", "s", "n" ], run = "sort natural --reverse=no" },
-	{ on = [ "e", "s", "N" ], run = "sort natural --reverse" },
-	{ on = [ "e", "s", "s" ], run = [ "sort size --reverse=no", "linemode size" ] },
-	{ on = [ "e", "s", "S" ], run = [ "sort size --reverse", "linemode size" ] },
-	{ on = [ "e", "s", "r" ], run = "sort random --reverse=no" },
+	{ on = [ "<space>", "s", "m" ], run = [ "sort mtime --reverse=no", "linemode mtime" ] },
+	{ on = [ "<space>", "s", "M" ], run = [ "sort mtime --reverse", "linemode mtime" ] },
+	{ on = [ "<space>", "s", "b" ], run = [ "sort btime --reverse=no", "linemode btime" ] },
+	{ on = [ "<space>", "s", "B" ], run = [ "sort btime --reverse", "linemode btime" ] },
+	{ on = [ "<space>", "s", "e" ], run = "sort extension --reverse=no" },
+	{ on = [ "<space>", "s", "E" ], run = "sort extension --reverse" },
+	{ on = [ "<space>", "s", "a" ], run = "sort alphabetical --reverse=no" },
+	{ on = [ "<space>", "s", "A" ], run = "sort alphabetical --reverse" },
+	{ on = [ "<space>", "s", "n" ], run = "sort natural --reverse=no" },
+	{ on = [ "<space>", "s", "N" ], run = "sort natural --reverse" },
+	{ on = [ "<space>", "s", "s" ], run = [ "sort size --reverse=no", "linemode size" ] },
+	{ on = [ "<space>", "s", "S" ], run = [ "sort size --reverse", "linemode size" ] },
+	{ on = [ "<space>", "s", "r" ], run = "sort random --reverse=no" },
 
 	# filter
-	{ on = ".",          run = "hidden toggle" },
-	{ on = [ "e", "f" ], run = "filter --smart" },
-	{ on = [ "e", "w" ], run = "search --via=fd" },
-	{ on = [ "e", "r" ], run = "search --via=rg" },
+	{ on = ".",                run = "hidden toggle" },
+	{ on = [ "<space>", "f" ], run = "filter --smart" },
+	{ on = [ "<space>", "w" ], run = "search --via=fd" },
+	{ on = [ "<space>", "r" ], run = "search --via=rg" },
 
 	# select
 	{ on = "<down>", run = [ "toggle", "arrow 1" ] },
@@ -85,22 +85,22 @@ keymap = [
 	{ on = "<s-delete>", run = "remove --permanently" },
 	{ on = "i",          run = "rename --cursor=before_ext" },
 	{ on = "y",          run = "yank" },
-	{ on = "x",          run = "yank --cut" },
+	{ on = "e",          run = "yank --cut" },
 	{ on = "p",          run = "paste" },
 	{ on = "-",          run = "link" },
 	{ on = "_",          run = "link --relative" },
 
 	# use path
-	{ on = [ "e", "<enter>" ], run = """ shell --block -- pick-yazi "$0" "$@" """ },
-	{ on = "<enter>",          run = """ shell -- setsid -f $TERMINAL >/dev/null 2>&1 """ },
-	{ on = "<space>",          run = """ shell --block -- lazygit """ },
-	{ on = "o",                run = "open" },
-	{ on = "v",                run = """ shell --block -- nvim """ },
-	{ on = [ "e", "d" ],       run = "plugin diff" },
-	{ on = [ "e", "o" ],       run = """ shell -- open-with-program "$@" """ },
-	{ on = [ "e", "y", "d" ],  run = "copy dirname" },
-	{ on = [ "e", "y", "f" ],  run = "copy filename" },
-	{ on = [ "e", "y", "y" ],  run = "copy path" },
+	{ on = [ "<space>", "<enter>" ], run = """ shell --block -- pick-yazi "$0" "$@" """ },
+	{ on = "<enter>",                run = """ shell -- setsid -f $TERMINAL >/dev/null 2>&1 """ },
+	{ on = "<space>",                run = """ shell --block -- lazygit """ },
+	{ on = "o",                      run = "open" },
+	{ on = "v",                      run = """ shell --block -- nvim """ },
+	{ on = [ "<space>", "d" ],       run = "plugin diff" },
+	{ on = [ "<space>", "o" ],       run = """ shell -- open-with-program "$@" """ },
+	{ on = [ "<space>", "y", "s" ],  run = "copy dirname" },
+	{ on = [ "<space>", "y", "g" ],  run = "copy filename" },
+	{ on = [ "<space>", "y", "." ],  run = "copy path" },
 ]
 
 [input]
