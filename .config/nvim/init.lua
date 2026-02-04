@@ -27,12 +27,6 @@ end
 
 	-- print_time()
 
--- # for convenience
-
-_G.feedkeys = function(keys, mode)
-	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, true, true), mode, false)
-end
-
 -- # compile the lua modules to bytecode, improve startup time
 
 vim.loader.enable()

@@ -463,16 +463,6 @@ vim.keymap.set("i", "<left>",  "<c-g>U<left>")
 -- default: abc
 -- now: print(abc)
 
--- ## insert mode <s-cr> should do the opposite of <cr>
-
--- vim.keymap.set(
--- 	"i",
--- 	"<s-cr>",
--- 	function()
--- 		feedkeys("<cr><cmd>.m.-2<cr>", "n")
--- 	end
--- )
-
 -- ## cmdline mode <c-w> should ignore iskeyword
 
 vim.keymap.set(
@@ -481,7 +471,7 @@ vim.keymap.set(
 	function()
 		local cache_iskeyword = vim.bo.iskeyword
 		vim.bo.iskeyword = vim.go.iskeyword
-		feedkeys("<c-w>", "n")
+		vim.fn.feedkeys(vim.keycode("<c-w>"), "n")
 		vim.schedule(function()
 			vim.bo.iskeyword = cache_iskeyword
 		end)

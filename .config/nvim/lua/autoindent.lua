@@ -79,18 +79,6 @@ end
 
 -- return M
 
-vim.api.nvim_create_augroup("autoindent", {clear = true})
-vim.api.nvim_create_autocmd(
-	"ModeChanged",
-	{
-		group = "autoindent",
-		pattern = "*:i*",
-		callback = function()
-			M.indent_if_empty()
-		end,
-	}
-)
-
 vim.keymap.set(
 	"i",
 	"<cr>",
@@ -103,7 +91,20 @@ vim.keymap.set(
 vim.keymap.set(
 	"i",
 	"<s-cr>",
-	function()
-		feedkeys("<cr><cmd>.m.-2<cr>", "m")
-	end
+	"<cr><cmd>.m.-2<cr>",
+	{
+		remap = true
+	}
+)
+
+vim.api.nvim_create_augroup("autoindent", {clear = true})
+vim.api.nvim_create_autocmd(
+	"ModeChanged",
+	{
+		group = "autoindent",
+		pattern = "*:i*",
+		callback = function()
+			M.indent_if_empty()
+		end,
+	}
 )

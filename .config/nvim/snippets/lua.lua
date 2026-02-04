@@ -1,43 +1,48 @@
-local contents =
-{
-----------------------------------------------------------------
-	{
-		body =
-[[
-local timer = vim.uv.new_timer()
-local running = false
+-- # define snippets
 
-local start = function()
-	timer:start(
-		0,
-		100,
-		vim.schedule_wrap(function()
-			print(os.time())
-		end)
+local snippets = {}
+
+-- # define add
+
+local add = function(body, opts)
+	opts = opts or {}
+	table.insert(
+		snippets,
+		{
+			body = body,
+			prefix = opts.prefix,
+			desc = opts.desc,
+		}
 	)
-	running = true
-end
-local stop = function()
-	timer:stop()
-	running = false
-end
-local toggle = function()
-	if running then stop() else start() end
 end
 
-vim.keymap.set(
-	{"n", "x", "s", "i", "c", "t", "o"},
-	"<del>",
-	toggle
-)
+-- # add
 
-start()
-]],
-	},
-----------------------------------------------------------------
-	{
-		body =
-[[
+add([[
+local timer = vim.uv.new_timer()
+
+local function toggle()
+	if timer:is_active() then
+		timer:stop()
+	else
+		timer:start(
+			0,
+			100,
+			vim.schedule_wrap(function()
+				print(os.time())
+			end)
+		)
+	end
+end
+
+vim.keymap.set({ "n", "x", "s", "i", "c", "t", "o" }, "<del>", toggle)
+
+toggle()
+]])
+
+-- # add
+
+add([[
 vim.api.nvim_open_win(
 	0,
 	true,
@@ -52,16 +57,14 @@ vim.api.nvim_open_win(
 		style = "minimal",
 	}
 )
-]],
-	},
-----------------------------------------------------------------
-	{
-		body =
-[[
+]])
+
+-- # add
+
+add([[
 vim.keymap.set(
-	{"n", "x"},
-	-- {"n", "x", "s", "i", "c", "t", "o"},
-	"e",
+	{"n", "x", "s", "i", "c", "t", "o"},
+	"<del>",
 	function()
 		print(os.time())
 	end,
@@ -70,12 +73,11 @@ vim.keymap.set(
 		-- remap = true,
 	}
 )
-]],
-	},
-----------------------------------------------------------------
-	{
-		body =
-[[
+]])
+
+-- # add
+
+add([[
 vim.api.nvim_create_augroup("test", {clear = true})
 vim.api.nvim_create_autocmd(
 	{
@@ -91,38 +93,24 @@ vim.api.nvim_create_autocmd(
 		-- once = true,
 	}
 )
-]],
-	},
-----------------------------------------------------------------
-	{
-		body =
-[=[
+]])
+
+-- # add
+
+add([=[
 require("luaexec").add({
-	code = [[print(os.time())]],
+	-- code = [[print(os.time())]],
+	code =
+[[
+print(os.time())
+]],
 	from = "default",
 	name = "test",
 	desc = "print time number",
 	keys = {"n", "<c-s-t>"},
 })
-]=],
-	},
-----------------------------------------------------------------
-}
+]=])
 
-----------------------------------------------------------------
-----------------------------------------------------------------
-----------------------------------------------------------------
+-- # return snippets
 
-for _, i in ipairs(contents) do
-	if string.sub(i.body, -1, -1) == "\n" then
-		i.body = string.sub(i.body, 1, -2)
-	end
-	if i.prefix == nil then
-		i.prefix = ""
-	end
-	if i.desc == nil then
-		i.desc = ""
-	end
-end
-
-return contents
+return snippets

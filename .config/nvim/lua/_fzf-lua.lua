@@ -248,7 +248,7 @@ require("fzf-lua").custom_history = function(opts)
 					local entry = components[3]
 					local key = histname .. entry .. "\n"
 					vim.schedule(function()
-						feedkeys(key, "nt")
+						vim.fn.feedkeys(key, "nt")
 					end)
 				end,
 			},

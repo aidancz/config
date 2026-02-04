@@ -277,5 +277,5 @@ end
 require("fzf-lua").custom_snippets(snippets, insert)
 ]=],
 	from = "mini.snippets",
-	keys = {"n", "sp"},
+	keys = {"n", "sd"},
 })
