@@ -90,7 +90,7 @@ bind s scrollto 0
 
 bind . repeat
 
-bind <Space> fillcmdline tabopen
+bind e fillcmdline tabopen
 bind l fillcmdline tab
 
 bind o hint

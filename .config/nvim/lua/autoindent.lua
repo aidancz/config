@@ -59,14 +59,22 @@ M.lead_max = function(lnum)
 	end
 end
 
-M.indent_if_col1 = function()
-	if vim.fn.col(".") ~= 1 then return end
-
+M.insert_indent = function()
 	local lead_max = M.lead_max(vim.fn.line("."))
 
 	vim.api.nvim_paste(lead_max, false, -1)
 	-- vim.api.nvim_put({lead_max}, "c", false, true)
 	-- vim.api.nvim_feedkeys(lead_max, "n", false)
+end
+
+M.indent_if_col1 = function()
+	if vim.fn.col(".") ~= 1 then return end
+	M.insert_indent()
+end
+
+M.indent_if_empty = function()
+	if vim.fn.getline(".") ~= "" then return end
+	M.insert_indent()
 end
 
 -- return M
@@ -78,7 +86,7 @@ vim.api.nvim_create_autocmd(
 		group = "autoindent",
 		pattern = "*:i*",
 		callback = function()
-			M.indent_if_col1()
+			M.indent_if_empty()
 		end,
 	}
 )

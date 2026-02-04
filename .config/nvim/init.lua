@@ -1,56 +1,54 @@
----------------------------------------------------------------- lua debug
+-- # lua debug
 
---[[
+-- ## exit lua execution
 
--- # exit lua execution
-
-do return end
-os.exit()
 -- https://stackoverflow.com/questions/20188458/how-to-exit-a-lua-scripts-execution
 
--- # print timestamp
+	-- do return end
+	-- os.exit()
 
-print(os.time())
-print(os.date())
-vim.notify(vim.system({"date", "--iso-8601=ns"}):wait().stdout)
+-- ## print timestamp
 
---]]
+	-- print(os.time())
+	-- print(os.date())
+	-- vim.notify(vim.system({"date", "--iso-8601=ns"}):wait().stdout)
 
 _G.get_time = function()
+-- https://github.com/neovim/neovim/issues/4433
 	local second, microsecond = vim.uv.gettimeofday()
 	local second_format = os.date("%Y-%m-%d %H:%M:%S", second)
 	local microsecond_format = string.format("%06d", microsecond)
 	local time = second_format .. " " .. microsecond_format
 	return time
 end
--- https://github.com/neovim/neovim/issues/4433
-
 _G.print_time = function()
 	print(get_time())
 end
 
----------------------------------------------------------------- for convenience
+	-- print_time()
+
+-- # for convenience
 
 _G.feedkeys = function(keys, mode)
 	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, true, true), mode, false)
 end
 
----------------------------------------------------------------- compile the lua modules to bytecode, improve startup time
+-- # compile the lua modules to bytecode, improve startup time
 
 vim.loader.enable()
 -- https://github.com/lewis6991/impatient.nvim
 
----------------------------------------------------------------- load
+-- # load
 
--------------------------------- require pack to setup vim.pack
+-- ## require pack to setup vim.pack
 
 require("pack")
 
--------------------------------- require mini.deps for its `now` and `later` functions
+-- ## require mini.deps for its `now` and `later` functions
 
 require("_mini-deps")
 
--------------------------------- require now
+-- ## require now
 
 do
 
@@ -106,7 +104,7 @@ do
 
 end
 
--------------------------------- require later
+-- ## require later
 
 do
 

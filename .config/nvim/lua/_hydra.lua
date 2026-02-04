@@ -1,8 +1,3 @@
-vim.pack.add({
-	-- "https://github.com/anuvyklack/hydra.nvim",
-	"https://github.com/nvimtools/hydra.nvim",
-})
-
 --[[
 
 https://github.com/anuvyklack/hydra.nvim
@@ -95,6 +90,11 @@ but i cannot set a "global head config table", so instead, use a wrapper functio
 require("hydra").add
 
 --]]
+
+vim.pack.add({
+	-- "https://github.com/anuvyklack/hydra.nvim",
+	"https://github.com/nvimtools/hydra.nvim",
+})
 
 require("hydra").add = function(opts)
 -- a wrapper of require("hydra").<metatable>.__call

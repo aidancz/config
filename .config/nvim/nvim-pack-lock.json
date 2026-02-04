@@ -9,7 +9,7 @@
       "src": "https://github.com/okuuva/auto-save.nvim"
     },
     "blink.cmp": {
-      "rev": "b137f63d89d0285ca76eed12e1923220e0aff8c1",
+      "rev": "fab799d086fd63fa5b389007f63767b23885ebf8",
       "src": "https://github.com/saghen/blink.cmp"
     },
     "conform.nvim": {
@@ -130,7 +130,7 @@
       "src": "https://github.com/kevinhwang91/nvim-fundo"
     },
     "nvim-treesitter": {
-      "rev": "19c729dae6e0eeb79423df0cf37780aa9a7cc3b7",
+      "rev": "4967fa48b0fe7a7f92cee546c76bb4bb61bb14d5",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
@@ -176,7 +176,7 @@
       "src": "https://github.com/akinsho/toggleterm.nvim"
     },
     "undotree": {
-      "rev": "178d19e00a643f825ea11d581b1684745d0c4eda",
+      "rev": "fc28931fbfba66ab75d9af23fe46ffbbb9de6e8c",
       "src": "https://github.com/mbbill/undotree"
     },
     "vim-AdvancedSorters": {
@@ -196,7 +196,7 @@
       "src": "https://github.com/gbprod/yanky.nvim"
     },
     "yazi.nvim": {
-      "rev": "4a69ef480d8d36bba5f6418d21fe064eed897a75",
+      "rev": "7a5a72d915241a2f07901c324a14c02a30b8515e",
       "src": "https://github.com/mikavilpas/yazi.nvim"
     }
   }

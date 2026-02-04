@@ -2,7 +2,9 @@ vim.pack.add({
 	"https://github.com/nvim-mini/mini.snippets",
 })
 
---[================================================================[
+-- # require("mini.snippets").default_select -> select_minipick
+
+--[[{{{
 
 ---@param local_opts {
 ---	snippets: table,
@@ -50,6 +52,7 @@ require("mini.pick").registry.snippets = function(local_opts)
 		},
 	})
 end
+
 local select_minipick = function(snippets, insert, opts)
 	insert = insert or require("mini.snippets").default_insert
 	opts = opts or {}
@@ -65,7 +68,11 @@ local select_minipick = function(snippets, insert, opts)
 	})
 end
 
---]================================================================]
+--}}}]]
+
+-- # require("mini.snippets").default_select -> select_fzflua
+
+--{{{
 
 require("fzf-lua").custom_snippets = function(snippets, insert, opts)
 	opts = opts or {}
@@ -142,6 +149,7 @@ require("fzf-lua").custom_snippets = function(snippets, insert, opts)
 
 	require("fzf-lua").fzf_exec(contents, opts)
 end
+
 local select_fzflua = function(snippets, insert, opts)
 	insert = insert or require("mini.snippets").default_insert
 	opts = opts or {}
@@ -154,15 +162,23 @@ local select_fzflua = function(snippets, insert, opts)
 	require("fzf-lua").custom_snippets(snippets, insert)
 end
 
+--}}}
+
+-- # setup
+
 require("mini.snippets").setup({
 	snippets = {
+
 		{
 			prefix = "tis",
 			body = "this is snippet",
 			desc = "snip",
 		},
+
 		-- require("mini.snippets").gen_loader.from_file("~/.config/nvim/snippets/global.json"),
+
 		require("mini.snippets").gen_loader.from_runtime("global.{json,lua}"),
+
 		-- function(context)
 		-- 	local nodes = require("luaexec").list_nodes()
 		-- 	for _, i in ipairs(nodes) do
@@ -179,7 +195,9 @@ require("mini.snippets").setup({
 		-- 	-- it is okay to have extra fields, so we modify the `nodes` table
 		-- 	-- of course we can use `vim.tbl_map` instead
 		-- end,
+
 		require("mini.snippets").gen_loader.from_lang(),
+
 	},
 	mappings = {
 		expand = "<c-d>",
@@ -206,7 +224,9 @@ require("mini.snippets").setup({
 
 -- require("nofrils").clear("^MiniSnippets")
 
---[================================================================[
+-- # paste snippet in normal mode
+
+--[==[
 
 require("luaexec").add({
 	code =
@@ -240,7 +260,7 @@ end)
 	keys = {"n", "re"},
 })
 
---]================================================================]
+--]==]
 
 require("luaexec").add({
 	code =
