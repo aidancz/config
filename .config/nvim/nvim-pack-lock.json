@@ -9,7 +9,7 @@
       "src": "https://github.com/okuuva/auto-save.nvim"
     },
     "blink.cmp": {
-      "rev": "22cbfef275b6f76c6c55e9ef9ed8bb8b6f8bb894",
+      "rev": "4b18c32adef2898f95cdef6192cbd5796c1a332d",
       "src": "https://github.com/saghen/blink.cmp"
     },
     "conform.nvim": {
@@ -25,9 +25,8 @@
       "src": "https://github.com/rafamadriz/friendly-snippets"
     },
     "fzf-lua": {
-      "rev": "69cc714be2d9386a68e79091e6197ddcc37db8db",
-      "src": "https://github.com/ibhagwan/fzf-lua",
-      "version": "'b51b97f~'"
+      "rev": "c86b72c62b01d2242cafa45fb0d1fc3bf66e6a2b",
+      "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "fzf-lua-enchanted-files": {
       "rev": "8c6b9790e9cec5a8213a384319b53c2b7435cd46",
@@ -130,7 +129,7 @@
       "src": "https://github.com/kevinhwang91/nvim-fundo"
     },
     "nvim-treesitter": {
-      "rev": "4967fa48b0fe7a7f92cee546c76bb4bb61bb14d5",
+      "rev": "70a9fecaf5aeae70c765d4c51a8038165a91aa06",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
@@ -138,6 +137,10 @@
       "rev": "a0e182ae21fda68c59d1f36c9ed45600aef50311",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
       "version": "'main'"
+    },
+    "nvim-ts-context-commentstring": {
+      "rev": "1b212c2eee76d787bbea6aa5e92a2b534e7b4f8f",
+      "src": "https://github.com/JoosepAlviste/nvim-ts-context-commentstring"
     },
     "plenary.nvim": {
       "rev": "b9fd5226c2f76c951fc8ed5923d85e4de065e509",

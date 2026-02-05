@@ -211,6 +211,6 @@ do
 
 	-- require("_fix-cursor") -- too hacky and fragile
 
-	require("_test")
+	-- require("_test")
 
 end

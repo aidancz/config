@@ -1,11 +1,11 @@
 vim.pack.add({
 	"https://github.com/numToStr/Comment.nvim",
-	-- "https://github.com/JoosepAlviste/nvim-ts-context-commentstring",
+	"https://github.com/JoosepAlviste/nvim-ts-context-commentstring",
 })
 
--- require("ts_context_commentstring").setup({
--- 	enable_autocmd = false,
--- })
+require("ts_context_commentstring").setup({
+	enable_autocmd = false,
+})
 
 require("Comment").setup({
 	toggler = {
@@ -21,5 +21,5 @@ require("Comment").setup({
 		below = "<nop>",
 		eol = "<nop>",
 	},
-	-- pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+	pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
 })

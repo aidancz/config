@@ -46,6 +46,7 @@ local parsers = {
 	"diff",
 	"git_rebase",
 	"gitcommit",
+	"html",
 	"ini",
 	"lua",
 	"markdown",

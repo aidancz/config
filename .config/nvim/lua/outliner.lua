@@ -40,12 +40,26 @@ M.query_registry.lua = vim.treesitter.query.parse(
 (chunk (comment) @h2 (#match? @h2 "^-- ## "))
 (chunk (comment) @h3 (#match? @h3 "^-- ### "))
 (chunk (comment) @h4 (#match? @h4 "^-- #### "))
-(chunk (variable_declaration
-  [
-    (variable_list) @variable
-    (assignment_statement (variable_list) @variable)
-  ]))
+
+; local a, b
+(chunk (variable_declaration (variable_list) @variable))
+
+; local a = 3
+(chunk (variable_declaration (assignment_statement (variable_list) @variable)))
+
+; (chunk (variable_declaration
+;   [
+;     (variable_list) @variable
+;     (assignment_statement (variable_list) @variable)
+;   ]))
+
+; a = 3
 (chunk (assignment_statement (variable_list) @variable))
+
+; function f() end
+(chunk (function_declaration name: (_) @variable))
+
+; f()
 (chunk (function_call name: (_) @function))
 ]]
 )
