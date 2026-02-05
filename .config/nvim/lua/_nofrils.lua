@@ -1,5 +1,7 @@
 -- https://github.com/nvim-mini/mini.nvim/issues/1326
 
+vim.opt.runtimepath:prepend("~/sync_git/nofrils.nvim")
+
 local main = function()
 	-- # set option
 

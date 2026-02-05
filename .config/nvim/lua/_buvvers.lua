@@ -1,3 +1,5 @@
+vim.opt.runtimepath:prepend("~/sync_git/buvvers.nvim")
+
 vim.api.nvim_create_augroup("quit_win", {clear = true})
 vim.api.nvim_create_autocmd(
 	"WinClosed",

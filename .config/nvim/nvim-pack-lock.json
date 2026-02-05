@@ -9,7 +9,7 @@
       "src": "https://github.com/okuuva/auto-save.nvim"
     },
     "blink.cmp": {
-      "rev": "fab799d086fd63fa5b389007f63767b23885ebf8",
+      "rev": "22cbfef275b6f76c6c55e9ef9ed8bb8b6f8bb894",
       "src": "https://github.com/saghen/blink.cmp"
     },
     "conform.nvim": {
@@ -106,7 +106,7 @@
       "src": "https://github.com/nvim-mini/mini.move"
     },
     "mini.operators": {
-      "rev": "47e33fee98adf9fef841cc6d6b868db3a28adacc",
+      "rev": "c68010bb5498d418e056704710f71cd8d6fa227b",
       "src": "https://github.com/nvim-mini/mini.operators"
     },
     "mini.snippets": {
@@ -118,7 +118,7 @@
       "src": "https://github.com/nvim-mini/mini.splitjoin"
     },
     "mini.surround": {
-      "rev": "f9358544ed06bc10197e698b7fc8dc5963be3f4b",
+      "rev": "d648a5601e1c48f175b07d10eba141da338a0a2a",
       "src": "https://github.com/nvim-mini/mini.surround"
     },
     "mini.visits": {
@@ -167,6 +167,10 @@
       "rev": "ad7d9580338354ccc136e5b8f0aa4f880434dcdc",
       "src": "https://github.com/nvim-telescope/telescope.nvim"
     },
+    "test.nvim": {
+      "rev": "ee078af1fd4cab1170ba82006c95263daf6b8208",
+      "src": "https://github.com/aidancz/test.nvim"
+    },
     "text-case.nvim": {
       "rev": "e898cfd46fa6cde0e83abb624a16e67d2ffc6457",
       "src": "https://github.com/johmsalas/text-case.nvim"
@@ -184,7 +188,7 @@
       "src": "https://github.com/inkarkat/vim-AdvancedSorters"
     },
     "vim-ingo-library": {
-      "rev": "3ea510a25f36df6a0a0eb8f075f3b2daca8adbc0",
+      "rev": "700aec39d26beaf1173ce3a52df62486d60d7fdb",
       "src": "https://github.com/inkarkat/vim-ingo-library"
     },
     "vim-table-mode": {
@@ -196,7 +200,7 @@
       "src": "https://github.com/gbprod/yanky.nvim"
     },
     "yazi.nvim": {
-      "rev": "7a5a72d915241a2f07901c324a14c02a30b8515e",
+      "rev": "02d5086bee04e0c861afeed8ce48988c89b19f9d",
       "src": "https://github.com/mikavilpas/yazi.nvim"
     }
   }

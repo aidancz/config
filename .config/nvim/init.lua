@@ -119,6 +119,7 @@ do
 	-- require("_LuaSnip")
 	-- require("_NeoComposer")
 	-- require("_aerial")
+	-- require("_atone")
 	-- require("_auto-cmdheight")
 	-- require("_bufferline")
 	-- require("_fidget")
@@ -209,5 +210,7 @@ do
 	require("hl")
 
 	-- require("_fix-cursor") -- too hacky and fragile
+
+	require("_test")
 
 end

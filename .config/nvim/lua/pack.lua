@@ -31,16 +31,10 @@ https://github.com/neovim/neovim/issues/35562
 
 dependencies:
 https://github.com/neovim/neovim/issues/34771#issuecomment-3043987557
+
+packadd/packadd!
+https://github.com/neovim/neovim/issues/35192
 --]]
-
--- # manage local plugins (https://github.com/neovim/neovim/issues/34765)
-
-local dir = "~/sync_git"
-for name, type in vim.fs.dir(dir) do
-	if type == "directory" and string.find(name, "vim") then
-		vim.opt.runtimepath:prepend(dir .. "/" .. name)
-	end
-end
 
 -- # allow hook via a custom `spec.data.on_packchanged`
 

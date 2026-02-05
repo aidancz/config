@@ -1,3 +1,5 @@
+vim.opt.runtimepath:prepend("~/sync_git/whitespace.nvim")
+
 require("whitespace").setup({
 	excluded_filetypes = {
 	},

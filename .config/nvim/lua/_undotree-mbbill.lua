@@ -1,8 +1,9 @@
-vim.pack.add({
-	"https://github.com/mbbill/undotree",
-})
+-- vim.pack.add({
+-- 	"https://github.com/mbbill/undotree",
+-- })
+vim.opt.runtimepath:prepend("~/sync_git/undotree.vim"); vim.cmd("runtime plugin/undotree.vim")
 
-vim.g.undotree_WindowLayout = 4
+vim.g.undotree_WindowLayout = 1
 vim.g.undotree_DiffAutoOpen = 0
 vim.g.undotree_SplitWidth = math.floor(vim.o.columns / 4)
 vim.g.undotree_DiffpanelHeight = math.floor(vim.o.lines / 4)

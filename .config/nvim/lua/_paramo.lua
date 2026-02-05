@@ -1,3 +1,5 @@
+vim.opt.runtimepath:prepend("~/sync_git/paramo.nvim")
+
 require("paramo").get_expr_func = function(direction, is)
 	return
 	function()

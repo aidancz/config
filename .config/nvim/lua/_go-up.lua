@@ -1,3 +1,5 @@
+vim.opt.runtimepath:prepend("~/sync_git/go-up.nvim")
+
 require("go-up").setup({
 })
 
