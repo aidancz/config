@@ -348,7 +348,7 @@ vim.o.inccommand = ""
 
 vim.o.iskeyword = "a-z,A-Z,48-57"
 
-vim.o.commentstring = "#%s"
+vim.o.commentstring = ""
 
 -- # buffer window tab
 

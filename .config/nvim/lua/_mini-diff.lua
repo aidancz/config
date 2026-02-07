@@ -14,7 +14,7 @@ require("mini.diff").setup({
 	mappings = {
 		apply = "ga",
 		reset = "gr",
-		textobject = "ih",
+		textobject = "ah",
 
 		goto_first = "",
 		goto_prev = "",

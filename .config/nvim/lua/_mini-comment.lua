@@ -10,14 +10,22 @@ require("ts_context_commentstring").setup({
 require("mini.comment").setup({
 	options = {
 		custom_commentstring = function()
-			return
-			require("ts_context_commentstring").calculate_commentstring()
+			local commentstring
+
+			commentstring = vim.bo.commentstring
+			if commentstring ~= "" then return commentstring end
+
+			commentstring = require("ts_context_commentstring").calculate_commentstring()
+			if commentstring ~= nil then return commentstring end
+
+			commentstring = "# %s"
+			return commentstring
 		end,
 	},
 	mappings = {
-		comment = "",
+		comment = "<space>c",
 		comment_line = "",
-		comment_visual = "",
-		textobject = "ic",
+		comment_visual = "<space>c",
+		textobject = "ac",
 	},
 })

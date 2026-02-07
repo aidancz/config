@@ -1,4 +1,5 @@
 -- https://github.com/ibhagwan/fzf-lua/issues/140
+-- https://www.reddit.com/r/neovim/s/tBNKuwGua3
 
 vim.pack.add({
 	{

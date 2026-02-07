@@ -116,6 +116,7 @@ do
 
 	-- # main
 
+	-- require("_Comment")
 	-- require("_LuaSnip")
 	-- require("_NeoComposer")
 	-- require("_aerial")
@@ -130,7 +131,6 @@ do
 	-- require("_lualine")
 	-- require("_mini-bracketed")
 	-- require("_mini-clue")
-	-- require("_mini-comment")
 	-- require("_mini-notify")
 	-- require("_mini-pick__luaexec")
 	-- require("_mini-pick__outliner")
@@ -162,10 +162,8 @@ do
 	-- require("_zen-mode")
 	-- require("guicursor")
 	-- require("redir")
-	require("_Comment")
 	require("_auto-save")
 	require("_blink-cmp")
-	require("_comment-multiply")
 	require("_conform")
 	require("_fcitx")
 	require("_friendly-snippets")
@@ -173,8 +171,6 @@ do
 	require("_fzf-lua__frecency")
 	require("_fzf-lua__luaexec")
 	require("_fzf-lua__outliner")
-	require("_hl")
-	require("_hls")
 	require("_lazygit")
 	require("_lfsp")
 	require("_macro")
@@ -183,6 +179,7 @@ do
 	require("_mini-ai")
 	require("_mini-align")
 	require("_mini-bufremove")
+	require("_mini-comment")
 	require("_mini-diff")
 	require("_mini-hipatterns")
 	require("_mini-indentscope")
@@ -195,6 +192,7 @@ do
 	require("_mini-visits")
 	require("_nvim-treesitter") -- slow
 	require("_nvim-treesitter-textobjects")
+	require("_operator")
 	require("_paramo")
 	require("_sentiment")
 	require("_substitute")
@@ -207,7 +205,6 @@ do
 	require("_yazi")
 	require("autoindent")
 	require("diagnostic")
-	require("hl")
 
 	-- require("_fix-cursor") -- too hacky and fragile
 
