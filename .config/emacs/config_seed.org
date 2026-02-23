@@ -1,0 +1,10 @@
+to tangle: C-c C-v t
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/early-init.el
+(setq inhibit-x-resources t)
+(load-theme 'wombat t)
+#+end_src
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/init.el
+(set-face-attribute 'default nil :height 140)
+#+end_src
