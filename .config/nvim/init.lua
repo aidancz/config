@@ -32,23 +32,85 @@ end
 vim.loader.enable()
 -- https://github.com/lewis6991/impatient.nvim
 
--- # load
+-- # ui2
 
--- ## require pack to setup vim.pack
+-- affect vim.api.nvim_list_wins: https://github.com/neovim/neovim/issues/34295
+-- affect <c-f>/<c-b> since there are many floating windows (:h ctrl-f)
+
+require("vim._core.ui2").enable({
+	enable = true,
+	msg = {
+		target = "cmd",
+		-- target = "msg",
+		timeout = 4000,
+	},
+})
+
+-- # setup vim.pack
 
 require("pack")
 
--- ## require mini.deps for its `now` and `later` functions
+-- # define load helpers (steal from mini.misc)
 
-require("_mini-deps")
+-- vim.pack.add({
+-- 	"https://github.com/nvim-mini/mini.misc",
+-- })
+-- local safely = require("mini.misc").safely
+-- local now = function(f) safely("now", f) end
+-- local later = function(f) safely("later", f) end
+-- local now_if_args = vim.fn.argc(-1) > 0 and now or later
 
--- ## require now
+-- local call = function(f, init_trace)
+-- 	local ok, res = pcall(f)
+-- 	if ok then return end
+-- 	vim.notify(res, vim.log.levels.ERROR)
+-- 	vim.notify(debug.traceback(), vim.log.levels.TRACE)
+-- 	vim.notify(init_trace, vim.log.levels.TRACE)
+-- end
+-- local now = function(f)
+-- 	call(f, "")
+-- end
+-- local queue = {}
+-- local process_queue = function()
+-- 	local timer = vim.uv.new_timer()
+-- 	local empty_queue
+-- 	empty_queue = vim.schedule_wrap(function()
+-- 		local cb = queue[1]
+-- 		if cb == nil then
+-- 			timer:close()
+-- 			return
+-- 		end
+-- 		table.remove(queue, 1)
+-- 		call(cb.f, cb.trace)
+-- 		timer:start(1, 0, empty_queue)
+-- 	end)
+-- 	timer:start(1, 0, empty_queue)
+-- end
+-- local later = function(f)
+-- 	if vim.tbl_isempty(queue) then
+-- 		vim.schedule(process_queue)
+-- 	end
+-- 	table.insert(queue, {f = f, trace = debug.traceback()})
+-- end
+
+local now = function(f)
+	local ok, res = pcall(f)
+	if ok then return end
+	vim.notify(res, vim.log.levels.ERROR)
+	-- vim.notify(debug.traceback(), vim.log.levels.TRACE)
+end
+local later = function(f)
+	vim.schedule(function()
+		now(f)
+	end)
+end
+
+-- # require now
 
 do
 
 	-- # redefine `require` function
 
-	local now = require("mini.deps").now
 	local original_require = require
 	local require = function(modname) now(function() original_require(modname) end) end
 
@@ -82,7 +144,6 @@ do
 	-- require("_outline_HACK1")
 	require("_buvvers")
 	require("_whitespace")
-	require("extui")
 	require("statusline")
 
 	-- # autocmd
@@ -96,15 +157,16 @@ do
 	require("gutter")
 	require("lsp")
 
+	-- require("_test")
+
 end
 
--- ## require later
+-- # require later
 
 do
 
 	-- # redefine `require` function
 
-	local later = require("mini.deps").later
 	local original_require = require
 	local require = function(modname) later(function() original_require(modname) end) end
 

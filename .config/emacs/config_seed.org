@@ -1,4 +1,5 @@
-to tangle: C-c C-v t
+to tangle:
+M-x org-babel-tangle (C-c C-v C-t)
 
 #+begin_src emacs-lisp :tangle ~/.emacs.d/early-init.el
 (setq inhibit-x-resources t)

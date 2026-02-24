@@ -1,0 +1,2425 @@
+#+property: header-args:emacs-lisp :tangle ~/.emacs.d/init.el
+#+auto_tangle: t
+
+* lexical binding
+
+#+begin_src emacs-lisp
+;; -*- lexical-binding: t -*-
+
+;; https://github.com/nordtheme/emacs/issues/59#issuecomment-414882071
+;; https://www.emacswiki.org/emacs/LexicalBinding
+;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Lexical-Binding.html
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Specifying-File-Variables.html
+#+end_src
+
+* debug
+
+#+begin_src emacs-lisp
+;; (top-level)
+;; https://emacs.stackexchange.com/questions/75179/how-to-stop-evaluating-within-emacs-for-debugging-purposes
+
+;; (error "Done")
+;; https://stackoverflow.com/questions/25393418/stop-execution-of-emacs
+#+end_src
+
+* COMMENT test
+
+#+begin_src emacs-lisp
+(defun display-startup-echo-area-message ()
+(message "test block on"))
+#+end_src
+
+* early-init.el
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/early-init.el
+(setq inhibit-x-resources t)
+#+end_src
+
+* built-in
+
+** COMMENT tangle when saving
+
+use org-auto-tangle instead
+
+#+begin_src emacs-lisp
+;; (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle :append :local)))
+;; run "org-babel-tangle" when saving any org buffer
+;; manually: C-c C-v t
+;; https://leanpub.com/lit-config/read#leanpub-auto-emacs-and-org-mode
+
+(defun org-babel-tangle-config ()
+  (when (string-equal (buffer-file-name) (concat (getenv "a_gi") "/arch_config/.config/emacs/init.org"))
+    (org-babel-tangle)
+    ;; (let ((inhibit-message t))
+    ;;   (org-babel-tangle))
+    ))
+(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle-config)))
+;; run "org-babel-tangle" when saving init.org
+#+end_src
+
+** appearance
+
+#+begin_src emacs-lisp
+;; (setq inhibit-x-resources t)
+;; (setq inhibit-x-resources t) seems also (setq inhibit-startup-screen t)
+
+
+
+(menu-bar-mode -1)
+
+(tool-bar-mode -1)
+
+(set-fringe-mode 0)
+;; https://stackoverflow.com/questions/11373826/how-to-disable-fringe-in-emacs
+
+(scroll-bar-mode -1)
+
+
+
+(setq display-line-numbers-type 'visual)
+;; https://emacs.stackexchange.com/questions/78532/mixed-display-line-numbers-type-for-evil-users
+(setq display-line-numbers-current-absolute nil)
+;; (setq display-line-numbers-grow-only t)
+;; (setq display-line-numbers-width-start t)
+
+;; (setq-default display-line-numbers-width )
+
+;; (setq-default display-line-numbers-widen t)
+;; https://emacs.stackexchange.com/questions/48581/how-to-display-absolute-line-numbers-of-a-full-widened-buffer-when-narrowing-to
+
+(global-display-line-numbers-mode 1)
+(add-hook 'evil-emacs-state-entry-hook (lambda () (display-line-numbers-mode -1)))
+(add-hook 'evil-emacs-state-exit-hook  (lambda () (display-line-numbers-mode 1)))
+
+
+
+;; (setq mode-line-client "")
+;; https://emacs.stackexchange.com/questions/4018/reduce-the-space-between-elements-in-modeline
+;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Mode-Line-Variables.html#Mode-Line-Variables
+
+;; (line-number-mode 1)
+;; (setq column-number-indicator-zero-based nil)
+;; better not (setq column-number-indicator-zero-based nil), because this is different from assumption
+(column-number-mode 1)
+
+(setq echo-keystrokes 0.001)
+;; evil's equivalent of vim "set showcmd" is working in progress, see https://github.com/emacs-evil/evil/issues/1386
+;; (setq echo-keystrokes 0)
+;; can't echo immediately, can't don't echo the last key, so don't echo at all
+
+(setq completions-format 'vertical)
+
+;; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+;; (global-visual-line-mode 1)
+(set-default 'truncate-lines t)
+;; https://www.emacswiki.org/emacs/TruncateLines
+;; https://emacs.stackexchange.com/questions/78532/mixed-display-line-numbers-type-for-evil-users
+
+;; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+;; (add-to-list 'default-frame-alist
+;;              '(font . "monospace-15"))
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Fonts.html
+
+(defun centaur-setup-fonts ()
+(when (display-graphic-p)
+(set-face-attribute 'default nil :family "monospace" :height 150)
+(set-fontset-font t 'symbol (font-spec :family "Symbola") nil 'prepend)
+(set-fontset-font t 'emoji (font-spec :family "Twemoji") nil 'prepend)
+(set-fontset-font t 'han (font-spec :family "Noto Sans CJK SC"))
+(setq face-font-rescale-alist '(("Twemoji" . 0.9) ("Noto Sans CJK SC" . 1.1)))
+))
+(centaur-setup-fonts)
+;; (add-hook 'window-setup-hook #'centaur-setup-fonts)
+(add-hook 'server-after-make-frame-hook #'centaur-setup-fonts)
+;; https://github.com/seagle0128/.emacs.d/blob/master/custom-example.el
+;; https://github.com/VitalyAnkh/config/blob/master/doom/config.org#font-face
+
+;; (setq whitespace-style '(face trailing tabs tab-mark))
+(setq whitespace-style '(face trailing tabs))
+(setq whitespace-display-mappings '(
+))
+(global-whitespace-mode 1)
+;; http://xahlee.info/emacs/emacs/whitespace-mode.html
+;; http://xahlee.info/emacs/emacs/emacs_init_whitespace_mode.html
+
+;; (setq show-paren-delay 0)
+;; (show-paren-mode 1)
+
+;; (defun set-prettify-symbols-alist ()
+;; (setq prettify-symbols-alist '(
+;; ("lambda" . "λ")
+;; ("circle" . "○")
+;; ))
+;; )
+;; (add-hook 'prog-mode-hook 'set-prettify-symbols-alist)
+;; (global-prettify-symbols-mode 1)
+
+(blink-cursor-mode 0)
+#+end_src
+
+** scroll
+
+#+begin_src emacs-lisp
+;; vertical scrolling
+
+;; (setq scroll-margin 0)
+;; (setq scroll-step 0)
+;; when point moves off the screen, move window this line to make point visible, if failed, center the point
+(setq scroll-conservatively most-positive-fixnum)
+;; when point moves off the screen, move window up to this line to make point visible, if failed, center the point
+;; https://www.gnu.org/software/emacs/manual/html_node/efaq/Scrolling-only-one-line.html
+;; (setq scroll-down-aggressively 0.5)
+;; (setq scroll-up-aggressively 0.5)
+
+;; horizontal scrolling
+
+(setq hscroll-margin 0)
+;; (setq hscroll-conservatively nil)
+;; "hscroll-conservatively" doesn't exist in emacs
+;; (setq hscroll-step 2)
+;; the behaviour of "hscroll-step" is strange
+
+;; scroll & cursor
+(setq next-screen-context-lines 0)
+(setq scroll-preserve-screen-position t)
+#+end_src
+
+** search
+
+#+begin_src emacs-lisp
+(setq isearch-lazy-count t)
+;; (setq isearch-lazy-highlight t)
+
+;; (setq search-highlight nil)
+(setq lazy-highlight-no-delay-length 1)
+;; (setq lazy-highlight-initial-delay 0)
+#+end_src
+
+** copy & paste
+
+#+begin_src emacs-lisp
+(setq x-select-enable-clipboard t)
+(setq x-select-enable-primary t)
+#+end_src
+
+** undo
+
+#+begin_src emacs-lisp
+(setq undo-no-redo t)
+#+end_src
+
+** indent
+
+#+begin_src emacs-lisp
+;; (setq-default tab-width 8)
+(setq-default indent-tabs-mode nil)
+(setq-default tab-always-indent 'complete)
+;; (electric-indent-mode -1)
+;; electric-indent-mode is a global minor mode that automatically indents the line after every RET you type, enabled by default
+;; http://xahlee.info/emacs/emacs/emacs_tabs_space_indentation_setup.html
+
+(setq sh-basic-offset 8)
+#+end_src
+
+** save
+
+#+begin_src emacs-lisp
+(setq save-silently t)
+
+;; (setq require-final-newline nil)
+;; (setq mode-require-final-newline nil)
+;; https://stackoverflow.com/questions/13574564/emacs-automatically-adding-a-newline-even-after-changing-emacs
+
+;; (setq auto-save-visited-interval 1)
+;; (auto-save-visited-mode 1)
+;; http://xahlee.info/emacs/emacs/emacs_auto_save.html
+
+(global-auto-revert-mode 1)
+#+end_src
+
+** extra files
+
+#+begin_src emacs-lisp
+(setq make-backup-files nil)
+;; stop creating <filename>~
+(setq auto-save-default nil)
+;; stop creating #<filename>#
+(setq create-lockfiles nil)
+;; stop creating .#<filename>
+(setq auto-save-list-file-prefix nil)
+;; stop creating auto-save-list dir
+;; (setq url-configuration-directory "~/.emacs.d/url")
+;; move url dir
+#+end_src
+
+** misc
+
+#+begin_src emacs-lisp
+(fset 'yes-or-no-p 'y-or-n-p)
+;; https://manateelazycat.github.io/2016/03/08/emacs-basic-config/
+
+;; (setq ring-bell-function 'ignore)
+;; https://manateelazycat.github.io/2016/03/08/emacs-basic-config/
+
+(defalias 'list-buffers 'ibuffer)
+
+;; http://xahlee.info/emacs/emacs/bookmark.html
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Bookmarks.html
+(setq bookmark-save-flag 1)
+#+end_src
+
+* package.el setup
+
+emacs has a built-in package manager called "package.el"
+it installs packages from "elpa"
+elpa: emacs lisp package archive
+
+gnuelpa: gnu elpa
+nongnuelpa: non gnu elpa
+melpa: milkypostman’s elpa
+
+| elpa name  | official | enabled by default |
+|------------+----------+--------------------|
+| gnuelpa    |        1 |                  1 |
+| nongnuelpa |        1 |                  1 |
+| melpa      |        0 |                  0 |
+
+https://www.emacswiki.org/emacs/InstallingPackages
+https://melpa.org/#/getting-started
+
+** package-initialize
+
+#+begin_src emacs-lisp
+(require 'package)
+
+;; (add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/") t)
+;; (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+
+(setq package-archives '(
+("gnu"          . "https://elpa.gnu.org/packages/")
+;; ("gnu-devel"    . "https://elpa.gnu.org/devel/")
+("nongnu"       . "https://elpa.nongnu.org/nongnu/")
+("melpa"        . "https://melpa.org/packages/")
+;; ("melpa-stable" . "https://stable.melpa.org/packages/")
+))
+
+;; (setq package-archives '(
+;; ("gnu-cn"          . "http://1.15.88.122/gnu/")
+;; ("nongnu-cn"       . "http://1.15.88.122/nongnu/")
+;; ("melpa-cn"        . "http://1.15.88.122/melpa/")
+;; ("melpa-stable-cn" . "http://1.15.88.122/stable-melpa/")
+;; ))
+;; https://elpamirror.emacs-china.org/
+
+;; (setq package-user-dir "~/.emacs.d/elpa")
+
+(setq package-selected-packages '(
+
+;; color-theme-sanityinc-solarized
+;; color-theme-sanityinc-tomorrow
+;; org-gtd
+;; solarized-theme
+;; valign
+clipetty
+company
+consult
+denote
+dired-preview
+dirvish
+doom-modeline
+doom-themes
+edwina
+embark
+evil
+evil-anzu
+evil-cleverparens
+evil-collection
+evil-commentary
+evil-lion
+evil-nerd-commenter
+evil-org
+evil-replace-with-char
+evil-replace-with-register
+evil-rsi
+evil-snipe
+evil-surround
+fcitx
+magit
+marginalia
+minions
+nord-theme
+orderless
+org-journal
+org-roam
+org-roam-ui
+paredit
+popper
+rainbow-mode
+shackle
+standard-themes
+sudo-edit
+super-save
+terminal-here
+trashed
+undo-fu
+uuidgen
+vertico
+vterm
+xclip
+xresources-theme
+org-auto-tangle
+
+))
+;; M-x package-refresh-contents
+;; M-x package-install-selected-packages
+;; M-x package-autoremove
+
+(package-initialize)
+
+;; https://stackoverflow.com/questions/10092322/how-to-automatically-install-emacs-packages-by-specifying-a-list-of-package-name
+;; https://emacs.stackexchange.com/questions/28932/how-to-automate-installation-of-packages-with-emacs-file
+#+end_src
+
+** check package-selected-packages
+
+#+begin_src emacs-lisp
+(defun my-every (@list) "return t if all elements are true" (eval `(and ,@ @list)))
+(if (not (my-every (mapcar 'package-installed-p package-selected-packages))) (error "Package missing"))
+;; need to be put after (package-initialize), don't know why for now
+
+;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Errors.html
+;; http://xahlee.info/emacs/emacs/elisp_mapcar_loop.html
+;; http://xahlee.info/emacs/misc/emacs_lisp_some_and_every.html
+#+end_src
+
+** load-path
+
+#+begin_src emacs-lisp
+(let ((default-directory  "~/.emacs.d/src/"))
+  (normal-top-level-add-subdirs-to-load-path))
+
+;; http://xahlee.info/emacs/emacs/elisp_library_system.html
+;; https://www.emacswiki.org/emacs/LoadPath
+#+end_src
+
+* package_appearance
+
+** theme_standard-dark
+
+#+begin_src emacs-lisp
+(require 'standard-themes)
+(standard-themes-load-light)
+
+;; (load-theme 'standard-dark)
+;; (load-theme 'standard-light)
+#+end_src
+
+** COMMENT theme_nord
+
+#+begin_src emacs-lisp
+(load-theme 'nord t)
+;; https://github.com/nordtheme/emacs/issues/59#issuecomment-414882071
+#+end_src
+
+** COMMENT theme_doom-nord
+
+#+begin_src emacs-lisp
+;; (setq doom-nord-brighter-modeline t)
+;; (setq doom-nord-brighter-comments t)
+;; (setq doom-nord-padded-modeline   t)
+;; (setq doom-nord-comment-bg        t)
+;; (setq doom-nord-region-highlight  t)
+
+(load-theme 'doom-nord t)
+;; https://github.com/doomemacs/themes#customization
+
+(custom-set-faces
+`(cursor ((t (:background ,(doom-color 'base7)))))
+`(mode-line ((t (:background ,(doom-color 'base5) :foreground ,(doom-color 'fg-alt)))))
+)
+#+end_src
+
+** COMMENT theme_xresources
+
+#+begin_src emacs-lisp
+(load-theme 'xresources t)
+#+end_src
+
+** COMMENT theme_penumbra
+
+http://xahlee.info/emacs/emacs/emacs_create_theme.html
+
+https://gitlab.com/esessoms/nofrils-theme/-/blob/master/nofrils-dark-theme.el?ref_type=heads
+https://github.com/lthms/colorless-themes.el/blob/master/colorless-themes.el
+https://github.com/nordtheme/emacs/blob/develop/nord-theme.el
+https://github.com/protesilaos/standard-themes/blob/main/standard-themes.el
+
+https://www.gnu.org/software/emacs/manual/html_node/elisp/Special-Properties.html
+https://www.gnu.org/software/emacs/manual/html_node/emacs/Standard-Faces.html
+https://www.gnu.org/software/emacs/manual/html_node/elisp/Faces-for-Font-Lock.html
+
+https://stackoverflow.com/questions/76980325/custom-set-faces-only-works-with-non-server-emacs-but-not-usr-bin-emacsclient
+https://emacs.stackexchange.com/questions/77762/custom-set-faces-not-working-for-client
+https://emacs.stackexchange.com/questions/46541/running-emacs-as-a-daemon-does-not-load-custom-set-faces
+
+#+begin_src emacs-lisp :tangle ~/.emacs.d/penumbra-theme.el
+;; -*- lexical-binding: t -*-
+
+(deftheme penumbra)
+
+(global-font-lock-mode 0)
+(add-hook 'text-mode-hook 'turn-on-font-lock)
+(add-hook 'prog-mode-hook 'turn-on-font-lock)
+(add-hook 'conf-mode-hook 'turn-on-font-lock)
+(add-hook 'magit-mode-hook 'turn-on-font-lock)
+(add-hook 'magit-section-mode-hook 'turn-on-font-lock)
+
+(let
+(
+
+;; ;; penumbra-dark0
+;; (sun1    "#fffdfb")
+;; (sun     "#fff7ed")
+;; (sun0    "#f2e6d4")
+;; (sky1    "#bebebe")
+;; (sky     "#8f8f8f")
+;; (sky0    "#636363")
+;; (shade1  "#3e4044")
+;; (shade   "#303338")
+;; (shade0  "#24272b")
+;; (red     "#cb7459")
+;; (yellow  "#a38f2d")
+;; (green   "#46a473")
+;; (cyan    "#00a0be")
+;; (blue    "#7e87d6")
+;; (magenta "#bd72a8")
+
+;; penumbra-dark1
+(sun1    "#fffdfb")
+(sun     "#fff7ed")
+(sun0    "#f2e6d4")
+(sky1    "#cecece")
+(sky     "#9e9e9e")
+(sky0    "#636363")
+(shade1  "#3e4044")
+(shade   "#24272b")
+(shade0  "#181b1f")
+(red     "#e18163")
+(yellow  "#b49e33")
+(green   "#4eb67f")
+(cyan    "#00b0d2")
+(blue    "#8c96ec")
+(magenta "#d07eba")
+
+;; ;; penumbra-dark2
+;; (sun1    "#fffdfb")
+;; (sun     "#fff7ed")
+;; (sun0    "#f2e6d4")
+;; (sky1    "#dedede")
+;; (sky     "#aeaeae")
+;; (sky0    "#636363")
+;; (shade1  "#3e4044")
+;; (shade   "#181b1f")
+;; (shade0  "#0d0f13")
+;; (red     "#f48e74")
+;; (yellow  "#c7ad40")
+;; (green   "#61c68a")
+;; (cyan    "#1ac2e1")
+;; (blue    "#97a6ff")
+;; (magenta "#e18dce")
+
+)
+
+(defface penumbra-default    `((t (:background ,shade   :foreground ,sky     ))) "" :group 'penumbra )
+(defface penumbra-reverse    `((t (:background ,sky     :foreground ,shade   ))) "" :group 'penumbra )
+(defface penumbra-shadow     `((t (                     :foreground ,sky0    ))) "" :group 'penumbra )
+(defface penumbra-highlight  `((t (:background ,shade1                       ))) "" :group 'penumbra )
+(defface penumbra-red        `((t (                     :foreground ,red     ))) "" :group 'penumbra )
+(defface penumbra-yellow     `((t (                     :foreground ,yellow  ))) "" :group 'penumbra )
+(defface penumbra-green      `((t (                     :foreground ,green   ))) "" :group 'penumbra )
+(defface penumbra-cyan       `((t (                     :foreground ,cyan    ))) "" :group 'penumbra )
+(defface penumbra-blue       `((t (                     :foreground ,blue    ))) "" :group 'penumbra )
+(defface penumbra-magenta    `((t (                     :foreground ,magenta ))) "" :group 'penumbra )
+(defface penumbra-red-bg     `((t (:background ,red     :foreground ,shade   ))) "" :group 'penumbra )
+(defface penumbra-yellow-bg  `((t (:background ,yellow  :foreground ,shade   ))) "" :group 'penumbra )
+(defface penumbra-green-bg   `((t (:background ,green   :foreground ,shade   ))) "" :group 'penumbra )
+(defface penumbra-cyan-bg    `((t (:background ,cyan    :foreground ,shade   ))) "" :group 'penumbra )
+(defface penumbra-blue-bg    `((t (:background ,blue    :foreground ,shade   ))) "" :group 'penumbra )
+(defface penumbra-magenta-bg `((t (:background ,magenta :foreground ,shade   ))) "" :group 'penumbra )
+
+(defface penumbra-error      `((t (:inherit penumbra-red-bg                  ))) "" :group 'penumbra )
+(defface penumbra-warning    `((t (:inherit penumbra-yellow-bg               ))) "" :group 'penumbra )
+(defface penumbra-success    `((t (:inherit penumbra-green-bg                ))) "" :group 'penumbra )
+(defface penumbra-level1     `((t (:inherit penumbra-red                     ))) "" :group 'penumbra )
+(defface penumbra-level2     `((t (:inherit penumbra-green                   ))) "" :group 'penumbra )
+(defface penumbra-level3     `((t (:inherit penumbra-blue                    ))) "" :group 'penumbra )
+(defface penumbra-link       `((t (:inherit penumbra-cyan                    ))) "" :group 'penumbra )
+(defface penumbra-button     `((t (:inherit penumbra-cyan                    ))) "" :group 'penumbra )
+
+(custom-theme-set-faces
+'penumbra
+
+;; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+`(Info-quoted                            ((t ())))
+`(abbrev-table-name                      ((t ())))
+`(ansi-color-black                       ((t ())))
+`(ansi-color-blue                        ((t ())))
+`(ansi-color-bold                        ((t ())))
+`(ansi-color-bright-black                ((t ())))
+`(ansi-color-bright-blue                 ((t ())))
+`(ansi-color-bright-cyan                 ((t ())))
+`(ansi-color-bright-green                ((t ())))
+`(ansi-color-bright-magenta              ((t ())))
+`(ansi-color-bright-red                  ((t ())))
+`(ansi-color-bright-white                ((t ())))
+`(ansi-color-bright-yellow               ((t ())))
+`(ansi-color-cyan                        ((t ())))
+`(ansi-color-faint                       ((t ())))
+`(ansi-color-fast-blink                  ((t ())))
+`(ansi-color-green                       ((t ())))
+`(ansi-color-inverse                     ((t ())))
+`(ansi-color-italic                      ((t ())))
+`(ansi-color-magenta                     ((t ())))
+`(ansi-color-red                         ((t ())))
+`(ansi-color-slow-blink                  ((t ())))
+`(ansi-color-underline                   ((t ())))
+`(ansi-color-white                       ((t ())))
+`(ansi-color-yellow                      ((t ())))
+`(anzu-match-1                           ((t ())))
+`(anzu-match-2                           ((t ())))
+`(anzu-match-3                           ((t ())))
+`(anzu-mode-line                         ((t ())))
+`(anzu-mode-line-no-match                ((t ())))
+`(anzu-replace-highlight                 ((t ())))
+`(anzu-replace-to                        ((t ())))
+`(bold                                   ((t ())))
+`(bold-italic                            ((t ())))
+`(border                                 ((t ())))
+`(browse-url-button                      ((t ())))
+`(buffer-menu-buffer                     ((t ())))
+`(button                                 ((t (:inherit penumbra-button))))
+`(calendar-month-header                  ((t ())))
+`(calendar-today                         ((t ())))
+`(calendar-weekday-header                ((t ())))
+`(calendar-weekend-header                ((t ())))
+`(change-log-acknowledgment              ((t ())))
+`(change-log-conditionals                ((t ())))
+`(change-log-date                        ((t ())))
+`(change-log-email                       ((t ())))
+`(change-log-file                        ((t ())))
+`(change-log-function                    ((t ())))
+`(change-log-list                        ((t ())))
+`(change-log-name                        ((t ())))
+`(child-frame-border                     ((t ())))
+`(comint-highlight-input                 ((t ())))
+`(comint-highlight-prompt                ((t ())))
+`(compilation-column-number              ((t ())))
+`(compilation-error                      ((t ())))
+`(compilation-info                       ((t ())))
+`(compilation-line-number                ((t ())))
+`(compilation-mode-line-exit             ((t ())))
+`(compilation-mode-line-fail             ((t ())))
+`(compilation-mode-line-run              ((t ())))
+`(compilation-warning                    ((t ())))
+`(completions-annotations                ((t ())))
+`(completions-common-part                ((t ())))
+`(completions-first-difference           ((t ())))
+`(completions-group-separator            ((t ())))
+`(completions-group-title                ((t ())))
+`(completions-highlight                  ((t ())))
+`(confusingly-reordered                  ((t ())))
+`(cua-global-mark                        ((t ())))
+`(cua-rectangle                          ((t ())))
+`(cua-rectangle-noselect                 ((t ())))
+`(cursor                                 ((t ())))
+`(custom-button                          ((t (:inherit penumbra-button))))
+`(custom-button-mouse                    ((t ())))
+`(custom-button-pressed                  ((t ())))
+`(custom-button-pressed-unraised         ((t ())))
+`(custom-button-unraised                 ((t ())))
+`(custom-changed                         ((t ())))
+`(custom-comment                         ((t ())))
+`(custom-comment-tag                     ((t ())))
+`(custom-documentation                   ((t ())))
+`(custom-face-tag                        ((t ())))
+`(custom-group-subtitle                  ((t ())))
+`(custom-group-tag                       ((t ())))
+`(custom-group-tag-1                     ((t ())))
+`(custom-invalid                         ((t ())))
+`(custom-link                            ((t (:inherit penumbra-link))))
+`(custom-modified                        ((t ())))
+`(custom-rogue                           ((t ())))
+`(custom-saved                           ((t ())))
+`(custom-set                             ((t ())))
+`(custom-state                           ((t ())))
+`(custom-themed                          ((t ())))
+`(custom-variable-button                 ((t ())))
+`(custom-variable-obsolete               ((t ())))
+`(custom-variable-tag                    ((t ())))
+`(custom-visibility                      ((t (:inherit penumbra-button))))
+`(default                                ((t (:inherit penumbra-default))))
+`(denote-faces-date                      ((t ())))
+`(denote-faces-delimiter                 ((t ())))
+`(denote-faces-extension                 ((t ())))
+`(denote-faces-keywords                  ((t ())))
+`(denote-faces-link                      ((t ())))
+`(denote-faces-prompt-current-name       ((t ())))
+`(denote-faces-prompt-new-name           ((t ())))
+`(denote-faces-prompt-old-name           ((t ())))
+`(denote-faces-signature                 ((t ())))
+`(denote-faces-subdirectory              ((t ())))
+`(denote-faces-time                      ((t ())))
+`(denote-faces-time-delimiter            ((t ())))
+`(denote-faces-title                     ((t ())))
+`(diary                                  ((t ())))
+`(diff-added                             ((t ())))
+`(diff-changed                           ((t ())))
+`(diff-changed-unspecified               ((t ())))
+`(diff-context                           ((t ())))
+`(diff-error                             ((t ())))
+`(diff-file-header                       ((t ())))
+`(diff-function                          ((t ())))
+`(diff-header                            ((t ())))
+`(diff-hunk-header                       ((t ())))
+`(diff-index                             ((t ())))
+`(diff-indicator-added                   ((t ())))
+`(diff-indicator-changed                 ((t ())))
+`(diff-indicator-removed                 ((t ())))
+`(diff-nonexistent                       ((t ())))
+`(diff-refine-added                      ((t ())))
+`(diff-refine-changed                    ((t ())))
+`(diff-refine-removed                    ((t ())))
+`(diff-removed                           ((t ())))
+`(dired-broken-symlink                   ((t ())))
+`(dired-directory                        ((t ())))
+`(dired-flagged                          ((t ())))
+`(dired-header                           ((t ())))
+`(dired-ignored                          ((t ())))
+`(dired-mark                             ((t ())))
+`(dired-marked                           ((t ())))
+`(dired-perm-write                       ((t ())))
+`(dired-set-id                           ((t ())))
+`(dired-special                          ((t ())))
+`(dired-symlink                          ((t ())))
+`(dired-warning                          ((t ())))
+`(dirvish-file-device-number             ((t ())))
+`(dirvish-file-group-id                  ((t ())))
+`(dirvish-file-inode-number              ((t ())))
+`(dirvish-file-link-number               ((t ())))
+`(dirvish-file-modes                     ((t ())))
+`(dirvish-file-size                      ((t ())))
+`(dirvish-file-time                      ((t ())))
+`(dirvish-file-user-id                   ((t ())))
+`(dirvish-free-space                     ((t ())))
+`(dirvish-hl-line                        ((t ())))
+`(dirvish-media-info-heading             ((t ())))
+`(dirvish-media-info-property-key        ((t ())))
+`(edmacro-label                          ((t ())))
+`(eldoc-highlight-function-argument      ((t ())))
+`(elisp-shorthand-font-lock-face         ((t ())))
+`(epa-field-body                         ((t ())))
+`(epa-field-name                         ((t ())))
+`(epa-mark                               ((t ())))
+`(epa-string                             ((t ())))
+`(epa-validity-disabled                  ((t ())))
+`(epa-validity-high                      ((t ())))
+`(epa-validity-low                       ((t ())))
+`(epa-validity-medium                    ((t ())))
+`(error                                  ((t ())))
+`(ert-test-result-expected               ((t ())))
+`(ert-test-result-unexpected             ((t ())))
+`(escape-glyph                           ((t (:inherit penumbra-warning))))
+`(evil-ex-commands                       ((t ())))
+`(evil-ex-info                           ((t ())))
+`(evil-ex-lazy-highlight                 ((t ())))
+`(evil-ex-search                         ((t (:inherit penumbra-reverse))))
+`(evil-ex-substitute-matches             ((t (:inherit penumbra-reverse))))
+`(evil-ex-substitute-replacement         ((t (:inherit (penumbra-highlight penumbra-default)))))
+`(eww-form-checkbox                      ((t ())))
+`(eww-form-file                          ((t ())))
+`(eww-form-select                        ((t ())))
+`(eww-form-submit                        ((t ())))
+`(eww-form-text                          ((t ())))
+`(eww-form-textarea                      ((t ())))
+`(eww-invalid-certificate                ((t ())))
+`(eww-valid-certificate                  ((t ())))
+`(file-name-shadow                       ((t ())))
+`(fill-column-indicator                  ((t ())))
+`(fixed-pitch                            ((t ())))
+`(fixed-pitch-serif                      ((t ())))
+`(font-lock-bracket-face                 ((t ())))
+`(font-lock-builtin-face                 ((t ())))
+`(font-lock-comment-delimiter-face       ((t (:inherit penumbra-shadow))))
+`(font-lock-comment-face                 ((t (:inherit penumbra-shadow))))
+`(font-lock-constant-face                ((t ())))
+`(font-lock-delimiter-face               ((t ())))
+`(font-lock-doc-face                     ((t ())))
+`(font-lock-doc-markup-face              ((t ())))
+`(font-lock-escape-face                  ((t ())))
+`(font-lock-function-call-face           ((t ())))
+`(font-lock-function-name-face           ((t ())))
+`(font-lock-keyword-face                 ((t ())))
+`(font-lock-misc-punctuation-face        ((t ())))
+`(font-lock-negation-char-face           ((t ())))
+`(font-lock-number-face                  ((t ())))
+`(font-lock-operator-face                ((t ())))
+`(font-lock-preprocessor-face            ((t ())))
+`(font-lock-property-name-face           ((t ())))
+`(font-lock-property-use-face            ((t ())))
+`(font-lock-punctuation-face             ((t ())))
+`(font-lock-regexp-face                  ((t ())))
+`(font-lock-regexp-grouping-backslash    ((t ())))
+`(font-lock-regexp-grouping-construct    ((t ())))
+`(font-lock-string-face                  ((t ())))
+`(font-lock-type-face                    ((t ())))
+`(font-lock-variable-name-face           ((t ())))
+`(font-lock-variable-use-face            ((t ())))
+`(font-lock-warning-face                 ((t ())))
+`(fringe                                 ((t ())))
+`(git-commit-comment-action              ((t ())))
+`(git-commit-comment-branch-local        ((t ())))
+`(git-commit-comment-branch-remote       ((t ())))
+`(git-commit-comment-detached            ((t ())))
+`(git-commit-comment-file                ((t ())))
+`(git-commit-comment-heading             ((t ())))
+`(git-commit-keyword                     ((t ())))
+`(git-commit-nonempty-second-line        ((t ())))
+`(git-commit-overlong-summary            ((t ())))
+`(git-commit-summary                     ((t ())))
+`(git-commit-trailer-token               ((t ())))
+`(git-commit-trailer-value               ((t ())))
+`(glyphless-char                         ((t (:inherit penumbra-warning :height 0.6))))
+`(gnus-button                            ((t ())))
+`(gnus-emphasis-bold                     ((t ())))
+`(gnus-emphasis-bold-italic              ((t ())))
+`(gnus-emphasis-highlight-words          ((t ())))
+`(gnus-emphasis-italic                   ((t ())))
+`(gnus-emphasis-strikethru               ((t ())))
+`(gnus-emphasis-underline                ((t ())))
+`(gnus-emphasis-underline-bold           ((t ())))
+`(gnus-emphasis-underline-bold-italic    ((t ())))
+`(gnus-emphasis-underline-italic         ((t ())))
+`(gnus-group-mail-1                      ((t ())))
+`(gnus-group-mail-1-empty                ((t ())))
+`(gnus-group-mail-2                      ((t ())))
+`(gnus-group-mail-2-empty                ((t ())))
+`(gnus-group-mail-3                      ((t ())))
+`(gnus-group-mail-3-empty                ((t ())))
+`(gnus-group-mail-low                    ((t ())))
+`(gnus-group-mail-low-empty              ((t ())))
+`(gnus-group-news-1                      ((t ())))
+`(gnus-group-news-1-empty                ((t ())))
+`(gnus-group-news-2                      ((t ())))
+`(gnus-group-news-2-empty                ((t ())))
+`(gnus-group-news-3                      ((t ())))
+`(gnus-group-news-3-empty                ((t ())))
+`(gnus-group-news-4                      ((t ())))
+`(gnus-group-news-4-empty                ((t ())))
+`(gnus-group-news-5                      ((t ())))
+`(gnus-group-news-5-empty                ((t ())))
+`(gnus-group-news-6                      ((t ())))
+`(gnus-group-news-6-empty                ((t ())))
+`(gnus-group-news-low                    ((t ())))
+`(gnus-group-news-low-empty              ((t ())))
+`(gnus-header                            ((t ())))
+`(gnus-header-content                    ((t ())))
+`(gnus-header-from                       ((t ())))
+`(gnus-header-name                       ((t ())))
+`(gnus-header-newsgroups                 ((t ())))
+`(gnus-header-subject                    ((t ())))
+`(gnus-signature                         ((t ())))
+`(gnus-splash                            ((t ())))
+`(gnus-summary-cancelled                 ((t ())))
+`(gnus-summary-high-ancient              ((t ())))
+`(gnus-summary-high-read                 ((t ())))
+`(gnus-summary-high-ticked               ((t ())))
+`(gnus-summary-high-undownloaded         ((t ())))
+`(gnus-summary-high-unread               ((t ())))
+`(gnus-summary-low-ancient               ((t ())))
+`(gnus-summary-low-read                  ((t ())))
+`(gnus-summary-low-ticked                ((t ())))
+`(gnus-summary-low-undownloaded          ((t ())))
+`(gnus-summary-low-unread                ((t ())))
+`(gnus-summary-normal-ancient            ((t ())))
+`(gnus-summary-normal-read               ((t ())))
+`(gnus-summary-normal-ticked             ((t ())))
+`(gnus-summary-normal-undownloaded       ((t ())))
+`(gnus-summary-normal-unread             ((t ())))
+`(gnus-summary-selected                  ((t ())))
+`(header-line                            ((t ())))
+`(header-line-highlight                  ((t ())))
+`(help-argument-name                     ((t ())))
+`(help-for-help-header                   ((t ())))
+`(help-key-binding                       ((t ())))
+`(highlight                              ((t ())))
+`(holiday                                ((t ())))
+`(homoglyph                              ((t ())))
+`(ibuffer-locked-buffer                  ((t ())))
+`(icon                                   ((t ())))
+`(icon-button                            ((t ())))
+`(info-header-node                       ((t ())))
+`(info-header-xref                       ((t ())))
+`(info-index-match                       ((t ())))
+`(info-menu-header                       ((t ())))
+`(info-menu-star                         ((t ())))
+`(info-node                              ((t ())))
+`(info-title-1                           ((t ())))
+`(info-title-2                           ((t ())))
+`(info-title-3                           ((t ())))
+`(info-title-4                           ((t ())))
+`(info-xref                              ((t ())))
+`(info-xref-visited                      ((t ())))
+`(internal-border                        ((t ())))
+`(isearch                                ((t (:inherit penumbra-reverse))))
+`(isearch-fail                           ((t ())))
+`(isearch-group-1                        ((t ())))
+`(isearch-group-2                        ((t ())))
+`(italic                                 ((t ())))
+`(lazy-highlight                         ((t ())))
+`(line-number                            ((t (:inherit penumbra-shadow))))
+`(line-number-current-line               ((t (:inherit penumbra-shadow))))
+`(line-number-major-tick                 ((t ())))
+`(line-number-minor-tick                 ((t ())))
+`(link                                   ((t ())))
+`(link-visited                           ((t ())))
+`(log-edit-header                        ((t ())))
+`(log-edit-headers-separator             ((t ())))
+`(log-edit-summary                       ((t ())))
+`(log-edit-unknown-header                ((t ())))
+`(magit-bisect-bad                       ((t ())))
+`(magit-bisect-good                      ((t ())))
+`(magit-bisect-skip                      ((t ())))
+`(magit-blame-date                       ((t ())))
+`(magit-blame-dimmed                     ((t ())))
+`(magit-blame-hash                       ((t ())))
+`(magit-blame-heading                    ((t ())))
+`(magit-blame-highlight                  ((t ())))
+`(magit-blame-margin                     ((t ())))
+`(magit-blame-name                       ((t ())))
+`(magit-blame-summary                    ((t ())))
+`(magit-branch-current                   ((t ())))
+`(magit-branch-local                     ((t ())))
+`(magit-branch-remote                    ((t ())))
+`(magit-branch-remote-head               ((t ())))
+`(magit-branch-upstream                  ((t ())))
+`(magit-branch-warning                   ((t ())))
+`(magit-cherry-equivalent                ((t ())))
+`(magit-cherry-unmatched                 ((t ())))
+`(magit-diff-added                       ((t (:inherit penumbra-green))))
+`(magit-diff-added-highlight             ((t (:inherit penumbra-green))))
+`(magit-diff-base                        ((t ())))
+`(magit-diff-base-highlight              ((t ())))
+`(magit-diff-conflict-heading            ((t ())))
+`(magit-diff-context                     ((t (:inherit penumbra-shadow))))
+`(magit-diff-context-highlight           ((t (:inherit penumbra-shadow))))
+`(magit-diff-file-heading                ((t (:inherit penumbra-blue))))
+`(magit-diff-file-heading-highlight      ((t (:inherit penumbra-blue))))
+`(magit-diff-file-heading-selection      ((t ())))
+`(magit-diff-hunk-heading                ((t (:inherit penumbra-shadow))))
+`(magit-diff-hunk-heading-highlight      ((t (:inherit penumbra-shadow))))
+`(magit-diff-hunk-heading-selection      ((t ())))
+`(magit-diff-hunk-region                 ((t ())))
+`(magit-diff-lines-boundary              ((t ())))
+`(magit-diff-lines-heading               ((t ())))
+`(magit-diff-our                         ((t ())))
+`(magit-diff-our-highlight               ((t ())))
+`(magit-diff-removed                     ((t (:inherit penumbra-red))))
+`(magit-diff-removed-highlight           ((t (:inherit penumbra-red))))
+`(magit-diff-revision-summary            ((t ())))
+`(magit-diff-revision-summary-highlight  ((t ())))
+`(magit-diff-their                       ((t ())))
+`(magit-diff-their-highlight             ((t ())))
+`(magit-diff-whitespace-warning          ((t ())))
+`(magit-diffstat-added                   ((t ())))
+`(magit-diffstat-removed                 ((t ())))
+`(magit-dimmed                           ((t ())))
+`(magit-filename                         ((t ())))
+`(magit-hash                             ((t ())))
+`(magit-head                             ((t ())))
+`(magit-header-line                      ((t ())))
+`(magit-header-line-key                  ((t ())))
+`(magit-header-line-log-select           ((t ())))
+`(magit-keyword                          ((t ())))
+`(magit-keyword-squash                   ((t ())))
+`(magit-log-author                       ((t ())))
+`(magit-log-date                         ((t ())))
+`(magit-log-graph                        ((t ())))
+`(magit-mode-line-process                ((t ())))
+`(magit-mode-line-process-error          ((t ())))
+`(magit-process-ng                       ((t ())))
+`(magit-process-ok                       ((t ())))
+`(magit-reflog-amend                     ((t ())))
+`(magit-reflog-checkout                  ((t ())))
+`(magit-reflog-cherry-pick               ((t ())))
+`(magit-reflog-commit                    ((t ())))
+`(magit-reflog-merge                     ((t ())))
+`(magit-reflog-other                     ((t ())))
+`(magit-reflog-rebase                    ((t ())))
+`(magit-reflog-remote                    ((t ())))
+`(magit-reflog-reset                     ((t ())))
+`(magit-refname                          ((t ())))
+`(magit-refname-pullreq                  ((t ())))
+`(magit-refname-stash                    ((t ())))
+`(magit-refname-wip                      ((t ())))
+`(magit-section-child-count              ((t (:inherit penumbra-shadow))))
+`(magit-section-heading                  ((t (:inherit penumbra-shadow))))
+`(magit-section-heading-selection        ((t ())))
+`(magit-section-highlight                ((t ())))
+`(magit-section-secondary-heading        ((t ())))
+`(magit-sequence-done                    ((t ())))
+`(magit-sequence-drop                    ((t ())))
+`(magit-sequence-exec                    ((t ())))
+`(magit-sequence-head                    ((t ())))
+`(magit-sequence-onto                    ((t ())))
+`(magit-sequence-part                    ((t ())))
+`(magit-sequence-pick                    ((t ())))
+`(magit-sequence-stop                    ((t ())))
+`(magit-signature-bad                    ((t ())))
+`(magit-signature-error                  ((t ())))
+`(magit-signature-expired                ((t ())))
+`(magit-signature-expired-key            ((t ())))
+`(magit-signature-good                   ((t ())))
+`(magit-signature-revoked                ((t ())))
+`(magit-signature-untrusted              ((t ())))
+`(magit-tag                              ((t ())))
+`(marginalia-archive                     ((t ())))
+`(marginalia-char                        ((t ())))
+`(marginalia-date                        ((t ())))
+`(marginalia-documentation               ((t ())))
+`(marginalia-file-name                   ((t ())))
+`(marginalia-file-owner                  ((t ())))
+`(marginalia-file-priv-dir               ((t ())))
+`(marginalia-file-priv-exec              ((t ())))
+`(marginalia-file-priv-link              ((t ())))
+`(marginalia-file-priv-no                ((t ())))
+`(marginalia-file-priv-other             ((t ())))
+`(marginalia-file-priv-rare              ((t ())))
+`(marginalia-file-priv-read              ((t ())))
+`(marginalia-file-priv-write             ((t ())))
+`(marginalia-function                    ((t ())))
+`(marginalia-installed                   ((t ())))
+`(marginalia-key                         ((t ())))
+`(marginalia-lighter                     ((t ())))
+`(marginalia-list                        ((t ())))
+`(marginalia-mode                        ((t ())))
+`(marginalia-modified                    ((t ())))
+`(marginalia-null                        ((t ())))
+`(marginalia-number                      ((t ())))
+`(marginalia-off                         ((t ())))
+`(marginalia-on                          ((t ())))
+`(marginalia-size                        ((t ())))
+`(marginalia-string                      ((t ())))
+`(marginalia-symbol                      ((t ())))
+`(marginalia-true                        ((t ())))
+`(marginalia-type                        ((t ())))
+`(marginalia-value                       ((t ())))
+`(marginalia-version                     ((t ())))
+`(match                                  ((t ())))
+`(menu                                   ((t ())))
+`(message-cited-text-1                   ((t ())))
+`(message-cited-text-2                   ((t ())))
+`(message-cited-text-3                   ((t ())))
+`(message-cited-text-4                   ((t ())))
+`(message-header-cc                      ((t ())))
+`(message-header-name                    ((t ())))
+`(message-header-newsgroups              ((t ())))
+`(message-header-other                   ((t ())))
+`(message-header-subject                 ((t ())))
+`(message-header-to                      ((t ())))
+`(message-header-xheader                 ((t ())))
+`(message-mml                            ((t ())))
+`(message-separator                      ((t ())))
+`(message-signature-separator            ((t ())))
+`(minibuffer-prompt                      ((t ())))
+`(mm-command-output                      ((t ())))
+`(mm-uu-extract                          ((t ())))
+`(mode-line                              ((t ())))
+`(mode-line-active                       ((t (:inherit penumbra-highlight))))
+`(mode-line-buffer-id                    ((t ())))
+`(mode-line-emphasis                     ((t ())))
+`(mode-line-highlight                    ((t ())))
+`(mode-line-inactive                     ((t ())))
+`(mouse                                  ((t ())))
+`(mouse-drag-and-drop-region             ((t ())))
+`(next-error                             ((t ())))
+`(next-error-message                     ((t ())))
+`(nobreak-hyphen                         ((t ())))
+`(nobreak-space                          ((t ())))
+`(orderless-match-face-0                 ((t ())))
+`(orderless-match-face-1                 ((t ())))
+`(orderless-match-face-2                 ((t ())))
+`(orderless-match-face-3                 ((t ())))
+`(org-agenda-calendar-event              ((t ())))
+`(org-agenda-calendar-sexp               ((t ())))
+`(org-agenda-clocking                    ((t ())))
+`(org-agenda-column-dateline             ((t ())))
+`(org-agenda-current-time                ((t ())))
+`(org-agenda-date                        ((t ())))
+`(org-agenda-date-today                  ((t ())))
+`(org-agenda-date-weekend                ((t ())))
+`(org-agenda-date-weekend-today          ((t ())))
+`(org-agenda-diary                       ((t ())))
+`(org-agenda-dimmed-todo-face            ((t ())))
+`(org-agenda-done                        ((t ())))
+`(org-agenda-filter-category             ((t ())))
+`(org-agenda-filter-effort               ((t ())))
+`(org-agenda-filter-regexp               ((t ())))
+`(org-agenda-filter-tags                 ((t ())))
+`(org-agenda-restriction-lock            ((t ())))
+`(org-agenda-structure                   ((t ())))
+`(org-agenda-structure-filter            ((t ())))
+`(org-agenda-structure-secondary         ((t ())))
+`(org-archived                           ((t ())))
+`(org-block                              ((t ())))
+`(org-block-begin-line                   ((t (:inherit penumbra-shadow))))
+`(org-block-end-line                     ((t (:inherit penumbra-shadow))))
+`(org-checkbox                           ((t ())))
+`(org-checkbox-statistics-done           ((t ())))
+`(org-checkbox-statistics-todo           ((t ())))
+`(org-cite                               ((t ())))
+`(org-cite-key                           ((t ())))
+`(org-clock-overlay                      ((t ())))
+`(org-code                               ((t ())))
+`(org-column                             ((t ())))
+`(org-column-title                       ((t ())))
+`(org-date                               ((t ())))
+`(org-date-selected                      ((t ())))
+`(org-default                            ((t ())))
+`(org-dispatcher-highlight               ((t ())))
+`(org-document-info                      ((t ())))
+`(org-document-info-keyword              ((t ())))
+`(org-document-title                     ((t ())))
+`(org-done                               ((t ())))
+`(org-drawer                             ((t ())))
+`(org-ellipsis                           ((t (:inherit penumbra-yellow))))
+`(org-footnote                           ((t ())))
+`(org-formula                            ((t ())))
+`(org-headline-done                      ((t ())))
+`(org-headline-todo                      ((t ())))
+`(org-hide                               ((t ())))
+`(org-imminent-deadline                  ((t ())))
+`(org-inline-src-block                   ((t ())))
+`(org-journal-calendar-entry-face        ((t ())))
+`(org-journal-calendar-scheduled-face    ((t ())))
+`(org-journal-highlight                  ((t ())))
+`(org-latex-and-related                  ((t ())))
+`(org-level-1                            ((t (:inherit penumbra-level1))))
+`(org-level-2                            ((t (:inherit penumbra-level2))))
+`(org-level-3                            ((t (:inherit penumbra-level3))))
+`(org-level-4                            ((t ())))
+`(org-level-5                            ((t (:inherit penumbra-level1))))
+`(org-level-6                            ((t (:inherit penumbra-level2))))
+`(org-level-7                            ((t (:inherit penumbra-level3))))
+`(org-level-8                            ((t ())))
+`(org-link                               ((t (:inherit penumbra-shadow))))
+`(org-list-dt                            ((t ())))
+`(org-macro                              ((t ())))
+`(org-meta-line                          ((t ())))
+`(org-mode-line-clock                    ((t ())))
+`(org-mode-line-clock-overrun            ((t ())))
+`(org-priority                           ((t ())))
+`(org-property-value                     ((t ())))
+`(org-quote                              ((t ())))
+`(org-roam-dim                           ((t ())))
+`(org-roam-header-line                   ((t ())))
+`(org-roam-olp                           ((t ())))
+`(org-roam-preview-heading               ((t ())))
+`(org-roam-preview-heading-highlight     ((t ())))
+`(org-roam-preview-heading-selection     ((t ())))
+`(org-roam-preview-region                ((t ())))
+`(org-roam-shielded                      ((t ())))
+`(org-roam-title                         ((t (:inherit penumbra-blue))))
+`(org-scheduled                          ((t ())))
+`(org-scheduled-previously               ((t ())))
+`(org-scheduled-today                    ((t ())))
+`(org-sexp-date                          ((t ())))
+`(org-special-keyword                    ((t ())))
+`(org-table                              ((t ())))
+`(org-table-header                       ((t ())))
+`(org-tag                                ((t ())))
+`(org-tag-group                          ((t ())))
+`(org-target                             ((t ())))
+`(org-time-grid                          ((t ())))
+`(org-todo                               ((t ())))
+`(org-upcoming-deadline                  ((t ())))
+`(org-upcoming-distant-deadline          ((t ())))
+`(org-verbatim                           ((t ())))
+`(org-verse                              ((t ())))
+`(org-warning                            ((t ())))
+`(outline-1                              ((t ())))
+`(outline-2                              ((t ())))
+`(outline-3                              ((t ())))
+`(outline-4                              ((t ())))
+`(outline-5                              ((t ())))
+`(outline-6                              ((t ())))
+`(outline-7                              ((t ())))
+`(outline-8                              ((t ())))
+`(package-description                    ((t ())))
+`(package-help-section-name              ((t ())))
+`(package-name                           ((t ())))
+`(package-status-avail-obso              ((t ())))
+`(package-status-available               ((t ())))
+`(package-status-built-in                ((t ())))
+`(package-status-dependency              ((t ())))
+`(package-status-disabled                ((t ())))
+`(package-status-external                ((t ())))
+`(package-status-from-source             ((t ())))
+`(package-status-held                    ((t ())))
+`(package-status-incompat                ((t ())))
+`(package-status-installed               ((t ())))
+`(package-status-new                     ((t ())))
+`(package-status-unsigned                ((t ())))
+`(popper-echo-area                       ((t ())))
+`(popper-echo-area-buried                ((t ())))
+`(popper-echo-dispatch-hint              ((t ())))
+`(query-replace                          ((t ())))
+`(read-multiple-choice-face              ((t ())))
+`(rectangle-preview                      ((t ())))
+`(region                                 ((t (:inherit penumbra-highlight))))
+`(scroll-bar                             ((t ())))
+`(secondary-selection                    ((t ())))
+`(separator-line                         ((t ())))
+`(sgml-namespace                         ((t ())))
+`(sh-escaped-newline                     ((t ())))
+`(sh-heredoc                             ((t ())))
+`(sh-quoted-exec                         ((t ())))
+`(shadow                                 ((t (:inherit penumbra-shadow))))
+`(shell-highlight-undef-alias-face       ((t ())))
+`(shell-highlight-undef-defined-face     ((t ())))
+`(shell-highlight-undef-undefined-face   ((t ())))
+`(shortdoc-heading                       ((t ())))
+`(shortdoc-section                       ((t ())))
+`(show-paren-match                       ((t ())))
+`(show-paren-match-expression            ((t ())))
+`(show-paren-mismatch                    ((t ())))
+`(shr-abbreviation                       ((t ())))
+`(shr-code                               ((t ())))
+`(shr-h1                                 ((t ())))
+`(shr-h2                                 ((t ())))
+`(shr-h3                                 ((t ())))
+`(shr-h4                                 ((t ())))
+`(shr-h5                                 ((t ())))
+`(shr-h6                                 ((t ())))
+`(shr-link                               ((t ())))
+`(shr-mark                               ((t ())))
+`(shr-selected-link                      ((t ())))
+`(shr-strike-through                     ((t ())))
+`(shr-sup                                ((t ())))
+`(shr-text                               ((t ())))
+`(smerge-base                            ((t ())))
+`(smerge-lower                           ((t ())))
+`(smerge-markers                         ((t ())))
+`(smerge-refined-added                   ((t ())))
+`(smerge-refined-changed                 ((t ())))
+`(smerge-refined-removed                 ((t ())))
+`(smerge-upper                           ((t ())))
+`(success                                ((t ())))
+`(sudo-edit-header-face                  ((t ())))
+`(tab-bar                                ((t ())))
+`(tab-bar-tab                            ((t ())))
+`(tab-bar-tab-group-current              ((t ())))
+`(tab-bar-tab-group-inactive             ((t ())))
+`(tab-bar-tab-inactive                   ((t ())))
+`(tab-bar-tab-ungrouped                  ((t ())))
+`(tab-line                               ((t ())))
+`(tabulated-list-fake-header             ((t ())))
+`(tool-bar                               ((t ())))
+`(tooltip                                ((t ())))
+`(trailing-whitespace                    ((t ())))
+`(transient-active-infix                 ((t ())))
+`(transient-argument                     ((t ())))
+`(transient-delimiter                    ((t ())))
+`(transient-disabled-suffix              ((t ())))
+`(transient-enabled-suffix               ((t ())))
+`(transient-heading                      ((t ())))
+`(transient-higher-level                 ((t ())))
+`(transient-inactive-argument            ((t ())))
+`(transient-inactive-value               ((t ())))
+`(transient-inapt-suffix                 ((t ())))
+`(transient-key                          ((t ())))
+`(transient-key-exit                     ((t ())))
+`(transient-key-noop                     ((t ())))
+`(transient-key-return                   ((t ())))
+`(transient-key-stay                     ((t ())))
+`(transient-mismatched-key               ((t ())))
+`(transient-nonstandard-key              ((t ())))
+`(transient-unreachable                  ((t ())))
+`(transient-unreachable-key              ((t ())))
+`(transient-value                        ((t ())))
+`(trashed-deleted                        ((t ())))
+`(trashed-directory                      ((t ())))
+`(trashed-mark                           ((t ())))
+`(trashed-marked                         ((t ())))
+`(trashed-restored                       ((t ())))
+`(trashed-symlink                        ((t ())))
+`(treesit-explorer-anonymous-node        ((t ())))
+`(treesit-explorer-field-name            ((t ())))
+`(tty-menu-disabled-face                 ((t ())))
+`(tty-menu-enabled-face                  ((t ())))
+`(tty-menu-selected-face                 ((t ())))
+`(underline                              ((t ())))
+`(variable-pitch                         ((t ())))
+`(variable-pitch-text                    ((t ())))
+`(vc-conflict-state                      ((t ())))
+`(vc-edited-state                        ((t ())))
+`(vc-git-log-edit-summary-max-warning    ((t ())))
+`(vc-git-log-edit-summary-target-warning ((t ())))
+`(vc-locally-added-state                 ((t ())))
+`(vc-locked-state                        ((t ())))
+`(vc-missing-state                       ((t ())))
+`(vc-needs-update-state                  ((t ())))
+`(vc-removed-state                       ((t ())))
+`(vc-state-base                          ((t ())))
+`(vc-up-to-date-state                    ((t ())))
+`(vertical-border                        ((t ())))
+`(vertico-current                        ((t (:inherit penumbra-highlight))))
+`(vertico-group-separator                ((t ())))
+`(vertico-group-title                    ((t ())))
+`(vertico-multiline                      ((t ())))
+`(warning                                ((t ())))
+`(which-func                             ((t ())))
+`(whitespace-big-indent                  ((t ())))
+`(whitespace-empty                       ((t ())))
+`(whitespace-hspace                      ((t ())))
+`(whitespace-indentation                 ((t ())))
+`(whitespace-line                        ((t ())))
+`(whitespace-missing-newline-at-eof      ((t ())))
+`(whitespace-newline                     ((t ())))
+`(whitespace-space                       ((t ())))
+`(whitespace-space-after-tab             ((t ())))
+`(whitespace-space-before-tab            ((t ())))
+`(whitespace-tab                         ((t (:inherit penumbra-highlight))))
+`(whitespace-trailing                    ((t (:inherit penumbra-warning))))
+`(widget-button                          ((t ())))
+`(widget-button-pressed                  ((t ())))
+`(widget-documentation                   ((t ())))
+`(widget-field                           ((t (:inherit penumbra-highlight))))
+`(widget-inactive                        ((t ())))
+`(widget-single-line-field               ((t ())))
+`(window-divider                         ((t ())))
+`(window-divider-first-pixel             ((t ())))
+`(window-divider-last-pixel              ((t ())))
+`(xref-file-header                       ((t ())))
+`(xref-line-number                       ((t ())))
+`(xref-match                             ((t ())))
+
+;; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+)
+)
+
+(provide-theme 'penumbra)
+#+end_src
+
+#+begin_src emacs-lisp
+(load-theme 'penumbra t)
+#+end_src
+
+** minions
+
+#+begin_src emacs-lisp
+(setq minions-mode-line-lighter "")
+(minions-mode 1)
+#+end_src
+
+** COMMENT awesome-tray
+
+#+begin_src emacs-lisp
+;; (setq awesome-tray-mode-line-height 0)
+
+;; (setq awesome-tray-second-line t)
+
+(require 'awesome-tray)
+(awesome-tray-mode 1)
+#+end_src
+
+** COMMENT doom-modeline
+
+#+begin_src emacs-lisp
+(require 'doom-modeline)
+(doom-modeline-mode 1)
+#+end_src
+
+* package_basic
+
+** sudo-edit
+
+#+begin_src emacs-lisp
+(require 'sudo-edit)
+#+end_src
+
+** undo-fu
+
+#+begin_src emacs-lisp
+(setq undo-fu-ignore-keyboard-quit t)
+#+end_src
+
+** xclip
+
+copying from "emacsclient -c" (gui emacsclient) to "emacsclient -nw" (tui emacsclient) will freeze emacs
+
+#+begin_src emacs-lisp
+(xclip-mode 1)
+;; copy between *terminal* emacs and x clipboard
+#+end_src
+
+** COMMENT clipetty
+
+can't copy from outside and paste inside emacs
+
+#+begin_src emacs-lisp
+(require 'clipetty)
+(global-clipetty-mode)
+
+;; for st, see https://www.reddit.com/r/suckless/comments/1715wey/does_st_support_osc_52/
+;; xclip vs clipetty, see https://www.reddit.com/r/emacs/comments/n7z6f6/emacs_cli_copypaste_how_to/
+#+end_src
+
+** fcitx
+
+#+begin_src emacs-lisp
+(setq fcitx-remote-command "fcitx5-remote")
+(fcitx-aggressive-setup)
+;; https://github.com/cute-jumper/fcitx.el/issues?q=fcitx5
+;; https://kisaragi-hiu.com/why-fcitx5
+#+end_src
+
+** COMMENT uuidgen
+
+#+begin_src emacs-lisp
+(require 'uuidgen)
+#+end_src
+
+** super-save
+
+#+begin_src emacs-lisp
+(setq super-save-all-buffers t)
+(super-save-mode +1)
+#+end_src
+
+* package_evil
+
+** evil
+
+https://evil.readthedocs.io/en/latest/index.html
+
+*** the initial state
+
+#+begin_src emacs-lisp
+(setq evil-default-state 'emacs)
+;; http://bling.github.io/blog/2015/01/06/emacs-as-my-leader-1-year-later/
+
+(with-eval-after-load 'evil
+
+(evil-set-initial-state 'fundamental-mode 'normal)
+(evil-set-initial-state 'text-mode        'normal)
+(evil-set-initial-state 'prog-mode        'normal)
+(evil-set-initial-state 'conf-mode        'normal)
+;; (evil-set-initial-state 'special-mode     'normal)
+
+)
+
+(setq evil-normal-state-modes   nil)
+(setq evil-insert-state-modes   nil)
+(setq evil-visual-state-modes   nil)
+(setq evil-replace-state-modes  nil)
+(setq evil-operator-state-modes nil)
+(setq evil-motion-state-modes   nil)
+(setq evil-emacs-state-modes    nil)
+#+end_src
+
+*** keybindings and other behaviour
+
+#+begin_src emacs-lisp
+;; (setq evil-want-C-i-jump nil)
+
+(setq evil-want-C-u-delete t)
+(setq evil-want-C-u-scroll t)
+;; https://www.reddit.com/r/emacs/comments/9j34bf/evil_and_the_universal_argument/
+
+(setq evil-want-C-w-in-emacs-state t)
+(setq evil-want-Y-yank-to-eol t)
+(setq evil-disable-insert-state-bindings t)
+#+end_src
+
+*** search
+
+#+begin_src emacs-lisp
+;; (setq evil-search-module 'isearch)
+(setq evil-search-module 'evil-search)
+#+end_src
+
+*** search_isearch
+
+#+begin_src emacs-lisp
+;; (setq evil-flash-delay 0)
+#+end_src
+
+*** search_evil-search
+
+#+begin_src emacs-lisp
+;; (setq evil-ex-search-case 'smart)
+;; (setq evil-ex-search-vim-style-regexp nil)
+;; (setq evil-ex-search-interactive nil)
+;; (setq evil-ex-search-incremental t)
+(setq evil-ex-search-highlight-all nil)
+;; (setq evil-ex-search-persistent-highlight nil)
+#+end_src
+
+*** indentation
+
+#+begin_src emacs-lisp
+(setq evil-shift-width 8)
+#+end_src
+
+*** cursor movement
+
+#+begin_src emacs-lisp
+(setq evil-move-cursor-back nil)
+(setq evil-move-beyond-eol t)
+;; (setq evil-v$-excludes-newline t)
+;; if we enable `evil-move-beyond-eol', we actually make `$' exclusive
+;; while visual selection is always inclusive
+;; trying to make `v$y' and `y$' have the same result breaks the expectation of `$' in visual state
+(setq evil-cross-lines t)
+(setq evil-start-of-line t)
+#+end_src
+
+*** cursor display
+
+#+begin_src emacs-lisp
+;; (setq evil-normal-state-cursor t)
+;; (setq evil-insert-state-cursor t)
+;; (setq evil-visual-state-cursor t)
+;; (setq evil-replace-state-cursor t)
+;; (setq evil-operator-state-cursor t)
+;; (setq evil-motion-state-cursor t)
+;; (setq evil-emacs-state-cursor t)
+
+(let ((default 'box))
+;; (let ((default '(box "#eceff4")))
+(setq evil-normal-state-cursor   default)
+(setq evil-insert-state-cursor   default)
+(setq evil-visual-state-cursor   default)
+(setq evil-replace-state-cursor  default)
+(setq evil-operator-state-cursor default)
+(setq evil-motion-state-cursor   default)
+(setq evil-emacs-state-cursor    default)
+)
+#+end_src
+
+*** miscellaneous
+
+#+begin_src emacs-lisp
+;; (setq evil-undo-system 'undo-redo)
+(setq evil-undo-system 'undo-fu)
+#+end_src
+
+*** unmentioned evil settings
+
+#+begin_src emacs-lisp
+(setq evil-want-change-word-to-end nil)
+(setq evil-want-minibuffer nil)
+
+(setq evil-want-integration nil)
+(setq evil-want-keybinding nil)
+;; evil-want-keybinding: whether to load evil-keybindings.el, which provides a set of keybindings for other emacs modes (dired etc)
+
+;; (setq evil-want-integration t)
+;; (setq evil-want-keybinding nil)
+;; these two variables are required by evil-collection (https://github.com/emacs-evil/evil-collection#installation)
+
+;; (setq evil-overriding-maps t)
+#+end_src
+
+*** enable evil
+
+#+begin_src emacs-lisp
+(require 'evil)
+;; some variables need to be set before evil is loaded, keymaps need to be set after evil is loaded, so put this line here
+
+(evil-mode 1)
+#+end_src
+
+** COMMENT evil-collection
+
+to override existing binding in evil-collection, bind the key after (evil-collection-init), see this [[https://github.com/emacs-evil/evil-collection/issues/214][issue]]
+
+#+begin_src emacs-lisp
+;; (setq evil-collection-mode-list '(
+;; ibuffer
+;; calendar
+;; dired
+;; (package-menu package)
+;; ))
+
+;; (setq evil-collection-setup-minibuffer t)
+;; use (setq evil-want-minibuffer t) instead of (setq evil-collection-setup-minibuffer t)
+
+(setq evil-collection-want-unimpaired-p nil)
+
+(setq evil-collection-key-blacklist '(
+"{"
+"}"
+"C-j"
+"C-k"
+))
+
+
+
+(evil-collection-init)
+
+;; (evil-collection-translate-key nil 'evil-normal-state-map
+;; "a" "b"
+;; )
+#+end_src
+
+** evil-anzu
+
+#+begin_src emacs-lisp
+(setq anzu-cons-mode-line-p nil)
+;; https://github.com/emacsorphanage/anzu#anzu-cons-mode-line-pdefault-is-t
+(setq global-mode-string '(:eval (anzu--update-mode-line)))
+;; https://emacs.stackexchange.com/questions/13855/how-to-append-string-that-gets-updated-to-mode-line
+
+(require 'evil-anzu)
+
+;; (set-face-attribute 'anzu-mode-line nil :inherit 'mode-line)
+;; (copy-face 'mode-line 'anzu-mode-line)
+
+(global-anzu-mode 1)
+#+end_src
+
+** evil-cleverparens
+
+its "M-[" binding will break terminal emacs, check:
+
+https://emacs.stackexchange.com/questions/68703/m-causes-emacs-to-print-weird-possibly-escape-sequences
+
+#+begin_src emacs-lisp
+(add-hook 'emacs-lisp-mode-hook #'evil-cleverparens-mode)
+#+end_src
+
+** COMMENT evil-commentary
+
+comment in org src block cause this error:
+combine-change-calls: buffer-undo-list broken
+
+#+begin_src emacs-lisp
+(evil-commentary-mode 1)
+#+end_src
+
+** evil-nerd-commenter
+
+#+begin_src emacs-lisp
+;; (evilnc-default-hotkeys)
+
+(require 'evil-nerd-commenter)
+(define-key evil-normal-state-map "gc" 'evilnc-comment-operator)
+(define-key evil-visual-state-map "gc" 'evilnc-comment-operator)
+;; https://github.com/redguardtoo/evil-nerd-commenter/issues/15
+#+end_src
+
+** evil-lion
+
+#+begin_src emacs-lisp
+(evil-lion-mode)
+#+end_src
+
+** COMMENT evil-org
+
+#+begin_src emacs-lisp
+(require 'evil-org)
+(add-hook 'org-mode-hook 'evil-org-mode)
+(setq evil-org-key-theme '(navigation textobjects additional calendar))
+(evil-org-set-key-theme)
+(require 'evil-org-agenda)
+(evil-org-agenda-set-keys)
+#+end_src
+
+** COMMENT evil-rsi
+
+#+begin_src emacs-lisp
+(evil-rsi-mode)
+#+end_src
+
+** COMMENT evil-snipe
+
+#+begin_src emacs-lisp
+(setq evil-snipe-scope           'buffer)
+(setq evil-snipe-repeat-scope    'buffer)
+(setq evil-snipe-spillover-scope 'buffer)
+
+(setq evil-snipe-enable-highlight             nil)
+(setq evil-snipe-enable-incremental-highlight nil)
+(setq evil-snipe-repeat-keys                  nil)
+(setq evil-snipe-show-prompt                  nil)
+(setq evil-snipe-smart-case                   t)
+
+(require 'evil-snipe)
+
+(evil-snipe-mode +1)
+;; (evil-snipe-override-mode +1)
+#+end_src
+
+** evil-surround
+
+#+begin_src emacs-lisp
+(global-evil-surround-mode 1)
+#+end_src
+
+* package_completion
+
+** COMMENT company
+
+#+begin_src emacs-lisp
+(setq company-idle-delay 0)
+(setq company-minimum-prefix-length 0)
+
+(global-company-mode 1)
+#+end_src
+
+* package_minibuffer
+
+** vertico
+
+#+begin_src emacs-lisp
+(setq vertico-scroll-margin 0)
+(setq vertico-count 10)
+(setq vertico-resize nil)
+(setq vertico-cycle t)
+
+(vertico-mode)
+
+(add-hook 'rfn-eshadow-update-overlay-hook 'vertico-directory-tidy)
+#+end_src
+
+** orderless
+
+#+begin_src emacs-lisp
+;; (require 'orderless)
+(setq completion-styles '(orderless basic))
+(setq completion-category-overrides '((file (styles basic partial-completion))))
+#+end_src
+
+** marginalia
+
+#+begin_src emacs-lisp
+;; (require 'marginalia)
+(marginalia-mode)
+#+end_src
+
+** COMMENT consult
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "") 'consult-line)
+#+end_src
+
+** COMMENT embark
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "") 'embark-act)
+#+end_src
+
+* package_window
+
+** COMMENT edwina
+
+#+begin_src emacs-lisp
+(require 'edwina)
+(setq display-buffer-base-action '(display-buffer-below-selected))
+(edwina-setup-dwm-keys)
+(edwina-mode 1)
+#+end_src
+
+** popper
+
+#+begin_src emacs-lisp
+;; (setq popper-window-height 40)
+(setq popper-display-control nil)
+
+(require 'popper)
+
+(setq popper-reference-buffers
+      '("\\*Messages\\*"
+        "Output\\*$"
+        "\\*Async Shell Command\\*"
+        help-mode
+        compilation-mode))
+(global-set-key (kbd "<f1>") 'popper-toggle)
+(global-set-key (kbd "<f3>") 'popper-cycle)
+;; (global-set-key (kbd "<f7>") 'popper-toggle-type)
+(popper-mode +1)
+
+;; for echo-area hints
+(require 'popper-echo)
+(popper-echo-mode +1)
+#+end_src
+
+** shackle
+
+#+begin_src emacs-lisp
+(setq shackle-default-rule '(:same t))
+#+end_src
+
+* package_dired
+
+** dired
+
+http://xahlee.info/emacs/emacs/file_management.html
+https://protesilaos.com/codelog/2023-06-26-emacs-file-dired-basics/
+
+#+begin_src emacs-lisp
+(setq dired-listing-switches "-l --almost-all --human-readable --indicator-style=slash -v --group-directories-first")
+;; alias ls="ls -Ahp1v --group-directories-first"
+;; alias ll="ls -l"
+
+;; (setq dired-kill-when-opening-new-dired-buffer t)
+;; https://emacs-china.org/t/emacs-28-dired-kill-when-opening-new-dired-buffer/20655
+
+;; (setq trash-directory nil)
+(setq delete-by-moving-to-trash t)
+
+(add-hook 'dired-mode-hook 'dired-hide-details-mode)
+#+end_src
+
+** trashed
+
+https://github.com/shingo256/trashed
+
+#+begin_src emacs-lisp
+(require 'trashed)
+#+end_src
+
+** COMMENT dired-preview
+
+#+begin_src emacs-lisp
+(require 'dired-preview)
+
+(setq dired-preview-delay 0.1)
+(setq dired-preview-max-size (expt 2 20))
+(setq dired-preview-ignored-extensions-regexp
+      (concat "\\."
+              "\\(mkv\\|webm\\|mp4\\|mp3\\|ogg\\|m4a"
+              "\\|gz\\|zst\\|tar\\|xz\\|rar\\|zip"
+              "\\|iso\\|epub\\|pdf\\)"))
+
+(dired-preview-global-mode 1)
+#+end_src
+
+** COMMENT dirvish
+
+#+begin_src emacs-lisp
+(require 'dirvish-widgets)
+
+(setq dirvish-default-layout '(1 0.2 0.5))
+
+;; (setq dirvish-use-header-line nil)
+;; (setq dirvish-use-mode-line nil)
+(setq dirvish-use-header-line 'global)
+(setq dirvish-path-separators '("~" "/" "/"))
+
+(dirvish-override-dired-mode)
+#+end_src
+
+* package_org
+
+** org
+
+#+begin_src emacs-lisp
+(setq org-startup-folded nil)
+
+;; (setq org-ellipsis "···")
+(setq org-ellipsis "○")
+;; (setq org-ellipsis "•")
+;; (setq org-ellipsis "⦾")
+;; (setq org-ellipsis "◎")
+;; (setq org-ellipsis "⦿")
+;; (setq org-ellipsis "◉")
+;; http://xahlee.info/comp/unicode_punctuation_symbols.html
+
+(setq org-link-descriptive nil)
+
+;; (setq org-adapt-indentation nil)
+;; * level 1
+;;   * level 2
+
+;; (setq org-list-indent-offset 6)
+;; - fruit
+;;         - apple
+;;         - banana
+;; 8 - 2 = 6
+
+;; (setq org-edit-src-content-indentation 0)
+(setq org-src-preserve-indentation t)
+;; (setq org-src-preserve-indentation t) force (setq org-edit-src-content-indentation 0)
+(setq org-src-window-setup 'current-window)
+
+;; (setq org-property-format "%-10s %s")
+;; (setq org-property-format "%-15s %s")
+(setq org-property-format "%s %s")
+
+
+
+(setq org-startup-with-inline-images t)
+
+(setq org-image-actual-width (list 960))
+;; https://stackoverflow.com/a/69339844/18034992
+
+;; (setq org-cycle-inline-images-display t)
+;; org-cycle-inline-images-display only affects the command org-cycle (bound to TAB by default)
+
+;; https://orgmode.org/manual/Images.html
+
+
+
+;; (setq org-startup-with-latex-preview t)
+
+;; (setq org-preview-latex-default-process 'dvisvgm)
+;; (setq org-preview-latex-process-alist
+;; these settings are obsolete since org 9.7, see https://emacs-china.org/t/org-mode-latex-improved-latex-preview/23742
+
+
+
+;; (setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAIT(w)" "CANC(c)" "|" "DONE(d)")))
+;; https://orgmode.org/manual/Workflow-states.html
+
+;; (setq org-agenda-files `(,(getenv "a_aj")))
+
+;; (setq org-capture-templates `(
+;; ("a" "inbox" entry (file ,(concat (getenv "a_aj") "/inbox.org")) "* %i%?")
+;; ))
+
+;; (setq org-refile-targets `(
+;; ;; (,(concat (getenv "a_aj") "/inbox.org") :maxlevel . 2)
+;; (,(directory-files-recursively (getenv "a_aj") "\.org$") :maxlevel . 2)
+;; ))
+;; ;; (setq org-reverse-note-order t)
+;; (setq org-refile-use-outline-path 'file)
+;; ;; https://emacs.stackexchange.com/questions/13353/how-to-use-org-refile-to-move-a-headline-to-a-file-as-a-toplevel-headline
+;; (setq org-outline-path-complete-in-steps nil)
+;; ;; https://github.com/minad/vertico#org-refile
+;; ;; (setq org-refile-allow-creating-parent-nodes )
+;; ;; (setq org-log-refile )
+
+;; (setq org-id-ts-format "%Y%m%dT%H%M%S.%6N")
+(setq org-id-ts-format "%Y-%m-%d-%H%M%S-%6N")
+(setq org-id-method 'ts)
+#+end_src
+
+** org-auto-tangle
+
+#+begin_src emacs-lisp
+(require 'org-auto-tangle)
+(add-hook 'org-mode-hook 'org-auto-tangle-mode)
+#+end_src
+
+** COMMENT org-tempo
+
+org mode now bundle with =C-c C-,= (org-insert-structure-template), obsolete org-tempo
+
+#+begin_src emacs-lisp
+(require 'org-tempo)
+#+end_src
+
+** COMMENT valign
+
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook #'valign-mode)
+#+end_src
+
+** COMMENT org-gtd
+
+#+begin_src emacs-lisp
+(setq org-edna-use-inheritance t)
+(org-edna-mode 1)
+;; https://github.com/Trevoke/org-gtd.el/blob/master/doc/org-gtd.org#required-configuration-of-sub-packages
+
+
+
+(setq org-gtd-update-ack "3.0.0")
+(setq org-gtd-directory (getenv "a_aj"))
+(setq org-gtd-capture-templates '(
+("i" "" entry (file org-gtd-inbox-path) "* %i%?")
+))
+
+(require 'org-gtd)
+#+end_src
+
+** COMMENT org-roam
+
+#+begin_src emacs-lisp
+;; https://www.orgroam.com/manual.html
+;; https://github.com/org-roam/org-roam/issues/2031
+
+;; (setq org-roam-directory (file-truename "~/org-roam"))
+(setq org-roam-directory (getenv "a_ak"))
+
+;; (setq org-roam-capture-templates '(
+;; ("d" "default" plain "%?"
+;;      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+;;                         "#+title: ${title}\n")
+;;      :unnarrowed t)
+;; ))
+(setq org-roam-capture-templates '((
+"d"
+"default"
+plain
+"%?"
+;; :target (file+head "%(uuidgen-1).org" "#+title: ${title}\n")
+:target (file+head "${title}.org" "#+title: ${title}\n")
+:unnarrowed t
+)))
+
+(setq org-roam-node-formatter "link")
+;; https://github.com/org-roam/org-roam/issues/1892
+
+;; (setq org-roam-dailies-directory "")
+
+(org-roam-db-autosync-mode)
+
+
+
+;; (defun org-title-to-file-name ()
+;;   (interactive)
+;;   (when (and
+;;          (not (null (buffer-file-name)))
+;;          (not (null (org-get-title)))
+;;          )
+;;     (let (
+;;           (title (org-get-title))
+;;           (name (file-name-sans-extension (file-name-nondirectory (buffer-file-name))))
+;;           )
+;;       (when (not (string= title name))
+;;         (let (
+;;               (old-file-name (file-name-nondirectory (buffer-file-name)))
+;;               (new-file-name (concat title ".org"))
+;;               )
+;;           (rename-file old-file-name new-file-name)
+;;           (find-file new-file-name)
+;;           (kill-buffer old-file-name)
+;;           (message "Renamed %s to %s" old-file-name new-file-name)
+;;           )))))
+;; ;; https://emacs.stackexchange.com/questions/54809/rename-org-buffers-to-orgs-title-instead-of-filename
+
+;; (add-hook 'org-mode-hook 'org-title-to-file-name)
+;; ;; add hook, run `org-title-to-file-name' when entering org-mode
+;; ;; if you rename title, run `M-x revert-buffer-quick' to use this hook
+
+(defun org-file-name-to-title ()
+  (interactive)
+  (when (and
+         (not (null (buffer-file-name)))
+         (not (null (org-get-title)))
+         )
+    (let (
+          (name (file-name-sans-extension (file-name-nondirectory (buffer-file-name))))
+          (title (org-get-title))
+          )
+      (when (not (string= title name))
+        (shell-command-on-region (point-min) (point-max)
+                                 (format "sed '0,/#+title:/c#+title: %s'" name) nil t)
+        (message "changed title")
+        ))))
+
+(add-hook 'org-mode-hook 'org-file-name-to-title)
+#+end_src
+
+** COMMENT org-journal
+
+#+begin_src emacs-lisp
+(setq org-journal-dir (getenv "a_al"))
+(setq org-journal-file-format "%F.txt")
+(setq org-journal-date-prefix "#+title ")
+(setq org-journal-date-format "%F")
+(setq org-journal-time-prefix "* ")
+(setq org-journal-time-format "%F %a %H:%M%n")
+(setq org-journal-hide-entries-p nil)
+
+(require 'org-journal)
+#+end_src
+
+* package_misc
+
+** COMMENT eaf
+
+#+begin_src emacs-lisp
+(setq confirm-kill-processes nil)
+(require 'eaf)
+(require 'eaf-demo)
+
+(require 'eaf-file-manager)
+(require 'eaf-pdf-viewer)
+(require 'eaf-browser)
+
+;; (require 'eaf-evil)
+#+end_src
+
+** COMMENT denote
+
+#+begin_src emacs-lisp
+(require 'denote)
+
+(setq denote-directory (expand-file-name "~/Documents/notes/"))
+(setq denote-known-keywords '("emacs" "philosophy" "politics" "economics"))
+(setq denote-infer-keywords t)
+(setq denote-sort-keywords t)
+(setq denote-file-type nil)
+(setq denote-prompts '(title keywords))
+(setq denote-excluded-directories-regexp nil)
+(setq denote-excluded-keywords-regexp nil)
+(setq denote-date-prompt-use-org-read-date t)
+(setq denote-date-format nil)
+(setq denote-backlinks-show-context t)
+(add-hook 'find-file-hook #'denote-link-buttonize-buffer)
+(setq denote-dired-directories
+      (list denote-directory
+            (thread-last denote-directory (expand-file-name "attachments"))
+            (expand-file-name "~/Documents/books")))
+(add-hook 'dired-mode-hook #'denote-dired-mode-in-directories)
+(denote-rename-buffer-mode 1)
+(let ((map global-map))
+  (define-key map (kbd "C-c n n") #'denote)
+  (define-key map (kbd "C-c n c") #'denote-region)
+  (define-key map (kbd "C-c n N") #'denote-type)
+  (define-key map (kbd "C-c n d") #'denote-date)
+  (define-key map (kbd "C-c n z") #'denote-signature)
+  (define-key map (kbd "C-c n s") #'denote-subdirectory)
+  (define-key map (kbd "C-c n t") #'denote-template)
+  (define-key map (kbd "C-c n i") #'denote-link)
+  (define-key map (kbd "C-c n I") #'denote-add-links)
+  (define-key map (kbd "C-c n b") #'denote-backlinks)
+  (define-key map (kbd "C-c n f f") #'denote-find-link)
+  (define-key map (kbd "C-c n f b") #'denote-find-backlink)
+  (define-key map (kbd "C-c n r") #'denote-rename-file)
+  (define-key map (kbd "C-c n R") #'denote-rename-file-using-front-matter))
+(let ((map dired-mode-map))
+  (define-key map (kbd "C-c C-d C-i") #'denote-link-dired-marked-notes)
+  (define-key map (kbd "C-c C-d C-r") #'denote-dired-rename-files)
+  (define-key map (kbd "C-c C-d C-k") #'denote-dired-rename-marked-files-with-keywords)
+  (define-key map (kbd "C-c C-d C-R") #'denote-dired-rename-marked-files-using-front-matter))
+(with-eval-after-load 'org-capture
+  (setq denote-org-capture-specifiers "%l\n%i\n%?")
+  (add-to-list 'org-capture-templates
+               '("n" "New note (with denote.el)" plain
+                 (file denote-last-path)
+                 #'denote-org-capture
+                 :no-save t
+                 :immediate-finish nil
+                 :kill-buffer t
+                 :jump-to-captured t)))
+(add-hook 'context-menu-functions #'denote-context-menu)
+#+end_src
+
+* keybindings
+
+http://xahlee.info/emacs/emacs/emacs_keys_index.html
+http://xahlee.info/emacs/emacs/emacs_key_notation_return_vs_RET.html
+http://xahlee.info/emacs/emacs/keyboard_shortcuts_examples.html
+
+** global
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-x C-c")
+(lambda () (interactive)
+(let ((current-prefix-arg '(4)))
+     (call-interactively 'save-buffers-kill-terminal))
+))
+;; https://emacs.stackexchange.com/questions/50672/how-to-save-all-modified-buffers-and-kill-emacs
+;; https://emacs.stackexchange.com/questions/48753/how-to-bind-c-u-m-x-shell-to-c-c-s
+
+(global-set-key (kbd "<f5>") 'universal-argument)
+(define-key universal-argument-map (kbd "<f5>") 'universal-argument-more)
+;; https://emacs.stackexchange.com/questions/58319/how-to-rebind-special-meaning-of-c-u-to-a-different-key
+
+(global-set-key (kbd "C-u") (lambda () (interactive) (kill-line 0)))
+;; https://emacs.stackexchange.com/questions/56320/delete-from-point-to-beginning-of-the-line
+
+(global-set-key (kbd "<f12>") 'bookmark-jump)
+#+end_src
+
+** evil
+
+#+begin_src emacs-lisp
+(evil-set-leader nil (kbd "SPC"))
+
+(with-eval-after-load 'evil
+  (defadvice forward-evil-paragraph (around default-values activate)
+    (let ((paragraph-start (default-value 'paragraph-start))
+          (paragraph-separate (default-value 'paragraph-separate)))
+      ad-do-it)))
+;; https://emacs.stackexchange.com/questions/38596/make-evil-paragraphs-behave-like-vim-paragraphs
+
+;; (defun evil-aidan-scroll-line-to-1/4 ()
+;; (interactive)
+;; (recenter (/ (window-body-height) 4))
+;; )
+;; (defun evil-aidan-scroll-line-to-3/4 ()
+;; (interactive)
+;; (recenter (- (/ (window-body-height) 4)))
+;; )
+
+
+
+;; (with-eval-after-load 'evil-maps
+;; (define-key evil-motion-state-map (kbd "SPC") nil)
+;; (define-key evil-motion-state-map (kbd "RET") nil)
+;; (define-key evil-motion-state-map (kbd "TAB") nil)
+;; )
+;; https://emacs.stackexchange.com/questions/46371/how-can-i-get-ret-to-follow-org-mode-links-when-using-evil-mode
+
+;; (define-key evil-motion-state-map (kbd ";") 'evil-ex)
+;; ;; (define-key evil-motion-state-map (kbd ":") 'evil-repeat-find-char)
+;; ;; https://stackoverflow.com/questions/34497696/swap-and-to-make-colon-commands-easier-to-type-in-emacs
+;; ;; https://emacs.stackexchange.com/questions/26450/how-to-remap-to-in-evil-mode
+
+
+
+;; (define-key evil-normal-state-map (kbd "C-s") 'evil-scroll-line-down)
+;; (define-key evil-normal-state-map (kbd "C-y") 'evil-scroll-line-up)
+;; (define-key evil-normal-state-map (kbd "C-k") 'evil-aidan-scroll-line-to-1/4)
+;; (define-key evil-normal-state-map (kbd "C-j") 'evil-aidan-scroll-line-to-3/4)
+(define-key evil-normal-state-map (kbd "C-j") 'evil-scroll-line-to-top)
+(define-key evil-normal-state-map (kbd "C-k") 'evil-scroll-line-to-bottom)
+(define-key evil-normal-state-map (kbd "C-l") 'evil-scroll-line-to-center)
+
+(define-key evil-normal-state-map (kbd "z i") 'evil-open-fold)
+(define-key evil-normal-state-map (kbd "z o") 'evil-open-fold-rec)
+;; (define-key evil-normal-state-map (kbd "z c") 'evil-close-fold)
+;; (define-key evil-normal-state-map (kbd "z a") 'evil-toggle-fold)
+;; (define-key evil-normal-state-map (kbd "z r") 'evil-open-folds)
+;; (define-key evil-normal-state-map (kbd "z m") 'evil-close-folds)
+;; https://github.com/emacs-evil/evil/blob/master/evil-maps.el
+
+;; (define-key evil-normal-state-map (kbd "J") (kbd ":put SPC _"))
+;; (define-key evil-normal-state-map (kbd "K") (kbd ":put! SPC _"))
+;; (define-key evil-normal-state-map (kbd "J") (lambda () (interactive) (evil-ex-execute "put _")))
+;; (define-key evil-normal-state-map (kbd "K") (lambda () (interactive) (evil-ex-execute "put! _")))
+;; https://stackoverflow.com/questions/20438900/key-map-for-ex-command-in-emacs-evil-mode
+;; (define-key evil-normal-state-map (kbd "J") 'evil-collection-unimpaired-insert-newline-below)
+;; (define-key evil-normal-state-map (kbd "K") 'evil-collection-unimpaired-insert-newline-above)
+
+;; (define-key evil-normal-state-map (kbd "J") (lambda ()
+;; (interactive)
+;; (end-of-line)
+;; (insert "\n")
+;; ))
+;; (define-key evil-normal-state-map (kbd "K") (lambda ()
+;; (interactive)
+;; (beginning-of-line)
+;; (save-excursion (insert "\n"))
+;; ))
+
+(define-key evil-normal-state-map (kbd "J")
+            (lambda (count)
+              (interactive "p")
+              (dotimes (_ count)
+                (end-of-line)
+                (insert "\n")
+                )))
+(define-key evil-normal-state-map (kbd "K")
+            (lambda (count)
+              (interactive "p")
+              (dotimes (_ count)
+                (beginning-of-line)
+                (save-excursion (insert "\n"))
+                ;; https://emacs.stackexchange.com/questions/2120/how-to-insert-text-after-point
+                )))
+
+
+
+;; (define-key evil-insert-state-map (kbd "C-s") 'evil-scroll-line-down)
+;; (define-key evil-insert-state-map (kbd "C-y") 'evil-scroll-line-up)
+;; (define-key evil-insert-state-map (kbd "C-k") 'evil-aidan-scroll-line-to-1/4)
+;; (define-key evil-insert-state-map (kbd "C-j") 'evil-aidan-scroll-line-to-3/4)
+(define-key evil-insert-state-map (kbd "C-j") 'evil-scroll-line-to-top)
+(define-key evil-insert-state-map (kbd "C-k") 'evil-scroll-line-to-bottom)
+(define-key evil-insert-state-map (kbd "C-l") 'evil-scroll-line-to-center)
+
+(define-key evil-insert-state-map (kbd "C-w") 'evil-delete-backward-word)
+(define-key evil-insert-state-map (kbd "C-u") 'evil-delete-back-to-indentation)
+(define-key evil-insert-state-map (kbd "C-p") 'evil-complete-previous)
+(define-key evil-insert-state-map (kbd "C-n") 'evil-complete-next)
+(define-key evil-insert-state-map (kbd "C-r") 'evil-paste-from-register)
+(define-key evil-insert-state-map (kbd "C-o") 'evil-execute-in-normal-state)
+
+
+
+;; (define-key evil-window-map (kbd ";") 'evil-ex)
+#+end_src
+
+** evil-replace-with-char
+
+#+begin_src emacs-lisp
+(require 'evil-replace-with-char)
+(define-key evil-normal-state-map "gr" 'evil-operator-replace-with-char)
+#+end_src
+
+** evil-replace-with-register
+
+#+begin_src emacs-lisp
+(require 'evil-replace-with-register)
+(setq evil-replace-with-register-key (kbd "gp"))
+(evil-replace-with-register-install)
+#+end_src
+
+** outline
+
+#+begin_example
+outline mode logic:
+
+       leaf
+     /
+node
+     \
+       node
+
+so only 4 functions are needed:
+
+show-leaf
+hide-leaf
+show-node
+hide-node
+#+end_example
+
+#+begin_src emacs-lisp
+;; visibility
+
+(evil-define-key 'normal outline-mode-map (kbd "z y") 'outline-show-entry)
+(evil-define-key 'normal outline-mode-map (kbd "z u") 'outline-show-children)
+(evil-define-key 'normal outline-mode-map (kbd "z j") 'outline-show-branches) ; also hide leaves
+;; (evil-define-key 'normal outline-mode-map (kbd "z a") 'outline-show-subtree)
+(evil-define-key 'normal outline-mode-map (kbd "z x") 'outline-hide-entry)
+;; (evil-define-key 'normal outline-mode-map (kbd "z a") 'outline-hide-leaves)
+;; (evil-define-key 'normal outline-mode-map (kbd "z a") 'outline-hide-subtree)
+
+(evil-define-key 'normal outline-mode-map (kbd "z k") 'outline-show-only-headings)
+;; (evil-define-key 'normal outline-mode-map (kbd "z a") 'outline-show-all)
+(evil-define-key 'normal outline-mode-map (kbd "z f") 'outline-hide-other)
+;; (evil-define-key 'normal outline-mode-map (kbd "z a") 'outline-hide-body)
+(evil-define-key 'normal outline-mode-map (kbd "z g") 'outline-hide-sublevels)
+
+;; https://github.com/emacs-evil/evil/blob/9e27bb9e5a66cacbf9f1f4f20ca9b30fc2ae297b/evil-maps.el
+;; https://github.com/emacs-evil/evil-collection/blob/master/modes/outline/evil-collection-outline.el
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Outline-Visibility.html
+
+;; motion
+;; (evil-define-key 'normal outline-mode-map (kbd "") 'outline-next-visible-heading)
+;; (evil-define-key 'normal outline-mode-map (kbd "") 'outline-previous-visible-heading)
+;; (evil-define-key 'normal outline-mode-map (kbd "") 'outline-forward-same-level)
+;; (evil-define-key 'normal outline-mode-map (kbd "") 'outline-backward-same-level)
+;; (evil-define-key 'normal outline-mode-map (kbd "") 'outline-up-heading)
+
+;; edit
+(define-key outline-mode-map (kbd "M-j") 'outline-move-subtree-down)
+(define-key outline-mode-map (kbd "M-k") 'outline-move-subtree-up)
+(define-key outline-mode-map (kbd "M-h") 'outline-promote)
+(define-key outline-mode-map (kbd "M-l") 'outline-demote)
+(define-key outline-mode-map (kbd "M-RET") 'outline-insert-heading)
+#+end_src
+
+** org
+
+#+begin_src emacs-lisp
+;; (setq org-return-follows-link t)
+;; (setq org-M-RET-may-split-line nil)
+
+(define-key org-mode-map (kbd "M-h")       'org-metaleft)
+(define-key org-mode-map (kbd "M-l")       'org-metaright)
+(define-key org-mode-map (kbd "M-<left>")  'org-shiftmetaleft)
+(define-key org-mode-map (kbd "M-<right>") 'org-shiftmetaright)
+(define-key org-mode-map (kbd "M-RET")     'org-meta-return)
+
+(global-set-key (kbd "C-c s") #'org-store-link)
+(global-set-key (kbd "C-c a") #'org-agenda)
+;; (global-set-key (kbd "C-c c") #'org-capture)
+;; https://orgmode.org/manual/Activation.html
+
+(global-set-key (kbd "C-c c") (lambda () (interactive) (org-capture nil "a")))
+#+end_src
+
+** COMMENT org-gtd
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-c n c") #'org-gtd-capture)
+(define-key org-gtd-clarify-map (kbd "RET") #'org-gtd-organize)
+#+end_src
+
+** COMMENT org-roam
+
+#+begin_src emacs-lisp
+;; (defun convert-to-orgroam ()
+;; (interactive)
+;; (let ((new-file-name (concat (uuidgen-1) ".org")))
+;; (rename-file buffer-file-name new-file-name)
+;; (find-file new-file-name)
+;; )
+;; (goto-char (point-min))
+;; (insert "\n\n")
+;; (goto-char (point-min))
+;; (org-id-get-create)
+;; (beginning-of-line 4)
+;; (insert "#+title: ")
+;; )
+(defun convert-to-orgroam ()
+(interactive)
+(goto-char (point-min))
+(insert "\n\n")
+(goto-char (point-min))
+(org-id-get-create)
+(beginning-of-line 4)
+(insert (format "#+title: %s" (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))))
+(goto-char (point-min))
+)
+(global-set-key (kbd "C-c k l") 'convert-to-orgroam)
+;; https://org-roam.discourse.group/t/convert-preexisting-org-note-to-org-roam-type/2680
+
+
+
+(global-set-key (kbd "C-c k f") 'org-roam-node-find)
+;; creates a node if it does not exist, and visits the node
+(global-set-key (kbd "C-c k i") 'org-roam-node-insert)
+;; creates a node if it does not exist, and inserts a link to the node at point
+(global-set-key (kbd "C-c k c") 'org-roam-capture)
+;; creates a node if it does not exist, and restores the current window configuration upon completion
+(global-set-key (kbd "C-c k b") 'org-roam-buffer-toggle)
+;; launch an org-roam buffer that tracks the node currently at point. this means that the content of the buffer changes as the point is moved, if necessary
+;; aidan: this open a buffer with org-roam-mode, which is derived from magit-section-mode
+(global-set-key (kbd "C-c k d") 'org-roam-buffer-display-dedicated)
+
+;; (global-set-key (kbd "C-c k g") 'org-roam-graph)
+
+
+
+;; (global-set-key (kbd "C-c n h") #'org-roam-dailies-goto-yesterday)
+;; (global-set-key (kbd "C-c n j") #'org-roam-dailies-goto-today)
+;; (global-set-key (kbd "C-c n l") #'org-roam-dailies-goto-tomorrow)
+;; (global-set-key (kbd "C-c n k") #'org-roam-dailies-goto-date)
+#+end_src
+
+** COMMENT org-journal
+
+#+begin_src emacs-lisp
+(global-set-key (kbd "C-c l") 'calendar)
+
+(define-key calendar-mode-map (kbd "a") 'org-journal-new-date-entry)
+(define-key calendar-mode-map (kbd "f") 'org-journal-read-entry)
+(define-key calendar-mode-map (kbd "d") 'org-journal-display-entry)
+(define-key calendar-mode-map (kbd "p") 'org-journal-previous-entry)
+(define-key calendar-mode-map (kbd "n") 'org-journal-next-entry)
+(define-key calendar-mode-map (kbd "m") 'org-journal-mark-entries)
+#+end_src
+
+** terminal-here
+
+#+begin_src emacs-lisp
+(require 'terminal-here)
+(setq terminal-here-linux-terminal-command 'st)
+
+(global-set-key (kbd "<menu>") 'terminal-here-launch)
+;; (global-set-key (kbd "") 'terminal-here-project-launch)
+;; aidan: go to the root dir of current repo isn't your job
+#+end_src

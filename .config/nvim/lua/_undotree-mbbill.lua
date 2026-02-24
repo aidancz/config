@@ -1,7 +1,8 @@
--- vim.pack.add({
--- 	"https://github.com/mbbill/undotree",
--- })
-vim.opt.runtimepath:prepend("~/sync_git/undotree.vim"); vim.cmd("runtime plugin/undotree.vim")
+vim.pack.add({
+	"https://github.com/mbbill/undotree",
+})
+
+-- vim.opt.runtimepath:prepend("~/sync_git/undotree.vim"); vim.cmd("runtime plugin/undotree.vim")
 
 vim.g.undotree_WindowLayout = 1
 vim.g.undotree_DiffAutoOpen = 1

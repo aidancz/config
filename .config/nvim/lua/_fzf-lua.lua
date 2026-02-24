@@ -4,7 +4,7 @@
 vim.pack.add({
 	{
 		src = "https://github.com/ibhagwan/fzf-lua",
-		-- version = "b51b97f~", -- for go-up.nvim
+		version = "b51b97f~", -- for go-up.nvim
 	},
 })
 
@@ -131,16 +131,16 @@ clear_actions(require("fzf-lua").defaults)
 
 -- # do not ignore my go-up autocmd
 
--- require("fzf-lua").utils.eventignore = function(func, scope)
--- 	return func()
--- end
+require("fzf-lua").utils.eventignore = function(func, scope)
+	return func()
+end
 
 -- # use go-up for zz
 
--- require("fzf-lua").utils.zz = function()
--- 	if require("fzf-lua").utils.is_term_buffer() then return end
--- 	require("luaexec").registry["go-up"]["recenter 1/4"]()
--- end
+require("fzf-lua").utils.zz = function()
+	if require("fzf-lua").utils.is_term_buffer() then return end
+	require("luaexec").registry["go-up"]["recenter 1/4"]()
+end
 
 -- # vim.ui.select
 

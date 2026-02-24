@@ -9,11 +9,11 @@
       "src": "https://github.com/okuuva/auto-save.nvim"
     },
     "blink.cmp": {
-      "rev": "b4d379393882561f9055abe780342ee00f02c573",
+      "rev": "b650e976a927be6b46487a0a610b75af111376c5",
       "src": "https://github.com/saghen/blink.cmp"
     },
     "conform.nvim": {
-      "rev": "c2526f1cde528a66e086ab1668e996d162c75f4f",
+      "rev": "e969e302bced7ffb9a0a0323629f31feb0ca35a6",
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "fcitx.nvim": {
@@ -25,8 +25,9 @@
       "src": "https://github.com/rafamadriz/friendly-snippets"
     },
     "fzf-lua": {
-      "rev": "9004cbb4c065a32b690e909c49903967b45301eb",
-      "src": "https://github.com/ibhagwan/fzf-lua"
+      "rev": "69cc714be2d9386a68e79091e6197ddcc37db8db",
+      "src": "https://github.com/ibhagwan/fzf-lua",
+      "version": "'b51b97f~'"
     },
     "fzf-lua-enchanted-files": {
       "rev": "8c6b9790e9cec5a8213a384319b53c2b7435cd46",
@@ -133,7 +134,7 @@
       "src": "https://github.com/kevinhwang91/nvim-fundo"
     },
     "nvim-treesitter": {
-      "rev": "dc42c209f3820bdfaae0956f15de29689aa6b451",
+      "rev": "d660b7c002f3922b6bb3da47206645488a698426",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
@@ -207,7 +208,7 @@
       "src": "https://github.com/gbprod/yanky.nvim"
     },
     "yazi.nvim": {
-      "rev": "7e1da5de7ada6bee813fa91ce37d26d873fb25c3",
+      "rev": "59d430c5f8577c9f26e32be76170f73ef13906f6",
       "src": "https://github.com/mikavilpas/yazi.nvim"
     }
   }
