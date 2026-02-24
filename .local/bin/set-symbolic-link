@@ -47,6 +47,13 @@ ln -sf "$XDG_CONFIG_HOME/vim/.vimrc"		"$HOME/.vimrc"
 # ln -sf "$XDG_CONFIG_HOME/alsa/.asoundrc"	"$HOME/.asoundrc"
 # ln -sf "$XDG_CONFIG_HOME/less/.lesskey"		"$HOME/.lesskey" # use $LESSKEYIN instead
 
+mkdir -p "$HOME/.emacs.d"
+cd "$dir"/.config/emacs || exit
+for i in *; do
+	rm -rf				"$HOME/.emacs.d/$i"
+	ln -s "$PWD/$i"			"$HOME/.emacs.d/$i"
+done
+
 # * XDG_CACHE_HOME
 
 mkdir -p "$XDG_CACHE_HOME"
