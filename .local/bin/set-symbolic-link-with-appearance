@@ -46,7 +46,7 @@ set_appearance_light()
 # xresources
 rm -rf "$XDG_CONFIG_HOME/x11"
 cp -r "$dir/.config/x11" "$XDG_CONFIG_HOME/x11"
-sed -i -e '/simple-light-solarized/,/simple-light-solarized/s/! \(.\+\)/\1/' "$XDG_CONFIG_HOME/x11/.Xresources"
+sed -i -e '/nofrils_light/,/nofrils_light/s/! \(.\+\)/\1/' "$XDG_CONFIG_HOME/x11/.Xresources"
 
 # gtk-3.0
 rm -rf "$XDG_CONFIG_HOME/gtk-3.0"

@@ -35,34 +35,34 @@ colors mytheme
 set hintchars kdjflsieowmv
 set editorcmd st -e nvim
 
-" # keys
+" # key
 
-" ## subconfigs
+" ## subconfig
 
 " bindurl ^https://github.com i hint -Vc .AppHeader-searchButton
 " https://github.com/tridactyl/tridactyl/blob/master/.tridactylrc
 
-" ## browsermaps
+" ## browsermap
 
 bind --mode=browser <C-e> escapehatch
 
-" ## exmaps
+" ## exmap
 
 unbind --mode=ex <Space>
 " https://github.com/tridactyl/tridactyl/issues/4638
 
 bind --mode=ex <C-f> ex.insert_completion
 
-" ## vmaps
+" ## vmap
 
 unbind --mode=visual s
 unbind --mode=visual S
 
-" ## inputmaps
+" ## inputmap
 
 bind --mode=input <C-i> editor
 
-" ## nmaps
+" ## nmap
 
 unbind <C-e>
 unbind <C-y>
@@ -71,7 +71,6 @@ unbind <C-b>
 
 bind <F1> q
 bind <F2><F1> qa
-bind <C-F1> composite sanitise tridactyllocal; fillcmdline_tmp 3000 sanitise tridactyllocal
 bind <C-v> nmode ignore 1 mode normal
 bind i focusinput -l
 bind v hint -h
@@ -80,8 +79,8 @@ bind j tabnext
 bind k tabprev
 " bind l tabmove +1
 " bind h tabmove -1
-bind h back
 bind l forward
+bind h back
 
 bind f scrollpage 0.9
 bind d scrollpage -0.9
@@ -90,8 +89,8 @@ bind s scrollto 0
 
 bind . repeat
 
-bind e fillcmdline tabopen
-bind l fillcmdline tab
+bind <Space> fillcmdline tabopen
+bind b fillcmdline tab
 
 bind o hint
 bind w hint -t
@@ -107,3 +106,7 @@ bind p clipboard tabopen
 
 bind m gobble 1 markadd
 bind ` gobble 1 markjump
+
+" # command
+
+command my-sanitise composite sanitise tridactyllocal; fillcmdline_tmp 3000 sanitise tridactyllocal

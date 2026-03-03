@@ -1,300 +1,6 @@
-! # color
+! # define
 
-! name		dark	light
-! black		0	8
-! red		1	9
-! green		2	10
-! yellow	3	11
-! blue		4	12
-! magenta	5	13
-! cyan		6	14
-! white		7	15
-
-! e.g. brred (bright red) is color9
-
-! ## solarized
-
-! {{{
-
-! https://github.com/altercation/solarized/blob/master/xresources/solarized
-
-! solarized base03 is always #002b36 (not #fdf6e3)
-! however dark theme background is base03, light theme background is base3
-! for convenience of setting colors (such as always set "background" as base03), in light theme we redefine base03 as #fdf6e3
-
-! ! solarized-dark
-! #define s_base03        #002b36
-! #define s_base02        #073642
-! #define s_base01        #586e75
-! #define s_base00        #657b83
-! #define s_base0         #839496
-! #define s_base1         #93a1a1
-! #define s_base2         #eee8d5
-! #define s_base3         #fdf6e3
-
-! #define s_yellow        #b58900
-! #define s_orange        #cb4b16
-! #define s_red           #dc322f
-! #define s_magenta       #d33682
-! #define s_violet        #6c71c4
-! #define s_blue          #268bd2
-! #define s_cyan          #2aa198
-! #define s_green         #859900
-! ! solarized-dark
-
-! ! solarized-light
-! #define s_base03        #fdf6e3
-! #define s_base02        #eee8d5
-! #define s_base01        #93a1a1
-! #define s_base00        #839496
-! #define s_base0         #657b83
-! #define s_base1         #586e75
-! #define s_base2         #073642
-! #define s_base3         #002b36
-
-! #define s_yellow        #b58900
-! #define s_orange        #cb4b16
-! #define s_red           #dc322f
-! #define s_magenta       #d33682
-! #define s_violet        #6c71c4
-! #define s_blue          #268bd2
-! #define s_cyan          #2aa198
-! #define s_green         #859900
-! ! solarized-light
-
-! ! solarized-set
-! *color0:                  s_base02
-! *color8:                  s_base03
-! *color1:                  s_red
-! *color9:                  s_orange
-! *color2:                  s_green
-! *color10:                 s_base01
-! *color3:                  s_yellow
-! *color11:                 s_base00
-! *color4:                  s_blue
-! *color12:                 s_base0
-! *color5:                  s_magenta
-! *color13:                 s_violet
-! *color6:                  s_cyan
-! *color14:                 s_base1
-! *color7:                  s_base2
-! *color15:                 s_base3
-
-! *background:              s_base03
-! *foreground:              s_base0
-! *cursorColor:             s_base1
-! !*fading:                  40
-! !*fadeColor:               s_base03
-! !*pointerColorBackground:  s_base01
-! !*pointerColorForeground:  s_base1
-
-! dwm.normbgcolor:	s_base03
-! dwm.normfgcolor:	s_base0
-! dwm.selbgcolor:		s_base02
-! dwm.selfgcolor:		s_base1
-! dwm.normbordercolor:	s_base02
-! dwm.selbordercolor:	s_base1
-
-! dmenu.normbgcolor:	s_base03
-! dmenu.normfgcolor:	s_base0
-! dmenu.selbgcolor:	s_base02
-! dmenu.selfgcolor:	s_base1
-! ! solarized-set
-
-! }}}
-
-! ## nord
-
-! {{{
-
-! https://github.com/nordtheme/xresources/blob/develop/src/nord
-
-! ! nord-dark
-! #define nord0 #2e3440
-! #define nord1 #3b4252
-! #define nord2 #434c5e
-! #define nord3 #4c566a
-! #define nord4 #d8dee9
-! #define nord5 #e5e9f0
-! #define nord6 #eceff4
-! #define nord7 #8fbcbb
-! #define nord8 #88c0d0
-! #define nord9 #81a1c1
-! #define nord10 #5e81ac
-! #define nord11 #bf616a
-! #define nord12 #d08770
-! #define nord13 #ebcb8b
-! #define nord14 #a3be8c
-! #define nord15 #b48ead
-! ! nord-dark
-
-! ! nord-set
-! *color0: nord1
-! *color1: nord11
-! *color2: nord14
-! *color3: nord13
-! *color4: nord9
-! *color5: nord15
-! *color6: nord8
-! *color7: nord5
-! *color8: nord3
-! *color9: nord11
-! *color10: nord14
-! *color11: nord13
-! *color12: nord9
-! *color13: nord15
-! *color14: nord7
-! *color15: nord6
-
-! *background:   nord0
-! *foreground:   nord4
-! *cursorColor:  nord4
-! *fading:       35
-! *fadeColor:    nord3
-
-! dwm.normbgcolor:	nord1
-! dwm.normfgcolor:	nord5
-! dwm.selbgcolor:		nord3
-! dwm.selfgcolor:		nord5
-! dwm.normbordercolor:	nord1
-! dwm.selbordercolor:	nord5
-
-! dmenu.normbgcolor:	nord1
-! dmenu.normfgcolor:	nord5
-! dmenu.selbgcolor:	nord3
-! dmenu.selfgcolor:	nord5
-! ! nord-set
-
-! }}}
-
-! ## penumbra
-
-! {{{
-
-! https://github.com/nealmckee/penumbra
-
-! ! penumbra-dark0
-! #define sun1    #fffdfb
-! #define sun     #fff7ed
-! #define sun0    #f2e6d4
-! #define sky1    #bebebe
-! #define sky     #8f8f8f
-! #define sky0    #636363
-! #define shade1  #3e4044
-! #define shade   #303338
-! #define shade0  #24272b
-! #define red     #cb7459
-! #define yellow  #a38f2d
-! #define green   #46a473
-! #define cyan    #00a0be
-! #define blue    #7e87d6
-! #define magenta #bd72a8
-! ! penumbra-dark0
-
-! ! penumbra-light0
-! #define shade0  #fffdfb
-! #define shade   #fff7ed
-! #define shade1  #f2e6d4
-! #define sky0    #bebebe
-! #define sky     #8f8f8f
-! #define sky1    #636363
-! #define sun0    #3e4044
-! #define sun     #303338
-! #define sun1    #24272b
-! #define red     #cb7459
-! #define yellow  #a38f2d
-! #define green   #46a473
-! #define cyan    #00a0be
-! #define blue    #7e87d6
-! #define magenta #bd72a8
-! ! penumbra-light0
-
-! ! penumbra-dark1
-! #define sun1    #fffdfb
-! #define sun     #fff7ed
-! #define sun0    #f2e6d4
-! #define sky1    #cecece
-! #define sky     #9e9e9e
-! #define sky0    #636363
-! #define shade1  #3e4044
-! #define shade   #24272b
-! #define shade0  #181b1f
-! #define red     #e18163
-! #define yellow  #b49e33
-! #define green   #4eb67f
-! #define cyan    #00b0d2
-! #define blue    #8c96ec
-! #define magenta #d07eba
-! ! penumbra-dark1
-
-! ! penumbra-dark2
-! #define sun1    #fffdfb
-! #define sun     #fff7ed
-! #define sun0    #f2e6d4
-! #define sky1    #dedede
-! #define sky     #aeaeae
-! #define sky0    #636363
-! #define shade1  #3e4044
-! #define shade   #181b1f
-! #define shade0  #0d0f13
-! #define red     #f48e74
-! #define yellow  #c7ad40
-! #define green   #61c68a
-! #define cyan    #1ac2e1
-! #define blue    #97a6ff
-! #define magenta #e18dce
-! ! penumbra-dark2
-
-! ! penumbra-set
-! *color0:  shade
-! *color1:  red
-! *color2:  green
-! *color3:  yellow
-! *color4:  blue
-! *color5:  magenta
-! *color6:  cyan
-! *color7:  sky0
-
-! *color8:  shade1
-! *color9:  red
-! *color10: green
-! *color11: yellow
-! *color12: blue
-! *color13: magenta
-! *color14: cyan
-! *color15: sky
-
-! *background:  shade
-! *foreground:  sky
-! *cursorColor: sky
-
-! dwm.normbgcolor:	shade
-! dwm.normfgcolor:	sky
-! dwm.selbgcolor:		shade1
-! dwm.selfgcolor:		sky
-
-! dmenu.normbgcolor:	shade
-! dmenu.normfgcolor:	sky
-! dmenu.selbgcolor:	shade1
-! dmenu.selfgcolor:	sky
-! ! penumbra-set
-
-! }}}
-
-! ## simple
-
-! ! simple-dark-origin
-! #define black   #000000
-! #define red     #ff0000
-! #define green   #00ff00
-! #define yellow  #ffff00
-! #define blue    #0000ff
-! #define magenta #ff00ff
-! #define cyan    #00ffff
-! #define white   #ffffff
-! ! simple-dark-origin
-
-! simple-dark-solarized
+! nofrils_dark
 #define black   #2b2b2b
 #define red     #dc322f
 #define green   #859900
@@ -303,12 +9,12 @@
 #define magenta #d33682
 #define cyan    #2aa198
 #define white   #9e9e9e
-! simple-dark-solarized
+! nofrils_dark
 
 ! #2b2b2b lab color: 17.5 0 0
 ! #9e9e9e lab color: 65   0 0
 
-! ! simple-light-solarized
+! ! nofrils_light
 ! #define black   #cdcdcd
 ! #define red     #dc322f
 ! #define green   #859900
@@ -317,12 +23,15 @@
 ! #define magenta #d33682
 ! #define cyan    #2aa198
 ! #define white   #525252
-! ! simple-light-solarized
+! ! nofrils_light
 
 ! #cdcdcd lab color: 82.5 0 0
 ! #525252 lab color: 35   0 0
 
-! simple-set
+! # set
+
+! ## global (currently used by: st nvim emacs)
+
 *color0:  black
 *color1:  red
 *color2:  green
@@ -341,35 +50,32 @@
 *color14: cyan
 *color15: white
 
-*background:  black
-*foreground:  white
-*cursorColor: white
+! ## st
 
-dwm.normbgcolor:	black
-dwm.normfgcolor:	white
-dwm.selbgcolor:		white
-dwm.selfgcolor:		black
+st.background:  black
+st.foreground:  white
+st.cursorColor: white
 
-dmenu.normbgcolor:	black
-dmenu.normfgcolor:	white
-dmenu.selbgcolor:	white
-dmenu.selfgcolor:	black
-! simple-set
-
-! # not color
-
-*font: monospace:size=15
-! *fonta: Twemoji
-! *fontb: Twemoji
-! 4 pixel = 3 point
-
-*alpha: 1
-*cursorBlink: 0
-
+st.font: monospace:size=15
 st.borderpx: 0
+st.alpha: 1
 
-dwm.showbar: 1
+! ## dwm
+
+dwm.normbgcolor: black
+dwm.normfgcolor: white
+dwm.selbgcolor:  white
+dwm.selfgcolor:  black
+
+dwm.font: monospace:size=15
 dwm.borderpx: 0
+dwm.showbar: 1
 
-!emacs.font: monospace-15
-!https://www.gnu.org/software/emacs/manual/html_node/emacs/Table-of-Resources.html
+! ## dmenu
+
+dmenu.normbgcolor: black
+dmenu.normfgcolor: white
+dmenu.selbgcolor:  white
+dmenu.selfgcolor:  black
+
+dmenu.font: monospace:size=15
