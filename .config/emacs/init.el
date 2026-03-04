@@ -232,6 +232,8 @@
 
 ;;; package 2
 
-;; (require '_evil)
 (require '_nofrils)
-(require '_standard-themes)
+;; (require '_standard-themes)
+
+(require '_evil)
+(require '_org)

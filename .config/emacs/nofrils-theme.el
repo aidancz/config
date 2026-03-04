@@ -56,18 +56,101 @@
 
   (defface nofrils_reverse `((t . (:inverse-video t))) "" :group 'nofrils)
 
+  ;; NOTE: i want to disable defface's spec since here
+
+  ;; version 1:
+  ;; (fset 'defface
+  ;;   (lambda (face spec doc &rest args)
+  ;;     (apply 'defface face '() doc args)))
+
+  ;; version 2:
+  ;; (fset 'custom-declare-face
+  ;;   (lambda (face spec doc &rest args)
+  ;;     (apply 'custom-declare-face face '() doc args)))
+
+  ;; version 3:
+  ;; (defmacro defface (face spec doc &rest args)
+  ;;   (declare (doc-string 3) (indent defun))
+  ;;   (nconc (list 'custom-declare-face (list 'quote face) '() doc) args))
+
+  ;; version 4:
+  ;; (advice-add 'defface :around
+  ;;   (lambda (orig face spec doc &rest args)
+  ;;     (apply orig face '() doc args)))
+
+  ;; version 5:
+  (advice-add 'custom-declare-face :around
+    (lambda (orig face spec doc &rest args)
+      (apply orig face '() doc args)))
+
   (custom-theme-set-faces 'nofrils
 
+    ;; (info "(emacs)Standard Faces")
+
+    `(default                ((t . (:background ,color0 :foreground ,color7))))
+    `(bold                   ((t . ())))
+    `(italic                 ((t . ())))
+    `(bold-italic            ((t . ())))
+    `(underline              ((t . ())))
+    `(fixed-pitch            ((t . ())))
+    `(fixed-pitch-serif      ((t . ())))
+    `(variable-pitch         ((t . ())))
+    `(variable-pitch-text    ((t . ())))
+    `(shadow                 ((t . (:inherit nofrils_blue))))
+
+    `(highlight              ((t . (:inherit nofrils_blue_bg))))
+    `(isearch                ((t . ())))
+    `(query-replace          ((t . ())))
+    `(lazy-highlight         ((t . ())))
+    `(region                 ((t . (:inherit nofrils_blue_bg))))
+    `(secondary-selection    ((t . ())))
+    `(trailing-whitespace    ((t . ())))
+    `(escape-glyph           ((t . ())))
+    `(homoglyph              ((t . ())))
+    `(nobreak-space          ((t . ())))
+    `(nobreak-hyphen         ((t . ())))
+
+    `(mode-line              ((t . ())))
+    `(mode-line-active       ((t . ())))
+    `(mode-line-inactive     ((t . ())))
+    `(mode-line-highlight    ((t . ())))
+    `(mode-line-buffer-id    ((t . ())))
+    `(header-line            ((t . (:inherit nofrils_blue))))
+    `(header-line-highlight  ((t . ())))
+    `(tab-line               ((t . ())))
+    `(vertical-border        ((t . ())))
+    `(minibuffer-prompt      ((t . ())))
+    `(fringe                 ((t . ())))
+    `(cursor                 ((t . (:background ,color7))))
+    `(tooltip                ((t . ())))
+    `(mouse                  ((t . ())))
+
+    `(scroll-bar             ((t . ())))
+    `(tool-bar               ((t . ())))
+    `(tab-bar                ((t . ())))
+    `(menu                   ((t . ())))
+    `(tty-menu-enabled-face  ((t . ())))
+    `(tty-menu-disabled-face ((t . ())))
+    `(tty-menu-selected-face ((t . ())))
+
     ;; (info "(elisp)Basic Faces")
+    ;; generated via "comm -23 a.txt b.txt"
 
-    `(default ((t . (:background ,color0 :foreground ,color7))))
-    `(cursor ((t . (:background ,color7))))
+    `(border                 ((t . ())))
+    `(child-frame-border     ((t . ())))
+    `(error                  ((t . (:inherit nofrils_red))))
+    `(link                   ((t . (:inherit nofrils_magenta))))
+    `(link-visited           ((t . (:inherit nofrils_magenta_bg))))
+    `(match                  ((t . ())))
+    `(success                ((t . (:inherit nofrils_green))))
+    `(warning                ((t . (:inherit nofrils_yellow))))
+    `(window-divider         ((t . ())))
 
-    `(region ((t . (:inherit nofrils_reverse))))
-    `(link ((t . (:inherit nofrils_cyan))))
-    `(link-visited ((t . (:inherit nofrils_magenta))))
-    ;; `(highlight ((t . (:inherit nofrils_reverse))))
-    `(highlight ((t . (:inverse-video t))))
+    ;; font lock mode
+
+    `(font-lock-comment-face           ((t . (:inherit nofrils_blue))))
+    `(font-lock-comment-delimiter-face ((t . (:inherit nofrils_blue))))
+
   )
 )
 

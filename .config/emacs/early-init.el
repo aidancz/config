@@ -1,4 +1,4 @@
-;; (setq inhibit-x-resources t) ; seems also (setq inhibit-startup-screen t)
+;; (setq inhibit-x-resources t) ; this seems also (setq inhibit-startup-screen t)
 (setq inhibit-startup-screen t)
 
 (menu-bar-mode 0)
