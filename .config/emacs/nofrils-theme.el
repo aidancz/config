@@ -82,6 +82,10 @@
   (advice-add 'custom-declare-face :around
     (lambda (orig face spec doc &rest args)
       (apply orig face '() doc args)))
+  ;; works great!
+  ;; however, spec may also be set outside `defface`
+  ;; e.g. org mode modifies some faces' `:extend` via `org--set-faces-extend` → `set-face-extend` → `set-face-attribute`
+  ;; this is not handled for now
 
   (custom-theme-set-faces 'nofrils
 
@@ -115,7 +119,7 @@
     `(mode-line-inactive     ((t . ())))
     `(mode-line-highlight    ((t . ())))
     `(mode-line-buffer-id    ((t . ())))
-    `(header-line            ((t . (:inherit nofrils_blue))))
+    `(header-line            ((t . (:inherit nofrils_magenta))))
     `(header-line-highlight  ((t . ())))
     `(tab-line               ((t . ())))
     `(vertical-border        ((t . ())))
@@ -139,14 +143,14 @@
     `(border                 ((t . ())))
     `(child-frame-border     ((t . ())))
     `(error                  ((t . (:inherit nofrils_red))))
-    `(link                   ((t . (:inherit nofrils_magenta))))
-    `(link-visited           ((t . (:inherit nofrils_magenta_bg))))
+    `(link                   ((t . (:inherit nofrils_cyan))))
+    `(link-visited           ((t . (:inherit nofrils_cyan))))
     `(match                  ((t . ())))
     `(success                ((t . (:inherit nofrils_green))))
     `(warning                ((t . (:inherit nofrils_yellow))))
     `(window-divider         ((t . ())))
 
-    ;; font lock mode
+    ;; font-lock.el
 
     `(font-lock-comment-face           ((t . (:inherit nofrils_blue))))
     `(font-lock-comment-delimiter-face ((t . (:inherit nofrils_blue))))

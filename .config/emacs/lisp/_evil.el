@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 ;; https://evil.readthedocs.io/en/latest/index.html
 ;; https://github.com/noctuid/evil-guide
 
