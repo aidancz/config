@@ -12,9 +12,6 @@
 
 ;;; elisp debug
 
-;; (top-level)
-;; https://emacs.stackexchange.com/questions/75179/how-to-stop-evaluating-within-emacs-for-debugging-purposes
-
 ;; (error "Done")
 ;; https://stackoverflow.com/questions/25393418/stop-execution-of-emacs
 
@@ -40,5 +37,8 @@
 ;; (require '_standard-themes)
 
 (require '_emacs)
-(require '_evil)
+(require '_keymap)
+
+;; (require '_evil)
+(require '_info)
 (require '_org)

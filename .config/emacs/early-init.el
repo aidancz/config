@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 ;; (setq inhibit-x-resources t) ; this seems also (setq inhibit-startup-screen t)
+
 (setq inhibit-startup-screen t)
 
 ;; (setq inhibit-startup-echo-area-message "aidan")
@@ -11,6 +12,7 @@
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
+;; (add-hook 'after-init-hook (lambda () (horizontal-scroll-bar-mode 1)))
 (fringe-mode '(0 . 0))
 
 (set-face-attribute 'default nil :background "black" :foreground "white")

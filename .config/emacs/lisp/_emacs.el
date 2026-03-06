@@ -52,6 +52,9 @@
 
 ;;;; buffer
 
+(custom-theme-set-faces 'nofrils
+  `(whitespace-trailing ((t . (:inherit nofrils_red_bg))))
+)
 (setq whitespace-style '(face trailing))
 (setq whitespace-display-mappings '())
 (global-whitespace-mode 1)
@@ -65,6 +68,12 @@
 
 (blink-cursor-mode 0)
 
+(custom-theme-set-faces 'nofrils
+  `(show-paren-match ((t . (:inherit nofrils_blue_bg))))
+  `(show-paren-mismatch ((t . (:inherit nofrils_red_bg))))
+  `(show-paren-match-expression ((t . (:inherit nofrils_blue_bg))))
+)
+(setq show-paren-style 'mixed)
 (setq show-paren-delay 0)
 (show-paren-mode 1)
 

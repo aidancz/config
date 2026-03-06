@@ -1,5 +1,6 @@
 ;; -*- lexical-binding: t -*-
 
-(ensure 'standard-themes)
+(unless (package-installed-p 'standard-themes)
+  (package-install 'standard-themes))
 
 (provide '_standard-themes)

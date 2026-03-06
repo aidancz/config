@@ -33,9 +33,9 @@
 ;; M-x package-upgrade
 ;; M-x package-delete
 
-(defun ensure (package)
-  "ensure the package is installed on disk"
-  (unless (package-installed-p package)
-    (package-install package)))
+;; (defun ensure (package)
+;;   "ensure the package is installed on disk"
+;;   (unless (package-installed-p package)
+;;     (package-install package)))
 
 (provide '_package)

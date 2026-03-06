@@ -1,26 +1,18 @@
 vim.pack.add({
 	"https://github.com/nvim-mini/mini.comment",
-	"https://github.com/JoosepAlviste/nvim-ts-context-commentstring",
+	"https://github.com/folke/ts-comments.nvim",
 })
 
-require("ts_context_commentstring").setup({
-	enable_autocmd = false,
+require("ts-comments").setup({
+	lang = {
+		scheme = { ";; %s", "; %s" },
+	},
 })
 
 require("mini.comment").setup({
 	options = {
-		custom_commentstring = function()
-			local commentstring
-
-			commentstring = vim.bo.commentstring
-			if commentstring ~= "" then return commentstring end
-
-			commentstring = require("ts_context_commentstring").calculate_commentstring()
-			if commentstring ~= nil then return commentstring end
-
-			commentstring = "# %s"
-			return commentstring
-		end,
+		-- custom_commentstring = function(ref_position)
+		-- end,
 	},
 	mappings = {
 		comment = "<space>c",

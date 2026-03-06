@@ -3,7 +3,8 @@
 ;; https://evil.readthedocs.io/en/latest/index.html
 ;; https://github.com/noctuid/evil-guide
 
-(ensure 'evil)
+(unless (package-installed-p 'evil)
+  (package-install 'evil))
 
 (setq evil-default-state 'emacs)
 ;; http://bling.github.io/blog/2015/01/06/emacs-as-my-leader-1-year-later/

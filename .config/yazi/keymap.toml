@@ -35,7 +35,7 @@ keymap = [
 	{ on = "e", run = "plugin fzf" },
 
 	{ on = [ "<space>", "h" ], run = "cd ~" },
-	{ on = [ "<space>", "g" ], run = """ shell -- ya emit cd "$(git rev-parse --show-toplevel)" """ },
+	{ on = [ "<space>", "s" ], run = """ shell -- ya emit cd "$(git rev-parse --show-toplevel)" """ },
 
 	# inspect
 	{ on = "<pagedown>", run = "seek 10" },
@@ -52,19 +52,19 @@ keymap = [
 
 	# sort
 
-	{ on = [ "<space>", "s", "m" ], run = [ "sort mtime --reverse=no", "linemode mtime" ] },
-	{ on = [ "<space>", "s", "M" ], run = [ "sort mtime --reverse", "linemode mtime" ] },
-	{ on = [ "<space>", "s", "b" ], run = [ "sort btime --reverse=no", "linemode btime" ] },
-	{ on = [ "<space>", "s", "B" ], run = [ "sort btime --reverse", "linemode btime" ] },
-	{ on = [ "<space>", "s", "e" ], run = "sort extension --reverse=no" },
-	{ on = [ "<space>", "s", "E" ], run = "sort extension --reverse" },
-	{ on = [ "<space>", "s", "a" ], run = "sort alphabetical --reverse=no" },
-	{ on = [ "<space>", "s", "A" ], run = "sort alphabetical --reverse" },
-	{ on = [ "<space>", "s", "n" ], run = "sort natural --reverse=no" },
-	{ on = [ "<space>", "s", "N" ], run = "sort natural --reverse" },
-	{ on = [ "<space>", "s", "s" ], run = [ "sort size --reverse=no", "linemode size" ] },
-	{ on = [ "<space>", "s", "S" ], run = [ "sort size --reverse", "linemode size" ] },
-	{ on = [ "<space>", "s", "r" ], run = "sort random --reverse=no" },
+	{ on = [ "<space>", "g", "m" ], run = [ "sort mtime --reverse=no", "linemode mtime" ] },
+	{ on = [ "<space>", "g", "M" ], run = [ "sort mtime --reverse", "linemode mtime" ] },
+	{ on = [ "<space>", "g", "b" ], run = [ "sort btime --reverse=no", "linemode btime" ] },
+	{ on = [ "<space>", "g", "B" ], run = [ "sort btime --reverse", "linemode btime" ] },
+	{ on = [ "<space>", "g", "e" ], run = "sort extension --reverse=no" },
+	{ on = [ "<space>", "g", "E" ], run = "sort extension --reverse" },
+	{ on = [ "<space>", "g", "a" ], run = "sort alphabetical --reverse=no" },
+	{ on = [ "<space>", "g", "A" ], run = "sort alphabetical --reverse" },
+	{ on = [ "<space>", "g", "n" ], run = "sort natural --reverse=no" },
+	{ on = [ "<space>", "g", "N" ], run = "sort natural --reverse" },
+	{ on = [ "<space>", "g", "s" ], run = [ "sort size --reverse=no", "linemode size" ] },
+	{ on = [ "<space>", "g", "S" ], run = [ "sort size --reverse", "linemode size" ] },
+	{ on = [ "<space>", "g", "r" ], run = "sort random --reverse=no" },
 
 	# filter
 	{ on = ".",                run = "hidden toggle" },
