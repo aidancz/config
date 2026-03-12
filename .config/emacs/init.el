@@ -42,3 +42,8 @@
 ;; (require '_evil)
 (require '_info)
 (require '_org)
+(require '_magit)
+
+(require '_vertico)
+(require '_orderless)
+(require '_marginalia)

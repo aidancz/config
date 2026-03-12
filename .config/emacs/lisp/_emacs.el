@@ -48,7 +48,7 @@
 
 (setq echo-keystrokes 0.001)
 
-(setq completions-format 'horizontal)
+(setq completions-format 'one-column)
 
 ;;;; buffer
 
@@ -73,7 +73,7 @@
   `(show-paren-mismatch ((t . (:inherit nofrils_red_bg))))
   `(show-paren-match-expression ((t . (:inherit nofrils_blue_bg))))
 )
-(setq show-paren-style 'mixed)
+(setq show-paren-style 'parenthesis)
 (setq show-paren-delay 0)
 (show-paren-mode 1)
 
