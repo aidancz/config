@@ -66,6 +66,7 @@ vim.treesitter.language.register("bash", {
 	"sh",
 	"csh",
 	"zsh",
+	"env",
 })
 vim.treesitter.language.register("ini", "conf")
 vim.treesitter.language.register("markdown", "text")

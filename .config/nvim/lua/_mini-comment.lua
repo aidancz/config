@@ -5,6 +5,8 @@ vim.pack.add({
 
 require("ts-comments").setup({
 	lang = {
+		bash = "# %s",
+		lua = "-- %s",
 		scheme = { ";; %s", "; %s" },
 	},
 })

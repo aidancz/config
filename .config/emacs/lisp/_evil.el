@@ -10,9 +10,9 @@
 ;; http://bling.github.io/blog/2015/01/06/emacs-as-my-leader-1-year-later/
 
 (setq evil-normal-state-modes '(
-  fundamental-mode
-  text-mode
-  prog-mode
+  ;; fundamental-mode
+  ;; text-mode
+  ;; prog-mode
 ))
 (setq evil-insert-state-modes '())
 (setq evil-visual-state-modes '())

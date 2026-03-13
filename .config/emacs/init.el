@@ -39,7 +39,7 @@
 (require '_emacs)
 (require '_keymap)
 
-;; (require '_evil)
+(require '_evil)
 (require '_info)
 (require '_org)
 (require '_magit)

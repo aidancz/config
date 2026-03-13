@@ -9,7 +9,7 @@ require("toggleterm").setup({
 		row = 0,
 		col = 0,
 		width = vim.o.columns,
-		height = vim.o.lines,
+		height = vim.o.lines - 2,
 		zindex = 201,
 	},
 })
@@ -36,4 +36,23 @@ require("luaexec").add({
 	from = "toggleterm",
 	name = "lazygit",
 	keys = {{"n", "x", "s", "i", "c", "t", "o"}, "<f2>x"},
+})
+
+-- # yazi
+
+local yazi = require("toggleterm.terminal").Terminal:new({
+	cmd = "yazi",
+	-- on_close = function()
+	-- 	vim.cmd("checktime")
+	-- end,
+})
+require("toggleterm").registry.yazi = function()
+	yazi:toggle()
+end
+
+require("luaexec").add({
+	code = [[require("toggleterm").registry.yazi()]],
+	from = "toggleterm",
+	name = "yazi",
+	keys = {{"n", "x", "s", "i", "c", "t", "o"}, "<f2>s"},
 })

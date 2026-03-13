@@ -195,6 +195,10 @@
       "rev": "d8f99084d98c32f651860eb0baaf89759f91debc",
       "src": "https://github.com/mbbill/undotree"
     },
+    "unnest.nvim": {
+      "rev": "865b34a9db70ad4ea8715a397fad6491baa390c4",
+      "src": "https://github.com/brianhuster/unnest.nvim"
+    },
     "vim-AdvancedSorters": {
       "rev": "4975c129954f29c74c4de173530248929e4ecc91",
       "src": "https://github.com/inkarkat/vim-AdvancedSorters"

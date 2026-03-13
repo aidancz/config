@@ -142,7 +142,7 @@ do
 	-- require("_mini-tabline")
 	-- require("_mini-trailspace")
 	-- require("_outline_HACK1")
-	require("_buvvers")
+	-- require("_buvvers")
 	require("_whitespace")
 	require("statusline")
 
@@ -156,6 +156,11 @@ do
 	require("autocmd")
 	require("gutter")
 	require("lsp")
+
+	-- # plugin/**/*.{vim,lua}
+	-- :h load-plugins
+
+	require("_unnest")
 
 	-- require("_test")
 
@@ -190,6 +195,7 @@ do
 	-- require("_gitsigns")
 	-- require("_harpoon")
 	-- require("_indent-blankline")
+	-- require("_lazygit")
 	-- require("_lualine")
 	-- require("_mini-bracketed")
 	-- require("_mini-clue")
@@ -221,6 +227,7 @@ do
 	-- require("_vim-suda")
 	-- require("_vuffers")
 	-- require("_which-key")
+	-- require("_yazi")
 	-- require("_zen-mode")
 	-- require("guicursor")
 	-- require("redir")
@@ -233,7 +240,6 @@ do
 	require("_fzf-lua__frecency")
 	require("_fzf-lua__luaexec")
 	require("_fzf-lua__outliner")
-	require("_lazygit")
 	require("_lfsp")
 	require("_macro")
 	require("_markdown-preview")
@@ -264,7 +270,6 @@ do
 	require("_vim-AdvancedSorters")
 	require("_vim-table-mode")
 	require("_yanky")
-	require("_yazi")
 	require("autoindent")
 	require("diagnostic")
 
