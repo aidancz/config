@@ -1,44 +1,42 @@
+# https://github.com/sxyazi/yazi/blob/main/yazi-config/preset/theme-dark.toml
+# https://yazi-rs.github.io/docs/configuration/theme
+
 # "black":    terminal color code 0
 # "white":    terminal color code 15
 # "gray":     terminal color code 7
 # "darkgray": terminal color code 8
-
-
 
 [flavor]
 
 dark  = ""
 light = ""
 
+[app]
 
+overall = {}
 
 [mgr]
 
 cwd = {}
 
-# hovered
-hovered         = {reversed  = true}
-preview_hovered = {underline = true}
-
 # find
 find_keyword  = {}
 find_position = {}
 
+# symlink
+symlink_target = {}
+
 # marker
-marker_selected = {fg = "white",  bg = "white"}
-marker_marked   = {fg = "green",  bg = "green"}
 marker_copied   = {fg = "yellow", bg = "yellow"}
 marker_cut      = {fg = "red",    bg = "red"}
-
-# tab
-tab_active   = {reversed = true}
-tab_inactive = {}
-tab_width    = 1
+marker_marked   = {fg = "green",  bg = "green"}
+marker_selected = {fg = "white",  bg = "white"}
+marker_symbol   = ""
 
 # count
-count_selected = {fg = "black", bg = "white"}
 count_copied   = {fg = "black", bg = "yellow"}
 count_cut      = {fg = "black", bg = "red"}
+count_selected = {fg = "black", bg = "white"}
 
 # border
 border_symbol = " "
@@ -47,7 +45,13 @@ border_style  = {}
 # highlighting
 # syntect_theme = "~/.config/yazi/theme_preview.tmTheme"
 
+[tabs]
 
+active   = {reversed = true}
+inactive = {fg = "white", bg = "black"}
+
+sep_inner = {open = "", close = ""}
+sep_outer = {open = "", close = ""}
 
 [mode]
 
@@ -58,17 +62,18 @@ select_alt  = {fg = "white", bg = "black"}
 unset_main  = {fg = "white", bg = "black"}
 unset_alt   = {fg = "white", bg = "black"}
 
+[indicator]
 
+parent = {reversed = true}
+current = {reversed = true}
+preview = {underline = true}
+padding = {open = "█", close = "█"}
 
 [status]
 
-separator_open  = ""
-separator_close = ""
-
-# progress
-progress_label  = {}
-progress_normal = {fg = "blue", bg = "black"}
-progress_error  = {fg = "red",  bg = "black"}
+overall   = {}
+sep_left  = {open = "", close = ""}
+sep_right = {open = "", close = ""}
 
 # permissions
 perm_sep   = {}
@@ -77,57 +82,10 @@ perm_read  = {}
 perm_write = {}
 perm_exec  = {}
 
-
-
-[pick]
-
-border   = {}
-active   = {}
-inactive = {}
-
-
-
-[input]
-
-border   = {}
-title    = {}
-value    = {}
-selected = {}
-
-
-
-[confirm]
-
-border     = {}
-title      = {}
-content    = {}
-list       = {}
-btn_yes    = {reversed = true}
-btn_no     = {}
-btn_labels = ["y", "n"]
-
-
-
-[completion]
-
-border   = {}
-active   = {reversed = true}
-inactive = {}
-
-# icons
-icon_file    = ""
-icon_folder  = ""
-icon_command = ""
-
-
-
-[tasks]
-
-border  = {}
-title   = {}
-hovered = {}
-
-
+# progress
+progress_label  = {}
+progress_normal = {fg = "blue", bg = "black"}
+progress_error  = {fg = "red",  bg = "black"}
 
 [which]
 
@@ -139,17 +97,24 @@ desc            = {}
 separator       = "    "
 separator_style = {}
 
+[confirm]
 
+border     = {}
+title      = {}
+body       = {}
+list       = {}
+btn_yes    = {reversed = true}
+btn_no     = {}
+btn_labels = ["y", "n"]
 
-[help]
+[spot]
 
-on      = {}
-run     = {}
-desc    = {}
-hovered = {reversed = true}
-footer  = {}
+border = {}
+title  = {}
 
-
+# table
+tbl_col  = {}
+tbl_cell = {reversed = true}
 
 [notify]
 
@@ -162,7 +127,43 @@ icon_info  = ""
 icon_warn  = ""
 icon_error = ""
 
+[pick]
 
+border   = {}
+active   = {}
+inactive = {}
+
+[input]
+
+border   = {}
+title    = {}
+value    = {}
+selected = {}
+
+[cmp]
+
+border   = {}
+active   = {reversed = true}
+inactive = {}
+
+# icons
+icon_file    = ""
+icon_folder  = ""
+icon_command = ""
+
+[tasks]
+
+border  = {}
+title   = {}
+hovered = {}
+
+[help]
+
+on      = {}
+run     = {}
+desc    = {}
+hovered = {reversed = true}
+footer  = {}
 
 [filetype]
 
@@ -189,14 +190,14 @@ rules = [
 	{url = "*.mobi", fg = "yellow"},
 	{url = "*.azw3", fg = "yellow"},
 
-	# {mime = "application/zip",                fg = "magenta"},
+	# {mime = "application/zip",              fg = "magenta"},
 	# {mime = "application/7z-compressed",    fg = "magenta"},
 	# {mime = "application/rar",              fg = "magenta"},
-	# {mime = "image/*",                        fg = "yellow"},
-	# {mime = "audio/*",                        fg = "yellow"},
-	# {mime = "video/*",                        fg = "yellow"},
-	# {mime = "application/pdf",                fg = "yellow"},
-	# {mime = "application/epub+zip",           fg = "yellow"},
+	# {mime = "image/*",                      fg = "yellow"},
+	# {mime = "audio/*",                      fg = "yellow"},
+	# {mime = "video/*",                      fg = "yellow"},
+	# {mime = "application/pdf",              fg = "yellow"},
+	# {mime = "application/epub+zip",         fg = "yellow"},
 	# {mime = "application/mobipocket-ebook", fg = "yellow"},
 
 ]

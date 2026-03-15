@@ -91,13 +91,13 @@ keymap = [
 	{ on = "_",           run = "link --relative" },
 
 	# use path
-	{ on = [ "<space>", "<enter>" ], run = """ shell --block -- pick-yazi "$0" "$@" """ },
+	{ on = [ "<space>", "<enter>" ], run = """ shell --block -- pick-yazi %h %s """ },
 	{ on = "<enter>",                run = """ shell -- setsid -f $TERMINAL >/dev/null 2>&1 """ },
 	{ on = "x",                      run = """ shell --block -- lazygit """ },
 	{ on = "o",                      run = "open" },
 	{ on = "v",                      run = """ shell --block -- nvim """ },
 	{ on = [ "<space>", "d" ],       run = "plugin diff" },
-	{ on = [ "<space>", "o" ],       run = """ shell -- open-with-program "$@" """ },
+	{ on = [ "<space>", "o" ],       run = """ shell -- open-with-program %s """ },
 	{ on = [ "<space>", "y", "s" ],  run = "copy dirname" },
 	{ on = [ "<space>", "y", "g" ],  run = "copy filename" },
 	{ on = [ "<space>", "y", "." ],  run = "copy path" },

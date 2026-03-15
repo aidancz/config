@@ -12,16 +12,16 @@ max_height = 10000
 
 [opener]
 # default = [
-# 	{ run = 'xdg-open "$@"', block = true },
+# 	{ run = "xdg-open %s", block = true },
 # ]
 
-archive = [ { run = 'ouch decompress "$@"', block = true }, ]
-audio   = [ { run = 'mpv "$@"', block = true }, ]
-dir     = [ { run = 'nvim "$@"', block = true }, ]
-image   = [ { run = 'nsxiv -a "$@"' }, ]
-pdf     = [ { run = 'zathura "$@"' }, ]
-text    = [ { run = 'nvim "$@"', block = true }, ]
-video   = [ { run = 'mpv "$@"', block = true }, ]
+archive = [ { run = "ouch decompress %s", block = true }, ]
+audio   = [ { run = "mpv %s", block = true }, ]
+dir     = [ { run = "nvim %s", block = true }, ]
+image   = [ { run = "nsxiv -a %s" }, ]
+pdf     = [ { run = "zathura %s" }, ]
+text    = [ { run = "nvim %s", block = true }, ]
+video   = [ { run = "mpv %s", block = true }, ]
 
 [open]
 # rules = [
