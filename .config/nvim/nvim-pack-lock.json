@@ -20,6 +20,10 @@
       "rev": "c8543d72adf02a557722847c5d263171ec5c9bb4",
       "src": "https://github.com/h-hg/fcitx.nvim"
     },
+    "flatten.nvim": {
+      "rev": "72527798e75b5e34757491947c2cb853ce21dc0e",
+      "src": "https://github.com/willothy/flatten.nvim"
+    },
     "friendly-snippets": {
       "rev": "6cd7280adead7f586db6fccbd15d2cac7e2188b9",
       "src": "https://github.com/rafamadriz/friendly-snippets"

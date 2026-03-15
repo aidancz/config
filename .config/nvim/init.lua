@@ -142,7 +142,7 @@ do
 	-- require("_mini-tabline")
 	-- require("_mini-trailspace")
 	-- require("_outline_HACK1")
-	-- require("_buvvers")
+	require("_buvvers")
 	require("_whitespace")
 	require("statusline")
 
@@ -160,7 +160,8 @@ do
 	-- # plugin/**/*.{vim,lua}
 	-- :h load-plugins
 
-	require("_unnest")
+	-- require("_unnest")
+	require("_flatten")
 
 	-- require("_test")
 

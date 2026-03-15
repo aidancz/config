@@ -54,5 +54,5 @@ require("luaexec").add({
 	code = [[require("toggleterm").registry.yazi()]],
 	from = "toggleterm",
 	name = "yazi",
-	keys = {{"n", "x", "s", "i", "c", "t", "o"}, "<f2>s"},
+	keys = {{"n", "x", "s", "i", "c", "t", "o"}, "<f2>f"},
 })
