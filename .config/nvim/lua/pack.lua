@@ -2,6 +2,9 @@
 official doc first:
 :help vim.pack
 
+echasnovski blog:
+https://echasnovski.com/blog/2026-03-13-a-guide-to-vim-pack
+
 how echasnovski uses:
 https://github.com/echasnovski/nvim/blob/master/init.lua
 
