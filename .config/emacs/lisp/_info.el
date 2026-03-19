@@ -29,7 +29,8 @@
 (setq Info-use-header-line t)
 
 ;; (add-hook 'Info-mode-hook (lambda () (setq scroll-conservatively 0))) ; bad, change scroll-conservatively globally
-(add-hook 'Info-mode-hook (lambda () (setq-local scroll-conservatively 0)))
+;; (add-hook 'Info-mode-hook (lambda () (setq-local scroll-conservatively 0)))
+;; https://lists.gnu.org/archive/html/bug-gnu-emacs/2026-03/msg00277.html
 
 ;; (info "(info)Top") lists these commands:
 
