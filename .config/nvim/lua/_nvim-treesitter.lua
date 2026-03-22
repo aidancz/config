@@ -68,7 +68,7 @@ vim.treesitter.language.register("bash", {
 	"zsh",
 	"env",
 })
-vim.treesitter.language.register("ini", "conf")
+-- vim.treesitter.language.register("ini", "conf")
 vim.treesitter.language.register("markdown", "text")
 vim.treesitter.language.register("scheme", "lisp")
 

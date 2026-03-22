@@ -5,6 +5,7 @@ vim.pack.add({
 
 require("ts-comments").setup({
 	lang = {
+	-- NOTE: <treesitter lang> -> <cms>, not <filetype> -> <cms>
 		bash = "# %s",
 		lua = "-- %s",
 		scheme = { ";; %s", "; %s" },
@@ -13,8 +14,17 @@ require("ts-comments").setup({
 
 require("mini.comment").setup({
 	options = {
-		-- custom_commentstring = function(ref_position)
-		-- end,
+		custom_commentstring = function(ref_position)
+			local cms
+
+			cms = vim.bo.cms
+			if cms ~= "" then return cms end
+
+			cms = require("mini.comment").get_commentstring(ref_position)
+			if cms ~= "" then return cms end
+
+			return "? %s"
+		end,
 	},
 	mappings = {
 		comment = "<space>c",

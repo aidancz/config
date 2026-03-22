@@ -8,9 +8,12 @@ match-style=bggreen,black
 highlight-searches=Off # must after `match-style`
 
 nodeline=print
-hide-note-references=Off
+hide-note-references=On
 
 automatic-tiling=On
+
+scroll-behavior=Page Only
+cursor-movement-scrolls=On
 
 #info
 
@@ -34,17 +37,25 @@ q	invalid
 ^hx	describe-command
 ^hk	describe-key
 ^hv	describe-variable
-^ha	index-apropos
 ^hw	where-is
 
-j	global-next-node
-k	global-prev-node
-l	next-node
-h	prev-node
-.	up-node
+j	move-to-next-xref
+k	move-to-prev-xref
+l	select-reference-this-line
+h	up-node
+
+f	scroll-forward
+d	scroll-backward
+g	end-of-node
+s	beginning-of-node
+
+i	next-node
+e	prev-node
 w	history-node
-# o	history-node-forward
-# https://unix.stackexchange.com/questions/624966/moving-forward-in-history-in-gnu-info
+# o	history-node-forward # https://unix.stackexchange.com/questions/624966/moving-forward-in-history-in-gnu-info
+
+u	global-next-node
+r	global-prev-node
 \ g	last-node
 \ s	first-node
 \ t	top-node
@@ -56,28 +67,24 @@ w	history-node
 
 m	menu-item
 \ m	find-menu
-i	index-search
+x	xref-item
+
+c	index-search
 y	next-index-match
 # t	prev-index-match
 \ li	virtual-index
 \ la	index-apropos
-\t	xref-item
-u	move-to-next-xref
-r	move-to-prev-xref
-\r	select-reference-this-line
 
-f	scroll-forward
-d	scroll-backward
-g	end-of-node
-s	beginning-of-node
+^e	down-line
+^y	up-line
+^g	scroll-half-screen-down
+^s	scroll-half-screen-up
 \kD	scroll-other-window
 \kU	scroll-other-window-backward
 ^l	redraw-display # recenter
 
 \kh	beginning-of-line
-[	beginning-of-line
 \ke	end-of-line
-]	end-of-line
 M	move-to-window-line
 
 /	search # file level
@@ -88,13 +95,14 @@ S	search-case-sensitively
 R	toggle-regexp
 \ /	tree-search # tree level
 
-\ ww	next-window
-\ wW	prev-window
+\ wl	next-window
+\ wh	prev-window
 \ ws	split-window
 \ wc	delete-window
 \ wo	keep-one-window
 \ w+	grow-window
 \ w=	tile-windows
+\ ww	toggle-wrap
 \ wf	show-footnotes
 
 #echo-area

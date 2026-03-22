@@ -88,7 +88,7 @@ vim.o.relativenumber = true
 
 -- ## cursor
 
-vim.o.guicursor = ""
+vim.o.guicursor = "r:hor50" -- https://github.com/neovim/neovim/pull/37624
 
 -- vim.o.guicursor = "a:nofrils_red_bg"
 -- vim.api.nvim_create_augroup("option_fix_guicursor", {clear = true})
