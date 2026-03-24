@@ -3,6 +3,10 @@ vim.pack.add({
 	"https://github.com/folke/ts-comments.nvim",
 })
 
+local filetype = {
+	texinfo = "@c %s",
+}
+
 require("ts-comments").setup({
 	lang = {
 	-- NOTE: <treesitter lang> -> <cms>, not <filetype> -> <cms>
@@ -19,6 +23,9 @@ require("mini.comment").setup({
 
 			cms = vim.bo.cms
 			if cms ~= "" then return cms end
+
+			cms = filetype[vim.bo.ft]
+			if cms ~= nil then return cms end
 
 			cms = require("mini.comment").get_commentstring(ref_position)
 			if cms ~= "" then return cms end

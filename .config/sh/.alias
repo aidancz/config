@@ -10,7 +10,8 @@ alias du="du -h"
 alias mkdir="mkdir -p"
 # alias grep="grep --color=auto"
 # alias diff="diff --color=auto"
-alias man="man -a"
+# alias man="man -a"
+alias man="info"
 alias chez="chez ~/.schemerc"
 
 # * abbreviate long command
