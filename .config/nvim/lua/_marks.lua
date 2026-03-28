@@ -18,5 +18,3 @@ require("marks").setup({
 	},
 	mappings = {}
 })
-
-require("nofrils").clear("^Mark")

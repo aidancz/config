@@ -67,8 +67,8 @@ require("telescope").setup({
 	},
 })
 
-vim.api.nvim_set_hl(0, "TelescopeMatching",  {link = "nofrils_blue"})
-vim.api.nvim_set_hl(0, "TelescopeSelection", {link = "nofrils_reverse"})
+nvim_set_hl(0, "TelescopeMatching",  {link = "nofrils_blue"})
+nvim_set_hl(0, "TelescopeSelection", {link = "nofrils_reverse"})
 
 require("telescope").load_extension("fzf")
 -- require("telescope").load_extension("ui-select")

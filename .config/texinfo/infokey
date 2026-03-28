@@ -77,8 +77,8 @@ y	next-index-match
 
 ^e	down-line
 ^y	up-line
-^g	scroll-half-screen-down
-^s	scroll-half-screen-up
+# ^g	scroll-half-screen-down
+# ^s	scroll-half-screen-up
 \kD	scroll-other-window
 \kU	scroll-other-window-backward
 ^l	redraw-display # recenter

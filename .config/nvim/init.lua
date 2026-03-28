@@ -116,7 +116,7 @@ do
 
 	-- # global variable
 
-	require("_nofrils")
+	require("nofrils")
 	-- require("_catppuccin")
 	require("option")
 	require("vim_runtime")

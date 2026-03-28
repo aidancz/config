@@ -83,19 +83,20 @@ vim.treesitter.language.register("scheme", "lisp")
 -- )
 
 -- ## treesitter-highlight-groups
+-- `:h treesitter-highlight-groups`
 
-vim.api.nvim_set_hl(0, "@comment",          {link = "nofrils_blue"})
-vim.api.nvim_set_hl(0, "@diff.delta",       {link = "nofrils_yellow"})
-vim.api.nvim_set_hl(0, "@diff.minus",       {link = "nofrils_red"})
-vim.api.nvim_set_hl(0, "@diff.plus",        {link = "nofrils_green"})
-vim.api.nvim_set_hl(0, "@markup.heading.1", {link = "nofrils_red"})
-vim.api.nvim_set_hl(0, "@markup.heading.2", {link = "nofrils_red"})
-vim.api.nvim_set_hl(0, "@markup.heading.3", {link = "nofrils_red"})
-vim.api.nvim_set_hl(0, "@markup.heading.4", {link = "nofrils_red"})
-vim.api.nvim_set_hl(0, "@markup.heading.5", {link = "nofrils_red"})
-vim.api.nvim_set_hl(0, "@markup.heading.6", {link = "nofrils_red"})
-vim.api.nvim_set_hl(0, "@markup.link",      {link = "nofrils_cyan"})
-vim.api.nvim_set_hl(0, "@markup.raw",       {link = "nofrils_blue"})
+nvim_set_hl(0, "@comment",          {link = "nofrils_blue"})
+nvim_set_hl(0, "@diff.delta",       {link = "nofrils_yellow"})
+nvim_set_hl(0, "@diff.minus",       {link = "nofrils_red"})
+nvim_set_hl(0, "@diff.plus",        {link = "nofrils_green"})
+nvim_set_hl(0, "@markup.heading.1", {link = "nofrils_red"})
+nvim_set_hl(0, "@markup.heading.2", {link = "nofrils_red"})
+nvim_set_hl(0, "@markup.heading.3", {link = "nofrils_red"})
+nvim_set_hl(0, "@markup.heading.4", {link = "nofrils_red"})
+nvim_set_hl(0, "@markup.heading.5", {link = "nofrils_red"})
+nvim_set_hl(0, "@markup.heading.6", {link = "nofrils_red"})
+nvim_set_hl(0, "@markup.link",      {link = "nofrils_cyan"})
+nvim_set_hl(0, "@markup.raw",       {link = "nofrils_blue"})
 
 -- ## enable
 

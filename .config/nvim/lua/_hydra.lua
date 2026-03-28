@@ -135,8 +135,8 @@ require("hydra").add = function(opts)
 	require("hydra")(opts)
 end
 
-vim.api.nvim_set_hl(0, "HydraRed",      {link = "nofrils_red"})
-vim.api.nvim_set_hl(0, "HydraBlue",     {link = "nofrils_blue"})
-vim.api.nvim_set_hl(0, "HydraAmaranth", {link = "nofrils_magenta"})
-vim.api.nvim_set_hl(0, "HydraTeal",     {link = "nofrils_cyan"})
-vim.api.nvim_set_hl(0, "HydraPink",     {link = "nofrils_green"})
+nvim_set_hl(0, "HydraRed",      {link = "nofrils_red"})
+nvim_set_hl(0, "HydraBlue",     {link = "nofrils_blue"})
+nvim_set_hl(0, "HydraAmaranth", {link = "nofrils_magenta"})
+nvim_set_hl(0, "HydraTeal",     {link = "nofrils_cyan"})
+nvim_set_hl(0, "HydraPink",     {link = "nofrils_green"})

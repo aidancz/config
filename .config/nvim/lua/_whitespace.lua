@@ -31,10 +31,10 @@ require("whitespace").setup({
 	},
 })
 
-vim.api.nvim_set_hl(0, "space",      {link = "nofrils_blue_bg"})
-vim.api.nvim_set_hl(0, "tab",        {link = "nofrils_yellow_bg"})
-vim.api.nvim_set_hl(0, "multispace", {link = "nofrils_magenta_bg"})
-vim.api.nvim_set_hl(0, "trail",      {link = "nofrils_red_bg"})
+nvim_set_hl(0, "space",      {link = "nofrils_blue_bg"})
+nvim_set_hl(0, "tab",        {link = "nofrils_yellow_bg"})
+nvim_set_hl(0, "multispace", {link = "nofrils_magenta_bg"})
+nvim_set_hl(0, "trail",      {link = "nofrils_red_bg"})
 
 vim.keymap.set(
 	{"n", "x", "i"},

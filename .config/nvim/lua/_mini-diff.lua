@@ -23,8 +23,8 @@ require("mini.diff").setup({
 	},
 })
 
-vim.api.nvim_set_hl(0, "MiniDiffOverChange", {link = "nofrils_yellow"})
-vim.api.nvim_set_hl(0, "MiniDiffOverContext", {link = "nofrils_default"})
+nvim_set_hl(0, "MiniDiffOverChange", {link = "nofrils_yellow"})
+nvim_set_hl(0, "MiniDiffOverContext", {link = "nofrils_default"})
 
 require("luaexec").add({
 	code = [[require("mini.diff").goto_hunk("prev")]],
