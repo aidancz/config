@@ -21,7 +21,7 @@ s goto-line
 / forw-search
 ? back-search
 n repeat-search
-t reverse-search
+b reverse-search
 
 # d forw-scroll
 # u back-scroll

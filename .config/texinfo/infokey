@@ -5,7 +5,8 @@ key-time=0
 link-style=cyan
 active-link-style=bgcyan,black
 match-style=bggreen,black
-highlight-searches=Off # must after `match-style`
+highlight-searches=Off
+# must after `match-style`
 
 nodeline=print
 hide-note-references=On
@@ -14,6 +15,8 @@ automatic-tiling=On
 
 scroll-behavior=Page Only
 cursor-movement-scrolls=On
+
+infopath-no-defaults=On
 
 #info
 

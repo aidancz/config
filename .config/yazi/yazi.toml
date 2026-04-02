@@ -30,6 +30,8 @@ video   = [ { run = "mpv %s", block = true }, ]
 # ]
 rules = [
 	{ url = "*/", use = "dir" },
+
+	{ url = "**/dir", use = "info" },
 	{ url = "*.info", use = "info" },
 
 	{ mime = "application/pdf", use = "pdf" },
@@ -51,6 +53,9 @@ prepend_fetchers = [
 append_fetchers = [
 ]
 prepend_previewers = [
+	{url = "**/dir", run = 'piper -- cat "$1"'},
+	{url = "*.info", run = 'piper -- cat "$1"'},
+
 	{mime = "text/diff",              run = 'code'},
 	{mime = "text/*",                 run = 'piper -- cat "$1"'},
 	{mime = "application/javascript", run = 'piper -- cat "$1"'},

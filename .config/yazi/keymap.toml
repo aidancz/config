@@ -95,7 +95,7 @@ keymap = [
 	{ on = "<enter>",                run = """ shell -- setsid -f $TERMINAL >/dev/null 2>&1 """ },
 	{ on = "x",                      run = """ shell --block -- lazygit """ },
 	{ on = "o",                      run = "open" },
-	{ on = "v",                      run = """ shell --block -- nvim """ },
+	{ on = "v",                      run = """ shell --block -- nvim %s """ },
 	{ on = [ "<space>", "d" ],       run = "plugin diff" },
 	{ on = [ "<space>", "o" ],       run = """ shell -- open-with-program %s """ },
 	{ on = [ "<space>", "y", "s" ],  run = "copy dirname" },

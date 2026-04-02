@@ -190,6 +190,9 @@ rules = [
 	{url = "*.mobi", fg = "yellow"},
 	{url = "*.azw3", fg = "yellow"},
 
+	{url = "**/dir", fg = "yellow"},
+	{url = "*.info", fg = "yellow"},
+
 	# {mime = "application/zip",              fg = "magenta"},
 	# {mime = "application/7z-compressed",    fg = "magenta"},
 	# {mime = "application/rar",              fg = "magenta"},
