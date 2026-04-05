@@ -1,3 +1,5 @@
+# https://github.com/jesseduffield/lazygit/tree/master/docs
+
 gui:
   scrollHeight: 8
   scrollPastBottom: false
@@ -22,6 +24,9 @@ git:
     - colorArg: always
       pager: diff-so-fancy
       useConfig: false
+  log:
+    showWholeGraph: false
+    # https://github.com/jesseduffield/lazygit/issues/5224
 quitOnTopLevelReturn: true
 customCommands:
   - key: C
@@ -49,7 +54,7 @@ keybinding:
     gotoTop: s
     startSearch: /
     nextMatch: n
-    prevMatch: t
+    prevMatch: b
     scrollDownMain: <pgdown>
     scrollUpMain: <pgup>
     createRebaseOptionsMenu: <disabled>

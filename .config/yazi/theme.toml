@@ -180,6 +180,9 @@ rules = [
 	{url = "*.zip",  fg = "magenta"},
 	{url = "*.7z",   fg = "magenta"},
 	{url = "*.rar",  fg = "magenta"},
+	{url = "*.tar",  fg = "magenta"},
+	{url = "*.gz",   fg = "magenta"},
+
 	{url = "*.jpg",  fg = "yellow"},
 	{url = "*.png",  fg = "yellow"},
 	{url = "*.mp3",  fg = "yellow"},
@@ -191,7 +194,7 @@ rules = [
 	{url = "*.azw3", fg = "yellow"},
 
 	{url = "**/dir", fg = "yellow"},
-	{url = "*.info", fg = "yellow"},
+	{url = "*.info*", fg = "yellow"},
 
 	# {mime = "application/zip",              fg = "magenta"},
 	# {mime = "application/7z-compressed",    fg = "magenta"},
