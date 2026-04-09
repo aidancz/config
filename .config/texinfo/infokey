@@ -9,7 +9,7 @@ highlight-searches=Off
 # must after `match-style`
 
 nodeline=print
-hide-note-references=On
+hide-note-references=Off
 
 automatic-tiling=On
 
@@ -73,8 +73,8 @@ m	menu-item
 x	xref-item
 
 c	index-search
-y	next-index-match
-# t	prev-index-match
+]	next-index-match
+# [	prev-index-match
 \ li	virtual-index
 \ la	index-apropos
 

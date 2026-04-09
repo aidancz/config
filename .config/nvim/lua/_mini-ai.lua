@@ -122,7 +122,7 @@ local config =
 		goto_left  = "<plug>(miniai_goto_left)",
 	},
 	n_lines = 1024,
-	search_method = "cover_or_next",
+	search_method = "cover",
 }
 
 -- ## define extend

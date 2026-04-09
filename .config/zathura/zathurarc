@@ -9,30 +9,38 @@ set recolor-lightcolor "#2b2b2b"
 
 map <F1> quit
 
-map j navigate next
-map k navigate previous
-map l zoom in
-map h zoom out
-map u zoom default
-map i adjust_window best-fit
-map a adjust_window width
-map o jumplist backward
-map x jumplist forward
-map ej goto bottom
-map ek goto top
-map <C-j> bisect forward
-map <C-k> bisect backward
-
-map m follow
+map j zoom out
+map k zoom in
+map l adjust_window best-fit
+map h zoom default
 
 map f scroll full-down
 map d scroll full-up
 map g scroll page-bottom
 map s scroll page-top
 
-map v toggle_page_mode
+map a adjust_window width
+
+# map <Space>g goto bottom
+# map <Space>s goto top
+map ig goto bottom
+map is goto top
+
+map <C-w> jumplist backward
+map <C-o> jumplist forward
+map <C-j> bisect forward
+map <C-k> bisect backward
+
+map m follow
+# map <Space>d toggle_page_mode
+map id toggle_page_mode
+
+map n search forward
+map b search backward
 
 # map e scroll down
 # map y scroll up
 # map d scroll half-down
 # map u scroll half-up
+# map j navigate next
+# map k navigate previous

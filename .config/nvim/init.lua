@@ -160,6 +160,7 @@ do
 	-- # plugin/**/*.{vim,lua}
 	-- :h load-plugins
 
+	-- require("_info")
 	-- require("_unnest")
 	require("_flatten")
 

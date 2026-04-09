@@ -436,6 +436,10 @@ vim.keymap.set("n", "Y", "<nop>")
 
 vim.keymap.set({"n", "x"}, "e", "d")
 
+-- ## replace
+
+vim.keymap.set({"n", "x"}, ",", "r")
+
 -- ## (undotree (next prev)) undo and redo
 
 vim.keymap.set({"n", "x"}, "<plug>(redrawstatus)", function() vim.cmd("redrawstatus") end)
