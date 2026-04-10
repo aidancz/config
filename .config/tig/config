@@ -1,0 +1,71 @@
+# https://github.com/jonas/tig/blob/master/tigrc
+# https://github.com/Daghall/dotfiles/blob/master/.tigrc
+
+# * color
+
+color default       white black
+color cursor        black white
+color cursor-blur   blue  black underline
+color title-focus   black white
+color title-blur    blue  black
+color search-result black yellow
+
+# * set
+
+set refresh-mode = periodic
+set refresh-interval = 1
+# https://github.com/jonas/tig/issues/301
+# https://github.com/jonas/tig/issues/430
+
+set focus-child = yes
+set send-child-enter = no
+
+# * bind generic
+
+bind generic q none
+bind generic <Space> none
+
+bind generic <F1> quit
+
+bind generic j move-down
+bind generic k move-up
+bind generic l enter
+bind generic h view-close
+
+bind generic f scroll-page-down
+bind generic d scroll-page-up
+bind generic g move-last-line
+bind generic s move-first-line
+
+bind generic / search
+bind generic ? search-back
+bind generic n find-next
+bind generic b find-prev
+
+bind generic <Ctrl-f> scroll-half-page-down
+bind generic <Ctrl-d> scroll-half-page-up
+bind generic <Ctrl-j> next
+bind generic <Ctrl-k> previous
+bind generic o parent
+bind generic w back
+
+bind generic m        view-main
+bind generic i        view-diff
+bind generic <Space>l view-log
+bind generic <Space>r view-reflog
+bind generic t        view-tree
+bind generic <F2>e    view-blob
+bind generic <Space>b view-blame
+bind generic r        view-refs
+bind generic e        view-status
+bind generic c        view-stage
+bind generic y        view-stash
+bind generic <Space>g view-grep
+bind generic p        view-pager
+bind generic <Ctrl-h> view-help
+
+bind generic v edit
+bind generic : prompt
+bind generic <Ctrl-L> screen-redraw
+bind generic z stop-loading
+bind generic <Space>o options
