@@ -1,77 +1,76 @@
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ source
+# * source
+
 source "$HOME/.shrc"
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ prompt
+# * prompt
+
+# https://misc.flogisoft.com/bash/tip_colors_and_formatting
+# https://misc.flogisoft.com/bash/tip_customize_the_shell_prompt
+# https://stackoverflow.com/questions/16715103/bash-prompt-with-the-last-exit-code
+
 # PS1="(\$ \u \h \w) "
 # PS1="\e[1m(\$ \u \h \w) \e[0m"
 # PS1="\e[1m(\e[31m\$ \u \h \w) \e[0m"
 # PS1="\e[1m(\e[31m\$ \e[33m\u \h \w) \e[0m"
 # PS1="\e[1m(\e[31m\$ \e[33m\u \e[32m\h \e[34m\w) \e[0m"
 # PS1="\e[1m(\e[31m\$ \e[33m\u \e[32m\h \e[34m\w\e[39m) \e[0m"
-# PS1="\[\e[1m\](\[\e[31m\]\$ \[\e[33m\]\u \[\e[32m\]\h \[\e[34m\]\W\[\e[39m\]) \[\e[0m\]"
+# PS1="\[\e[1m\](\[\e[31m\]\$ \[\e[33m\]\u \[\e[32m\]\h \[\e[34m\]\w\[\e[39m\]) \[\e[0m\]"
 
-PS1="(\$ \u \h \W) "
+# PS1="\e[31mhello\e[0m "
+# # type something like asdfasdfasdfasdf and press <c-u>, some letters are not deleted, so we need:
+# PS1="\[\e[31m\]hello\[\e[0m\] "
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ map
+PS1="\[\e[34m\](\$ \h \u \w) \[\e[0m\]"
+
+# * key (can be inspected via: bind -X)
+
+# (info "(bash)Bash Builtins")
 # https://stackoverflow.com/questions/8366450/complex-keybinding-in-bash
 # https://stackoverflow.com/questions/4200800/in-bash-how-do-i-bind-a-function-key-to-a-command
 
-bind -m vi-insert  -x '"\eOP":setsid -f $TERMINAL >/dev/null 2>&1'
-bind -m vi-command -x '"\eOP":setsid -f $TERMINAL >/dev/null 2>&1'
-# \eOP is keycode for function key f1
+# bind "set show-mode-in-prompt on"
+# 2026-04-13 wo cao
 
-bind -m vi-insert  '"\eOQ":"\ecc\C-d"'
-bind -m vi-command '"\eOQ":"\ecc\C-d"'
-# \eOQ is keycode for function key f2
+bind '"\C-x\C-e": edit-and-execute-command'
 
-# bind -m vi-insert  '"\ef":"\ecccd $(dirname $(fzf))\n"'
-# bind -m vi-command '"\ef":"\ecccd $(dirname $(fzf))\n"'
-# # \ef is keycode for alt-f
+bind -x '"\eOP": exit'
+# <f1>
 
-# # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ lfcd
-# # lfcd () {
-# lfubcd () {
-#     tmp="$(mktemp -uq)"
-#     trap 'rm -f $tmp >/dev/null 2>&1 && trap - HUP INT QUIT TERM PWR EXIT' HUP INT QUIT TERM PWR EXIT
-#     # lf -last-dir-path="$tmp" "$@"
-#     lfub -last-dir-path="$tmp" "$@"
-#     if [ -f "$tmp" ]; then
-#         dir="$(cat "$tmp")"
-#         [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
-#     fi
-# }
-# bind -m vi-insert  '"\eOR":"\ecclfubcd\n"'
-# bind -m vi-command '"\eOR":"\ecclfubcd\n"'
-# # \eOR is keycode for function key f3
-# # \e cc lfubcd \n
+bind -x '"\eOQ\r": setsid -f $TERMINAL >/dev/null 2>&1'
+# <f2><cr>
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ yy
-function yy() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-	yazi "$@" --cwd-file="$tmp"
-	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		cd -- "$cwd"
+eval "$(zoxide init bash)"
+bind -x '"\eOQw": __zoxide_zi; kill -INT $$'
+# <f2>w
+# https://superuser.com/questions/1662055/how-to-bind-x-keyboard-shortcut-and-refresh-prompt
+
+fzf_cd() {
+	local p
+	# p means path
+	p="$(fzf --no-multi --query="$1")"
+	if [ -d "$p" ]; then
+		p="$p"
+	else
+		p="$(dirname "$p")"
 	fi
+	cd "$p"
+}
+bind -x '"\eOQe": fzf_cd; kill -INT $$'
+# <f2>e
+
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
 	rm -f -- "$tmp"
 }
-bind -m vi-insert  '"\eOR":"\eccyy\n"'
-bind -m vi-command '"\eOR":"\eccyy\n"'
-# \eOR is keycode for function key f3
-# \e cc yy \n
+bind -x '"\eOQf": y; kill -INT $$'
+# <f2>f
+# https://yazi-rs.github.io/docs/quick-start#shell-wrapper
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ official shell integration
-eval "$(zoxide init bash --no-cmd)"
-alias e='__zoxide_z'
-alias ei='__zoxide_zi'
+bind -x '"\eOQv": nvim'
+# <f2>v
 
-function fzf_cd() {
-	local path
-	path=$(fzf +m -q "$1")
-	if [ -d "$path" ]; then
-		path="$path"
-	else
-		path=$(dirname "$path")
-	fi
-	cd "$path"
-}
-alias i='fzf_cd'
+bind -x '"\eOQx": tig'
+# <f2>v

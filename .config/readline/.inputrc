@@ -1,34 +1,51 @@
+# (info "(readline)Command Line Editing")
+# (info "(bash)Command Line Editing")
 # https://wiki.archlinux.org/title/readline
+
+# * /etc/inputrc
+
 $include /etc/inputrc
 
+# * variable (can be inspected in bash via: bind -v / bind -V)
 
+set editing-mode emacs
+set keyseq-timeout 0
 
-set editing-mode vi
-set keyseq-timeout 10
-# set show-mode-in-prompt on
-set show-all-if-unmodified on
+set echo-control-characters on
 set show-all-if-ambiguous on
-# set echo-control-characters off
+set show-all-if-unmodified on
+set show-mode-in-prompt off
 
+set enable-active-region on
+set active-region-start-color \e[44;30m
+# \e[44m blue_bg
+# \e[30m black_fg
+set active-region-end-color \e[49;39m
+# \e[49m default_bg
+# \e[30m default_fg
 
+set isearch-terminators \C-j
 
-$if mode=vi
+# * key (can be inspected in bash via: bind -p / bind -P)
 
-set keymap vi-command
-# these are for vi-command mode:
+"\C-x\C-t": "readline"
+# press C-x C-t, if "readline" is inserted: the current environment is readline
+
+"\ex": execute-named-command
+
+"\e ": set-mark
+"\ew": copy-region-as-kill
+"\C-x\C-w": kill-region
+
+"\C-p": previous-history
+"\C-n": next-history
+
 "\e[A": history-search-backward
 "\e[B": history-search-forward
-j: history-search-forward
-k: history-search-backward
 
-set keymap vi-insert
-# these are for vi-insert mode:
-"\e[A": history-search-backward
-"\e[B": history-search-forward
+"\C-xr": redraw-current-line
+"\C-x\C-r": re-read-init-file
 
-"\C-l": clear-screen
-"\C-a": beginning-of-line
-"\C-e": end-of-line
-"\C-k": kill-line
-
-$endif
+# "\C-x\C-e": edit-and-execute-command
+# "edit-and-execute-command" is bash-specific
+# this file should contain only general readline commands
