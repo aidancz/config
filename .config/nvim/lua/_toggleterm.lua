@@ -18,6 +18,8 @@ require("toggleterm").registry = {}
 
 -- # lazygit
 
+--[=[
+
 local lazygit = require("toggleterm.terminal").Terminal:new({
 	cmd = "lazygit",
 	-- hidden = true,
@@ -38,6 +40,8 @@ require("luaexec").add({
 	keys = {{"n", "x", "s", "i", "c", "t", "o"}, "<f2>x"},
 })
 
+--]=]
+
 -- # yazi
 
 local yazi = require("toggleterm.terminal").Terminal:new({
@@ -55,4 +59,23 @@ require("luaexec").add({
 	from = "toggleterm",
 	name = "yazi",
 	keys = {{"n", "x", "s", "i", "c", "t", "o"}, "<f2>f"},
+})
+
+-- # tig
+
+local tig = require("toggleterm.terminal").Terminal:new({
+	cmd = "tig",
+	-- on_close = function()
+	-- 	vim.cmd("checktime")
+	-- end,
+})
+require("toggleterm").registry.tig = function()
+	tig:toggle()
+end
+
+require("luaexec").add({
+	code = [[require("toggleterm").registry.tig()]],
+	from = "toggleterm",
+	name = "tig",
+	keys = {{"n", "x", "s", "i", "c", "t", "o"}, "<f2>t"},
 })

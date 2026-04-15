@@ -93,7 +93,7 @@ keymap = [
 	# use path
 	{ on = [ "<space>", "<enter>" ], run = """ shell --block -- pick-yazi %h %s """ },
 	{ on = "<enter>",                run = """ shell -- setsid -f $TERMINAL >/dev/null 2>&1 """ },
-	{ on = "x",                      run = """ shell --block -- lazygit """ },
+	{ on = "t",                      run = """ shell --block -- tig """ },
 	{ on = "o",                      run = "open" },
 	{ on = "v",                      run = """ shell --block -- nvim %s """ },
 	{ on = [ "<space>", "d" ],       run = "plugin diff" },

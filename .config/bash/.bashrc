@@ -72,5 +72,5 @@ bind -x '"\eOQf": y; kill -INT $$'
 bind -x '"\eOQv": nvim'
 # <f2>v
 
-bind -x '"\eOQx": tig'
-# <f2>v
+bind -x '"\eOQt": tig'
+# <f2>t

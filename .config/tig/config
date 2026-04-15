@@ -71,3 +71,5 @@ bind generic : prompt
 bind generic <Ctrl-l> screen-redraw
 bind generic z stop-loading
 bind generic <Space>o options
+
+# * bind status
