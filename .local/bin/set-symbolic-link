@@ -58,6 +58,8 @@ done
 
 mkdir -p "$XDG_CACHE_HOME"
 
+mkdir -p "$XDG_CACHE_HOME/schemesh"
+
 # * XDG_DATA_HOME
 
 mkdir -p "$XDG_DATA_HOME"
