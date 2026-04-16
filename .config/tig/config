@@ -12,18 +12,27 @@ color search-result black yellow
 
 # * set
 
-set refresh-mode = periodic
-set refresh-interval = 1
+set main-view = line-number:no,interval=5 id:yes date:default,format="%Y-%m-%d" author:full committer:no commit-title:yes,graph,refs,overflow=no
+set tree-view = line-number:no,interval=5 mode author:full committer:no file-size date:default,format="%Y-%m-%d" id:yes file-name
+
+set refresh-mode = auto # periodic may swallow jk in status view
+# set refresh-interval = 1
 # https://github.com/jonas/tig/issues/301
 # https://github.com/jonas/tig/issues/430
 
 set focus-child = yes
 set send-child-enter = no
 
+set ignore-case = smart-case
+
 # * bind generic
 
 bind generic q none
+bind generic m none
+bind generic C none
 bind generic <Space> none
+bind generic <Enter> none
+bind generic <Del> none
 bind generic <Ctrl-l> none
 bind generic <Ctrl-d> none
 
@@ -50,19 +59,20 @@ bind generic <Ctrl-j> next
 bind generic <Ctrl-k> previous
 bind generic o parent
 bind generic w back
+bind generic r refresh
 
-bind generic m        view-main
+bind generic <Esc>    view-main
 bind generic i        view-diff
-bind generic <Space>l view-log
-bind generic <Space>r view-reflog
+bind generic <F2>l    view-log
+bind generic <F2>r    view-reflog
 bind generic t        view-tree
 bind generic <F2>e    view-blob
-bind generic <Space>b view-blame
-bind generic r        view-refs
+bind generic <F2>b    view-blame
+bind generic x        view-refs
 bind generic e        view-status
 bind generic c        view-stage
 bind generic y        view-stash
-bind generic <Space>g view-grep
+bind generic <F2>g    view-grep
 bind generic p        view-pager
 bind generic <Ctrl-h> view-help
 
@@ -70,6 +80,21 @@ bind generic v edit
 bind generic : prompt
 bind generic <Ctrl-l> screen-redraw
 bind generic z stop-loading
-bind generic <Space>o options
+bind generic . options
+
+bind generic <Enter>		@sh -c "setsid -f $TERMINAL >/dev/null 2>&1"
+
+bind generic <Space>y		@sh -c "echo -n %(commit) | xclip -selection c"
+# (info "tigrc")
+
+bind generic a			@git add --all
+
+bind generic <Del>r		@git restore :/
+bind generic <Del>c		@git clean -fdx
+bind generic <Del>x		@sh -c "git restore :/ ; git clean -fdx"
+bind generic <Del><Del><Del>	@sh -c "git reset --hard HEAD; sudo git clean -fdx"
+
+bind generic <Space>c		!git commit
+bind generic C			@git commit --allow-empty --allow-empty-message --message=
 
 # * bind status
