@@ -1,8 +1,30 @@
 enter_accept = true
+
+[search]
+
 [stats]
-[keys]
-scroll_exits = false
+
 [sync]
 records = true
+
+[dotfiles]
+enabled = false
+
+# [keys]
+# scroll_exits = false
+
+[keymap.emacs]
+"f1"     = "exit"
+"down"   = "select-next"
+"up"     = "select-previous"
+"right"  = "cursor-right"
+"left"   = "cursor-left"
+"ctrl-x" = "enter-prefix-mode"
+"ctrl-a" = "cursor-start"
+
 [preview]
+
 [daemon]
+
+[theme]
+name = "my-theme"

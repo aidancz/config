@@ -1,0 +1,12 @@
+[theme]
+name = "my-theme"
+
+[colors]
+AlertInfo  = "@blue"
+AlertWarn  = "@yellow"
+AlertError = "@red"
+Annotation = "@blue"
+Base       = "@white"
+Guidance   = "@blue"
+Important  = "@blue"
+Title      = "@blue"
