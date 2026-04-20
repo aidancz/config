@@ -162,6 +162,7 @@ do
 
 	-- require("_info")
 	-- require("_unnest")
+	-- require("_vim-rsi")
 	require("_flatten")
 
 	-- require("_test")
@@ -264,6 +265,7 @@ do
 	require("_nvim-treesitter-textobjects")
 	require("_operator")
 	require("_paramo")
+	require("_readline")
 	require("_sentiment")
 	require("_substitute")
 	require("_text-case")

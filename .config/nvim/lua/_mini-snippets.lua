@@ -196,14 +196,19 @@ require("mini.snippets").setup({
 		-- 	-- of course we can use `vim.tbl_map` instead
 		-- end,
 
-		require("mini.snippets").gen_loader.from_lang(),
+		require("mini.snippets").gen_loader.from_lang({
+			lang_patterns = {
+				markdown_inline = {"markdown.json"},
+				-- https://github.com/nvim-mini/mini.nvim/issues/2023
+			},
+		}),
 
 	},
 	mappings = {
-		expand = "<c-d>",
-		jump_next = "<c-f>",
-		jump_prev = "<c-b>",
-		stop = "<c-c>",
+		expand = "<f2>d",
+		jump_next = "<c-s>",
+		-- jump_prev = "<c-r>",
+		stop = "<esc>",
 	},
 	expand = {
 		-- select = select_minipick,

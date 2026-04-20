@@ -65,9 +65,9 @@ require("luaexec").add({
 
 local tig = require("toggleterm.terminal").Terminal:new({
 	cmd = "tig",
-	-- on_close = function()
-	-- 	vim.cmd("checktime")
-	-- end,
+	on_close = function()
+		vim.cmd("checktime")
+	end,
 })
 require("toggleterm").registry.tig = function()
 	tig:toggle()

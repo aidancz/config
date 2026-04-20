@@ -449,6 +449,10 @@ vim.keymap.set({"n", "x"}, "<del>", "<c-r><plug>(redrawstatus)")
 
 -- # {"i", "c"}
 
+-- ## insert the contents of a register
+
+-- vim.keymap.set("i", "<c-r>", "<nop>")
+
 -- ## digraph
 
 vim.keymap.set({"i", "c"}, "<f2>v", "<c-k>")

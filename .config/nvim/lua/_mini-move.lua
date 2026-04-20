@@ -21,22 +21,22 @@ require("mini.move").setup({
 require("luaexec").add({
 	code = [[require("mini.move").move_line("left")]],
 	from = "mini.move",
-	keys = {{"n", "i"}, "<c-h>"},
+	keys = {"n", "<c-h>"},
 })
 require("luaexec").add({
 	code = [[require("mini.move").move_line("right")]],
 	from = "mini.move",
-	keys = {{"n", "i"}, "<c-l>"},
+	keys = {"n", "<c-l>"},
 })
 require("luaexec").add({
 	code = [[require("mini.move").move_line("down")]],
 	from = "mini.move",
-	keys = {{"n", "i"}, "<c-j>"},
+	keys = {"n", "<c-j>"},
 })
 require("luaexec").add({
 	code = [[require("mini.move").move_line("up")]],
 	from = "mini.move",
-	keys = {{"n", "i"}, "<c-k>"},
+	keys = {"n", "<c-k>"},
 })
 
 require("luaexec").add({

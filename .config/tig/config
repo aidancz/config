@@ -15,6 +15,10 @@ color search-result black yellow
 set main-view = line-number:no,interval=5 id:yes date:default,format="%Y-%m-%d" author:full committer:no commit-title:yes,graph,refs,overflow=no
 set tree-view = line-number:no,interval=5 mode author:full committer:no file-size date:default,format="%Y-%m-%d" id:yes file-name
 
+set main-options = --all
+
+set start-on-head = yes
+
 set refresh-mode = auto # periodic may swallow jk in status view
 # set refresh-interval = 1
 # https://github.com/jonas/tig/issues/301
@@ -89,10 +93,10 @@ bind generic <Space>y		@sh -c "echo -n %(commit) | xclip -selection c"
 
 bind generic a			@git add --all
 
-bind generic <Del>r		@git restore :/
-bind generic <Del>c		@git clean -fdx
-bind generic <Del>x		@sh -c "git restore :/ ; git clean -fdx"
-bind generic <Del><Del><Del>	@sh -c "git reset --hard HEAD; sudo git clean -fdx"
+bind generic <Del>r		+?git restore :/
+bind generic <Del>c		+?git clean -fdx
+bind generic <Del>x		+?sh -c "git restore :/ ; git clean -fdx"
+bind generic <Del><Del><Del>	+?sh -c "git reset --hard HEAD; sudo git clean -fdx"
 
 bind generic <Space>c		!git commit
 bind generic C			@git commit --allow-empty --allow-empty-message --message=
