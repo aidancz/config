@@ -14,6 +14,11 @@ alias mkdir="mkdir -p"
 alias man="info"
 alias chez="chez ~/.schemerc"
 
+alias texi2any="texi2any \
+--set-customization-variable paragraphindent=asis \
+"
+# --set-customization-variable exampleindent=15 \
+
 # * abbreviate long command
 
 alias 1='setsid -f $TERMINAL >/dev/null 2>&1'

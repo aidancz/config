@@ -8,5 +8,5 @@ require("mini.bufremove").setup({
 require("luaexec").add({
 	code = [[require("mini.bufremove").delete()]],
 	from = "mini.bufremove",
-	keys = {"n", "<f13>"},
+	keys = {"n", "<f13>"}, -- <s-f1>
 })

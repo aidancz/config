@@ -207,8 +207,8 @@ require("mini.snippets").setup({
 	mappings = {
 		expand = "<f2>d",
 		jump_next = "<c-s>",
-		-- jump_prev = "<c-r>",
-		stop = "<esc>",
+		-- jump_prev = "<c-r>", -- https://github.com/nvim-mini/mini.nvim/discussions/2374
+		stop = "<c-esc>",
 	},
 	expand = {
 		-- select = select_minipick,
@@ -226,6 +226,19 @@ require("mini.snippets").setup({
 		end,
 	},
 })
+
+-- local make_stop = function()
+-- 	local au_opts = { pattern = "*:n", once = true }
+-- 	au_opts.callback = function()
+-- 		while MiniSnippets.session.get() do
+-- 			MiniSnippets.session.stop()
+-- 		end
+-- 	end
+-- 	vim.api.nvim_create_autocmd("ModeChanged", au_opts)
+-- end
+-- local opts = { pattern = "MiniSnippetsSessionStart", callback = make_stop }
+-- vim.api.nvim_create_autocmd("User", opts)
+-- -- :h mini.snippets, "Stop all sessions on Normal mode exit"
 
 -- # paste snippet in normal mode
 

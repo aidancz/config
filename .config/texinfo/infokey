@@ -9,7 +9,7 @@ highlight-searches=Off
 # must after `match-style`
 
 nodeline=print
-hide-note-references=Off
+hide-note-references=On
 
 automatic-tiling=On
 

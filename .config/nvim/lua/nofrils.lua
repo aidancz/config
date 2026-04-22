@@ -95,9 +95,9 @@ nvim_set_hl(0, "TermCursor", {})
 -- ## cursorline/cursorcolumn
 
 nvim_set_hl(0, "CursorLine",     {link = "nofrils_reverse"})
-nvim_set_hl(0, "CursorLineFold", {link = "nofrils_reverse"})
-nvim_set_hl(0, "CursorLineSign", {link = "nofrils_reverse"})
-nvim_set_hl(0, "CursorLineNr",   {link = "nofrils_reverse"})
+nvim_set_hl(0, "CursorLineFold", {})
+nvim_set_hl(0, "CursorLineSign", {})
+nvim_set_hl(0, "CursorLineNr",   {}) -- conflict with "statuscolumn"
 nvim_set_hl(0, "QuickFixLine",   {})
 nvim_set_hl(0, "CursorColumn",   {link = "nofrils_reverse"})
 

@@ -54,6 +54,8 @@ for i in *; do
 	ln -s "$PWD/$i"			"$HOME/.emacs.d/$i"
 done
 
+mkdir -p "$HOME/info"
+
 # * XDG_CACHE_HOME
 
 mkdir -p "$XDG_CACHE_HOME"
