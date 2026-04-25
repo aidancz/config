@@ -16,6 +16,15 @@ $0
 	{
 		body =
 [[
+@dircategory ${1:default}
+@direntry
+* $TM_FILENAME_BASE: ($TM_FILENAME_BASE).
+@end direntry]],
+		prefix = "dd",
+	},
+	{
+		body =
+[[
 @node ${1:name}
 @chapter $1]],
 		prefix = "nc",
