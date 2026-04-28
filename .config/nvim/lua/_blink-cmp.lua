@@ -1,15 +1,16 @@
 vim.pack.add({
 	{
 		src = "https://github.com/saghen/blink.cmp",
-		data = {
-			on_packchanged = function(ev)
-				local kind = ev.data.kind
-				local kinds = {"install", "update"}
-				if not vim.list_contains(kinds, kind) then return end
-				local path = ev.data.path
-				vim.system({"cargo", "build", "--release"}, {cwd = path}):wait()
-			end,
-		},
+		version = vim.version.range("1.*"),
+		-- data = {
+		-- 	on_packchanged = function(ev)
+		-- 		local kind = ev.data.kind
+		-- 		local kinds = {"install", "update"}
+		-- 		if not vim.list_contains(kinds, kind) then return end
+		-- 		local path = ev.data.path
+		-- 		vim.system({"cargo", "build", "--release"}, {cwd = path}):wait()
+		-- 	end,
+		-- },
 	},
 })
 
