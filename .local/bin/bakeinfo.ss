@@ -26,10 +26,6 @@
 (define diary-dir (shell-string {$AIDAN_CLOUD/archive/diary}))
 (define note-path (list note-dir diary-dir))
 
-(define notes
-  (sh-run/string-split-after-nuls
-    {find (values note-path) -mindepth 1 -maxdepth 1 -not -name ".*" -print0}))
-
 ;; example structure:
 ;; 	note-path
 ;; 	├── a.texi
@@ -49,6 +45,10 @@
 ;; 	this note form is called "plaintext"
 ;; 4. 2009
 ;; 	this note form is called "diary"
+
+(define notes
+  (sh-run/string-split-after-nuls
+    {find (values note-path) -mindepth 1 -maxdepth 1 -not -name ".*" -print0}))
 
 (define temp-dir "/tmp/bakeinfo")
 
@@ -185,14 +185,15 @@ w
 (define diary2info
   (lambda (diary)
     (let* ((diary-basename (basename diary))
-           (diary-file (string-append diary "/" diary-basename ".txt")))
+           (diary-file (string-append diary "/" diary-basename ".txt"))
+           (diary-file-basename (basename diary-file)))
       (if (file-regular? diary-file)
-        (let* ((temp-file (string-append temp-dir "/" diary-basename ".texi"))
+        (let* ((temp-file (string-append temp-dir "/" diary-file-basename ".texi"))
                (other-files (sh-run/string-split-after-nuls
-                              {find (values diary) -type f -not -name (basename diary-file) -print0}))
+                              {find (values diary) -type f -not -name (values diary-file-basename) -print0}))
                (chapter-files (filter utf8? other-files)))
           (diary2texi diary-file temp-file)
-          (for-each (lambda (chapter-file) (texi-prepend-chapter temp-file chapter-file)) chapter-files)
+          (for-each (lambda (chapter-file) (texi-prepend-chapter temp-file chapter-file)) (reverse chapter-files))
           (texi2info temp-file)
 )))))
 
