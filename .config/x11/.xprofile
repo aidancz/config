@@ -40,7 +40,7 @@ picom                             &
 dunst                             &
 unclutter                         &
 fcitx5                            &
-nutstore                          &
+# nutstore                          &
 
 set-keyboard                      &
 # `sleep` since xmodmap settings are reset by setxkbmap

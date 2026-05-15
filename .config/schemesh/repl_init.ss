@@ -45,5 +45,5 @@
 (linectx-keytable-insert! linectx-default-keytable
   (lambda (lctx)
     (vscreen-cursor-move/up! (linectx-vscreen lctx) 1))
-  "\x0e;")
+  "\x10;")
 ;; C-p

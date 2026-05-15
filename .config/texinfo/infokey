@@ -8,7 +8,7 @@ match-style=bggreen,black
 highlight-searches=Off
 # must after `match-style`
 
-nodeline=print
+nodeline=no
 hide-note-references=On
 
 automatic-tiling=On

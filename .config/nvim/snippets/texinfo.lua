@@ -46,6 +46,13 @@ $0
 	{
 		body =
 [[
+@node ${1:name}
+@subsubsection $1]],
+		prefix = "nsss",
+	},
+	{
+		body =
+[[
 @example ${1:lang}
 $0
 @end example]],

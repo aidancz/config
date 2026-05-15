@@ -94,6 +94,19 @@ M.query_registry.vim = vim.treesitter.query.parse(
 ]]
 )
 
+M.query_registry.scheme = vim.treesitter.query.parse(
+	"scheme",
+[[
+((comment) @h1 (#match? @h1 "^;; # "))
+((comment) @h2 (#match? @h2 "^;; ## "))
+((comment) @h3 (#match? @h3 "^;; ### "))
+((comment) @h4 (#match? @h4 "^;; #### "))
+
+; (list) @list
+(program (list) @list)
+]]
+)
+
 -- # buf_get_query
 
 M.buf_get_query = function(buf)

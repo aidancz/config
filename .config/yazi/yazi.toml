@@ -18,6 +18,7 @@ max_height = 10000
 archive = [ { run = "ouch decompress %s", block = true }, ]
 audio   = [ { run = "mpv %s", block = true }, ]
 dir     = [ { run = "nvim %s", block = true }, ]
+html    = [ { run = "firefox --new-window %s", block = true }, ]
 image   = [ { run = "nsxiv -a %s" }, ]
 info    = [ { run = "info %s", block = true }, ]
 pdf     = [ { run = "zathura %s" }, ]
@@ -38,7 +39,9 @@ rules = [
 	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", use = "archive" },
 	{ mime = "audio/*", use = "audio" },
 	{ mime = "image/*", use = "image" },
+	{ mime = "text/html", use = "html" },
 	{ mime = "video/*", use = "video" },
+
 
 	{ url = "*", use = "text" },
 ]
