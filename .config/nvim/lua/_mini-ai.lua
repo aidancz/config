@@ -216,10 +216,10 @@ extend({
 	["c"] = { "%f[\1-\8\14-\31\127][\1-\8\14-\31\127]+" }, -- control characters except {NUL HT LF VT FF CR}
 	-- separate ascii into several groups
 
-	["a"] = gen_spec_word("%a"),  -- %a  = %l + %u
-	["w"] = gen_spec_word("%w"),  -- %w  = %l + %u + %d
-	[" "] = gen_spec_word("%w_"), -- %w_ = %l + %u + %d + _
-	["g"] = gen_spec_word("%g"),  -- %g  = %l + %u + %d + %p
+	["a"] = gen_spec_word("%a"),     -- %a     = %l + %u
+	["w"] = gen_spec_word("%w"),     -- %w     = %l + %u + %d
+	[" "] = gen_spec_word("%w%_%-"), -- %w%_%- = %l + %u + %d + %_ + %- (%- matches a literal hyphen, because - normally defines a range inside a character class)
+	["g"] = gen_spec_word("%g"),     -- %g     = %l + %u + %d + %p
 
 	-- ["x"] = gen_spec_word("%x"), -- %x = {abcdefABCDEF} + %d
 	["x"] = require("mini.extra").gen_ai_spec.number(),

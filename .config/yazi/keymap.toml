@@ -36,6 +36,7 @@ keymap = [
 
 	{ on = [ "<space>", "h" ], run = "cd ~" },
 	{ on = [ "<space>", "s" ], run = """ shell -- ya emit cd "$(git rev-parse --show-toplevel)" """ },
+	{ on = [ "<space>", "l" ], run = "follow" },
 
 	# inspect
 	{ on = "<pagedown>", run = "seek 10" },
@@ -89,6 +90,7 @@ keymap = [
 	{ on = "p",           run = "paste" },
 	{ on = "-",           run = "link" },
 	{ on = "_",           run = "link --relative" },
+	{ on = "<c-->",       run = "hardlink" },
 
 	# use path
 	{ on = [ "<space>", "<enter>" ], run = """ shell --block -- pick-yazi %h %s """ },
