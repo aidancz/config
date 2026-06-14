@@ -36,7 +36,7 @@ keymap = [
 
 	{ on = [ "<space>", "h" ], run = "cd ~" },
 	{ on = [ "<space>", "s" ], run = """ shell -- ya emit cd "$(git rev-parse --show-toplevel)" """ },
-	{ on = [ "<space>", "l" ], run = "follow" },
+	{ on = "<c-l>", run = "follow" },
 
 	# inspect
 	{ on = "<pagedown>", run = "seek 10" },
