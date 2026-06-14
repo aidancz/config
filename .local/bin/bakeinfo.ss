@@ -301,8 +301,8 @@ w ~a
 
 (sh-run {mkdir -p (values info-dir)})
 
-(sh-run {rm -rf (shell-glob {/tmp/bakeinfo/*})})
-;; TODO: https://github.com/cosmos72/schemesh/issues/54
+(sh-run {rm -rf (wildcard #f (string-append temp-dir "/") '*)})
+;; https://github.com/cosmos72/schemesh/issues/54
 
 (for-each note2info notes)
 
