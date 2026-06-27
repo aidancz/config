@@ -1,6 +1,6 @@
 #!/usr/bin/env schemesh
 
-;; https://github.com/cosmos72/schemesh#shell-wildcards
+;; TODO: incremental compilation?
 
 ;; # help functions
 
@@ -299,10 +299,12 @@ w ~a
 
 (sh-run {mkdir -p (values temp-dir)})
 
-(sh-run {mkdir -p (values info-dir)})
-
 (sh-run {rm -rf (wildcard #f (string-append temp-dir "/") '*)})
 ;; https://github.com/cosmos72/schemesh/issues/54
+
+(sh-run {mkdir -p (values info-dir)})
+
+(sh-run {rm -rf (wildcard #f (string-append info-dir "/") '*)})
 
 (for-each note2info notes)
 
@@ -320,6 +322,7 @@ w ~a
 	    (string-append "--output=" info-dir) \
 	    (values texi-queue) \
 	  })
+	    ;; --set-customization-variable ASCII_DASHES_AND_QUOTES=0 \
 	    ;; --set-customization-variable INFO_MATH_IMAGES=1 \
 
 ;; # install info
