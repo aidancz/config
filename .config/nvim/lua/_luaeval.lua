@@ -37,7 +37,7 @@ require("luaexec").add({
 	code = [[require("luaeval").open()]],
 	from = "luaeval",
 	name = "window",
-	keys = {"n", "<cr>i"},
+	keys = {"n", "<f2><space>"},
 })
 
 require("luaexec").add({

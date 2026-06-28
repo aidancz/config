@@ -1,5 +1,41 @@
 vim.opt.runtimepath:prepend("~/sync_git/buvvers.nvim")
 
+vim.keymap.set(
+	-- {"n", "x", "s", "i", "c", "t", "o"},
+	{"n", "x", "s", "i", "c", "o"},
+	"<f1>",
+	function()
+		local is_not_floating_window = function(win)
+			return
+			vim.api.nvim_win_get_config(win).relative == ""
+		end
+		local win_current = vim.api.nvim_get_current_win()
+		local wins = vim.api.nvim_list_wins()
+		local wins_without_floating = vim.tbl_filter(is_not_floating_window, wins)
+		if
+			is_not_floating_window(win_current)
+			and
+			#wins_without_floating == 1
+		then
+			vim.cmd("q!")
+		end
+
+		if
+			is_not_floating_window(win_current)
+			and
+			#wins_without_floating == 2
+			and
+			require("buvvers").win_is_valid()
+		then
+			vim.cmd("qa!")
+		end
+
+		vim.cmd("close")
+	end
+)
+
+--[[
+
 vim.api.nvim_create_augroup("quit_win", {clear = true})
 vim.api.nvim_create_autocmd(
 	"WinClosed",
@@ -39,6 +75,8 @@ vim.api.nvim_create_autocmd(
 	}
 )
 -- HACK: https://github.com/nvim-tree/nvim-tree.lua/wiki/Auto-Close
+
+--]]
 
 require("buvvers").setup({
 	highlight_group_current_buffer = "nofrils_reverse",

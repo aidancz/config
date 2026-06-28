@@ -58,6 +58,8 @@ require("luaexec").add({
 	name = "history",
 })
 
+--[[
+
 -- # if yank/delete space chars to the unnamed register, prepend to the register instead of replace
 
 vim.api.nvim_create_augroup("yank_space_chars", {clear = true})
@@ -87,3 +89,5 @@ vim.api.nvim_create_autocmd(
 		end,
 	}
 )
+
+--]]

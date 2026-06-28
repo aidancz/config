@@ -27,8 +27,7 @@
     },
     "fzf-lua": {
       "rev": "69cc714be2d9386a68e79091e6197ddcc37db8db",
-      "src": "https://github.com/ibhagwan/fzf-lua",
-      "version": "'b51b97f~'"
+      "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "fzf-lua-enchanted-files": {
       "rev": "8c6b9790e9cec5a8213a384319b53c2b7435cd46",
@@ -126,6 +125,10 @@
       "rev": "c2b83cb19e4ac475f2b08aaf775afe3da19bc495",
       "src": "https://github.com/kevinhwang91/nvim-fundo"
     },
+    "nvim-neoclip.lua": {
+      "rev": "831a97c7697736411a05ff8b91e8798ea4c2d6fb",
+      "src": "https://github.com/AckslD/nvim-neoclip.lua"
+    },
     "nvim-treesitter": {
       "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter",
@@ -151,6 +154,10 @@
     "sentiment.nvim": {
       "rev": "2f27c307197052dbda8ebe94eae352b7de0f2053",
       "src": "https://github.com/ofseed/sentiment.nvim"
+    },
+    "sqlite.lua": {
+      "rev": "50092d60feb242602d7578398c6eb53b4a8ffe7b",
+      "src": "https://github.com/kkharji/sqlite.lua"
     },
     "substitute.nvim": {
       "rev": "0d2077398552f069abccbd964a26dd7cd26882cd",

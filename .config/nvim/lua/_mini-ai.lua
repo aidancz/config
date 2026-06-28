@@ -111,12 +111,12 @@ local config =
 	},
 	mappings = {
 		inside = "i",
-		around = "u",
+		around = "a",
 
 		inside_next = "in",
 		inside_last = "ib",
-		around_next = "un",
-		around_last = "ub",
+		around_next = "an",
+		around_last = "ab",
 
 		goto_right = "<plug>(miniai_goto_right)",
 		goto_left  = "<plug>(miniai_goto_left)",

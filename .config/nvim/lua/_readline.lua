@@ -14,3 +14,5 @@ vim.keymap.set({"i", "c"}, "<c-a>", require("readline").beginning_of_line)
 vim.keymap.set({"i", "c"}, "<c-e>", require("readline").end_of_line)
 
 vim.keymap.set({"i", "c"}, "<c-k>", require("readline").kill_line)
+
+vim.keymap.set({"i", "c"}, "<c-z>", "<c-o>u")

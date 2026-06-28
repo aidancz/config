@@ -12,9 +12,9 @@ require("mini.diff").setup({
 		text_change = 100,
 	},
 	mappings = {
-		apply = "ga",
-		reset = "gr",
-		textobject = "ah",
+		apply = "<space>ta",
+		reset = "<space>tr",
+		textobject = "ih",
 
 		goto_first = "",
 		goto_prev = "",

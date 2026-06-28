@@ -271,13 +271,13 @@ nvim_set_hl(0, "FzfLuaCursorLine", {link = "nofrils_reverse"})
 require("luaexec").add({
 	code = [[require("fzf-lua").builtin()]],
 	from = "fzf-lua",
-	keys = {"n", "s<cr>"},
+	keys = {"n", "<cr><f2>"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").resume()]],
 	from = "fzf-lua",
-	keys = {"n", "s<space>"},
+	keys = {"n", "<cr><space>"},
 })
 
 require("luaexec").add({
@@ -295,41 +295,41 @@ require("luaexec").add({
 require("luaexec").add({
 	code = [[require("fzf-lua").buffers()]],
 	from = "fzf-lua",
-	keys = {"n", "sl"},
+	keys = {"n", "<cr>b"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").helptags()]],
 	from = "fzf-lua",
-	keys = {"n", "sh"},
+	keys = {"n", "<cr>i"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").custom_history({histname = ":"})]],
 	from = "fzf-lua",
-	keys = {"n", "s:"},
+	keys = {"n", "<cr>:"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").custom_history({histname = "/"})]],
 	from = "fzf-lua",
-	keys = {"n", "s/"},
+	keys = {"n", "<cr>/"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").custom_history({histname = "?"})]],
 	from = "fzf-lua",
-	keys = {"n", "s?"},
+	keys = {"n", "<cr>?"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").blines()]],
 	from = "fzf-lua",
-	keys = {"n", "s."},
+	keys = {"n", "<cr>r"},
 })
 
 require("luaexec").add({
 	code = [[require("fzf-lua").lines()]],
 	from = "fzf-lua",
-	keys = {"n", "s,"},
+	keys = {"n", "<cr>u"},
 })

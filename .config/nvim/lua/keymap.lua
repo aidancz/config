@@ -23,8 +23,8 @@ vim.keymap.set({"n", "x", "s", "i", "c", "t", "o"}, "<f2>", "<nop>")
 
 vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
 vim.keymap.set({"n", "x", "o"}, "<cr>",    "<nop>")
--- vim.keymap.set({"n", "x", "o"}, "g",       "<nop>") -- breaks g@ in poorly written plugins
-vim.keymap.set({"n", "x", "o"}, "s",       "<nop>")
+-- vim.keymap.set({"n", "x", "o"}, "g",       "<nop>") -- breaks g@ in poorly written plugins, such as substitute.nvim
+-- vim.keymap.set({"n", "x", "o"}, "s",       "<nop>")
 
 -- ## bypass the <c-i> and <tab> conflict, etc
 
@@ -33,32 +33,32 @@ vim.keymap.set({"n", "x", "s", "i", "c", "t", "o"}, "<c-m>", "<c-m>")
 
 -- ## quit
 
-vim.keymap.set(
-	-- {"n", "x", "s", "i", "c", "t", "o"},
-	{"n", "x", "s", "i", "c", "o"},
-	"<f1>",
-	function()
-		local is_not_floating_window = function(win)
-			return
-			vim.api.nvim_win_get_config(win).relative == ""
-		end
-		local win_current = vim.api.nvim_get_current_win()
-		local wins = vim.api.nvim_list_wins()
-		local wins_without_floating = vim.tbl_filter(is_not_floating_window, wins)
-		if
-			is_not_floating_window(win_current)
-			and
-			#wins_without_floating == 1
-		then
-			vim.cmd("q!")
-		else
-			vim.cmd("close")
-		end
-	end
-)
--- after `:q`, vim quits if only help or preview windows remain, i don't want that,
--- so create this mapping, see `:h edit-window`
--- https://vi.stackexchange.com/questions/9479/what-is-the-difference-between-quit-and-close-commands
+-- vim.keymap.set(
+-- 	-- {"n", "x", "s", "i", "c", "t", "o"},
+-- 	{"n", "x", "s", "i", "c", "o"},
+-- 	"<f1>",
+-- 	function()
+-- 		local is_not_floating_window = function(win)
+-- 			return
+-- 			vim.api.nvim_win_get_config(win).relative == ""
+-- 		end
+-- 		local win_current = vim.api.nvim_get_current_win()
+-- 		local wins = vim.api.nvim_list_wins()
+-- 		local wins_without_floating = vim.tbl_filter(is_not_floating_window, wins)
+-- 		if
+-- 			is_not_floating_window(win_current)
+-- 			and
+-- 			#wins_without_floating == 1
+-- 		then
+-- 			vim.cmd("q!")
+-- 		else
+-- 			vim.cmd("close")
+-- 		end
+-- 	end
+-- )
+-- -- after `:q`, vim quits if only help or preview windows remain, i don't want that,
+-- -- so create this mapping, see `:h edit-window`
+-- -- https://vi.stackexchange.com/questions/9479/what-is-the-difference-between-quit-and-close-commands
 
 vim.keymap.set(
 	{"n", "x", "s", "i", "c", "t", "o"},
@@ -129,22 +129,20 @@ vim.keymap.set(
 
 -- ## (vert (next-final prev-final))
 
-vim.keymap.set({"n", "x", "o"}, "gg", "G")
-vim.keymap.set({"n", "x", "o"}, "ss", "gg")
-vim.keymap.set({"n", "x", "o"}, "G",  "G")
-vim.keymap.set({"n", "x", "o"}, "S",  "gg")
+vim.keymap.set({"n", "x", "o"}, "g", "G")
+vim.keymap.set({"n", "x", "o"}, "s", "gg")
 
 -- ## (hori (next-word^ prev-word^ next-word$ prev-word$)) (hori (next-WORD^ prev-WORD^ next-WORD$ prev-WORD$))
 
-vim.keymap.set({"n", "x", "o"}, "o", "w")
-vim.keymap.set({"n", "x", "o"}, "w", "b")
--- vim.keymap.set({"n", "x", "o"}, "eo", "e")
--- vim.keymap.set({"n", "x", "o"}, "ew", "ge")
+-- vim.keymap.set({"n", "x", "o"}, "", "w")
+-- vim.keymap.set({"n", "x", "o"}, "", "b")
+-- vim.keymap.set({"n", "x", "o"}, "", "e")
+-- vim.keymap.set({"n", "x", "o"}, "", "ge")
 
--- vim.keymap.set({"n", "x", "o"}, "vo", "W")
--- vim.keymap.set({"n", "x", "o"}, "mw", "B")
--- vim.keymap.set({"n", "x", "o"}, "veo", "E")
--- vim.keymap.set({"n", "x", "o"}, "mew", "gE")
+vim.keymap.set({"n", "x", "o"}, "o", "W")
+vim.keymap.set({"n", "x", "o"}, "w", "B")
+-- vim.keymap.set({"n", "x", "o"}, "", "E")
+-- vim.keymap.set({"n", "x", "o"}, "", "gE")
 
 -- ## (hori (next-final prev-final))
 
@@ -166,13 +164,13 @@ vim.keymap.set({"n", "x", "o"}, "[", "0")
 -- vim.keymap.set({"n", "x", "o"}, "b", function() return vim.v.searchforward == 1 and "N" or "n" end, {expr = true})
 -- -- https://vi.stackexchange.com/questions/2365/how-can-i-get-n-to-go-forward-even-if-i-started-searching-with-or
 
-vim.keymap.set({"n", "x", "o"}, "gn", "gn")
-vim.keymap.set({"n", "x", "o"}, "gb", "gN")
+vim.keymap.set({"n", "x", "o"}, "<space>n", "gn")
+vim.keymap.set({"n", "x", "o"}, "<space>b", "gN")
 
 -- ## (visual other-end)
 
 vim.keymap.set("x", "r", "o")
-vim.keymap.set("x", "R", "O")
+vim.keymap.set("x", "u", "O")
 
 -- ## (jumplist (next prev))
 
@@ -185,14 +183,12 @@ require("luaexec").add({
 	code = [[return "<cmd>cnext<cr>"]],
 	from = "quickfix",
 	name = "next",
-	keys = {{"n", "x"}, "gc"},
 })
 
 require("luaexec").add({
 	code = [[return "<cmd>cprevious<cr>"]],
 	from = "quickfix",
 	name = "prev",
-	keys = {{"n", "x"}, "gC"},
 })
 
 -- ## (buffer (next prev))
@@ -371,11 +367,13 @@ require("luaexec").add({
 	keys = {{"n", "x"}, "<space>w<"},
 })
 
--- ## (window (/ : ?))
+-- ## (window (/ : ? <))
 
-vim.keymap.set({"n", "x"}, "g/", "q/")
-vim.keymap.set({"n", "x"}, "g:", "q:")
-vim.keymap.set({"n", "x"}, "g?", "q?")
+vim.keymap.set({"n", "x"}, "<space>/", "q/")
+vim.keymap.set({"n", "x"}, "<space>:", "q:")
+vim.keymap.set({"n", "x"}, "<space>?", "q?")
+
+vim.keymap.set({"n", "x"}, "<cr>,", "g<")
 
 -- ## (tab (next prev))
 
@@ -383,14 +381,12 @@ require("luaexec").add({
 	code = [[return "gt"]],
 	from = "tab",
 	name = "next",
-	keys = {{"n", "x"}, "gt"},
 })
 
 require("luaexec").add({
 	code = [[return "gT"]],
 	from = "tab",
 	name = "prev",
-	keys = {{"n", "x"}, "gT"},
 })
 
 -- ## ban cc dd yy C D Y
@@ -405,32 +401,32 @@ vim.keymap.set("n", "Y", "<nop>")
 
 -- ## put
 
--- vim.keymap.set(
--- 	{"n", "x"},
--- 	"q",
--- 	function()
--- 		local regtype = vim.fn.getregtype(vim.v.register)
--- 		if regtype == "v" then
--- 			return "gP"
--- 		else
--- 			return "P"
--- 		end
--- 	end,
--- 	{expr = true}
--- )
--- vim.keymap.set(
--- 	{"n", "x"},
--- 	"p",
--- 	function()
--- 		local regtype = vim.fn.getregtype(vim.v.register)
--- 		if regtype == "v" then
--- 			return "gp"
--- 		else
--- 			return "p"
--- 		end
--- 	end,
--- 	{expr = true}
--- )
+vim.keymap.set(
+	{"n", "x"},
+	"q",
+	function()
+		local regtype = vim.fn.getregtype(vim.v.register)
+		if regtype == "v" then
+			return "gP"
+		else
+			return "P"
+		end
+	end,
+	{expr = true}
+)
+vim.keymap.set(
+	{"n", "x"},
+	"p",
+	function()
+		local regtype = vim.fn.getregtype(vim.v.register)
+		if regtype == "v" then
+			return "gp"
+		else
+			return "p"
+		end
+	end,
+	{expr = true}
+)
 
 -- ## delete
 

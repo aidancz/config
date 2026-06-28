@@ -13,10 +13,10 @@ require("mini.operators").setup({
 		prefix = "t",
 	},
 	replace = {
-		prefix = "",
+		prefix = "x",
 		reindent_linewise = false,
 	},
 	sort = {
-		prefix = "gs",
+		prefix = "<space>o",
 	},
 })

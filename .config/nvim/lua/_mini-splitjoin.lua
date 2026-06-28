@@ -4,6 +4,6 @@ vim.pack.add({
 
 require("mini.splitjoin").setup({
 	mappings = {
-		toggle = "gS",
+		toggle = "<space>p",
 	},
 })

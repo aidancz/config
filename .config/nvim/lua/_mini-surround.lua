@@ -13,12 +13,12 @@ local config =
 	},
 	highlight_duration = 500,
 	mappings = {
-		add         = "sa",
-		delete      = "se",
-		find        = "sn", -- TODO: nextprev
-		find_left   = "sb", -- TODO: nextprev
-		highlight   = "sv",
-		replace     = "sx",
+		add         = "<space>ra",
+		delete      = "<space>re",
+		find        = "<space>rn", -- TODO: nextprev
+		find_left   = "<space>rb", -- TODO: nextprev
+		highlight   = "<space>rv",
+		replace     = "<space>rx",
 
 		suffix_next = "n",
 		suffix_last = "b",

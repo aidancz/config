@@ -60,7 +60,7 @@ M.is_main_window = function(win)
 	vim.api.nvim_win_get_width(win) >= (vim.o.columns * 3/4)
 end
 
-M.assign_gutter = function()
+M.gutter_on = function()
 	for _, win in ipairs(vim.api.nvim_list_wins()) do
 		if M.is_exclusive_window(win) then
 			-- do nothing
@@ -72,21 +72,71 @@ M.assign_gutter = function()
 	end
 end
 
-vim.api.nvim_create_augroup("gutter", {clear = true})
-vim.api.nvim_create_autocmd(
-	{
-		-- "VimEnter",
-		-- "WinNew",
-		-- "WinClosed",
-		"WinResized",
-		"BufEnter",
-	},
-	{
-		group = "gutter",
-		callback = function()
-			M.assign_gutter()
-		end,
-	}
-)
+M.gutter_off = function()
+	for _, win in ipairs(vim.api.nvim_list_wins()) do
+		if M.is_exclusive_window(win) then
+			-- do nothing
+		elseif M.is_main_window(win) then
+			M.set_gutter0(win)
+		else
+			M.set_gutter0(win)
+		end
+	end
+end
+
+M.augroup = vim.api.nvim_create_augroup("gutter", {clear = true})
+
+M.autocmd_is_on = function()
+	local autocmds = vim.api.nvim_get_autocmds({group = M.augroup})
+	return not vim.tbl_isempty(autocmds)
+end
+
+M.autocmd_on = function()
+	if M.autocmd_is_on() then
+		-- do nothing
+	else
+		vim.api.nvim_create_autocmd(
+			{
+				-- "VimEnter",
+				-- "WinNew",
+				-- "WinClosed",
+				"WinResized",
+				"BufEnter",
+			},
+			{
+				group = "gutter",
+				callback = function()
+					M.gutter_on()
+				end,
+			}
+		)
+	end
+end
+
+M.autocmd_off = function()
+	if M.autocmd_is_on() then
+		vim.api.nvim_clear_autocmds({group = M.augroup})
+	else
+		-- do nothing
+	end
+end
+
+M.on = function()
+	M.gutter_on()
+	M.autocmd_on()
+end
+
+M.off = function()
+	M.autocmd_off()
+	M.gutter_off()
+end
+
+M.tog = function()
+	if M.autocmd_is_on() then
+		M.off()
+	else
+		M.on()
+	end
+end
 
 return M

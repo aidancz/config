@@ -207,7 +207,7 @@ require("mini.snippets").setup({
 	mappings = {
 		expand = "<f2>d",
 		jump_next = "<c-s>",
-		-- jump_prev = "<c-r>", -- https://github.com/nvim-mini/mini.nvim/discussions/2374
+		jump_prev = "<c-r>", -- https://github.com/nvim-mini/mini.nvim/discussions/2374
 		stop = "<c-esc>",
 	},
 	expand = {
@@ -293,5 +293,5 @@ end
 require("fzf-lua").custom_snippets(snippets, insert)
 ]=],
 	from = "mini.snippets",
-	keys = {"n", "sd"},
+	keys = {"n", "<cr><tab>"},
 })
