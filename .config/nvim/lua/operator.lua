@@ -168,6 +168,24 @@ end
 M.inspect = function(mode)
 	local ranges = M.get_operator_inclusive_ranges(mode)
 	vim.print(ranges)
+
+	local texts = {}
+	for _, range in ipairs(ranges) do
+		local pos_a = range[1]
+		local pos_b = M.pos_inclusive2exclusive(range[2])
+		local text
+		text = M.nvim_buf_get_text(
+			0,
+			pos_a[1],
+			pos_a[2],
+			pos_b[1],
+			pos_b[2],
+			{}
+		)
+		text = table.concat(text, "\n")
+		table.insert(texts, text)
+	end
+	vim.print(texts)
 end
 
 -- # operator: hl
@@ -430,6 +448,30 @@ M.comment_multiply = function(_)
 
 	vim.api.nvim_win_set_cursor(0, {pos10_b[1] + 1, 0})
 	vim.cmd("normal! _")
+end
+
+-- # operator: eval
+
+M.eval = function(mode)
+	local ranges = M.get_operator_inclusive_ranges(mode)
+	local texts = {}
+	for _, range in ipairs(ranges) do
+		local pos_a = range[1]
+		local pos_b = M.pos_inclusive2exclusive(range[2])
+		local text
+		text = M.nvim_buf_get_text(
+			0,
+			pos_a[1],
+			pos_a[2],
+			pos_b[1],
+			pos_b[2],
+			{}
+		)
+		text = table.concat(text, "\n")
+		table.insert(texts, text)
+	end
+	local chunk = table.concat(texts)
+	assert(load(chunk))()
 end
 
 -- # return

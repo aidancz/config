@@ -4,7 +4,7 @@ vim.pack.add({
 
 require("mini.operators").setup({
 	evaluate = {
-		prefix = "<space>e",
+		prefix = "",
 	},
 	exchange = {
 		prefix = "<space>x",
