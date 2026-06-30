@@ -264,7 +264,7 @@ end
 
 -- # highlight group
 
-nvim_set_hl(0, "FzfLuaCursorLine", {link = "nofrils_reverse"})
+vim.api.nvim_set_hl(0, "FzfLuaCursorLine", {link = "nofrils_reverse"})
 
 -- # luaexec
 
