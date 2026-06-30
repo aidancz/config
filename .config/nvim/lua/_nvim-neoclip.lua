@@ -7,6 +7,7 @@ vim.pack.add({
 require("neoclip").setup({
 	default_register = {[["]], [[*]], [[+]]},
 	enable_persistent_history = true,
+	enable_macro_history = false,
 })
 
 require("luaexec").add({

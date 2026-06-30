@@ -71,8 +71,9 @@ end
 
 require("paramo").gen_ai_spec = function(para)
 	local para_i = para
-	local para_a = require("paramo").gen_para_with_empty_heads(para)
-	-- local para_a = require("paramo").gen_para_with_empty_tails(para)
+
+	-- local para_a = require("paramo").gen_para_with_empty_heads(para)
+	local para_a = require("paramo").gen_para_with_empty_tails(para)
 
 	return
 	function(ai_type, id, opts)
@@ -111,12 +112,12 @@ local config =
 	},
 	mappings = {
 		inside = "i",
-		around = "a",
+		around = "u",
 
 		inside_next = "in",
 		inside_last = "ib",
-		around_next = "an",
-		around_last = "ab",
+		around_next = "un",
+		around_last = "ub",
 
 		goto_right = "<plug>(miniai_goto_right)",
 		goto_left  = "<plug>(miniai_goto_left)",
@@ -190,7 +191,7 @@ extend({
 
 -- ## extend(word)
 
-local gen_spec_word = function(chars)
+local gen_spec_word_with_leading_whitespace = function(chars)
 -- https://github.com/nvim-mini/mini.nvim/discussions/2251
 	-- return {
 	-- 	{
@@ -205,6 +206,18 @@ local gen_spec_word = function(chars)
 		},
 	}
 end
+
+local gen_spec_word_with_trailing_whitespace = function(chars)
+	-- return {
+	-- 	"()()%f[%w][%w]+()[ \t]*()",
+	-- }
+	return {
+		"()()%f[" .. chars .. "][" .. chars .. "]+()[ \t]*()",
+	}
+end
+
+-- local gen_spec_word = gen_spec_word_with_leading_whitespace
+local gen_spec_word = gen_spec_word_with_trailing_whitespace
 
 extend({
 	["l"] = gen_spec_word("%l"), -- lowercase letters
@@ -489,6 +502,72 @@ extend({
 
 require("mini.ai").setup(config)
 
+-- # require("mini.ai").find_textobject
+
+local H = {}
+H.get_config = function(config)
+	return vim.tbl_deep_extend("force", MiniAi.config, vim.b.miniai_config or {}, config or {})
+end
+H.get_default_opts = function()
+	local config = H.get_config()
+	local cur_pos = vim.api.nvim_win_get_cursor(0)
+	return {
+		n_lines = config.n_lines,
+		n_times = vim.v.count1,
+		-- Empty region at cursor position
+		reference_region = { from = { line = cur_pos[1], col = cur_pos[2] + 1 } },
+		search_method = config.search_method,
+	}
+end
+
+local find_textobject = require("mini.ai").find_textobject
+require("mini.ai").find_textobject = function(ai_type, id, opts)
+	opts = vim.tbl_deep_extend("force", H.get_default_opts(), opts or {})
+	if opts.search_method == "prev*" then
+		local region_cover = find_textobject(
+			ai_type,
+			id,
+			vim.tbl_deep_extend("force", opts, {search_method = "cover", n_times = 1})
+		)
+		if region_cover == nil then
+			return find_textobject(
+				ai_type,
+				id,
+				vim.tbl_deep_extend("force", opts, {search_method = "prev", n_times = opts.n_times})
+			)
+		else
+			if opts.n_times == 1 then return region_cover end
+			return find_textobject(
+				ai_type,
+				id,
+				vim.tbl_deep_extend("force", opts, {search_method = "prev", n_times = opts.n_times - 1})
+			)
+		end
+	end
+	if opts.search_method == "next*" then
+		local region_cover = find_textobject(
+			ai_type,
+			id,
+			vim.tbl_deep_extend("force", opts, {search_method = "cover", n_times = 1})
+		)
+		if region_cover == nil then
+			return find_textobject(
+				ai_type,
+				id,
+				vim.tbl_deep_extend("force", opts, {search_method = "next", n_times = opts.n_times})
+			)
+		else
+			if opts.n_times == 1 then return region_cover end
+			return find_textobject(
+				ai_type,
+				id,
+				vim.tbl_deep_extend("force", opts, {search_method = "next", n_times = opts.n_times - 1})
+			)
+		end
+	end
+	return find_textobject(ai_type, id, opts)
+end
+
 -- # require("mini.ai").make_ai_move_rhs
 
 -- https://github.com/nvim-mini/mini.nvim/issues/1093
@@ -511,7 +590,7 @@ require("mini.ai").make_ai_move_rhs = function(ask_id, side, search_method)
 			vim.inspect(search_method)
 		)
 		local cmd = string.format(
-			[[require("mini.ai").move_cursor(%s, "i", %s, %s)]],
+			[[require("mini.ai").move_cursor(%s, "a", %s, %s)]],
 			vim.inspect(side),
 			require("mini.ai").make_ai_move_rhs_id,
 			opts
@@ -520,10 +599,10 @@ require("mini.ai").make_ai_move_rhs = function(ask_id, side, search_method)
 	end
 end
 
-vim.keymap.set({"n", "x", "o"}, "<cr>j", require("mini.ai").make_ai_move_rhs(true, "left",  "next"), {expr = true})
-vim.keymap.set({"n", "x", "o"}, "<cr>k", require("mini.ai").make_ai_move_rhs(true, "left",  "prev"), {expr = true})
-vim.keymap.set({"n", "x", "o"}, "<cr>l", require("mini.ai").make_ai_move_rhs(true, "right", "next"), {expr = true})
-vim.keymap.set({"n", "x", "o"}, "<cr>h", require("mini.ai").make_ai_move_rhs(true, "right", "prev"), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "<cr>j", require("mini.ai").make_ai_move_rhs(true, "left",  "next"),  {expr = true})
+vim.keymap.set({"n", "x", "o"}, "<cr>k", require("mini.ai").make_ai_move_rhs(true, "left",  "prev*"), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "<cr>l", require("mini.ai").make_ai_move_rhs(true, "right", "next*"), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "<cr>h", require("mini.ai").make_ai_move_rhs(true, "right", "prev"),  {expr = true})
 
 require("luaexec").add({
 	code =
@@ -534,14 +613,14 @@ require("luaexec").add({
 })
 require("luaexec").add({
 	code =
-[[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_cache.is_repeat, "left",  "prev")()]],
+[[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_cache.is_repeat, "left",  "prev*")()]],
 	from = "miniai_goto_head",
 	name = "prev",
 	keys = {{"n", "x"}, "<cr>k"},
 })
 require("luaexec").add({
 	code =
-[[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_cache.is_repeat, "right", "next")()]],
+[[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_cache.is_repeat, "right", "next*")()]],
 	from = "miniai_goto_tail",
 	name = "next",
 	keys = {{"n", "x"}, "<cr>l"},

@@ -3,6 +3,6 @@ vim.pack.add({
 })
 
 require("textcase").setup({
-	default_keymappings_enabled = true,
+	default_keymappings_enabled = false,
 	prefix = "<space>u",
 })

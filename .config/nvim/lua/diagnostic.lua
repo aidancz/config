@@ -10,6 +10,16 @@ vim.diagnostic.config({
 	signs = {
 		priority = 10,
 	},
+	jump = {
+		on_jump = function(diagnostic, bufnr)
+		-- https://zenn.dev/yuys13/articles/nvim-012-diagnostic-on_jump
+			vim.diagnostic.open_float({
+				bufnr = bufnr,
+				scope = "cursor",
+				focus = false,
+			})
+		end,
+	},
 })
 
 nvim_set_hl(0, "DiagnosticError", {link = "nofrils_red"})
@@ -46,13 +56,13 @@ nvim_set_hl(0, "DiagnosticDeprecated",  {link = "nofrils_yellow"})
 nvim_set_hl(0, "DiagnosticUnnecessary", {link = "nofrils_yellow"})
 
 require("luaexec").add({
-	code = [[vim.diagnostic.jump({count = -1, float = true})]],
+	code = [[vim.diagnostic.jump({count = -1})]],
 	from = "diagnostic",
 	name = "prev",
 })
 
 require("luaexec").add({
-	code = [[vim.diagnostic.jump({count = 1, float = true})]],
+	code = [[vim.diagnostic.jump({count = 1})]],
 	from = "diagnostic",
 	name = "next",
 })

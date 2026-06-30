@@ -173,6 +173,17 @@ extend({
 	},
 })
 
+-- ## extend(lua vim.print)
+
+extend({
+	["p"] = {
+		output = {
+			left = "vim.print(",
+			right = ")",
+		},
+	},
+})
+
 -- ## setup(config)
 
 require("mini.surround").setup(config)

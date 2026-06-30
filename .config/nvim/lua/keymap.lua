@@ -17,14 +17,12 @@
 
 -- # {"n", "x", "s", "i", "c", "t", "o"}
 
--- ## leader keys themself should do nothing
+-- ## leader keys
 
 vim.keymap.set({"n", "x", "s", "i", "c", "t", "o"}, "<f2>", "<nop>")
 
-vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
+vim.keymap.set({"n", "x", "o"}, "<space>", "g")
 vim.keymap.set({"n", "x", "o"}, "<cr>",    "<nop>")
--- vim.keymap.set({"n", "x", "o"}, "g",       "<nop>") -- breaks g@ in poorly written plugins, such as substitute.nvim
--- vim.keymap.set({"n", "x", "o"}, "s",       "<nop>")
 
 -- ## bypass the <c-i> and <tab> conflict, etc
 
@@ -129,7 +127,7 @@ vim.keymap.set(
 
 -- ## (vert (next-final prev-final))
 
-vim.keymap.set({"n", "x", "o"}, "g", "G")
+vim.keymap.set({"n", "x", "o"}, "g", "G") -- breaks g@ in poorly written plugins, such as substitute.nvim
 vim.keymap.set({"n", "x", "o"}, "s", "gg")
 
 -- ## (hori (next-word^ prev-word^ next-word$ prev-word$)) (hori (next-WORD^ prev-WORD^ next-WORD$ prev-WORD$))
@@ -164,13 +162,10 @@ vim.keymap.set({"n", "x", "o"}, "[", "0")
 -- vim.keymap.set({"n", "x", "o"}, "b", function() return vim.v.searchforward == 1 and "N" or "n" end, {expr = true})
 -- -- https://vi.stackexchange.com/questions/2365/how-can-i-get-n-to-go-forward-even-if-i-started-searching-with-or
 
-vim.keymap.set({"n", "x", "o"}, "<space>n", "gn")
-vim.keymap.set({"n", "x", "o"}, "<space>b", "gN")
-
 -- ## (visual other-end)
 
-vim.keymap.set("x", "r", "o")
-vim.keymap.set("x", "u", "O")
+vim.keymap.set("x", "<bs>",  "o")
+vim.keymap.set("x", "<del>", "O")
 
 -- ## (jumplist (next prev))
 
@@ -438,10 +433,10 @@ vim.keymap.set({"n", "x"}, ",", "r")
 
 -- ## (undotree (next prev)) undo and redo
 
-vim.keymap.set({"n", "x"}, "<plug>(redrawstatus)", function() vim.cmd("redrawstatus") end)
+vim.keymap.set("n", "<plug>(redrawstatus)", function() vim.cmd("redrawstatus") end)
 
-vim.keymap.set({"n", "x"}, "<bs>",  "u<plug>(redrawstatus)")
-vim.keymap.set({"n", "x"}, "<del>", "<c-r><plug>(redrawstatus)")
+vim.keymap.set("n", "<bs>",  "u<plug>(redrawstatus)")
+vim.keymap.set("n", "<del>", "<c-r><plug>(redrawstatus)")
 
 -- # {"i", "c"}
 
