@@ -1,10 +1,30 @@
--- # clear definition of all existing highlight groups
+local M = {}
 
-for name, _ in pairs(vim.api.nvim_get_hl(0, {})) do
-	vim.api.nvim_set_hl(0, name, {})
+-- # M.clear
+
+M.clear = function(pattern)
+	for name, _ in pairs(vim.api.nvim_get_hl(0, {})) do
+	-- https://stackoverflow.com/questions/55108794/what-is-the-difference-between-pairs-and-ipairs-in-lua
+		if string.find(name, pattern) then
+			vim.api.nvim_set_hl(0, name, {})
+		end
+	end
 end
--- https://stackoverflow.com/questions/55108794/what-is-the-difference-between-pairs-and-ipairs-in-lua
 -- https://www.reddit.com/r/neovim/comments/144bkmu/set_all_highlight_groups_to_the_same_color/
+
+-- # clear existing highlight groups
+
+M.clear(".*")
+
+-- # clear future highlight groups
+
+-- highlight groups can be added later
+-- e.g. if you load "mini.test" after this script, the following highlight groups will be added:
+-- 	MiniTestEmphasis
+-- 	MiniTestFail
+-- 	MiniTestPass
+-- if you want to clear them, call:
+-- 	require("nofrils").clear("^MiniTest")
 
 -- # color palette when `termguicolors` is true
 
@@ -133,3 +153,7 @@ vim.api.nvim_set_hl(0, "Comment", {link = "nofrils_blue"})
 vim.api.nvim_set_hl(0, "Error",   {link = "nofrils_red_bg"})
 vim.api.nvim_set_hl(0, "Removed", {link = "nofrils_red"})
 vim.api.nvim_set_hl(0, "Special", {link = "nofrils_magenta"})
+
+-- # return
+
+return M

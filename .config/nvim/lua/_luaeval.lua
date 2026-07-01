@@ -1,4 +1,11 @@
 require("luaeval").setup({
+	win_opt = {
+		foldcolumn = "1",
+		signcolumn = "yes:2",
+		numberwidth = 3,
+		number = false,
+		relativenumber = true,
+	},
 	hook_bufadd = function()
 		vim.api.nvim_create_augroup("luaeval_config", {clear = true})
 

@@ -414,3 +414,6 @@ vim.opt.cpoptions:remove("_")
 
 -- vim.opt.cpoptions:append("u")
 -- undo
+
+vim.opt.cpoptions:append("y")
+-- dot-repeat yank

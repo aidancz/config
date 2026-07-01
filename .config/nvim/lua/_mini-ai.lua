@@ -224,7 +224,7 @@ extend({
 	["u"] = gen_spec_word("%u"), -- uppercase letters
 	["d"] = gen_spec_word("%d"), -- digits
 	["p"] = gen_spec_word("%p"), -- punctuation characters
-	["s"] = { "%f[%s]%s+" }, -- space characters (HT LF VT FF CR SP)
+	["s"] = { "%f[%s][%s]+" }, -- space characters (HT LF VT FF CR SP)
 	["z"] = { "%z" }, -- NUL (cannot use %f[] due to how it works)
 	["c"] = { "%f[\1-\8\14-\31\127][\1-\8\14-\31\127]+" }, -- control characters except {NUL HT LF VT FF CR}
 	-- separate ascii into several groups
@@ -520,6 +520,18 @@ H.get_default_opts = function()
 	}
 end
 
+local convert_pos = function(pos_miniai)
+	local pos_vimpos = vim.pos(
+		0,
+		pos_miniai.line - 1,
+		pos_miniai.col - 1
+	)
+	return pos_vimpos
+end
+local get_pos_cursor = function()
+	return vim.pos.cursor(0, vim.api.nvim_win_get_cursor(0))
+end
+
 local find_textobject = require("mini.ai").find_textobject
 require("mini.ai").find_textobject = function(ai_type, id, opts)
 	opts = vim.tbl_deep_extend("force", H.get_default_opts(), opts or {})
@@ -550,6 +562,16 @@ require("mini.ai").find_textobject = function(ai_type, id, opts)
 			id,
 			vim.tbl_deep_extend("force", opts, {search_method = "cover", n_times = 1})
 		)
+
+		if region_cover ~= nil then
+			local pos_region_end = convert_pos(region_cover.to)
+			local pos_cursor = get_pos_cursor()
+			if pos_cursor > pos_region_end then
+				region_cover = nil
+			end
+		end
+		-- NOTE: find_textobject("i", ..., {search_method = "cover"}) still uses "a" to find textobject, so if the cursor on the space, we get a region that does not cover the cursor, exclude this case
+
 		if region_cover == nil then
 			return find_textobject(
 				ai_type,
@@ -599,10 +621,10 @@ require("mini.ai").make_ai_move_rhs = function(ask_id, side, search_method)
 	end
 end
 
-vim.keymap.set({"n", "x", "o"}, "<cr>j", require("mini.ai").make_ai_move_rhs(true, "left",  "next"),  {expr = true})
-vim.keymap.set({"n", "x", "o"}, "<cr>k", require("mini.ai").make_ai_move_rhs(true, "left",  "prev*"), {expr = true})
-vim.keymap.set({"n", "x", "o"}, "<cr>l", require("mini.ai").make_ai_move_rhs(true, "right", "next*"), {expr = true})
-vim.keymap.set({"n", "x", "o"}, "<cr>h", require("mini.ai").make_ai_move_rhs(true, "right", "prev"),  {expr = true})
+vim.keymap.set("o", "<cr>j", require("mini.ai").make_ai_move_rhs(true, "left",  "next"),  {expr = true})
+vim.keymap.set("o", "<cr>k", require("mini.ai").make_ai_move_rhs(true, "left",  "prev*"), {expr = true})
+vim.keymap.set("o", "<cr>l", require("mini.ai").make_ai_move_rhs(true, "right", "next*"), {expr = true})
+vim.keymap.set("o", "<cr>h", require("mini.ai").make_ai_move_rhs(true, "right", "prev"),  {expr = true})
 
 require("luaexec").add({
 	code =
@@ -632,3 +654,139 @@ require("luaexec").add({
 	name = "prev",
 	keys = {{"n", "x"}, "<cr>h"},
 })
+
+-- # frequently used motions
+
+-- ## word
+
+vim.keymap.set(
+	{"n", "x", "o"},
+	"o",
+	function()
+		require("mini.ai").move_cursor(
+			"left",
+			"a",
+			"g",
+			{
+				n_times = vim.v.count1,
+				search_method = "next",
+			}
+		)
+	end
+)
+
+vim.keymap.set(
+	{"n", "x", "o"},
+	"w",
+	function()
+		require("mini.ai").move_cursor(
+			"left",
+			"a",
+			"g",
+			{
+				n_times = vim.v.count1,
+				search_method = "prev*",
+			}
+		)
+	end
+)
+
+vim.keymap.set(
+	{"n", "x", "o"},
+	"O",
+	function()
+		require("mini.ai").move_cursor(
+			"right",
+			"a",
+			"g",
+			{
+				n_times = vim.v.count1,
+				search_method = "next*",
+			}
+		)
+	end
+)
+
+vim.keymap.set(
+	{"n", "x", "o"},
+	"W",
+	function()
+		require("mini.ai").move_cursor(
+			"right",
+			"a",
+			"g",
+			{
+				n_times = vim.v.count1,
+				search_method = "prev",
+			}
+		)
+	end
+)
+
+-- ## paragraph
+
+do return end
+
+vim.keymap.set(
+	{"n", "x", "o"},
+	"u",
+	function()
+		require("mini.ai").move_cursor(
+			"left",
+			"a",
+			"\r",
+			{
+				n_times = vim.v.count1,
+				search_method = "next",
+			}
+		)
+	end
+)
+
+vim.keymap.set(
+	{"n", "x", "o"},
+	"r",
+	function()
+		require("mini.ai").move_cursor(
+			"left",
+			"a",
+			"\r",
+			{
+				n_times = vim.v.count1,
+				search_method = "prev*",
+			}
+		)
+	end
+)
+
+vim.keymap.set(
+	{"n", "x", "o"},
+	"U",
+	function()
+		require("mini.ai").move_cursor(
+			"right",
+			"a",
+			"\r",
+			{
+				n_times = vim.v.count1,
+				search_method = "next*",
+			}
+		)
+	end
+)
+
+vim.keymap.set(
+	{"n", "x", "o"},
+	"R",
+	function()
+		require("mini.ai").move_cursor(
+			"right",
+			"a",
+			"\r",
+			{
+				n_times = vim.v.count1,
+				search_method = "prev",
+			}
+		)
+	end
+)

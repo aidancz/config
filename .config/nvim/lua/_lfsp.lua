@@ -1,5 +1,7 @@
 vim.opt.runtimepath:prepend("~/sync_git/lfsp.nvim")
 
+-- do return end
+
 vim.keymap.set(
 	"n",
 	"u",

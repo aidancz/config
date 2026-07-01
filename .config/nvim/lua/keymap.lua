@@ -21,8 +21,10 @@
 
 vim.keymap.set({"n", "x", "s", "i", "c", "t", "o"}, "<f2>", "<nop>")
 
-vim.keymap.set({"n", "x", "o"}, "<space>", "g")
-vim.keymap.set({"n", "x", "o"}, "<cr>",    "<nop>")
+vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
+vim.keymap.set({"n", "x", "o"}, "<space><f2>", "g")
+
+vim.keymap.set({"n", "x", "o"}, "<cr>", "<nop>")
 
 -- ## bypass the <c-i> and <tab> conflict, etc
 
@@ -137,8 +139,8 @@ vim.keymap.set({"n", "x", "o"}, "s", "gg")
 -- vim.keymap.set({"n", "x", "o"}, "", "e")
 -- vim.keymap.set({"n", "x", "o"}, "", "ge")
 
-vim.keymap.set({"n", "x", "o"}, "o", "W")
-vim.keymap.set({"n", "x", "o"}, "w", "B")
+-- vim.keymap.set({"n", "x", "o"}, "", "W")
+-- vim.keymap.set({"n", "x", "o"}, "", "B")
 -- vim.keymap.set({"n", "x", "o"}, "", "E")
 -- vim.keymap.set({"n", "x", "o"}, "", "gE")
 
@@ -314,6 +316,14 @@ vim.cmd(count .. "wincmd W")
 	keys = {{"n", "x"}, "<left>"},
 })
 
+-- ## (window (: / ? <))
+
+vim.keymap.set({"n", "x"}, "<space>w/", "q/")
+vim.keymap.set({"n", "x"}, "<space>w:", "q:")
+vim.keymap.set({"n", "x"}, "<space>w?", "q?")
+
+vim.keymap.set({"n", "x"}, "<cr>,", "g<")
+
 -- ## (window_hori (next prev))
 
 require("luaexec").add({
@@ -361,14 +371,6 @@ require("luaexec").add({
 	name = "prev",
 	keys = {{"n", "x"}, "<space>w<"},
 })
-
--- ## (window (/ : ? <))
-
-vim.keymap.set({"n", "x"}, "<space>/", "q/")
-vim.keymap.set({"n", "x"}, "<space>:", "q:")
-vim.keymap.set({"n", "x"}, "<space>?", "q?")
-
-vim.keymap.set({"n", "x"}, "<cr>,", "g<")
 
 -- ## (tab (next prev))
 
