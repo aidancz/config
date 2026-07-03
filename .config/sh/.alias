@@ -19,6 +19,8 @@ alias texi2any="texi2any \
 "
 # --set-customization-variable exampleindent=15 \
 
+alias tig="tig status"
+
 # * abbreviate long command
 
 alias 1='setsid -f $TERMINAL >/dev/null 2>&1'

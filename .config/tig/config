@@ -102,3 +102,11 @@ bind generic <Space>c		!git commit
 bind generic C			@git commit --allow-empty --allow-empty-message --message=
 
 # * bind status
+
+bind status u status-update
+bind status ! status-revert
+
+# * bind stage
+
+bind stage u status-update
+bind stage ! status-revert

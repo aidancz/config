@@ -119,8 +119,8 @@ local config =
 		around_next = "un",
 		around_last = "ub",
 
-		goto_right = "<plug>(miniai_goto_right)",
-		goto_left  = "<plug>(miniai_goto_left)",
+		goto_right = "",
+		goto_left  = "",
 	},
 	n_lines = 1024,
 	search_method = "cover",
@@ -269,32 +269,32 @@ extend({
 	},
 })
 
-vim.keymap.set(
-	{"n", "x", "o"},
-	"%",
-	function()
-		local id_brackets = "i"
-		local goto_left = require("mini.ai").config.mappings.goto_left
-		local goto_right = require("mini.ai").config.mappings.goto_right
-
-		local row = vim.api.nvim_win_get_cursor(0)[1]
-		local col = vim.api.nvim_win_get_cursor(0)[2] + 1
-		local region = require("mini.ai").find_textobject("a", id_brackets, {search_method = "cover_or_next"})
-		if
-			row < region.from.line or (row == region.from.line and col < region.from.col)
-			or
-			row == region.to.line and col == region.to.col
-		then
-			return goto_left .. id_brackets
-		else
-			return goto_right .. id_brackets
-		end
-	end,
-	{
-		expr = true,
-		remap = true,
-	}
-)
+-- vim.keymap.set(
+-- 	{"n", "x", "o"},
+-- 	"%",
+-- 	function()
+-- 		local id_brackets = "i"
+-- 		local goto_left = require("mini.ai").config.mappings.goto_left
+-- 		local goto_right = require("mini.ai").config.mappings.goto_right
+--
+-- 		local row = vim.api.nvim_win_get_cursor(0)[1]
+-- 		local col = vim.api.nvim_win_get_cursor(0)[2] + 1
+-- 		local region = require("mini.ai").find_textobject("a", id_brackets, {search_method = "cover_or_next"})
+-- 		if
+-- 			row < region.from.line or (row == region.from.line and col < region.from.col)
+-- 			or
+-- 			row == region.to.line and col == region.to.col
+-- 		then
+-- 			return goto_left .. id_brackets
+-- 		else
+-- 			return goto_right .. id_brackets
+-- 		end
+-- 	end,
+-- 	{
+-- 		expr = true,
+-- 		remap = true,
+-- 	}
+-- )
 
 -- ## extend(quotes)
 
@@ -504,6 +504,13 @@ require("mini.ai").setup(config)
 
 -- # require("mini.ai").find_textobject
 
+-- require("mini.ai").find_textobject is required by require("mini.ai").move_cursor
+-- require("mini.ai").find_textobject("a", "w", {search_method = "next"})
+-- 	-- simulate w, cannot simulate e
+-- require("mini.ai").find_textobject("a", "w", {search_method = "prev"})
+-- 	-- simulate ge, cannot simulate b
+-- so we add new search_method to simulate e and b
+
 local H = {}
 H.get_config = function(config)
 	return vim.tbl_deep_extend("force", MiniAi.config, vim.b.miniai_config or {}, config or {})
@@ -625,6 +632,24 @@ vim.keymap.set("o", "<cr>j", require("mini.ai").make_ai_move_rhs(true, "left",  
 vim.keymap.set("o", "<cr>k", require("mini.ai").make_ai_move_rhs(true, "left",  "prev*"), {expr = true})
 vim.keymap.set("o", "<cr>l", require("mini.ai").make_ai_move_rhs(true, "right", "next*"), {expr = true})
 vim.keymap.set("o", "<cr>h", require("mini.ai").make_ai_move_rhs(true, "right", "prev"),  {expr = true})
+
+-- NOTE: for overlapping regions, only <cr>j( works as expected among <cr>j( <cr>k( <cr>l( <cr>h(
+
+-- test:
+
+-- (define lat?
+--   (lambda (l)
+--     (cond
+--       ((null? l) #t)
+--       ((atom? (car l)) (lat? (cdr l)))
+--       (else #f))))
+
+-- (define member?
+--   (lambda (a lat)
+--     (cond
+--       ((null? lat) #f)
+--       ((eq? (car lat) a) #t)
+--       (else (member? a (cdr lat))))))
 
 require("luaexec").add({
 	code =
