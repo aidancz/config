@@ -37,7 +37,7 @@ M.str_active = function()
 	local rhs
 	rhs = {
 		M.macro(),
-		M.hydra(),
+		-- M.hydra(),
 		M.mode(),
 		M.col(),
 		M.lnum(),

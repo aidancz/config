@@ -86,7 +86,8 @@ bind generic <Ctrl-l> screen-redraw
 bind generic z stop-loading
 bind generic . options
 
-bind generic <Enter>		@sh -c "setsid -f $TERMINAL >/dev/null 2>&1"
+# bind generic <Enter>		@sh -c "setsid -f $TERMINAL >/dev/null 2>&1"
+bind generic <Enter>		@sh -c "$TERMINAL >/dev/null 2>&1"
 
 bind generic <Space>y		@sh -c "echo -n %(commit) | xclip -selection c"
 # (info "tigrc")

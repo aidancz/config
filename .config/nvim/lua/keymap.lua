@@ -72,7 +72,7 @@ vim.keymap.set(
 	{"n", "x", "s", "i", "c", "t", "o"},
 	"<f25>", -- <c-f1>
 	function()
-		vim.cmd("restart")
+		vim.cmd("restart!")
 	end
 )
 -- https://github.com/neovim/neovim/issues/35166

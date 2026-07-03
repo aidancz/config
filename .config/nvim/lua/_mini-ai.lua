@@ -1,6 +1,9 @@
-vim.pack.add({
-	"https://github.com/nvim-mini/mini.ai",
-})
+-- vim.pack.add({
+-- 	"https://github.com/nvim-mini/mini.ai",
+-- })
+
+vim.opt.runtimepath:prepend("/home/aidan/Downloads/mini.ai")
+
 vim.opt.runtimepath:prepend("~/sync_git/paramo.nvim")
 
 -- # require("paramo").gen_ai_spec

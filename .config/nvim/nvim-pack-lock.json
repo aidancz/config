@@ -26,7 +26,7 @@
       "src": "https://github.com/rafamadriz/friendly-snippets"
     },
     "fzf-lua": {
-      "rev": "69cc714be2d9386a68e79091e6197ddcc37db8db",
+      "rev": "39da6060d53659acf3ec118200bc48721b29b8fd",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "fzf-lua-enchanted-files": {
@@ -82,7 +82,7 @@
       "src": "https://github.com/nvim-mini/mini.hipatterns"
     },
     "mini.icons": {
-      "rev": "e56797f90192d81f1fda02e662fc3e8e3d775027",
+      "rev": "24dbea2195c477e57d581215839a6ab915f34b14",
       "src": "https://github.com/nvim-mini/mini.icons"
     },
     "mini.indentscope": {
@@ -110,7 +110,7 @@
       "src": "https://github.com/nvim-mini/mini.snippets"
     },
     "mini.splitjoin": {
-      "rev": "4a0e6f5ea83148f6884eed03f287f94c3f22915d",
+      "rev": "6b731ce7f38ca4899a575373db93d2de2fc5bbf2",
       "src": "https://github.com/nvim-mini/mini.splitjoin"
     },
     "mini.surround": {
