@@ -109,7 +109,8 @@ end
 highlights_enable()
 
 vim.api.nvim_create_autocmd(
-	"FileType",
+	-- "FileType", -- fail if the "filetype" option is set before loading this script
+	"BufEnter",
 	{
 		callback = highlights_enable,
 	}

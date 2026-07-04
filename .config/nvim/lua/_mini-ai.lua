@@ -1,8 +1,8 @@
--- vim.pack.add({
--- 	"https://github.com/nvim-mini/mini.ai",
--- })
+vim.pack.add({
+	"https://github.com/nvim-mini/mini.ai",
+})
 
-vim.opt.runtimepath:prepend("/home/aidan/Downloads/mini.ai")
+-- vim.opt.runtimepath:prepend("/home/aidan/Downloads/mini.ai")
 
 vim.opt.runtimepath:prepend("~/sync_git/paramo.nvim")
 
@@ -126,7 +126,7 @@ local config =
 		goto_left  = "",
 	},
 	n_lines = 1024,
-	search_method = "cover",
+	search_method = "cover_or_next",
 }
 
 -- ## define extend

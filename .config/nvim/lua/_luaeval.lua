@@ -35,6 +35,13 @@ require("luaeval").setup({
 	end,
 	hook_open = function()
 		vim.api.nvim_set_current_win(require("luaeval").cache.win_handle)
+
+		vim.lsp.start(
+			vim.lsp.config["lua"],
+			{
+				bufnr = require("luaeval").cache.buf_handle,
+			}
+		)
 	end,
 	hook_close = function()
 	end,
