@@ -22,9 +22,12 @@
 vim.keymap.set({"n", "x", "s", "i", "c", "t", "o"}, "<f2>", "<nop>")
 
 vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
-vim.keymap.set({"n", "x", "o"}, "<space><f2>", "g")
 
 vim.keymap.set({"n", "x", "o"}, "<cr>", "<nop>")
+
+vim.keymap.set({"n", "x", "o"}, [[\]], "g")
+
+vim.keymap.set({"n", "x", "o"}, "|", "z")
 
 -- ## bypass the <c-i> and <tab> conflict, etc
 
@@ -330,14 +333,12 @@ require("luaexec").add({
 	code = [[return "zl"]],
 	from = "window_hori",
 	name = "next",
-	keys = {{"n", "x"}, "zl"},
 })
 
 require("luaexec").add({
 	code = [[return "zh"]],
 	from = "window_hori",
 	name = "prev",
-	keys = {{"n", "x"}, "zh"},
 })
 
 -- ## (window_height (next prev))
@@ -346,14 +347,12 @@ require("luaexec").add({
 	code = [[return "<c-w>+"]],
 	from = "window_height",
 	name = "next",
-	keys = {{"n", "x"}, "<space>w+"},
 })
 
 require("luaexec").add({
 	code = [[return "<c-w>-"]],
 	from = "window_height",
 	name = "prev",
-	keys = {{"n", "x"}, "<space>w-"},
 })
 
 -- ## (window_width (next prev))
@@ -362,14 +361,12 @@ require("luaexec").add({
 	code = [[return "<c-w>>"]],
 	from = "window_width",
 	name = "next",
-	keys = {{"n", "x"}, "<space>w>"},
 })
 
 require("luaexec").add({
 	code = [[return "<c-w><"]],
 	from = "window_width",
 	name = "prev",
-	keys = {{"n", "x"}, "<space>w<"},
 })
 
 -- ## (tab (next prev))
@@ -395,6 +392,16 @@ require("luaexec").add({
 vim.keymap.set("n", "C", "<nop>")
 vim.keymap.set("n", "D", "<nop>")
 vim.keymap.set("n", "Y", "<nop>")
+
+-- ## visual
+
+vim.keymap.set({"n", "x", "o"}, "z", "v")
+vim.keymap.set({"n", "x", "o"}, "Z", "V")
+vim.keymap.set({"n", "x", "o"}, "<c-z>", "<c-v>")
+
+-- ## mark
+
+vim.keymap.set({"n", "x"}, ";", "m")
 
 -- ## put
 

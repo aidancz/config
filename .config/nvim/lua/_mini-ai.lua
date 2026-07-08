@@ -72,11 +72,18 @@ require("paramo").gen_para_with_empty_tails = function(para)
 	}
 end
 
-require("paramo").gen_ai_spec = function(para)
+require("paramo").gen_ai_spec = function(para, skip_para_a)
+	local V = require("virtcol")
+
 	local para_i = para
 
-	-- local para_a = require("paramo").gen_para_with_empty_heads(para)
-	local para_a = require("paramo").gen_para_with_empty_tails(para)
+	local para_a
+	if skip_para_a then
+		para_a = para
+	else
+		-- para_a = require("paramo").gen_para_with_empty_heads(para)
+		para_a = require("paramo").gen_para_with_empty_tails(para)
+	end
 
 	return
 	function(ai_type, id, opts)
@@ -91,11 +98,11 @@ require("paramo").gen_ai_spec = function(para)
 		return {
 			from = {
 				line = range[1].lnum,
-				col = 1,
+				col = V.virtcol2col(range[1].lnum, range[1].virtcol),
 			},
 			to = {
 				line = range[2].lnum,
-				col = 1,
+				col = V.virtcol2col(range[2].lnum, range[2].virtcol),
 			},
 			vis_mode = "V",
 		}
@@ -185,10 +192,44 @@ local extend_remap = function(key, spec)
 	vim.keymap.set({"x", "o"}, key, config.mappings.inside .. char, {remap = true})
 end
 
+-- ## extend(cursor_i)
+
+extend_remap(
+	"d",
+	function(ai_type, id, opts)
+		return {
+			from = {
+				line = vim.fn.line("."),
+				col = vim.fn.col("."),
+			},
+			to = nil, -- empty region
+			vis_mode = "v",
+		}
+	end
+)
+
+-- ## extend(cursor_a)
+
+extend_remap(
+	"f",
+	function(ai_type, id, opts)
+		return {
+			from = {
+				line = vim.fn.line("."),
+				col = vim.fn.col(".") + 1,
+			},
+			to = nil, -- empty region
+			vis_mode = "v",
+		}
+	end
+)
+
 -- ## extend(mini.ai default)
 
 extend({
-	-- [<not latin letters>] = function(ai_type, id, opts) <i: inside separators, a: inside separators and right edge> end,
+	-- [<%p or %d, punctuation or digit>] = function(ai_type, id, opts)
+	-- 	<i: inside separators, a: inside separators and right edge>
+	-- end,
 	-- :h MiniAi-builtin-textobjects, search "Default"
 })
 
@@ -234,7 +275,7 @@ extend({
 
 	["a"] = gen_spec_word("%a"),     -- %a     = %l + %u
 	["w"] = gen_spec_word("%w"),     -- %w     = %l + %u + %d
-	[" "] = gen_spec_word("%w%_%-"), -- %w%_%- = %l + %u + %d + %_ + %- (%- matches a literal hyphen, because - normally defines a range inside a character class)
+	["o"] = gen_spec_word("%w%_%-"), -- %w%_%- = %l + %u + %d + %_ + %- (%- matches a literal hyphen, because - normally defines a range inside a character class)
 	["g"] = gen_spec_word("%g"),     -- %g     = %l + %u + %d + %p
 
 	-- ["x"] = gen_spec_word("%x"), -- %x = {abcdefABCDEF} + %d
@@ -398,11 +439,27 @@ extend_remap(
 	end
 )
 
--- ## extend(para paragraph)
+-- ## extend(para emptiness_row 0)
+
+extend({
+	[" "] = require("paramo").gen_ai_spec(
+		require("para/emptiness_row")({empty = true}), "skip_para_a"
+	),
+})
+
+-- ## extend(para emptiness_row 1)
 
 extend({
 	["\r"] = require("paramo").gen_ai_spec(
 		require("para/emptiness_row")({empty = false})
+	),
+})
+
+-- ## extend(para emptiness_virtcol 1)
+
+extend({
+	["h"] = require("paramo").gen_ai_spec(
+		require("para/emptiness_virtcol")({empty = false})
 	),
 })
 
@@ -469,8 +526,9 @@ extend_remap(
 -- ## extend(argument)
 
 extend({
-	j = require("mini.ai").gen_spec.argument(),
-	-- TODO: implement my own
+	j = require("mini.ai").gen_spec.argument({
+		separator = "%s*,%s*",
+	}),
 })
 
 -- ## extend(function call)
@@ -600,41 +658,59 @@ require("mini.ai").find_textobject = function(ai_type, id, opts)
 	return find_textobject(ai_type, id, opts)
 end
 
--- # require("mini.ai").make_ai_move_rhs
+-- # require("mini.ai").move_cursor_gen_rhs
 
 -- https://github.com/nvim-mini/mini.nvim/issues/1093
 
-require("mini.ai").make_ai_move_rhs_id = nil
-require("mini.ai").make_ai_move_rhs = function(ask_id, side, search_method)
+require("mini.ai").move_cursor_cache = {
+	-- ai_type = ...,
+	-- id = ...,
+}
+
+require("mini.ai").move_cursor_rhs = function(side, ai_type, id, opts)
+	local cmd = string.format(
+		[[require("mini.ai").move_cursor(%s, %s, %s, %s)]],
+		vim.inspect(side),
+		vim.inspect(ai_type),
+		vim.inspect(id),
+		vim.inspect(opts, {newline = " "})
+	)
+	return "<cmd>lua " .. cmd .. "<cr>"
+end
+
+require("mini.ai").move_cursor_gen_rhs = function(side, ai_type, id, opts)
 	return function()
-		if ask_id then
+		local cache = require("mini.ai").move_cursor_cache
+		if ai_type == "cache" then
+			cache.ai_type = cache.ai_type
+		else
+			cache.ai_type = ai_type
+		end
+		if id == "cache" then
+			cache.id = cache.id
+		elseif id == "ask" then
 			local ok, tobj_id = pcall(vim.fn.getcharstr)
 			if not ok or tobj_id == "\27" then
 			-- ascii 27 is ESC
 				return
 			end
-			require("mini.ai").make_ai_move_rhs_id = vim.inspect(tobj_id)
+			cache.id = tobj_id
+		else
+			cache.id = id
 		end
-
-		local opts = string.format(
-			[[{n_times = %s, search_method = %s}]],
-			vim.inspect(vim.v.count1),
-			vim.inspect(search_method)
-		)
-		local cmd = string.format(
-			[[require("mini.ai").move_cursor(%s, "a", %s, %s)]],
-			vim.inspect(side),
-			require("mini.ai").make_ai_move_rhs_id,
-			opts
-		)
-		return "<cmd>lua " .. cmd .. "<cr>"
+		local opts = vim.tbl_deep_extend("force", opts, {n_times = vim.v.count1})
+		return require("mini.ai").move_cursor_rhs(side, cache.ai_type, cache.id, opts)
 	end
 end
 
-vim.keymap.set("o", "<cr>j", require("mini.ai").make_ai_move_rhs(true, "left",  "next"),  {expr = true})
-vim.keymap.set("o", "<cr>k", require("mini.ai").make_ai_move_rhs(true, "left",  "prev*"), {expr = true})
-vim.keymap.set("o", "<cr>l", require("mini.ai").make_ai_move_rhs(true, "right", "next*"), {expr = true})
-vim.keymap.set("o", "<cr>h", require("mini.ai").make_ai_move_rhs(true, "right", "prev"),  {expr = true})
+vim.keymap.set({"n", "x", "o"}, "<cr>j",    require("mini.ai").move_cursor_gen_rhs("left",  "a", "ask", {search_method = "next"}),  {expr = true})
+vim.keymap.set({"n", "x", "o"}, "<cr>k",    require("mini.ai").move_cursor_gen_rhs("left",  "a", "ask", {search_method = "prev*"}), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "<cr>l",    require("mini.ai").move_cursor_gen_rhs("right", "a", "ask", {search_method = "next*"}), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "<cr>h",    require("mini.ai").move_cursor_gen_rhs("right", "a", "ask", {search_method = "prev"}),  {expr = true})
+vim.keymap.set({"n", "x", "o"}, "<space>j", require("mini.ai").move_cursor_gen_rhs("left",  "i", "ask", {search_method = "next"}),  {expr = true})
+vim.keymap.set({"n", "x", "o"}, "<space>k", require("mini.ai").move_cursor_gen_rhs("left",  "i", "ask", {search_method = "prev*"}), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "<space>l", require("mini.ai").move_cursor_gen_rhs("right", "i", "ask", {search_method = "next*"}), {expr = true})
+vim.keymap.set({"n", "x", "o"}, "<space>h", require("mini.ai").move_cursor_gen_rhs("right", "i", "ask", {search_method = "prev"}),  {expr = true})
 
 -- NOTE: for overlapping regions, only <cr>j( works as expected among <cr>j( <cr>k( <cr>l( <cr>h(
 
@@ -656,165 +732,150 @@ vim.keymap.set("o", "<cr>h", require("mini.ai").make_ai_move_rhs(true, "right", 
 
 require("luaexec").add({
 	code =
-[[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_cache.is_repeat, "left",  "next")()]],
-	from = "miniai_goto_head",
+[[
+return require("mini.ai").move_cursor_gen_rhs(
+	"left",
+	"a",
+	require("luaexec").np_cache.is_repeat and "cache" or "ask",
+	{search_method = "next"}
+)()
+]],
+	from = "miniai_goto_head_a",
 	name = "next",
 	keys = {{"n", "x"}, "<cr>j"},
 })
 require("luaexec").add({
 	code =
-[[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_cache.is_repeat, "left",  "prev*")()]],
-	from = "miniai_goto_head",
+[[
+return require("mini.ai").move_cursor_gen_rhs(
+	"left",
+	"a",
+	require("luaexec").np_cache.is_repeat and "cache" or "ask",
+	{search_method = "prev*"}
+)()
+]],
+	from = "miniai_goto_head_a",
 	name = "prev",
 	keys = {{"n", "x"}, "<cr>k"},
 })
 require("luaexec").add({
 	code =
-[[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_cache.is_repeat, "right", "next*")()]],
-	from = "miniai_goto_tail",
+[[
+return require("mini.ai").move_cursor_gen_rhs(
+	"right",
+	"a",
+	require("luaexec").np_cache.is_repeat and "cache" or "ask",
+	{search_method = "next*"}
+)()
+]],
+	from = "miniai_goto_tail_a",
 	name = "next",
 	keys = {{"n", "x"}, "<cr>l"},
 })
 require("luaexec").add({
 	code =
-[[return require("mini.ai").make_ai_move_rhs(not require("luaexec").np_cache.is_repeat, "right", "prev")()]],
-	from = "miniai_goto_tail",
+[[
+return require("mini.ai").move_cursor_gen_rhs(
+	"right",
+	"a",
+	require("luaexec").np_cache.is_repeat and "cache" or "ask",
+	{search_method = "prev"}
+)()
+]],
+	from = "miniai_goto_tail_a",
 	name = "prev",
 	keys = {{"n", "x"}, "<cr>h"},
+})
+require("luaexec").add({
+	code =
+[[
+return require("mini.ai").move_cursor_gen_rhs(
+	"left",
+	"i",
+	require("luaexec").np_cache.is_repeat and "cache" or "ask",
+	{search_method = "next"}
+)()
+]],
+	from = "miniai_goto_head_i",
+	name = "next",
+	keys = {{"n", "x"}, "<space>j"},
+})
+require("luaexec").add({
+	code =
+[[
+return require("mini.ai").move_cursor_gen_rhs(
+	"left",
+	"i",
+	require("luaexec").np_cache.is_repeat and "cache" or "ask",
+	{search_method = "prev*"}
+)()
+]],
+	from = "miniai_goto_head_i",
+	name = "prev",
+	keys = {{"n", "x"}, "<space>k"},
+})
+require("luaexec").add({
+	code =
+[[
+return require("mini.ai").move_cursor_gen_rhs(
+	"right",
+	"i",
+	require("luaexec").np_cache.is_repeat and "cache" or "ask",
+	{search_method = "next*"}
+)()
+]],
+	from = "miniai_goto_tail_i",
+	name = "next",
+	keys = {{"n", "x"}, "<space>l"},
+})
+require("luaexec").add({
+	code =
+[[
+return require("mini.ai").move_cursor_gen_rhs(
+	"right",
+	"i",
+	require("luaexec").np_cache.is_repeat and "cache" or "ask",
+	{search_method = "prev"}
+)()
+]],
+	from = "miniai_goto_tail_i",
+	name = "prev",
+	keys = {{"n", "x"}, "<space>h"},
 })
 
 -- # frequently used motions
 
+local map = function(lhs, side, ai_type, id, opts)
+	opts = vim.tbl_deep_extend("force", opts, {n_times = vim.v.count1})
+	vim.keymap.set(
+		{"n", "x", "o"},
+		lhs,
+		function()
+			require("mini.ai").move_cursor(
+				side,
+				ai_type,
+				id,
+				opts
+			)
+		end
+	)
+end
+
 -- ## word
 
-vim.keymap.set(
-	{"n", "x", "o"},
-	"o",
-	function()
-		require("mini.ai").move_cursor(
-			"left",
-			"a",
-			"g",
-			{
-				n_times = vim.v.count1,
-				search_method = "next",
-			}
-		)
-	end
-)
+map("o", "left",  "i", "g", {search_method = "next"})
+map("w", "left",  "i", "g", {search_method = "prev*"})
+map("O", "right", "i", "g", {search_method = "next*"})
+map("W", "right", "i", "g", {search_method = "prev"})
 
-vim.keymap.set(
-	{"n", "x", "o"},
-	"w",
-	function()
-		require("mini.ai").move_cursor(
-			"left",
-			"a",
-			"g",
-			{
-				n_times = vim.v.count1,
-				search_method = "prev*",
-			}
-		)
-	end
-)
+-- ## para emptiness_row 0
 
-vim.keymap.set(
-	{"n", "x", "o"},
-	"O",
-	function()
-		require("mini.ai").move_cursor(
-			"right",
-			"a",
-			"g",
-			{
-				n_times = vim.v.count1,
-				search_method = "next*",
-			}
-		)
-	end
-)
+map("}", "left", "i", " ", {search_method = "next"})
+map("{", "left", "i", " ", {search_method = "prev*"})
 
-vim.keymap.set(
-	{"n", "x", "o"},
-	"W",
-	function()
-		require("mini.ai").move_cursor(
-			"right",
-			"a",
-			"g",
-			{
-				n_times = vim.v.count1,
-				search_method = "prev",
-			}
-		)
-	end
-)
+-- ## para emptiness_row 1
 
--- ## paragraph
-
-do return end
-
-vim.keymap.set(
-	{"n", "x", "o"},
-	"u",
-	function()
-		require("mini.ai").move_cursor(
-			"left",
-			"a",
-			"\r",
-			{
-				n_times = vim.v.count1,
-				search_method = "next",
-			}
-		)
-	end
-)
-
-vim.keymap.set(
-	{"n", "x", "o"},
-	"r",
-	function()
-		require("mini.ai").move_cursor(
-			"left",
-			"a",
-			"\r",
-			{
-				n_times = vim.v.count1,
-				search_method = "prev*",
-			}
-		)
-	end
-)
-
-vim.keymap.set(
-	{"n", "x", "o"},
-	"U",
-	function()
-		require("mini.ai").move_cursor(
-			"right",
-			"a",
-			"\r",
-			{
-				n_times = vim.v.count1,
-				search_method = "next*",
-			}
-		)
-	end
-)
-
-vim.keymap.set(
-	{"n", "x", "o"},
-	"R",
-	function()
-		require("mini.ai").move_cursor(
-			"right",
-			"a",
-			"\r",
-			{
-				n_times = vim.v.count1,
-				search_method = "prev",
-			}
-		)
-	end
-)
+map("m", "left",  "i", "\r", {search_method = "next"})
+map("v", "left",  "i", "\r", {search_method = "prev*"})
+map("M", "right", "i", "\r", {search_method = "next*"})
+map("V", "right", "i", "\r", {search_method = "prev"})
