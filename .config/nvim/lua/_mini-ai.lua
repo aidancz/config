@@ -545,6 +545,14 @@ extend({
 	},
 })
 
+-- ## extend(texinfo @verbatim)
+
+extend({
+	["V"] = {
+		"@verbatim\n().-()@end verbatim\n",
+	},
+})
+
 -- ## extend(sgml tag)
 
 extend({

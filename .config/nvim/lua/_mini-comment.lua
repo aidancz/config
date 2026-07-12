@@ -37,6 +37,6 @@ require("mini.comment").setup({
 		comment = "<space>c",
 		comment_line = "",
 		comment_visual = "<space>c",
-		textobject = "ic",
+		textobject = "rc",
 	},
 })

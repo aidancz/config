@@ -11,15 +11,14 @@ map <F1> quit
 
 map j zoom out
 map k zoom in
-map l adjust_window best-fit
-map h zoom default
+# map ? zoom default
+map l adjust_window width
+map h adjust_window best-fit
 
 map f scroll full-down
 map d scroll full-up
 map g scroll page-bottom
 map s scroll page-top
-
-map a adjust_window width
 
 # map <Space>g goto bottom
 # map <Space>s goto top

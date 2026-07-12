@@ -27,6 +27,8 @@ PS1="\[\e[34m\](\$ \h \u \w) \[\e[0m\]"
 # (info "(bash)Bash Builtins")
 # https://stackoverflow.com/questions/8366450/complex-keybinding-in-bash
 # https://stackoverflow.com/questions/4200800/in-bash-how-do-i-bind-a-function-key-to-a-command
+# https://lists.gnu.org/archive/html/bug-bash/2018-08/msg00014.html
+# 	[PATCH] Re-display prompt if directory changed in a bind -x command
 
 # bind "set show-mode-in-prompt on"
 # 2026-04-13 wo cao
