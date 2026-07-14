@@ -293,8 +293,8 @@ vim.o.shiftwidth = 8
 vim.o.expandtab = false
 -- input " " instead of "\t"?
 
-vim.o.autoindent = false
--- when create a new line, copy indent from the line above?
+vim.o.autoindent = true
+-- when create a new line, copy indent from current line?
 vim.o.copyindent = true
 -- when autoindent is true, when create a new line, copy indent (use same whitespace chars) from the line above?
 
@@ -316,6 +316,8 @@ vim.o.preserveindent = false
 -- ▫▫▫··alice and bob
 
 vim.o.shiftround = true
+
+vim.o.indentexpr = ""
 
 vim.o.indentkeys = ""
 

@@ -27,7 +27,7 @@ vim.keymap.set({"n", "x", "o"}, "<cr>", "<nop>")
 
 vim.keymap.set({"n", "x", "o"}, [[\]], "g")
 
-vim.keymap.set({"n", "x", "o"}, "|", "z")
+vim.keymap.set({"n", "x", "o"}, "~", "z")
 
 -- ## bypass the <c-i> and <tab> conflict, etc
 
@@ -201,8 +201,8 @@ if count == 0 then count = "" end
 vim.cmd(count .. "bn")
 ]],
 	from = "buffer",
-	name = "next",
-	keys = {{"n", "x"}, "<down>"},
+	name = "_next", -- avoid nextprev
+	keys = {{"n", "x"}, ")"},
 })
 
 require("luaexec").add({
@@ -213,8 +213,8 @@ if count == 0 then count = "" end
 vim.cmd(count .. "bp")
 ]],
 	from = "buffer",
-	name = "prev",
-	keys = {{"n", "x"}, "<up>"},
+	name = "_prev", -- avoid nextprev
+	keys = {{"n", "x"}, "("},
 })
 
 --[=[{{{
@@ -304,7 +304,6 @@ vim.cmd(count .. "wincmd w")
 ]],
 	from = "window",
 	name = "next",
-	keys = {{"n", "x"}, "<right>"},
 })
 
 require("luaexec").add({
@@ -316,8 +315,14 @@ vim.cmd(count .. "wincmd W")
 ]],
 	from = "window",
 	name = "prev",
-	keys = {{"n", "x"}, "<left>"},
 })
+
+-- ## (window (down up right left))
+
+vim.keymap.set({"n", "x"}, "<down>",  "<c-w>j")
+vim.keymap.set({"n", "x"}, "<up>",    "<c-w>k")
+vim.keymap.set({"n", "x"}, "<right>", "<c-w>l")
+vim.keymap.set({"n", "x"}, "<left>",  "<c-w>h")
 
 -- ## (window (: / ? <))
 

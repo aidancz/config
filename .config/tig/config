@@ -39,6 +39,7 @@ bind generic <Enter> none
 bind generic <Del> none
 bind generic <Ctrl-l> none
 bind generic <Ctrl-d> none
+bind generic <Ctrl-e> none
 
 bind generic <F1> quit
 
@@ -47,8 +48,8 @@ bind generic k move-up
 bind generic l enter
 bind generic h view-close
 
-bind generic f scroll-page-down
-bind generic d scroll-page-up
+bind generic f move-page-down
+bind generic d move-page-up
 bind generic g move-last-line
 bind generic s move-first-line
 
@@ -57,32 +58,34 @@ bind generic ? search-back
 bind generic n find-next
 bind generic b find-prev
 
-bind generic <Ctrl-f> scroll-half-page-down
-bind generic <Ctrl-d> scroll-half-page-up
-bind generic <Ctrl-j> next
-bind generic <Ctrl-k> previous
+bind generic <Ctrl-j> scroll-line-down
+bind generic <Ctrl-k> scroll-line-up
+bind generic <Ctrl-l> move-half-page-down
+bind generic <Ctrl-h> move-half-page-up
+bind generic i next
+bind generic e previous
 bind generic o parent
 bind generic w back
 bind generic r refresh
 
-bind generic <Esc>    view-main
-bind generic i        view-diff
-bind generic <F2>l    view-log
-bind generic <F2>r    view-reflog
-bind generic t        view-tree
-bind generic <F2>e    view-blob
-bind generic <F2>b    view-blame
-bind generic x        view-refs
-bind generic e        view-status
-bind generic c        view-stage
-bind generic y        view-stash
-bind generic <F2>g    view-grep
-bind generic p        view-pager
-bind generic <Ctrl-h> view-help
+bind generic <Esc> view-main
+bind generic <F2>d view-diff
+bind generic <F2>l view-log
+bind generic <F2>r view-reflog
+bind generic t     view-tree
+bind generic <F2>e view-blob
+bind generic <F2>b view-blame
+bind generic x     view-refs
+bind generic m     view-status
+bind generic c     view-stage
+bind generic y     view-stash
+bind generic <F2>g view-grep
+bind generic p     view-pager
+bind generic <F2>i view-help
 
 bind generic v edit
 bind generic : prompt
-bind generic <Ctrl-l> screen-redraw
+bind generic <Ctrl-e> screen-redraw
 bind generic z stop-loading
 bind generic . options
 

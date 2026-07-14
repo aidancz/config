@@ -275,7 +275,7 @@ do
 	require("_undotree-mbbill")
 	require("_vim-AdvancedSorters")
 	require("_vim-suda")
-	require("autoindent")
+	-- require("autoindent")
 	require("diagnostic")
 
 	-- require("_fix-cursor") -- too hacky and fragile

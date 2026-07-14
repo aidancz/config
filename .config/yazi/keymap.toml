@@ -6,7 +6,7 @@ keymap = [
 	{ on = "<f1>",             run = "close" },
 	{ on = [ "<f2>", "<f1>" ], run = "quit" },
 	{ on = "<esc>",            run = ["escape", "unyank"] },
-	{ on = "<c-h>",            run = "help" },
+	{ on = [ "<f2>", "i" ],    run = "help" },
 	{ on = "<c-t>",            run = "tab_create --current" },
 	{ on = [ "<space>", "t" ], run = "tasks:show" },
 
@@ -21,8 +21,10 @@ keymap = [
 	{ on = "g", run = "arrow bot" },
 	{ on = "s", run = "arrow top" },
 
-	{ on = "<c-j>", run = "plugin parent-arrow 1" },
-	{ on = "<c-k>", run = "plugin parent-arrow -1" },
+	{ on = ")", run = "plugin parent-arrow 1" },
+	{ on = "(", run = "plugin parent-arrow -1" },
+	{ on = "<c-j>", run = "plugin list-seek 1" },
+	{ on = "<c-k>", run = "plugin list-seek -1" },
 	{ on = "<c-w>", run = "back" },
 	{ on = "<c-o>", run = "forward" },
 
@@ -36,7 +38,7 @@ keymap = [
 
 	{ on = [ "<space>", "h" ], run = "cd ~" },
 	{ on = [ "<space>", "s" ], run = """ shell -- ya emit cd "$(git rev-parse --show-toplevel)" """ },
-	{ on = "<c-l>", run = "follow" },
+	{ on = "<c-enter>", run = "follow" },
 
 	# inspect
 	{ on = "<pagedown>", run = "seek 10" },
