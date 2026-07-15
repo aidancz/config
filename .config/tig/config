@@ -53,15 +53,16 @@ bind generic d move-page-up
 bind generic g move-last-line
 bind generic s move-first-line
 
+bind generic <Ctrl-f> move-half-page-down
+bind generic <Ctrl-d> move-half-page-up
+bind generic <Ctrl-g> scroll-line-down
+bind generic <Ctrl-s> scroll-line-up
+
 bind generic / search
 bind generic ? search-back
 bind generic n find-next
 bind generic b find-prev
 
-bind generic <Ctrl-j> scroll-line-down
-bind generic <Ctrl-k> scroll-line-up
-bind generic <Ctrl-l> move-half-page-down
-bind generic <Ctrl-h> move-half-page-up
 bind generic i next
 bind generic e previous
 bind generic o parent

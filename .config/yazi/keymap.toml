@@ -25,6 +25,8 @@ keymap = [
 	{ on = "<c-d>", run = "arrow -50%" },
 	{ on = "<c-g>", run = "plugin list-seek 1" },
 	{ on = "<c-s>", run = "plugin list-seek -1" },
+	{ on = "<c-j>", run = "seek 10" },
+	{ on = "<c-k>", run = "seek -10" },
 
 	{ on = ")", run = "plugin parent-arrow 1" },
 	{ on = "(", run = "plugin parent-arrow -1" },
@@ -44,9 +46,6 @@ keymap = [
 	{ on = "<c-enter>", run = "follow" },
 
 	# inspect
-	{ on = "<c-j>", run = "seek 10" },
-	{ on = "<c-k>", run = "seek -10" },
-
 	{ on = [ "<space>", "i" ], run = "spot" },
 
 	{ on = [ "<space>", "l", "s" ], run = "linemode size" },
