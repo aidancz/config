@@ -174,8 +174,8 @@ vim.keymap.set("x", "<del>", "O")
 
 -- ## (jumplist (next prev))
 
-vim.keymap.set({"n", "x"}, "<c-w>", "<c-o>")
-vim.keymap.set({"n", "x"}, "<c-o>", "<c-i>")
+vim.keymap.set({"n", "x"}, ">", "<c-i>")
+vim.keymap.set({"n", "x"}, "<", "<c-o>")
 
 -- ## (quickfix (next prev))
 

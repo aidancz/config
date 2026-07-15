@@ -52,6 +52,16 @@ d	scroll-backward
 g	end-of-node
 s	beginning-of-node
 
+^f	scroll-half-screen-down
+^d	scroll-half-screen-up
+# ^g	down-line # <c-g> abort key
+# ^s	up-line
+^e	down-line
+^y	up-line
+^j	scroll-other-window
+^k	scroll-other-window-backward
+^l	redraw-display # recenter
+
 i	next-node
 e	prev-node
 w	history-node
@@ -77,14 +87,6 @@ c	index-search
 # [	prev-index-match
 \ li	virtual-index
 \ la	index-apropos
-
-^e	down-line
-^y	up-line
-# ^g	scroll-half-screen-down
-# ^s	scroll-half-screen-up
-\kD	scroll-other-window
-\kU	scroll-other-window-backward
-^l	redraw-display # recenter
 
 \kh	beginning-of-line
 \ke	end-of-line

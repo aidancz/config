@@ -6,8 +6,8 @@ keymap = [
 	{ on = "<f1>",             run = "close" },
 	{ on = [ "<f2>", "<f1>" ], run = "quit" },
 	{ on = "<esc>",            run = ["escape", "unyank"] },
-	{ on = [ "<f2>", "i" ],    run = "help" },
-	{ on = "<c-t>",            run = "tab_create --current" },
+	{ on = "<f3>",             run = "help" },
+	# { on = "<c-t>",            run = "tab_create --current" },
 	{ on = [ "<space>", "t" ], run = "tasks:show" },
 
 	# navigation
@@ -21,12 +21,15 @@ keymap = [
 	{ on = "g", run = "arrow bot" },
 	{ on = "s", run = "arrow top" },
 
+	{ on = "<c-f>", run = "arrow 50%" },
+	{ on = "<c-d>", run = "arrow -50%" },
+	{ on = "<c-g>", run = "plugin list-seek 1" },
+	{ on = "<c-s>", run = "plugin list-seek -1" },
+
 	{ on = ")", run = "plugin parent-arrow 1" },
 	{ on = "(", run = "plugin parent-arrow -1" },
-	{ on = "<c-j>", run = "plugin list-seek 1" },
-	{ on = "<c-k>", run = "plugin list-seek -1" },
-	{ on = "<c-w>", run = "back" },
-	{ on = "<c-o>", run = "forward" },
+	{ on = ">", run = "forward" },
+	{ on = "<", run = "back" },
 
 	{ on = "/", run = "find --smart" },
 	{ on = "?", run = "find --previous --smart" },
@@ -36,13 +39,13 @@ keymap = [
 	{ on = "w", run = "plugin zoxide" },
 	{ on = "e", run = "plugin fzf" },
 
-	{ on = [ "<space>", "h" ], run = "cd ~" },
+	{ on = [ "<space>", "~" ], run = "cd ~" },
 	{ on = [ "<space>", "s" ], run = """ shell -- ya emit cd "$(git rev-parse --show-toplevel)" """ },
 	{ on = "<c-enter>", run = "follow" },
 
 	# inspect
-	{ on = "<pagedown>", run = "seek 10" },
-	{ on = "<pageup>",   run = "seek -10" },
+	{ on = "<c-j>", run = "seek 10" },
+	{ on = "<c-k>", run = "seek -10" },
 
 	{ on = [ "<space>", "i" ], run = "spot" },
 
@@ -76,10 +79,10 @@ keymap = [
 	{ on = [ "<space>", "r" ], run = "search --via=rg" },
 
 	# select
-	{ on = "<down>", run = [ "toggle", "arrow 1" ] },
-	{ on = "<up>",   run = [ "toggle", "arrow -1" ] },
-	{ on = "<c-a>",  run = "toggle_all --state=on" },
-	{ on = "<c-r>",  run = "toggle_all" },
+	{ on = "<tab>", run = [ "toggle", "arrow 1" ] },
+	{ on = "<s-tab>", run = [ "toggle", "arrow -1" ] },
+	{ on = "<c-x>",  run = "toggle_all --state=on" },
+	{ on = "<c-t>",  run = "toggle_all" },
 
 	# coreutils
 	{ on = "a",           run = "create" },

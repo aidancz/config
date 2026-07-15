@@ -81,7 +81,7 @@ bind generic c     view-stage
 bind generic y     view-stash
 bind generic <F2>g view-grep
 bind generic p     view-pager
-bind generic <F2>i view-help
+bind generic <F3>  view-help
 
 bind generic v edit
 bind generic : prompt

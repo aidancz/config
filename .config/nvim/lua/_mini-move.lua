@@ -21,41 +21,41 @@ require("mini.move").setup({
 require("luaexec").add({
 	code = [[require("mini.move").move_line("left")]],
 	from = "mini.move",
-	keys = {"n", "<c-s>"},
+	keys = {"n", "<c-h>"},
 })
 require("luaexec").add({
 	code = [[require("mini.move").move_line("right")]],
 	from = "mini.move",
-	keys = {"n", "<c-g>"},
+	keys = {"n", "<c-l>"},
 })
 require("luaexec").add({
 	code = [[require("mini.move").move_line("down")]],
 	from = "mini.move",
-	keys = {"n", "<c-f>"},
+	keys = {"n", "<c-j>"},
 })
 require("luaexec").add({
 	code = [[require("mini.move").move_line("up")]],
 	from = "mini.move",
-	keys = {"n", "<c-d>"},
+	keys = {"n", "<c-k>"},
 })
 
 require("luaexec").add({
 	code = [[require("mini.move").move_selection("left")]],
 	from = "mini.move",
-	keys = {"x", "<c-s>"},
+	keys = {"x", "<c-h>"},
 })
 require("luaexec").add({
 	code = [[require("mini.move").move_selection("right")]],
 	from = "mini.move",
-	keys = {"x", "<c-g>"},
+	keys = {"x", "<c-l>"},
 })
 require("luaexec").add({
 	code = [[require("mini.move").move_selection("down")]],
 	from = "mini.move",
-	keys = {"x", "<c-f>"},
+	keys = {"x", "<c-j>"},
 })
 require("luaexec").add({
 	code = [[require("mini.move").move_selection("up")]],
 	from = "mini.move",
-	keys = {"x", "<c-d>"},
+	keys = {"x", "<c-k>"},
 })
