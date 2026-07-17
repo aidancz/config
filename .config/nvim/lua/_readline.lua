@@ -2,8 +2,8 @@ vim.pack.add({
 	"https://github.com/assistcontrol/readline.nvim",
 })
 
--- vim.keymap.set({"i", "c"}, "<c-f>", "<right>")
--- vim.keymap.set({"i", "c"}, "<c-b>", "<left>")
+vim.keymap.set({"i", "c"}, "<c-f>", "<right>")
+vim.keymap.set({"i", "c"}, "<c-b>", "<left>")
 vim.keymap.set({"i", "c"}, "<c-n>", "<down>")
 vim.keymap.set({"i", "c"}, "<c-p>", "<up>")
 

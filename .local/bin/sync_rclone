@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# https://rclone.org/bisync/
+# https://rclone.org/commands/rclone_bisync/
+
+rclone mkdir remote:sync_cloud
+
+# rclone bisync remote:sync_cloud ~/sync_cloud \
+# --create-empty-src-dirs \
+# --compare size,modtime,checksum \
+# --slow-hash-sync-only \
+# --resilient \
+# -MvP \
+# --drive-skip-gdocs \
+# --fix-case \
+# --resync \
+# --dry-run
+
+# rclone bisync remote:sync_cloud ~/sync_cloud \
+# --create-empty-src-dirs \
+# --compare size,modtime,checksum \
+# --slow-hash-sync-only \
+# --resilient \
+# -MvP \
+# --drive-skip-gdocs \
+# --fix-case \
+# --resync
+
+rclone bisync remote:sync_cloud ~/sync_cloud \
+--create-empty-src-dirs \
+--compare size,modtime,checksum \
+--slow-hash-sync-only \
+--resilient \
+-MvP \
+--drive-skip-gdocs \
+--fix-case

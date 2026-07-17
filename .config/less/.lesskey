@@ -23,8 +23,10 @@ s goto-line
 n repeat-search
 b reverse-search
 
-# d forw-scroll
-# u back-scroll
+^f forw-scroll
+^d back-scroll
+^g forw-line
+^s back-line
 
 # * line-edit
 #line-edit

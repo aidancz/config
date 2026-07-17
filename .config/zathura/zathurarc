@@ -20,26 +20,26 @@ map d scroll full-up
 map g scroll page-bottom
 map s scroll page-top
 
-# map <Space>g goto bottom
-# map <Space>s goto top
-map ig goto bottom
-map is goto top
-
-map <C-w> jumplist backward
-map <C-o> jumplist forward
+map <C-f> scroll half-down
+map <C-d> scroll half-up
+map <C-g> scroll down
+map <C-s> scroll up
 map <C-j> bisect forward
 map <C-k> bisect backward
 
+map i navigate next
+map e navigate previous
+map o jumplist forward
+map w jumplist backward
+
+# map <Space>g goto bottom
+# map <Space>s goto top
+map .g goto bottom
+map .s goto top
+
 map m follow
 # map <Space>d toggle_page_mode
-map id toggle_page_mode
+map .d toggle_page_mode
 
 map n search forward
 map b search backward
-
-# map e scroll down
-# map y scroll up
-# map d scroll half-down
-# map u scroll half-up
-# map j navigate next
-# map k navigate previous

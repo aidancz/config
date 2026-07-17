@@ -64,8 +64,8 @@ s	beginning-of-node
 
 i	next-node
 e	prev-node
-w	history-node
 # o	history-node-forward # https://unix.stackexchange.com/questions/624966/moving-forward-in-history-in-gnu-info
+w	history-node
 
 u	global-next-node
 r	global-prev-node
