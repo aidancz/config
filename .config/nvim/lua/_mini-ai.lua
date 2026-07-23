@@ -72,18 +72,23 @@ require("paramo").gen_para_with_empty_tails = function(para)
 	}
 end
 
-require("paramo").gen_ai_spec = function(para, skip_para_a)
+require("paramo").gen_para_nonempty = function(para)
+	local is_empty = function(pos)
+		return vim.fn.getline(pos.lnum) == ""
+	end
+	local is_head_nonempty = function(pos) return para.is_head(pos) and (not is_empty(pos)) end
+	local is_tail_nonempty = function(pos) return para.is_tail(pos) and (not is_empty(pos)) end
+	return {
+		is_head = is_head_nonempty,
+		is_tail = is_tail_nonempty,
+	}
+end
+
+require("paramo").gen_ai_spec = function(para_i, para_a)
 	local V = require("virtcol")
 
-	local para_i = para
-
-	local para_a
-	if skip_para_a then
-		para_a = para
-	else
-		-- para_a = require("paramo").gen_para_with_empty_heads(para)
-		para_a = require("paramo").gen_para_with_empty_tails(para)
-	end
+	-- para_a = para_a or require("paramo").gen_para_with_empty_heads(para_i)
+	para_a = para_a or require("paramo").gen_para_with_empty_tails(para_i)
 
 	return
 	function(ai_type, id, opts)
@@ -280,6 +285,14 @@ extend({
 
 	-- ["x"] = gen_spec_word("%x"), -- %x = {abcdefABCDEF} + %d
 	["x"] = require("mini.extra").gen_ai_spec.number(),
+
+	["k"] = {
+		{
+			"%f[%l%u][%l%u]+",
+			"%f[%d][%d]+",
+			"%p",
+		},
+	},
 })
 
 -- ## extend(brackets)
@@ -443,7 +456,8 @@ extend_remap(
 
 extend({
 	[" "] = require("paramo").gen_ai_spec(
-		require("para/emptiness_row")({empty = true}), "skip_para_a"
+		require("para/emptiness_row")({empty = true}),
+		require("para/emptiness_row")({empty = true})
 	),
 })
 
@@ -471,6 +485,25 @@ extend({
 			indent_empty = "intact",
 			type = "==",
 		})
+	),
+})
+
+-- ## extend(para indent)
+
+extend({
+	["q"] = require("paramo").gen_ai_spec(
+		require("paramo").gen_para_nonempty(
+			require("para/indent")({
+				indent_empty = "intact",
+				type = "==",
+			})
+		),
+		require("paramo").gen_para_nonempty(
+			require("para/indent")({
+				indent_empty = "intact",
+				type = "==",
+			})
+		)
 	),
 })
 

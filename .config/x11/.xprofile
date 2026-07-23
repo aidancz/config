@@ -42,7 +42,7 @@ unclutter                         &
 fcitx5                            &
 
 # nutstore                          &
-pcloud                            &
+# pcloud                            &
 
 set-keyboard                      &
 # `sleep` since xmodmap settings are reset by setxkbmap

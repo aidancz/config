@@ -1,0 +1,49 @@
+;; # give command better default
+
+{alias ls    ls -Ah1v --group-directories-first --color=auto}
+{alias chmod chmod --preserve-root -v}
+{alias chown chown --preserve-root -v}
+{alias df    df -h}
+{alias du    du -h}
+{alias mkdir mkdir -p}
+{alias grep  grep --color=auto}
+{alias diff  diff --color=auto}
+{alias chez  chez ~/.schemerc}
+{alias tig   tig status}
+
+(sh-alias "texi2any" '(
+  "texi2any"
+  "--set-customization-variable paragraphindent=asis"
+  ;; "--set-customization-variable exampleindent=15"
+  ))
+
+;; # abbreviate long command
+
+{alias 1 setsid -f $TERMINAL >/dev/null 2>&1}
+{alias v nvim}
+{alias i info}
+{alias s schemesh}
+
+;; # abbreviate git command
+
+{alias gs git status -sb}
+{alias gd git diff}
+{alias gl git log --all --oneline --graph}
+
+{alias gr git restore}
+{alias ga git add --all}
+{alias gc git commit --allow-empty-message -m ""}
+;; https://stackoverflow.com/questions/6218199/git-commit-with-no-commit-message
+{alias gca git commit --allow-empty-message --amend --no-edit}
+{alias gj git fetch}
+{alias gk git push}
+{alias gp git pull}
+
+{alias gccs git config credential.helper store}
+
+{alias gsl find . -maxdepth 1 -mindepth 1 -type d -exec sh -c '(echo {} && cd {} && git status -s && echo)' \;}
+;; https://stackoverflow.com/a/65970494
+
+(sh-alias "gg" (lambda (args) (list "cd" (sh-run/string-rtrim-newlines {git rev-parse --show-toplevel}))))
+;; https://blogboard.io/blog/knowledge/cd-to-git-root/
+;; https://github.com/cosmos72/schemesh/issues/59

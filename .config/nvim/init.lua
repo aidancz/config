@@ -150,11 +150,11 @@ do
 	-- # autocmd
 	-- https://github.com/nvim-mini/mini.nvim/issues/1378
 
+	-- require("_nvim-fundo") -- https://github.com/neovim/neovim/pull/36262
 	-- require("_nvim-lspconfig")
 	require("_go-up")
 	require("_guess-indent")
 	require("_gutter")
-	require("_nvim-fundo")
 	require("autocmd")
 	require("lsp")
 

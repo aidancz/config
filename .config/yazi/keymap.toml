@@ -5,6 +5,7 @@ keymap = [
 	# basic
 	{ on = "<f1>",             run = "close" },
 	{ on = [ "<f2>", "<f1>" ], run = "quit" },
+	{ on = "Q",                run = "quit --no-cwd-file" },
 	{ on = "<esc>",            run = ["escape", "unyank"] },
 	{ on = "<f3>",             run = "help" },
 	# { on = "<c-t>",            run = "tab_create --current" },
