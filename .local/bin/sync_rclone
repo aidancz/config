@@ -10,7 +10,9 @@ rclone mkdir remote:sync_cloud
 # --compare size,modtime,checksum \
 # --slow-hash-sync-only \
 # --resilient \
-# -MvP \
+# --metadata \
+# --verbose \
+# --progress \
 # --drive-skip-gdocs \
 # --fix-case \
 # --resync \
@@ -21,16 +23,30 @@ rclone mkdir remote:sync_cloud
 # --compare size,modtime,checksum \
 # --slow-hash-sync-only \
 # --resilient \
-# -MvP \
+# --metadata \
+# --verbose \
+# --progress \
 # --drive-skip-gdocs \
 # --fix-case \
 # --resync
+
+# rclone bisync remote:sync_cloud ~/sync_cloud \
+# --create-empty-src-dirs \
+# --compare size,modtime,checksum \
+# --slow-hash-sync-only \
+# --resilient \
+# --metadata \
+# --verbose \
+# --progress \
+# --drive-skip-gdocs \
+# --fix-case
 
 rclone bisync remote:sync_cloud ~/sync_cloud \
 --create-empty-src-dirs \
 --compare size,modtime,checksum \
 --slow-hash-sync-only \
 --resilient \
--MvP \
+--metadata \
+--quiet \
 --drive-skip-gdocs \
 --fix-case

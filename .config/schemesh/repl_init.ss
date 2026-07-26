@@ -47,7 +47,7 @@
 (linectx-keytable-insert! linectx-default-keytable
   (lambda (lctx)
     (linectx-eof-set! lctx #t))
-  "\x1b;\x4f;\x50;")
+  "\x1b;OP")
 ;; <f1>
 
 (linectx-keytable-insert! linectx-default-keytable
@@ -57,7 +57,8 @@
 ;; C-x C-t
 
 (linectx-keytable-insert! linectx-default-keytable
-  lineedit-key-redraw "\x18;\x0c;")
+  lineedit-key-redraw
+  "\x18;\x0c;")
 ;; C-x C-l
 
 (linectx-keytable-insert! linectx-default-keytable
@@ -68,12 +69,12 @@
 
 (linectx-keytable-insert! linectx-default-keytable
   lineedit-key-history-next
-  "\x1b;\x5b;\x42;")
+  "\x1b;[B")
 ;; <down>
 
 (linectx-keytable-insert! linectx-default-keytable
   lineedit-key-history-prev
-  "\x1b;\x5b;\x41;")
+  "\x1b;[A")
 ;; <up>
 
 (linectx-keytable-insert! linectx-default-keytable
@@ -88,24 +89,30 @@
   "\x10;")
 ;; C-p
 
-;; (linectx-keytable-insert! linectx-default-keytable
-;;   (lambda (lctx)
-;;     ;; (repl-parser-set 'scheme)
-;;     ;; (repl-parser-set 'shell)
-;;     ;; (repl-parser-toggle)
-;;   "\x1b;\x4f;\x51;\x0d;")
-;; ;; <f2> s
+(linectx-keytable-insert! linectx-default-keytable
+  (lambda (lctx)
+    (linectx-parser-name-set! lctx 'scheme)
+    (lineedit-key-redraw lctx))
+  "\x1b;OQs")
+;; <f2> s
+
+(linectx-keytable-insert! linectx-default-keytable
+  (lambda (lctx)
+    (linectx-parser-name-set! lctx 'shell)
+    (lineedit-key-redraw lctx))
+  "\x1b;OQx")
+;; <f2> x
 
 (linectx-keytable-insert! linectx-default-keytable
   (lambda (lctx)
     (sh-run {setsid -f $TERMINAL >/dev/null 2>&1}))
-  "\x1b;\x4f;\x51;\x0d;")
+  "\x1b;OQ\x0d;")
 ;; <f2> <cr>
 
 ;; (linectx-keytable-insert! linectx-default-keytable
 ;;   (lambda (lctx)
 ;;     ())
-;;   "\x1b;\x4f;\x51;\x77;")
+;;   "\x1b;OQw")
 ;; ;; <f2> w
 ;; ;; TODO: zoxide
 
@@ -119,36 +126,40 @@
         (cd (dirname path)))
       ;; (linectx-redraw-all lctx)
     ))
-  "\x1b;\x4f;\x51;\x65;")
+  "\x1b;OQe")
 ;; <f2> e
 
 (sh-alias "y"
   (lambda (args)
     (let ((tmp (sh-run/string-rtrim-newlines {mktemp -t "yazi-cwd.XXXXXX"})))
-      (sh-run {command yazi (values args) (string-append "--cwd-file=" tmp)})
-      (let ((cwd (call-with-input-file tmp get-string-all)))
-        (if (and (not (eof-object? cwd))
-                 (not (string=? cwd (charspan->string (sh-cwd (sh-globals)))))
-                 (file-directory? cwd))
-            (sh-cd (sh-globals) cwd)))
-      (file-delete tmp))
+      (dynamic-wind
+        void
+        (lambda ()
+          (sh-run {command yazi (values args) (string-append "--cwd-file=" tmp)})
+          (let ((cwd (call-with-input-file tmp get-string-all)))
+            (if (and (not (eof-object? cwd))
+                     (not (string=? cwd (charspan->string (sh-cwd (sh-globals)))))
+                     (file-directory? cwd))
+                (sh-cd (sh-globals) cwd))))
+        (lambda ()
+          (file-delete tmp))))
     (quote ())))
 
 (linectx-keytable-insert! linectx-default-keytable
   (lambda (lctx)
     (sh-run {y}))
-  "\x1b;\x4f;\x51;\x66;")
+  "\x1b;OQf")
 ;; <f2> f
 ;; https://yazi-rs.github.io/docs/quick-start#shell-wrapper
 
 (linectx-keytable-insert! linectx-default-keytable
   (lambda (lctx)
     (sh-run {nvim}))
-  "\x1b;\x4f;\x51;\x76;")
+  "\x1b;OQv")
 ;; <f2> v
 
 (linectx-keytable-insert! linectx-default-keytable
   (lambda (lctx)
     (sh-run {tig}))
-  "\x1b;\x4f;\x51;\x74;")
+  "\x1b;OQt")
 ;; <f2> t
