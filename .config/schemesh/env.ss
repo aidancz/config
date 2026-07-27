@@ -225,7 +225,7 @@
 ;; https://stackoverflow.com/questions/74039591/how-to-clear-git-log-pager-output-after-closing
 ;; https://stackoverflow.com/questions/8883189/how-can-i-turn-on-a-pager-for-the-output-of-git-status
 
-(sh-env-set! #t "LESS_TERMCAP_DEBUG" "1" 'export)
+;; (sh-env-set! #t "LESS_TERMCAP_DEBUG" "1" 'export)
 (sh-env-set! #t "GROFF_NO_SGR"       "1" 'export)
 
 (sh-env-set! #t "LESS_TERMCAP_mb" (sh-run/string {printf '\e[31m'}) 'export)

@@ -1,3 +1,5 @@
+-- # define M
+
 local M = {}
 
 M.lead = function(lnum)
@@ -77,34 +79,64 @@ M.indent_if_empty = function()
 	M.insert_indent()
 end
 
+M.count_lead = function(lead)
+	local expandtab = string.gsub(lead, "\t", string.rep(" ", vim.o.tabstop))
+	return string.len(expandtab)
+end
+
 -- return M
 
+-- # option 1: simulate vim.o.autoindent
+
+-- vim.keymap.set(
+-- 	"i",
+-- 	"<cr>",
+-- 	function()
+-- 		vim.api.nvim_paste("\n", false, -1)
+-- 		M.indent_if_col1()
+-- 	end
+-- )
+
+-- vim.keymap.set(
+-- 	"i",
+-- 	"<s-cr>",
+-- 	"<cr><cmd>.m.-2<cr>",
+-- 	{
+-- 		remap = true
+-- 	}
+-- )
+
+-- vim.api.nvim_create_augroup("autoindent", {clear = true})
+-- vim.api.nvim_create_autocmd(
+-- 	"ModeChanged",
+-- 	{
+-- 		group = "autoindent",
+-- 		pattern = "*:i*",
+-- 		callback = function()
+-- 			M.indent_if_empty()
+-- 		end,
+-- 	}
+-- )
+
+-- # option 2: use vim.o.autoindent
+
+-- NOTE: vim.o.autoindent: insert mode <cr>, normal mode o/O
+-- NOTE: vim.o.indentexpr: indent after invoking the c operator
+
+_G.indentexpr = function()
+	return M.count_lead(M.lead_max(vim.v.lnum))
+end
+vim.o.indentexpr = "v:lua.indentexpr()"
+
 vim.keymap.set(
+	"n",
 	"i",
-	"<cr>",
 	function()
-		vim.api.nvim_paste("\n", false, -1)
-		M.indent_if_col1()
-	end
-)
-
-vim.keymap.set(
-	"i",
-	"<s-cr>",
-	"<cr><cmd>.m.-2<cr>",
-	{
-		remap = true
-	}
-)
-
-vim.api.nvim_create_augroup("autoindent", {clear = true})
-vim.api.nvim_create_autocmd(
-	"ModeChanged",
-	{
-		group = "autoindent",
-		pattern = "*:i*",
-		callback = function()
-			M.indent_if_empty()
-		end,
-	}
+		if vim.fn.getline(".") == "" then
+			return [["_c_]]
+		else
+			return "i"
+		end
+	end,
+	{expr = true}
 )

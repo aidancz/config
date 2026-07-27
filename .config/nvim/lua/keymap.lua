@@ -149,15 +149,15 @@ vim.keymap.set({"n", "x", "o"}, "s", "gg")
 
 -- ## (hori (next-final prev-final))
 
-vim.keymap.set({"n", "x", "o"}, "]", "$")
+-- vim.keymap.set({"n", "x", "o"}, "]", "$")
 
--- vim.keymap.set(
--- 	{"n", "x", "o"},
--- 	"]",
--- 	function()
--- 		vim.fn.cursor({0, vim.v.maxcol, 0, vim.v.maxcol})
--- 	end
--- )
+vim.keymap.set(
+	{"n", "x", "o"},
+	"]",
+	function()
+		vim.fn.cursor({0, vim.v.maxcol, 0, vim.v.maxcol})
+	end
+)
 
 vim.keymap.set({"n", "x", "o"}, "[", "0")
 
@@ -467,6 +467,14 @@ vim.fn.digraph_set("xx", "×")
 vim.fn.digraph_set("-<", "←")
 vim.fn.digraph_set("-^", "↑")
 vim.fn.digraph_set("^v", "↕")
+
+-- ## insert mode <s-cr> should do the opposite of <cr>
+
+vim.keymap.set(
+	"i",
+	"<s-cr>",
+	"<cr><cmd>.m.-2<cr>"
+)
 
 -- ## insert mode <right> and <left> should not break dot-repeat
 
