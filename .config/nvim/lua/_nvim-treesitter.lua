@@ -52,6 +52,7 @@ local parsers = {
 	"markdown",
 	"markdown_inline",
 	"toml",
+	"typescript",
 	"vim",
 	"xml",
 	"xresources",

@@ -142,7 +142,7 @@ do
 	-- require("_mini-tabline")
 	-- require("_mini-trailspace")
 	-- require("_outline_HACK1")
-	-- require("_yanky") -- lazy loading causes the cursor to flicker
+	-- require("_yanky") -- cursor flicker when lazy loading
 	require("_buvvers")
 	require("_whitespace")
 	require("statusline")
@@ -194,6 +194,7 @@ do
 	-- require("_atone")
 	-- require("_auto-cmdheight")
 	-- require("_bufferline")
+	-- require("_fcitx") -- cursor flicker when <esc>
 	-- require("_fidget")
 	-- require("_fzfx")
 	-- require("_gitsigns")
@@ -239,7 +240,6 @@ do
 	require("_auto-save")
 	require("_blink-cmp")
 	require("_conform")
-	require("_fcitx")
 	require("_friendly-snippets")
 	require("_fzf-lua__enchanted-files")
 	require("_fzf-lua__frecency")
