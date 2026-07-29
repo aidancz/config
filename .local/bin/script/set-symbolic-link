@@ -1,0 +1,73 @@
+#!/usr/bin/env schemesh
+#!scheme
+
+;; # sync from A to B
+
+(define A        "/home/aidan/sync_git/config")
+(define A_config (string-append A "/.config"))
+(define A_data   (string-append A "/.local/share"))
+(define A_bin    (string-append A "/.local/bin"))
+
+(sh-eval-file (string-append A "/.config/schemesh/env.ss"))
+
+(define B        "/home/aidan")
+(define B_config (sh-env-ref #t "XDG_CONFIG_HOME"))
+(define B_cache  (sh-env-ref #t "XDG_CACHE_HOME"))
+(define B_data   (sh-env-ref #t "XDG_DATA_HOME"))
+(define B_state  (sh-env-ref #t "XDG_STATE_HOME"))
+(define B_bin    (sh-env-ref #t "XDG_EXE_HOME"))
+
+(define mkdir
+  (lambda (path)
+    (sh-run {mkdir -p (values path)})))
+
+(define ls
+  (lambda (path)
+    (filter (lambda (x) (not (member x '("." ".."))))
+            (directory-list path))))
+
+(define rm
+  (lambda (path)
+    (sh-run {rm -rf (values path)})))
+
+(define ln
+  (lambda (path link)
+    (sh-run {ln -sf --no-target-directory (values path) (values link)})))
+;; --no-target-directory is for explicitness
+
+(define sync
+  (lambda (from to)
+    (mkdir to)
+    (for-each
+      (lambda (i)
+        (rm (string-append to "/" i))
+        (ln (string-append from "/" i) (string-append to "/" i)))
+      (ls from))))
+
+;; start
+
+(sync A_config B_config)
+(sync A_data B_data)
+(sync A_bin B_bin)
+
+(sync (string-append A_config "/emacs_") (string-append B_config "/emacs"))
+(sync (string-append A_config "/glide_") (string-append B_config "/glide"))
+
+(mkdir B_cache)
+(mkdir B_state)
+
+(ln (string-append A_config "/sh/.env")         (string-append B "/.env"))
+(ln (string-append A_config "/sh/.profile")     (string-append B "/.profile"))
+(ln (string-append A_config "/sh/.profile")     (string-append B "/.bash_profile"))
+(ln (string-append A_config "/sh/.profile")     (string-append B "/.zprofile"))
+(ln (string-append A_config "/sh/.shrc")        (string-append B "/.shrc"))
+(ln (string-append A_config "/bash/.bashrc")    (string-append B "/.bashrc"))
+(ln (string-append A_config "/x11/.xprofile")   (string-append B "/.xprofile"))
+(ln (string-append A_config "/x11/.xinitrc")    (string-append B "/.xinitrc"))
+(ln (string-append A_config "/x11/.Xresources") (string-append B "/.Xresources"))
+(ln (string-append A_config "/x11/.Xmodmap")    (string-append B "/.Xmodmap"))
+(ln (string-append A_config "/ex/.exrc")        (string-append B "/.exrc"))
+(ln (string-append A_config "/chez/.schemerc")  (string-append B "/.schemerc"))
+(ln (string-append A_config "/vim/.vimrc")      (string-append B "/.vimrc"))
+;; (ln (string-append A_config "/alsa/.asoundrc")  (string-append B "/.asoundrc"))
+;; (ln (string-append A_config "/less/.lesskey")   (string-append B "/.lesskey")) ; use $LESSKEYIN instead

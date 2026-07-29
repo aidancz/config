@@ -51,6 +51,7 @@ alias gc="git commit --allow-empty-message -m ''"
 alias gca="git commit --allow-empty-message --amend --no-edit"
 alias gj="git fetch"
 alias gk="git push"
+alias gp="git pull"
 
 alias gccs="git config credential.helper store"
 

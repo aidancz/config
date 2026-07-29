@@ -1,5 +1,10 @@
 ;; https://github.com/cosmos72/schemesh/tree/main/doc
 
+;; # scheme debug
+
+;; (exit)
+;; (error #f "done")
+
 ;; # env
 
 ;; (sh-eval-file (shell-string {$XDG_CONFIG_HOME/schemesh/env.ss}))

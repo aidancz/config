@@ -32,6 +32,7 @@
         (sh-env-set! #t "PATH" (path_list->string (cons p path)) 'export)))))
 
 (path_prepend (shell-string {$HOME/.local/bin}))
+(path_prepend (shell-string {$HOME/.local/bin/script}))
 (path_prepend (shell-string {$AIDAN_GIT/yazi/target/release}))
 (path_prepend (shell-string {$HOME/.cargo/bin}))
 (path_prepend "/usr/heirloom/bin")

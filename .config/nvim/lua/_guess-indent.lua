@@ -3,5 +3,5 @@ vim.pack.add({
 })
 
 require("guess-indent").setup({
-	auto_cmd = false,
+	auto_cmd = true,
 })
