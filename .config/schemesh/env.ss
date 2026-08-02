@@ -47,11 +47,11 @@
 
 ;; # program default
 
-(sh-env-set! #t "TERMINAL" "st"      'export)
-(sh-env-set! #t "EDITOR"   "nvim"    'export)
-(sh-env-set! #t "VISUAL"   "nvim"    'export)
-(sh-env-set! #t "PAGER"    "less"    'export)
-(sh-env-set! #t "BROWSER"  "firefox" 'export)
+(sh-env-set! #t "TERMINAL" "st"        'export)
+(sh-env-set! #t "EDITOR"   "nvim"      'export)
+(sh-env-set! #t "VISUAL"   "nvim"      'export)
+(sh-env-set! #t "PAGER"    "less"      'export)
+(sh-env-set! #t "BROWSER"  "glide-bin" 'export)
 
 ;; # program path
 
@@ -144,17 +144,23 @@
 
   ) " ") 'export)
 
+(sh-env-set! #t "FZF_DEFAULT_OPTS_NO_SORT"
+  (string-replace-all
+    (sh-env-ref #t "FZF_DEFAULT_OPTS")
+    "--sort"
+    "--no-sort"))
+
 (sh-env-set! #t "ESCDELAY" "0" 'export)
 ;; https://github.com/junegunn/fzf/issues/2052
 ;; https://minsw.github.io/fzf-color-picker/
 
 ;; # program config zoxide
 
-(sh-env-set! #t "_ZO_FZF_OPTS" (sh-env-ref #t "FZF_DEFAULT_OPTS") 'export)
+(sh-env-set! #t "_ZO_FZF_OPTS" (sh-env-ref #t "FZF_DEFAULT_OPTS_NO_SORT") 'export)
 
 ;; # program config yazi
 
-(sh-env-set! #t "YAZI_ZOXIDE_OPTS" (sh-env-ref #t "FZF_DEFAULT_OPTS") 'export)
+(sh-env-set! #t "YAZI_ZOXIDE_OPTS" (sh-env-ref #t "FZF_DEFAULT_OPTS_NO_SORT") 'export)
 
 ;; # program config ls
 

@@ -238,7 +238,7 @@ https://github.com/neovim/neovim/issues/37575
 
 vim.o.startofline = false
 vim.o.jumpoptions = "stack,view"
-vim.o.whichwrap = ""
+vim.o.whichwrap = "h,l,<,>,[,]"
 vim.o.matchpairs = "(:),{:},[:],<:>"
 
 -- ## search
