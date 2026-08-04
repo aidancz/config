@@ -18,10 +18,49 @@
 
 glide.prefs.set("general.smoothScroll", true);
 
+glide.prefs.set("sidebar.verticalTabs", true);
+glide.prefs.set("sidebar.position_start", false); // move sidebar to the right
+
+glide.autocmds.create("ConfigLoaded", () => {
+  let state = JSON.parse(glide.prefs.get("browser.uiCustomization.state"));
+  state.placements["nav-bar"] = [
+    "back-button",
+    "forward-button",
+    "stop-reload-button",
+    "glide-toolbar-mode-button",
+    "customizableui-special-spring1",
+    "vertical-spacer",
+    "urlbar-container",
+    "customizableui-special-spring2",
+    "downloads-button",
+    "glide-toolbar-keyseq-button",
+    "fxa-toolbar-menu-button",
+    "reset-pbm-toolbar-button",
+    "unified-extensions-button",
+    "firefox-view-button",
+    "alltabs-button",
+    "sidebar-button"
+  ];
+  state.placements.PersonalToolbar = [
+    "personal-bookmarks"
+  ];
+  glide.prefs.set("browser.uiCustomization.state", JSON.stringify(state));
+});
+
+glide.prefs.set("browser.toolbars.bookmarks.visibility", "always");
+
+glide.prefs.set("font.default.x-western",             "sans-serif");
+glide.prefs.set("font.name.serif.x-western",          "serif");
+glide.prefs.set("font.name.sans-serif.x-western",     "sans-serif");
+glide.prefs.set("font.name.monospace.x-western",      "monospace");
+glide.prefs.set("font.size.monospace.x-western",      16);
+glide.prefs.set("browser.display.use_document_fonts", 0);
+
 glide.o.hint_size = "16px";
 glide.o.hint_chars = "kdjflsieowmv";
 glide.o.which_key_delay = 0;
 glide.o.switch_mode_on_focus = false;
+glide.o.scroll_implementation = "keys"; // "keys" | "legacy"
 
 glide.keymaps.set(["normal", "insert"], "<C-w>", () => {});
 glide.keymaps.set(["normal", "insert"], "<C-Esc>", "blur");
@@ -72,6 +111,8 @@ glide.keymaps.set("normal", "y", "url_yank");
 glide.keymaps.set("normal", "m",         "hint");
 glide.keymaps.set("normal", "<leader>m", "hint --action=newtab-click");
 glide.keymaps.set("normal", "M",         "hint --location=browser-ui");
+
+glide.keymaps.set("normal", "<leader>i", "focusinput last");
 
 glide.keymaps.set("normal", "r", "clear");
 glide.keymaps.set("normal", "c", "commandline_show tab ");

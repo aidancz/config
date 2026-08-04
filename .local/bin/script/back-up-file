@@ -1,13 +1,82 @@
-#!/bin/sh
+#!/usr/bin/env schemesh
+#!scheme
 
-input="$*"
+(define input
+  (list
 
-date="$(date +'%Y%m%d-%H%M%S-%N')"
-dir="$HOME/$date"
-output="$HOME/$date.7z"
+    (shell-string {$AIDAN_CLOUD})
 
-rm -rf "$dir"
-mkdir "$dir"
-cp -r $input "$dir"
-7z a -p -mhe "$output" "$dir"
-rm -rf "$dir"
+            ;; (shell-string {$AIDAN_CLOUD/archive})
+            ;; (shell-string {$AIDAN_CLOUD/backup})
+            ;; (shell-string {$AIDAN_CLOUD/book})
+            ;; (shell-string {$AIDAN_CLOUD/fonts})
+            ;; (shell-string {$AIDAN_CLOUD/game})
+            ;; (shell-string {$AIDAN_CLOUD/password})
+            ;; (shell-string {$AIDAN_CLOUD/software_windows})
+            ;; (shell-string {$AIDAN_CLOUD/todo})
+
+    ;; (shell-string {$AIDAN_GIT})
+
+            (shell-string {$AIDAN_GIT/config})
+            (shell-string {$AIDAN_GIT/note})
+
+            (shell-string {$AIDAN_GIT/1Writer-actions})
+            (shell-string {$AIDAN_GIT/aidancz})
+            (shell-string {$AIDAN_GIT/dmenu})
+            (shell-string {$AIDAN_GIT/ivim})
+            (shell-string {$AIDAN_GIT/luke_dwm})
+            (shell-string {$AIDAN_GIT/luke_dwmblocks})
+            (shell-string {$AIDAN_GIT/luke_st})
+            (shell-string {$AIDAN_GIT/nsxiv})
+            (shell-string {$AIDAN_GIT/preonicf})
+            (shell-string {$AIDAN_GIT/scriptable})
+
+            (shell-string {$AIDAN_GIT/buvvers.nvim})
+            (shell-string {$AIDAN_GIT/nofrils.nvim})
+            (shell-string {$AIDAN_GIT/go-up.nvim})
+            (shell-string {$AIDAN_GIT/paramo.nvim})
+            (shell-string {$AIDAN_GIT/tT.nvim})
+            (shell-string {$AIDAN_GIT/lfsp.nvim})
+            (shell-string {$AIDAN_GIT/whitespace.nvim})
+            (shell-string {$AIDAN_GIT/eolmark.nvim})
+            (shell-string {$AIDAN_GIT/xX.nvim})
+
+  ))
+
+(define display-green
+  (lambda (str)
+    (display "\x1b;[32m")
+    (display str)
+    (display "\x1b;[0m")
+    (newline)))
+
+(define display-red
+  (lambda (str)
+    (display "\x1b;[31m")
+    (display str)
+    (display "\x1b;[0m")
+    (newline)))
+
+(for-each
+  (lambda (file)
+    (if (file-exists? file)
+        (display-green file)
+        (display-red file)))
+  input)
+
+(define input-filtered
+  (filter file-exists? input))
+
+(define output
+  (string-append
+    (shell-string {$HOME})
+    "/"
+    (sh-run/string-rtrim-newlines {date +'%Y%m%d-%H%M%S-%N'})
+    ".7z"))
+
+(sh-run/i {7z a -p -mhe (values output) (values input-filtered)})
+
+(define output-volume
+  (string-replace-suffix output ".7z" "_volume.7z"))
+
+(sh-run/i {7z a -v3g (values output-volume) (values output)})
