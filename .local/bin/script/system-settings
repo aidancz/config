@@ -1,39 +1,33 @@
-#!/bin/sh
+#!/usr/bin/env schemesh
+#!scheme
 
-if [ -n "$1" ]; then
+(define pick
+  (lambda (items prompt)
+    (sh-run/string-rtrim-newlines
+      {(shell-expr (display items)) | dmenu -l 64 -i -p (values prompt)}
+    )))
 
-i="$1"
-
-else
-
-menu="\
+(define item
+  (pick
+"\
 set-symbolic-link-with-appearance dark
 set-symbolic-link-with-appearance light
 set-keyboard
 network
 volume
 "
-i="$(printf "%s" "$menu" | dmenu -l 64 -i -p 'system setting')"
+"system setting"
+  ))
 
-fi
-
-case "$i" in
-	"set-symbolic-link-with-appearance dark")
-		set-symbolic-link-with-appearance dark
-		;;
-	"set-symbolic-link-with-appearance light")
-		set-symbolic-link-with-appearance light
-		;;
-	"set-keyboard")
-		set-keyboard
-		;;
-	"network")
-		setsid -f "$TERMINAL" -e nmtui
-		;;
-	"volume")
-		setsid -f "$TERMINAL" -e pulsemixer
-		;;
-	*)
-		exit 1
-		;;
-esac
+(case item
+  ("set-symbolic-link-with-appearance dark"
+    (sh-run {set-symbolic-link-with-appearance dark}))
+  ("set-symbolic-link-with-appearance light"
+    (sh-run {set-symbolic-link-with-appearance light}))
+  ("set-keyboard"
+    (sh-run {set-keyboard}))
+  ("network"
+    (sh-run {setsid -f "$TERMINAL" -e nmtui}))
+  ("volume"
+    (sh-run {setsid -f "$TERMINAL" -e pulsemixer}))
+)
