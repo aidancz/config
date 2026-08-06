@@ -1,0 +1,3 @@
+#!/bin/sh
+
+cat /tmp/screen-cast_status 2> /dev/null

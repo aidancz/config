@@ -74,9 +74,11 @@
     (sh-run/string-rtrim-newlines {date +'%Y%m%d-%H%M%S-%N'})
     ".7z"))
 
-(sh-run/i {7z a -p -mhe (values output) (values input-filtered)})
-
 (define output-volume
   (string-replace-suffix output ".7z" "_volume.7z"))
 
-(sh-run/i {7z a -v3g (values output-volume) (values output)})
+(sh-run/i
+  (sh-and
+    {7z a -p -mhe (values output) (values input-filtered)}
+    {7z a -v3g (values output-volume) (values output)}
+  ))

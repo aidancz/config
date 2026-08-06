@@ -1,4 +1,3 @@
 #!/bin/sh
 
-cd "$HOME" || exit
-find . -xtype l -delete
+find "$HOME" -xtype l -delete

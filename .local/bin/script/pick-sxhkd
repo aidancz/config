@@ -1,29 +1,33 @@
-#!/bin/sh
+#!/usr/bin/env schemesh
+#!scheme
 
-menu="\
+(define pick
+  (lambda (items prompt)
+    (sh-run/string-rtrim-newlines
+      {(shell-expr (display items)) | dmenu -l 64 -i -p (values prompt)}
+    )))
+
+(define item
+  (pick
+"\
 screenkey
 screenkey --show-settings
 gromit-mpx --toggle
 screen-shot
 stalonetray
 "
+"run"
+  ))
 
-i="$(printf "%s" "$menu" | dmenu -l 64 -i -p "run")"
-
-case "$i" in
-	"screenkey")
-		killall screenkey || screenkey &
-		;;
-	"screenkey --show-settings")
-		killall screenkey || screenkey --show-settings &
-		;;
-	"gromit-mpx --toggle")
-		gromit-mpx --toggle &
-		;;
-	"screen-shot")
-		screen-shot
-		;;
-	"stalonetray")
-		killall stalonetray || stalonetray &
-		;;
-esac
+(case item
+  ("screenkey"
+    (sh-run {killall screenkey || screenkey &}))
+  ("screenkey --show-settings"
+    (sh-run {killall screenkey || screenkey --show-settings &}))
+  ("gromit-mpx --toggle"
+    (sh-run {gromit-mpx --toggle &}))
+  ("screen-shot"
+    (sh-run {screen-shot}))
+  ("stalonetray"
+    (sh-run {killall stalonetray || stalonetray &}))
+)

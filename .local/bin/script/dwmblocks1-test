@@ -3,10 +3,10 @@
 case "$BLOCK_BUTTON" in
 	1)
 		notify-send "button 1"
+		pkill -RTMIN+1 dwmblocks
 		;;
 	2)
 		notify-send "button 2"
-		pkill -RTMIN+1 dwmblocks
 		;;
 	3)
 		notify-send "button 3"

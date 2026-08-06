@@ -7,5 +7,5 @@ xset r rate 240 32
 # key repeat delay: 240ms
 # key repeat rate: 32ms
 
-[ -f ~/.Xmodmap ] && xmodmap ~/.Xmodmap
+xmodmap ~/.Xmodmap
 # http://xahlee.info/linux/linux_xmodmap_f13_f14_f15.html

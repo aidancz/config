@@ -1,0 +1,66 @@
+#!/usr/bin/env schemesh
+#!scheme
+
+;; # help functions
+
+(define get-resolution
+  (lambda ()
+    (sh-run/string-rtrim-newlines
+      {xrandr | grep -oP '(?<=current ).*(?=,)' | tr -d ' '}
+    )))
+
+(define get-timestamp
+  (lambda ()
+    (sh-run/string-rtrim-newlines
+      {date +'%Y%m%d-%H%M%S-%N'}
+    )))
+
+(define get-output-path
+  (lambda (extension)
+    (string-append
+      (shell-string {$HOME})
+      "/"
+      (get-timestamp)
+      extension)))
+
+(define update-pid
+  (lambda (pid)
+    (sh-run
+      {echo (values pid) > /tmp/screen-cast-pid}
+    )))
+
+(define update-status
+  (lambda (status)
+    (sh-run
+      {
+        echo (values status) > /tmp/screen-cast-status
+        pkill -RTMIN+2 dwmblocks
+      }
+    )))
+
+;; # wrap commands in functions
+
+(define video-and-audio
+  (lambda ()
+    (sh-run/i
+      {
+
+        ffmpeg            \
+        -f                x11grab          \
+        -framerate        30               \
+        -s                (get-resolution) \
+        -i                "$DISPLAY"       \
+        -f                alsa             \
+        -i                default          \
+        -c:v              libx264          \
+        -preset           ultrafast        \
+        -c:a              aac              \
+        (get-output-path) \
+        &
+
+        # https://wiki.archlinux.org/title/FFmpeg#Screen_capture
+
+      })
+    (update-pid ???)
+    (update-status "(record video audio)")
+  ))

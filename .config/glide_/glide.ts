@@ -65,6 +65,7 @@ glide.o.scroll_implementation = "keys"; // "keys" | "legacy"
 glide.keymaps.set(["normal", "insert"], "<C-w>", () => {});
 glide.keymaps.set(["normal", "insert"], "<C-Esc>", "blur");
 
+glide.keymaps.del("normal", "a");
 for (const map of glide.keymaps.list("normal")) {
   if (
     map.lhs.startsWith("g")
@@ -115,69 +116,11 @@ glide.keymaps.set("normal", "M",         "hint --location=browser-ui");
 glide.keymaps.set("normal", "<leader>i", "focusinput last");
 
 glide.keymaps.set("normal", "r", "clear");
-glide.keymaps.set("normal", "c", "commandline_show tab ");
 
-// glide.keymaps.set("normal", "<Esc>", "blur");
+glide.keymaps.set("normal", "c", "mode_change insert --automove=endline");
 
-// glide.keymaps.set("normal", "<C-e>", () => {
-// });
-
-// glide.keymaps.set(["insert", "visual", "op-pending"], "<Esc>", "mode_change normal; blur");
-// glide.keymaps.del(["insert", "visual", "op-pending"], "<Esc>");
-
-const getAllBookmarks = async function() {
-  const tree = await browser.bookmarks.getTree();
-  const result = [];
-
-  const walk = function(nodes) {
-    for (const node of nodes) {
-      if (node.url) {
-        result.push(node);
-      }
-      if (node.children) {
-        walk(node.children);
-      }
-    }
-  }
-
-  walk(tree);
-  return result;
-}
-
-glide.keymaps.set("normal", "x", async () => {
-  const bookmarks = await getAllBookmarks();
-  glide.commandline.show({
-    title: "bookmarks",
-    options: bookmarks.map((i) => ({
-      label: i.title.padEnd(64, ".") + i.url,
-      execute: async function() {
-        await browser.tabs.create({
-          active: true,
-          url: i.url,
-        });
-      },
-    })),
-  });
-});
-
-glide.keymaps.set("normal", "v", async () => {
-  const history = await browser.history.search({
-    text: "",
-    startTime: 0,
-    maxResults: 100000000,
-  })
-  glide.commandline.show({
-    title: "history",
-    options: history.map((i) => ({
-      label: (i.title ?? "").padEnd(64, ".") + i.url,
-      execute: async function() {
-        await browser.tabs.create({
-          active: true,
-          url: i.url,
-        });
-      },
-    })),
-  });
-});
+// glide.include("glide_picker.ts");
+glide.keymaps.set("normal", ".", "keys <C-S-.>");
 
 glide.keymaps.set("insert", "<C-w>", "keys <C-BS>");
+glide.keymaps.set("insert", "<C-u>", "keys <C-a><BS>");

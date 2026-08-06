@@ -1,36 +1,52 @@
-#!/bin/sh
+#!/usr/bin/env schemesh
+#!scheme
 
-output="$(date +'%Y%m%d-%H%M%S-%N').png"
-xclip_cmd="xclip -sel clip -t image/png"
+(define pick
+  (lambda (items prompt)
+    (sh-run/string-rtrim-newlines
+      {(shell-expr (display items)) | dmenu -l 64 -i -p (values prompt)}
+    )))
 
-menu="\
-selected (file)
-selected (clipboard)
-window (file)
-window (clipboard)
-screen (file)
-screen (clipboard)
+(define output
+  (string-append
+    (shell-string {$HOME})
+    "/"
+    (sh-run/string-rtrim-newlines {date +'%Y%m%d-%H%M%S-%N'})
+    ".png"))
+
+(define xclip {xclip -sel clip -t image/png})
+
+(define get-active-window
+  (lambda ()
+    (sh-run/string-rtrim-newlines {xdotool getactivewindow})))
+
+(define item
+  (pick
+"\
+selected
+window
+screen
 "
+"screen capture area"
+  ))
 
-i="$(printf "%s" "$menu" | dmenu -l 6 -i -p "screen capture area")"
-
-case "$i" in
-	"selected (file)")
-		maim -s "${output}"
-		;;
-	"selected (clipboard)")
-		maim -s | ${xclip_cmd}
-		;;
-	"window (file)")
-		maim -q -d 0.2 -i "$(xdotool getactivewindow)" "${output}"
-		;;
-	"window (clipboard)")
-		maim -q -d 0.2 -i "$(xdotool getactivewindow)" | ${xclip_cmd}
-		;;
-	"screen (file)")
-		maim -q -d 0.2 "${output}"
-		;;
-	"screen (clipboard)")
-		maim -q -d 0.2 | ${xclip_cmd}
-		;;
-esac
+(case item
+  ("selected"
+    (sh-run
+      {
+        maim --select \
+        | tee (values output) | (values xclip)
+      }))
+  ("window"
+    (sh-run
+      {
+        maim --quiet --delay 0.2 --window (get-active-window) \
+        | tee (values output) | (values xclip)
+      }))
+  ("screen"
+    (sh-run
+      {
+        maim --quiet --delay 0.2 \
+        | tee (values output) | (values xclip)
+      }))
+)

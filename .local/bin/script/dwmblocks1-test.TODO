@@ -1,0 +1,16 @@
+#!/usr/bin/env schemesh
+#!scheme
+
+(define dwmblocks-refresh-module
+  (lambda (signal)
+    (sh-run {pkill (string-append "-RTMIN+" signal) dwmblocks})))
+
+(case (sh-env-ref #t "BLOCK_BUTTON")
+  ("1" (sh-run {notify-send "button 1"}) (dwmblocks-refresh-module "1"))
+  ("2" (sh-run {notify-send "button 2"}))
+  ("3" (sh-run {notify-send "button 3"}))
+  ("4" (sh-run {notify-send "button 4"}))
+  ("5" (sh-run {notify-send "button 5"}))
+)
+
+{date +'%Y%m%d-%H%M%S-%N'}

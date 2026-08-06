@@ -2,10 +2,11 @@
 
 case "$BLOCK_BUTTON" in
 	1)
-		setsid -f "$TERMINAL" -e calcurse
+		notify-send "button 1"
+		pkill -RTMIN+4 dwmblocks
 		;;
 	3)
-		pkill -RTMIN+4 dwmblocks
+		setsid -f "$TERMINAL" -e calcurse
 		;;
 esac
 
