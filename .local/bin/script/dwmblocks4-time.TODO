@@ -1,0 +1,33 @@
+#!/usr/bin/env schemesh
+#!scheme
+
+;; # button
+
+(define dwmblocks-refresh-module
+  (lambda (signal)
+    (sh-run {pkill (string-append "-RTMIN+" signal) dwmblocks})))
+
+(case (sh-env-ref #t "BLOCK_BUTTON")
+  ("1" (sh-run {notify-send "button 1"}) (dwmblocks-refresh-module "4"))
+  ("3" (sh-run {"$TERMINAL" -e calcurse}))
+)
+
+;; # string
+
+(let ((date (current-date))
+      (weekdays #("sun" "mon" "tue" "wed" "thu" "fri" "sat")))
+  (printf "(date ~d-~2,'0d-~2,'0d ~2,'0d:~2,'0d:~2,'0d ~a)"
+    (date-year   date)
+    (date-month  date)
+    (date-day    date)
+    (date-hour   date)
+    (date-minute date)
+    (date-second date)
+    (vector-ref weekdays (date-week-day date))
+  ))
+
+;; Chez Scheme’s implementation of format supports all of the Common Lisp [30] format
+;; directives except for those specific to the Common Lisp pretty printer. Please consult a
+;; Common Lisp reference or the Common Lisp Hyperspec, for complete documentation.
+
+;; https://en.wikipedia.org/wiki/Format_(Common_Lisp)

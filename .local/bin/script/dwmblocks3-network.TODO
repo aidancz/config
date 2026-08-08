@@ -1,0 +1,71 @@
+#!/usr/bin/env schemesh
+#!scheme
+
+;; https://github.com/LukeSmithxyz/voidrice/blob/master/.local/bin/statusbar/sb-internet
+
+;; # button
+
+(define dwmblocks-refresh-module
+  (lambda (signal)
+    (sh-run {pkill (string-append "-RTMIN+" signal) dwmblocks})))
+
+(case (sh-env-ref #t "BLOCK_BUTTON")
+  ("1" (sh-run {notify-send "button 1"}) (dwmblocks-refresh-module "3"))
+  ("3" (sh-run {"$TERMINAL" -e nmtui}))
+)
+
+;; # string
+
+(define ethernet-on?
+  (lambda ()
+    (case (string-rtrim-newlines!
+            (call-with-input-file
+              (shell-string {/sys/class/net/e*/operstate})
+              get-string-all))
+      ("up" #t)
+      ("down" #f))))
+
+(define wifi-on?
+  (lambda ()
+    (case (string-rtrim-newlines!
+            (call-with-input-file
+              (shell-string {/sys/class/net/w*/operstate})
+              get-string-all))
+      ("up" #t)
+      ("down" #f))))
+
+(define wifi-ready?
+  (lambda ()
+    (case (string-rtrim-newlines!
+            (call-with-input-file
+              (shell-string {/sys/class/net/w*/flags})
+              get-string-all))
+      ("0x1003" #t)
+      (else #f))))
+
+(define get-wifi-quality-min0-max70
+  (lambda ()
+    (sh-run/string-rtrim-newlines
+      {
+        awk '/^\s*w/ {print $3}' /proc/net/wireless
+      })))
+
+(define number->percent-string
+  (lambda (number)
+    (format "~3d%" (inexact->exact (round (* 100 number))))))
+
+(define status-ethernet
+  (cond
+    ((ethernet-on?) "on")
+    (else "off")))
+
+(define status-wifi
+  (cond
+    ((wifi-on?) (number->percent-string (/ (get-wifi-quality-min0-max70) 70)))
+    ((wifi-ready?) "ready")
+    (else "off")))
+
+(define module
+  (format "(network ~a ~a)" status-ethernet status-wifi))
+
+(display module)
