@@ -1,27 +1,71 @@
-#!/bin/sh
+#!/usr/bin/env schemesh
+#!scheme
 
-case "$BLOCK_BUTTON" in
-	1)
-		notify-send "button 1"
-		pkill -RTMIN+3 dwmblocks
-		;;
-	3)
-		"$TERMINAL" -e nmtui
-		;;
-esac
+;; https://github.com/LukeSmithxyz/voidrice/blob/master/.local/bin/statusbar/sb-internet
 
-# wifi
+;; # button
 
-if [ "$(cat /sys/class/net/w*/operstate 2>/dev/null)" = 'up' ] ; then
-	wifi_status="$(awk '/^\s*w/ { printf "%03d%%", int($3 * 100 / 70) }' /proc/net/wireless)"
-elif [ "$(cat /sys/class/net/w*/operstate 2>/dev/null)" = 'down' ] ; then
-	[ "$(cat /sys/class/net/w*/flags 2>/dev/null)" = '0x1003' ] && wifi_status="not-connected" || wifi_status="off"
-fi
+(define dwmblocks-refresh-module
+  (lambda (signal)
+    (sh-run {pkill (string-append "-RTMIN+" signal) dwmblocks})))
 
-# ethernet
+(case (sh-env-ref #t "BLOCK_BUTTON")
+  ("1" (sh-run {notify-send "button 1"}) (dwmblocks-refresh-module "3"))
+  ("3" (sh-run {"$TERMINAL" -e nmtui}))
+)
 
-[ "$(cat /sys/class/net/e*/operstate 2>/dev/null)" = 'up' ] && ethernet_status="on" || ethernet_status="off"
+;; # string
 
-# printf
+(define ethernet-on?
+  (lambda ()
+    (case (string-rtrim-newlines!
+            (call-with-input-file
+              (shell-string {/sys/class/net/e*/operstate})
+              get-string-all))
+      ("up" #t)
+      ("down" #f))))
 
-printf "%s" "(network $wifi_status $ethernet_status)"
+(define wifi-on?
+  (lambda ()
+    (case (string-rtrim-newlines!
+            (call-with-input-file
+              (shell-string {/sys/class/net/w*/operstate})
+              get-string-all))
+      ("up" #t)
+      ("down" #f))))
+
+(define wifi-ready?
+  (lambda ()
+    (case (string-rtrim-newlines!
+            (call-with-input-file
+              (shell-string {/sys/class/net/w*/flags})
+              get-string-all))
+      ("0x1003" #t)
+      (else #f))))
+
+(define get-wifi-quality-min0-max70
+  (lambda ()
+    (sh-run/string-rtrim-newlines
+      {
+        awk '/^\s*w/ {print $3}' /proc/net/wireless
+      })))
+
+(define number->percent-string
+  (lambda (number)
+    (format "~3d%" (inexact->exact (round (* 100 number))))))
+
+(define status-ethernet
+  (cond
+    ((ethernet-on?) "on")
+    (else "off")))
+
+(define status-wifi
+  (cond
+    ((wifi-on?) (number->percent-string (/ (get-wifi-quality-min0-max70) 70)))
+    ((wifi-ready?) "ready")
+    (else "off")))
+
+(define module
+  (format "(network ~a ~a)" status-ethernet status-wifi))
+
+(display module)

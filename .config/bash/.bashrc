@@ -41,7 +41,8 @@ bind -x '"\eOP": exit'
 bind -x '"\eOQ\r": setsid -f $TERMINAL >/dev/null 2>&1'
 # <f2><cr>
 
-eval "$(zoxide init bash --no-cmd)"
+eval "$(zoxide init bash)"
+# eval "$(zoxide init bash --no-cmd)"
 bind -x '"\eOQw": __zoxide_zi; kill -INT $$'
 # <f2>w
 # https://superuser.com/questions/1662055/how-to-bind-x-keyboard-shortcut-and-refresh-prompt

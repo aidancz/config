@@ -1,0 +1,30 @@
+#!/usr/bin/env schemesh
+#!scheme
+
+(define input ???)
+
+(define pick
+  (lambda (items prompt)
+    (sh-run/string-rtrim-newlines
+      {(shell-expr (display items)) | dmenu -l 64 -i -p (values prompt)}
+    )))
+
+(define item
+  (pick
+"\
+"
+"run"
+  ))
+
+(case item
+  ("screenkey"
+    (sh-run {killall screenkey || screenkey &}))
+  ("screenkey --show-settings"
+    (sh-run {killall screenkey || screenkey --show-settings &}))
+  ("gromit-mpx --toggle"
+    (sh-run {gromit-mpx --toggle &}))
+  ("screen-shot"
+    (sh-run {screen-shot}))
+  ("stalonetray"
+    (sh-run {killall stalonetray || stalonetray &}))
+)

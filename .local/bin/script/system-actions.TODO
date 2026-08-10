@@ -1,0 +1,58 @@
+#!/usr/bin/env schemesh
+#!scheme
+
+;; https://github.com/LukeSmithxyz/voidrice/blob/master/.local/bin/sysact
+
+(define pick
+  (lambda (items prompt)
+    (sh-run/string-rtrim-newlines
+      {(shell-expr (display items)) | dmenu -l 64 -i -p (values prompt)}
+    )))
+
+(define get-current-tty
+  (lambda ()
+    (string-rtrim-newlines!
+      (call-with-input-file "/sys/devices/virtual/tty/tty0/active" get-string-all))))
+;; https://unix.stackexchange.com/questions/554600/determine-which-tty-is-in-the-foreground-currently-displayed
+
+(define get-current-dwm
+  (lambda ()
+    (car
+      (sh-run/string-split-after-nuls
+        {proc | where name -eq dwm -and tty -eq (get-current-tty) | get0 pid}))))
+
+(define item
+  (pick
+"\
+screen off
+window-manager renew
+window-manager leave
+system suspend
+system hibernate
+system reboot
+system poweroff
+"
+"system action"
+  ))
+
+(case item
+  ("screen off"
+    (sh-run {sleep 0.2 ; xset dpms force off}))
+    ;; https://wiki.archlinux.org/title/Display_Power_Management_Signaling#Runtime_settings
+  ("window-manager renew"
+    (sh-run {kill -HUP (get-current-dwm)}))
+  ("window-manager leave"
+    (sh-run {kill -TERM (get-current-dwm)}))
+  ("system suspend"
+    (sh-run {systemctl suspend -i}))
+  ("system hibernate"
+    (sh-run {systemctl hibernate -i}))
+    ;; does not work right now, check later
+    ;; https://www.reddit.com/r/archlinux/comments/85q84q/cant_get_hibernate_to_work/
+    ;; https://www.reddit.com/r/linuxquestions/comments/7swvyb/cannot_restore_session_after_hibernation/?utm_source=reddit-android
+    ;; https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate#Hibernation
+  ("system reboot"
+    (sh-run {systemctl reboot -i}))
+  ("system poweroff"
+    (sh-run {systemctl poweroff -i}))
+)

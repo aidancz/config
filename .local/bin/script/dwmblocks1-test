@@ -1,22 +1,20 @@
-#!/bin/sh
+#!/usr/bin/env schemesh
+#!scheme
 
-case "$BLOCK_BUTTON" in
-	1)
-		notify-send "button 1"
-		pkill -RTMIN+1 dwmblocks
-		;;
-	2)
-		notify-send "button 2"
-		;;
-	3)
-		notify-send "button 3"
-		;;
-	4)
-		notify-send "button 4"
-		;;
-	5)
-		notify-send "button 5"
-		;;
-esac
+;; # button
 
-printf "%s" "$(date +'%Y%m%d-%H%M%S-%N')"
+(define dwmblocks-refresh-module
+  (lambda (signal)
+    (sh-run {pkill (string-append "-RTMIN+" signal) dwmblocks})))
+
+(case (sh-env-ref #t "BLOCK_BUTTON")
+  ("1" (sh-run {notify-send "button 1"}) (dwmblocks-refresh-module "1"))
+  ("2" (sh-run {notify-send "button 2"}))
+  ("3" (sh-run {notify-send "button 3"}))
+  ("4" (sh-run {notify-send "button 4"}))
+  ("5" (sh-run {notify-send "button 5"}))
+)
+
+;; # string
+
+{date +'%Y%m%d-%H%M%S-%N'}

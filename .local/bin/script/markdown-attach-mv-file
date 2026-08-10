@@ -1,5 +1,14 @@
 #!/bin/sh
 
+# 1.
+# /tmp/a.md
+# /tmp/lkj.png
+# 2.
+# markdown-attach-mv-file /tmp/a.md /tmp/lkj.png
+# 3.
+# /tmp/a.md
+# /tmp/a_20260809215216621784457.png
+
 test "$#" -lt 2 && exit 1
 
 master_path="$1"
