@@ -13,9 +13,9 @@
 
 ;; # startx
 
-(if (and (string=? (sh-env-ref (sh-globals) "DISPLAY") "")
-         (string=? (sh-env-ref (sh-globals) "XDG_VTNR") "1"))
-    (sh-run {exec startx}))
+(when (and (string=? (sh-env-ref (sh-globals) "DISPLAY") "")
+           (string=? (sh-env-ref (sh-globals) "XDG_VTNR") "1"))
+  (sh-run {exec startx}))
 
 ;; # alias
 
@@ -114,12 +114,13 @@
   "\x1b;OQ\x0d;")
 ;; <f2> <cr>
 
-;; (linectx-keytable-insert! linectx-default-keytable
-;;   (lambda (lctx)
-;;     ())
-;;   "\x1b;OQw")
-;; ;; <f2> w
-;; ;; TODO: zoxide
+(sh-eval-file (shell-string {$XDG_CONFIG_HOME/schemesh/zoxide.ss}))
+
+(linectx-keytable-insert! linectx-default-keytable
+  (lambda (lctx)
+    (sh-run {zi}))
+  "\x1b;OQw")
+;; <f2> w
 
 (linectx-keytable-insert! linectx-default-keytable
   (lambda (lctx)
@@ -127,8 +128,8 @@
           (cd (top-level-value 'sh-cd))
           (dirname (lambda (path) (sh-run/string-rtrim-newlines {dirname (values path)}))))
       (if (file-directory? path)
-        (cd path)
-        (cd (dirname path)))
+          (cd path)
+          (cd (dirname path)))
       ;; (linectx-redraw-all lctx)
     ))
   "\x1b;OQe")
@@ -142,10 +143,10 @@
         (lambda ()
           (sh-run {command yazi (values args) (string-append "--cwd-file=" tmp)})
           (let ((cwd (call-with-input-file tmp get-string-all)))
-            (if (and (not (eof-object? cwd))
-                     (not (string=? cwd (charspan->string (sh-cwd (sh-globals)))))
-                     (file-directory? cwd))
-                (sh-cd (sh-globals) cwd))))
+            (when (and (not (eof-object? cwd))
+                       (not (string=? cwd (charspan->string (sh-cwd (sh-globals)))))
+                       (file-directory? cwd))
+              (sh-cd (sh-globals) cwd))))
         (lambda ()
           (file-delete tmp))))
     (quote ())))
