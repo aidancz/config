@@ -169,3 +169,5 @@
     (sh-run {tig}))
   "\x1b;OQt")
 ;; <f2> t
+
+(sh-eval-file "/home/aidan/sync_git/schemesh_atuin/atuin.schemesh" 'scheme)

@@ -284,6 +284,7 @@ vim.o.tabstop = 8
 -- ? column of whitespace \t worth
 vim.o.softtabstop = 0
 -- ? column of whitespace <tab>/<bs> worth, 0 turns off this feature
+-- :h ins-softtabstop
 vim.o.shiftwidth = 8
 -- ? column of whitespace >>/<< worth
 
