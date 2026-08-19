@@ -144,11 +144,11 @@
 
   ) " ") 'export)
 
-(sh-env-set! #t "FZF_DEFAULT_OPTS_NO_SORT"
-  (string-replace-all
-    (sh-env-ref #t "FZF_DEFAULT_OPTS")
-    "--sort"
-    "--no-sort"))
+;; (sh-env-set! #t "FZF_DEFAULT_OPTS_NO_SORT"
+;;   (string-replace-all
+;;     (sh-env-ref #t "FZF_DEFAULT_OPTS")
+;;     "--sort"
+;;     "--no-sort"))
 
 (sh-env-set! #t "ESCDELAY" "0" 'export)
 ;; https://github.com/junegunn/fzf/issues/2052
@@ -156,11 +156,11 @@
 
 ;; # program config zoxide
 
-(sh-env-set! #t "_ZO_FZF_OPTS" (sh-env-ref #t "FZF_DEFAULT_OPTS_NO_SORT") 'export)
+(sh-env-set! #t "_ZO_FZF_OPTS" (sh-env-ref #t "FZF_DEFAULT_OPTS") 'export)
 
 ;; # program config yazi
 
-(sh-env-set! #t "YAZI_ZOXIDE_OPTS" (sh-env-ref #t "FZF_DEFAULT_OPTS_NO_SORT") 'export)
+(sh-env-set! #t "YAZI_ZOXIDE_OPTS" (sh-env-ref #t "FZF_DEFAULT_OPTS") 'export)
 
 ;; # program config ls
 

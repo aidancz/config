@@ -171,3 +171,7 @@
 ;; <f2> t
 
 (sh-eval-file "/home/aidan/sync_git/schemesh_atuin/atuin.schemesh" 'scheme)
+(linectx-keytable-insert! linectx-default-keytable
+  lineedit-key-history-prev
+  "\x1b;[A")
+;; <up>

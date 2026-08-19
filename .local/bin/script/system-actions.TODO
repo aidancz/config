@@ -3,6 +3,8 @@
 
 ;; https://github.com/LukeSmithxyz/voidrice/blob/master/.local/bin/sysact
 
+(define input ???)
+
 (define pick
   (lambda (items prompt)
     (sh-run/string-rtrim-newlines

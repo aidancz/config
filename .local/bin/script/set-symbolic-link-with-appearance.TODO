@@ -17,14 +17,6 @@
   ))
 
 (case item
-  ("screenkey"
-    (sh-run {killall screenkey || screenkey &}))
-  ("screenkey --show-settings"
-    (sh-run {killall screenkey || screenkey --show-settings &}))
-  ("gromit-mpx --toggle"
-    (sh-run {gromit-mpx --toggle &}))
-  ("screen-shot"
-    (sh-run {screen-shot}))
-  ("stalonetray"
-    (sh-run {killall stalonetray || stalonetray &}))
+  (""
+    (sh-run {}))
 )

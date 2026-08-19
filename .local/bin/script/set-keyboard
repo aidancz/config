@@ -7,5 +7,9 @@ xset r rate 240 32
 # key repeat delay: 240ms
 # key repeat rate: 32ms
 
+# https://wiki.archlinux.org/title/Xorg/Keyboard_configuration#Using_xset
+# The tool xset, provided by xorg-xset, can be used to set the typematic delay and rate for an active X server, though certain actions during runtime may cause the X server to reset these changes and revert instead to its seat defaults.
+# https://bbs.archlinux.org/viewtopic.php?id=312464
+
 xmodmap ~/.Xmodmap
 # http://xahlee.info/linux/linux_xmodmap_f13_f14_f15.html
