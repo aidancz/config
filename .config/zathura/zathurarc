@@ -43,3 +43,6 @@ map .d toggle_page_mode
 
 map n search forward
 map b search backward
+
+map ; mark_add
+map ' mark_evaluate

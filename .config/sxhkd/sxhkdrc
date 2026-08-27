@@ -18,4 +18,4 @@ super + b
 	pick-sxhkd
 
 super + BackSpace
-	$BROWSER
+	open-browser

@@ -1,0 +1,14 @@
+#!/usr/bin/env schemesh
+#!scheme
+
+;; https://superuser.com/questions/553066/firefox-is-already-running-with-no-remote
+
+(define get-current-tty
+  (lambda ()
+    (string-rtrim-newlines!
+      (call-with-input-file "/sys/devices/virtual/tty/tty0/active" get-string-all))))
+
+(case (get-current-tty)
+  ("tty1" (sh-start {glide-bin}))
+  ("tty2" (sh-start {glide-bin -no-remote -profile ~/.config/glide-tty2}))
+)

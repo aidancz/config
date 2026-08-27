@@ -40,6 +40,7 @@ picom                             &
 dunst                             &
 unclutter                         &
 fcitx5                            &
+CM_OWN_CLIPBOARD=1 clipmenud      &
 
 # nutstore                          &
 # pcloud                            &

@@ -118,7 +118,7 @@
 
 (linectx-keytable-insert! linectx-default-keytable
   (lambda (lctx)
-    (sh-run {zi}))
+    (lineedit-key-sh-run/i lctx {zi}))
   "\x1b;OQw")
 ;; <f2> w
 
@@ -130,7 +130,7 @@
       (if (file-directory? path)
           (cd path)
           (cd (dirname path)))
-      ;; (linectx-redraw-all lctx)
+      (linectx-redraw-all lctx) ; see lineedit-key-cmd-cd-parent in linekeys.ss
     ))
   "\x1b;OQe")
 ;; <f2> e
@@ -153,20 +153,20 @@
 
 (linectx-keytable-insert! linectx-default-keytable
   (lambda (lctx)
-    (sh-run {y}))
+    (lineedit-key-sh-run/i lctx {y}))
   "\x1b;OQf")
 ;; <f2> f
 ;; https://yazi-rs.github.io/docs/quick-start#shell-wrapper
 
 (linectx-keytable-insert! linectx-default-keytable
   (lambda (lctx)
-    (sh-run {nvim}))
+    (lineedit-key-sh-run/i lctx {nvim}))
   "\x1b;OQv")
 ;; <f2> v
 
 (linectx-keytable-insert! linectx-default-keytable
   (lambda (lctx)
-    (sh-run {tig}))
+    (lineedit-key-sh-run/i lctx {tig}))
   "\x1b;OQt")
 ;; <f2> t
 

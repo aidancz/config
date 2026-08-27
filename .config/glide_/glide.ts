@@ -56,6 +56,11 @@ glide.prefs.set("font.name.monospace.x-western",      "monospace");
 glide.prefs.set("font.size.monospace.x-western",      16);
 glide.prefs.set("browser.display.use_document_fonts", 0);
 
+glide.prefs.set("extensions.webextensions.restrictedDomains", "");
+glide.prefs.set("privacy.resistFingerprinting.block_mozAddonManager", true);
+// https://www.reddit.com/r/firefox/comments/1jg5pt0/how_do_i_get_dark_reader_to_work_on/
+// https://github.com/search?q=repo%3Atridactyl%2Ftridactyl+restrictedDomains&type=code
+
 glide.o.hint_size = "16px";
 glide.o.hint_chars = "kdjflsieowmv";
 glide.o.which_key_delay = 0;

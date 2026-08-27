@@ -20,9 +20,9 @@ gui:
   nerdFontsVersion: ""
   screenMode: normal
 git:
-  pagers:
+  diffRenderers:
     - colorArg: always
-      pager: diff-so-fancy
+      command: diff-so-fancy
       useConfig: false
   log:
     showWholeGraph: false

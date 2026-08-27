@@ -52,6 +52,7 @@
 
 (sync (string-append A_config "/emacs_") (string-append B_config "/emacs"))
 (sync (string-append A_config "/glide_") (string-append B_config "/glide"))
+(mkdir (string-append B_config "/glide-tty2"))
 
 (mkdir B_cache)
 (mkdir B_state)
