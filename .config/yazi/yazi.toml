@@ -18,7 +18,7 @@ max_height = 10000
 archive = [ { run = "ouch decompress %s", block = true }, ]
 audio   = [ { run = "mpv %s", block = true }, ]
 dir     = [ { run = "nvim %s", block = true }, ]
-html    = [ { run = "firefox --new-window %s", block = true }, ]
+html    = [ { run = "glide-bin --new-window %s", block = true }, ]
 image   = [ { run = "nsxiv -a %s" }, ]
 info    = [ { run = "info %s", block = true }, ]
 pdf     = [ { run = "zathura %s" }, ]

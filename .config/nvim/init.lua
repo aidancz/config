@@ -279,6 +279,9 @@ do
 	require("diagnostic")
 
 	-- require("_fix-cursor") -- too hacky and fragile
+	-- require("fix-cursor_cmdatom")
+
+	require("cmdatom")
 
 	-- require("_test")
 
