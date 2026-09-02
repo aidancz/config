@@ -1,21 +1,23 @@
 #!/usr/bin/env schemesh
 #!scheme
 
-;; # sync from A to B
+;; # A -> B -> C
 
-(define A        "/home/aidan/sync_git/config")
-(define A_config (string-append A "/.config"))
-(define A_data   (string-append A "/.local/share"))
-(define A_bin    (string-append A "/.local/bin"))
+(define repo "/home/aidan/sync_git/config")
 
-(sh-eval-file (string-append A "/.config/schemesh/env.ss"))
+(define A_config (string-append repo "/.config"))
+(define A_data   (string-append repo "/.local/share"))
+(define A_bin    (string-append repo "/.local/bin"))
 
-(define B        "/home/aidan")
+(sh-eval-file (string-append A_config "/schemesh/env.ss"))
+
 (define B_config (sh-env-ref #t "XDG_CONFIG_HOME"))
 (define B_cache  (sh-env-ref #t "XDG_CACHE_HOME"))
 (define B_data   (sh-env-ref #t "XDG_DATA_HOME"))
 (define B_state  (sh-env-ref #t "XDG_STATE_HOME"))
 (define B_bin    (sh-env-ref #t "XDG_EXE_HOME"))
+
+(define C_config (sh-env-ref #t "HOME"))
 
 (define mkdir
   (lambda (path)
@@ -44,31 +46,42 @@
         (ln (string-append from "/" i) (string-append to "/" i)))
       (ls from))))
 
-;; start
+;; # config
 
 (sync A_config B_config)
-(sync A_data B_data)
-(sync A_bin B_bin)
 
 (sync (string-append A_config "/emacs_") (string-append B_config "/emacs"))
 (sync (string-append A_config "/glide_") (string-append B_config "/glide"))
 (mkdir (string-append B_config "/glide-tty2"))
 
+(ln (string-append B_config "/sh/.env")         (string-append C_config "/.env"))
+(ln (string-append B_config "/sh/.profile")     (string-append C_config "/.profile"))
+(ln (string-append B_config "/sh/.profile")     (string-append C_config "/.bash_profile"))
+(ln (string-append B_config "/sh/.profile")     (string-append C_config "/.zprofile"))
+(ln (string-append B_config "/sh/.shrc")        (string-append C_config "/.shrc"))
+(ln (string-append B_config "/bash/.bashrc")    (string-append C_config "/.bashrc"))
+(ln (string-append B_config "/x11/.xprofile")   (string-append C_config "/.xprofile"))
+(ln (string-append B_config "/x11/.xinitrc")    (string-append C_config "/.xinitrc"))
+(ln (string-append B_config "/x11/.Xresources") (string-append C_config "/.Xresources"))
+(ln (string-append B_config "/x11/.Xmodmap")    (string-append C_config "/.Xmodmap"))
+(ln (string-append B_config "/ex/.exrc")        (string-append C_config "/.exrc"))
+(ln (string-append B_config "/chez/.schemerc")  (string-append C_config "/.schemerc"))
+(ln (string-append B_config "/vim/.vimrc")      (string-append C_config "/.vimrc"))
+;; (ln (string-append B_config "/alsa/.asoundrc")  (string-append C_config "/.asoundrc"))
+;; (ln (string-append B_config "/less/.lesskey")   (string-append C_config "/.lesskey")) ; use $LESSKEYIN instead
+
+;; # cache
+
 (mkdir B_cache)
+
+;; # data
+
+(sync A_data B_data)
+
+;; # state
+
 (mkdir B_state)
 
-(ln (string-append A_config "/sh/.env")         (string-append B "/.env"))
-(ln (string-append A_config "/sh/.profile")     (string-append B "/.profile"))
-(ln (string-append A_config "/sh/.profile")     (string-append B "/.bash_profile"))
-(ln (string-append A_config "/sh/.profile")     (string-append B "/.zprofile"))
-(ln (string-append A_config "/sh/.shrc")        (string-append B "/.shrc"))
-(ln (string-append A_config "/bash/.bashrc")    (string-append B "/.bashrc"))
-(ln (string-append A_config "/x11/.xprofile")   (string-append B "/.xprofile"))
-(ln (string-append A_config "/x11/.xinitrc")    (string-append B "/.xinitrc"))
-(ln (string-append A_config "/x11/.Xresources") (string-append B "/.Xresources"))
-(ln (string-append A_config "/x11/.Xmodmap")    (string-append B "/.Xmodmap"))
-(ln (string-append A_config "/ex/.exrc")        (string-append B "/.exrc"))
-(ln (string-append A_config "/chez/.schemerc")  (string-append B "/.schemerc"))
-(ln (string-append A_config "/vim/.vimrc")      (string-append B "/.vimrc"))
-;; (ln (string-append A_config "/alsa/.asoundrc")  (string-append B "/.asoundrc"))
-;; (ln (string-append A_config "/less/.lesskey")   (string-append B "/.lesskey")) ; use $LESSKEYIN instead
+;; # bin
+
+(sync A_bin B_bin)

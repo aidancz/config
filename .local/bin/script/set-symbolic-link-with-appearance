@@ -1,117 +1,134 @@
-#!/bin/sh
+#!/usr/bin/env schemesh-script
+#!scheme
 
-# * $path & $dir
+;; NOTE: require set-symbolic-link
+;; NOTE: require system-actions
 
-path=$(readlink -f "$0")
-# absolute path to this script
+;; "dark" or "light"
+(define input
+  (cond
+    ((null? (command-line-arguments)) #f)
+    (else (car (command-line-arguments)))))
 
-dir=$(dirname "$path")
-# absolute path this script is in
+(define pick
+  (lambda (items prompt)
+    (sh-run/string-rtrim-newlines
+      {(shell-expr (display items)) | dmenu -l 64 -i -p (values prompt)}
+    )))
 
-dir=$(git -C "$dir" rev-parse --show-toplevel)
-# absolute path of this script git root dir
-
-# * set $i to "dark" or "light"
-
-if [ -n "$1" ]; then
-
-i="$1"
-
-else
-
-menu="\
+(define item (or input
+  (pick
+"\
 dark
 light
 "
-i="$(printf "%s" "$menu" | dmenu -i -p 'appearance')"
+"appearance"
+  )))
 
-fi
+(define repo "/home/aidan/sync_git/config")
+(define A_config (string-append repo "/.config"))
+(define B_config (sh-env-ref #t "XDG_CONFIG_HOME"))
 
-# * set_appearance_dark()
+(define rm
+  (lambda (path)
+    (sh-run {rm -rf (values path)})))
 
-set_appearance_dark()
-{
-	:
-	# shell script doesn't allow empty function (try it?)
-	# a function must contain at least one command
-	# the colon `:` itself is a command, which is `null command`
-	# it does nothing and always returns a successful exit status (0), making it useful for placeholder code
-}
+(define cp
+  (lambda (path clone)
+    (sh-run {cp -r (values path) (values clone)})))
 
-# * set_appearance_light()
+(define sync
+  (lambda (from to to-procedure)
+    (rm to)
+    (cp from to)
+    (to-procedure to)
+  ))
 
-set_appearance_light()
-{
+(define set-appearance-dark
+  (lambda ()
+    (void)
+    ;; do nothing
+  ))
 
-# xresources
-rm -rf "$XDG_CONFIG_HOME/x11"
-cp -r "$dir/.config/x11" "$XDG_CONFIG_HOME/x11"
-sed -i -e '/nofrils_light/,/nofrils_light/s/! \(.\+\)/\1/' "$XDG_CONFIG_HOME/x11/.Xresources"
+(define set-appearance-light
+  (lambda ()
 
-# gtk-3.0
-rm -rf "$XDG_CONFIG_HOME/gtk-3.0"
-cp -r "$dir/.config/gtk-3.0" "$XDG_CONFIG_HOME/gtk-3.0"
-echo "gtk-theme-name=Adwaita" >> "$XDG_CONFIG_HOME/gtk-3.0/settings.ini"
+    ;; x11
+    (sync
+      (string-append A_config "/x11")
+      (string-append B_config "/x11")
+      (lambda (to)
+        (sh-run {sed -i -e '/nofrils_light/,/nofrils_light/s/! \(.\+\)/\1/' (string-append to "/.Xresources")})))
 
-# gtk-4.0
-rm -rf "$XDG_CONFIG_HOME/gtk-4.0"
-cp -r "$dir/.config/gtk-4.0" "$XDG_CONFIG_HOME/gtk-4.0"
-echo "gtk-theme-name=Adwaita" >> "$XDG_CONFIG_HOME/gtk-4.0/settings.ini"
+    ;; gtk-3.0
+    (sync
+      (string-append A_config "/gtk-3.0")
+      (string-append B_config "/gtk-3.0")
+      (lambda (to)
+        (sh-run {echo "gtk-theme-name=Adwaita" >> (string-append to "/settings.ini")})))
 
-# qt5
-rm -rf "$XDG_CONFIG_HOME/qt5ct"
-cp -r "$dir/.config/qt5ct" "$XDG_CONFIG_HOME/qt5ct"
-sed -i '/darker/s/darker/simple/' "$XDG_CONFIG_HOME/qt5ct/qt5ct.conf"
+    ;; gtk-4.0
+    (sync
+      (string-append A_config "/gtk-4.0")
+      (string-append B_config "/gtk-4.0")
+      (lambda (to)
+        (sh-run {echo "gtk-theme-name=Adwaita" >> (string-append to "/settings.ini")})))
 
-# qt6
-rm -rf "$XDG_CONFIG_HOME/qt6ct"
-cp -r "$dir/.config/qt6ct" "$XDG_CONFIG_HOME/qt6ct"
-sed -i '/darker/s/darker/simple/' "$XDG_CONFIG_HOME/qt6ct/qt6ct.conf"
+    ;; qt5ct
+    (sync
+      (string-append A_config "/qt5ct")
+      (string-append B_config "/qt5ct")
+      (lambda (to)
+        (sh-run {sed -i '/darker/s/darker/simple/' (string-append to "/qt5ct.conf")})))
 
-# zathura
-rm -rf "$XDG_CONFIG_HOME/zathura"
-cp -r "$dir/.config/zathura" "$XDG_CONFIG_HOME/zathura"
-echo "set recolor false" >> "$XDG_CONFIG_HOME/zathura/zathurarc"
+    ;; qt6ct
+    (sync
+      (string-append A_config "/qt6ct")
+      (string-append B_config "/qt6ct")
+      (lambda (to)
+        (sh-run {sed -i '/darker/s/darker/simple/' (string-append to "/qt6ct.conf")})))
 
-# dunst
-rm -rf "$XDG_CONFIG_HOME/dunst"
-cp -r "$dir/.config/dunst" "$XDG_CONFIG_HOME/dunst"
-sed -i -e '/dunst_light/,/dunst_light/s/# \(.\+\)/\1/' "$XDG_CONFIG_HOME/dunst/dunstrc"
+    ;; zathura
+    (sync
+      (string-append A_config "/zathura")
+      (string-append B_config "/zathura")
+      (lambda (to)
+        (sh-run {echo "set recolor false" >> (string-append to "/zathurarc")})))
 
-# fcitx5
-rm -rf "$XDG_CONFIG_HOME/fcitx5"
-cp -r "$dir/.config/fcitx5" "$XDG_CONFIG_HOME/fcitx5"
-echo "Theme=default" >> "$XDG_CONFIG_HOME/fcitx5/conf/classicui.conf"
+    ;; dunst
+    (sync
+      (string-append A_config "/dunst")
+      (string-append B_config "/dunst")
+      (lambda (to)
+        (sh-run {sed -i -e '/dunst_light/,/dunst_light/s/# \(.\+\)/\1/' (string-append to "/dunstrc")})))
 
-}
+    ;; fcitx5
+    (sync
+      (string-append A_config "/fcitx5")
+      (string-append B_config "/fcitx5")
+      (lambda (to)
+        (sh-run {echo "Theme=default" >> (string-append to "/conf/classicui.conf")})))
 
-# * reload_programs()
+  ))
 
-reload_programs()
-{
-xrdb "$HOME/.Xresources" 2> /dev/null
+(define reload-programs
+  (lambda ()
+    (sh-run
+      {
+        xrdb (shell-string {$HOME/.Xresources}) 2>/dev/null
+        system-actions "window-manager renew"
+      })
+    (sh-run {killall -q dunst; dunst &})
+    (sh-run {killall -q fcitx5; fcitx5 &})
+  ))
 
-system-actions "window-manager renew"
-
-killall -q dunst; dunst &
-
-killall -q fcitx5; fcitx5 &
-}
-
-# * set appearance
-
-case "$i" in
-	"dark")
-		set-symbolic-link
-		set_appearance_dark
-		reload_programs
-		;;
-	"light")
-		set-symbolic-link
-		set_appearance_light
-		reload_programs
-		;;
-	*)
-		exit 1
-		;;
-esac
+(case item
+  ("dark"
+   (sh-run {set-symbolic-link})
+   (set-appearance-dark)
+   (reload-programs))
+  ("light"
+   (sh-run {set-symbolic-link})
+   (set-appearance-light)
+   (reload-programs))
+)
