@@ -109,6 +109,11 @@
 ;; <f2> x
 
 (linectx-keytable-insert! linectx-default-keytable
+  lineedit-key-edit-input
+  "\x1b;OQ\t")
+;; <f2> <tab>
+
+(linectx-keytable-insert! linectx-default-keytable
   (lambda (lctx)
     (sh-run {setsid -f $TERMINAL >/dev/null 2>&1}))
   "\x1b;OQ\x0d;")
