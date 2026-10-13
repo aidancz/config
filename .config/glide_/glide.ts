@@ -16,6 +16,15 @@
 //
 // Try typing `glide.` and see what you can do!
 
+// https://github.com/glide-browser/glide/discussions/172
+  // Separate normal modes for browsing / editing
+// https://github.com/glide-browser/glide/discussions/332
+  // Split normal mode into normal and page navigation modes
+// https://github.com/glide-browser/glide/discussions/114
+  // Some way to prevent auto-mode switching while moving between tabs
+// https://github.com/glide-browser/glide/discussions/103
+  // Add a command like :tab but for bookmarks
+
 glide.prefs.set("general.smoothScroll", true);
 
 glide.prefs.set("sidebar.verticalTabs", true);
@@ -64,11 +73,8 @@ glide.prefs.set("privacy.resistFingerprinting.block_mozAddonManager", true);
 glide.o.hint_size = "16px";
 glide.o.hint_chars = "kdjflsieowmv";
 glide.o.which_key_delay = 0;
-glide.o.switch_mode_on_focus = false;
+glide.o.switch_mode_on_focus = true;
 glide.o.scroll_implementation = "keys"; // "keys" | "legacy"
-
-glide.keymaps.set(["normal", "insert"], "<C-w>", () => {});
-glide.keymaps.set(["normal", "insert"], "<C-Esc>", "blur");
 
 glide.keymaps.del("normal", "a");
 for (const map of glide.keymaps.list("normal")) {
@@ -82,6 +88,11 @@ for (const map of glide.keymaps.list("normal")) {
     glide.keymaps.del(map.mode, map.lhs);
   }
 }
+
+glide.keymaps.del("insert", "<Esc>");
+
+glide.keymaps.set(["normal", "insert"], "<C-w>", () => {});
+glide.keymaps.set(["normal", "insert"], "<C-Esc>", "blur");
 
 glide.keymaps.set(["normal", "insert"], "<F1>", "tab_close");
 glide.keymaps.set(["normal", "insert"], "<F2><F1>", "quit");
@@ -107,12 +118,24 @@ glide.keymaps.set("normal", "e", "tab_prev");
 glide.keymaps.set("normal", "o", "jumplist_forward");
 glide.keymaps.set("normal", "w", "jumplist_back");
 
+glide.keymaps.set("normal", "<C-i>", "keys <C-S-PageDown>");
+glide.keymaps.set("normal", "<C-e>", "keys <C-S-PageUp>");
+
 glide.keymaps.set("normal", "/", () => glide.findbar.open({mode: "normal", highlight_all: true}));
 glide.keymaps.set("normal", "n", () => glide.findbar.next_match());
 glide.keymaps.set("normal", "b", () => glide.findbar.previous_match());
 
 glide.keymaps.set("normal", "t", "tab_duplicate");
 glide.keymaps.set("normal", "y", "url_yank");
+
+glide.keymaps.set("normal", "p", async () => {
+  const current = await glide.tabs.active();
+  await browser.tabs.create({
+    url: await navigator.clipboard.readText(),
+    index: current.index + 1,
+    active: true,
+  });
+});
 
 glide.keymaps.set("normal", "m",         "hint");
 glide.keymaps.set("normal", "<leader>m", "hint --action=newtab-click");

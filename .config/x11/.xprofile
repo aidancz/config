@@ -43,7 +43,7 @@ fcitx5                            &
 CM_SELECTIONS=clipboard CM_OWN_CLIPBOARD=1 CM_OWN_SELECTIONS=clipboard clipmenud &
 
 # nutstore                          &
-# pcloud                            &
+pcloud                            &
 
 set-keyboard                      &
 # `sleep` since xmodmap settings are reset by setxkbmap

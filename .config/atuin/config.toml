@@ -1,5 +1,9 @@
+style = "full"
 enter_accept = true
 inline_height = 20
+show_numeric_shortcuts = true
+show_preview       = true # in the future this setting will be moved to the [preview] section below
+max_preview_height = 8    # in the future this setting will be moved to the [preview] section below
 
 [search]
 
@@ -24,6 +28,7 @@ enabled = false
 "ctrl-a" = "cursor-start"
 
 [preview]
+strategy = "static"
 
 [daemon]
 

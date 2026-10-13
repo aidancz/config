@@ -3,6 +3,7 @@ vim.pack.add({
 })
 
 require("toggleterm").setup({
+	autochdir = true,
 	direction = "float",
 	float_opts = {
 		border = "none",
