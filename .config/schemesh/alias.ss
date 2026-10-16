@@ -13,8 +13,8 @@
 
 (sh-alias "texi2any" '(
   "texi2any"
-  "--set-customization-variable paragraphindent=asis"
-  ;; "--set-customization-variable exampleindent=15"
+  "--set-customization-variable" "paragraphindent=asis"
+  ;; "--set-customization-variable" "exampleindent=15"
   ))
 
 ;; # abbreviate long command

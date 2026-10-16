@@ -316,13 +316,13 @@ w ~a
 	(sh-run
 	  {
 	    texi2any \
-	    --set-customization-variable paragraphindent=asis \
+	    --set-customization-variable (string-append "SUBDIR=" info-dir) \
 	    --set-customization-variable INFO_SPECIAL_CHARS_WARNING=0 \
 	    --info \
 	    --no-split \
-	    (string-append "--output=" info-dir) \
 	    (values texi-queue) \
 	  })
+	    ;; --set-customization-variable paragraphindent=asis \
 	    ;; --set-customization-variable ASCII_DASHES_AND_QUOTES=0 \
 	    ;; --set-customization-variable INFO_MATH_IMAGES=1 \
 
