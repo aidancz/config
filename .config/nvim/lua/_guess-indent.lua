@@ -9,7 +9,7 @@ require("guess-indent").setup({
 	},
 	on_space_options = {
 		expandtab = true,
-		tabstop = "detected",
+		tabstop = 8,
 		softtabstop = "detected",
 		shiftwidth = "detected",
 	},

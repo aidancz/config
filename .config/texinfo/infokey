@@ -6,10 +6,11 @@ link-style=cyan
 active-link-style=bgcyan,black
 match-style=bggreen,black
 highlight-searches=Off
-# must after `match-style`
+# highlight-searches: must after `match-style`
 
-nodeline=no
-hide-note-references=On
+nodeline=pointers
+# nodeline: do not set nodeline=no, otherwise the line numbers in the index will be off by one
+hide-note-references=Off
 
 automatic-tiling=On
 
@@ -73,8 +74,8 @@ r	global-prev-node
 \ s	first-node
 \ t	top-node
 \ d	dir-node
-\ v	select-visited-node
-\ lv	list-visited-nodes
+v	select-visited-node
+\ v	list-visited-nodes
 \ i	goto-invocation-node
 \ \ 	goto-node
 
@@ -85,8 +86,8 @@ x	xref-item
 c	index-search
 ]	next-index-match
 # [	prev-index-match
-\ li	virtual-index
-\ la	index-apropos
+\ c	virtual-index
+\ a	index-apropos
 
 \kh	beginning-of-line
 \ke	end-of-line

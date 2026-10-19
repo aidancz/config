@@ -13,7 +13,7 @@
 
 (sh-alias "texi2any" '(
   "texi2any"
-  "--set-customization-variable" "paragraphindent=asis"
+  "--set-customization-variable" "paragraphindent=-2"
   ;; "--set-customization-variable" "exampleindent=15"
   ))
 
