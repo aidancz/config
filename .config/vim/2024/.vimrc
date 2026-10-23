@@ -1,3 +1,5 @@
+" this is my old config file, placed here for reference
+
 " may overridden, see ':h initialization'
 
 " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ option

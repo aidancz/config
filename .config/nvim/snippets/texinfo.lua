@@ -5,9 +5,6 @@ return
 [[
 \input texinfo
 
-@node Top
-@top $TM_FILENAME_BASE
-
 $0
 
 @bye]],
@@ -25,38 +22,32 @@ $0
 	{
 		body =
 [[
-@node ${1:name}
-@chapter $1]],
-		prefix = "nc",
+@top $TM_FILENAME_BASE]],
+		prefix = "t",
 	},
 	{
 		body =
 [[
-@node ${1:name}
-@section $1]],
-		prefix = "ns",
+${0|@chapter ,@unnumbered ,@appendix ,@chapheading |}]],
+		prefix = "#",
 	},
 	{
 		body =
 [[
-@node ${1:name}
-@subsection $1]],
-		prefix = "nss",
+${0|@section ,@unnumberedsec ,@appendixsec ,@heading |}]],
+		prefix = "##",
 	},
 	{
 		body =
 [[
-@node ${1:name}
-@subsubsection $1]],
-		prefix = "nsss",
+${0|@subsection ,@unnumberedsubsec ,@appendixsubsec ,@subheading |}]],
+		prefix = "###",
 	},
 	{
 		body =
 [[
-@example ${1:lang}
-$0
-@end example]],
-		prefix = "e",
+${0|@subsubsection ,@unnumberedsubsubsec ,@appendixsubsubsec ,@subsubheading |}]],
+		prefix = "####",
 	},
 	{
 		body =
@@ -66,30 +57,12 @@ $0
 @end verbatim]],
 		prefix = "v",
 	},
--- 	{
--- 		body =
--- [[
--- @example ${1:lang}
--- @verbatim
--- $0
--- @end verbatim
--- @end example]],
--- 		prefix = "ev",
--- 	},
 	{
 		body =
 [[
-@display
+@${1:name}
 $0
-@end display]],
-		prefix = "d",
-	},
-	{
-		body =
-[[
-@format
-$0
-@end format]],
-		prefix = "f",
+@end $1]],
+		prefix = "s",
 	},
 }

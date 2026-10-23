@@ -8,7 +8,7 @@ match-style=bggreen,black
 highlight-searches=Off
 # highlight-searches: must after `match-style`
 
-nodeline=pointers
+nodeline=print
 # nodeline: do not set nodeline=no, otherwise the line numbers in the index will be off by one
 hide-note-references=Off
 
@@ -20,6 +20,8 @@ cursor-movement-scrolls=On
 infopath-no-defaults=On
 
 #info
+
+\e[27;5u	abort-key
 
 q	invalid
 \eOP	quit
@@ -55,10 +57,8 @@ s	beginning-of-node
 
 ^f	scroll-half-screen-down
 ^d	scroll-half-screen-up
-# ^g	down-line # <c-g> abort key
-# ^s	up-line
-^e	down-line
-^y	up-line
+^g	down-line
+^s	up-line
 ^j	scroll-other-window
 ^k	scroll-other-window-backward
 ^l	redraw-display # recenter
@@ -77,6 +77,7 @@ r	global-prev-node
 v	select-visited-node
 \ v	list-visited-nodes
 \ i	goto-invocation-node
+\ f	all-files # see option --all
 \ \ 	goto-node
 
 m	menu-item
