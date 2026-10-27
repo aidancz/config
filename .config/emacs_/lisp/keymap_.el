@@ -9,4 +9,4 @@
 
 (keymap-global-set "<f2> <f1>" 'save-buffers-kill-terminal)
 
-(provide '_keymap)
+(provide 'keymap_)

@@ -17,4 +17,4 @@
 ;; (vertico-reverse-mode)
 ;; https://github.com/minad/vertico/issues/19
 
-(provide '_vertico)
+(provide 'vertico_)

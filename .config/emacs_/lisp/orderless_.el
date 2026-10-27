@@ -15,4 +15,4 @@
 (setq completion-category-overrides '((file (styles partial-completion))))
 (setq completion-pcm-leading-wildcard t)
 
-(provide '_orderless)
+(provide 'orderless_)

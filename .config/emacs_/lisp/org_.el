@@ -34,4 +34,4 @@
 (setq org-preview-latex-default-process 'dvipng)
 ;; (setq org-preview-latex-process-alist '())
 
-(provide '_org)
+(provide 'org_)

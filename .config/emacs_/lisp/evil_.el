@@ -59,4 +59,4 @@
 (require 'evil)
 (evil-mode 1)
 
-(provide '_evil)
+(provide 'evil_)

@@ -3,4 +3,4 @@
 (unless (package-installed-p 'standard-themes)
   (package-install 'standard-themes))
 
-(provide '_standard-themes)
+(provide 'standard-themes_)

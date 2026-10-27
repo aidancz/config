@@ -77,4 +77,4 @@
 
 ;; (keymap-set Info-mode-map "m" 'Info-menu)
 
-(provide '_info)
+(provide 'info_)

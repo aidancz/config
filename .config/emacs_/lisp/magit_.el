@@ -7,4 +7,4 @@
 ;;   `(org-level-1 ((t . (:inherit nofrils_red))))
 ;; )
 
-(provide '_magit)
+(provide 'magit_)

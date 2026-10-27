@@ -11,4 +11,4 @@
 (keymap-set minibuffer-local-map "M-a" 'marginalia-cycle)
 (marginalia-mode)
 
-(provide '_marginalia)
+(provide 'marginalia_)

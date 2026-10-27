@@ -29,21 +29,21 @@
 
 ;;; package 1
 
-(require '_package)
+(require 'package_)
 
 ;;; package 2
 
-(require '_nofrils)
-;; (require '_standard-themes)
+(require 'nofrils_)
+;; (require 'standard-themes_)
 
-(require '_emacs)
-(require '_keymap)
+(require 'emacs_)
+(require 'keymap_)
 
-(require '_evil)
-(require '_info)
-(require '_org)
-(require '_magit)
+(require 'evil_)
+(require 'info_)
+(require 'org_)
+(require 'magit_)
 
-(require '_vertico)
-(require '_orderless)
-(require '_marginalia)
+(require 'vertico_)
+(require 'orderless_)
+(require 'marginalia_)
