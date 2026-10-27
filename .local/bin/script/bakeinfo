@@ -315,12 +315,12 @@ w ~a
 	    texi2any \
 	    --set-customization-variable (string-append "SUBDIR=" info-dir) \
 	    --set-customization-variable paragraphindent=-2 \
+	    --set-customization-variable ASCII_DASHES_AND_QUOTES=0 \
 	    --set-customization-variable INFO_SPECIAL_CHARS_WARNING=0 \
 	    --info \
 	    --no-split \
 	    (values texi-queue) \
 	  })
-	    ;; --set-customization-variable ASCII_DASHES_AND_QUOTES=0 \
 	    ;; --set-customization-variable INFO_MATH_IMAGES=1 \
 
 ;; # install info
