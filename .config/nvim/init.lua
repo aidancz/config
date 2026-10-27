@@ -144,19 +144,19 @@ do
 	-- require("outline_HACK1")
 	-- require("yanky_") -- cursor flicker when lazy loading
 	require("buvvers_")
-	require("whitespace_")
 	require("statusline")
+	require("whitespace_")
 
 	-- # autocmd
 	-- https://github.com/nvim-mini/mini.nvim/issues/1378
 
 	-- require("nvim-lspconfig_")
+	require("autocmd")
 	require("go-up_")
 	require("guess-indent_")
 	require("gutter_")
-	require("nvim-fundo_") -- https://github.com/neovim/neovim/pull/36262
-	require("autocmd")
 	require("lsp")
+	require("nvim-fundo_") -- https://github.com/neovim/neovim/pull/36262
 
 	-- # plugin/**/*.{vim,lua}
 	-- :h load-plugins
@@ -198,6 +198,7 @@ do
 	-- require("fidget_")
 	-- require("fzfx_")
 	-- require("gitsigns_")
+	-- require("guicursor")
 	-- require("harpoon_")
 	-- require("indent-blankline_")
 	-- require("lazygit_")
@@ -223,6 +224,7 @@ do
 	-- require("outline_")
 	-- require("outline_HACK2")
 	-- require("quicker_")
+	-- require("redir")
 	-- require("sidebar_")
 	-- require("snacks_")
 	-- require("sniprun_")
@@ -236,11 +238,11 @@ do
 	-- require("which-key_")
 	-- require("yazi_")
 	-- require("zen-mode_")
-	-- require("guicursor")
-	-- require("redir")
 	require("auto-save_")
+	require("autoindent")
 	require("blink-cmp_")
 	require("conform_")
+	require("diagnostic")
 	require("friendly-snippets_")
 	require("fzf-lua_enchanted-files")
 	require("fzf-lua_frecency")
@@ -265,8 +267,8 @@ do
 	require("mini-surround_")
 	require("mini-visits_")
 	require("nvim-neoclip_")
-	require("nvim-treesitter_") -- slow
 	require("nvim-treesitter-textobjects_")
+	require("nvim-treesitter_") -- slow
 	require("operator_")
 	require("paramo_")
 	require("readline_")
@@ -276,8 +278,6 @@ do
 	require("undotree-mbbill_")
 	require("vim-AdvancedSorters_")
 	require("vim-suda_")
-	require("autoindent")
-	require("diagnostic")
 
 	-- require("fix-cursor_") -- too hacky and fragile
 	-- require("fix-cursor_cmdatom")
