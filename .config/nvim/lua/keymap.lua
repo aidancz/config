@@ -20,14 +20,22 @@
 -- ## leader keys
 
 vim.keymap.set({"n", "x", "s", "i", "c", "t", "o"}, "<f2>", "<nop>")
+vim.keymap.set({"n", "x", "o"}, "<f2>g", "g")
+vim.keymap.set({"n", "x", "o"}, "<f2>z", "z")
 
 vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
 
 vim.keymap.set({"n", "x", "o"}, "<cr>", "<nop>")
 
-vim.keymap.set({"n", "x", "o"}, [[\]], "g")
-
-vim.keymap.set({"n", "x", "o"}, "~", "z")
+vim.keymap.set({"n", "x", "o"}, "<tab>", "<nop>")
+vim.keymap.set({"n", "x"}, "<tab>m", "m")
+vim.keymap.set({"n", "x"}, "<tab>r", "r")
+vim.keymap.set({"n", "x"}, "<tab>f", "f")
+vim.keymap.set({"n", "x"}, "<tab>F", "F")
+vim.keymap.set({"n", "x"}, "<tab>t", "t")
+vim.keymap.set({"n", "x"}, "<tab>T", "T")
+vim.keymap.set({"n", "x"}, "<tab>;", ";")
+vim.keymap.set({"n", "x"}, "<tab>,", ",")
 
 -- ## bypass the <c-i> and <tab> conflict, etc
 
@@ -82,17 +90,17 @@ vim.keymap.set(
 
 -- ## repeat last command
 
--- vim.keymap.set({"n", "x"}, "<tab>", ":<up><cr>")
--- vim.keymap.set({"n", "x"}, "<tab>", "@:")
+-- vim.keymap.set({"n", "x"}, "-", ":<up><cr>")
+-- vim.keymap.set({"n", "x"}, "-", "@:")
 vim.keymap.set(
 	{"n", "x"},
-	"<tab>",
+	"-",
 	function() vim.cmd(vim.fn.histget("cmd", -1)) end
 )
 
 vim.keymap.set(
 	{"n", "x", "s", "i", "c", "t", "o"},
-	"<c-tab>",
+	"<c-->",
 	function() vim.cmd(vim.fn.histget("cmd", -1)) end
 )
 
@@ -404,15 +412,11 @@ vim.keymap.set({"n", "x", "o"}, "z", "v")
 vim.keymap.set({"n", "x", "o"}, "Z", "V")
 vim.keymap.set({"n", "x", "o"}, "<c-z>", "<c-v>")
 
--- ## mark
-
-vim.keymap.set({"n", "x"}, ";", "m")
-
 -- ## put
 
 vim.keymap.set(
 	{"n", "x"},
-	"q",
+	"P",
 	function()
 		local regtype = vim.fn.getregtype(vim.v.register)
 		if regtype == "v" then
@@ -440,10 +444,6 @@ vim.keymap.set(
 -- ## delete
 
 vim.keymap.set({"n", "x"}, "e", "d")
-
--- ## replace
-
-vim.keymap.set({"n", "x"}, ",", "r")
 
 -- ## (undotree (next prev)) undo and redo
 

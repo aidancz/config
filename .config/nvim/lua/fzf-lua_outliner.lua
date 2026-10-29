@@ -145,12 +145,8 @@ require("fzf-lua").custom_outliner = function(opts)
 			},
 			actions = {
 				["default"] = nvim_set_cursor,
-				["result,ctrl-r"] = {
+				["result"] = {
 					fn = fzf_restore_cursor,
-					exec_silent = true,
-				},
-				["ctrl-a"] = {
-					fn = nvim_set_cursor,
 					exec_silent = true,
 				},
 			},

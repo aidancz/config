@@ -39,6 +39,10 @@ packadd/packadd!
 https://github.com/neovim/neovim/issues/35192
 --]]
 
+-- # vim.pack-lockfile
+
+vim.o.packlockfile = "$XDG_DATA_HOME/nvim/nvim-pack-lock.json"
+
 -- # allow hook via a custom `spec.data.on_packchanged`
 
 vim.api.nvim_create_augroup("pack_config", {clear = true})

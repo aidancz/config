@@ -36,8 +36,6 @@ M.str_active = function()
 
 	local rhs
 	rhs = {
-		M.macro(),
-		-- M.hydra(),
 		M.mode(),
 		M.col(),
 		M.lnum(),
@@ -251,29 +249,6 @@ M.eol = function()
 	return component
 end
 
-M.hydra = function()
-	local component
-
-	local m = package.loaded["hydra"]
-	if m == nil then return nil end
-
-	local is_active = require("hydra.statusline").is_active()
-	local name = require("hydra.statusline").get_name()
-
-	component = table.concat({
-		"(",
-		name or "hydra",
-		")",
-	})
-	if is_active then
-		component = H.highlight(component, "nofrils_blue_bg")
-	end
-	component = H.format(component, {
-	})
-
-	return component
-end
-
 M.lnum = function()
 	local component
 
@@ -290,37 +265,6 @@ M.lnum = function()
 	component = H.format(component, {
 		justify = "right",
 		minwid = (3 + 2 * 4),
-	})
-
-	return component
-end
-
-M.macro = function()
-	local component
-
-	local m = package.loaded["macro"]
-	if m == nil then return nil end
-
-	local lis = m.get_lis()
-	local reg = m.get_reg()
-
-	local lis1 = ""
-	for _, i in ipairs(lis) do
-		if i == reg then
-			lis1 = lis1 .. H.highlight(i, "nofrils_blue")
-		else
-			lis1 = lis1 .. i
-		end
-	end
-
-	component = table.concat({
-		"(",
-		lis1,
-		")",
-	})
-	component = H.format(component, {
-		-- justify = "left",
-		minwid = (2 + #lis),
 	})
 
 	return component

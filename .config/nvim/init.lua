@@ -123,7 +123,7 @@ do
 
 	-- # library
 
-	require("hydra_")
+	-- require("hydra_")
 	require("luaeval_")
 	require("luaexec_")
 	require("mini-extra_")
@@ -150,13 +150,13 @@ do
 	-- # autocmd
 	-- https://github.com/nvim-mini/mini.nvim/issues/1378
 
+	-- require("nvim-fundo_") -- https://github.com/neovim/neovim/pull/36262
 	-- require("nvim-lspconfig_")
 	require("autocmd")
 	require("go-up_")
 	require("guess-indent_")
 	require("gutter_")
 	require("lsp")
-	require("nvim-fundo_") -- https://github.com/neovim/neovim/pull/36262
 
 	-- # plugin/**/*.{vim,lua}
 	-- :h load-plugins

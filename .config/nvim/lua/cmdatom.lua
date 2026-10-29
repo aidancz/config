@@ -2,7 +2,7 @@
 
 local motion_data
 
-local lhs = ","
+local lhs = ";"
 
 vim.api.nvim_create_autocmd(
 	"CmdAtom",
