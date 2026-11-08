@@ -102,12 +102,12 @@ light
       (lambda (to)
         (sh-run {sed -i -e '/dunst_light/,/dunst_light/s/# \(.\+\)/\1/' (string-append to "/dunstrc")})))
 
-    ;; fcitx5
-    (sync
-      (string-append A_config "/fcitx5")
-      (string-append B_config "/fcitx5")
-      (lambda (to)
-        (sh-run {echo "Theme=default" >> (string-append to "/conf/classicui.conf")})))
+    ;; ;; fcitx5
+    ;; (sync
+    ;;   (string-append A_config "/fcitx5")
+    ;;   (string-append B_config "/fcitx5")
+    ;;   (lambda (to)
+    ;;     (sh-run {echo "Theme=default" >> (string-append to "/conf/classicui.conf")})))
 
   ))
 

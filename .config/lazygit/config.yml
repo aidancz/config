@@ -20,6 +20,8 @@ gui:
   nerdFontsVersion: ""
   screenMode: normal
 git:
+  autoRefresh: true
+  autoDetectExternalChanges: true
   diffRenderers:
     - colorArg: always
       command: diff-so-fancy
@@ -27,6 +29,9 @@ git:
   log:
     showWholeGraph: false
     # https://github.com/jesseduffield/lazygit/issues/5224
+refresher:
+  refreshInterval: 10
+  externalChangeCheckInterval: 2
 quitOnTopLevelReturn: true
 customCommands:
   - key: C

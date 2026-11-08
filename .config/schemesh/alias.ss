@@ -22,6 +22,7 @@
 {alias 1 setsid -f $TERMINAL >/dev/null 2>&1}
 {alias v nvim}
 {alias i info}
+{alias m qman}
 {alias s schemesh}
 
 ;; # abbreviate git command

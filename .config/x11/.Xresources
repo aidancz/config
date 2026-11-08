@@ -62,13 +62,15 @@ st.alpha: 1
 
 ! ## dwm
 
-dwm.normbgcolor: black
-dwm.normfgcolor: white
-dwm.selbgcolor:  white
-dwm.selfgcolor:  black
+dwm.normbgcolor:     black
+dwm.normfgcolor:     white
+dwm.selbgcolor:      white
+dwm.selfgcolor:      black
+dwm.normbordercolor: black
+dwm.selbordercolor:  white
 
 dwm.font: monospace:size=15
-dwm.borderpx: 0
+dwm.borderpx: 4
 dwm.showbar: 1
 
 ! ## dmenu

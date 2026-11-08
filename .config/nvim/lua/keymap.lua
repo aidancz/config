@@ -20,14 +20,14 @@
 -- ## leader keys
 
 vim.keymap.set({"n", "x", "s", "i", "c", "t", "o"}, "<f2>", "<nop>")
-vim.keymap.set({"n", "x", "o"}, "<f2>g", "g")
-vim.keymap.set({"n", "x", "o"}, "<f2>z", "z")
 
 vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
 
 vim.keymap.set({"n", "x", "o"}, "<cr>", "<nop>")
 
 vim.keymap.set({"n", "x", "o"}, "<tab>", "<nop>")
+vim.keymap.set({"n", "x", "o"}, "<tab>g", "g")
+vim.keymap.set({"n", "x", "o"}, "<tab>z", "z")
 vim.keymap.set({"n", "x"}, "<tab>m", "m")
 vim.keymap.set({"n", "x"}, "<tab>r", "r")
 vim.keymap.set({"n", "x"}, "<tab>f", "f")
