@@ -25,9 +25,12 @@ vim.keymap.set({"n", "x", "o"}, "<space>", "<nop>")
 
 vim.keymap.set({"n", "x", "o"}, "<cr>", "<nop>")
 
-vim.keymap.set({"n", "x", "o"}, "<tab>", "<nop>")
-vim.keymap.set({"n", "x", "o"}, "<tab>g", "g")
-vim.keymap.set({"n", "x", "o"}, "<tab>z", "z")
+vim.keymap.set({"n", "x", "o"}, "<tab>",      "<nop>")
+vim.keymap.set({"n", "x", "o"}, "<tab>g",     "g")
+vim.keymap.set({"n", "x", "o"}, "<tab>v",     "v")
+vim.keymap.set({"n", "x", "o"}, "<tab>V",     "V")
+vim.keymap.set({"n", "x", "o"}, "<tab><c-v>", "<c-v>")
+
 vim.keymap.set({"n", "x"}, "<tab>m", "m")
 vim.keymap.set({"n", "x"}, "<tab>r", "r")
 vim.keymap.set({"n", "x"}, "<tab>f", "f")
@@ -405,12 +408,6 @@ require("luaexec").add({
 vim.keymap.set("n", "C", "<nop>")
 vim.keymap.set("n", "D", "<nop>")
 vim.keymap.set("n", "Y", "<nop>")
-
--- ## visual
-
-vim.keymap.set({"n", "x", "o"}, "z", "v")
-vim.keymap.set({"n", "x", "o"}, "Z", "V")
-vim.keymap.set({"n", "x", "o"}, "<c-z>", "<c-v>")
 
 -- ## put
 

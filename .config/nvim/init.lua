@@ -194,7 +194,7 @@ do
 	-- require("atone_")
 	-- require("auto-cmdheight_")
 	-- require("bufferline_")
-	-- require("fcitx_") -- cursor flicker when <esc>
+	-- require("fcitx_") -- slow using schemesh (cursor flicker when <esc>)
 	-- require("fidget_")
 	-- require("fzfx_")
 	-- require("gitsigns_")
@@ -216,6 +216,7 @@ do
 	-- require("nvim-cmp_")
 	-- require("nvim-colorizer_")
 	-- require("nvim-ghost_")
+	-- require("nvim-neoclip_") -- slow using schemesh (wait for quitting nvim)
 	-- require("nvim-next_")
 	-- require("nvim-recorder_")
 	-- require("nvim-spider_")
@@ -266,7 +267,6 @@ do
 	require("mini-splitjoin_")
 	require("mini-surround_")
 	require("mini-visits_")
-	require("nvim-neoclip_")
 	require("nvim-treesitter-textobjects_")
 	require("nvim-treesitter_") -- slow
 	require("operator_")

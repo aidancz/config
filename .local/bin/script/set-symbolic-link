@@ -66,7 +66,7 @@
 (ln (string-append B_config "/x11/.Xmodmap")    (string-append C_config "/.Xmodmap"))
 (ln (string-append B_config "/ex/.exrc")        (string-append C_config "/.exrc"))
 (ln (string-append B_config "/chez/.schemerc")  (string-append C_config "/.schemerc"))
-(ln (string-append B_config "/vim/.vimrc")      (string-append C_config "/.vimrc"))
+;; (ln (string-append B_config "/vim/.vimrc")      (string-append C_config "/.vimrc"))
 ;; (ln (string-append B_config "/alsa/.asoundrc")  (string-append C_config "/.asoundrc"))
 ;; (ln (string-append B_config "/less/.lesskey")   (string-append C_config "/.lesskey")) ; use $LESSKEYIN instead
 

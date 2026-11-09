@@ -63,7 +63,7 @@ glide.prefs.set("font.name.serif.x-western",          "serif");
 glide.prefs.set("font.name.sans-serif.x-western",     "sans-serif");
 glide.prefs.set("font.name.monospace.x-western",      "monospace");
 glide.prefs.set("font.size.monospace.x-western",      16);
-glide.prefs.set("browser.display.use_document_fonts", 0);
+glide.prefs.set("browser.display.use_document_fonts", 1);
 
 glide.prefs.set("extensions.webextensions.restrictedDomains", "");
 glide.prefs.set("privacy.resistFingerprinting.block_mozAddonManager", true);
