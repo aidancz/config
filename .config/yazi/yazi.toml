@@ -35,11 +35,12 @@ rules = [
 	{ url = "**/dir", use = "info" },
 	{ url = "*.info", use = "info" },
 
+	{ url = "*.html", use = "html" },
+
 	{ mime = "application/pdf", use = "pdf" },
 	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", use = "archive" },
 	{ mime = "audio/*", use = "audio" },
 	{ mime = "image/*", use = "image" },
-	{ mime = "text/html", use = "html" },
 	{ mime = "video/*", use = "video" },
 
 	{ url = "*", use = "text" },

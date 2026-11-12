@@ -57,6 +57,7 @@ st.foreground:  white
 st.cursorColor: white
 
 st.font: monospace:size=15
+st.fonta: JuliaMono:size=15
 st.borderpx: 0
 st.alpha: 1
 

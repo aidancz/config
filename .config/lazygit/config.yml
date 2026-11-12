@@ -17,8 +17,11 @@ gui:
       - yellow
     selectedLineBgColor:
       - reverse
+    inactiveViewSelectedLineBgColor:
+      - underline
   nerdFontsVersion: ""
   screenMode: normal
+
 git:
   autoRefresh: true
   autoDetectExternalChanges: true
@@ -29,10 +32,13 @@ git:
   log:
     showWholeGraph: false
     # https://github.com/jesseduffield/lazygit/issues/5224
+
 refresher:
   refreshInterval: 10
   externalChangeCheckInterval: 2
-quitOnTopLevelReturn: true
+
+quitOnTopLevelReturn: false
+
 customCommands:
   - key: C
     context: files
@@ -41,18 +47,26 @@ customCommands:
     context: files
     command: git diff {{.SelectedPath}}
     output: terminal
+
 notARepository: quit
+
 promptToReturnFromSubprocess: false
+
 keybinding:
+
+  # https://github.com/jesseduffield/lazygit/issues/5672
+
   universal:
+
+    prevBlock-alt: <disabled>
+
     quit: <f1>
-    togglePanel: <tab>
-    optionMenu: <disabled>
-    optionMenu-alt1: m
+    togglePanel: <f3> # switch focus between the panes on the right
+    optionMenu: <f2>
     nextItem: j
     prevItem: k
-    nextBlock: l
-    prevBlock: h
+    goInto: l
+    return: [h, <esc>]
     nextPage: f
     prevPage: d
     gotoBottom: g
@@ -60,13 +74,42 @@ keybinding:
     startSearch: /
     nextMatch: n
     prevMatch: b
-    scrollDownMain: <pgdown>
-    scrollUpMain: <pgup>
-    createRebaseOptionsMenu: <disabled>
+    nextBlock: i
+    prevBlock: e
+    scrollDownMain: <c-j> # https://github.com/jesseduffield/lazygit/issues/1707
+    scrollUpMain: <c-k>
+
+    remove: <disabled>
+    edit: <disabled>
+
   files:
-    commitChangesWithEditor: <disabled>
+
     viewResetOptions: "D"
+
+    commitChangesWithEditor: <disabled>
+    ignoreFile: <disabled>
+
+  branches:
+
+    viewGitFlowOptions: <disabled>
+
   commits:
+
     viewResetOptions: <c-e>
+
+    startInteractiveRebase: <disabled>
+    moveDownCommit: <disabled>
+    moveUpCommit: <disabled>
+
   stash:
+
     popStash: p
+
+  main:
+
+    prevHunk: <disabled>
+    nextHunk: <disabled>
+
+  submodules:
+
+    init: <disabled>

@@ -13,6 +13,7 @@ require("ts-comments").setup({
 		bash = "# %s",
 		lua = "-- %s",
 		scheme = { ";; %s", "; %s" },
+		xml = "<!-- %s -->",
 	},
 })
 

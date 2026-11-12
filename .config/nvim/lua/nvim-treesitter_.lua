@@ -56,6 +56,7 @@ local parsers = {
 	"vim",
 	"xml",
 	"xresources",
+	"yaml",
 
 }
 
